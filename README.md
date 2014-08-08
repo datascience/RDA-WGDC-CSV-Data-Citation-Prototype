@@ -71,9 +71,9 @@ The Query store is implemented in Java and provides an API for the most common T
 entities (details below). The following features are currently implemented in the API:
 
 * Create PIDs of the form *prefix/identifier*.
-* Create alphabetical identifiers of arbitrary length.
-* Create alphanumeric identifiers of arbitrary length (YouTube style).
-* Create numeric identifiers of arbitrary length.
+* Create alphabetical identifiers of arbitrary length (e.g. zjqpU).
+* Create alphanumeric identifiers of arbitrary length (YouTube style, eg. qsn4zPVRA7a0).
+* Create numeric identifiers of arbitrary length (e.g. 08652).
 * Store one URI with each identifier
 * Update URIs (the identifier can neither be deleted nor updated via the API)
 * Create organizations and prefixes (prefixes are unique).

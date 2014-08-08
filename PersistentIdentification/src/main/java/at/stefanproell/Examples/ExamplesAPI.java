@@ -31,59 +31,18 @@ public class ExamplesAPI
         evilOrganization.setAlphanumericPIDlength(20);
         goodOrganization.setAlphanumericPIDlength(12);
 
-        // create identifiers
-        api.getAlphaNumericPID(evilOrganization, "www.repository.org/collections/datasets/ResearchData.csv");
-        api.getNumericPID(evilOrganization, "www.repository.org/collections/datasets/QuerySet");
-        api.getAlphaPID(evilOrganization, "www.repository.org/documentation/manual.pdf");
+        // create identifiers and print details
+        PersistentIdentifierAlphaNumeric alphaNum = api.getAlphaNumericPID(evilOrganization,
+                "www.repository.org/collections/datasets/ResearchData.csv");
+        api.printRecord(alphaNum);
 
+        PersistentIdentifierNumeric numeric = api.getNumericPID(evilOrganization,
+                "www.repository.org/collections/datasets/QuerySet");
+        api.printRecord(numeric);
 
-        // create 100 alphanumeric identifiers
-        for (int i = 0; i < 100; i++){
-            api.getAlphaNumericPID(goodOrganization,"www.goodorg.com/documents/id"+i+".pdf");
-
-        }
-
-        // List all PIDs per organization
-        List<PersistentIdentifier> listOfEvilPIDs = api.listAllPIDsOfOrganization(evilOrganization);
-        List<PersistentIdentifier> listOfGoodPIDs = api.listAllPIDsOfOrganization(goodOrganization);
-
-        // get latest added PID
-        PersistentIdentifier pid = api.getLatestAddedPID();
-
-       // get latest pid from org
-        pid = api.getLatestAddedPIDbyOrganization(evilOrganization);
-        pid = api.getLatestAddedPIDbyOrganization(goodOrganization);
-
-       // Resolve PID
-       String URI = api.resolveIdentifierToURI(pid.getOrganization().getOrganization_prefix(), pid.getIdentifier());
-
-        api.printRecord(pid);
-
-        // Update URI and print record again.
-
-        // Sleep a little
-        try {
-
-            Thread.sleep(2000);
-        } catch(InterruptedException ex) {
-            Thread.currentThread().interrupt();
-        }
-        api.updateURI(pid.getIdentifier(),"www.uri.org/new");
-        api.printRecord(pid);
-
-
-
-        // retrieve a PID object
-        PersistentIdentifier pidRetrieve = api.getPIDObjectFromPIDString(pid.getOrganization().getOrganization_prefix(), pid.getIdentifier());
-
-        // What kind of identifier is it?
-        if(pidRetrieve instanceof PersistentIdentifierAlphaNumeric){
-            System.out.println("I am a alphanumeric identifier. See: " + pidRetrieve.getIdentifier());
-        } else if(pidRetrieve instanceof PersistentIdentifierAlpha){
-            System.out.println("I am a identifier consisting only of letters. See: " + pidRetrieve.getIdentifier());
-        } if(pidRetrieve instanceof PersistentIdentifierNumeric){
-            System.out.println("I am a numeric identifier. See: " + pidRetrieve.getIdentifier());
-        }
+        PersistentIdentifierAlpha alpha = api.getAlphaPID(evilOrganization, "www.repository.org/documentation/manual" +
+                ".pdf");
+        api.printRecord(alpha);
 
     }
 }

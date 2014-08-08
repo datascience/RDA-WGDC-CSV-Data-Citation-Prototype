@@ -55,7 +55,7 @@ public class PersistentIdentifierNumeric extends PersistentIdentifier implements
             this.numericPIDlength = Helpers.getIntegerParameterFromPropertyFile(propertiesFileName,"numericPIDlength");
 
         }
-        String identifier =(pig.getRandomAlpaNumericString(this.numericPIDlength));
+        String identifier = (pig.getRandomNumeric(this.numericPIDlength));
         this.logger.info("new identifier is" + identifier);
         this.setIdentifier(identifier);
 
