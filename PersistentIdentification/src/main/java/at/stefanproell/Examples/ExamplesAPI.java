@@ -59,7 +59,7 @@ public class ExamplesAPI
 
         api.printRecord(pid);
 
-        // Update URI
+        // Update URI and print record again.
 
         // Sleep a little
         try {
