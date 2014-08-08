@@ -23,9 +23,7 @@ make their selections visually or by entering appropriate values. The QueryStore
  and makes them available for later reuse. Whenever a reseacher uses a query (via an interface) in order to create a
  subset, the parameters, their order and the sortings applied can be stored. Based on temporal metadata which is
  collected automatically, the query can be re-executed.
- such a
 
-Many query
-languanges
-exist, from
+### Query Store Features
+
 
