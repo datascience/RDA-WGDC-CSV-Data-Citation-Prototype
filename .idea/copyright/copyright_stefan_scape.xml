@@ -1,0 +1,9 @@
+<component name="CopyrightManager">
+  <copyright>
+    <option name="notice" value="Copyright (c) &amp;#36;today.year.&#10;This file is part of {project}. &#10;&#10;This work is licensed under the Creative Commons Attribution 4.0 International License. To view a copy of this license, visit http://creativecommons.org/licenses/by/4.0/.&#10;&#10;&lt;a rel=&quot;license&quot; href=&quot;http://creativecommons.org/licenses/by/4.0/&quot;&gt;&lt;img alt=&quot;Creative Commons License&quot; style=&quot;border-width:0&quot; src=&quot;https://i.creativecommons.org/l/by/4.0/80x15.png&quot; /&gt;&lt;/a&gt;&lt;br /&gt;&lt;span xmlns:dct=&quot;http://purl.org/dc/terms/&quot; property=&quot;dct:title&quot;&gt;Query Store&lt;/span&gt; by &lt;a xmlns:cc=&quot;http://creativecommons.org/ns#&quot; href=&quot;http://www.stefanproell.at&quot; property=&quot;cc:attributionName&quot; rel=&quot;cc:attributionURL&quot;&gt;Stefan Pröll&lt;/a&gt; is licensed under a &lt;a rel=&quot;license&quot; href=&quot;http://creativecommons.org/licenses/by/4.0/&quot;&gt;Creative Commons Attribution 4.0 International License&lt;/a&gt;.&lt;br /&gt;Based on a work at &lt;a xmlns:dct=&quot;http://purl.org/dc/terms/&quot; href=&quot;http://www.stefanproell.at&quot; rel=&quot;dct:source&quot;&gt;http://www.stefanproell.at&lt;/a&gt;.&lt;br /&gt;Permissions beyond the scope of this license may be available at &lt;a xmlns:cc=&quot;http://creativecommons.org/ns#&quot; href=&quot;http://www.stefanproell.at&quot; rel=&quot;cc:morePermissions&quot;&gt;http://www.stefanproell.at&lt;/a&gt;." />
+    <option name="keyword" value="Copyright Notive" />
+    <option name="allowReplaceKeyword" value="" />
+    <option name="myName" value="copyright_stefan_scape" />
+    <option name="myLocal" value="true" />
+  </copyright>
+</component>
