@@ -39,8 +39,11 @@ entities (details below).
 * Add arbitrary filters in a key value fashion (e.g. 'instrumentName';'tempreatureSensor'). This is used to mapp the
 interface input fields and their respective values which have been entered.
 * Add arbitrary many sortings either in ascending or desceinding order
+* Detect query duplicates
+* Create timestamps automatically for each insert and update.
+* Full audit log.
 
-You can initialize the QueryStore by using its API. The QueryStore uses Hibernate to
+You can initialize the QueryStore by using its API. The QueryStore uses Hibernate to persist the data.
 
 ```java
         // Initialize Query Store
@@ -76,8 +79,31 @@ entities (details below). The following features are currently implemented in th
 * Create organizations and prefixes (prefixes are unique).
 * One organization can mit arbitrary many identifiers per prefix
 * Identifiers are uniqie within one prefix and therefore the complete PID is unique.
+* Resolve PIDs to URLs
+* Retrieve latest PID pre organization
+* Retrieve latest PID in the database.
+* Print details
+* Full audit log
+
+You can initialize the QueryStore by using its API. The QueryStore uses Hibernate to persist the data.
+
+```java
+       PersistentIdentifierAPI api = new PersistentIdentifierAPI();
 
 
+              // create a dummy organization and provide a prefix
+              Organization evilOrganization = api.createNewOrganitation("Evil Corp",2345);
+              Organization goodOrganization = api.createNewOrganitation("Good Company",6789);
+              // set the length for alphanumeric identifiers
+              evilOrganization.setAlphanumericPIDlength(20);
+              goodOrganization.setAlphanumericPIDlength(12);
+
+              // create identifiers
+              api.getAlphaNumericPID(evilOrganization, "www.repository.org/collections/datasets/ResearchData.csv");
+              api.getNumericPID(evilOrganization, "www.repository.org/collections/datasets/QuerySet");
+              api.getAlphaPID(evilOrganization, "www.repository.org/documentation/manual.pdf");
+```
+The package Examples contains usage samples. Read the JavaDocs for more details.
 
 
 
