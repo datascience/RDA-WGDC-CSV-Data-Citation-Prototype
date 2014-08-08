@@ -26,7 +26,8 @@ collected automatically, the query can be re-executed.
 
 ### Query Store Features:
 
-The Query store is implemented in Java and provides an API for the most common Tasks.
+The Query store is implemented in Java and provides an API for the most common Tasks. It uses Hibernate to store the
+entities (details below).
 
 * Create new queries
 * Add metadata about users
@@ -39,15 +40,17 @@ The Query store is implemented in Java and provides an API for the most common T
 interface input fields and their respective values which have been entered.
 * Add arbitrary many sortings either in ascending or desceinding order
 
+You can initialize the QueryStore by using its API. The QueryStore uses Hibernate to
+
 ```java
         // Initialize Query Store
         QueryStoreAPI queryAPI= new QueryStoreAPI();
-
 ```
+The package Examples contains usage samples.
 
 
 
-## Persistent Identifaction
+## Persistent Identifaction Service
 
 Identifying datasets is essential for future reuse. Storing exported datasets on a Web server and providing the URL
 for its retrieval is not enough. A simle change in the directory structure of the server renders a URL obsolete and
@@ -59,4 +62,29 @@ the dataset can not be retrieved again. Hence a more sophisticated way of refere
   Thus whenever a digital object has to be moved to a different location (e.g.. server filesystem updates or similar
   events), its location may be updated and the identifier can then refer to its new location.
 
+### Persistent Identification Service Features
+
+The Query store is implemented in Java and provides an API for the most common Tasks. It uses Hibernate to store the
+entities (details below).
+
+
+
+## Initializing the database
+
+In order to use the modules you need to create a database scheme, create a user and add the corresponding permissions
+. This shows an example for MySQL. The permissions are not intended to be used in productive environments.
+
+```sql
+
+DROP DATABASE IF EXISTS `QueryStore`;
+CREATE DATABASE `QueryStore`;
+
+GRANT ALL PRIVILEGES ON QueryStore.* To 'QUERYSTOREUSER'@'localhost' IDENTIFIED BY 'PASSWORD';
+FLUSH PRIVILEGES;
+
+```
+
+After you have set up and tested the database access, you need to enter the username,
+the password and the database into the Hibernate configuration files called hibernate.cfg.xml in thr folder resources
+ in each module.
 
