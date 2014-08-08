@@ -100,7 +100,9 @@
         <entry file="file://$PROJECT_DIR$/PersistentIdentification/src/main/java/at/stefanproell/Examples/ExamplesAPI.java">
           <provider selected="true" editor-type-id="text-editor">
             <state line="61" column="45" selection-start="2162" selection-end="2162" vertical-scroll-proportion="0.0" vertical-offset="803" max-vertical-offset="1395">
-              <folding />
+              <folding>
+                <element signature="imports" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -108,7 +110,7 @@
       <file leaf-file-name="README.md" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/README.md">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="69" column="0" selection-start="3942" selection-end="3942" vertical-scroll-proportion="0.5945946" vertical-offset="705" max-vertical-offset="1440">
+            <state line="69" column="45" selection-start="4084" selection-end="4084" vertical-scroll-proportion="0.43243244" vertical-offset="795" max-vertical-offset="1725">
               <folding />
             </state>
           </provider>
@@ -955,7 +957,11 @@
       <created>1407501622598</created>
       <updated>1407501622598</updated>
     </task>
-    <option name="localTasksCounter" value="38" />
+    <task id="LOCAL-00038" summary="README">
+      <created>1407502362529</created>
+      <updated>1407502362529</updated>
+    </task>
+    <option name="localTasksCounter" value="39" />
     <servers />
   </component>
   <component name="TodoView" selected-index="0">
@@ -1259,7 +1265,9 @@
     <entry file="file://$PROJECT_DIR$/PersistentIdentification/src/main/java/at/stefanproell/Examples/ExamplesAPI.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="61" column="45" selection-start="2162" selection-end="2162" vertical-scroll-proportion="0.0" vertical-offset="460" max-vertical-offset="1395">
-          <folding />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1321,7 +1329,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/README.md">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="69" column="0" selection-start="3942" selection-end="3942" vertical-scroll-proportion="0.5945946" vertical-offset="705" max-vertical-offset="1440">
+        <state line="69" column="45" selection-start="4084" selection-end="4084" vertical-scroll-proportion="0.43243244" vertical-offset="795" max-vertical-offset="1725">
           <folding />
         </state>
       </provider>

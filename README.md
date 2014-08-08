@@ -46,7 +46,7 @@ You can initialize the QueryStore by using its API. The QueryStore uses Hibernat
         // Initialize Query Store
         QueryStoreAPI queryAPI= new QueryStoreAPI();
 ```
-The package Examples contains usage samples.
+The package Examples contains usage samples. Read the JavaDocs for more details.
 
 
 
@@ -65,7 +65,19 @@ the dataset can not be retrieved again. Hence a more sophisticated way of refere
 ### Persistent Identification Service Features
 
 The Query store is implemented in Java and provides an API for the most common Tasks. It uses Hibernate to store the
-entities (details below).
+entities (details below). The following features are currently implemented in the API:
+
+* Create PIDs of the form *prefix/identifier*.
+* Create alphabetical identifiers of arbitrary length.
+* Create alphanumeric identifiers of arbitrary length (YouTube style).
+* Create numeric identifiers of arbitrary length.
+* Store one URI with each identifier
+* Update URIs (the identifier can neither be deleted nor updated via the API)
+* Create organizations and prefixes (prefixes are unique).
+* One organization can mit arbitrary many identifiers per prefix
+* Identifiers are uniqie within one prefix and therefore the complete PID is unique.
+
+
 
 
 
@@ -87,4 +99,11 @@ FLUSH PRIVILEGES;
 After you have set up and tested the database access, you need to enter the username,
 the password and the database into the Hibernate configuration files called hibernate.cfg.xml in thr folder resources
  in each module.
+
+
+ ```xml
+<property name="hibernate.connection.username">QUERYSTOREUSER</property>
+<property name="hibernate.connection.password">PASSWORD</property>
+<property name="hibernate.connection.url">jdbc:mysql://localhost:3306/QueryStore</property>
+ ```
 
