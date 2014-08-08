@@ -1,4 +1,4 @@
 SCAPE-QueryStore
 ================
 
-The SCAPE query store
+The SCAPE query store and the Persistent Identifier library.
