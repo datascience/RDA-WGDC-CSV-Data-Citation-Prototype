@@ -85,7 +85,8 @@ entities (details below). The following features are currently implemented in th
 * Print details
 * Full audit log
 
-You can initialize the QueryStore by using its API. The QueryStore uses Hibernate to persist the data.
+You can initialize the QueryStore by using its API, refer to the examples for getting started. The QueryStore uses
+Hibernate to persist the data. Details below.
 
 ```java
        PersistentIdentifierAPI api = new PersistentIdentifierAPI();
