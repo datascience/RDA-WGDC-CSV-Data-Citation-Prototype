@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/PersistentIdentification/PersistentIdentification.iml" filepath="$PROJECT_DIR$/PersistentIdentification/PersistentIdentification.iml" />
       <module fileurl="file://$PROJECT_DIR$/QueryStore/QueryStore.iml" filepath="$PROJECT_DIR$/QueryStore/QueryStore.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ResultSetVerification/ResultSetVerification.iml" filepath="$PROJECT_DIR$/ResultSetVerification/ResultSetVerification.iml" />
       <module fileurl="file://$PROJECT_DIR$/SCAPE-QueryStore.iml" filepath="$PROJECT_DIR$/SCAPE-QueryStore.iml" />
     </modules>
   </component>

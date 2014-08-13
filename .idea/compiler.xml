@@ -25,6 +25,7 @@
         <module name="PersistentIdentification" />
         <module name="PersistentIdentifier" />
         <module name="QueryStore" />
+        <module name="ResultSetVerification" />
       </profile>
     </annotationProcessing>
   </component>
