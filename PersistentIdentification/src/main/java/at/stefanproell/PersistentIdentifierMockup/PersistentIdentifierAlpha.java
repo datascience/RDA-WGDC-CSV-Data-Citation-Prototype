@@ -1,10 +1,41 @@
+/*
+ * Copyright [2014] [Stefan Pröll]
+ *
+ *    Licensed under the Apache License, Version 2.0 (the "License");
+ *    you may not use this file except in compliance with the License.
+ *    You may obtain a copy of the License at
+ *
+ *        http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *    Unless required by applicable law or agreed to in writing, software
+ *    distributed under the License is distributed on an "AS IS" BASIS,
+ *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *    See the License for the specific language governing permissions and
+ *    limitations under the License.
+ */
+
+/*
+ * Copyright [2014] [Stefan Pröll]
+ *
+ *    Licensed under the Apache License, Version 2.0 (the "License");
+ *    you may not use this file except in compliance with the License.
+ *    You may obtain a copy of the License at
+ *
+ *        http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *    Unless required by applicable law or agreed to in writing, software
+ *    distributed under the License is distributed on an "AS IS" BASIS,
+ *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *    See the License for the specific language governing permissions and
+ *    limitations under the License.
+ */
+
 package at.stefanproell.PersistentIdentifierMockup;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import java.io.Serializable;
-import java.util.Date;
 import java.util.logging.Logger;
 
 /**
@@ -21,7 +52,7 @@ public class PersistentIdentifierAlpha extends PersistentIdentifier implements S
     private static final long serialVersionUID = 1L;
     private int alphaPIDlength;
     private Logger logger;
-    private final String propertiesFileName="pid.properties";
+    private final String propertiesFileName = "pid.properties";
 
 
     /**
@@ -52,18 +83,16 @@ public class PersistentIdentifierAlpha extends PersistentIdentifier implements S
 
         PIGenerator pig = new PIGenerator();
         this.setIdentifier(pig.getRandomAlpaString(this.alphaPIDlength));
-        if(this.alphaPIDlength<=0){
+        if (this.alphaPIDlength <= 0) {
             this.logger.severe("No length specified. Set organization first!. Reading from property file");
-            this.alphaPIDlength = Helpers.getIntegerParameterFromPropertyFile(propertiesFileName,"alphaPIDlength");
+            this.alphaPIDlength = Helpers.getIntegerParameterFromPropertyFile(propertiesFileName, "alphaPIDlength");
 
         }
-        String identifier =(pig.getRandomAlpaNumericString(this.alphaPIDlength));
+        String identifier = (pig.getRandomAlpaNumericString(this.alphaPIDlength));
         this.logger.info("new identifier is" + identifier);
         this.setIdentifier(identifier);
 
     }
-
-
 
 
 }

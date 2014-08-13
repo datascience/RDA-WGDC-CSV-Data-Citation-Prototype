@@ -1,9 +1,38 @@
+/*
+ * Copyright [2014] [Stefan Pröll]
+ *
+ *    Licensed under the Apache License, Version 2.0 (the "License");
+ *    you may not use this file except in compliance with the License.
+ *    You may obtain a copy of the License at
+ *
+ *        http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *    Unless required by applicable law or agreed to in writing, software
+ *    distributed under the License is distributed on an "AS IS" BASIS,
+ *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *    See the License for the specific language governing permissions and
+ *    limitations under the License.
+ */
+
+/*
+ * Copyright [2014] [Stefan Pröll]
+ *
+ *    Licensed under the Apache License, Version 2.0 (the "License");
+ *    you may not use this file except in compliance with the License.
+ *    You may obtain a copy of the License at
+ *
+ *        http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *    Unless required by applicable law or agreed to in writing, software
+ *    distributed under the License is distributed on an "AS IS" BASIS,
+ *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *    See the License for the specific language governing permissions and
+ *    limitations under the License.
+ */
+
 package QueryStore;
 
 
-import at.stefanproell.PersistentIdentifierMockup.Organization;
-import at.stefanproell.PersistentIdentifierMockup.PersistentIdentifierAPI;
-import at.stefanproell.PersistentIdentifierMockup.PersistentIdentifierAlphaNumeric;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
@@ -24,7 +53,8 @@ public class QueryStoreAPI {
         this.logger = Logger.getLogger(QueryStoreAPI.class.getName());
     }
 
-    public Query createNewQuery(String userName, String queryDescription, String pidDataSourceString, String pidString){
+    public Query createNewQuery(String userName, String queryDescription, String pidDataSourceString,
+                                String pidString) {
         Query query = new Query();
         query.setUserName(userName);
         query.setQueryDescription(queryDescription);
@@ -52,13 +82,15 @@ public class QueryStoreAPI {
     }
 
     /**
-     * Iterate over filters and sortings and calculate a unique hash. Sortings and Filterings are stored in LinkedHashSets.
+     * Iterate over filters and sortings and calculate a unique hash. Sortings and Filterings are stored in
+     * LinkedHashSets.
      * Their insertion order is preserved. If a query uses a different order of insertion, then the hash will
      * be different. If this behaviour should be changed, use a TreeSet and sort it alphabetically.
+     *
      * @param query
      * @return
      */
-    private String calculateQueryHash(Query query){
+    private String calculateQueryHash(Query query) {
         this.logger.info("Calculate Hash");
 
         // concatenate all query details: data source pid + filters + sortings
@@ -71,41 +103,40 @@ public class QueryStoreAPI {
 
         // Iterate over all filters, concatenate their keys and values and normalize the string.
         Set<Filter> filters = query.getFilters();
-        System.out.println("Filter size = "+filters.size());
-        if(filters.size()>0){
-            Iterator<Filter> filterIterator= filters.iterator();
-            while(filterIterator.hasNext()){
+        System.out.println("Filter size = " + filters.size());
+        if (filters.size() > 0) {
+            Iterator<Filter> filterIterator = filters.iterator();
+            while (filterIterator.hasNext()) {
                 Filter filter = (Filter) (filterIterator.next());
-                this.logger.info("Filter: " + filter.getFilterName() + " - " +filter.getFilterValue());
+                this.logger.info("Filter: " + filter.getFilterName() + " - " + filter.getFilterValue());
 
-                allFilters+= filter.getFilterName()+filter.getFilterValue();
+                allFilters += filter.getFilterName() + filter.getFilterValue();
             }
 
-            allFilters= this.normalizeString(allFilters);
+            allFilters = this.normalizeString(allFilters);
             this.logger.info("Found " + filters.size() + " filters, which are " + allFilters);
 
         }
         // append all filters
-        queryDetails+=allFilters;
+        queryDetails += allFilters;
 
 
         Set<Sorting> sortings = query.getSortings();
-        if(sortings.size()>0){
-            Iterator<Sorting> sortingIterator= sortings.iterator();
-            while(sortingIterator.hasNext()){
+        if (sortings.size() > 0) {
+            Iterator<Sorting> sortingIterator = sortings.iterator();
+            while (sortingIterator.hasNext()) {
                 Sorting sorting = (Sorting) (sortingIterator.next());
-                allSortings+= sorting.getSorting_column()+sorting.getDirection();
+                allSortings += sorting.getSorting_column() + sorting.getDirection();
             }
 
-            allSortings= this.normalizeString(allSortings);
+            allSortings = this.normalizeString(allSortings);
             this.logger.info("Found " + sortings.size() + " filters, which are " + allSortings);
 
         }
 
         // append all sortings
-        queryDetails+=allSortings;
+        queryDetails += allSortings;
         this.logger.info("Query details String: " + queryDetails);
-
 
 
         // Calculate the hash of the text
@@ -119,16 +150,16 @@ public class QueryStoreAPI {
 
     /**
      * Remove all spaces from a string and convert to lower case letters.
+     *
      * @param inputString
      * @return
      */
-    private String normalizeString(String inputString){
-        if(inputString.equals("")){
-           return "";
-        }else{
+    private String normalizeString(String inputString) {
+        if (inputString.equals("")) {
+            return "";
+        } else {
             return inputString.trim().toLowerCase();
         }
-
 
 
     }
@@ -136,13 +167,14 @@ public class QueryStoreAPI {
 
     /**
      * Add a new filter to the query. Recomputes the query hash.
+     *
      * @param query
      * @param key
      * @param value
      */
-    public void addFilter(Query query, String key, String value){
+    public void addFilter(Query query, String key, String value) {
         // create new filter and persist it
-        Filter filter = new Filter(query,key,value);
+        Filter filter = new Filter(query, key, value);
 
         this.session = HibernateUtil.getSessionFactory().openSession();
         this.session.beginTransaction();
@@ -167,15 +199,15 @@ public class QueryStoreAPI {
 
     /**
      * Add a sorting to the query
+     *
      * @param query
      * @param column
      * @param direction
      */
-    public void addSorting(Query query, String column, String direction){
+    public void addSorting(Query query, String column, String direction) {
         // create new filter and persist it
 
         Sorting sorting = new Sorting(query, column, direction);
-
 
 
         this.session = HibernateUtil.getSessionFactory().openSession();
@@ -200,13 +232,13 @@ public class QueryStoreAPI {
     }
 
 
-
     /**
      * Calculate the hash of a String
+     *
      * @param input
      * @return
      */
-    private String calculateSHA1(String input){
+    private String calculateSHA1(String input) {
         String hash = DigestUtils.sha1Hex(input);
         return hash;
     }
@@ -214,9 +246,10 @@ public class QueryStoreAPI {
 
     /**
      * Calculate the result set hash. This is currently a dummy method. Implement your own hashing scheme here.
+     *
      * @param query
      */
-    public void calculateResultSetHash(Query query){
+    public void calculateResultSetHash(Query query) {
 
         //@Todo Replace this String with a real function
         // Calculates a random string for test purposes.
@@ -234,20 +267,22 @@ public class QueryStoreAPI {
     /**
      * Returns the hash of the query. This hash only considers query filters, sortings and the data source for its
      * computation. Not to be confused with the result set hash!
+     *
      * @param q
      * @return
      */
-    public String getQueryHash(Query q){
+    public String getQueryHash(Query q) {
         return q.getResultSetHash();
 
     }
 
     /**
      * Retrieve the query by specifying its PID
+     *
      * @param pid
      * @return
      */
-    public Query getQueryByPID(String pid){
+    public Query getQueryByPID(String pid) {
         this.session = HibernateUtil.getSessionFactory().openSession();
         this.session.beginTransaction();
 
@@ -258,7 +293,7 @@ public class QueryStoreAPI {
         this.session.getTransaction().commit();
         this.session.close();
 
-        if(query == null){
+        if (query == null) {
             this.logger.severe("No query found with the pid " + pid);
         }
 
@@ -269,10 +304,11 @@ public class QueryStoreAPI {
 
     /**
      * Get the result set hash
+     *
      * @param q
      * @return
      */
-    public String getQueryResultSetHash(Query q){
+    public String getQueryResultSetHash(Query q) {
         String resultSetHash = q.getResultSetHash();
         return resultSetHash;
 
@@ -281,17 +317,15 @@ public class QueryStoreAPI {
 
     /**
      * Return the PID of a query
+     *
      * @param query
      * @return
      */
-    public String getQueryPID(Query query){
+    public String getQueryPID(Query query) {
         String pid = query.getPID();
         this.logger.info("PID = " + pid);
         return pid;
     }
-
-
-
 
 
     /**
@@ -300,9 +334,10 @@ public class QueryStoreAPI {
      * The method uses the following int codes as return value to indicate the status:
      * 0 -- no identical query detected
      * 1 -- identical query detected
+     *
      * @param query
      */
-    public int finalizeQuery(Query query){
+    public int finalizeQuery(Query query) {
         this.session = HibernateUtil.getSessionFactory().openSession();
         this.session.beginTransaction();
         Query sameQuery = null;
@@ -313,10 +348,10 @@ public class QueryStoreAPI {
         this.session.getTransaction().commit();
         this.session.close();
 
-        if(query!= null){
+        if (query != null) {
             this.logger.severe("There was a identical query. This could be a new version!");
             return 1;
-        } else{
+        } else {
             this.logger.info("No version detected. OK");
             return 0;
         }

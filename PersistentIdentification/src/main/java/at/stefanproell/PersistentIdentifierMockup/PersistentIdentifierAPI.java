@@ -1,11 +1,48 @@
+/*
+ * Copyright [2014] [Stefan Pröll]
+ *
+ *    Licensed under the Apache License, Version 2.0 (the "License");
+ *    you may not use this file except in compliance with the License.
+ *    You may obtain a copy of the License at
+ *
+ *        http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *    Unless required by applicable law or agreed to in writing, software
+ *    distributed under the License is distributed on an "AS IS" BASIS,
+ *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *    See the License for the specific language governing permissions and
+ *    limitations under the License.
+ */
+
+/*
+ * Copyright [2014] [Stefan Pröll]
+ *
+ *    Licensed under the Apache License, Version 2.0 (the "License");
+ *    you may not use this file except in compliance with the License.
+ *    You may obtain a copy of the License at
+ *
+ *        http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *    Unless required by applicable law or agreed to in writing, software
+ *    distributed under the License is distributed on an "AS IS" BASIS,
+ *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *    See the License for the specific language governing permissions and
+ *    limitations under the License.
+ */
+
 package at.stefanproell.PersistentIdentifierMockup;
 
 import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
-import org.hibernate.criterion.*;
+import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.Projections;
+import org.hibernate.criterion.Property;
+import org.hibernate.criterion.Restrictions;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 import java.util.logging.Logger;
 
 /**
@@ -44,7 +81,7 @@ public class PersistentIdentifierAPI {
             this.session.getTransaction().commit();
             this.session.close();
 
-        }else{
+        } else {
             this.logger.severe("PREFIX incorrect");
         }
 
@@ -61,8 +98,7 @@ public class PersistentIdentifierAPI {
      * @param URIString
      * @return
      */
-    public PersistentIdentifierAlphaNumeric  getAlphaNumericPID(Organization org, String URIString) {
-
+    public PersistentIdentifierAlphaNumeric getAlphaNumericPID(Organization org, String URIString) {
 
 
         this.session = HibernateUtil.getSessionFactory().openSession();
@@ -131,16 +167,16 @@ public class PersistentIdentifierAPI {
      * @return
      */
     public String resolveIdentifierToURI(int prefixInput, String identifierInput) {
-        String stringURI=null;
+        String stringURI = null;
         //Validate if identifier exists and retrieve URL
-        if(this.validatePID(prefixInput,identifierInput)){
+        if (this.validatePID(prefixInput, identifierInput)) {
             this.session = HibernateUtil.getSessionFactory().openSession();
             this.session.beginTransaction();
 
             Criteria criteria = this.session.createCriteria(PersistentIdentifier.class, "pid");
-            criteria.createAlias("pid.organization","o");
+            criteria.createAlias("pid.organization", "o");
             criteria.add(Restrictions.eq("pid.identifier", identifierInput));
-            criteria.add(Restrictions.eq("o.organization_prefix",prefixInput));
+            criteria.add(Restrictions.eq("o.organization_prefix", prefixInput));
             criteria.setProjection(
                     Projections.distinct(
                             Projections.projectionList()
@@ -160,14 +196,14 @@ public class PersistentIdentifierAPI {
 
             // There should only be one result.
             for (Iterator it = resultList.iterator(); it.hasNext(); ) {
-            //    Object[] resultArray = (Object[]) it.next();
+                //    Object[] resultArray = (Object[]) it.next();
                 // get the Prefix and the identifier
 
-             stringURI=  new String((String) it.next());
+                stringURI = new String((String) it.next());
 
             }
 
-        } else{
+        } else {
             this.logger.severe("identifier NOT found");
         }
 
@@ -178,6 +214,7 @@ public class PersistentIdentifierAPI {
 
     /**
      * Retrieve a PID object from the DB
+     *
      * @param prefixInput
      * @param identifierInput
      * @return
@@ -186,28 +223,24 @@ public class PersistentIdentifierAPI {
         PersistentIdentifier pid = null;
 
         //Validate if identifier exists and retrieve URL
-        if(this.validatePID(prefixInput,identifierInput)){
+        if (this.validatePID(prefixInput, identifierInput)) {
             this.session = HibernateUtil.getSessionFactory().openSession();
             this.session.beginTransaction();
 
             Criteria criteria = this.session.createCriteria(PersistentIdentifier.class, "pid");
-            criteria.createAlias("pid.organization","o");
+            criteria.createAlias("pid.organization", "o");
             criteria.add(Restrictions.eq("pid.identifier", identifierInput));
-            criteria.add(Restrictions.eq("o.organization_prefix",prefixInput));
-
-
+            criteria.add(Restrictions.eq("o.organization_prefix", prefixInput));
 
 
             pid = (PersistentIdentifier) criteria.uniqueResult();
-
 
 
             this.session.getTransaction().commit();
             this.session.close();
 
 
-
-        } else{
+        } else {
             this.logger.severe("identifier NOT found");
         }
 
@@ -235,7 +268,8 @@ public class PersistentIdentifierAPI {
         for (Object obj : identifierList) {
             PersistentIdentifier pid = (PersistentIdentifier) obj;
             listOfPIDs.add(pid);
-            this.logger.info("PID_ID " + pid.getPersitentIdentifier_id() + " Identifier: " + pid.getIdentifier() + " URI: " + pid.getURI());
+            this.logger.info("PID_ID " + pid.getPersitentIdentifier_id() + " Identifier: " + pid.getIdentifier() + " " +
+                    "URI: " + pid.getURI());
         }
         this.session.getTransaction().commit();
         this.session.close();
@@ -266,7 +300,8 @@ public class PersistentIdentifierAPI {
 
         for (Object obj : identifierList) {
             pid = (PersistentIdentifier) obj;
-            System.out.println("PID_ID " + pid.getPersitentIdentifier_id() + " Identifier: " + pid.getIdentifier() + " URI: " + pid.getURI());
+            System.out.println("PID_ID " + pid.getPersitentIdentifier_id() + " Identifier: " + pid.getIdentifier() +
+                    " URI: " + pid.getURI());
 
 
         }
@@ -307,6 +342,7 @@ public class PersistentIdentifierAPI {
 
     /**
      * Update a PID's URL when the identifier is provided
+     *
      * @param stringPID
      * @param newURI
      */
@@ -317,7 +353,7 @@ public class PersistentIdentifierAPI {
 
         Query query = session.createQuery("from PersistentIdentifier  where identifier= :identifier");
         query.setParameter("identifier", stringPID);
-        PersistentIdentifier pid = (PersistentIdentifier)query.list().get(0);
+        PersistentIdentifier pid = (PersistentIdentifier) query.list().get(0);
         pid.setURI(newURI);
         session.update(pid);
         this.session.getTransaction().commit();
@@ -347,18 +383,20 @@ public class PersistentIdentifierAPI {
 
     /**
      * Print record details
+     *
      * @param pid
      */
     public void printRecord(PersistentIdentifier pid) {
         System.out.println("PID details" + " System ID " +
                 pid.getPersitentIdentifier_id() + " PID" + pid.getIdentifier()
                 + " URI" + pid.getURI() + " Created " + pid.getCreatedDate()
-                + " Updated " +pid.getLastUpdatedDate());
+                + " Updated " + pid.getLastUpdatedDate());
 
     }
 
     /**
      * Print record details
+     *
      * @param
      */
     public void printRecord(int prefixInput, String identifierInput) {
@@ -369,29 +407,29 @@ public class PersistentIdentifierAPI {
 
     /**
      * Query database for the combination of prefix and identifier. If it exists, return true
+     *
      * @param prefixInput
      * @param identifierInput
      * @return
      */
-    public boolean validatePID(int prefixInput, String identifierInput){
-        boolean isValid=false;
+    public boolean validatePID(int prefixInput, String identifierInput) {
+        boolean isValid = false;
         String identifierStringDB = null;
         Integer prefixIntegerDB = null;
-
 
 
         this.session = HibernateUtil.getSessionFactory().openSession();
         this.session.beginTransaction();
 
         Criteria criteria = this.session.createCriteria(PersistentIdentifier.class, "pid");
-        criteria.createAlias("pid.organization","o");
+        criteria.createAlias("pid.organization", "o");
         criteria.add(Restrictions.eq("pid.identifier", identifierInput));
-        criteria.add(Restrictions.eq("o.organization_prefix",prefixInput));
+        criteria.add(Restrictions.eq("o.organization_prefix", prefixInput));
         criteria.setProjection(
                 Projections.distinct(
                         Projections.projectionList()
-                                .add(Projections.property("o.organization_prefix"),"prefix")
-                                .add(Projections.property("pid.identifier"),"identifier")
+                                .add(Projections.property("o.organization_prefix"), "prefix")
+                                .add(Projections.property("pid.identifier"), "identifier")
                 )
         );
 
@@ -414,11 +452,12 @@ public class PersistentIdentifierAPI {
         }
 
         // Test if DB returned values
-        if(prefixIntegerDB != null && identifierStringDB != null && prefixInput == prefixIntegerDB && identifierInput.equals(identifierStringDB)){
+        if (prefixIntegerDB != null && identifierStringDB != null && prefixInput == prefixIntegerDB &&
+                identifierInput.equals(identifierStringDB)) {
             this.logger.info("Identifier validated.");
-            isValid=true;
-        }else{
-            isValid=false;
+            isValid = true;
+        } else {
+            isValid = false;
             this.logger.info("Identifier NOT validated.");
 
         }
@@ -427,26 +466,28 @@ public class PersistentIdentifierAPI {
 
     /**
      * Append prefix and identifier
+     *
      * @param prefixInput
      * @param identifierInput
      * @return
      */
-    public String getIdentifierString(int prefixInput, String identifierInput){
-        return prefixInput+"/"+identifierInput;
+    public String getIdentifierString(int prefixInput, String identifierInput) {
+        return prefixInput + "/" + identifierInput;
     }
 
     /**
      * Conctenate the prefix and the identifier
+     *
      * @param pid
      * @return
      */
-    public String getIdentifierStringWithPrefix(PersistentIdentifier pid){
+    public String getIdentifierStringWithPrefix(PersistentIdentifier pid) {
         int prefix = pid.getOrganization().getOrganization_prefix();
-        String identifier= pid.getIdentifier();
-        return prefix+"/"+identifier;
+        String identifier = pid.getIdentifier();
+        return prefix + "/" + identifier;
     }
 
-    public Organization getOrganizationObjectByPrefix(int prefix){
+    public Organization getOrganizationObjectByPrefix(int prefix) {
         Organization org = null;
         this.session = HibernateUtil.getSessionFactory().openSession();
         this.session.beginTransaction();
@@ -456,16 +497,13 @@ public class PersistentIdentifierAPI {
         this.session.getTransaction().commit();
         this.session.close();
 
-        if(org != null){
+        if (org != null) {
             this.logger.info("Organization prefix " + prefix + " found");
             return org;
-        }else{
+        } else {
             this.logger.severe("Organization prefix " + prefix + " NOT found");
             return null;
         }
-
-
-
 
 
     }

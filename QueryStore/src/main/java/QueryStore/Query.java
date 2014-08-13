@@ -1,3 +1,35 @@
+/*
+ * Copyright [2014] [Stefan Pröll]
+ *
+ *    Licensed under the Apache License, Version 2.0 (the "License");
+ *    you may not use this file except in compliance with the License.
+ *    You may obtain a copy of the License at
+ *
+ *        http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *    Unless required by applicable law or agreed to in writing, software
+ *    distributed under the License is distributed on an "AS IS" BASIS,
+ *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *    See the License for the specific language governing permissions and
+ *    limitations under the License.
+ */
+
+/*
+ * Copyright [2014] [Stefan Pröll]
+ *
+ *    Licensed under the Apache License, Version 2.0 (the "License");
+ *    you may not use this file except in compliance with the License.
+ *    You may obtain a copy of the License at
+ *
+ *        http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *    Unless required by applicable law or agreed to in writing, software
+ *    distributed under the License is distributed on an "AS IS" BASIS,
+ *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *    See the License for the specific language governing permissions and
+ *    limitations under the License.
+ */
+
 package QueryStore;
 
 import org.hibernate.envers.Audited;
@@ -12,7 +44,7 @@ import java.util.logging.Logger;
 
 @Entity
 @Audited
-@Table(name = "query", uniqueConstraints = {@UniqueConstraint(columnNames = {"PID","queryHash"})})
+@Table(name = "query", uniqueConstraints = {@UniqueConstraint(columnNames = {"PID", "queryHash"})})
 public class Query implements Serializable, TimeStamped {
 
     private Logger logger;
@@ -27,7 +59,6 @@ public class Query implements Serializable, TimeStamped {
 
     private Date createdDate;
     private Date lastUpdatedDate;
-
 
 
     @Column(name = "resultSetHash", unique = true)
@@ -120,6 +151,7 @@ public class Query implements Serializable, TimeStamped {
     /**
      * Get query hash. The query hash does not necessarily have to be unique, as identical queries can be
      * issued at different times.
+     *
      * @return
      */
     @Column(name = "queryHash", unique = false)

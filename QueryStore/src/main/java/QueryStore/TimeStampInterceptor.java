@@ -1,3 +1,35 @@
+/*
+ * Copyright [2014] [Stefan Pröll]
+ *
+ *    Licensed under the Apache License, Version 2.0 (the "License");
+ *    you may not use this file except in compliance with the License.
+ *    You may obtain a copy of the License at
+ *
+ *        http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *    Unless required by applicable law or agreed to in writing, software
+ *    distributed under the License is distributed on an "AS IS" BASIS,
+ *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *    See the License for the specific language governing permissions and
+ *    limitations under the License.
+ */
+
+/*
+ * Copyright [2014] [Stefan Pröll]
+ *
+ *    Licensed under the Apache License, Version 2.0 (the "License");
+ *    you may not use this file except in compliance with the License.
+ *    You may obtain a copy of the License at
+ *
+ *        http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *    Unless required by applicable law or agreed to in writing, software
+ *    distributed under the License is distributed on an "AS IS" BASIS,
+ *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *    See the License for the specific language governing permissions and
+ *    limitations under the License.
+ */
+
 package QueryStore;
 
 
@@ -19,6 +51,7 @@ public class TimeStampInterceptor extends EmptyInterceptor {
 
     /**
      * Store the timestamp of an update
+     *
      * @param entity
      * @param id
      * @param currentState
@@ -47,8 +80,6 @@ public class TimeStampInterceptor extends EmptyInterceptor {
          * Update the lastUpdateDate value
          */
         if (entity instanceof TimeStamped) {
-
-
 
 
             int indexOfLastUpdate = ArrayUtils.indexOf(propertyNames, "lastUpdatedDate");
@@ -86,8 +117,8 @@ public class TimeStampInterceptor extends EmptyInterceptor {
             int indexOfUpdatedDateColumn = ArrayUtils.indexOf(propertyNames, "lastUpdatedDate");
 
 
-            state[indexOfCreateDateColumn] =insertDate;
-            state[indexOfUpdatedDateColumn] =insertDate;
+            state[indexOfCreateDateColumn] = insertDate;
+            state[indexOfUpdatedDateColumn] = insertDate;
 
 
             return true;
@@ -123,6 +154,7 @@ public class TimeStampInterceptor extends EmptyInterceptor {
     public void preFlush(Iterator iterator) {
         System.out.println("Before commiting");
     }
+
     //called after committed into database
     @Override
     public void postFlush(Iterator iterator) {

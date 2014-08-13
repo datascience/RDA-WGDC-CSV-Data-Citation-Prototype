@@ -1,3 +1,35 @@
+/*
+ * Copyright [2014] [Stefan Pröll]
+ *
+ *    Licensed under the Apache License, Version 2.0 (the "License");
+ *    you may not use this file except in compliance with the License.
+ *    You may obtain a copy of the License at
+ *
+ *        http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *    Unless required by applicable law or agreed to in writing, software
+ *    distributed under the License is distributed on an "AS IS" BASIS,
+ *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *    See the License for the specific language governing permissions and
+ *    limitations under the License.
+ */
+
+/*
+ * Copyright [2014] [Stefan Pröll]
+ *
+ *    Licensed under the Apache License, Version 2.0 (the "License");
+ *    you may not use this file except in compliance with the License.
+ *    You may obtain a copy of the License at
+ *
+ *        http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *    Unless required by applicable law or agreed to in writing, software
+ *    distributed under the License is distributed on an "AS IS" BASIS,
+ *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *    See the License for the specific language governing permissions and
+ *    limitations under the License.
+ */
+
 package at.stefanproell.PersistentIdentifierMockup;
 
 import javax.persistence.*;
@@ -16,7 +48,8 @@ import static javax.persistence.GenerationType.IDENTITY;
  * If no values are specified, the default values are read from the property files.
  */
 @Entity
-@Table(name = "organization", uniqueConstraints = {@UniqueConstraint(columnNames = {"organization_id","organization_prefix"})})
+@Table(name = "organization", uniqueConstraints = {@UniqueConstraint(columnNames = {"organization_id",
+        "organization_prefix"})})
 public class Organization implements TimeStamped {
 
 
@@ -154,18 +187,16 @@ public class Organization implements TimeStamped {
 
         prop = Helpers.readPropertyFile(filename);
 
-        if(prop==null){
+        if (prop == null) {
             this.logger.severe("Property filew as null");
-        }else{
+        } else {
             Helpers.printPropertiesFile(filename);
             this.alphanumericPIDlength = Integer.parseInt(prop.getProperty("alphaNumericPIDlength"));
             this.numericPIDlength = Integer.parseInt(prop.getProperty("numericPIDlength"));
             this.alphaPIDlength = Integer.parseInt(prop.getProperty("alphaPIDlength"));
-            this.logger.info("Read property file. Values: " + this.alphanumericPIDlength + "  " + this.numericPIDlength +                " " + this.alphaPIDlength);
+            this.logger.info("Read property file. Values: " + this.alphanumericPIDlength + "  " + this
+                    .numericPIDlength + " " + this.alphaPIDlength);
         }
-
-
-
 
 
     }
