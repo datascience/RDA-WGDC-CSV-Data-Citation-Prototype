@@ -27,6 +27,7 @@
         <option value="$PROJECT_DIR$/QueryStore/pom.xml" />
         <option value="$PROJECT_DIR$/PersistentIdentification/pom.xml" />
         <option value="$PROJECT_DIR$/ResultSetVerification/pom.xml" />
+        <option value="$PROJECT_DIR$/CSV2DB/pom.xml" />
       </list>
     </option>
   </component>
