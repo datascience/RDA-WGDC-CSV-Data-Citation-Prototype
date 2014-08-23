@@ -62,6 +62,22 @@
  *    limitations under the License.
  */
 
+/*
+ * Copyright [2014] [Stefan Pröll]
+ *
+ *    Licensed under the Apache License, Version 2.0 (the "License");
+ *    you may not use this file except in compliance with the License.
+ *    You may obtain a copy of the License at
+ *
+ *        http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *    Unless required by applicable law or agreed to in writing, software
+ *    distributed under the License is distributed on an "AS IS" BASIS,
+ *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *    See the License for the specific language governing permissions and
+ *    limitations under the License.
+ */
+
 package at.stefanproell.ResultSetVerification;
 
 import com.sun.rowset.CachedRowSetImpl;
@@ -83,6 +99,7 @@ import java.util.logging.Logger;
 public class ResultSetVerificationAPI {
     private Logger logger;
     private static final String DEFAULT_HASH_ALGORITHM = "SHA-1";
+    private MessageDigest crypto = null;
 
     /**
      * Constructor
@@ -133,6 +150,10 @@ public class ResultSetVerificationAPI {
         if (this.dcp == null) {
             this.dcp = new DataBaseConnectionPool();
         }
+
+        // Initialize Crypto
+        this.initCryptoModule(DEFAULT_HASH_ALGORITHM);
+
     }
 
     /**
@@ -262,11 +283,9 @@ public class ResultSetVerificationAPI {
         }
 
         this.logger.info(appendedChecksum);
-        try {
-            hashedCRC = this.calculateHashFromString(appendedChecksum, DEFAULT_HASH_ALGORITHM);
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        }
+
+        hashedCRC = this.calculateHashFromString(appendedChecksum);
+
         this.logger.info("Hashed checksum " + hashedCRC);
         try {
             connection.close();
@@ -314,6 +333,30 @@ public class ResultSetVerificationAPI {
 
     }
 
+    private MessageDigest initCryptoModule(String algorithm) {
+
+        HashSet<String> algorithms = new HashSet<String>();
+        algorithms.add("SHA-1");
+        algorithms.add("MD5");
+        algorithms.add("SHA-256");
+        if (algorithms.contains(algorithm)) {
+            MessageDigest crypto = null;
+
+
+            try {
+                crypto = MessageDigest.getInstance(algorithm);
+                this.crypto.reset();
+            } catch (NoSuchAlgorithmException e) {
+                e.printStackTrace();
+            }
+
+
+        }
+        return this.crypto;
+    }
+
+
+
     /**
      * Calculate SHA1 hash from input
      *
@@ -321,28 +364,20 @@ public class ResultSetVerificationAPI {
      * @return
      * @throws NoSuchAlgorithmException
      */
-    public static String calculateHashFromString(String inputString, String algorithm)
-    throws NoSuchAlgorithmException {
-        HashSet<String> algorithms = new HashSet<String>();
-        algorithms.add("SHA-1");
-        algorithms.add("MD5");
-        algorithms.add("SHA-256");
-        if (algorithms.contains(algorithm)) {
-            MessageDigest crypto = null;
-            try {
-                crypto = MessageDigest.getInstance(algorithm);
-                crypto.reset();
-                crypto.update(inputString.getBytes("utf8"));
-            } catch (UnsupportedEncodingException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-            String hash = DigestUtils.sha1Hex(crypto.digest());
+    public String calculateHashFromString(String inputString) {
+        if (this.crypto == null) {
+            this.crypto = this.initCryptoModule(DEFAULT_HASH_ALGORITHM);
+        }
+
+
+        try {
+            this.crypto.update(inputString.getBytes("utf8"));
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        String hash = DigestUtils.sha1Hex(this.crypto.digest());
             return hash;
 
-        } else {
-            return null;
-        }
 
 
     }
@@ -460,12 +495,12 @@ public class ResultSetVerificationAPI {
 
                 if (cached.isFirst()) {
 
-                    resultSetHash = this.calculateHashFromString(currentHash, hashAlgorithm);
+                    resultSetHash = this.calculateHashFromString(currentHash);
 
                 } else {
 
                     compositeHash = (resultSetHash + currentHash);
-                    newResultSetHash = this.calculateHashFromString(compositeHash, hashAlgorithm);
+                    newResultSetHash = this.calculateHashFromString(compositeHash);
                     //this.logger.info("[resultSetHash] "+resultSetHash + "[currentHash] " + currentHash +" ->
                     // [newResultSetHash]" + newResultSetHash );
                     resultSetHash = newResultSetHash;
@@ -476,9 +511,6 @@ public class ResultSetVerificationAPI {
             }
 
         } catch (SQLException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (NoSuchAlgorithmException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
@@ -545,7 +577,7 @@ public class ResultSetVerificationAPI {
 
                     if (rs.isFirst()) {
 
-                        resultSetHash = this.calculateHashFromString(currentHash, DEFAULT_HASH_ALGORITHM);
+                        resultSetHash = this.calculateHashFromString(currentHash);
 
                     } else {
 
@@ -554,7 +586,7 @@ public class ResultSetVerificationAPI {
                         // reset the variables in order to reduce overhead
                         resultSetHash = null;
                         currentHash= null;
-                        newResultSetHash = this.calculateHashFromString(compositeHash, DEFAULT_HASH_ALGORITHM);
+                        newResultSetHash = this.calculateHashFromString(compositeHash);
                         //this.logger.info("[resultSetHash] "+resultSetHash + "[currentHash] " + currentHash +" ->
                         // [newResultSetHash]" + newResultSetHash );
                         resultSetHash = newResultSetHash;
@@ -565,9 +597,6 @@ public class ResultSetVerificationAPI {
                 }
 
             } catch (SQLException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            } catch (NoSuchAlgorithmException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
@@ -632,7 +661,7 @@ public class ResultSetVerificationAPI {
 
                 if (rs.isFirst()) {
 
-                    resultSetHash = this.calculateHashFromString(currentHash, DEFAULT_HASH_ALGORITHM);
+                    resultSetHash = this.calculateHashFromString(currentHash);
 
                 } else {
 
@@ -641,7 +670,7 @@ public class ResultSetVerificationAPI {
                     // reset the variables in order to reduce overhead
                     resultSetHash = null;
                     currentHash = null;
-                    newResultSetHash = this.calculateHashFromString(compositeHash, DEFAULT_HASH_ALGORITHM);
+                    newResultSetHash = this.calculateHashFromString(compositeHash);
                     //this.logger.info("[resultSetHash] "+resultSetHash + "[currentHash] " + currentHash +" ->
                     // [newResultSetHash]" + newResultSetHash );
                     resultSetHash = newResultSetHash;
@@ -652,9 +681,6 @@ public class ResultSetVerificationAPI {
             }
 
         } catch (SQLException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (NoSuchAlgorithmException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
