@@ -4,7 +4,7 @@
     <option name="SCOPE_TYPE" value="4" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fe0bbad9-08dd-49cf-9f33-eb5e1947ea1f" name="Default" comment="hash improved">
+    <list default="true" id="fe0bbad9-08dd-49cf-9f33-eb5e1947ea1f" name="Default" comment="error during hash calc">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ResultSetVerification/src/main/java/at/stefanproell/ResultSetTestApp.java" afterPath="$PROJECT_DIR$/ResultSetVerification/src/main/java/at/stefanproell/ResultSetTestApp.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ResultSetVerification/src/main/java/at/stefanproell/ResultSetVerification/ResultSetVerificationAPI.java" afterPath="$PROJECT_DIR$/ResultSetVerification/src/main/java/at/stefanproell/ResultSetVerification/ResultSetVerificationAPI.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
@@ -88,29 +88,29 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ResultSetTestApp.java" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="ResultSetTestApp.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/ResultSetVerification/src/main/java/at/stefanproell/ResultSetTestApp.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="600">
-              <caret line="89" column="0" selection-start-line="89" selection-start-column="0" selection-end-line="89" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.7193606" vertical-offset="0" max-vertical-offset="600">
+              <caret line="107" column="58" selection-start-line="107" selection-start-column="58" selection-end-line="107" selection-end-column="58" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ResultSetVerificationAPI.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="ResultSetVerificationAPI.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/ResultSetVerification/src/main/java/at/stefanproell/ResultSetVerification/ResultSetVerificationAPI.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.5334608" vertical-offset="4701" max-vertical-offset="12360">
-              <caret line="332" column="40" selection-start-line="332" selection-start-column="40" selection-end-line="332" selection-end-column="40" />
+            <state vertical-scroll-proportion="-13.666667" vertical-offset="4761" max-vertical-offset="12585">
+              <caret line="342" column="12" selection-start-line="342" selection-start-column="12" selection-end-line="342" selection-end-column="12" />
               <folding>
-                <element signature="e#0#26051#0" expanded="true" />
+                <element signature="e#0#26625#0" expanded="true" />
                 <element signature="imports" expanded="true" />
-                <element signature="e#4163#4164#0" expanded="true" />
-                <element signature="e#4193#4194#0" expanded="true" />
-                <element signature="e#5440#5456#0" expanded="true" />
-                <element signature="e#6953#6969#0" expanded="true" />
-                <element signature="e#10393#10401#0" expanded="true" />
+                <element signature="e#4791#4792#0" expanded="true" />
+                <element signature="e#4821#4822#0" expanded="true" />
+                <element signature="e#6068#6084#0" expanded="true" />
+                <element signature="e#7581#7597#0" expanded="true" />
+                <element signature="e#11013#11021#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -238,8 +238,8 @@
         <option value="$PROJECT_DIR$/ResultSetVerification/pom.xml" />
         <option value="$PROJECT_DIR$/CSV2DB/pom.xml" />
         <option value="$PROJECT_DIR$/ResultSetVerification/src/main/java/at/stefanproell/ResultSetVerification/ResultSetHash.java" />
-        <option value="$PROJECT_DIR$/ResultSetVerification/src/main/java/at/stefanproell/ResultSetTestApp.java" />
         <option value="$PROJECT_DIR$/ResultSetVerification/src/main/java/at/stefanproell/ResultSetVerification/ResultSetVerificationAPI.java" />
+        <option value="$PROJECT_DIR$/ResultSetVerification/src/main/java/at/stefanproell/ResultSetTestApp.java" />
       </list>
     </option>
   </component>
@@ -1119,7 +1119,11 @@
       <created>1408789154523</created>
       <updated>1408789154523</updated>
     </task>
-    <option name="localTasksCounter" value="45" />
+    <task id="LOCAL-00045" summary="error during hash calc">
+      <created>1408792413946</created>
+      <updated>1408792413946</updated>
+    </task>
+    <option name="localTasksCounter" value="46" />
     <servers />
   </component>
   <component name="TodoView" selected-index="0">
@@ -1164,7 +1168,7 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2304401" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32673267" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32673267" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3290735" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -1230,7 +1234,8 @@
     <MESSAGE value="passwords removed" />
     <MESSAGE value="README" />
     <MESSAGE value="hash improved" />
-    <option name="LAST_COMMIT_MESSAGE" value="hash improved" />
+    <MESSAGE value="error during hash calc" />
+    <option name="LAST_COMMIT_MESSAGE" value="error during hash calc" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
   <component name="XDebuggerManager">
@@ -1590,14 +1595,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/ResultSetVerification/src/main/java/at/stefanproell/ResultSetTestApp.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="600">
-          <caret line="89" column="0" selection-start-line="89" selection-start-column="0" selection-end-line="89" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar:///opt/java/jdk1.7.0_60/src.zip!/java/security/MessageDigest.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.33272728" vertical-offset="5967" max-vertical-offset="8130">
@@ -1608,17 +1605,25 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/ResultSetVerification/src/main/java/at/stefanproell/ResultSetVerification/ResultSetVerificationAPI.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5334608" vertical-offset="4701" max-vertical-offset="12360">
-          <caret line="332" column="40" selection-start-line="332" selection-start-column="40" selection-end-line="332" selection-end-column="40" />
+        <state vertical-scroll-proportion="-13.666667" vertical-offset="4761" max-vertical-offset="12585">
+          <caret line="342" column="12" selection-start-line="342" selection-start-column="12" selection-end-line="342" selection-end-column="12" />
           <folding>
-            <element signature="e#0#26051#0" expanded="true" />
+            <element signature="e#0#26625#0" expanded="true" />
             <element signature="imports" expanded="true" />
-            <element signature="e#4163#4164#0" expanded="true" />
-            <element signature="e#4193#4194#0" expanded="true" />
-            <element signature="e#5440#5456#0" expanded="true" />
-            <element signature="e#6953#6969#0" expanded="true" />
-            <element signature="e#10393#10401#0" expanded="true" />
+            <element signature="e#4791#4792#0" expanded="true" />
+            <element signature="e#4821#4822#0" expanded="true" />
+            <element signature="e#6068#6084#0" expanded="true" />
+            <element signature="e#7581#7597#0" expanded="true" />
+            <element signature="e#11013#11021#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ResultSetVerification/src/main/java/at/stefanproell/ResultSetTestApp.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.7193606" vertical-offset="0" max-vertical-offset="600">
+          <caret line="107" column="58" selection-start-line="107" selection-start-column="58" selection-end-line="107" selection-end-column="58" />
+          <folding />
         </state>
       </provider>
     </entry>
