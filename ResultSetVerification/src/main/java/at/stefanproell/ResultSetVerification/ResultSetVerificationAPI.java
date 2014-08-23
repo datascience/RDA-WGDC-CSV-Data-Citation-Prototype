@@ -46,6 +46,22 @@
  *    limitations under the License.
  */
 
+/*
+ * Copyright [2014] [Stefan Pröll]
+ *
+ *    Licensed under the Apache License, Version 2.0 (the "License");
+ *    you may not use this file except in compliance with the License.
+ *    You may obtain a copy of the License at
+ *
+ *        http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *    Unless required by applicable law or agreed to in writing, software
+ *    distributed under the License is distributed on an "AS IS" BASIS,
+ *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *    See the License for the specific language governing permissions and
+ *    limitations under the License.
+ */
+
 package at.stefanproell.ResultSetVerification;
 
 import com.sun.rowset.CachedRowSetImpl;
@@ -157,6 +173,12 @@ public class ResultSetVerificationAPI {
 
     }
 
+    /**
+     * Returns a list of all column names
+     *
+     * @param tableName
+     * @return
+     */
     public List<String> getListOfColumnNames(String tableName) {
         Map<String, String> columnMetadataMap = null;
         try {
@@ -164,8 +186,7 @@ public class ResultSetVerificationAPI {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        List<String> listOfColumns = new ArrayList<String>(columnMetadataMap.keySet());
-        return listOfColumns;
+        return new ArrayList<String>(columnMetadataMap.keySet());
 
     }
 
@@ -416,7 +437,7 @@ public class ResultSetVerificationAPI {
         try {
             cached = new CachedRowSetImpl();
             cached.populate(rs);
-            cached.setFetchSize(100);
+            cached.setFetchSize(1000);
             ResultSetMetaData rsmd = rs.getMetaData();
             int columnsNumber = rsmd.getColumnCount();
             this.logger.info("There are " + columnsNumber + " columns in the result set");
@@ -478,27 +499,9 @@ public class ResultSetVerificationAPI {
      *
      * @return
      */
-    public String calculateResultSetHashServerSide(String sqlString) {
+    public String calculateResultSetHashServerSide(ResultSet rs) {
 
-        // dummy SQL
-        // needs to be parsed!
 
-        Connection connection = this.dcp.getConnection();
-        PreparedStatement preparedStatement = null;
-        ResultSet rs = null;
-        try {
-            preparedStatement = connection.prepareStatement(sqlString);
-            rs = preparedStatement.executeQuery();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            if (connection != null) {
-                try {
-                    connection.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
 
             this.logger.info("Resulset row count: " + this.getResultSetRowCount(rs));
 
@@ -520,6 +523,10 @@ public class ResultSetVerificationAPI {
                 this.logger.info("There are " + columnsNumber + " columns in the result set");
                 String newResultSetHash = null;
                 long meanTimeStart = System.currentTimeMillis();
+
+                rs.setFetchSize(1000);
+
+
                 while (rs.next()) {
                     hashCounter++;
                     if (hashCounter % 1000 == 0) {
@@ -543,6 +550,10 @@ public class ResultSetVerificationAPI {
                     } else {
 
                         compositeHash = (resultSetHash + currentHash);
+
+                        // reset the variables in order to reduce overhead
+                        resultSetHash = null;
+                        currentHash= null;
                         newResultSetHash = this.calculateHashFromString(compositeHash, DEFAULT_HASH_ALGORITHM);
                         //this.logger.info("[resultSetHash] "+resultSetHash + "[currentHash] " + currentHash +" ->
                         // [newResultSetHash]" + newResultSetHash );
@@ -570,6 +581,227 @@ public class ResultSetVerificationAPI {
             this.logger.info("Hash is " + resultSetHash);
             return resultSetHash;
 
+    }
+
+    /**
+     * Calculate hash of a result set wich already contains concatenated rows
+     *
+     * @return
+     */
+    public String calculateResultSetHashServerSideConcatenated(ResultSet rs) {
+
+
+        this.logger.info("Resulset row count: " + this.getResultSetRowCount(rs));
+
+
+        String resultSetHash = "";
+        String currentHash = "";
+        String previousKey = "";
+        String compositeHash = "";
+        int hashCounter = 0;
+
+        long startTime = System.currentTimeMillis();
+        //int hashCounter =0;
+
+
+        try {
+
+            ResultSetMetaData rsmd = rs.getMetaData();
+            int columnsNumber = rsmd.getColumnCount();
+            this.logger.info("There are " + columnsNumber + " columns in the result set");
+            String newResultSetHash = null;
+            long meanTimeStart = System.currentTimeMillis();
+
+            rs.setFetchSize(1000);
+
+
+            while (rs.next()) {
+                hashCounter++;
+                if (hashCounter % 1000 == 0) {
+                    long meanTimeStop = System.currentTimeMillis();
+
+                    this.logger.warning("Calculated " + hashCounter + " hashes so far. This batch took " +
+                            (double) (
+                                    (meanTimeStop - meanTimeStart) / 1000) + " seconds");
+
+                    meanTimeStart = System.currentTimeMillis();
+                }
+
+                currentHash += rs.getString(1);
+
+
+                if (rs.isFirst()) {
+
+                    resultSetHash = this.calculateHashFromString(currentHash, DEFAULT_HASH_ALGORITHM);
+
+                } else {
+
+                    compositeHash = (resultSetHash + currentHash);
+
+                    // reset the variables in order to reduce overhead
+                    resultSetHash = null;
+                    currentHash = null;
+                    newResultSetHash = this.calculateHashFromString(compositeHash, DEFAULT_HASH_ALGORITHM);
+                    //this.logger.info("[resultSetHash] "+resultSetHash + "[currentHash] " + currentHash +" ->
+                    // [newResultSetHash]" + newResultSetHash );
+                    resultSetHash = newResultSetHash;
+
+
+                }
+                System.gc();
+            }
+
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (NoSuchAlgorithmException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
         }
+
+        long endTime = System.currentTimeMillis();
+        long totalTime = endTime - startTime;
+        double elapsedTime = (double) (totalTime / 1000);
+
+
+        this.logger.info("Calculated " + hashCounter + " hash values in " + elapsedTime + " sec");
+        this.logger.info("Hash is " + resultSetHash);
+        return resultSetHash;
+
+    }
+
+
+    /**
+     * Performa select * from table on the specified table
+     *
+     * @param tableName
+     * @return
+     */
+    private ResultSet getCompleteResultSetFromTable(String tableName) {
+        Connection connection = this.dcp.getConnection();
+        java.sql.PreparedStatement stmt;
+        ResultSet rs = null;
+        try {
+            stmt = connection.prepareStatement("SELECT * FROM `" + tableName
+                    + "`");
+            rs = stmt.executeQuery();
+            System.out.println("Statement was: " + stmt);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            this.logger.info("Resulset row count: " + this.getResultSetRowCount(rs));
+
+            return rs;
+
+        }
+
+    }
+
+    /**
+     * Get all columns from a table. Same as SELECT * but with all columns specified (performance and security enhanced)
+     *
+     * @param tableName
+     * @return
+     */
+    private ResultSet getCompleteResultSetFromTableWithAllColumns(String tableName) {
+        List<String> columnNames = this.getListOfColumnNames(tableName);
+        // Prepend the table name to all columns
+        String columnNamesAsString = Helpers.commaSeparatedStringWithPrefixAndSuffix(columnNames, tableName + ".", "");
+        Connection connection = this.dcp.getConnection();
+        java.sql.PreparedStatement stmt;
+        ResultSet rs = null;
+
+        try {
+            stmt = connection.prepareStatement("SELECT " + columnNamesAsString + " FROM `" + tableName
+                    + "`");
+            rs = stmt.executeQuery();
+            System.out.println("Statement was: " + stmt);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            this.logger.info("Resulset row count: " + this.getResultSetRowCount(rs));
+
+            return rs;
+
+        }
+    }
+
+    /**
+     * Concatenates all cells per row. Faster variant than delivering the conplete resultset.
+     *
+     * @param tableName
+     * @return
+     */
+    private ResultSet getCompleteResultSetFromTableWithAllColumnsConcatenated(String tableName) {
+        List<String> columnNames = this.getListOfColumnNames(tableName);
+        // Prepend the table name to all columns
+        String columnNamesAsString = Helpers.commaSeparatedStringWithPrefixAndSuffix(columnNames, tableName + ".", "");
+        Connection connection = this.dcp.getConnection();
+        java.sql.PreparedStatement stmt;
+        ResultSet rs = null;
+
+        try {
+            stmt = connection.prepareStatement("SELECT CONCAT(" + columnNamesAsString + ") AS concatenatedvalues FROM `" + tableName
+                    + "`");
+            rs = stmt.executeQuery();
+            System.out.println("Statement was: " + stmt);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            this.logger.info("Resulset row count: " + this.getResultSetRowCount(rs));
+
+            return rs;
+
+        }
+    }
+
+
+    /**
+     * Retrieve the complete result set from a table and all its columns. Calculate the hash of the result set. If the server concatenates the cells of one row and returns concatenated strings, set concatServerSide = true
+     *
+     * @param tableName
+     * @return
+     */
+
+    public String calculateHashFromCompleteTableServerSide(String tableName, boolean concatServerSide) {
+
+        // the server concatenates the cells of one row and returns concatenated strings
+        if (concatServerSide) {
+            ResultSet rs = this.getCompleteResultSetFromTableWithAllColumnsConcatenated(tableName);
+            return this.calculateResultSetHashServerSideConcatenated(rs);
+
+        } else {
+            ResultSet rs = this.getCompleteResultSetFromTableWithAllColumns(tableName);
+            return this.calculateResultSetHashServerSide(rs);
+        }
+
+
     }
 }
