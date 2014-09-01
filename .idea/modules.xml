@@ -2,11 +2,13 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/CSV2DB/CSV2DB.iml" filepath="$PROJECT_DIR$/CSV2DB/CSV2DB.iml" />
+      <module fileurl="file://$PROJECT_DIR$/CSV/CSV.iml" filepath="$PROJECT_DIR$/CSV/CSV.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Database/Database.iml" filepath="$PROJECT_DIR$/Database/Database.iml" />
       <module fileurl="file://$PROJECT_DIR$/PersistentIdentification/PersistentIdentification.iml" filepath="$PROJECT_DIR$/PersistentIdentification/PersistentIdentification.iml" />
       <module fileurl="file://$PROJECT_DIR$/QueryStore/QueryStore.iml" filepath="$PROJECT_DIR$/QueryStore/QueryStore.iml" />
       <module fileurl="file://$PROJECT_DIR$/ResultSetVerification/ResultSetVerification.iml" filepath="$PROJECT_DIR$/ResultSetVerification/ResultSetVerification.iml" />
       <module fileurl="file://$PROJECT_DIR$/SCAPE-QueryStore.iml" filepath="$PROJECT_DIR$/SCAPE-QueryStore.iml" />
+      <module fileurl="file://$PROJECT_DIR$/WebInterface/WebInterface.iml" filepath="$PROJECT_DIR$/WebInterface/WebInterface.iml" />
     </modules>
   </component>
 </project>

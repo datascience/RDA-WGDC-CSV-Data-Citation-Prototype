@@ -22,11 +22,15 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
+        <module name="CSV" />
         <module name="CSV2DB" />
+        <module name="CSVModule" />
+        <module name="Database" />
         <module name="PersistentIdentification" />
         <module name="PersistentIdentifier" />
         <module name="QueryStore" />
         <module name="ResultSetVerification" />
+        <module name="WebInterface" />
       </profile>
     </annotationProcessing>
   </component>

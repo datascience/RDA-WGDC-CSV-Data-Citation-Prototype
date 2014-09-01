@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="Encoding" useUTFGuessing="true" native2AsciiForPropertiesFiles="false">
-    <file url="file://$PROJECT_DIR$/CSV2DB" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/CSV" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/CSVModule" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Database" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/PersistentIdentification" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ResultSetVerification" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/WebInterface" charset="UTF-8" />
   </component>
 </project>
 

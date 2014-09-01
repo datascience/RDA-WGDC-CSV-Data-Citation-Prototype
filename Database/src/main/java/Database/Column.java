@@ -30,38 +30,43 @@
  *    limitations under the License.
  */
 
+package Database;
 
-package at.stefanproell;
+import java.util.logging.Logger;
 
-import at.stefanproell.ResultSetVerification.ResultSetVerificationAPI;
+public class Column {
+    private String columnName;
+    private int maxContentLength = 0;
+    private Logger logger;
 
-import java.sql.ResultSet;
+    public Column(String name, int contentLength) {
+        this.logger = Logger.getLogger(this.getClass().getName());
+        this.logger.info("New column created " + name + "  Length " + contentLength);
+        this.columnName = name;
+        this.maxContentLength = contentLength;
 
-/**
- * Hello world!
- */
-public class ResultSetTestApp {
-    public static void main(String[] args) {
-        System.out.println("Hello World!");
-        ResultSetVerificationAPI api = new ResultSetVerificationAPI();
-        api.calculateCRCofTable("MSD100k");
-        api.getPrimaryKeyFromTable("MSD100k");
-        api.hasAppendedHashColumn("MSD100k");
-
-/*
-        ResultSet testSet = api.executeQuery("SELECT MSD100k.ID_SYSTEM_SEQUENCE, MSD100k.title, " +
-                "MSD100k.artist_name   FROM `CITATION_DB`" +
-                ".`MSD100k` WHERE " +
-                "ID_SYSTEM_SEQUENCE < 500");
-        api.calculateResultSetHashClientSide(testSet, "SHA-1");
-
-*/
-
-
-        api.calculateHashFromCompleteTableServerSide("MSD10k", true);
-
-        //api.calculateHashFromCompleteTableServerSide("MSD10k", false);
-        System.exit(0);
 
     }
+
+    public String getColumnName() {
+        return columnName;
+    }
+
+    public void setColumnName(String columnName) {
+        this.columnName = columnName;
+    }
+
+    public int getMaxContentLength() {
+        return maxContentLength;
+    }
+
+    public void setMaxContentLength(int maxContentLength) {
+        if (this.maxContentLength == 0) {
+            this.maxContentLength = maxContentLength;
+        } else if (this.maxContentLength < maxContentLength) {
+            this.maxContentLength = maxContentLength + 1;
+        }
+
+    }
+
 }

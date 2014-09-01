@@ -30,38 +30,43 @@
  *    limitations under the License.
  */
 
-
-package at.stefanproell;
-
-import at.stefanproell.ResultSetVerification.ResultSetVerificationAPI;
-
-import java.sql.ResultSet;
+package JSON;
 
 /**
- * Hello world!
+ * The JSONException is thrown by the JSON.org classes when things are amiss.
+ *
+ * @author JSON.org
+ * @version 2013-02-10
  */
-public class ResultSetTestApp {
-    public static void main(String[] args) {
-        System.out.println("Hello World!");
-        ResultSetVerificationAPI api = new ResultSetVerificationAPI();
-        api.calculateCRCofTable("MSD100k");
-        api.getPrimaryKeyFromTable("MSD100k");
-        api.hasAppendedHashColumn("MSD100k");
+public class JSONException extends RuntimeException {
+    private static final long serialVersionUID = 0;
+    private Throwable cause;
 
-/*
-        ResultSet testSet = api.executeQuery("SELECT MSD100k.ID_SYSTEM_SEQUENCE, MSD100k.title, " +
-                "MSD100k.artist_name   FROM `CITATION_DB`" +
-                ".`MSD100k` WHERE " +
-                "ID_SYSTEM_SEQUENCE < 500");
-        api.calculateResultSetHashClientSide(testSet, "SHA-1");
+    /**
+     * Constructs a JSONException with an explanatory message.
+     *
+     * @param message Detail about the reason for the exception.
+     */
+    public JSONException(String message) {
+        super(message);
+    }
 
-*/
+    /**
+     * Constructs a new JSONException with the specified cause.
+     */
+    public JSONException(Throwable cause) {
+        super(cause.getMessage());
+        this.cause = cause;
+    }
 
-
-        api.calculateHashFromCompleteTableServerSide("MSD10k", true);
-
-        //api.calculateHashFromCompleteTableServerSide("MSD10k", false);
-        System.exit(0);
-
+    /**
+     * Returns the cause of this exception or null if the cause is nonexistent
+     * or unknown.
+     *
+     * @returns the cause of this exception or null if the cause is nonexistent
+     * or unknown.
+     */
+    public Throwable getCause() {
+        return this.cause;
     }
 }
