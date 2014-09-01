@@ -4,41 +4,21 @@
     <option name="SCOPE_TYPE" value="4" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fe0bbad9-08dd-49cf-9f33-eb5e1947ea1f" name="Default" comment="hasing">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/CSV/CSV.iml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/CSV/src/main/java/CSV/CSVHelper.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Database/src/main/java/Database/Column.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/WebInterface/src/main/java/WebInterface/DataTableHelpers/DataTablesParamUtility.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Database/Database.iml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/WebInterface/src/main/java/WebInterface/DataTableHelpers/JQueryDataTableParamModel.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Database/src/main/java/JSON/JSONArray.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Database/src/main/java/JSON/JSONException.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Database/src/main/java/JSON/JSONObject.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Database/src/main/java/JSON/JSONString.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Database/src/main/java/JSON/JSONStringer.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Database/src/main/java/JSON/JSONTokener.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Database/src/main/java/JSON/JSONWriter.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_google_code_gson_gson_2_2_4.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__net_sf_supercsv_super_csv_2_2_0.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Database/src/main/java/Database/MigrateCSV2SQL.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Database/src/main/java/Database/ResultSetConverter.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Database/src/main/java/Database/TableDataOperations.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/WebInterface/src/main/java/WebInterface/DataTableHelpers/TableMetadata.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/CSV/pom.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Database/pom.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/WebInterface/pom.xml" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/CSV2DB/pom.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/CSV2DB/src/main/java/at/stefanproell/App.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/CSV2DB/src/test/java/at/stefanproell/AppTest.java" afterPath="" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/CSV2DB/CSV2DB.iml" afterPath="$PROJECT_DIR$/WebInterface/WebInterface.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ResultSetVerification/SQL-Scripts/ResultSetHash.sql" afterPath="$PROJECT_DIR$/ResultSetVerification/SQL-Scripts/ResultSetHash.sql" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ResultSetVerification/src/main/java/at/stefanproell/ResultSetTestApp.java" afterPath="$PROJECT_DIR$/ResultSetVerification/src/main/java/at/stefanproell/ResultSetTestApp.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/SCAPE-QueryStore.iml" afterPath="$PROJECT_DIR$/SCAPE-QueryStore.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/compiler.xml" afterPath="$PROJECT_DIR$/.idea/compiler.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/encodings.xml" afterPath="$PROJECT_DIR$/.idea/encodings.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/modules.xml" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/QueryStore/pom.xml" afterPath="$PROJECT_DIR$/QueryStore/pom.xml" />
+    <list default="true" id="fe0bbad9-08dd-49cf-9f33-eb5e1947ea1f" name="Default" comment="database operations and other classes included">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__javax_el_el_api_2_2.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__javax_servlet_jstl_1_2.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_tomcat_embed_tomcat_embed_core_7_0_37.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_glassfish_web_el_impl_2_2.xml" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/Database/src/main/java/Database/Column.java" afterPath="$PROJECT_DIR$/CSV/src/main/java/CSV/Column.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CSV/src/main/java/CSV/CSVHelper.java" afterPath="$PROJECT_DIR$/CSV/src/main/java/CSV/CSVHelper.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/WebInterface/src/main/java/WebInterface/DataTableHelpers/DataTablesParamUtility.java" afterPath="$PROJECT_DIR$/WebInterface/src/main/java/WebInterface/DataTableHelpers/DataTablesParamUtility.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/WebInterface/src/main/java/WebInterface/DataTableHelpers/JQueryDataTableParamModel.java" afterPath="$PROJECT_DIR$/WebInterface/src/main/java/WebInterface/DataTableHelpers/JQueryDataTableParamModel.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Database/src/main/java/JSON/JSONStringer.java" afterPath="$PROJECT_DIR$/Database/src/main/java/JSON/JSONStringer.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Database/src/main/java/JSON/JSONWriter.java" afterPath="$PROJECT_DIR$/Database/src/main/java/JSON/JSONWriter.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Database/src/main/java/Database/MigrateCSV2SQL.java" afterPath="$PROJECT_DIR$/Database/src/main/java/Database/MigrateCSV2SQL.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Database/src/main/java/Database/TableDataOperations.java" afterPath="$PROJECT_DIR$/Database/src/main/java/Database/TableDataOperations.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/WebInterface/src/main/java/WebInterface/DataTableHelpers/TableMetadata.java" afterPath="$PROJECT_DIR$/WebInterface/src/main/java/WebInterface/DataTableHelpers/TableMetadata.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/WebInterface/WebInterface.iml" afterPath="$PROJECT_DIR$/WebInterface/WebInterface.iml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="SCAPE-QueryStore.iws" />
@@ -114,16 +94,22 @@
       <file leaf-file-name="CSVHelper.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/CSV/src/main/java/CSV/CSVHelper.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="29" column="2" selection-start="1032" selection-end="1032" vertical-scroll-proportion="-8.333333" vertical-offset="0" max-vertical-offset="7005">
-              <folding />
+            <state line="349" column="11" selection-start="11061" selection-end="11061" vertical-scroll-proportion="-10.074074" vertical-offset="4963" max-vertical-offset="7335">
+              <folding>
+                <element signature="e#0#15282#0" expanded="true" />
+                <element signature="imports" expanded="true" />
+                <element signature="e#11424#11432#0" expanded="true" />
+                <element signature="e#12134#12155#0" expanded="true" />
+                <element signature="e#13303#13311#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file leaf-file-name="Column.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Database/src/main/java/Database/Column.java">
+        <entry file="file://$PROJECT_DIR$/CSV/src/main/java/CSV/Column.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="45" column="0" selection-start="1401" selection-end="1401" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="570">
+            <state line="65" column="0" selection-start="2117" selection-end="2117" vertical-scroll-proportion="0.0" vertical-offset="300" max-vertical-offset="870">
               <folding />
             </state>
           </provider>
@@ -132,10 +118,8 @@
       <file leaf-file-name="ResultSetConverter.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Database/src/main/java/Database/ResultSetConverter.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="35" column="25" selection-start="949" selection-end="958" vertical-scroll-proportion="0.0" vertical-offset="89" max-vertical-offset="1515">
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
+            <state line="49" column="27" selection-start="1577" selection-end="1586" vertical-scroll-proportion="0.0" vertical-offset="509" max-vertical-offset="1725">
+              <folding />
             </state>
           </provider>
         </entry>
@@ -143,30 +127,30 @@
       <file leaf-file-name="TableDataOperations.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Database/src/main/java/Database/TableDataOperations.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="374" column="68" selection-start="12238" selection-end="12263" vertical-scroll-proportion="0.0" vertical-offset="6709" max-vertical-offset="7530">
+            <state line="22" column="23" selection-start="722" selection-end="722" vertical-scroll-proportion="0.0" vertical-offset="585" max-vertical-offset="7620">
               <folding>
-                <element signature="imports" expanded="true" />
+                <element signature="e#0#16437#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="pom.xml" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/WebInterface/pom.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="36" column="18" selection-start="1129" selection-end="1129" vertical-scroll-proportion="0.68586385" vertical-offset="147" max-vertical-offset="825">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="TableMetadata.java" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="TableMetadata.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/WebInterface/src/main/java/WebInterface/DataTableHelpers/TableMetadata.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="63" column="54" selection-start="2088" selection-end="2088" vertical-scroll-proportion="0.0" vertical-offset="527" max-vertical-offset="3330">
+            <state line="78" column="17" selection-start="2534" selection-end="2534" vertical-scroll-proportion="-3.5811517" vertical-offset="2772" max-vertical-offset="3345">
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="pom.xml" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/WebInterface/pom.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="52" column="20" selection-start="1863" selection-end="1863" vertical-scroll-proportion="0.0" vertical-offset="387" max-vertical-offset="1065">
+              <folding />
             </state>
           </provider>
         </entry>
@@ -174,7 +158,7 @@
       <file leaf-file-name="DataTablesParamUtility.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/WebInterface/src/main/java/WebInterface/DataTableHelpers/DataTablesParamUtility.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="17" column="0" selection-start="667" selection-end="667" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1230">
+            <state line="33" column="0" selection-start="1295" selection-end="1295" vertical-scroll-proportion="0.0" vertical-offset="1365" max-vertical-offset="1725">
               <folding />
             </state>
           </provider>
@@ -183,7 +167,7 @@
       <file leaf-file-name="JSONStringer.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Database/src/main/java/JSON/JSONStringer.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="76" column="13" selection-start="3143" selection-end="3143" vertical-scroll-proportion="0.0" vertical-offset="739" max-vertical-offset="1320">
+            <state line="93" column="13" selection-start="3777" selection-end="3777" vertical-scroll-proportion="0.0" vertical-offset="994" max-vertical-offset="1590">
               <folding />
             </state>
           </provider>
@@ -192,7 +176,7 @@
       <file leaf-file-name="pom.xml" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Database/pom.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="25" column="39" selection-start="795" selection-end="795" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="645">
+            <state line="41" column="41" selection-start="1509" selection-end="1509" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="885">
               <folding />
             </state>
           </provider>
@@ -201,9 +185,10 @@
       <file leaf-file-name="MigrateCSV2SQL.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Database/src/main/java/Database/MigrateCSV2SQL.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="148" column="52" selection-start="4784" selection-end="4784" vertical-scroll-proportion="0.0" vertical-offset="1759" max-vertical-offset="3840">
+            <state line="166" column="52" selection-start="5463" selection-end="5463" vertical-scroll-proportion="0.0" vertical-offset="2085" max-vertical-offset="4125">
               <folding>
                 <element signature="imports" expanded="true" />
+                <marker date="1409560818207" expanded="true" signature="2310:2645" placeholder="/**...*/" />
               </folding>
             </state>
           </provider>
@@ -263,16 +248,16 @@
         <option value="$PROJECT_DIR$/CSVModule/src/main/java/at/stefanproell/CSV/CSVHelper.java" />
         <option value="$PROJECT_DIR$/QueryStore/pom.xml" />
         <option value="$PROJECT_DIR$/CSVModule/pom.xml" />
-        <option value="$PROJECT_DIR$/CSV/src/main/java/CSV/CSVHelper.java" />
         <option value="$PROJECT_DIR$/CSV/pom.xml" />
         <option value="$PROJECT_DIR$/Database/src/main/java/Database/Column.java" />
         <option value="$PROJECT_DIR$/Database/pom.xml" />
         <option value="$PROJECT_DIR$/Database/src/main/java/Database/MigrateCSV2SQL.java" />
         <option value="$PROJECT_DIR$/Database/src/main/java/JSON/JSONStringer.java" />
         <option value="$PROJECT_DIR$/Database/src/main/java/Database/ResultSetConverter.java" />
+        <option value="$PROJECT_DIR$/WebInterface/pom.xml" />
+        <option value="$PROJECT_DIR$/CSV/src/main/java/CSV/CSVHelper.java" />
         <option value="$PROJECT_DIR$/Database/src/main/java/Database/TableDataOperations.java" />
         <option value="$PROJECT_DIR$/WebInterface/src/main/java/WebInterface/DataTableHelpers/TableMetadata.java" />
-        <option value="$PROJECT_DIR$/WebInterface/pom.xml" />
       </list>
     </option>
   </component>
@@ -712,6 +697,68 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SCAPE-QueryStore" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SCAPE-QueryStore_GitHub" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="CSV" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SCAPE-QueryStore" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SCAPE-QueryStore_GitHub" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="CSV" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SCAPE-QueryStore" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SCAPE-QueryStore_GitHub" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="CSV" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="CSV" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
     </panes>
@@ -776,6 +823,9 @@
       <recent name="$PROJECT_DIR$/Database/src/main/java/Database" />
       <recent name="$PROJECT_DIR$/PersistentIdentification/src/main/resources" />
       <recent name="$PROJECT_DIR$/PersistentIdentification/src/main/java" />
+    </key>
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="CSV" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$" />
@@ -1244,7 +1294,11 @@
       <created>1408027115221</created>
       <updated>1408027115221</updated>
     </task>
-    <option name="localTasksCounter" value="46" />
+    <task id="LOCAL-00046" summary="database operations and other classes included">
+      <created>1409559102824</created>
+      <updated>1409559102824</updated>
+    </task>
+    <option name="localTasksCounter" value="47" />
     <servers />
   </component>
   <component name="TodoView" selected-index="0">
@@ -1269,7 +1323,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-2" y="0" width="1924" height="1057" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3290735" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -1327,7 +1381,8 @@
     <MESSAGE value="passwords removed" />
     <MESSAGE value="README" />
     <MESSAGE value="hasing" />
-    <option name="LAST_COMMIT_MESSAGE" value="hasing" />
+    <MESSAGE value="database operations and other classes included" />
+    <option name="LAST_COMMIT_MESSAGE" value="database operations and other classes included" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
   <component name="XDebuggerManager">
@@ -1553,7 +1608,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state line="23" column="1" selection-start="756" selection-end="756" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="855">
           <folding>
-            <element signature="e#0#1603#0" expanded="true" />
+            <element signature="e#0#2231#0" expanded="true" />
             <element signature="imports" expanded="true" />
           </folding>
         </state>
@@ -1573,81 +1628,86 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/CSV/src/main/java/CSV/CSVHelper.java">
+    <entry file="file://$PROJECT_DIR$/CSV/src/main/java/CSV/Column.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="29" column="2" selection-start="1032" selection-end="1032" vertical-scroll-proportion="-8.333333" vertical-offset="0" max-vertical-offset="7005">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Database/src/main/java/Database/Column.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="45" column="0" selection-start="1401" selection-end="1401" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="570">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Database/pom.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="25" column="39" selection-start="795" selection-end="795" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="645">
+        <state line="65" column="0" selection-start="2117" selection-end="2117" vertical-scroll-proportion="0.0" vertical-offset="300" max-vertical-offset="870">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Database/src/main/java/JSON/JSONStringer.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="76" column="13" selection-start="3143" selection-end="3143" vertical-scroll-proportion="0.0" vertical-offset="739" max-vertical-offset="1320">
+        <state line="93" column="13" selection-start="3777" selection-end="3777" vertical-scroll-proportion="0.0" vertical-offset="994" max-vertical-offset="1590">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Database/src/main/java/Database/MigrateCSV2SQL.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="148" column="52" selection-start="4784" selection-end="4784" vertical-scroll-proportion="0.0" vertical-offset="1759" max-vertical-offset="3840">
+        <state line="166" column="52" selection-start="5463" selection-end="5463" vertical-scroll-proportion="0.0" vertical-offset="2085" max-vertical-offset="4125">
           <folding>
             <element signature="imports" expanded="true" />
+            <marker date="1409560818207" expanded="true" signature="2310:2645" placeholder="/**...*/" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Database/src/main/java/Database/ResultSetConverter.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="35" column="25" selection-start="949" selection-end="958" vertical-scroll-proportion="0.0" vertical-offset="89" max-vertical-offset="1515">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Database/src/main/java/Database/TableDataOperations.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="374" column="68" selection-start="12238" selection-end="12263" vertical-scroll-proportion="0.0" vertical-offset="6709" max-vertical-offset="7530">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/WebInterface/src/main/java/WebInterface/DataTableHelpers/TableMetadata.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="63" column="54" selection-start="2088" selection-end="2088" vertical-scroll-proportion="0.0" vertical-offset="527" max-vertical-offset="3330">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+        <state line="49" column="27" selection-start="1577" selection-end="1586" vertical-scroll-proportion="0.0" vertical-offset="509" max-vertical-offset="1725">
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/WebInterface/src/main/java/WebInterface/DataTableHelpers/DataTablesParamUtility.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="17" column="0" selection-start="667" selection-end="667" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1230">
+        <state line="33" column="0" selection-start="1295" selection-end="1295" vertical-scroll-proportion="0.0" vertical-offset="1365" max-vertical-offset="1725">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/WebInterface/pom.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="36" column="18" selection-start="1129" selection-end="1129" vertical-scroll-proportion="0.68586385" vertical-offset="147" max-vertical-offset="825">
+        <state line="52" column="20" selection-start="1863" selection-end="1863" vertical-scroll-proportion="0.0" vertical-offset="387" max-vertical-offset="1065">
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/CSV/src/main/java/CSV/CSVHelper.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="349" column="11" selection-start="11061" selection-end="11061" vertical-scroll-proportion="-10.074074" vertical-offset="4963" max-vertical-offset="7335">
+          <folding>
+            <element signature="e#0#15282#0" expanded="true" />
+            <element signature="imports" expanded="true" />
+            <element signature="e#11424#11432#0" expanded="true" />
+            <element signature="e#12134#12155#0" expanded="true" />
+            <element signature="e#13303#13311#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Database/src/main/java/Database/TableDataOperations.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="22" column="23" selection-start="722" selection-end="722" vertical-scroll-proportion="0.0" vertical-offset="585" max-vertical-offset="7620">
+          <folding>
+            <element signature="e#0#16437#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Database/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="41" column="41" selection-start="1509" selection-end="1509" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="885">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/WebInterface/src/main/java/WebInterface/DataTableHelpers/TableMetadata.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="78" column="17" selection-start="2534" selection-end="2534" vertical-scroll-proportion="-3.5811517" vertical-offset="2772" max-vertical-offset="3345">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
