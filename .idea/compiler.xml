@@ -22,7 +22,6 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
-        <module name="CSV" />
         <module name="CSV2DB" />
         <module name="CSVModule" />
         <module name="Database" />
