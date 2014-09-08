@@ -31,6 +31,7 @@
         <option value="$PROJECT_DIR$/Database/pom.xml" />
         <option value="$PROJECT_DIR$/WebInterface/pom.xml" />
         <option value="$PROJECT_DIR$/DatatableModel/pom.xml" />
+        <option value="$PROJECT_DIR$/CSVTools/pom.xml" />
       </list>
     </option>
   </component>

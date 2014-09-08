@@ -78,9 +78,27 @@
  *    limitations under the License.
  */
 
+/*
+ * Copyright [2014] [Stefan Pröll]
+ *
+ *    Licensed under the Apache License, Version 2.0 (the "License");
+ *    you may not use this file except in compliance with the License.
+ *    You may obtain a copy of the License at
+ *
+ *        http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *    Unless required by applicable law or agreed to in writing, software
+ *    distributed under the License is distributed on an "AS IS" BASIS,
+ *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *    See the License for the specific language governing permissions and
+ *    limitations under the License.
+ */
+
 package Database;
 
 
+import CSVTools.CSVHelper;
+import CSVTools.Column;
 import org.supercsv.io.CsvListReader;
 import org.supercsv.io.ICsvListReader;
 import org.supercsv.prefs.CsvPreference;
@@ -94,7 +112,9 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.sql.*;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 
 /**
@@ -326,5 +346,57 @@ public class MigrateCSV2SQL {
         java.util.Date today = new java.util.Date();
         return new Date(today.getTime());
     }
+
+    public void CSVmigrationMETHODFROMWebInterface() {
+/*
+
+        boolean calulateHashColumn = false;
+        this.logger.info("Calculate Hash Columns is OFF");
+        // retrieve file names
+        this.filesList = this.getFileListFromSession();
+        System.out.println("Retrieved  " + filesList.size() + " file names");
+
+        //
+        Iterator it = this.filesList.entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry pairs = (Map.Entry) it.next();
+
+            this.logger.info("TableName = " + pairs.getKey().toString() + " Path: " + pairs.getValue().toString());
+
+            CSVHelper csv;
+            csv = new CSVHelper();
+            String currentTableName = csv.replaceSpaceWithDash(pairs.getKey().toString());
+            String currentPath = pairs.getValue().toString();
+            // Read headers
+            String[] headers = csv.getArrayOfHeadersCSV(currentPath);
+            try {
+                csv.readWithCsvListReaderAsStrings(currentPath);
+                // get column metadata
+                Column[] meta = csv.analyseColumns(true, currentPath);
+                // read CSV file
+                csv.readWithCsvListReaderAsStrings(currentPath);
+                MigrateCSV2SQL migrate = new MigrateCSV2SQL();
+                // Create DB schema
+                migrate.createSimpleDBFromCSV(meta, currentTableName, calulateHashColumn);
+                // Import CSV Data
+                migrate.insertCSVDataIntoDB(currentPath, currentTableName, true, calulateHashColumn);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            try {
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+
+            it.remove(); // avoids a ConcurrentModificationException
+        }
+
+*/
+    }
+
 
 }

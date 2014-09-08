@@ -24,6 +24,7 @@
         <processorPath useClasspath="true" />
         <module name="CSV2DB" />
         <module name="CSVModule" />
+        <module name="CSVTools" />
         <module name="Database" />
         <module name="DatatableModel" />
         <module name="PersistentIdentification" />
