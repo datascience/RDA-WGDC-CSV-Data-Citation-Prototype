@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Database/Database.iml" filepath="$PROJECT_DIR$/Database/Database.iml" />
+      <module fileurl="file://$PROJECT_DIR$/DatatableModel/DatatableModel.iml" filepath="$PROJECT_DIR$/DatatableModel/DatatableModel.iml" />
       <module fileurl="file://$PROJECT_DIR$/PersistentIdentification/PersistentIdentification.iml" filepath="$PROJECT_DIR$/PersistentIdentification/PersistentIdentification.iml" />
       <module fileurl="file://$PROJECT_DIR$/QueryStore/QueryStore.iml" filepath="$PROJECT_DIR$/QueryStore/QueryStore.iml" />
       <module fileurl="file://$PROJECT_DIR$/ResultSetVerification/ResultSetVerification.iml" filepath="$PROJECT_DIR$/ResultSetVerification/ResultSetVerification.iml" />

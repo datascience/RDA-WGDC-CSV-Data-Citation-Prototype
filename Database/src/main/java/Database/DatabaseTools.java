@@ -46,11 +46,24 @@
  *    limitations under the License.
  */
 
+/*
+ * Copyright [2014] [Stefan Pröll]
+ *
+ *    Licensed under the Apache License, Version 2.0 (the "License");
+ *    you may not use this file except in compliance with the License.
+ *    You may obtain a copy of the License at
+ *
+ *        http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *    Unless required by applicable law or agreed to in writing, software
+ *    distributed under the License is distributed on an "AS IS" BASIS,
+ *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *    See the License for the specific language governing permissions and
+ *    limitations under the License.
+ */
+
 package Database;
 
-import JSON.JSONArray;
-import JSON.JSONException;
-import JSON.JSONObject;
 
 import com.sun.rowset.CachedRowSetImpl;
 import org.supercsv.io.CsvListReader;
@@ -100,7 +113,7 @@ public class DatabaseTools {
     public DatabaseTools(String dataBaseName) {
         this.logger = Logger.getLogger(this.getClass().getName());
         /*
-		 * // start the TCP Server try {
+         * // start the TCP Server try {
 		 *
 		 * Server server = Server.createTcpServer().start(); } catch
 		 * (SQLException e) { // TODO Auto-generated catch block
@@ -158,7 +171,8 @@ public class DatabaseTools {
 
         stat = connection.createStatement();
 
-        CSVHelper csv = new CSVHelper();
+        CSVHelper csv;
+        csv = new CSVHelper();
         String headersSQL = null;
         headersSQL = csv.getHeadersOfCSV(csvFileName);
 
@@ -339,13 +353,13 @@ public class DatabaseTools {
         }
 
     }
-
-    /**
+/*
+    *//**
      * @param rs
      * @return
      * @throws JSONException
-     * @throws SQLException  Provides the table data as JSON
-     */
+     * @throws SQLException  Provides the table data as DatatableModel.JSON
+     *//*
     public String getJSON(CachedRowSet rs, JQueryDataTableParamModel param)
             throws JSONException, SQLException {
 
@@ -361,14 +375,14 @@ public class DatabaseTools {
         jsonObject.put("aaData", aaDataJSONArray);
 
         String prettyJSON = jsonObject.toString(4);
-        // this.logger.warning("JSON: " + prettyJSON);
+        // this.logger.warning("DatatableModel.JSON: " + prettyJSON);
 
         // https://stackoverflow.com/questions/14258640/hash-map-array-list-to-json-array-in-android
         return prettyJSON;
 
-    }
+    }*/
 
-    public String getJSON(CachedRowSet rs) throws JSONException, SQLException {
+/*    public static String getJSON(CachedRowSet rs) throws JSONException, SQLException {
 
         JSONObject jsonObject = new JSONObject();
         ResultSetConverter rsc = new ResultSetConverter();
@@ -382,7 +396,7 @@ public class DatabaseTools {
         // https://stackoverflow.com/questions/14258640/hash-map-array-list-to-json-array-in-android
         return prettyJSON;
 
-    }
+    }*/
 
 	/*
 	 * public void close() throws SQLException { this.connection.close();
@@ -476,7 +490,8 @@ public class DatabaseTools {
                     + ") ";
 
         }
-        createTableString += ", INSERT_DATE TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP, LAST_UPDATE TIMESTAMP DEFAULT 0 ";
+        createTableString += ", INSERT_DATE TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP, " +
+                "LAST_UPDATE TIMESTAMP DEFAULT 0 ";
 
         // If hash key should be computed during
         if (calculateHashKeyColumn) {
@@ -501,7 +516,8 @@ public class DatabaseTools {
     }
 
     public void insertCSVDataIntoDB(String path, String tableName,
-                                    boolean hasHeaders, boolean calculateHashKeyColumn) throws IOException, SQLException {
+                                    boolean hasHeaders, boolean calculateHashKeyColumn) throws IOException,
+            SQLException {
 
         Connection connection = this.getConnection();
         if (connection.getAutoCommit()) {
@@ -880,14 +896,16 @@ public class DatabaseTools {
 						if(cached.next()){
 							compositeKey = currentKey + previousKey;
 							resultSetHash = csvHelper.calculateSHA1HashFromString(compositeKey);
-							this.logger.info("Appended Hash " + previousKey + " to hash " + currentKey + " and calulated " + resultSetHash);
+							this.logger.info("Appended Hash " + previousKey + " to hash " + currentKey + " and
+							calulated " + resultSetHash);
 
 						}
 					}*/
 
                     compositeHash = (resultSetHash + currentHash);
                     newResultSetHash = csvHelper.calculateSHA1HashFromString(compositeHash);
-                    //this.logger.info("[resultSetHash] "+resultSetHash + "[currentHash] " + currentHash +" -> [newResultSetHash]" + newResultSetHash );
+                    //this.logger.info("[resultSetHash] "+resultSetHash + "[currentHash] " + currentHash +" ->
+                    // [newResultSetHash]" + newResultSetHash );
                     resultSetHash = newResultSetHash;
 
 

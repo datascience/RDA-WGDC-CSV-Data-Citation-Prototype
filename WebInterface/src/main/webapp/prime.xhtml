@@ -1,0 +1,164 @@
+<!--
+  ~ Copyright [2014] [Stefan Pröll]
+  ~
+  ~    Licensed under the Apache License, Version 2.0 (the "License");
+  ~    you may not use this file except in compliance with the License.
+  ~    You may obtain a copy of the License at
+  ~
+  ~        http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~    Unless required by applicable law or agreed to in writing, software
+  ~    distributed under the License is distributed on an "AS IS" BASIS,
+  ~    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~    See the License for the specific language governing permissions and
+  ~    limitations under the License.
+  -->
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+
+
+</h:head>
+
+<h:body>
+
+    <script type="text/javascript">
+    $(function() {
+        $('#tbllocal').puidatatable({
+            caption: 'Local Datasource',
+            paginator: {
+                rows: 5
+            },
+            columns: [
+                {field:'vin', headerText: 'Vin', sortable:true},
+                {field:'brand', headerText: 'Brand', sortable:true},
+                {field:'year', headerText: 'Year', sortable:true},
+                {field:'color', headerText: 'Color', sortable:true}
+            ],
+            datasource: [
+                {'brand':'Volkswagen','year': 2012, 'color':'White', 'vin':'dsad231ff'},
+                {'brand':'Audi','year': 2011, 'color':'Black', 'vin':'gwregre345'},
+                {'brand':'Renault','year': 2005, 'color':'Gray', 'vin':'h354htr'},
+                {'brand':'Bmw','year': 2003, 'color':'Blue', 'vin':'j6w54qgh'},
+                {'brand':'Mercedes','year': 1995, 'color':'White', 'vin':'hrtwy34'},
+                {'brand':'Opel','year': 2005, 'color':'Black', 'vin':'jejtyj'},
+                {'brand':'Honda','year': 2012, 'color':'Yellow', 'vin':'g43gr'},
+                {'brand':'Chevrolet','year': 2013, 'color':'White', 'vin':'greg34'},
+                {'brand':'Opel','year': 2000, 'color':'Black', 'vin':'h54hw5'},
+                {'brand':'Mazda','year': 2013, 'color':'Red', 'vin':'245t2s'}
+            ],
+            selectionMode: 'single',
+            rowSelect: function(event, data) {
+                $('#messages').puigrowl('show', [{severity:'info', summary: 'Row Selected', detail: (data.brand + ' ' + data.vin)}]);
+            },
+            rowUnselect: function(event, data) {
+                $('#messages').puigrowl('show', [{severity:'info', summary: 'Row Unselected', detail: (data.brand + ' ' + data.vin)}]);
+            }
+        });
+
+        $('#tblremoteeager').puidatatable({
+            caption: 'Remote Restful Webservice',
+            paginator: {
+                rows: 5
+            },
+            columns: [
+                {field:'vin', headerText: 'Vin', sortable:true},
+                {field:'brand', headerText: 'Brand', sortable:true},
+                {field:'year', headerText: 'Year', sortable:true},
+                {field:'color', headerText: 'Color', sortable:true}
+            ],
+            datasource: function(callback) {
+                $.ajax({
+                    type: "GET",
+                    url: 'rest/cars/list',
+                    dataType: "json",
+                    context: this,
+                    success: function(response) {
+                        callback.call(this, response);
+                    }
+                });
+            },
+            selectionMode: 'multiple',
+            rowSelect: function(event, data) {
+                $('#messages').puigrowl('show', [{severity:'info', summary: 'Row Selected', detail: (data.brand + ' ' + data.vin)}]);
+            },
+            rowUnselect: function(event, data) {
+                $('#messages').puigrowl('show', [{severity:'info', summary: 'Row Unselected', detail: (data.brand + ' ' + data.vin)}]);
+            }
+        });
+
+        $('#tblremotelazy').puidatatable({
+            lazy: true,
+            caption: 'Remote Restful Webservice - Lazy',
+            paginator: {
+                rows: 5,
+                totalRecords: 200
+            },
+            columns: [
+                {field:'vin', headerText: 'Vin', sortable:true},
+                {field:'brand', headerText: 'Brand', sortable:true},
+                {field:'year', headerText: 'Year', sortable:true},
+                {field:'color', headerText: 'Color', sortable:true}
+            ],
+            datasource: function(callback, ui) {
+                var uri = 'rest/cars/lazylist/' + ui.first;
+                if(ui.sortField) {
+                    uri += '/' + ui.sortField + '/' + ui.sortOrder;
+                }
+
+                $.ajax({
+                    type: "GET",
+                    url: uri,
+                    dataType: "json",
+                    context: this,
+                    success: function(response) {
+                        callback.call(this, response);
+                    }
+                });
+            }
+        });
+
+        $('#tblscrollable').puidatatable({
+                    caption: 'Scrollable',
+                    scrollable: true,
+                    scrollHeight: '200',
+                    scrollWidth: '75%',
+                    columns: [
+                        {field:'vin', headerText: 'Vin'},
+                        {field:'brand', headerText: 'Brand'},
+                        {field:'year', headerText: 'Year'},
+                        {field:'color', headerText: 'Color'}
+                    ],
+                    datasource: function(callback) {
+                        $.ajax({
+                            type: "GET",
+                            url: 'rest/cars/list',
+                            dataType: "json",
+                            context: this,
+                            success: function(response) {
+                                callback.call(this, response);
+                            }
+                        });
+                    }
+                });
+
+        $('#messages').puigrowl();
+    });
+
+    </script>
+    <div id="messages"></div>
+
+    <div id="tbllocal"></div>
+
+    <div id="tblremoteeager"></div>
+
+    <div id="tblremotelazy"></div>
+
+    <div id="tblscrollable"></div>
+
+</h:body>
+</html>

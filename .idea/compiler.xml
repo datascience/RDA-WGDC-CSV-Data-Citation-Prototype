@@ -25,6 +25,7 @@
         <module name="CSV2DB" />
         <module name="CSVModule" />
         <module name="Database" />
+        <module name="DatatableModel" />
         <module name="PersistentIdentification" />
         <module name="PersistentIdentifier" />
         <module name="QueryStore" />
@@ -32,6 +33,9 @@
         <module name="WebInterface" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel target="1.7">
+      <module name="WebInterface" target="1.7" />
+    </bytecodeTargetLevel>
   </component>
 </project>
 
