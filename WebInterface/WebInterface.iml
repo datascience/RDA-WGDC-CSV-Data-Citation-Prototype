@@ -38,9 +38,9 @@
     <orderEntry type="library" name="Maven: org.hibernate:hibernate-envers:4.3.5.Final" level="project" />
     <orderEntry type="library" name="Maven: org.hibernate:hibernate-entitymanager:4.3.5.Final" level="project" />
     <orderEntry type="library" name="Maven: com.google.code.gson:gson:2.2.4" level="project" />
-    <orderEntry type="module" module-name="QueryStore" />
-    <orderEntry type="module" module-name="PersistentIdentification" />
-    <orderEntry type="module" module-name="DatatableModel" />
+    <orderEntry type="module" module-name="DatatableModel" exported="" />
+    <orderEntry type="module" module-name="PersistentIdentification" exported="" />
+    <orderEntry type="module" module-name="QueryStore" exported="" />
   </component>
 </module>
 
