@@ -42,6 +42,7 @@
     <h1>Upload a new CSV data file</h1>
 
     <p>Provide a name first, then upload the file.</p>
+    <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true"/>
     <h:form enctype="multipart/form-data">
         <p:outputLabel value="Database schema"/>
         <h:selectOneMenu id="databaseDropDown" valueChangeListener="#{databaseTableNameBean.handleChangeDatabaseName}"
@@ -75,8 +76,8 @@
     </h:form>
 
     <!-- primary column -->
-
-    <h:form>
+    <p:separator/>
+    <h:form id="primaryKeyForm">
         <p:outputLabel value="Primary key"/>
         <h:selectOneMenu id="primaryKeyDropDown" valueChangeListener="#{fileUploadController.handleChangePrimaryKey}"
                          required="true" value="#{databaseMigrationController.primaryKey}"
@@ -88,14 +89,15 @@
                     listener="#{fileUploadController.updateCSVColumnList}"/>
             <p:ajax update="@this"/>
         </h:selectOneMenu>
-
-        <p:commandButton value="Select primary key."
+        <p:commandButton id="primaryKeyButton" value="Select primary key."
                          action="#{databaseMigrationController.setPrimarKeyAction}">
 
 
         </p:commandButton>
+        <h:message for="primaryKeyButton" id="primaryKeyMessage"/>
 
     </h:form>
+    <p:separator/>
     <h:form>
         <p:commandButton value="Migrate into Database."
                          action="#{databaseMigrationController.migrate}">

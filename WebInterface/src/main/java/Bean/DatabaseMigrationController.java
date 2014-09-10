@@ -49,6 +49,7 @@
 package Bean;
 
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
@@ -161,6 +162,7 @@ public class DatabaseMigrationController implements Serializable {
 
     public void setPrimarKeyAction() {
         this.logger.info("Primary key is " + this.getPrimaryKey());
+        FacesContext.getCurrentInstance().addMessage("primaryKeyform:primaryKeyButton", new FacesMessage("yayyayyay"));
 
     }
 }
