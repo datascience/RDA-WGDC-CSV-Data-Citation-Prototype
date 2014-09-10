@@ -43,11 +43,20 @@
 
     <p>Provide a name first, then upload the file.</p>
     <h:form enctype="multipart/form-data">
+        <p:outputLabel value="Database schema"/>
+        <h:selectOneMenu id="databaseDropDown" valueChangeListener="#{databaseTableNameBean.handleChangeDatabaseName}"
+                         required="true" value="#{databaseTableNameBean.databaseName}"
+                         binding="#{databaseNameDropdown}">
+            <f:selectItems value="#{databaseTableNameBean.databaseNames}"/>
+            <p:ajax update="databaseDropDown"/>
+        </h:selectOneMenu>
+
         <p:outputLabel value="Tablename"/>
         <p:inputText required="true" requiredMessage="The table name is required"
                      value="#{fileUploadController.tableName}">
             <f:ajax event="blur"/>
         </p:inputText>
+
         <p:fileUpload fileUploadListener="#{fileUploadController.handleFileUpload}"
                       mode="advanced" update="messages, dt" auto="true"
                       sizeLimit="100000000"

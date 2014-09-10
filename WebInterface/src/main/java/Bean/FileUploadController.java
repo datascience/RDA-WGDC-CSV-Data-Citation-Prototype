@@ -48,14 +48,18 @@
 
 package Bean;
 
+import Database.DatabaseTools;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
 
+import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ValueChangeEvent;
 import java.io.*;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.logging.Logger;
@@ -71,15 +75,25 @@ public class FileUploadController implements Serializable {
     private String tableName;
     private HashMap<String, String> filesList;
     private List<String> filesListStrings;
-
+    private List<String> databaseNames;
     private String currentSessionType = "";
 
+    public String getDatabaseName() {
+        return databaseName;
+    }
+
+    public void setDatabaseName(String databaseName) {
+        this.databaseName = databaseName;
+    }
+
+    private String databaseName;
+
     public FileUploadController() {
+        this.logger = Logger.getLogger(this.getClass().getName());
         this.filesList = new HashMap<String, String>();
         this.filesListStrings = new ArrayList<String>();
-        this.currentSessionType = getUploadTypeFromSession();
 
-        this.logger = Logger.getLogger(this.getClass().getName());
+        this.currentSessionType = getUploadTypeFromSession();
 
 
     }
@@ -192,11 +206,50 @@ public class FileUploadController implements Serializable {
     private String getUploadTypeFromSession() {
 
         // lesen
-        Map<String, Object> sessionMAP = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
-        String uploadSessionType = (String) sessionMAP.get("uploadSessionType");
-        this.logger.info("Read uploadSessionType... it is a " + uploadSessionType);
+//        Map<String, Object> sessionMAP = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
+        Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
+        String uploadSessionType = params.get("uploadSessionType");
+
+        this.logger.info("request data");
+        for (Map.Entry<String, String> entry : params.entrySet()) {
+            this.logger.info("Key: " + entry.getKey() + "  Value: " + entry.getValue().toString());
+        }
+
 
         return uploadSessionType;
+    }
+
+    @PostConstruct
+    public void init() {
+        this.logger.info("Initializign databasenames");
+        try {
+
+            DatabaseTools dbtools = new DatabaseTools();
+            databaseNames = dbtools.getAvailableDatabases();
+            //databaseNames = new ArrayList<String>();
+            //databaseNames.add("Test hard coedd");
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
+    /**
+     * React on change
+     *
+     * @param event
+     */
+    public void handleChangeTableName(ValueChangeEvent event) {
+        this.logger.info(event.getComponent().toString() + " " + event.toString());
+
+        String selectedDB = event.getNewValue().toString();
+        this.logger.info("Databasename = " + selectedDB);
+
+
     }
 
 
