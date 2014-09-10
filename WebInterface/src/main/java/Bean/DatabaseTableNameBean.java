@@ -78,6 +78,22 @@
  *    limitations under the License.
  */
 
+/*
+ * Copyright [2014] [Stefan Pröll]
+ *
+ *    Licensed under the Apache License, Version 2.0 (the "License");
+ *    you may not use this file except in compliance with the License.
+ *    You may obtain a copy of the License at
+ *
+ *        http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *    Unless required by applicable law or agreed to in writing, software
+ *    distributed under the License is distributed on an "AS IS" BASIS,
+ *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *    See the License for the specific language governing permissions and
+ *    limitations under the License.
+ */
+
 package Bean;
 
 
@@ -88,11 +104,14 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
 import java.io.Serializable;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 
 /**
@@ -147,11 +166,13 @@ public class DatabaseTableNameBean implements Serializable {
     private String tableName;
     private List<String> tableNames;
 
+    private DatabaseTools dbtools;
+
     @PostConstruct
     public void init() {
         try {
 
-            DatabaseTools dbtools = new DatabaseTools();
+            dbtools = new DatabaseTools();
             databaseNames = dbtools.getAvailableDatabases();
             //databaseNames = new ArrayList<String>();
             //databaseNames.add("Test hard coedd");
@@ -170,10 +191,47 @@ public class DatabaseTableNameBean implements Serializable {
      *
      * @param event
      */
-    public void handleChange(ValueChangeEvent event) {
+    public void handleChangeDatabaseName(ValueChangeEvent event) {
         this.logger.info(event.getComponent().toString() + " " + event.toString());
+
         String selectedDB = event.getNewValue().toString();
         this.logger.info("Databasename = " + selectedDB);
+
+        this.storeSessionData("currentDatabaseName", selectedDB);
+
+        this.tableNames = this.dbtools.getAvailableTablesFromDatabase(selectedDB);
+
+
+    }
+
+    /**
+     * React on change
+     *
+     * @param event
+     */
+    public void handleChangeTableName(ValueChangeEvent event) {
+        this.logger.info(event.getComponent().toString() + " " + event.toString());
+
+        String selectedDB = event.getNewValue().toString();
+        this.logger.info("Databasename = " + selectedDB);
+
+        this.storeSessionData("currentDatabaseName", selectedDB);
+
+    }
+
+
+    /**
+     * Store details in session
+     */
+    private void storeSessionData(String key, String value) {
+        System.out.println("Session data function");
+
+
+        Map<String, Object> session = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
+
+        // schreiben
+
+        session.put(key, value);
 
 
     }
