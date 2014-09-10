@@ -138,10 +138,7 @@ import org.supercsv.prefs.CsvPreference;
 import java.io.*;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.logging.Logger;
 
 public class CSVHelper {
@@ -211,6 +208,8 @@ public class CSVHelper {
      * @throws java.io.IOException
      */
     public String[] getArrayOfHeadersCSV(String inFile) {
+
+
         String[] header = null;
         CsvListReader reader;
         try {
@@ -229,8 +228,35 @@ public class CSVHelper {
             e.printStackTrace();
         }
 
-
+        this.logger.info("There are " + header.length + " headers");
+        this.printArray(header);
         return header;
+
+    }
+
+    public void printArray(String[] array) {
+        for (int i = 0; i < array.length; i++) {
+            this.logger.info(array[i]);
+        }
+
+    }
+
+    /**
+     * Get the headers as List
+     * @param inFile
+     * @return
+     */
+    public List<String> getListOfHeadersCSV(String inFile) {
+
+
+        List<String> headersList = new ArrayList<>();
+        String[] headerArray = this.getArrayOfHeadersCSV(inFile);
+        for (String columnHeader : headerArray) {
+            headersList.add(columnHeader);
+            this.logger.info("Added " + columnHeader + " size is now " + headersList.size());
+        }
+        return headersList;
+
 
     }
 
@@ -243,17 +269,19 @@ public class CSVHelper {
      */
     private String[] replaceSpaceWithDash(String[] headers) {
         String[] headersWithNoSpaces = headers;
-        System.out.println("replace epaces in " + headers.length + "headers ");
+        System.out.println("replace spaces in " + headers.length + " headers ");
 
         for (int i = 0; i < headers.length; i++) {
 
             //TODO check the regular expression for table headers
             if (headers[i] != "") {
-                System.out.println("Header: " + headers[i]);
-                String regex = "[-\\w._+%]";
+                // System.out.println("Header: " + headers[i]);
+                // String regex = "[-\\w._+%]";
 
-                headersWithNoSpaces[i] = headers[i].replaceAll(regex, "_");
-
+                // headersWithNoSpaces[i] = headers[i].replaceAll(regex, "_");
+                headersWithNoSpaces[i] = headers[i].replaceAll("\\s", "_");
+                //TODO dummy test
+                //headersWithNoSpaces[i] = headers[i];
 
             }
         }

@@ -65,11 +65,36 @@
             <p:column>
                 #{filename}
             </p:column>
+
         </p:dataTable>
 
 
         <p:growl id="messages" showDetail="true"/>
         <f:attribute name="uploadSessionType" value="newCSV"/>
+
+    </h:form>
+
+    <!-- primary column -->
+
+    <h:form>
+        <p:outputLabel value="Primary key"/>
+        <h:selectOneMenu id="primaryKeyDropDown" valueChangeListener="#{fileUploadController.handleChangePrimaryKey}"
+                         required="true" value="#{databaseMigrationController.primaryKey}"
+                         binding="#{primaryKeyDropDown}">
+            <f:selectItems value="#{fileUploadController.CSVcolumnNames}"/>
+
+            <f:ajax event="click"
+                    render="primaryKeyDropDown"
+                    listener="#{fileUploadController.updateCSVColumnList}"/>
+            <p:ajax update="@this"/>
+        </h:selectOneMenu>
+
+        <p:commandButton value="Select primary key."
+                         action="#{databaseMigrationController.setPrimarKeyAction}">
+
+
+        </p:commandButton>
+
     </h:form>
     <h:form>
         <p:commandButton value="Migrate into Database."

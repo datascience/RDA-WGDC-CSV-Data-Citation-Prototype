@@ -76,6 +76,16 @@ public class DatabaseMigrationController implements Serializable {
     private HashMap<String, String> filesList;
     private Logger logger;
 
+    private String primaryKey;
+
+    public String getPrimaryKey() {
+        return primaryKey;
+    }
+
+    public void setPrimaryKey(String primaryKey) {
+        this.primaryKey = primaryKey;
+    }
+
     public DatabaseMigrationController() {
 
         this.logger = Logger.getLogger(this.getClass().getName());
@@ -146,6 +156,11 @@ public class DatabaseMigrationController implements Serializable {
 
 
         return con;
+
+    }
+
+    public void setPrimarKeyAction() {
+        this.logger.info("Primary key is " + this.getPrimaryKey());
 
     }
 }

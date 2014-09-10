@@ -1,51 +1,3 @@
-<!--
-  ~ Copyright [2014] [Stefan Pröll]
-  ~
-  ~    Licensed under the Apache License, Version 2.0 (the "License");
-  ~    you may not use this file except in compliance with the License.
-  ~    You may obtain a copy of the License at
-  ~
-  ~        http://www.apache.org/licenses/LICENSE-2.0
-  ~
-  ~    Unless required by applicable law or agreed to in writing, software
-  ~    distributed under the License is distributed on an "AS IS" BASIS,
-  ~    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  ~    See the License for the specific language governing permissions and
-  ~    limitations under the License.
-  -->
-
-<!--
-  ~ Copyright [2014] [Stefan Pröll]
-  ~
-  ~    Licensed under the Apache License, Version 2.0 (the "License");
-  ~    you may not use this file except in compliance with the License.
-  ~    You may obtain a copy of the License at
-  ~
-  ~        http://www.apache.org/licenses/LICENSE-2.0
-  ~
-  ~    Unless required by applicable law or agreed to in writing, software
-  ~    distributed under the License is distributed on an "AS IS" BASIS,
-  ~    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  ~    See the License for the specific language governing permissions and
-  ~    limitations under the License.
-  -->
-
-<!--
-  ~ Copyright [2014] [Stefan Pröll]
-  ~
-  ~    Licensed under the Apache License, Version 2.0 (the "License");
-  ~    you may not use this file except in compliance with the License.
-  ~    You may obtain a copy of the License at
-  ~
-  ~        http://www.apache.org/licenses/LICENSE-2.0
-  ~
-  ~    Unless required by applicable law or agreed to in writing, software
-  ~    distributed under the License is distributed on an "AS IS" BASIS,
-  ~    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  ~    See the License for the specific language governing permissions and
-  ~    limitations under the License.
-  -->
-
 <html xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:p="http://primefaces.org/ui"
@@ -55,18 +7,50 @@
 <h:head></h:head>
 
 <h:body>
-    <h1>Append new data to an existing table</h1>
-    You can upload an updated version of the data. There are three options available. You can either re-upload a CSV
-    file which was change locally, upload a fiel which contains only changed records or you can provide a file with
-    new records only.
+    <h1>Update existing data with a new CSV file</h1>
+    You can upload an updated version of the data. Select the database and the appropriate table first.
 
-    <p>Provide a name first, then upload the file. </p>
-    <h:form>
-        <h:selectOneMenu id="databaseDropDown" valueChangeListener="#{databaseTableNameBean.handleChange}"
-                         required="true" value="#{databaseTableNameBean.databaseName}">
+
+    <h1>Upload a new CSV data file</h1>
+
+    <p>Provide a name first, then upload the file.</p>
+    <h:form enctype="multipart/form-data">
+        <h:selectOneMenu id="databaseDropDown" valueChangeListener="#{databaseTableNameBean.handleChangeDatabaseName}"
+                         required="true" value="#{databaseTableNameBean.databaseName}"
+                         binding="#{databaseNameDropdown}">
             <f:selectItems value="#{databaseTableNameBean.databaseNames}"/>
+            <p:ajax update="tableDropDown"/>
+        </h:selectOneMenu>
+        <h:selectOneMenu id="tableDropDown" valueChangeListener="#{databaseTableNameBean.handleChangeTableName}"
+                         required="#{not empty param[databaseTableNameBean.databaseNames]}"
+                         value="#{databaseTableNameBean.tableName}">
+            <f:selectItems value="#{databaseTableNameBean.tableNames}"/>
             <p:ajax update="@this"/>
         </h:selectOneMenu>
+
+        <p:fileUpload fileUploadListener="#{fileUploadController.handleFileUpload}"
+                      mode="advanced" update="messages, dt" auto="true"
+                      sizeLimit="100000000"
+                      allowTypes="/(\.|\/)(csv|txt)$/"/>
+        <p:dataTable id="dt" var="filename" value="#{fileUploadController.filesListStrings}">
+            <p:column>
+                #{filename}
+            </p:column>
+        </p:dataTable>
+
+
+        <p:growl id="messages" showDetail="true"/>
+        <f:attribute name="uploadSessionType" value="newCSV"/>
     </h:form>
+    <h:form>
+        <p:commandButton value="Migrate into Database."
+                         action="#{databaseMigrationController.migrate}">
+
+
+        </p:commandButton>
+        <p:commandButton value="View uploaded data" action="#{databaseMigrationController.viewTable}"/>
+    </h:form>
+
+
 </h:body>
 </html>

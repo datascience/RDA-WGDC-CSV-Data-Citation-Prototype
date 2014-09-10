@@ -48,6 +48,7 @@
 
 package Bean;
 
+import CSVTools.CSVHelper;
 import Database.DatabaseTools;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
@@ -73,10 +74,47 @@ import java.util.logging.Logger;
 public class FileUploadController implements Serializable {
     private Logger logger;
     private String tableName;
+
+    public String getCSVcolumnName() {
+        return CSVcolumnName;
+    }
+
+    public void setCSVcolumnName(String CSVcolumnName) {
+        this.CSVcolumnName = CSVcolumnName;
+    }
+
+    public List<String> getCSVcolumnNames() {
+        return CSVcolumnNames;
+    }
+
+    public void setCSVcolumnNames(List<String> CSVcolumnNames) {
+        this.CSVcolumnNames = CSVcolumnNames;
+    }
+
+    public List<String> getDatabaseNames() {
+        return databaseNames;
+    }
+
+    public void setDatabaseNames(List<String> databaseNames) {
+        this.databaseNames = databaseNames;
+    }
+
+    public String getCurrentSessionType() {
+        return currentSessionType;
+    }
+
+    public void setCurrentSessionType(String currentSessionType) {
+        this.currentSessionType = currentSessionType;
+    }
+
     private HashMap<String, String> filesList;
     private List<String> filesListStrings;
     private List<String> databaseNames;
+
+    private String CSVcolumnName;
+    private List<String> CSVcolumnNames;
     private String currentSessionType = "";
+
 
     public String getDatabaseName() {
         return databaseName;
@@ -92,7 +130,6 @@ public class FileUploadController implements Serializable {
         this.logger = Logger.getLogger(this.getClass().getName());
         this.filesList = new HashMap<String, String>();
         this.filesListStrings = new ArrayList<String>();
-
         this.currentSessionType = getUploadTypeFromSession();
 
 
@@ -139,7 +176,7 @@ public class FileUploadController implements Serializable {
 
         this.storeFiles(file);
         this.storeSessionData();
-
+        this.updateCSVColumnList();
     }
 
 
@@ -195,8 +232,6 @@ public class FileUploadController implements Serializable {
         Map<String, Object> sessionMAP = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
         HashMap<String, String> filesList = (HashMap<String, String>) sessionMAP.get("fileListHashMap");
 
-
-        System.out.println("SEEEEEEEEEEEEEESION " + filesList.size() + " table name " + this.tableName);
     }
 
     /**
@@ -251,6 +286,45 @@ public class FileUploadController implements Serializable {
 
 
     }
+
+    /**
+     * React on change of primary key drop down
+     *
+     * @param event
+     */
+    public void handleChangePrimaryKey(ValueChangeEvent event) {
+        this.logger.info(event.getComponent().toString() + " " + event.toString());
+
+        String selectedPrimaryKey = event.getNewValue().toString();
+        this.logger.info("Selected primary key= " + selectedPrimaryKey);
+
+    }
+
+    public void updateCSVColumnList() {
+
+        String path = "";
+        CSVHelper csvHelper = new CSVHelper();
+        Map<String, Object> sessionMAP = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
+        HashMap<String, String> filesList = (HashMap<String, String>) sessionMAP.get("fileListHashMap");
+        List pathList = new ArrayList(this.filesList.values());
+
+        for (int i = 0; i < pathList.size(); i++) {
+            path = pathList.get(i).toString();
+            this.logger.info("Found file paths: " + path);
+            // do stuff here
+        }
+
+        this.logger.info("Path of CSV file: " + path);
+        List<String> columns = csvHelper.getListOfHeadersCSV(path);
+        for (String col : columns) {
+            this.logger.info("Column: " + col);
+        }
+        this.logger.info("Updating columns.... found " + columns.size() + " cols");
+        this.CSVcolumnNames = columns;
+
+    }
+
+
 
 
 }
