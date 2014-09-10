@@ -4,10 +4,11 @@
     <option name="SCOPE_TYPE" value="4" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fe0bbad9-08dd-49cf-9f33-eb5e1947ea1f" name="Default" comment="deployment works">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/WebInterface/src/main/java/Bean/DatabaseTableNameBean.java" afterPath="$PROJECT_DIR$/WebInterface/src/main/java/Bean/DatabaseTableNameBean.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/WebInterface/src/main/webapp/dataselection.xhtml" afterPath="$PROJECT_DIR$/WebInterface/src/main/webapp/dataselection.xhtml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/WebInterface/src/main/webapp/update.xhtml" afterPath="$PROJECT_DIR$/WebInterface/src/main/webapp/update.xhtml" />
+    <list default="true" id="fe0bbad9-08dd-49cf-9f33-eb5e1947ea1f" name="Default" comment="selection works">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/WebInterface/src/main/java/Bean/FileUploadController.java" afterPath="$PROJECT_DIR$/WebInterface/src/main/java/Bean/FileUploadController.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/WebInterface/src/main/java/Bean/UserManager.java" afterPath="$PROJECT_DIR$/WebInterface/src/main/java/Bean/UserManager.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/WebInterface/src/main/webapp/index.xhtml" afterPath="$PROJECT_DIR$/WebInterface/src/main/webapp/index.xhtml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/WebInterface/src/main/webapp/upload.xhtml" afterPath="$PROJECT_DIR$/WebInterface/src/main/webapp/upload.xhtml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="SCAPE-QueryStore.iws" />
@@ -83,16 +84,61 @@
       <file leaf-file-name="update.xhtml" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/WebInterface/src/main/webapp/update.xhtml">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="48" column="0" selection-start="1870" selection-end="1870" vertical-scroll-proportion="-17.416666" vertical-offset="302" max-vertical-offset="915">
+            <state line="64" column="0" selection-start="2515" selection-end="2515" vertical-scroll-proportion="-17.416666" vertical-offset="542" max-vertical-offset="1155">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="dataselection.xhtml" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="dataselection.xhtml" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/WebInterface/src/main/webapp/dataselection.xhtml">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="116" column="61" selection-start="4783" selection-end="4783" vertical-scroll-proportion="0.61538464" vertical-offset="1396" max-vertical-offset="1980">
+            <state line="132" column="74" selection-start="5441" selection-end="5441" vertical-scroll-proportion="-14.333333" vertical-offset="1636" max-vertical-offset="2205">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="upload.xhtml" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/WebInterface/src/main/webapp/upload.xhtml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="51" column="63" selection-start="1959" selection-end="1959" vertical-scroll-proportion="-18.583334" vertical-offset="319" max-vertical-offset="960">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="FileUploadController.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/WebInterface/src/main/java/Bean/FileUploadController.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="62" column="56" selection-start="2098" selection-end="2098" vertical-scroll-proportion="0.0" vertical-offset="1517" max-vertical-offset="2100">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="index.xhtml" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/WebInterface/src/main/webapp/index.xhtml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="35" column="17" selection-start="1153" selection-end="1153" vertical-scroll-proportion="-11.333333" vertical-offset="253" max-vertical-offset="810">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="web.xml" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/WebInterface/src/main/webapp/WEB-INF/web.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="18" column="21" selection-start="778" selection-end="780" vertical-scroll-proportion="-6.814815" vertical-offset="86" max-vertical-offset="840">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="faces-config.xml" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/WebInterface/src/main/webapp/WEB-INF/faces-config.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="52" column="20" selection-start="2118" selection-end="2120" vertical-scroll-proportion="-14.444445" vertical-offset="390" max-vertical-offset="945">
               <folding />
             </state>
           </provider>
@@ -101,19 +147,19 @@
       <file leaf-file-name="DatabaseTableNameBean.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/WebInterface/src/main/java/Bean/DatabaseTableNameBean.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="182" column="64" selection-start="5728" selection-end="5728" vertical-scroll-proportion="0.0" vertical-offset="2342" max-vertical-offset="3225">
+            <state line="127" column="66" selection-start="4516" selection-end="4575" vertical-scroll-proportion="0.0" vertical-offset="1562" max-vertical-offset="3450">
               <folding>
-                <element signature="e#0#6575#0" expanded="true" />
+                <element signature="e#0#7204#0" expanded="true" />
                 <element signature="imports" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="UserManager.java" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="UserManager.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/WebInterface/src/main/java/Bean/UserManager.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="45" column="13" selection-start="1517" selection-end="1517" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="915">
+            <state line="69" column="22" selection-start="2037" selection-end="2037" vertical-scroll-proportion="0.33393502" vertical-offset="235" max-vertical-offset="915">
               <folding />
             </state>
           </provider>
@@ -142,8 +188,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/ResultSetVerification/pom.xml" />
-        <option value="$PROJECT_DIR$/ResultSetVerification/src/main/java/at/stefanproell/App.java" />
         <option value="$PROJECT_DIR$/ResultSetVerification/src/main/java/at/stefanproell/ResultSetVerification/Helpers.java" />
         <option value="$PROJECT_DIR$/ResultSetVerification/src/main/java/at/stefanproell/ResultSetVerification/DataBaseConnectionPool.java" />
         <option value="$PROJECT_DIR$/ResultSetVerification/src/main/java/at/stefanproell/ResultSetVerification/ResultSetHash.java" />
@@ -180,8 +224,6 @@
         <option value="$PROJECT_DIR$/WebInterface/src/main/java/Servlet/DataServlet.java" />
         <option value="$PROJECT_DIR$/QueryStore/pom.xml" />
         <option value="$PROJECT_DIR$/WebInterface/src/main/webapp/WEB-INF/web.xml" />
-        <option value="$PROJECT_DIR$/WebInterface/src/main/webapp/upload.xhtml" />
-        <option value="$PROJECT_DIR$/WebInterface/src/main/webapp/index.xhtml" />
         <option value="$PROJECT_DIR$/Database/src/main/java/Database/DatabaseTools.java" />
         <option value="$PROJECT_DIR$/WebInterface/pom.xml" />
         <option value="$PROJECT_DIR$/Database/src/main/java/Database/DatabaseTestApp.java" />
@@ -193,6 +235,10 @@
         <option value="$PROJECT_DIR$/WebInterface/src/main/webapp/update.xhtml" />
         <option value="$PROJECT_DIR$/WebInterface/src/main/java/Bean/DatabaseTableNameBean.java" />
         <option value="$PROJECT_DIR$/WebInterface/src/main/webapp/dataselection.xhtml" />
+        <option value="$PROJECT_DIR$/WebInterface/src/main/java/Bean/FileUploadController.java" />
+        <option value="$PROJECT_DIR$/WebInterface/src/main/webapp/upload.xhtml" />
+        <option value="$PROJECT_DIR$/WebInterface/src/main/webapp/index.xhtml" />
+        <option value="$PROJECT_DIR$/WebInterface/src/main/java/Bean/UserManager.java" />
       </list>
     </option>
   </component>
@@ -1717,7 +1763,11 @@
       <created>1410275219995</created>
       <updated>1410275219995</updated>
     </task>
-    <option name="localTasksCounter" value="57" />
+    <task id="LOCAL-00057" summary="selection works">
+      <created>1410338601690</created>
+      <updated>1410338601690</updated>
+    </task>
+    <option name="localTasksCounter" value="58" />
     <servers />
   </component>
   <component name="TodoView" selected-index="0">
@@ -1750,23 +1800,23 @@
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Problems" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3365282" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3290735" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3290735" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32800853" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.38977635" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32694355" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3290735" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.23109691" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32837406" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3365282" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3290735" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2489339" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Maven Projects" active="true" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25053304" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25053304" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.23027718" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32694355" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32694355" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32800853" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3365282" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
     </layout>
@@ -1805,7 +1855,8 @@
     <MESSAGE value="dependency problems" />
     <MESSAGE value="dependency problems resolved" />
     <MESSAGE value="deployment works" />
-    <option name="LAST_COMMIT_MESSAGE" value="deployment works" />
+    <MESSAGE value="selection works" />
+    <option name="LAST_COMMIT_MESSAGE" value="selection works" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
   <component name="XDebuggerManager">
@@ -1816,11 +1867,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/DatatableModel/src/main/java/DatatableModel/TableMetadata.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="80" column="0" selection-start="2888" selection-end="2888" vertical-scroll-proportion="0.0" vertical-offset="105" max-vertical-offset="3135" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/QueryStore/src/main/java/QueryStore/Sorting.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="58" column="11" selection-start="1716" selection-end="1716" vertical-scroll-proportion="0.0" vertical-offset="177" max-vertical-offset="930" />
@@ -1866,7 +1912,9 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/WebInterface/src/main/resources/hibernate.cfg.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-1.0191637" vertical-offset="585" max-vertical-offset="1215" />
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-1.0191637" vertical-offset="585" max-vertical-offset="1215">
+          <folding />
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/WebInterface/src/main/webapp/META-INF/context.xml">
@@ -1876,7 +1924,9 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/WebInterface/src/main/java/Servlet/FilterSortingJSONHelper.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="40" column="13" selection-start="1381" selection-end="1381" vertical-scroll-proportion="0.0" vertical-offset="302" max-vertical-offset="885" />
+        <state line="40" column="13" selection-start="1381" selection-end="1381" vertical-scroll-proportion="0.0" vertical-offset="302" max-vertical-offset="885">
+          <folding />
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/WebInterface/src/main/java/Servlet/TableMetaDataServlet.java">
@@ -1888,12 +1938,16 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/WebInterface/src/main/java/Servlet/TestServlet.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="49" column="13" selection-start="1692" selection-end="1692" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1200" />
+        <state line="49" column="13" selection-start="1692" selection-end="1692" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1200">
+          <folding />
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/WebInterface/src/main/java/Servlet/DataServlet.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="93" column="0" selection-start="3129" selection-end="3129" vertical-scroll-proportion="0.0" vertical-offset="511" max-vertical-offset="4590" />
+        <state line="93" column="0" selection-start="3129" selection-end="3129" vertical-scroll-proportion="0.0" vertical-offset="511" max-vertical-offset="4590">
+          <folding />
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/ResultSetVerification/pom.xml">
@@ -1915,26 +1969,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/WebInterface/src/test/java/WebInterface/AppTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="630" />
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="630">
+          <folding />
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/QueryStore/pom.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state line="82" column="0" selection-start="2755" selection-end="2755" vertical-scroll-proportion="0.797075" vertical-offset="794" max-vertical-offset="1350">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/WebInterface/src/main/webapp/WEB-INF/web.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1320">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/WebInterface/src/main/webapp/index.xhtml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="41" column="50" selection-start="1462" selection-end="1462" vertical-scroll-proportion="-15.625" vertical-offset="240" max-vertical-offset="810">
           <folding />
         </state>
       </provider>
@@ -1985,21 +2027,18 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/WebInterface/src/main/webapp/upload.xhtml">
+    <entry file="file://$PROJECT_DIR$/WebInterface/src/main/webapp/table.xhtml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="31" column="50" selection-start="1144" selection-end="1164" vertical-scroll-proportion="-6.0833335" vertical-offset="319" max-vertical-offset="915">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="91.875" vertical-offset="2205" max-vertical-offset="2865">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/WebInterface/src/main/webapp/table.xhtml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="91.875" vertical-offset="2205" max-vertical-offset="2865" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/WebInterface/src/main/webapp/datatables.xhtml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="23.583334" vertical-offset="566" max-vertical-offset="1125" />
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="23.583334" vertical-offset="566" max-vertical-offset="1125">
+          <folding />
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Database/src/main/java/Database/DatabaseTools.java">
@@ -2100,7 +2139,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/WebInterface/src/main/webapp/update.xhtml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="48" column="0" selection-start="1870" selection-end="1870" vertical-scroll-proportion="-17.416666" vertical-offset="302" max-vertical-offset="915">
+        <state line="64" column="0" selection-start="2515" selection-end="2515" vertical-scroll-proportion="-17.416666" vertical-offset="542" max-vertical-offset="1155">
           <folding />
         </state>
       </provider>
@@ -2119,13 +2158,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/WebInterface/src/main/java/Bean/UserManager.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="45" column="13" selection-start="1517" selection-end="1517" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="915">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/WebInterface/src/main/java/Bean/DatabaseMigrationController.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="52" column="28" selection-start="1961" selection-end="1965" vertical-scroll-proportion="-3.3333333" vertical-offset="0" max-vertical-offset="1665">
@@ -2133,26 +2165,61 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/WebInterface/src/main/java/Bean/FileUploadController.java">
+    <entry file="file://$PROJECT_DIR$/WebInterface/src/main/webapp/dataselection.xhtml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="142" column="5" selection-start="4314" selection-end="4314" vertical-scroll-proportion="-5.7777777" vertical-offset="1209" max-vertical-offset="1785">
+        <state line="132" column="74" selection-start="5441" selection-end="5441" vertical-scroll-proportion="-14.333333" vertical-offset="1636" max-vertical-offset="2205">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/WebInterface/src/main/java/Bean/DatabaseTableNameBean.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="182" column="64" selection-start="5728" selection-end="5728" vertical-scroll-proportion="0.0" vertical-offset="2342" max-vertical-offset="3225">
+        <state line="127" column="66" selection-start="4516" selection-end="4575" vertical-scroll-proportion="0.0" vertical-offset="1562" max-vertical-offset="3450">
           <folding>
-            <element signature="e#0#6575#0" expanded="true" />
+            <element signature="e#0#7204#0" expanded="true" />
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/WebInterface/src/main/webapp/dataselection.xhtml">
+    <entry file="file://$PROJECT_DIR$/WebInterface/src/main/webapp/upload.xhtml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="116" column="61" selection-start="4783" selection-end="4783" vertical-scroll-proportion="0.61538464" vertical-offset="1396" max-vertical-offset="1980">
+        <state line="51" column="63" selection-start="1959" selection-end="1959" vertical-scroll-proportion="-18.583334" vertical-offset="319" max-vertical-offset="960">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/WebInterface/src/main/java/Bean/FileUploadController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="62" column="56" selection-start="2098" selection-end="2098" vertical-scroll-proportion="0.0" vertical-offset="1517" max-vertical-offset="2100">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/WebInterface/src/main/webapp/index.xhtml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="35" column="17" selection-start="1153" selection-end="1153" vertical-scroll-proportion="-11.333333" vertical-offset="253" max-vertical-offset="810">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/WebInterface/src/main/webapp/WEB-INF/web.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="18" column="21" selection-start="778" selection-end="780" vertical-scroll-proportion="-6.814815" vertical-offset="86" max-vertical-offset="840">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/WebInterface/src/main/webapp/WEB-INF/faces-config.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="52" column="20" selection-start="2118" selection-end="2120" vertical-scroll-proportion="-14.444445" vertical-offset="390" max-vertical-offset="945">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/WebInterface/src/main/java/Bean/UserManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="69" column="22" selection-start="2037" selection-end="2037" vertical-scroll-proportion="0.33393502" vertical-offset="235" max-vertical-offset="915">
           <folding />
         </state>
       </provider>
