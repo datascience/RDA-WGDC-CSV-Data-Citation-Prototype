@@ -14,86 +14,6 @@
  *    limitations under the License.
  */
 
-/*
- * Copyright [2014] [Stefan Pröll]
- *
- *    Licensed under the Apache License, Version 2.0 (the "License");
- *    you may not use this file except in compliance with the License.
- *    You may obtain a copy of the License at
- *
- *        http://www.apache.org/licenses/LICENSE-2.0
- *
- *    Unless required by applicable law or agreed to in writing, software
- *    distributed under the License is distributed on an "AS IS" BASIS,
- *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *    See the License for the specific language governing permissions and
- *    limitations under the License.
- */
-
-/*
- * Copyright [2014] [Stefan Pröll]
- *
- *    Licensed under the Apache License, Version 2.0 (the "License");
- *    you may not use this file except in compliance with the License.
- *    You may obtain a copy of the License at
- *
- *        http://www.apache.org/licenses/LICENSE-2.0
- *
- *    Unless required by applicable law or agreed to in writing, software
- *    distributed under the License is distributed on an "AS IS" BASIS,
- *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *    See the License for the specific language governing permissions and
- *    limitations under the License.
- */
-
-/*
- * Copyright [2014] [Stefan Pröll]
- *
- *    Licensed under the Apache License, Version 2.0 (the "License");
- *    you may not use this file except in compliance with the License.
- *    You may obtain a copy of the License at
- *
- *        http://www.apache.org/licenses/LICENSE-2.0
- *
- *    Unless required by applicable law or agreed to in writing, software
- *    distributed under the License is distributed on an "AS IS" BASIS,
- *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *    See the License for the specific language governing permissions and
- *    limitations under the License.
- */
-
-/*
- * Copyright [2014] [Stefan Pröll]
- *
- *    Licensed under the Apache License, Version 2.0 (the "License");
- *    you may not use this file except in compliance with the License.
- *    You may obtain a copy of the License at
- *
- *        http://www.apache.org/licenses/LICENSE-2.0
- *
- *    Unless required by applicable law or agreed to in writing, software
- *    distributed under the License is distributed on an "AS IS" BASIS,
- *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *    See the License for the specific language governing permissions and
- *    limitations under the License.
- */
-
-/*
- * Copyright [2014] [Stefan Pröll]
- *
- *    Licensed under the Apache License, Version 2.0 (the "License");
- *    you may not use this file except in compliance with the License.
- *    You may obtain a copy of the License at
- *
- *        http://www.apache.org/licenses/LICENSE-2.0
- *
- *    Unless required by applicable law or agreed to in writing, software
- *    distributed under the License is distributed on an "AS IS" BASIS,
- *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *    See the License for the specific language governing permissions and
- *    limitations under the License.
- */
-
 package Database;
 
 
@@ -122,17 +42,14 @@ import java.util.logging.Logger;
  */
 public class MigrateCSV2SQL {
     private Logger logger;
-    private DataSource dataSource;
+    private DataBaseConnectionPool dbcp;
 
     public MigrateCSV2SQL() {
         this.logger = Logger.getLogger(this.getClass().getName());
-        try {
-            Context ctx = new InitialContext();
-            dataSource = (DataSource) ctx.lookup("java:comp/env/jdbc/citationdatabase");
-            System.out.println("Datasource added");
-        } catch (NamingException e) {
-            e.printStackTrace();
-        }
+        this.dbcp = new DataBaseConnectionPool();
+
+
+
     }
 
     /**
@@ -148,7 +65,7 @@ public class MigrateCSV2SQL {
     public void createSimpleDBFromCSV(Column[] columnMetadata, String tableName, boolean calculateHashKeyColumn)
             throws SQLException, ClassNotFoundException {
         Statement stat;
-        Connection connection;
+
         String createTableString = "CREATE TABLE " + tableName
                 + " ( ID_SYSTEM_SEQUENCE INTEGER PRIMARY KEY AUTO_INCREMENT";
 
@@ -172,7 +89,7 @@ public class MigrateCSV2SQL {
         createTableString += ");";
 
         this.logger.info("CREATE String: " + createTableString);
-        connection = this.getConnection();
+        Connection connection = this.getConnection();
         stat = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
                 ResultSet.CONCUR_READ_ONLY);
         stat.execute("DROP TABLE IF EXISTS " + tableName);
@@ -184,34 +101,14 @@ public class MigrateCSV2SQL {
     }
 
     /**
-     * Get the connection from the data source
+     * Get the connection from the connection pool
      *
      * @return
      */
     private Connection getConnection() {
 
-        if (dataSource == null) try {
-            throw new SQLException("Can't get data source");
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        //get database connection
-        Connection con = null;
-        try {
-            con = dataSource.getConnection();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        if (con == null)
-            try {
-                throw new SQLException("Can't get database connection");
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-
-
-        return con;
+        Connection connection = this.dbcp.getConnection();
+        return connection;
 
     }
 
@@ -224,6 +121,7 @@ public class MigrateCSV2SQL {
             //this.logger.info("AUTO COMMIT OFF");
             connection.setAutoCommit(false);
         }
+
         PreparedStatement preparedStatement;
         CSVHelper csvHelper;
         csvHelper = new CSVHelper();

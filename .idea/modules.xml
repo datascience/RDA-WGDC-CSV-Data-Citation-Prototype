@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/CSV-Citation-Deployment-Module/CSV-Citation-Deployment-Module.iml" filepath="$PROJECT_DIR$/CSV-Citation-Deployment-Module/CSV-Citation-Deployment-Module.iml" />
       <module fileurl="file://$PROJECT_DIR$/CSVTools/CSVTools.iml" filepath="$PROJECT_DIR$/CSVTools/CSVTools.iml" />
       <module fileurl="file://$PROJECT_DIR$/Database/Database.iml" filepath="$PROJECT_DIR$/Database/Database.iml" />
       <module fileurl="file://$PROJECT_DIR$/DatatableModel/DatatableModel.iml" filepath="$PROJECT_DIR$/DatatableModel/DatatableModel.iml" />
