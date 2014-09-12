@@ -1,4 +1,20 @@
 
+/*
+ * Copyright [2014] [Stefan Pröll]
+ *
+ *    Licensed under the Apache License, Version 2.0 (the "License");
+ *    you may not use this file except in compliance with the License.
+ *    You may obtain a copy of the License at
+ *
+ *        http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *    Unless required by applicable law or agreed to in writing, software
+ *    distributed under the License is distributed on an "AS IS" BASIS,
+ *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *    See the License for the specific language governing permissions and
+ *    limitations under the License.
+ */
+
 package Bean;
 
 
@@ -117,10 +133,10 @@ public class DatabaseTableNameBean implements Serializable {
     public void handleChangeTableName(ValueChangeEvent event) {
         this.logger.info(event.getComponent().toString() + " " + event.toString());
 
-        String selectedDB = event.getNewValue().toString();
-        this.logger.info("Databasename = " + selectedDB);
+        String selectedTable = event.getNewValue().toString();
+        this.logger.info("Databasename = " + selectedTable);
 
-        this.storeSessionData("currentDatabaseName", selectedDB);
+        this.storeSessionData("currentTableName", selectedTable);
 
     }
 
@@ -129,7 +145,7 @@ public class DatabaseTableNameBean implements Serializable {
      * Store details in session
      */
     private void storeSessionData(String key, String value) {
-        System.out.println("Session data function");
+        System.out.println("Writing data into session: Key " + key + "  Value:  " + value);
 
 
         Map<String, Object> session = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
