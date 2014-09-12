@@ -46,20 +46,33 @@
  *    limitations under the License.
  */
 
+/*
+ * Copyright [2014] [Stefan Pröll]
+ *
+ *    Licensed under the Apache License, Version 2.0 (the "License");
+ *    you may not use this file except in compliance with the License.
+ *    You may obtain a copy of the License at
+ *
+ *        http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *    Unless required by applicable law or agreed to in writing, software
+ *    distributed under the License is distributed on an "AS IS" BASIS,
+ *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *    See the License for the specific language governing permissions and
+ *    limitations under the License.
+ */
+
 
 package DatatableModel;
 
 
+import Database.DataBaseConnectionPool;
 import JSON.JSONArray;
 import JSON.JSONException;
 import JSON.JSONObject;
 import com.sun.rowset.CachedRowSetImpl;
 
 
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
-import javax.sql.DataSource;
 import javax.sql.rowset.CachedRowSet;
 import java.sql.*;
 import java.util.*;
@@ -71,28 +84,23 @@ import java.util.logging.Logger;
 public class TableDataOperations {
 
 
-    private DataSource dataSource;
     private Logger logger;
     private String tableName;
+    private DataBaseConnectionPool dbcp;
 
     public TableDataOperations() {
         this.logger = Logger.getLogger(this.getClass().getName());
-        try {
-            Context ctx = new InitialContext();
-            this.dataSource = (DataSource) ctx.lookup("java:comp/env/jdbc/citationdatabase");
-            System.out.println("Datasource added");
-        } catch (NamingException e) {
-            e.printStackTrace();
-        }
+        this.dbcp = new DataBaseConnectionPool();
+
     }
 
     public CachedRowSet queryDatabase(String tableName, int sortingColumnsID,
                                       String sortingDirection, Map<String, String> filterMap,
                                       int startRow, int offset) {
-
+        Connection connection = null;
         this.tableName = tableName;
         this.logger.warning("TABLE NAME in query datanase : " + this.tableName);
-        Connection connection = null;
+
         ResultSet rs = null;
         CachedRowSet cachedResultSet = null;
         String[] tableHeaders = null;
@@ -123,7 +131,7 @@ public class TableDataOperations {
                     whereClause = this.getWhereString(filterMap);
                 }
 
-                connection = this.getConnection();
+                connection = this.dbcp.getConnection();
                 String selectSQL = "SELECT * FROM "
                         + this.tableName
                         // + this.getPaginationString(startRow, offset)
@@ -161,7 +169,8 @@ public class TableDataOperations {
 
         } else {
             try {
-                connection = this.getConnection();
+                connection = this.dbcp.getConnection();
+
 
                 stat = connection.createStatement(
                         ResultSet.TYPE_SCROLL_INSENSITIVE,
@@ -198,37 +207,7 @@ public class TableDataOperations {
 
     }
 
-    /**
-     * Get the connection from the data source
-     *
-     * @return
-     */
-    private Connection getConnection() {
 
-        if (dataSource == null) try {
-            throw new SQLException("Can't get data source");
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        //get database connection
-        Connection con = null;
-        try {
-            con = dataSource.getConnection();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        if (con == null)
-            try {
-                throw new SQLException("Can't get database connection");
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-
-
-        return con;
-
-    }
 
     /**
      * Get a map of <ColumnName, ColumnType>
@@ -239,10 +218,10 @@ public class TableDataOperations {
         // ACHTUNG
 
         if (tableName == null) {
-            System.out.println("Table war null -> setze auf MillionSongs");
-            tableName = "MillionSongs";
+            System.out.println("Table war null -..................> setze auf MillionSongs");
+            // tableName = "MillionSongs";
         }
-        Connection connection = this.getConnection();
+        Connection connection = this.dbcp.getConnection();
         DatabaseMetaData meta = connection.getMetaData();
         CachedRowSetImpl cachedResultSet = new CachedRowSetImpl();
         String catalog = null;
@@ -276,7 +255,7 @@ public class TableDataOperations {
     }
 
     public int getNumberofColumnsPerTable(String tableName) throws SQLException {
-        Connection connection = this.getConnection();
+        Connection connection = this.dbcp.getConnection();
         int columncCount = 0;
         DatabaseMetaData meta = connection.getMetaData();
         String catalog = null;
@@ -358,7 +337,7 @@ public class TableDataOperations {
         // TODO SQL injection
         String sql = "SELECT COUNT(*) FROM " + tableName;
         int numberOfRecords = -1;
-        Connection connection = this.getConnection();
+        Connection connection = this.dbcp.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
 
         ResultSet rs = preparedStatement.executeQuery();
@@ -443,7 +422,7 @@ public class TableDataOperations {
         List<String> listOfDatabases = new ArrayList<String>();
 
         try {
-            connection = this.getConnection();
+            connection = this.dbcp.getConnection();
 
             DatabaseMetaData meta = connection.getMetaData();
             CachedRowSetImpl cachedResultSet = new CachedRowSetImpl();
@@ -474,7 +453,7 @@ public class TableDataOperations {
         Connection connection = null;
         List<String> listOfTables = new ArrayList<String>();
         try {
-            connection = this.getConnection();
+            connection = this.dbcp.getConnection();
 
             DatabaseMetaData meta = connection.getMetaData();
             String[] types = {"TABLE"};
