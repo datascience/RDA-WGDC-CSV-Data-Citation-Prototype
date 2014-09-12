@@ -1,82 +1,4 @@
-/*
- * Copyright [2014] [Stefan Pröll]
- *
- *    Licensed under the Apache License, Version 2.0 (the "License");
- *    you may not use this file except in compliance with the License.
- *    You may obtain a copy of the License at
- *
- *        http://www.apache.org/licenses/LICENSE-2.0
- *
- *    Unless required by applicable law or agreed to in writing, software
- *    distributed under the License is distributed on an "AS IS" BASIS,
- *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *    See the License for the specific language governing permissions and
- *    limitations under the License.
- */
 
-/*
- * Copyright [2014] [Stefan Pröll]
- *
- *    Licensed under the Apache License, Version 2.0 (the "License");
- *    you may not use this file except in compliance with the License.
- *    You may obtain a copy of the License at
- *
- *        http://www.apache.org/licenses/LICENSE-2.0
- *
- *    Unless required by applicable law or agreed to in writing, software
- *    distributed under the License is distributed on an "AS IS" BASIS,
- *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *    See the License for the specific language governing permissions and
- *    limitations under the License.
- */
-
-/*
- * Copyright [2014] [Stefan Pröll]
- *
- *    Licensed under the Apache License, Version 2.0 (the "License");
- *    you may not use this file except in compliance with the License.
- *    You may obtain a copy of the License at
- *
- *        http://www.apache.org/licenses/LICENSE-2.0
- *
- *    Unless required by applicable law or agreed to in writing, software
- *    distributed under the License is distributed on an "AS IS" BASIS,
- *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *    See the License for the specific language governing permissions and
- *    limitations under the License.
- */
-
-/*
- * Copyright [2014] [Stefan Pröll]
- *
- *    Licensed under the Apache License, Version 2.0 (the "License");
- *    you may not use this file except in compliance with the License.
- *    You may obtain a copy of the License at
- *
- *        http://www.apache.org/licenses/LICENSE-2.0
- *
- *    Unless required by applicable law or agreed to in writing, software
- *    distributed under the License is distributed on an "AS IS" BASIS,
- *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *    See the License for the specific language governing permissions and
- *    limitations under the License.
- */
-
-/*
- * Copyright [2014] [Stefan Pröll]
- *
- *    Licensed under the Apache License, Version 2.0 (the "License");
- *    you may not use this file except in compliance with the License.
- *    You may obtain a copy of the License at
- *
- *        http://www.apache.org/licenses/LICENSE-2.0
- *
- *    Unless required by applicable law or agreed to in writing, software
- *    distributed under the License is distributed on an "AS IS" BASIS,
- *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *    See the License for the specific language governing permissions and
- *    limitations under the License.
- */
 
 /*
  * Copyright [2014] [Stefan Pröll]
@@ -98,6 +20,7 @@ package Bean;
 
 
 import CSVTools.CSVHelper;
+
 import CSVTools.Column;
 import Database.MigrateCSV2SQL;
 
@@ -194,15 +117,19 @@ public class DatabaseMigrationController implements Serializable {
                 csv.readWithCsvListReaderAsStrings(currentPath);
                 // get column metadata
                 Column[] meta = csv.analyseColumns(true, currentPath);
+
                 // read CSV file
                 csv.readWithCsvListReaderAsStrings(currentPath);
                 MigrateCSV2SQL migrate = new MigrateCSV2SQL();
 
 
                 // Create DB schema
-                migrate.createSimpleDBFromCSV(meta, currentTableName, calulateHashColumn);
+                migrate.createSimpleDBFromCSV(meta, currentTableName, this.getPrimaryKey(), calulateHashColumn);
                 // Import CSV Data
                 migrate.insertCSVDataIntoDB(currentPath, currentTableName, true, calulateHashColumn);
+
+                // add indices
+                migrate.addDatabaseIndicesToMetadataColumns(currentTableName);
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -222,17 +149,7 @@ public class DatabaseMigrationController implements Serializable {
 
     }
 
-    private Column[] setColumnAsPrimaryKey(Column[] columns, String primaryKeyColumn) {
-        for (Column column : columns) {
-            if (column.getColumnName().equals(primaryKeyColumn)) {
 
-
-            }
-        }
-
-        return columns;
-
-    }
     /**
      * Read the name of the table to be created from the session variables
      *
@@ -273,6 +190,9 @@ public class DatabaseMigrationController implements Serializable {
 
     }
 
+    /**
+     * Action button
+     */
     public void setPrimarKeyAction() {
         this.logger.info("Primary key is " + this.getPrimaryKey());
         //FacesContext.getCurrentInstance().addMessage("primaryKeyform:primaryKeyButton", new FacesMessage("yayyayyay"));

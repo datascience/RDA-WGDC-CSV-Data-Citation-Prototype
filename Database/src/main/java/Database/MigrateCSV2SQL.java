@@ -46,6 +46,22 @@
  *    limitations under the License.
  */
 
+/*
+ * Copyright [2014] [Stefan Pröll]
+ *
+ *    Licensed under the Apache License, Version 2.0 (the "License");
+ *    you may not use this file except in compliance with the License.
+ *    You may obtain a copy of the License at
+ *
+ *        http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *    Unless required by applicable law or agreed to in writing, software
+ *    distributed under the License is distributed on an "AS IS" BASIS,
+ *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *    See the License for the specific language governing permissions and
+ *    limitations under the License.
+ */
+
 package Database;
 
 
@@ -64,6 +80,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -84,6 +101,7 @@ public class MigrateCSV2SQL {
 
     }
 
+
     /**
      * Create a new database from a CSV file. DROPs database if exists!! Appends
      * a id column for the sequential numbering and a sha1 hash column. Adds a column for the state of the
@@ -95,12 +113,12 @@ public class MigrateCSV2SQL {
      * @throws java.sql.SQLException
      * @throws ClassNotFoundException
      */
-    public void createSimpleDBFromCSV(Column[] columnMetadata, String tableName, boolean calculateHashKeyColumn)
+    public void createSimpleDBFromCSV(Column[] columnMetadata, String tableName, String primaryKeyColumnName, boolean calculateHashKeyColumn)
             throws SQLException, ClassNotFoundException {
         Statement stat;
 
         String createTableString = "CREATE TABLE " + tableName
-                + " ( ID_SYSTEM_SEQUENCE INTEGER PRIMARY KEY AUTO_INCREMENT";
+                + " ( ID_SYSTEM_SEQUENCE INTEGER NOT NULL";
 
         for (int i = 0; i < columnMetadata.length; i++) {
             createTableString += " , " + columnMetadata[i].getColumnName()
@@ -118,7 +136,10 @@ public class MigrateCSV2SQL {
         }
 
         // append record status column
-        createTableString += ", record_status enum('inserted','updated','deleted') NOT NULL DEFAULT 'inserted'";
+        createTableString += ", RECORD_STATUS enum('inserted','updated','deleted') NOT NULL DEFAULT 'inserted'";
+        // append primary key
+        createTableString += ",PRIMARY KEY (" + primaryKeyColumnName + ")";
+        this.logger.info("Primary key is " + primaryKeyColumnName);
 
 
         // Finalize SQL String
@@ -258,7 +279,8 @@ public class MigrateCSV2SQL {
                 }
 
                 // this.logger.info("prepared statement before exec: " + preparedStatement.toString());
-                preparedStatement.executeUpdate();
+                int statuscode = preparedStatement.executeUpdate();
+
 
                 if (rowCount % 1000 == 0) {
                     connection.commit();
@@ -273,6 +295,9 @@ public class MigrateCSV2SQL {
         } catch (NoSuchAlgorithmException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
+        } catch (SQLIntegrityConstraintViolationException m) {
+            this.logger.severe("duplicate key detected!: " + m.getSQLState() + " " + m.getLocalizedMessage());
+
         } finally {
             if (listReader != null) {
                 listReader.close();
@@ -347,6 +372,44 @@ public class MigrateCSV2SQL {
         }
 
 */
+    }
+
+    public void addDatabaseIndicesToMetadataColumns(String tableName) {
+        Connection connection = null;
+        long startTime = System.currentTimeMillis();
+        try {
+
+            List<String> metadataColumns = new ArrayList<String>();
+            metadataColumns.add("INSERT_DATE");
+            metadataColumns.add("LAST_UPDATE");
+            metadataColumns.add("RECORD_STATUS");
+
+            connection = this.getConnection();
+            PreparedStatement createIndexStmt;
+            for (String columnName : metadataColumns) {
+                this.logger.info("Adding index on " + columnName);
+                createIndexStmt = connection.prepareStatement("CREATE INDEX  `" + tableName + "_" + columnName + "` ON " + tableName + " (`" + columnName + "`);");
+                int statuscode = createIndexStmt.executeUpdate();
+            }
+
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+
+            assert connection != null;
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+        }
+        long endTime = System.currentTimeMillis();
+        long totalTime = endTime - startTime;
+        this.logger.info("Adding indices took " + totalTime);
+
+
     }
 
 
