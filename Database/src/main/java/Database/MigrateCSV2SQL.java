@@ -30,6 +30,22 @@
  *    limitations under the License.
  */
 
+/*
+ * Copyright [2014] [Stefan Pröll]
+ *
+ *    Licensed under the Apache License, Version 2.0 (the "License");
+ *    you may not use this file except in compliance with the License.
+ *    You may obtain a copy of the License at
+ *
+ *        http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *    Unless required by applicable law or agreed to in writing, software
+ *    distributed under the License is distributed on an "AS IS" BASIS,
+ *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *    See the License for the specific language governing permissions and
+ *    limitations under the License.
+ */
+
 package Database;
 
 
@@ -161,11 +177,11 @@ public class MigrateCSV2SQL {
             final String[] header = reader.getHeader(hasHeaders);
 
             // Calculate the number of place holders required by the amount of
-            // columns
-            // and add four ? for the sequence, created and updated date and the
+            // columns and add four ? for the sequence, created and updated date and the
             // hash column. The id is the
-            // first placeholder and then ..., created date, updated date, hash)
+            // first placeholder and then ..., created date, updated date, hash, status)
 
+            // placeholder for sequence number
             String placeholders = "(?,";
             for (int i = 0; i < header.length; i++) {
                 placeholders += "?,";
@@ -175,10 +191,16 @@ public class MigrateCSV2SQL {
             if (calculateHashKeyColumn) {
                 placeholders += "?,";
 
-            } else {
-                // If there is no hash column, then only append the two time stamp cols
-                placeholders += "?,?)";
             }
+
+            // If there is no hash column, then only append the two time stamp cols
+            placeholders += "?,?";
+
+
+            // record status column
+            placeholders += ",?";
+            // finalize place holder
+            placeholders += ")";
 
             String insertString = "INSERT INTO " + tableName + " VALUES "
                     + placeholders;
@@ -191,9 +213,9 @@ public class MigrateCSV2SQL {
 
                 rowCount++;
 
-                for (int columnCount = 1; columnCount <= header.length + 4; columnCount++) {
-                    // this.logger.info("columns Count : " + columnCount +
-                    // " _ header count = " + header.length);
+                // there are five metadata columns: sequence, inserted, time, updated time, hash,status
+                for (int columnCount = 1; columnCount <= header.length + 5; columnCount++) {
+
                     // first column contains sequence
                     if (columnCount == 1) {
                         preparedStatement.setInt(columnCount, rowCount);
@@ -223,9 +245,19 @@ public class MigrateCSV2SQL {
                         preparedStatement.setString(columnCount, hash);
 
                     }
+                    // if there is no hash column, then the last record state field has is at position +4
+                    else if (columnCount == (header.length + 4) & calculateHashKeyColumn == false) {
+                        preparedStatement.setString(columnCount, "inserted");
+
+                    }
+
+                    // if there is a hash column, then the last record state field has is at position +5
+                    else if (columnCount == (header.length + 5) & calculateHashKeyColumn) {
+                        preparedStatement.setString(columnCount, "inserted");
+                    }
                 }
 
-                //this.logger.info("prepared statement before exec: " + preparedStatement.toString());
+                // this.logger.info("prepared statement before exec: " + preparedStatement.toString());
                 preparedStatement.executeUpdate();
 
                 if (rowCount % 1000 == 0) {

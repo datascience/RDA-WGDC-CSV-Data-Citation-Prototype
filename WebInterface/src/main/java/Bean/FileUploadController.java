@@ -46,6 +46,22 @@
  *    limitations under the License.
  */
 
+/*
+ * Copyright [2014] [Stefan Pröll]
+ *
+ *    Licensed under the Apache License, Version 2.0 (the "License");
+ *    you may not use this file except in compliance with the License.
+ *    You may obtain a copy of the License at
+ *
+ *        http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *    Unless required by applicable law or agreed to in writing, software
+ *    distributed under the License is distributed on an "AS IS" BASIS,
+ *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *    See the License for the specific language governing permissions and
+ *    limitations under the License.
+ */
+
 package Bean;
 
 import CSVTools.CSVHelper;
@@ -74,6 +90,7 @@ import java.util.logging.Logger;
 public class FileUploadController implements Serializable {
     private Logger logger;
     private String tableName;
+    private List<String> columns = null;
 
     public String getCSVcolumnName() {
         return CSVcolumnName;
@@ -131,6 +148,10 @@ public class FileUploadController implements Serializable {
         this.filesList = new HashMap<String, String>();
         this.filesListStrings = new ArrayList<String>();
         this.currentSessionType = getUploadTypeFromSession();
+        this.columns = new ArrayList<String>() {
+        };
+
+        this.columns.add("Use insert sequence number");
 
 
     }
@@ -315,7 +336,9 @@ public class FileUploadController implements Serializable {
         }
 
         this.logger.info("Path of CSV file: " + path);
-        List<String> columns = csvHelper.getListOfHeadersCSV(path);
+
+        // Append all headers to the default (which is the sequence number)
+        columns.addAll(csvHelper.getListOfHeadersCSV(path));
         for (String col : columns) {
             this.logger.info("Column: " + col);
         }

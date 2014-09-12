@@ -62,6 +62,22 @@
  *    limitations under the License.
  */
 
+/*
+ * Copyright [2014] [Stefan Pröll]
+ *
+ *    Licensed under the Apache License, Version 2.0 (the "License");
+ *    you may not use this file except in compliance with the License.
+ *    You may obtain a copy of the License at
+ *
+ *        http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *    Unless required by applicable law or agreed to in writing, software
+ *    distributed under the License is distributed on an "AS IS" BASIS,
+ *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *    See the License for the specific language governing permissions and
+ *    limitations under the License.
+ */
+
 package Bean;
 
 
@@ -165,6 +181,8 @@ public class DatabaseMigrationController implements Serializable {
                 // read CSV file
                 csv.readWithCsvListReaderAsStrings(currentPath);
                 MigrateCSV2SQL migrate = new MigrateCSV2SQL();
+
+
                 // Create DB schema
                 migrate.createSimpleDBFromCSV(meta, currentTableName, calulateHashColumn);
                 // Import CSV Data
@@ -188,6 +206,17 @@ public class DatabaseMigrationController implements Serializable {
 
     }
 
+    private Column[] setColumnAsPrimaryKey(Column[] columns, String primaryKeyColumn) {
+        for (Column column : columns) {
+            if (column.getColumnName().equals(primaryKeyColumn)) {
+                column.setPrimaryKey();
+
+            }
+        }
+
+        return columns;
+
+    }
     /**
      * Read the name of the table to be created from the session variables
      *
@@ -230,7 +259,10 @@ public class DatabaseMigrationController implements Serializable {
 
     public void setPrimarKeyAction() {
         this.logger.info("Primary key is " + this.getPrimaryKey());
-        FacesContext.getCurrentInstance().addMessage("primaryKeyform:primaryKeyButton", new FacesMessage("yayyayyay"));
+        //FacesContext.getCurrentInstance().addMessage("primaryKeyform:primaryKeyButton", new FacesMessage("yayyayyay"));
+        FacesMessage msg = new FacesMessage("The primary key is " + this.getPrimaryKey(), "The primary key must be unique");
+        FacesContext.getCurrentInstance().addMessage(null, msg);
 
     }
+
 }
