@@ -40,11 +40,14 @@
     <orderEntry type="library" name="Maven: com.google.code.gson:gson:2.2.4" level="project" />
     <orderEntry type="module" module-name="DatatableModel" />
     <orderEntry type="module" module-name="Database" />
-    <orderEntry type="module" module-name="QueryStore" />
-    <orderEntry type="module" module-name="PersistentIdentification" />
-    <orderEntry type="library" name="Maven: commons-codec:commons-codec:1.9" level="project" />
-    <orderEntry type="module" module-name="CSVTools" />
     <orderEntry type="library" name="Maven: net.sf.supercsv:super-csv:2.2.0" level="project" />
+    <orderEntry type="library" name="Maven: com.jolbox:bonecp:0.8.0.RELEASE" level="project" />
+    <orderEntry type="library" name="Maven: com.google.guava:guava:15.0" level="project" />
+    <orderEntry type="library" name="Maven: org.slf4j:slf4j-api:1.7.2" level="project" />
+    <orderEntry type="module" module-name="CSVTools" />
+    <orderEntry type="library" name="Maven: commons-codec:commons-codec:1.9" level="project" />
+    <orderEntry type="library" name="Maven: at.stefanproell.at:QueryStore:1.0-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="Maven: at.stefanproell.at:PersistentIdentification:1.0-SNAPSHOT" level="project" />
   </component>
 </module>
 
