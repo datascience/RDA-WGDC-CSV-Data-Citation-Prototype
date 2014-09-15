@@ -429,4 +429,143 @@ public class MigrateCSV2SQL {
     }
 
 
+    public void insertNewCSVDataIntoExistingDB(String path, String tableName, boolean hasHeaders, boolean
+            calculateHashKeyColumn) throws SQLException, IOException {
+        Connection connection = this.getConnection();
+        if (connection.getAutoCommit()) {
+            //this.logger.info("AUTO COMMIT OFF");
+            connection.setAutoCommit(false);
+        }
+
+        PreparedStatement preparedStatement;
+        CSVHelper csvHelper;
+        csvHelper = new CSVHelper();
+        CsvListReader reader = null;
+        int rowCount = 0;
+        try {
+            reader = new CsvListReader(new FileReader(path),
+                    CsvPreference.STANDARD_PREFERENCE);
+        } catch (FileNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        long startTime = System.currentTimeMillis();
+        ICsvListReader listReader = null;
+        try {
+            final String[] header = reader.getHeader(hasHeaders);
+
+            // Calculate the number of place holders required by the amount of
+            // columns and add four ? for the sequence, created and updated date and the
+            // hash column. The id is the
+            // first placeholder and then ..., created date, updated date, hash, status)
+
+            // placeholder for sequence number
+            String placeholders = "(?,";
+            for (int i = 0; i < header.length; i++) {
+                placeholders += "?,";
+            }
+
+            // Adjust the amount of placeholders
+            if (calculateHashKeyColumn) {
+                placeholders += "?,";
+
+            }
+
+            // If there is no hash column, then only append the two time stamp cols
+            placeholders += "?,?";
+
+
+            // record status column
+            placeholders += ",?";
+            // finalize place holder
+            placeholders += ")";
+
+            String insertString = "INSERT INTO " + tableName + " VALUES "
+                    + placeholders;
+            preparedStatement = connection.prepareStatement(insertString);
+
+            List<String> row;
+
+
+            while ((row = reader.read()) != null) {
+
+                rowCount++;
+
+                // there are five metadata columns: sequence, inserted, time, updated time, hash,status
+                for (int columnCount = 1; columnCount <= header.length + 5; columnCount++) {
+
+                    // first column contains sequence
+                    if (columnCount == 1) {
+                        preparedStatement.setInt(columnCount, rowCount);
+
+                        // column values (first column is the id)
+                    } else if (columnCount > 1
+                            && columnCount <= (header.length + 1)) {
+
+                        // index starts at 0 and the counter at 1.
+                        preparedStatement.setString(columnCount,
+                                row.get(columnCount - 2));
+
+                        // insert timestamps
+                    } else if (columnCount == (header.length + 2)
+                            || columnCount == (header.length + 3)) {
+
+                        preparedStatement.setDate(columnCount, null);
+
+                        // insert the hash
+                    } else if (columnCount == (header.length + 4) & calculateHashKeyColumn) {
+
+                        String appendedColumns = CSVHelper.convertStringListToAppendedString(row);
+
+                        String hash = CSVHelper
+                                .calculateSHA1HashFromString(appendedColumns);
+
+                        preparedStatement.setString(columnCount, hash);
+
+                    }
+                    // if there is no hash column, then the last record state field has is at position +4
+                    else if (columnCount == (header.length + 4) & calculateHashKeyColumn == false) {
+                        preparedStatement.setString(columnCount, "inserted");
+
+                    }
+
+                    // if there is a hash column, then the last record state field has is at position +5
+                    else if (columnCount == (header.length + 5) & calculateHashKeyColumn) {
+                        preparedStatement.setString(columnCount, "inserted");
+                    }
+                }
+
+                // this.logger.info("prepared statement before exec: " + preparedStatement.toString());
+                int statuscode = preparedStatement.executeUpdate();
+
+
+                if (rowCount % 1000 == 0) {
+                    connection.commit();
+                }
+
+            }
+
+
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (NoSuchAlgorithmException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (SQLIntegrityConstraintViolationException m) {
+            this.logger.severe("duplicate key detected!: " + m.getSQLState() + " " + m.getLocalizedMessage());
+
+        } finally {
+            if (listReader != null) {
+                listReader.close();
+            }
+            connection.setAutoCommit(true);
+            reader.close();
+            connection.close();
+
+        }
+        long endTime = System.currentTimeMillis();
+        long totalTime = endTime - startTime;
+        System.out.println("Inserted " + rowCount + " rows in " + (totalTime / 1000) + " sec");
+    }
 }

@@ -36,7 +36,18 @@
       xmlns="http://www.w3.org/1999/xhtml">
 
 
-<h:head></h:head>
+<h:head>
+    <style>
+
+        /*increase padding of checkboxes */
+        .ui-chkbox {
+        margin: 10px;
+        background-color: yellow;
+        }
+    </style>
+
+
+</h:head>
 
 <h:body>
     <h1>Update existing data with a new CSV file</h1>
@@ -73,19 +84,36 @@
         <p:growl id="messages" showDetail="true"/>
         <f:attribute name="uploadSessionType" value="newCSV"/>
     </h:form>
-    <h:form>
-        <p:growl id="messages" showDetail="true"/>
-        <p:outputLabel value="CSV file contains only new data"/>
-        <p:selectBooleanCheckbox value="#{databaseMigrationController.newDataOnly}">
-            <p:ajax update="messages" listener="#{databaseMigrationController.addMessage}"/>
-        </p:selectBooleanCheckbox>
 
-        <p:commandButton value="Migrate into Database."
-                         action="#{databaseMigrationController.migrate}">
+    <h:form id="uploadCommandForm">
+        <p:row>
+            <p:growl id="messages" showDetail="true" globalOnly="true"/>
+        </p:row>
+        <p:panelGrid columns="2" border="10"
+                     cellpadding="10" cellspacing="10">
+            <f:facet name="header">
+                <!--             <p:graphicImage name="demo/images/misc/kobe.png" /> -->
+            </f:facet>
+
+            <p:row>
+                <p:outputLabel value="CSV file contains only new data"/>
+                <p:selectBooleanCheckbox value="#{databaseMigrationController.newDataOnly}">
+                    <p:ajax update="messages" listener="#{databaseMigrationController.addMessage}"/>
+                </p:selectBooleanCheckbox>
+            </p:row>
+            <p:row>
+                <p:commandButton value="Migrate into Database."
+                                 action="#{databaseMigrationController.updateTableData}">
 
 
-        </p:commandButton>
+                </p:commandButton>
         <p:commandButton value="View uploaded data" action="#{databaseMigrationController.viewTable}"/>
+
+            </p:row>
+            <p:row>
+                <h:message for="uploadCommandForm" globalOnly="true"/>
+            </p:row>
+        </p:panelGrid>
     </h:form>
 
 

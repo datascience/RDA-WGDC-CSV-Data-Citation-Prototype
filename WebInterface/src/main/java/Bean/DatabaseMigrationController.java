@@ -1,53 +1,4 @@
 
-
-/*
- * Copyright [2014] [Stefan Pröll]
- *
- *    Licensed under the Apache License, Version 2.0 (the "License");
- *    you may not use this file except in compliance with the License.
- *    You may obtain a copy of the License at
- *
- *        http://www.apache.org/licenses/LICENSE-2.0
- *
- *    Unless required by applicable law or agreed to in writing, software
- *    distributed under the License is distributed on an "AS IS" BASIS,
- *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *    See the License for the specific language governing permissions and
- *    limitations under the License.
- */
-
-/*
- * Copyright [2014] [Stefan Pröll]
- *
- *    Licensed under the Apache License, Version 2.0 (the "License");
- *    you may not use this file except in compliance with the License.
- *    You may obtain a copy of the License at
- *
- *        http://www.apache.org/licenses/LICENSE-2.0
- *
- *    Unless required by applicable law or agreed to in writing, software
- *    distributed under the License is distributed on an "AS IS" BASIS,
- *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *    See the License for the specific language governing permissions and
- *    limitations under the License.
- */
-
-/*
- * Copyright [2014] [Stefan Pröll]
- *
- *    Licensed under the Apache License, Version 2.0 (the "License");
- *    you may not use this file except in compliance with the License.
- *    You may obtain a copy of the License at
- *
- *        http://www.apache.org/licenses/LICENSE-2.0
- *
- *    Unless required by applicable law or agreed to in writing, software
- *    distributed under the License is distributed on an "AS IS" BASIS,
- *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *    See the License for the specific language governing permissions and
- *    limitations under the License.
- */
-
 package Bean;
 
 
@@ -79,12 +30,11 @@ import java.util.logging.Logger;
 @ManagedBean
 @SessionScoped
 public class DatabaseMigrationController implements Serializable {
-    //resource injection
-//    @Resource(name="jdbc/citationdatabase")
-    private DataSource dataSource;
+
+
     private HashMap<String, String> filesList;
     private Logger logger;
-
+    private static final boolean calulateHashColumn = false;
     private String primaryKey;
 
     public String getPrimaryKey() {
@@ -106,20 +56,13 @@ public class DatabaseMigrationController implements Serializable {
 
     private boolean isNewDataOnly = false;
 
-
+    private String currentTableName = null;
+    private String currentDatabaseName = null;
     public DatabaseMigrationController() {
 
 
         this.logger = Logger.getLogger(this.getClass().getName());
         System.out.println("DB controller");
-
-        try {
-            Context ctx = new InitialContext();
-            dataSource = (DataSource) ctx.lookup("java:comp/env/jdbc/citationdatabase");
-            System.out.println("Datasource added");
-        } catch (NamingException e) {
-            e.printStackTrace();
-        }
 
         // Init file list
         this.filesList = new HashMap<String, String>();
@@ -209,32 +152,6 @@ public class DatabaseMigrationController implements Serializable {
     }
 
 
-    private Connection getConnection() {
-
-        if (dataSource == null) try {
-            throw new SQLException("Can't get data source");
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        //get database connection
-        Connection con = null;
-        try {
-            con = dataSource.getConnection();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        if (con == null)
-            try {
-                throw new SQLException("Can't get database connection");
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-
-
-        return con;
-
-    }
 
     /**
      * Action button
@@ -250,6 +167,91 @@ public class DatabaseMigrationController implements Serializable {
     public void addMessage() {
         String summary = this.isNewDataOnly ? "Checked" : "Unchecked";
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(summary));
+    }
+
+    public void updateTableData() {
+        this.logger.info("Update button clicked");
+        if (this.isNewDataOnly) {
+            this.logger.info("Only new data will be inserted");
+            this.displayMessage("Insert new data", "Only new data will be inserted");
+
+            this.insertNewCSVData();
+
+        } else {
+            this.logger.info("Existing rows will be updated");
+        }
+    }
+
+    private void displayMessage(String text, String details) {
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(details));
+
+    }
+
+    private void insertNewCSVData() {
+        System.out.println("inserting new data");
+
+        // retrieve file names
+        this.filesList = this.getFileListFromSession();
+
+        System.out.println("Retrieved  " + filesList.size() + " file names");
+
+        //
+        Iterator it = this.filesList.entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry pairs = (Map.Entry) it.next();
+
+            this.logger.info("TableName = " + pairs.getKey().toString() + " Path: " + pairs.getValue().toString());
+
+            CSVHelper csv;
+            csv = new CSVHelper();
+            String currentPath = pairs.getValue().toString();
+            // Read headers
+            String[] headers = csv.getArrayOfHeadersCSV(currentPath);
+            try {
+                csv.readWithCsvListReaderAsStrings(currentPath);
+                // get column metadata
+                Column[] meta = csv.analyseColumns(true, currentPath);
+
+                // read CSV file
+                csv.readWithCsvListReaderAsStrings(currentPath);
+                MigrateCSV2SQL migrate = new MigrateCSV2SQL();
+
+
+                // Import CSV Data
+                migrate.insertNewCSVDataIntoExistingDB(currentPath, this.currentTableName, true, calulateHashColumn);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            try {
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+
+            it.remove(); // avoids a ConcurrentModificationException
+        }
+
+    }
+
+    private String getCurrentDatabaseName() {
+        // read data from session
+        Map<String, Object> sessionMAP = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
+        this.currentDatabaseName = (String) sessionMAP.get("currentDatabaseName");
+        this.logger.info("Read current database name from session: " + this.currentDatabaseName);
+        return this.currentDatabaseName;
+
+    }
+
+    private String getCurrentTableName() {
+        // read data from session
+        Map<String, Object> sessionMAP = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
+        this.currentTableName = (String) sessionMAP.get("currentTableName");
+        this.logger.info("Read current database name from session: " + this.currentTableName);
+        return this.getCurrentTableName();
+
     }
 
 }
