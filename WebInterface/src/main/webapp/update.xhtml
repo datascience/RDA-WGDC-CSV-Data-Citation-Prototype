@@ -1,3 +1,19 @@
+<!--
+  ~ Copyright [2014] [Stefan Pröll]
+  ~
+  ~    Licensed under the Apache License, Version 2.0 (the "License");
+  ~    you may not use this file except in compliance with the License.
+  ~    You may obtain a copy of the License at
+  ~
+  ~        http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~    Unless required by applicable law or agreed to in writing, software
+  ~    distributed under the License is distributed on an "AS IS" BASIS,
+  ~    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~    See the License for the specific language governing permissions and
+  ~    limitations under the License.
+  -->
+
 <html xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:p="http://primefaces.org/ui"
@@ -13,7 +29,8 @@
 
     <h1>Upload a new CSV data file</h1>
 
-    <p>Provide a name first, then upload the file.</p>
+    <p>Select the table that will be updated. Please not that your CSV file needs to be in the formatv as it was during
+        the first upload. </p>
     <h:form enctype="multipart/form-data">
         <h:selectOneMenu id="databaseDropDown" valueChangeListener="#{databaseTableNameBean.handleChangeDatabaseName}"
                          required="true" value="#{databaseTableNameBean.databaseName}"
@@ -37,12 +54,15 @@
                 #{filename}
             </p:column>
         </p:dataTable>
-
-
         <p:growl id="messages" showDetail="true"/>
         <f:attribute name="uploadSessionType" value="newCSV"/>
     </h:form>
     <h:form>
+        <p:growl id="messages" showDetail="true"/>
+        <p:selectBooleanCheckbox value="#{databaseMigrationController.newDataOnly}">
+            <p:ajax update="messages" listener="#{databaseMigrationController.addMessage}"/>
+        </p:selectBooleanCheckbox>
+
         <p:commandButton value="Migrate into Database."
                          action="#{databaseMigrationController.migrate}">
 
