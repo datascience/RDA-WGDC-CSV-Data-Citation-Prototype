@@ -5,6 +5,7 @@ package Bean;
 import CSVTools.CSVHelper;
 
 import CSVTools.Column;
+import Database.DatabaseTools;
 import Database.MigrateCSV2SQL;
 
 import javax.faces.application.FacesMessage;
@@ -20,6 +21,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
@@ -55,6 +57,16 @@ public class DatabaseMigrationController implements Serializable {
     }
 
     private boolean isNewDataOnly = false;
+
+    public boolean isHeaderRow() {
+        return headerRow;
+    }
+
+    public void setHeaderRow(boolean headerRow) {
+        this.headerRow = headerRow;
+    }
+
+    private boolean headerRow = false;
 
     private String currentTableName = null;
     private String currentDatabaseName = null;
@@ -145,9 +157,12 @@ public class DatabaseMigrationController implements Serializable {
      * @return
      */
     private HashMap<String, String> getFileListFromSession() {
-        System.out.println("Read session data");
+        //System.out.println("Read session data");
         // lesen
         Map<String, Object> sessionMAP = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
+        if (sessionMAP == null) {
+            this.logger.severe("No files selected!");
+        }
         return (HashMap<String, String>) sessionMAP.get("fileListHashMap");
     }
 
@@ -192,33 +207,71 @@ public class DatabaseMigrationController implements Serializable {
 
         // retrieve file names
         this.filesList = this.getFileListFromSession();
+        if (this.filesList == null) {
+            this.logger.severe("File list was NULL");
+        } else {
+            this.logger.info("Filelist is okay. Number of files " + this.filesList.size());
+            HashMap<String, String> testMap = this.filesList;
+            for (Map.Entry<String, String> entry : testMap.entrySet()) {
+                this.logger.info("File list loop: Key = " + entry.getKey() + ", Value = " + entry.getValue());
+            }
+        }
 
-        System.out.println("Retrieved  " + filesList.size() + " file names");
+        this.logger.info("Selected database: " + this.getCurrentDatabaseName() + " Table: " + this
+                .getCurrentTableName());
 
-        //
+
         Iterator it = this.filesList.entrySet().iterator();
         while (it.hasNext()) {
             Map.Entry pairs = (Map.Entry) it.next();
-
-            this.logger.info("TableName = " + pairs.getKey().toString() + " Path: " + pairs.getValue().toString());
+            // When uploading data for an existing table, the table name is not provided by the user but is selected
+            // from the drop down menu. is is provided in the session variable
+            this.logger.info("TableName = " + this.getCurrentTableName() + " Path: " + pairs.getValue().toString());
 
             CSVHelper csv;
             csv = new CSVHelper();
             String currentPath = pairs.getValue().toString();
-            // Read headers
-            String[] headers = csv.getArrayOfHeadersCSV(currentPath);
+
+
+            // there are headers
+            if (this.isHeaderRow()) {
+                // Read headers
+                this.logger.info("There are headers");
+                String[] headers = csv.getArrayOfHeadersCSV(currentPath);
+
+            } else {
+                this.logger.info("There are no headers");
+            }
+
+
             try {
-                csv.readWithCsvListReaderAsStrings(currentPath);
-                // get column metadata
-                Column[] meta = csv.analyseColumns(true, currentPath);
+                DatabaseTools dbt = new DatabaseTools();
+                Map<String, String> columnsMap = (dbt.getColumnNamesFromTableWithoutMetadataColumns(this
+                        .currentTableName));
+                Iterator columnsMapIterator = columnsMap.entrySet().iterator();
+                int columnCount = -1;
+
+                while (columnsMapIterator.hasNext()) {
+                    Map.Entry columnEntry = (Map.Entry) columnsMapIterator.next();
+                    System.out.println(pairs.getKey() + " = " + columnEntry.getValue());
+                    columnsMapIterator.remove(); // avoids a ConcurrentModificationException
+                }
+
+
+
+
+
+
+
 
                 // read CSV file
-                csv.readWithCsvListReaderAsStrings(currentPath);
+
                 MigrateCSV2SQL migrate = new MigrateCSV2SQL();
 
 
                 // Import CSV Data
-                migrate.insertNewCSVDataIntoExistingDB(currentPath, this.currentTableName, true, calulateHashColumn);
+                migrate.insertNewCSVDataIntoExistingDB(columnsMap, currentPath, this.currentTableName, true,
+                        calulateHashColumn);
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -232,7 +285,9 @@ public class DatabaseMigrationController implements Serializable {
 
 
             it.remove(); // avoids a ConcurrentModificationException
+
         }
+
 
     }
 
@@ -249,8 +304,8 @@ public class DatabaseMigrationController implements Serializable {
         // read data from session
         Map<String, Object> sessionMAP = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
         this.currentTableName = (String) sessionMAP.get("currentTableName");
-        this.logger.info("Read current database name from session: " + this.currentTableName);
-        return this.getCurrentTableName();
+        this.logger.info("Read current table name from session: " + this.currentTableName);
+        return this.currentTableName;
 
     }
 

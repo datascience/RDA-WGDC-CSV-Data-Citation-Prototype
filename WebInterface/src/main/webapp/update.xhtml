@@ -87,32 +87,45 @@
 
     <h:form id="uploadCommandForm">
         <p:row>
-            <p:growl id="messages" showDetail="true" globalOnly="true"/>
+            <h:message id="messages" for="uploadCommandForm" globalOnly="true"/>
         </p:row>
-        <p:panelGrid columns="2" border="10"
-                     cellpadding="10" cellspacing="10">
-            <f:facet name="header">
-                <!--             <p:graphicImage name="demo/images/misc/kobe.png" /> -->
-            </f:facet>
+
+        <p:panelGrid columns="2">
+
 
             <p:row>
+                <p:column>
                 <p:outputLabel value="CSV file contains only new data"/>
-                <p:selectBooleanCheckbox value="#{databaseMigrationController.newDataOnly}">
+                </p:column>
+                <p:column>
+                    <p:selectBooleanCheckbox id="newDataCheckBox" value="#{databaseMigrationController.newDataOnly}">
                     <p:ajax update="messages" listener="#{databaseMigrationController.addMessage}"/>
                 </p:selectBooleanCheckbox>
+                </p:column>
+            </p:row>
+
+            <p:row>
+                <p:column>
+                    <p:outputLabel value="CSV file has a header"/>
+                </p:column>
+                <p:column>
+                    <p:selectBooleanCheckbox id="headerCheckBox" value="#{databaseMigrationController.headerRow}">
+                        <p:ajax update="messages" listener="#{databaseMigrationController.addMessage}"/>
+                    </p:selectBooleanCheckbox>
+                </p:column>
             </p:row>
             <p:row>
-                <p:commandButton value="Migrate into Database."
-                                 action="#{databaseMigrationController.updateTableData}">
-
-
-                </p:commandButton>
-        <p:commandButton value="View uploaded data" action="#{databaseMigrationController.viewTable}"/>
+                <p:column>
+                    <p:commandButton value="Update table." action
+                            ="#{databaseMigrationController.updateTableData}">
+                    </p:commandButton>
+                </p:column>
+                <p:column>
+                    <p:commandButton value="View uploaded data" action="#{databaseMigrationController.viewTable}"/>
+                </p:column>
 
             </p:row>
-            <p:row>
-                <h:message for="uploadCommandForm" globalOnly="true"/>
-            </p:row>
+
         </p:panelGrid>
     </h:form>
 

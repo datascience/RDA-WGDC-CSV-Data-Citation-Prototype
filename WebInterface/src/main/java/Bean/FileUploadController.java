@@ -243,7 +243,7 @@ public class FileUploadController implements Serializable {
         // schreiben
         Map<String, Object> session = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
         session.put("fileListHashMap", this.filesList);
-
+        this.logger.info("Writing file list to session...");
         // schreiben
 
         session.put("currentTableName", this.tableName);

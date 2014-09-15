@@ -134,7 +134,7 @@ public class DatabaseTableNameBean implements Serializable {
         this.logger.info(event.getComponent().toString() + " " + event.toString());
 
         String selectedTable = event.getNewValue().toString();
-        this.logger.info("Databasename = " + selectedTable);
+        this.logger.info("selected table name CHANGED  = " + selectedTable);
 
         this.storeSessionData("currentTableName", selectedTable);
 

@@ -477,6 +477,52 @@ public class DatabaseTools {
 
     }
 
+    /**
+     * Get a map of <ColumnName, ColumnType> but remove the automatically generated metadata columns from the map:
+     * ID_SYSTEM_SEQUENCE, INSERT_DATE, LAST_UPDATE, RECORD_STATUS
+     */
+    public Map<String, String> getColumnNamesFromTableWithoutMetadataColumns(String tableName)
+            throws SQLException {
+        Connection connection = this.getConnection();
+        DatabaseMetaData meta = connection.getMetaData();
+        CachedRowSetImpl cachedResultSet = new CachedRowSetImpl();
+        String catalog = null;
+        String schemaPattern = null;
+        String tableNamePattern = tableName;
+        this.logger.warning("Getting metadata for table: " + tableName);
+        String columnNamePattern = null;
+
+        ResultSet result = meta.getColumns(catalog, schemaPattern,
+                tableNamePattern, columnNamePattern);
+        System.out.println(result.getFetchSize());
+        cachedResultSet.populate(result);
+        connection.close();
+
+        Map<String, String> columnMetadataMap = new LinkedHashMap<String, String>();
+        while (cachedResultSet.next()) {
+
+
+            // ColumnName
+            String columnName = cachedResultSet.getString(4);
+
+            // ColumnType
+            String columnType = cachedResultSet.getString(6);
+
+            columnMetadataMap.put(columnName, columnType);
+
+        }
+
+        // remove the sequence nu,ber, timestamps and status columns
+        columnMetadataMap.remove("ID_SYSTEM_SEQUENCE");
+        columnMetadataMap.remove("INSERT_DATE");
+        columnMetadataMap.remove("LAST_UPDATE");
+        columnMetadataMap.remove("RECORD_STATUS");
+
+
+        return columnMetadataMap;
+
+    }
+
     public int getNumberofColumnsPerTable(String tableName) throws SQLException {
         Connection connection = this.getConnection();
         int columncCount = 0;

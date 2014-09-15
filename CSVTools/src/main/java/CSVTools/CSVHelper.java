@@ -568,6 +568,14 @@ public class CSVHelper {
 
     }
 
+    /**
+     * Get List of all rows
+     *
+     * @param fileName
+     * @return
+     * @throws Exception
+     */
+
     public List<String> readWithCsvListReaderAsStrings(String fileName)
             throws Exception {
         List<String> columns;

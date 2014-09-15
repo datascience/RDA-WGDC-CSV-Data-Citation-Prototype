@@ -429,13 +429,27 @@ public class MigrateCSV2SQL {
     }
 
 
-    public void insertNewCSVDataIntoExistingDB(String path, String tableName, boolean hasHeaders, boolean
+    /**
+     * Appends new records to an existing database
+     *
+     * @param columnsMap
+     * @param path
+     * @param tableName
+     * @param hasHeaders
+     * @param calculateHashKeyColumn
+     * @throws SQLException
+     * @throws IOException
+     */
+    public void insertNewCSVDataIntoExistingDB(Map<String, String> columnsMap, String path, String tableName,
+                                               boolean hasHeaders, boolean
             calculateHashKeyColumn) throws SQLException, IOException {
+        this.logger.info("Appending new records to an existing database");
         Connection connection = this.getConnection();
         if (connection.getAutoCommit()) {
             //this.logger.info("AUTO COMMIT OFF");
             connection.setAutoCommit(false);
         }
+
 
         PreparedStatement preparedStatement;
         CSVHelper csvHelper;
@@ -452,7 +466,9 @@ public class MigrateCSV2SQL {
         long startTime = System.currentTimeMillis();
         ICsvListReader listReader = null;
         try {
-            final String[] header = reader.getHeader(hasHeaders);
+
+            int numberOfColumns = columnsMap.size();
+
 
             // Calculate the number of place holders required by the amount of
             // columns and add four ? for the sequence, created and updated date and the
@@ -461,7 +477,7 @@ public class MigrateCSV2SQL {
 
             // placeholder for sequence number
             String placeholders = "(?,";
-            for (int i = 0; i < header.length; i++) {
+            for (int i = 0; i < numberOfColumns; i++) {
                 placeholders += "?,";
             }
 
@@ -492,7 +508,7 @@ public class MigrateCSV2SQL {
                 rowCount++;
 
                 // there are five metadata columns: sequence, inserted, time, updated time, hash,status
-                for (int columnCount = 1; columnCount <= header.length + 5; columnCount++) {
+                for (int columnCount = 1; columnCount <= numberOfColumns + 5; columnCount++) {
 
                     // first column contains sequence
                     if (columnCount == 1) {
@@ -500,20 +516,20 @@ public class MigrateCSV2SQL {
 
                         // column values (first column is the id)
                     } else if (columnCount > 1
-                            && columnCount <= (header.length + 1)) {
+                            && columnCount <= (numberOfColumns + 1)) {
 
                         // index starts at 0 and the counter at 1.
                         preparedStatement.setString(columnCount,
                                 row.get(columnCount - 2));
 
                         // insert timestamps
-                    } else if (columnCount == (header.length + 2)
-                            || columnCount == (header.length + 3)) {
+                    } else if (columnCount == (numberOfColumns + 2)
+                            || columnCount == (numberOfColumns + 3)) {
 
                         preparedStatement.setDate(columnCount, null);
 
                         // insert the hash
-                    } else if (columnCount == (header.length + 4) & calculateHashKeyColumn) {
+                    } else if (columnCount == (numberOfColumns + 4) & calculateHashKeyColumn) {
 
                         String appendedColumns = CSVHelper.convertStringListToAppendedString(row);
 
@@ -524,13 +540,13 @@ public class MigrateCSV2SQL {
 
                     }
                     // if there is no hash column, then the last record state field has is at position +4
-                    else if (columnCount == (header.length + 4) & calculateHashKeyColumn == false) {
+                    else if (columnCount == (numberOfColumns + 4) & calculateHashKeyColumn == false) {
                         preparedStatement.setString(columnCount, "inserted");
 
                     }
 
                     // if there is a hash column, then the last record state field has is at position +5
-                    else if (columnCount == (header.length + 5) & calculateHashKeyColumn) {
+                    else if (columnCount == (numberOfColumns + 5) & calculateHashKeyColumn) {
                         preparedStatement.setString(columnCount, "inserted");
                     }
                 }
