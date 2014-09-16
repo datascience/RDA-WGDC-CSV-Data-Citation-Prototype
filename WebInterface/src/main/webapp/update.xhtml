@@ -44,6 +44,10 @@
         margin: 10px;
         background-color: yellow;
         }
+
+        tr, td {
+        border: none;
+        }
     </style>
 
 
@@ -90,7 +94,7 @@
             <h:message id="messages" for="uploadCommandForm" globalOnly="true"/>
         </p:row>
 
-        <p:panelGrid columns="2">
+        <p:panelGrid>
 
 
             <p:row>
@@ -115,13 +119,15 @@
                 </p:column>
             </p:row>
             <p:row>
-                <p:column>
-                    <p:commandButton value="Update table." action
+                <p:column colspan="2">
+                <p:commandButton value="Update table." action
                             ="#{databaseMigrationController.updateTableData}">
                     </p:commandButton>
                 </p:column>
-                <p:column>
-                    <p:commandButton value="View uploaded data" action="#{databaseMigrationController.viewTable}"/>
+            </p:row>
+            <p:row>
+                <p:column colspan="2">
+                <p:commandButton value="View uploaded data" action="#{databaseMigrationController.viewTable}"/>
                 </p:column>
 
             </p:row>
