@@ -251,6 +251,7 @@ public class FileUploadController implements Serializable {
         // @todo review this, there is a problem with the table because the uploda uses a input text field and one
         // time it uses a drop down.
         if (this.tableName != null) {
+            this.logger.info("current table name was set to null... using session data.");
             session.put("currentTableName", this.tableName);
         }
 
@@ -352,8 +353,6 @@ public class FileUploadController implements Serializable {
         this.CSVcolumnNames = columns;
 
     }
-
-
 
 
 }

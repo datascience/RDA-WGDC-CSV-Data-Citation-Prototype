@@ -440,8 +440,8 @@ public class MigrateCSV2SQL {
      * @throws SQLException
      * @throws IOException
      */
-    public void insertNewCSVDataIntoExistingDB(Map<String, String> columnsMap, String path, String tableName,
-                                               boolean hasHeaders, boolean
+    public void appendingNewCSVDataIntoExistingDB(Map<String, String> columnsMap, String path, String tableName,
+                                                  boolean hasHeaders, boolean
             calculateHashKeyColumn) throws SQLException, IOException {
         this.logger.info("Appending new records to an existing database");
         Connection connection = this.getConnection();
@@ -468,6 +468,7 @@ public class MigrateCSV2SQL {
         try {
 
             int numberOfColumns = columnsMap.size();
+            this.logger.info("Original Table has " + numberOfColumns + " columns (without the metadata)");
 
 
             // Calculate the number of place holders required by the amount of
@@ -499,6 +500,9 @@ public class MigrateCSV2SQL {
             String insertString = "INSERT INTO " + tableName + " VALUES "
                     + placeholders;
             preparedStatement = connection.prepareStatement(insertString);
+
+
+            this.logger.info("The SQL string is " + insertString);
 
             List<String> row;
 

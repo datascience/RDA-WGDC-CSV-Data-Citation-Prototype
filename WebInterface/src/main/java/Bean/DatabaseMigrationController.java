@@ -12,16 +12,9 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
-import javax.sql.DataSource;
 import java.io.Serializable;
-import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
@@ -257,21 +250,8 @@ public class DatabaseMigrationController implements Serializable {
                 DatabaseTools dbt = new DatabaseTools();
                 Map<String, String> columnsMap = (dbt.getColumnNamesFromTableWithoutMetadataColumns(this
                         .currentTableName));
+
                 Iterator columnsMapIterator = columnsMap.entrySet().iterator();
-                int columnCount = -1;
-
-                while (columnsMapIterator.hasNext()) {
-                    Map.Entry columnEntry = (Map.Entry) columnsMapIterator.next();
-                    System.out.println(pairs.getKey() + " = " + columnEntry.getValue());
-                    columnsMapIterator.remove(); // avoids a ConcurrentModificationException
-                }
-
-
-
-
-
-
-
 
                 // read CSV file
 
@@ -279,7 +259,7 @@ public class DatabaseMigrationController implements Serializable {
 
 
                 // Import CSV Data
-                migrate.insertNewCSVDataIntoExistingDB(columnsMap, currentPath, this.currentTableName, true,
+                migrate.appendingNewCSVDataIntoExistingDB(columnsMap, currentPath, this.currentTableName, true,
                         calulateHashColumn);
 
             } catch (Exception e) {

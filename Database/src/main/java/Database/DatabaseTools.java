@@ -133,13 +133,7 @@ public class DatabaseTools {
     private String tableName;
     private Logger logger;
 
-    private final int MAXCONNECTIONS = 1;
-    private final String DATABASE_SCHEMA = "CITATION_DB";
-    //private final String DATABASE_URL = "jdbc:h2:file:~/Development/workspaceDevelopment/Datatable-CSV/databases/";
-    private final String DATABASE_URL = "jdbc:mysql://localhost:3306/";
 
-    private final String USER_NAME = "sa";
-    private final String PASSWORD = "sa";
 
 
     private Connection connection;
@@ -154,9 +148,9 @@ public class DatabaseTools {
 		 * e.printStackTrace(); }
 		 */
         this.dataBaseName = dataBaseName;
-        DataBaseConnectionPool datasource = new DataBaseConnectionPool();
+        DataBaseConnectionPool baseConnectionPool = new DataBaseConnectionPool();
 
-        this.connection = datasource.getConnection();
+        this.connection = baseConnectionPool.getConnection();
 
 
     }
@@ -171,9 +165,9 @@ public class DatabaseTools {
      */
     public DatabaseTools() throws SQLException, ClassNotFoundException {
         this.logger = Logger.getLogger(this.getClass().getName());
-        DataBaseConnectionPool datasource = new DataBaseConnectionPool();
+        DataBaseConnectionPool dataBaseConnectionPool = new DataBaseConnectionPool();
 
-        this.setConnection(datasource.getConnection());
+        this.setConnection(dataBaseConnectionPool.getConnection());
     }
 
     public Connection getConnection() {
@@ -182,9 +176,9 @@ public class DatabaseTools {
             try {
                 if (this.connection.isClosed()) {
 
-                    DataBaseConnectionPool datasource = new DataBaseConnectionPool();
+                    DataBaseConnectionPool dataBaseConnectionPool = new DataBaseConnectionPool();
 
-                    this.setConnection(datasource.getConnection());
+                    this.setConnection(dataBaseConnectionPool.getConnection());
                 }
             } catch (SQLException e) {
                 // TODO Auto-generated catch block
@@ -483,40 +477,52 @@ public class DatabaseTools {
      */
     public Map<String, String> getColumnNamesFromTableWithoutMetadataColumns(String tableName)
             throws SQLException {
-        Connection connection = this.getConnection();
-        DatabaseMetaData meta = connection.getMetaData();
-        CachedRowSetImpl cachedResultSet = new CachedRowSetImpl();
+
+        this.logger.warning("Getting metadata for table: " + tableName + " " +
+                "[getColumnNamesFromTableWithoutMetadataColumns ]");
+
+
+        Connection conn = this.getConnection();
         String catalog = null;
-        String schemaPattern = null;
-        String tableNamePattern = tableName;
-        this.logger.warning("Getting metadata for table: " + tableName);
+        String schemaPattern = "CITATION_DB";
+        String tableNamePattern = "ADRESSES";
         String columnNamePattern = null;
 
-        ResultSet result = meta.getColumns(catalog, schemaPattern,
-                tableNamePattern, columnNamePattern);
-        this.logger.info("Fetchsize: " + result.getFetchSize());
-        cachedResultSet.populate(result);
-        connection.close();
-
         Map<String, String> columnMetadataMap = new LinkedHashMap<String, String>();
-        while (cachedResultSet.next()) {
+        ResultSet rsColumns = null;
+        DatabaseMetaData meta = null;
+        try {
+            meta = conn.getMetaData();
+            rsColumns = meta.getColumns(null, schemaPattern, tableNamePattern, null);
+
+            conn.close();
 
 
-            // ColumnName
-            String columnName = cachedResultSet.getString(4);
+            while (rsColumns.next()) {
 
-            // ColumnType
-            String columnType = cachedResultSet.getString(6);
 
-            columnMetadataMap.put(columnName, columnType);
+                // ColumnName
+                String columnName = rsColumns.getString(4);
 
+                // ColumnType
+                String columnType = rsColumns.getString(6);
+
+                columnMetadataMap.put(columnName, columnType);
+                System.out.println("Key: " + columnName + " Value " + columnType);
+
+            }
+            // remove the sequence nu,ber, timestamps and status columns
+            this.logger.info("There are " + columnMetadataMap.size() + " columns in the table");
+            columnMetadataMap.remove("ID_SYSTEM_SEQUENCE");
+            columnMetadataMap.remove("INSERT_DATE");
+            columnMetadataMap.remove("LAST_UPDATE");
+            columnMetadataMap.remove("RECORD_STATUS");
+            this.logger.info("Removed the metadata . Now there are " + columnMetadataMap.size() + " columns in the " +
+                    "table");
+
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-
-        // remove the sequence nu,ber, timestamps and status columns
-        columnMetadataMap.remove("ID_SYSTEM_SEQUENCE");
-        columnMetadataMap.remove("INSERT_DATE");
-        columnMetadataMap.remove("LAST_UPDATE");
-        columnMetadataMap.remove("RECORD_STATUS");
 
 
         return columnMetadataMap;
