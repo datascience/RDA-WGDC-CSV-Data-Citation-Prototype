@@ -330,6 +330,11 @@ public class FileUploadController implements Serializable {
 
     public void updateCSVColumnList() {
 
+        // reset columns dropdown
+
+        this.columns = new ArrayList<String>();
+        this.columns.add("Use insert sequence number");
+
         String path = "";
         CSVHelper csvHelper = new CSVHelper();
         Map<String, Object> sessionMAP = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
@@ -345,10 +350,10 @@ public class FileUploadController implements Serializable {
         this.logger.info("Path of CSV file: " + path);
 
         // Append all headers to the default (which is the sequence number)
+
         columns.addAll(csvHelper.getListOfHeadersCSV(path));
-        for (String col : columns) {
-            this.logger.info("Column: " + col);
-        }
+
+
         this.logger.info("Updating columns.... found " + columns.size() + " cols");
         this.CSVcolumnNames = columns;
 
