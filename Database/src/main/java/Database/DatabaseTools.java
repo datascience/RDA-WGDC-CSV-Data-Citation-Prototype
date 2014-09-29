@@ -494,7 +494,7 @@ public class DatabaseTools {
 
         ResultSet result = meta.getColumns(catalog, schemaPattern,
                 tableNamePattern, columnNamePattern);
-        System.out.println(result.getFetchSize());
+        this.logger.info("Fetchsize: " + result.getFetchSize());
         cachedResultSet.populate(result);
         connection.close();
 

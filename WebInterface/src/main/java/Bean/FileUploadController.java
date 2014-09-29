@@ -162,6 +162,7 @@ public class FileUploadController implements Serializable {
 
     public void setTableName(String tableName) {
         this.tableName = tableName;
+
     }
 
     public List<String> getFilesListStrings() {
@@ -246,7 +247,12 @@ public class FileUploadController implements Serializable {
         this.logger.info("Writing file list to session...");
         // schreiben
 
-        session.put("currentTableName", this.tableName);
+
+        // @todo review this, there is a problem with the table because the uploda uses a input text field and one
+        // time it uses a drop down.
+        if (this.tableName != null) {
+            session.put("currentTableName", this.tableName);
+        }
 
 
         // lesen
@@ -302,8 +308,8 @@ public class FileUploadController implements Serializable {
     public void handleChangeTableName(ValueChangeEvent event) {
         this.logger.info(event.getComponent().toString() + " " + event.toString());
 
-        String selectedDB = event.getNewValue().toString();
-        this.logger.info("Databasename = " + selectedDB);
+        String selectedTable = event.getNewValue().toString();
+        this.logger.info("Changed Table Name = " + selectedTable);
 
 
     }

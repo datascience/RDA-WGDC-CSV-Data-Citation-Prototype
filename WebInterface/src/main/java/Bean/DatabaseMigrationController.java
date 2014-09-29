@@ -186,6 +186,7 @@ public class DatabaseMigrationController implements Serializable {
 
     public void updateTableData() {
         this.logger.info("Update button clicked");
+        this.logger.info("Currently the selected table is " + this.getCurrentTableName());
         if (this.isNewDataOnly) {
             this.logger.info("Only new data will be inserted");
             this.displayMessage("Insert new data", "Only new data will be inserted");
@@ -202,6 +203,9 @@ public class DatabaseMigrationController implements Serializable {
 
     }
 
+    /**
+     * Append new CSV Data
+     */
     private void insertNewCSVData() {
         System.out.println("inserting new data");
 
@@ -215,6 +219,11 @@ public class DatabaseMigrationController implements Serializable {
             for (Map.Entry<String, String> entry : testMap.entrySet()) {
                 this.logger.info("File list loop: Key = " + entry.getKey() + ", Value = " + entry.getValue());
             }
+        }
+
+        if (this.currentTableName == null) {
+            this.logger.warning("Current table name was null... reading from session");
+
         }
 
         this.logger.info("Selected database: " + this.getCurrentDatabaseName() + " Table: " + this
@@ -304,6 +313,9 @@ public class DatabaseMigrationController implements Serializable {
         // read data from session
         Map<String, Object> sessionMAP = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
         this.currentTableName = (String) sessionMAP.get("currentTableName");
+        if (this.currentTableName == null) {
+            this.logger.warning("THERE IS NO DATA FOR TABLENAME IN THE SESSION");
+        }
         this.logger.info("Read current table name from session: " + this.currentTableName);
         return this.currentTableName;
 
