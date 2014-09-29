@@ -137,6 +137,7 @@ public class DatabaseTools {
 
 
     private Connection connection;
+    private DataBaseConnectionPool dbcp;
 
     public DatabaseTools(String dataBaseName) {
         this.logger = Logger.getLogger(this.getClass().getName());
@@ -148,9 +149,8 @@ public class DatabaseTools {
 		 * e.printStackTrace(); }
 		 */
         this.dataBaseName = dataBaseName;
-        DataBaseConnectionPool baseConnectionPool = new DataBaseConnectionPool();
+        this.dbcp = new DataBaseConnectionPool();
 
-        this.connection = baseConnectionPool.getConnection();
 
 
     }
@@ -165,9 +165,8 @@ public class DatabaseTools {
      */
     public DatabaseTools() throws SQLException, ClassNotFoundException {
         this.logger = Logger.getLogger(this.getClass().getName());
-        DataBaseConnectionPool dataBaseConnectionPool = new DataBaseConnectionPool();
+        this.dbcp = new DataBaseConnectionPool();
 
-        this.setConnection(dataBaseConnectionPool.getConnection());
     }
 
     public Connection getConnection() {
@@ -176,18 +175,24 @@ public class DatabaseTools {
             try {
                 if (this.connection.isClosed()) {
 
-                    DataBaseConnectionPool dataBaseConnectionPool = new DataBaseConnectionPool();
+                    this.dbcp = new DataBaseConnectionPool();
 
-                    this.setConnection(dataBaseConnectionPool.getConnection());
+                    this.setConnection(dbcp.getConnection());
                 }
             } catch (SQLException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
             return this.connection;
-        } else
+        } else if (this.connection == null) {
+            this.dbcp = new DataBaseConnectionPool();
 
-            return null;
+            this.setConnection(dbcp.getConnection());
+
+
+        }
+
+        return this.connection;
 
     }
 
@@ -471,21 +476,29 @@ public class DatabaseTools {
 
     }
 
+    public DataBaseConnectionPool getBaseConnectionPool() {
+        return dbcp;
+    }
+
+    public void setBaseConnectionPool(DataBaseConnectionPool baseConnectionPool) {
+        this.dbcp = baseConnectionPool;
+    }
+
     /**
      * Get a map of <ColumnName, ColumnType> but remove the automatically generated metadata columns from the map:
      * ID_SYSTEM_SEQUENCE, INSERT_DATE, LAST_UPDATE, RECORD_STATUS
      */
-    public Map<String, String> getColumnNamesFromTableWithoutMetadataColumns(String tableName)
+    public Map<String, String> getColumnNamesFromTableWithoutMetadataColumns(String tableName, String dataBaseName)
             throws SQLException {
 
-        this.logger.warning("Getting metadata for table: " + tableName + " " +
+        this.logger.warning("Getting metadata for table: " + tableName + " in DB " + dataBaseName +
                 "[getColumnNamesFromTableWithoutMetadataColumns ]");
 
 
-        Connection conn = this.getConnection();
+        Connection conn = this.dbcp.getConnection();
         String catalog = null;
-        String schemaPattern = "CITATION_DB";
-        String tableNamePattern = "ADRESSES";
+        String schemaPattern = tableName;
+        String tableNamePattern = dataBaseName;
         String columnNamePattern = null;
 
         Map<String, String> columnMetadataMap = new LinkedHashMap<String, String>();
@@ -517,6 +530,7 @@ public class DatabaseTools {
             columnMetadataMap.remove("INSERT_DATE");
             columnMetadataMap.remove("LAST_UPDATE");
             columnMetadataMap.remove("RECORD_STATUS");
+            columnMetadataMap.remove("SHA1_HASH");
             this.logger.info("Removed the metadata . Now there are " + columnMetadataMap.size() + " columns in the " +
                     "table");
 

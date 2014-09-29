@@ -248,10 +248,10 @@ public class DatabaseMigrationController implements Serializable {
 
             try {
                 DatabaseTools dbt = new DatabaseTools();
+                this.logger.info("Table: " + this.currentTableName + " DB: " + this.getCurrentDatabaseName());
                 Map<String, String> columnsMap = (dbt.getColumnNamesFromTableWithoutMetadataColumns(this
-                        .currentTableName));
+                        .currentTableName, this.currentDatabaseName));
 
-                Iterator columnsMapIterator = columnsMap.entrySet().iterator();
 
                 // read CSV file
 

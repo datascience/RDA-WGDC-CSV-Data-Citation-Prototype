@@ -146,7 +146,7 @@ public class MigrateCSV2SQL {
 
         // If hash key should be computed during
         if (calculateHashKeyColumn) {
-            createTableString += ", sha1_hash CHAR(40) NOT NULL ";
+            createTableString += ", SHA1_HASH CHAR(40) NOT NULL ";
 
         }
 
@@ -523,8 +523,7 @@ public class MigrateCSV2SQL {
                             && columnCount <= (numberOfColumns + 1)) {
 
                         // index starts at 0 and the counter at 1.
-                        preparedStatement.setString(columnCount,
-                                row.get(columnCount - 2));
+                        preparedStatement.setString(columnCount, row.get(columnCount - 2));
 
                         // insert timestamps
                     } else if (columnCount == (numberOfColumns + 2)

@@ -39,7 +39,7 @@ public class DatabaseTest {
         Connection conn = dbcp.getConnection();
         String catalog = null;
         String schemaPattern = "CITATION_DB";
-        String tableNamePattern = "ADRESSES";
+        String tableNamePattern = "Addressen";
         String columnNamePattern = null;
 
 
