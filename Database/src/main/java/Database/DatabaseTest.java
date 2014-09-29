@@ -16,10 +16,7 @@
 
 package Database;
 
-import java.sql.Connection;
-import java.sql.DatabaseMetaData;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -30,46 +27,56 @@ import java.util.Map;
  */
 public class DatabaseTest {
     public static void main(String[] args) {
+        String tableName = "Addressen";
+        String dataBaseName = "CITATION_DB";
+
 
         DataBaseConnectionPool datasource = new DataBaseConnectionPool();
 
-        Connection connection = datasource.getConnection();
+        Connection conn = datasource.getConnection();
 
-        DataBaseConnectionPool dbcp = new DataBaseConnectionPool();
-        Connection conn = dbcp.getConnection();
+
         String catalog = null;
-        String schemaPattern = "CITATION_DB";
-        String tableNamePattern = "Addressen";
+        String schemaPattern = tableName;
+        String tableNamePattern = dataBaseName;
         String columnNamePattern = null;
 
+        Map<String, String> columnMetadataMap = new LinkedHashMap<String, String>();
+        String dummySQL = "SELECT * FROM " + dataBaseName + "." + tableName +
+                " WHERE ID_SYSTEM_SEQUENCE > 0 AND ID_SYSTEM_SEQUENCE < 2";
 
-        ResultSet rsColumns = null;
-        DatabaseMetaData meta = null;
+        PreparedStatement pt = null;
         try {
-            meta = conn.getMetaData();
-            rsColumns = meta.getColumns(null, schemaPattern, tableNamePattern, null);
+            pt = conn.prepareStatement(dummySQL);
+            ResultSet rs = pt.executeQuery();
+            ResultSetMetaData meta = rs.getMetaData();
+            int columnCount = meta.getColumnCount();
 
-            conn.close();
+            for (int i = 1; i <= columnCount; i++) {
 
-            Map<String, String> columnMetadataMap = new LinkedHashMap<String, String>();
-
-            while (rsColumns.next()) {
-
-
-                // ColumnName
-                String columnName = rsColumns.getString(4);
-
-                // ColumnType
-                String columnType = rsColumns.getString(6);
+                String columnName = meta.getColumnName(i);
+                String columnType = meta.getColumnTypeName(i);
 
                 columnMetadataMap.put(columnName, columnType);
                 System.out.println("Key: " + columnName + " Value " + columnType);
 
             }
 
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+
+        // remove the sequence nu,ber, timestamps and status columns
+        System.out.println("There are " + columnMetadataMap.size() + " columns in the table");
+        columnMetadataMap.remove("ID_SYSTEM_SEQUENCE");
+        columnMetadataMap.remove("INSERT_DATE");
+        columnMetadataMap.remove("LAST_UPDATE");
+        columnMetadataMap.remove("RECORD_STATUS");
+        columnMetadataMap.remove("SHA1_HASH");
+        System.out.println("Removed the metadata . Now there are " + columnMetadataMap.size() + " columns in the " +
+                "table");
 
 
     }

@@ -491,8 +491,9 @@ public class DatabaseTools {
     public Map<String, String> getColumnNamesFromTableWithoutMetadataColumns(String tableName, String dataBaseName)
             throws SQLException {
 
-        this.logger.warning("Getting metadata for table: " + tableName + " in DB " + dataBaseName +
-                "[getColumnNamesFromTableWithoutMetadataColumns ]");
+        if (tableName == null || dataBaseName == null) {
+            this.logger.severe("SESSION DATA IS NOT SET CORRECTLY");
+        }
 
 
         Connection conn = this.dbcp.getConnection();
@@ -502,28 +503,27 @@ public class DatabaseTools {
         String columnNamePattern = null;
 
         Map<String, String> columnMetadataMap = new LinkedHashMap<String, String>();
-        ResultSet rsColumns = null;
-        DatabaseMetaData meta = null;
-        try {
-            meta = conn.getMetaData();
-            rsColumns = meta.getColumns(null, schemaPattern, tableNamePattern, null);
+        // this query is needed to retrieve the column names from the database
+        String dummySQL = "SELECT * FROM " + dataBaseName + "." + tableName +
+                " WHERE ID_SYSTEM_SEQUENCE > 0 AND ID_SYSTEM_SEQUENCE < 2";
+        this.logger.info("Dummy string " + dummySQL);
+        PreparedStatement pt = conn.prepareStatement(dummySQL);
 
-            conn.close();
+        ResultSet rs = pt.executeQuery();
+        ResultSetMetaData meta = rs.getMetaData();
+        int columnCount = meta.getColumnCount();
+
+        for (int i = 1; i <= columnCount; i++) {
+
+            String columnName = meta.getColumnName(i);
+            String columnType = meta.getColumnTypeName(i);
+
+            columnMetadataMap.put(columnName, columnType);
+            System.out.println("Key: " + columnName + " Value " + columnType);
+
+        }
 
 
-            while (rsColumns.next()) {
-
-
-                // ColumnName
-                String columnName = rsColumns.getString(4);
-
-                // ColumnType
-                String columnType = rsColumns.getString(6);
-
-                columnMetadataMap.put(columnName, columnType);
-                System.out.println("Key: " + columnName + " Value " + columnType);
-
-            }
             // remove the sequence nu,ber, timestamps and status columns
             this.logger.info("There are " + columnMetadataMap.size() + " columns in the table");
             columnMetadataMap.remove("ID_SYSTEM_SEQUENCE");
@@ -534,11 +534,8 @@ public class DatabaseTools {
             this.logger.info("Removed the metadata . Now there are " + columnMetadataMap.size() + " columns in the " +
                     "table");
 
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
 
-
+        conn.close();
         return columnMetadataMap;
 
     }
