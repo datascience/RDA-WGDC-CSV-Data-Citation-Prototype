@@ -18,6 +18,7 @@ package Database;
 
 import java.sql.*;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -77,6 +78,20 @@ public class DatabaseTest {
         columnMetadataMap.remove("SHA1_HASH");
         System.out.println("Removed the metadata . Now there are " + columnMetadataMap.size() + " columns in the " +
                 "table");
+
+
+        DatabaseTools dbt = null;
+        try {
+            dbt = new DatabaseTools();
+            List<String> primaryKeyList = dbt.getPrimaryKeyFromTable(tableName, dataBaseName);
+
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
 
 
     }
