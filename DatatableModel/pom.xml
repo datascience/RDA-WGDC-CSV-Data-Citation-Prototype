@@ -62,5 +62,12 @@
             <artifactId>tomcat-embed-core</artifactId>
             <version>7.0.37</version>
         </dependency>
+
+        <!-- Internal Dependencies -->
+        <dependency>
+            <groupId>at.stefanproell</groupId>
+            <artifactId>Database</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 </project>
