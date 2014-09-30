@@ -333,7 +333,7 @@ public class FileUploadController implements Serializable {
         // reset columns dropdown
 
         this.columns = new ArrayList<String>();
-        this.columns.add("Use insert sequence number");
+        this.columns.add("ID_SYSTEM_SEQUENCE");
 
         String path = "";
         CSVHelper csvHelper = new CSVHelper();

@@ -185,7 +185,7 @@ public class DatabaseMigrationController implements Serializable {
             this.logger.info("Only new data will be inserted");
             this.displayMessage("Insert new data", "Only new data will be inserted");
 
-            this.insertNewCSVData();
+            this.insertNewCSVDataToExistingTable();
 
         } else {
             this.logger.info("Existing rows will be updated");
@@ -202,7 +202,7 @@ public class DatabaseMigrationController implements Serializable {
     /**
      * Append new CSV Data to an existing table
      */
-    private void insertNewCSVData() {
+    private void insertNewCSVDataToExistingTable() {
         System.out.println("inserting new data");
 
         // retrieve file names

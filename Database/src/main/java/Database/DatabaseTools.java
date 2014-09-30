@@ -1075,4 +1075,21 @@ public class DatabaseTools {
 
     }
 
+    public int getMaxSequenceNumberFromTable(String tableName) throws SQLException {
+        Connection connection = this.dbcp.getConnection();
+
+        Statement selectLastSequenceNumber = connection.createStatement();
+        ResultSet maxSequenceResult = selectLastSequenceNumber.executeQuery("SELECT MAX(ID_SYSTEM_SEQUENCE) " +
+                "AS maxSequence FROM " + tableName + ";");
+        int maxSequenceNumber = -1;
+        if (maxSequenceResult.next()) {
+            maxSequenceNumber = maxSequenceResult.getInt("maxSequence");
+            this.logger.info("MAX sequence number of " + tableName + " is " + maxSequenceNumber);
+
+        }
+        connection.close();
+
+        return maxSequenceNumber;
+    }
+
 }

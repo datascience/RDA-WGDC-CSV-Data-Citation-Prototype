@@ -108,10 +108,19 @@ import java.util.logging.Logger;
 public class MigrateCSV2SQL {
     private Logger logger;
     private DataBaseConnectionPool dbcp;
+    private DatabaseTools dbtools;
 
     public MigrateCSV2SQL() {
         this.logger = Logger.getLogger(this.getClass().getName());
-        this.dbcp = new DataBaseConnectionPool();
+        try {
+            this.dbtools = new DatabaseTools();
+            this.dbcp = this.dbtools.getBaseConnectionPool();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
 
 
     }
@@ -153,8 +162,8 @@ public class MigrateCSV2SQL {
         // append record status column
         createTableString += ", RECORD_STATUS enum('inserted','updated','deleted') NOT NULL DEFAULT 'inserted'";
         // append primary key
-        createTableString += ",PRIMARY KEY (" + primaryKeyColumnName + ")";
-        this.logger.info("Primary key is " + primaryKeyColumnName);
+        createTableString += ",PRIMARY KEY (" + primaryKeyColumnName + ",LAST_UPDATE)";
+        this.logger.info("Primary key is " + primaryKeyColumnName + " and the update column!");
 
 
         // Finalize SQL String
@@ -444,6 +453,10 @@ public class MigrateCSV2SQL {
                                                   boolean hasHeaders, boolean
             calculateHashKeyColumn) throws SQLException, IOException {
         this.logger.info("Appending new records to an existing database");
+
+        // get the latest sequence number from the DB.
+        int currentMaxSequenceNumber = this.dbtools.getMaxSequenceNumberFromTable(tableName);
+
         Connection connection = this.getConnection();
         if (connection.getAutoCommit()) {
             //this.logger.info("AUTO COMMIT OFF");
@@ -502,13 +515,14 @@ public class MigrateCSV2SQL {
             preparedStatement = connection.prepareStatement(insertString);
 
 
-            this.logger.info("The SQL string is " + insertString);
+            this.logger.info("The SQL string is " + insertString + " [new]");
+
 
             List<String> row;
 
 
             while ((row = reader.read()) != null) {
-
+                currentMaxSequenceNumber++;
                 rowCount++;
 
                 // there are five metadata columns: sequence, inserted, time, updated time, hash,status
@@ -516,7 +530,7 @@ public class MigrateCSV2SQL {
 
                     // first column contains sequence
                     if (columnCount == 1) {
-                        preparedStatement.setInt(columnCount, rowCount);
+                        preparedStatement.setInt(columnCount, currentMaxSequenceNumber);
 
                         // column values (first column is the id)
                     } else if (columnCount > 1
@@ -605,6 +619,8 @@ public class MigrateCSV2SQL {
             calculateHashKeyColumn) throws SQLException, IOException {
         this.logger.info("Appending new records to an existing database");
         Connection connection = this.getConnection();
+
+
         if (connection.getAutoCommit()) {
             //this.logger.info("AUTO COMMIT OFF");
             connection.setAutoCommit(false);
@@ -612,6 +628,8 @@ public class MigrateCSV2SQL {
 
 
         PreparedStatement preparedStatement;
+
+
         CSVHelper csvHelper;
         csvHelper = new CSVHelper();
         CsvListReader reader = null;
@@ -667,6 +685,12 @@ public class MigrateCSV2SQL {
             List<String> row;
 
 
+            // get the latest sequence number from the DB.
+            int currentMaxSequenceNumber = this.dbtools.getMaxSequenceNumberFromTable(tableName);
+
+
+
+
             while ((row = reader.read()) != null) {
 
                 rowCount++;
@@ -676,7 +700,7 @@ public class MigrateCSV2SQL {
 
                     // first column contains sequence
                     if (columnCount == 1) {
-                        preparedStatement.setInt(columnCount, rowCount);
+                        preparedStatement.setInt(columnCount, currentMaxSequenceNumber);
 
                         // column values (first column is the id)
                     } else if (columnCount > 1
