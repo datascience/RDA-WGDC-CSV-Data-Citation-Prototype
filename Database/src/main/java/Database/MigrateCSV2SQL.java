@@ -439,7 +439,8 @@ public class MigrateCSV2SQL {
 
 
     /**
-     * Appends new records to an existing database
+     * Appends new records to an existing database. If the file contains a header,
+     * the header will be skipped. The sequence number is retrieved from the database
      *
      * @param columnsMap
      * @param path
@@ -616,7 +617,7 @@ public class MigrateCSV2SQL {
     }
 
     /**
-     * Update existing data in a table
+     * Update existing data in a table. Checks if each record exists.
      *
      * @param columnsMap
      * @param path
@@ -696,6 +697,20 @@ public class MigrateCSV2SQL {
             this.logger.info("The SQL string is " + insertString);
 
             List<String> row;
+            String[] header = reader.getHeader(hasHeaders);
+            String primaryKeyTable = this.dbtools.getPrimaryKeyFromTableWithoutMetadataColumns(tableName).get(0);
+
+            for (int i = 0; i < header.length; i++) {
+                if (header[i].equals(primaryKeyTable)) {
+                    this.logger.info("The column wih the primary key is: " + header[i] + " (number " + i + ")");
+
+                }
+            }
+
+            //@todo continue here
+
+
+
 
 
             // get the latest sequence number from the DB.

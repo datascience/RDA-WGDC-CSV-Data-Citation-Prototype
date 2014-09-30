@@ -189,6 +189,8 @@ public class DatabaseMigrationController implements Serializable {
 
         } else {
             this.logger.info("Existing rows will be updated");
+            this.displayMessage("Update existing data", "Performing updates");
+            this.updateDataInExistingTable();
 
 
         }

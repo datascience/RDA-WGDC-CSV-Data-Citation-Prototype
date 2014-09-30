@@ -1075,6 +1075,52 @@ public class DatabaseTools {
 
     }
 
+    /**
+     * Retrieve the primary key from a table by using the metadata of the database without the standard primary key
+     * LAST_UPDATE
+     *
+     * @param tableName
+     * @return
+     */
+    public List<String> getPrimaryKeyFromTableWithoutMetadataColumns(String tableName) {
+        List<String> primaryKeyList = new ArrayList<String>();
+
+        String catalog = null;
+        String schema = this.getDataBaseName();
+        DatabaseMetaData databaseMetaData = null;
+        try {
+            databaseMetaData = this.dbcp.getConnection().getMetaData();
+            ResultSet result = databaseMetaData.getPrimaryKeys(
+                    catalog, schema, tableName);
+
+            while (result.next()) {
+                String columnName = result.getString(4);
+                if (columnName.equals("LAST_UPDATE") == false) {
+                    primaryKeyList.add(columnName);
+                    this.logger.info("Found primary key: " + columnName);
+                } else {
+                    this.logger.info("Ignored standard key LAST_UPDATE");
+                }
+
+            }
+
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return primaryKeyList;
+
+
+    }
+
+    /**
+     * Retrieve the max Sequence number from a record in the database
+     *
+     * @param tableName
+     * @return
+     * @throws SQLException
+     */
     public int getMaxSequenceNumberFromTable(String tableName) throws SQLException {
         Connection connection = this.dbcp.getConnection();
 
@@ -1091,5 +1137,32 @@ public class DatabaseTools {
 
         return maxSequenceNumber;
     }
+
+
+    public boolean checkIfRecordExistsInTable(String tableName, String primaryKeyColumnName,
+                                              String primaryKeyValue) throws SQLException {
+        Connection connection = this.dbcp.getConnection();
+
+        Statement checkRecordExistance = connection.createStatement();
+        ResultSet maxSequenceResult = checkRecordExistance.executeQuery("SELECT EXISTS(SELECT 1 FROM " +
+                "" + tableName + " WHERE " + primaryKeyColumnName + "= " + primaryKeyValue + ") AS recordDoesExist;");
+        int existsInteger = -1;
+        if (maxSequenceResult.next()) {
+            existsInteger = maxSequenceResult.getInt("recordDoesExist");
+        }
+        connection.close();
+
+
+        if (existsInteger == 1) {
+            this.logger.info("The record exists");
+            return true;
+        } else {
+            this.logger.info("The record does NOT exist");
+            return false;
+        }
+
+
+    }
+
 
 }
