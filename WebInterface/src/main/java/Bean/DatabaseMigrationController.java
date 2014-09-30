@@ -238,15 +238,7 @@ public class DatabaseMigrationController implements Serializable {
             String currentPath = pairs.getValue().toString();
 
 
-            // there are headers
-            if (this.isHeaderRow()) {
-                // Read headers
-                this.logger.info("There are headers");
-                String[] headers = csv.getArrayOfHeadersCSV(currentPath);
 
-            } else {
-                this.logger.info("There are no headers");
-            }
 
 
             try {
@@ -262,7 +254,8 @@ public class DatabaseMigrationController implements Serializable {
 
 
                 // Import CSV Data
-                migrate.appendingNewCSVDataIntoExistingDB(columnsMap, currentPath, this.currentTableName, true,
+                migrate.appendingNewCSVDataIntoExistingDB(columnsMap, currentPath, this.currentTableName,
+                        this.isHeaderRow(),
                         calulateHashColumn);
 
             } catch (Exception e) {

@@ -454,6 +454,7 @@ public class MigrateCSV2SQL {
             calculateHashKeyColumn) throws SQLException, IOException {
         this.logger.info("Appending new records to an existing database");
 
+
         // get the latest sequence number from the DB.
         int currentMaxSequenceNumber = this.dbtools.getMaxSequenceNumberFromTable(tableName);
 
@@ -520,8 +521,20 @@ public class MigrateCSV2SQL {
 
             List<String> row;
 
+            // Check if there are headers
+            if (hasHeaders) {
+                // Read headers
+                this.logger.info("There are headers... Skipping header");
+                row = reader.read();
+
+            } else {
+                this.logger.info("There are no headers");
+            }
+
 
             while ((row = reader.read()) != null) {
+
+
                 currentMaxSequenceNumber++;
                 rowCount++;
 
