@@ -96,10 +96,9 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+
+import java.util.*;
+import java.util.Date;
 import java.util.logging.Logger;
 
 /**
@@ -137,7 +136,8 @@ public class MigrateCSV2SQL {
      * @throws java.sql.SQLException
      * @throws ClassNotFoundException
      */
-    public void createSimpleDBFromCSV(Column[] columnMetadata, String tableName, String primaryKeyColumnName, boolean calculateHashKeyColumn)
+    public void createSimpleDBFromCSV(Column[] columnMetadata, String tableName, String primaryKeyColumnName,
+                                      boolean calculateHashKeyColumn)
             throws SQLException, ClassNotFoundException {
         Statement stat;
 
@@ -413,7 +413,8 @@ public class MigrateCSV2SQL {
             PreparedStatement createIndexStmt;
             for (String columnName : metadataColumns) {
                 this.logger.info("Adding index on " + columnName);
-                createIndexStmt = connection.prepareStatement("CREATE INDEX  `" + tableName + "_" + columnName + "` ON " + tableName + " (`" + columnName + "`);");
+                createIndexStmt = connection.prepareStatement("CREATE INDEX  `" + tableName + "_" + columnName + "` " +
+                        "ON " + tableName + " (`" + columnName + "`);");
                 int statuscode = createIndexStmt.executeUpdate();
             }
 
@@ -694,15 +695,24 @@ public class MigrateCSV2SQL {
             preparedStatement = connection.prepareStatement(insertString);
 
 
-            this.logger.info("The SQL string is " + insertString);
+            //this.logger.info("The SQL string is " + insertString);
 
             List<String> row;
+            // get the headers
             String[] header = reader.getHeader(hasHeaders);
-            String primaryKeyTable = this.dbtools.getPrimaryKeyFromTableWithoutMetadataColumns(tableName).get(0);
-
+            // get the primary key from the database table
+            String primaryKeyTableString = this.dbtools.getPrimaryKeyFromTableWithoutMetadataColumns(tableName).get(0);
+            // search the corresponding header column
+            int primaryKeyCSVColumnInt = -1;
+            String primaryKeyCSVColumName = null;
             for (int i = 0; i < header.length; i++) {
-                if (header[i].equals(primaryKeyTable)) {
-                    this.logger.info("The column wih the primary key is: " + header[i] + " (number " + i + ")");
+                this.logger.info("Comparing " + header[i] + " primary key: " + primaryKeyTableString);
+                if (header[i].equals(primaryKeyTableString)) {
+                    primaryKeyCSVColumnInt = i;
+                    primaryKeyCSVColumName = header[i];
+                    this.logger.info("The column wih the primary key is: " + primaryKeyCSVColumName + " (number " +
+                            primaryKeyCSVColumnInt
+                            + ")");
 
                 }
             }
@@ -710,18 +720,29 @@ public class MigrateCSV2SQL {
             //@todo continue here
 
 
-
-
-
             // get the latest sequence number from the DB.
             int currentMaxSequenceNumber = this.dbtools.getMaxSequenceNumberFromTable(tableName);
 
 
-
-
+            String updatedOrNewString = "inserted";
             while ((row = reader.read()) != null) {
 
                 rowCount++;
+
+                //check if primary key exists:
+                boolean recordExists = this.dbtools.checkIfRecordExistsInTable(tableName, primaryKeyTableString,
+                        row.get(primaryKeyCSVColumnInt));
+
+                Date insertDateFromRecord = this.dbtools.getInsertDateFromRecord(tableName, primaryKeyTableString,
+                        row.get(primaryKeyCSVColumnInt));
+
+                // if the record exists, set the status to updated
+                if (recordExists) {
+                    updatedOrNewString = "updated";
+
+                } else {
+                    updatedOrNewString = "inserted";
+                }
 
                 // there are five metadata columns: sequence, inserted, time, updated time, hash,status
                 for (int columnCount = 1; columnCount <= numberOfColumns + 5; columnCount++) {
@@ -738,13 +759,24 @@ public class MigrateCSV2SQL {
                         preparedStatement.setString(columnCount, row.get(columnCount - 2));
 
                         // insert timestamps
-                    } else if (columnCount == (numberOfColumns + 2)
-                            || columnCount == (numberOfColumns + 3)) {
+                        // if the record exists, only update the updated_timestamp and use the original inserted time
+                        // timestamp
+                    } else if (columnCount == (numberOfColumns + 2) && recordExists) {
+                        preparedStatement.setDate(columnCount, new java.sql.Date(insertDateFromRecord.getTime()));
+                        this.logger.info("The insert date was kept at " + insertDateFromRecord.toString());
 
+                        // The record is new
+                    } else if (columnCount == (numberOfColumns + 2) && !recordExists) {
                         preparedStatement.setDate(columnCount, null);
 
-                        // insert the hash
-                    } else if (columnCount == (numberOfColumns + 4) & calculateHashKeyColumn) {
+                        // update date
+                    } else if (columnCount == (numberOfColumns + 3)) {
+                        preparedStatement.setDate(columnCount, null);
+
+
+                    }
+                    // insert the hash
+                    else if (columnCount == (numberOfColumns + 4) & calculateHashKeyColumn) {
 
                         String appendedColumns = CSVHelper.convertStringListToAppendedString(row);
 
@@ -756,13 +788,13 @@ public class MigrateCSV2SQL {
                     }
                     // if there is no hash column, then the last record state field has is at position +4
                     else if (columnCount == (numberOfColumns + 4) & calculateHashKeyColumn == false) {
-                        preparedStatement.setString(columnCount, "updated");
+                        preparedStatement.setString(columnCount, updatedOrNewString);
 
                     }
 
                     // if there is a hash column, then the last record state field has is at position +5
                     else if (columnCount == (numberOfColumns + 5) & calculateHashKeyColumn) {
-                        preparedStatement.setString(columnCount, "updated");
+                        preparedStatement.setString(columnCount, updatedOrNewString);
                     }
                 }
 
@@ -790,9 +822,13 @@ public class MigrateCSV2SQL {
             if (listReader != null) {
                 listReader.close();
             }
-            connection.setAutoCommit(true);
+            if (!connection.isClosed()) {
+                connection.setAutoCommit(true);
+
+                connection.close();
+            }
             reader.close();
-            connection.close();
+
 
         }
         long endTime = System.currentTimeMillis();

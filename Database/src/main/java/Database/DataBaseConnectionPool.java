@@ -110,6 +110,7 @@ public class DataBaseConnectionPool {
      */
     public DataBaseConnectionPool() {
         this.logger = Logger.getLogger(this.getClass().getName());
+        this.logger.info("balaaaaaaaaaaaaaaaaaaarrrrrrrrrrrrrrrrrrrrjohannesh");
 
         this.dataBaseName = DATABASE_SCHEMA;
         try {

@@ -111,6 +111,7 @@ import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.sql.*;
 import java.util.*;
+import java.util.Date;
 import java.util.logging.Logger;
 
 /**
@@ -134,8 +135,6 @@ public class DatabaseTools {
     private Logger logger;
 
 
-
-
     private Connection connection;
     private DataBaseConnectionPool dbcp;
 
@@ -150,7 +149,6 @@ public class DatabaseTools {
 		 */
         this.dataBaseName = dataBaseName;
         this.dbcp = new DataBaseConnectionPool();
-
 
 
     }
@@ -524,15 +522,15 @@ public class DatabaseTools {
         }
 
 
-            // remove the sequence nu,ber, timestamps and status columns
-            this.logger.info("There are " + columnMetadataMap.size() + " columns in the table");
-            columnMetadataMap.remove("ID_SYSTEM_SEQUENCE");
-            columnMetadataMap.remove("INSERT_DATE");
-            columnMetadataMap.remove("LAST_UPDATE");
-            columnMetadataMap.remove("RECORD_STATUS");
-            columnMetadataMap.remove("SHA1_HASH");
-            this.logger.info("Removed the metadata . Now there are " + columnMetadataMap.size() + " columns in the " +
-                    "table");
+        // remove the sequence nu,ber, timestamps and status columns
+        this.logger.info("There are " + columnMetadataMap.size() + " columns in the table");
+        columnMetadataMap.remove("ID_SYSTEM_SEQUENCE");
+        columnMetadataMap.remove("INSERT_DATE");
+        columnMetadataMap.remove("LAST_UPDATE");
+        columnMetadataMap.remove("RECORD_STATUS");
+        columnMetadataMap.remove("SHA1_HASH");
+        this.logger.info("Removed the metadata . Now there are " + columnMetadataMap.size() + " columns in the " +
+                "table");
 
 
         conn.close();
@@ -861,6 +859,7 @@ public class DatabaseTools {
     public List<String> getAvailableTablesFromDatabase(String databaseName) {
         Connection connection = null;
         List<String> listOfTables = new ArrayList<String>();
+
         try {
             connection = this.getConnection();
 
@@ -974,7 +973,7 @@ public class DatabaseTools {
             this.logger.info("There are " + columnsNumber + " columns in the result set");
             String newResultSetHash = null;
             while (cached.next()) {
-	/*			hashCounter++;
+    /*			hashCounter++;
 				if (hashCounter % 1000 ==0){
 					this.logger.warning("Calculated " + hashCounter + " hashes so far");
 				}*/
@@ -1138,14 +1137,83 @@ public class DatabaseTools {
         return maxSequenceNumber;
     }
 
+    /**
+     * Get the insert date of a record
+     *
+     * @param tableName
+     * @param primaryKeyColumn
+     * @param primaryKeyValue
+     * @return
+     * @throws SQLException
+     */
+    public Date getInsertDateFromRecord(String tableName, String primaryKeyColumn,
+                                        String primaryKeyValue) throws SQLException {
+        Connection connection = this.dbcp.getConnection();
 
+        Statement selectLastSequenceNumber = connection.createStatement();
+        ResultSet minInsertDateResultSet = selectLastSequenceNumber.executeQuery("SELECT MIN(INSERT_DATE) " +
+                " FROM " + tableName + "WHERE + " + primaryKeyColumn + "='" + primaryKeyValue + "';");
+        Date minInsertDate = null;
+        if (minInsertDateResultSet.next()) {
+            minInsertDate = minInsertDateResultSet.getDate("INSERT_DATE");
+            this.logger.info("Insert Date was " + minInsertDate);
+
+        }
+        connection.close();
+
+        return minInsertDate;
+    }
+
+    /**
+     * Get the metadata of a record
+     *
+     * @param tableName
+     * @param primaryKeyColumn
+     * @param primaryKeyValue
+     * @return
+     * @throws SQLException
+     */
+    public Date getMetadataFromRecord(String tableName, String primaryKeyColumn,
+                                      String primaryKeyValue) throws SQLException {
+        Connection connection = this.dbcp.getConnection();
+
+        Statement selectLastSequenceNumber = connection.createStatement();
+        ResultSet minInsertDateResultSet = selectLastSequenceNumber.executeQuery("SELECT ID_SYSTEM_SEQUENCE, " +
+                "INSERT_DATE, MAX(LAST_UPDATE), RECORD_STATUS " +
+                " FROM " + tableName + "WHERE + " + primaryKeyColumn + "='" + primaryKeyValue + "' GROUP BY  " +
+                "primaryKeyColumn;");
+
+        Date minInsertDate = null;
+        if (minInsertDateResultSet.next()) {
+            minInsertDate = minInsertDateResultSet.getDate("INSERT_DATE");
+            this.logger.info("Insert Date was " + minInsertDate);
+
+        }
+        connection.close();
+
+        return minInsertDate;
+    }
+
+
+    /**
+     * Check if a record having the primary key value already exists in the database
+     *
+     * @param tableName
+     * @param primaryKeyColumnName
+     * @param primaryKeyValue
+     * @return
+     * @throws SQLException
+     */
     public boolean checkIfRecordExistsInTable(String tableName, String primaryKeyColumnName,
                                               String primaryKeyValue) throws SQLException {
         Connection connection = this.dbcp.getConnection();
 
         Statement checkRecordExistance = connection.createStatement();
-        ResultSet maxSequenceResult = checkRecordExistance.executeQuery("SELECT EXISTS(SELECT 1 FROM " +
-                "" + tableName + " WHERE " + primaryKeyColumnName + "= " + primaryKeyValue + ") AS recordDoesExist;");
+        String checkSQL = "SELECT EXISTS(SELECT 1 FROM " + tableName + " WHERE " + primaryKeyColumnName + "= '" +
+                primaryKeyValue + "') AS recordDoesExist;";
+
+        this.logger.info("CHECK SQL: " + checkSQL);
+        ResultSet maxSequenceResult = checkRecordExistance.executeQuery(checkSQL);
         int existsInteger = -1;
         if (maxSequenceResult.next()) {
             existsInteger = maxSequenceResult.getInt("recordDoesExist");
@@ -1157,7 +1225,7 @@ public class DatabaseTools {
             this.logger.info("The record exists");
             return true;
         } else {
-            this.logger.info("The record does NOT exist");
+            this.logger.info("The record does NOT exist.");
             return false;
         }
 
