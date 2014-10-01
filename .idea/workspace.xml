@@ -4,11 +4,8 @@
     <option name="SCOPE_TYPE" value="4" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fe0bbad9-08dd-49cf-9f33-eb5e1947ea1f" name="Default" comment="record metadata">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Database/SQL-Examples/MostRecentVersion.sql" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Database/src/main/java/Database/DatabaseTools.java" afterPath="$PROJECT_DIR$/Database/src/main/java/Database/DatabaseTools.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Database/src/main/java/Database/MigrateCSV2SQL.java" afterPath="$PROJECT_DIR$/Database/src/main/java/Database/MigrateCSV2SQL.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Database/src/main/java/Database/RecordMetadata.java" afterPath="$PROJECT_DIR$/Database/src/main/java/Database/RecordMetadata.java" />
+    <list default="true" id="fe0bbad9-08dd-49cf-9f33-eb5e1947ea1f" name="Default" comment="versioning">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DatatableModel/src/main/java/DatatableModel/TableDataOperations.java" afterPath="$PROJECT_DIR$/DatatableModel/src/main/java/DatatableModel/TableDataOperations.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="SCAPE-QueryStore.iws" />
@@ -83,8 +80,8 @@
       <file leaf-file-name="DatabaseTools.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Database/src/main/java/Database/DatabaseTools.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="15623" max-vertical-offset="16890">
-              <caret line="1191" column="39" selection-start-line="1191" selection-start-column="39" selection-end-line="1191" selection-end-column="39" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="15608" max-vertical-offset="16875">
+              <caret line="1190" column="39" selection-start-line="1190" selection-start-column="39" selection-end-line="1190" selection-end-column="39" />
               <folding />
             </state>
           </provider>
@@ -116,14 +113,24 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="MigrateCSV2SQL.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="MigrateCSV2SQL.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Database/src/main/java/Database/MigrateCSV2SQL.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.47108603" vertical-offset="9746" max-vertical-offset="11580">
-              <caret line="750" column="0" selection-start-line="750" selection-start-column="0" selection-end-line="750" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="9701" max-vertical-offset="11535">
+              <caret line="748" column="49" selection-start-line="748" selection-start-column="49" selection-end-line="748" selection-end-column="49" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="TableDataOperations.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/DatatableModel/src/main/java/DatatableModel/TableDataOperations.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-0.438646" vertical-offset="6026" max-vertical-offset="6735">
+              <caret line="453" column="77" selection-start-line="453" selection-start-column="77" selection-end-line="453" selection-end-column="77" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -155,7 +162,6 @@
         <option value="$PROJECT_DIR$/QueryStore/src/main/java/QueryStore/Sorting.java" />
         <option value="$PROJECT_DIR$/QueryStore/src/main/java/QueryStore/Query.java" />
         <option value="$PROJECT_DIR$/QueryStore/src/main/java/QueryStore/Filter.java" />
-        <option value="$PROJECT_DIR$/DatatableModel/src/main/java/DatatableModel/TableDataOperations.java" />
         <option value="$PROJECT_DIR$/DatatableModel/src/main/java/DatatableModel/ResultSetConverter.java" />
         <option value="$PROJECT_DIR$/WebInterface/src/main/java/Bean/QueryStoreController.java" />
         <option value="$PROJECT_DIR$/DatatableModel/src/main/java/CSVHelper/CSVHelper.java" />
@@ -193,6 +199,7 @@
         <option value="$PROJECT_DIR$/Database/src/main/java/Database/DatabaseTools.java" />
         <option value="$PROJECT_DIR$/Database/src/main/java/Database/RecordMetadata.java" />
         <option value="$PROJECT_DIR$/Database/src/main/java/Database/MigrateCSV2SQL.java" />
+        <option value="$PROJECT_DIR$/DatatableModel/src/main/java/DatatableModel/TableDataOperations.java" />
       </list>
     </option>
   </component>
@@ -1673,7 +1680,11 @@
       <created>1412167270756</created>
       <updated>1412167270756</updated>
     </task>
-    <option name="localTasksCounter" value="79" />
+    <task id="LOCAL-00079" summary="versioning">
+      <created>1412172830206</created>
+      <updated>1412172830206</updated>
+    </task>
+    <option name="localTasksCounter" value="80" />
     <servers />
   </component>
   <component name="TodoView" selected-index="0">
@@ -1698,7 +1709,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-2" y="0" width="1924" height="1057" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3290735" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -1718,7 +1729,7 @@
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.1444563" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.23027718" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.23027718" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3258786" sideWeight="0.6924307" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -1742,7 +1753,6 @@
     <option name="myTodoPanelSettings">
       <TodoPanelSettings />
     </option>
-    <MESSAGE value="problem hibernate foreign key" />
     <MESSAGE value="unique constraints fixed" />
     <MESSAGE value="Java Doc" />
     <MESSAGE value="delete old resource file" />
@@ -1767,7 +1777,8 @@
     <MESSAGE value="appending new data works" />
     <MESSAGE value="maven" />
     <MESSAGE value="record metadata" />
-    <option name="LAST_COMMIT_MESSAGE" value="record metadata" />
+    <MESSAGE value="versioning" />
+    <option name="LAST_COMMIT_MESSAGE" value="versioning" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
   <component name="XDebuggerManager">
@@ -1964,16 +1975,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/DatatableModel/src/main/java/DatatableModel/TableDataOperations.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="6855">
-          <caret line="80" column="3" selection-start-line="80" selection-start-column="3" selection-end-line="80" selection-end-column="3" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/WebInterface/src/main/webapp/upload.xhtml">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-3.4509804" vertical-offset="124" max-vertical-offset="870">
@@ -2145,14 +2146,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Database/src/main/java/Database/DatabaseTools.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="15623" max-vertical-offset="16890">
-          <caret line="1191" column="39" selection-start-line="1191" selection-start-column="39" selection-end-line="1191" selection-end-column="39" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Database/src/main/java/Database/RecordMetadata.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="71" max-vertical-offset="810">
@@ -2167,11 +2160,27 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Database/src/main/java/Database/MigrateCSV2SQL.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.47108603" vertical-offset="9746" max-vertical-offset="11580">
-          <caret line="750" column="0" selection-start-line="750" selection-start-column="0" selection-end-line="750" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="9701" max-vertical-offset="11535">
+          <caret line="748" column="49" selection-start-line="748" selection-start-column="49" selection-end-line="748" selection-end-column="49" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Database/src/main/java/Database/DatabaseTools.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="15608" max-vertical-offset="16875">
+          <caret line="1190" column="39" selection-start-line="1190" selection-start-column="39" selection-end-line="1190" selection-end-column="39" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/DatatableModel/src/main/java/DatatableModel/TableDataOperations.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.438646" vertical-offset="6026" max-vertical-offset="6735">
+          <caret line="453" column="77" selection-start-line="453" selection-start-column="77" selection-end-line="453" selection-end-column="77" />
+          <folding />
         </state>
       </provider>
     </entry>

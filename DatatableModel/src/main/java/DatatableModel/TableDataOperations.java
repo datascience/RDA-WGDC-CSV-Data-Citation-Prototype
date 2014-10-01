@@ -145,6 +145,8 @@ public class TableDataOperations {
                 System.out.println("TEEEEEE: " + selectSQL);
 
                 ResultSet sortedResultSet = stat.executeQuery(selectSQL);
+
+
                 this.logger.info("NATIVE SQL STRING "
                         + connection.nativeSQL(selectSQL));
                 cachedResultSet.populate(sortedResultSet);
