@@ -33,6 +33,7 @@ public class RecordMetadata {
     private Date LAST_UPDATE;
     private String RECORD_STATUS;
 
+
     public int getID_SYSTEM_SEQUENCE() {
         return ID_SYSTEM_SEQUENCE;
     }

@@ -1173,25 +1173,27 @@ public class DatabaseTools {
      * @return
      * @throws SQLException
      */
-    public Date getMetadataFromRecord(String tableName, String primaryKeyColumn,
+    public RecordMetadata getMetadataFromRecord(String tableName, String primaryKeyColumn,
                                       String primaryKeyValue) throws SQLException {
+        RecordMetadata recordMetadata = null;
         Connection connection = this.dbcp.getConnection();
 
         Statement selectLastSequenceNumber = connection.createStatement();
-        ResultSet minInsertDateResultSet = selectLastSequenceNumber.executeQuery("SELECT ID_SYSTEM_SEQUENCE, " +
+        ResultSet resultSet = selectLastSequenceNumber.executeQuery("SELECT ID_SYSTEM_SEQUENCE, " +
                 "INSERT_DATE, MAX(LAST_UPDATE), RECORD_STATUS " +
                 " FROM " + tableName + "WHERE + " + primaryKeyColumn + "='" + primaryKeyValue + "' GROUP BY  " +
                 "primaryKeyColumn;");
 
-        Date minInsertDate = null;
-        if (minInsertDateResultSet.next()) {
-            minInsertDate = minInsertDateResultSet.getDate("INSERT_DATE");
-            this.logger.info("Insert Date was " + minInsertDate);
+
+        if (resultSet.next()) {
+            recordMetadata = new RecordMetadata(resultSet.getInt("SELECT ID_SYSTEM_SEQUENCE"),
+                    resultSet.getDate("INSERT_DATE"), resultSet.getDate("LAST_UPDATE"),
+                    resultSet.getString("RECORD_STATUS"));
 
         }
         connection.close();
 
-        return minInsertDate;
+        return recordMetadata;
     }
 
 

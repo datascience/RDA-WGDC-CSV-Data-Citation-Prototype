@@ -733,13 +733,13 @@ public class MigrateCSV2SQL {
                 boolean recordExists = this.dbtools.checkIfRecordExistsInTable(tableName, primaryKeyTableString,
                         row.get(primaryKeyCSVColumnInt));
 
-                Date insertDateFromRecord = this.dbtools.getInsertDateFromRecord(tableName, primaryKeyTableString,
-                        row.get(primaryKeyCSVColumnInt));
-
+                Date insertDateFromRecord = null;
                 // if the record exists, set the status to updated
                 if (recordExists) {
                     updatedOrNewString = "updated";
-
+                    RecordMetadata recordMetadata = this.dbtools.getMetadataFromRecord(tableName,
+                            primaryKeyTableString, row.get(primaryKeyCSVColumnInt));
+                    insertDateFromRecord = recordMetadata.getINSERT_DATE();
                 } else {
                     updatedOrNewString = "inserted";
                 }
