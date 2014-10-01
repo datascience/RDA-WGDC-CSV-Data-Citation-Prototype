@@ -16,6 +16,7 @@
 
 package Database;
 
+import java.sql.Timestamp;
 import java.util.Date;
 
 /**
@@ -29,8 +30,8 @@ import java.util.Date;
  */
 public class RecordMetadata {
     private int ID_SYSTEM_SEQUENCE;
-    private Date INSERT_DATE;
-    private Date LAST_UPDATE;
+    private Timestamp INSERT_DATE;
+    private Timestamp LAST_UPDATE;
     private String RECORD_STATUS;
 
 
@@ -42,19 +43,19 @@ public class RecordMetadata {
         this.ID_SYSTEM_SEQUENCE = ID_SYSTEM_SEQUENCE;
     }
 
-    public Date getINSERT_DATE() {
+    public Timestamp getINSERT_DATE() {
         return INSERT_DATE;
     }
 
-    public void setINSERT_DATE(Date INSERT_DATE) {
+    public void setINSERT_DATE(Timestamp INSERT_DATE) {
         this.INSERT_DATE = INSERT_DATE;
     }
 
-    public Date getLAST_UPDATE() {
+    public Timestamp getLAST_UPDATE() {
         return LAST_UPDATE;
     }
 
-    public void setLAST_UPDATE(Date LAST_UPDATE) {
+    public void setLAST_UPDATE(Timestamp LAST_UPDATE) {
         this.LAST_UPDATE = LAST_UPDATE;
     }
 
@@ -66,7 +67,7 @@ public class RecordMetadata {
         this.RECORD_STATUS = RECORD_STATUS;
     }
 
-    public RecordMetadata(int ID_SYSTEM_SEQUENCE, Date INSERT_DATE, Date LAST_UPDATE, String RECORD_STATUS) {
+    public RecordMetadata(int ID_SYSTEM_SEQUENCE, Timestamp INSERT_DATE, Timestamp LAST_UPDATE, String RECORD_STATUS) {
         this.ID_SYSTEM_SEQUENCE = ID_SYSTEM_SEQUENCE;
         this.INSERT_DATE = INSERT_DATE;
         this.LAST_UPDATE = LAST_UPDATE;

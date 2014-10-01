@@ -720,12 +720,11 @@ public class MigrateCSV2SQL {
             //@todo continue here
 
 
-            // get the latest sequence number from the DB.
-            int currentMaxSequenceNumber = this.dbtools.getMaxSequenceNumberFromTable(tableName);
-
-
+            int currentSequenceNumber = -1;
             String updatedOrNewString = "inserted";
+
             while ((row = reader.read()) != null) {
+                int currentMaxSequenceNumber = this.dbtools.getMaxSequenceNumberFromTable(tableName);
 
                 rowCount++;
 
@@ -733,23 +732,27 @@ public class MigrateCSV2SQL {
                 boolean recordExists = this.dbtools.checkIfRecordExistsInTable(tableName, primaryKeyTableString,
                         row.get(primaryKeyCSVColumnInt));
 
-                Date insertDateFromRecord = null;
-                // if the record exists, set the status to updated
+                Timestamp insertDateFromRecord = null;
+                // if the record exists, set the status to updated, reuse insert date and sequence number
                 if (recordExists) {
                     updatedOrNewString = "updated";
                     RecordMetadata recordMetadata = this.dbtools.getMetadataFromRecord(tableName,
                             primaryKeyTableString, row.get(primaryKeyCSVColumnInt));
                     insertDateFromRecord = recordMetadata.getINSERT_DATE();
+                    currentSequenceNumber = recordMetadata.getID_SYSTEM_SEQUENCE();
                 } else {
+                    // get the latest sequence number from the DB.
+                    currentSequenceNumber = currentMaxSequenceNumber++;
                     updatedOrNewString = "inserted";
                 }
 
                 // there are five metadata columns: sequence, inserted, time, updated time, hash,status
                 for (int columnCount = 1; columnCount <= numberOfColumns + 5; columnCount++) {
 
-                    // first column contains sequence
+                    // first column contains sequence. If the record exists, keep the number, else get a new one
                     if (columnCount == 1) {
-                        preparedStatement.setInt(columnCount, currentMaxSequenceNumber);
+
+                        preparedStatement.setInt(columnCount, currentSequenceNumber);
 
                         // column values (first column is the id)
                     } else if (columnCount > 1
@@ -762,7 +765,7 @@ public class MigrateCSV2SQL {
                         // if the record exists, only update the updated_timestamp and use the original inserted time
                         // timestamp
                     } else if (columnCount == (numberOfColumns + 2) && recordExists) {
-                        preparedStatement.setDate(columnCount, new java.sql.Date(insertDateFromRecord.getTime()));
+                        preparedStatement.setTimestamp(columnCount, insertDateFromRecord);
                         this.logger.info("The insert date was kept at " + insertDateFromRecord.toString());
 
                         // The record is new

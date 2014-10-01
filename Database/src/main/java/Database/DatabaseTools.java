@@ -1179,15 +1179,17 @@ public class DatabaseTools {
         Connection connection = this.dbcp.getConnection();
 
         Statement selectLastSequenceNumber = connection.createStatement();
-        ResultSet resultSet = selectLastSequenceNumber.executeQuery("SELECT ID_SYSTEM_SEQUENCE, " +
-                "INSERT_DATE, MAX(LAST_UPDATE), RECORD_STATUS " +
-                " FROM " + tableName + "WHERE + " + primaryKeyColumn + "='" + primaryKeyValue + "' GROUP BY  " +
-                "primaryKeyColumn;");
+        String metadataSQL = "SELECT ID_SYSTEM_SEQUENCE, " +
+                "INSERT_DATE, MAX(LAST_UPDATE) AS LAST_UPDATE, RECORD_STATUS " +
+                " FROM " + tableName + " WHERE " + primaryKeyColumn + "='" + primaryKeyValue + "' GROUP BY  " +
+                primaryKeyColumn + ";";
+        this.logger.info("Record metadata SQL: " + metadataSQL);
+        ResultSet resultSet = selectLastSequenceNumber.executeQuery(metadataSQL);
 
 
         if (resultSet.next()) {
-            recordMetadata = new RecordMetadata(resultSet.getInt("SELECT ID_SYSTEM_SEQUENCE"),
-                    resultSet.getDate("INSERT_DATE"), resultSet.getDate("LAST_UPDATE"),
+            recordMetadata = new RecordMetadata(resultSet.getInt("ID_SYSTEM_SEQUENCE"),
+                    resultSet.getTimestamp("INSERT_DATE"), resultSet.getTimestamp("LAST_UPDATE"),
                     resultSet.getString("RECORD_STATUS"));
 
         }
