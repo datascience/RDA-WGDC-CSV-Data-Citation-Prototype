@@ -83,6 +83,7 @@ package DatatableModel;
 
 
 import Database.DataBaseConnectionPool;
+import Database.DatabaseQueries;
 import JSON.JSONArray;
 import JSON.JSONException;
 import JSON.JSONObject;
@@ -109,156 +110,9 @@ public class TableDataOperations {
         this.dbcp = new DataBaseConnectionPool();
 
 
-    }
-
-    /**
-     * Query the database and retrieve the records. Rewrite Statement for most recent version only
-     *
-     * @param tableName
-     * @param sortingColumnsID
-     * @param sortingDirection
-     * @param filterMap
-     * @param startRow
-     * @param offset
-     * @return
-     */
-    public CachedRowSet queryDatabase(String tableName, int sortingColumnsID,
-                                      String sortingDirection, Map<String, String> filterMap,
-                                      int startRow, int offset) {
-        Connection connection = null;
-        this.tableName = tableName;
-        this.logger.warning("TABLE NAME in query datanase : " + this.tableName);
-
-        ResultSet rs = null;
-        CachedRowSet cachedResultSet = null;
-        String[] tableHeaders = null;
-        Statement stat = null;
-
-        // result set has to be sorted
-
-        if (sortingColumnsID == 0) {
-            this.logger.warning("sorting colum war null!");
-        }
-        if (sortingColumnsID >= 0) {
-            this.logger.warning("sortingColumnsID == " + sortingColumnsID);
-
-            Map<String, String> tableMetadata;
-
-            try {
-
-                cachedResultSet = new CachedRowSetImpl();
-                // get column names
-                tableMetadata = this.getTableColumnMetadata(tableName);
-                this.logger.warning("Table metadata: " + tableMetadata.size());
-
-                String sortColumn = (new ArrayList<String>(
-                        tableMetadata.keySet())).get(sortingColumnsID);
-
-                String whereClause = "";
-                if (this.hasFilters(filterMap)) {
-                    whereClause = this.getWhereString(filterMap);
-                }
-
-                connection = this.dbcp.getConnection();
-                String selectSQL = "SELECT * FROM "
-                        + this.tableName
-                        // + this.getPaginationString(startRow, offset)
-                        + whereClause + " ORDER BY " + sortColumn + " "
-                        + sortingDirection
-                        + this.getPaginationStringWithLIMIT(startRow, offset);
-
-                stat = connection.createStatement(
-                        ResultSet.TYPE_SCROLL_INSENSITIVE,
-                        ResultSet.CONCUR_READ_ONLY);
-                System.out.println("TEEEEEE: " + selectSQL);
-
-                ResultSet sortedResultSet = stat.executeQuery(selectSQL);
-
-
-                this.logger.info("NATIVE SQL STRING "
-                        + connection.nativeSQL(selectSQL));
-                cachedResultSet.populate(sortedResultSet);
-                stat.close();
-                connection.close();
-            } catch (SQLException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            } finally {
-                try {
-                    if (connection != null) {
-                        connection.close();
-                    }
-
-                    if (stat != null) {
-                        stat.close();
-                    }
-                } catch (SQLException sqlee) {
-                    sqlee.printStackTrace();
-                }
-            }
-
-        } else {
-            try {
-                connection = this.dbcp.getConnection();
-
-
-                stat = connection.createStatement(
-                        ResultSet.TYPE_SCROLL_INSENSITIVE,
-                        ResultSet.CONCUR_READ_ONLY);
-
-                // String query = "SELECT * FROM  "+this.tableName;
-
-                // stat = this.getConnection().createStatement();
-                String query = "SELECT * FROM  " + this.tableName;
-                System.out.println(query);
-                rs = stat.executeQuery(query);
-                cachedResultSet.populate(rs);
-                stat.close();
-                connection.close();
-            } catch (SQLException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            } finally {
-                try {
-                    if (connection != null) {
-                        connection.close();
-                    }
-                    if (stat != null) {
-                        stat.close();
-                    }
-                } catch (SQLException sqlee) {
-                    sqlee.printStackTrace();
-                }
-            }
-        }
-        // TODO how to close connection?
-
-        return cachedResultSet;
 
     }
 
-    /**
-     * Creates the INNER JOIN part of the Query which retrieves only the latest record.
-     * Example: SELECT * FROM addresses outerGroup INNER JOIN (
-     * SELECT email, max(LAST_UPDATE) AS mostRecent
-     * FROM addresses WHERE (RECORD_STATUS = 'inserted' OR RECORD_STATUS = 'updated') GROUP BY email
-     * ) grouped
-     * ON adr.email = grouped.email AND adr.LAST_UPDATE = grouped.mostRecent
-     *
-     * @param primaryKey
-     * @param tableName
-     * @return
-     */
-    private String getMostRecentVersionSQLString(String primaryKey, String tableName) {
-        String innerJoinSQLString = "FROM " + tableName + " outerGroup INNER JOIN ( SELECT " + primaryKey + ", " +
-                "max(LAST_UPDATE) AS mostRecent FROM " +
-                tableName + " WHERE (RECORD_STATUS = 'inserted' OR RECORD_STATUS = 'updated') GROUP BY " + primaryKey
-                + ") innerGroup ON outerGroup." + primaryKey + " = innerGroup." + primaryKey + " AND outerGroup" +
-                ".LAST_UPDATE = innerGroup.mostRecent ";
-        this.logger.info("Rewritten INNER JOIN SQL: " + innerJoinSQLString);
-        return innerJoinSQLString;
-
-    }
 
 
 
@@ -330,61 +184,9 @@ public class TableDataOperations {
 
     }
 
-    private boolean hasFilters(Map<String, String> filterMap) {
-        if (filterMap.size() > 0) {
-            this.logger.info("There are filters");
-            return true;
-        } else
-            return false;
-    }
 
-    // iterate over the filters and buils WHERE clauses
-    // the pagination string has the WHERE keyword
-    private String getWhereString(Map<String, String> filtersMap) {
-        // String whereString = "  AND ";
-        // use this string if LIMIT is active
-        String whereString = " WHERE ";
-        int filterCounter = -1;
-        for (Map.Entry<String, String> entry : filtersMap.entrySet()) {
 
-            filterCounter++;
 
-            String column = entry.getKey();
-            String clause = entry.getValue();
-
-            if (filterCounter == 0) {
-                whereString += "UPPER(" + column + ") LIKE UPPER(\'%" + clause
-                        + "%\') ";
-            }
-            if (filterCounter >= 1) {
-                whereString += "AND UPPER(" + column + ") LIKE UPPER(\'%"
-                        + clause + "%\') ";
-            }
-
-        }
-
-        this.logger.info("WHERE Clause: " + whereString);
-        return whereString;
-
-    }
-
-    /*
-     * All rows have a sequence number with and index. Use this sequence number
-     * in the WHERE clause in order to retrieve only the required rows.
-     *
-     * @return
-     */
-    private String getPaginationStringWithLIMIT(int showRows, int offset) {
-        String paginationString = null;
-        if (showRows < 0 || offset < 0) {
-            this.logger.warning("Pagination error!!");
-
-        }
-        // paginationString= " WHERE ID_SYSTEM_SEQUENCE BETWEEN \'" + startRow +
-        // "\' AND \'" + (startRow + offset) + "\'";
-        paginationString = " LIMIT " + showRows + " OFFSET " + offset;
-        return paginationString;
-    }
 
     public int getRowCount(String tableName) throws SQLException {
         // TODO SQL injection
@@ -526,6 +328,17 @@ public class TableDataOperations {
 
         return columnName;
 
+    }
+
+    public CachedRowSet executeQuery(String tableName, int sortingColumnsID,
+                                     String sortingDirection, Map<String, String> filterMap,
+                                     int startRow, int offset) {
+        DatabaseQueries dbQuery = new DatabaseQueries();
+
+        CachedRowSet cachedRowSet = dbQuery.queryDatabase(tableName, sortingColumnsID,
+                sortingDirection, filterMap, startRow, offset);
+
+        return cachedRowSet;
     }
 
 

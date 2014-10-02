@@ -70,6 +70,7 @@ import DatatableModel.JQueryDataTableParamModel;
 import DatatableModel.TableDataOperations;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import org.hibernate.metamodel.relational.Database;
 
 import javax.faces.bean.SessionScoped;
 import javax.servlet.annotation.WebServlet;
@@ -97,6 +98,7 @@ public class DataServlet extends HttpServlet {
 
     private TableDataOperations tableData;
     Map<String, String> filterMap;
+
 
     public Map<String, String> getSortingMap() {
         return sortingMap;
@@ -237,7 +239,7 @@ public class DataServlet extends HttpServlet {
 
             try {
 
-                CachedRowSet cachedRowSet = this.tableData.queryDatabase(currentTable, sortingColumnID,
+                CachedRowSet cachedRowSet = this.tableData.executeQuery(currentTable, sortingColumnID,
                         sortingDirection, filterMap, showRows, offset);
 
 //                this.logger.warning("Cached size ->> " + cachedRowSet.size());
