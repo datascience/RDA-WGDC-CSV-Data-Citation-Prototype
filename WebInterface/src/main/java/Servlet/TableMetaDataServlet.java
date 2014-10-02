@@ -54,10 +54,12 @@ import java.util.logging.Logger;
 public class TableMetaDataServlet extends HttpServlet {
     private Logger logger;
     private static final long serialVersionUID = 1L;
+    private TableMetadata tableMetadata;
 
     public TableMetaDataServlet() {
         super();
         this.logger = Logger.getLogger(this.getClass().getName());
+        this.tableMetadata = new TableMetadata();
     }
 
     protected void doGet(HttpServletRequest request,
@@ -71,7 +73,7 @@ public class TableMetaDataServlet extends HttpServlet {
         this.logger.info("TableMetaDataService called: " + databaseName);
 
 
-        Map<String, String> options = TableMetadata.getAvailableTablesAsMap(databaseName);
+        Map<String, String> options = this.tableMetadata.getAvailableTablesAsMap(databaseName);
         String json = new Gson().toJson(options);
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");

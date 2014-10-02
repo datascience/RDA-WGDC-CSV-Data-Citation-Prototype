@@ -62,6 +62,22 @@
  *    limitations under the License.
  */
 
+/*
+ * Copyright [2014] [Stefan Pröll]
+ *
+ *    Licensed under the Apache License, Version 2.0 (the "License");
+ *    you may not use this file except in compliance with the License.
+ *    You may obtain a copy of the License at
+ *
+ *        http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *    Unless required by applicable law or agreed to in writing, software
+ *    distributed under the License is distributed on an "AS IS" BASIS,
+ *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *    See the License for the specific language governing permissions and
+ *    limitations under the License.
+ */
+
 
 package DatatableModel;
 
@@ -92,8 +108,20 @@ public class TableDataOperations {
         this.logger = Logger.getLogger(this.getClass().getName());
         this.dbcp = new DataBaseConnectionPool();
 
+
     }
 
+    /**
+     * Query the database and retrieve the records. Rewrite Statement for most recent version only
+     *
+     * @param tableName
+     * @param sortingColumnsID
+     * @param sortingDirection
+     * @param filterMap
+     * @param startRow
+     * @param offset
+     * @return
+     */
     public CachedRowSet queryDatabase(String tableName, int sortingColumnsID,
                                       String sortingDirection, Map<String, String> filterMap,
                                       int startRow, int offset) {
@@ -206,6 +234,29 @@ public class TableDataOperations {
         // TODO how to close connection?
 
         return cachedResultSet;
+
+    }
+
+    /**
+     * Creates the INNER JOIN part of the Query which retrieves only the latest record.
+     * Example: SELECT * FROM addresses outerGroup INNER JOIN (
+     * SELECT email, max(LAST_UPDATE) AS mostRecent
+     * FROM addresses WHERE (RECORD_STATUS = 'inserted' OR RECORD_STATUS = 'updated') GROUP BY email
+     * ) grouped
+     * ON adr.email = grouped.email AND adr.LAST_UPDATE = grouped.mostRecent
+     *
+     * @param primaryKey
+     * @param tableName
+     * @return
+     */
+    private String getMostRecentVersionSQLString(String primaryKey, String tableName) {
+        String innerJoinSQLString = "FROM " + tableName + " outerGroup INNER JOIN ( SELECT " + primaryKey + ", " +
+                "max(LAST_UPDATE) AS mostRecent FROM " +
+                tableName + " WHERE (RECORD_STATUS = 'inserted' OR RECORD_STATUS = 'updated') GROUP BY " + primaryKey
+                + ") innerGroup ON outerGroup." + primaryKey + " = innerGroup." + primaryKey + " AND outerGroup" +
+                ".LAST_UPDATE = innerGroup.mostRecent ";
+        this.logger.info("Rewritten INNER JOIN SQL: " + innerJoinSQLString);
+        return innerJoinSQLString;
 
     }
 
@@ -419,6 +470,10 @@ public class TableDataOperations {
 
     }
 
+    /**
+     * Get list of databases
+     * @return
+     */
     public List<String> getAvailableDatabases() {
         Connection connection = null;
         List<String> listOfDatabases = new ArrayList<String>();
@@ -451,47 +506,9 @@ public class TableDataOperations {
 
     }
 
-    public List<String> getAvailableTablesFromDatabase(String databaseName) {
-        Connection connection = null;
-        List<String> listOfTables = new ArrayList<String>();
-        try {
-            connection = this.dbcp.getConnection();
 
-            DatabaseMetaData meta = connection.getMetaData();
-            String[] types = {"TABLE"};
-            this.logger.info("retrieve metadata for " + databaseName);
-            ResultSet rs = meta.getTables(databaseName, null, null, types);
-            while (rs.next()) {
-                // System.out.println("getAvailableTablesFromDatabase__________________");
-                String tableName = rs.getString("TABLE_NAME");
 
-                System.out.println("   " + rs.getString("TABLE_CAT") + ", "
-                        + rs.getString("TABLE_SCHEM") + ", "
-                        + rs.getString("TABLE_NAME") + ", "
-                        + rs.getString("TABLE_TYPE") + ", "
-                        + rs.getString("REMARKS"));
-                listOfTables.add(tableName);
-                this.logger.info(tableName);
 
-            }
-
-            connection.close();
-        } catch (SQLException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } finally {
-            try {
-                if (connection != null) {
-                    connection.close();
-                }
-
-            } catch (SQLException sqlee) {
-                sqlee.printStackTrace();
-            }
-        }
-        return listOfTables;
-
-    }
 
     /*
     Get the name of the column by ID. Needed for building the sorting list
