@@ -4,11 +4,10 @@
     <option name="SCOPE_TYPE" value="4" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fe0bbad9-08dd-49cf-9f33-eb5e1947ea1f" name="Default" comment="versioning basics">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/WebInterface/src/main/java/Servlet/DataServlet.java" afterPath="$PROJECT_DIR$/WebInterface/src/main/java/Servlet/DataServlet.java" />
+    <list default="true" id="fe0bbad9-08dd-49cf-9f33-eb5e1947ea1f" name="Default" comment="versioning implemented">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Database/src/main/java/Database/DatabaseQueries.java" afterPath="$PROJECT_DIR$/Database/src/main/java/Database/DatabaseQueries.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Database/SQL-Examples/MostRecentVersion.sql" afterPath="$PROJECT_DIR$/Database/SQL-Examples/MostRecentVersion.sql" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DatatableModel/src/main/java/DatatableModel/TableDataOperations.java" afterPath="$PROJECT_DIR$/DatatableModel/src/main/java/DatatableModel/TableDataOperations.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DatatableModel/src/main/java/DatatableModel/TableMetadata.java" afterPath="$PROJECT_DIR$/DatatableModel/src/main/java/DatatableModel/TableMetadata.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="SCAPE-QueryStore.iws" />
@@ -114,21 +113,21 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="TableDataOperations.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/DatatableModel/src/main/java/DatatableModel/TableDataOperations.java">
+      <file leaf-file-name="DataBaseConnectionPool.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/Database/src/main/java/Database/DataBaseConnectionPool.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-13.407408" vertical-offset="3373" max-vertical-offset="3930">
-              <caret line="338" column="53" selection-start-line="338" selection-start-column="53" selection-end-line="338" selection-end-column="53" />
+            <state vertical-scroll-proportion="1.0909091" vertical-offset="180" max-vertical-offset="1515">
+              <caret line="142" column="39" selection-start-line="142" selection-start-column="39" selection-end-line="142" selection-end-column="39" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="DataServlet.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/WebInterface/src/main/java/Servlet/DataServlet.java">
+      <file leaf-file-name="TableDataOperations.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/DatatableModel/src/main/java/DatatableModel/TableDataOperations.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="2206" max-vertical-offset="4350">
-              <caret line="241" column="72" selection-start-line="241" selection-start-column="72" selection-end-line="241" selection-end-column="72" />
+            <state vertical-scroll-proportion="14.074074" vertical-offset="3455" max-vertical-offset="4110">
+              <caret line="283" column="13" selection-start-line="283" selection-start-column="13" selection-end-line="283" selection-end-column="13" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -136,11 +135,23 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="DatabaseQueries.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="DataServlet.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/WebInterface/src/main/java/Servlet/DataServlet.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-7.814815" vertical-offset="494" max-vertical-offset="4350">
+              <caret line="113" column="31" selection-start-line="113" selection-start-column="31" selection-end-line="113" selection-end-column="31" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="DatabaseQueries.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Database/src/main/java/Database/DatabaseQueries.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.6060606" vertical-offset="605" max-vertical-offset="3840">
-              <caret line="81" column="46" selection-start-line="81" selection-start-column="46" selection-end-line="81" selection-end-column="46" />
+            <state vertical-scroll-proportion="40.074074" vertical-offset="3212" max-vertical-offset="3870">
+              <caret line="156" column="35" selection-start-line="156" selection-start-column="35" selection-end-line="156" selection-end-column="35" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -161,7 +172,7 @@
       <file leaf-file-name="TableMetadata.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/DatatableModel/src/main/java/DatatableModel/TableMetadata.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="169" max-vertical-offset="2760">
+            <state vertical-scroll-proportion="0.0" vertical-offset="169" max-vertical-offset="2715">
               <caret line="24" column="25" selection-start-line="24" selection-start-column="25" selection-end-line="24" selection-end-column="25" />
               <folding>
                 <element signature="imports" expanded="true" />
@@ -242,9 +253,9 @@
         <option value="$PROJECT_DIR$/Database/src/main/java/Database/DatabaseTools.java" />
         <option value="$PROJECT_DIR$/DatatableModel/src/main/java/DatatableModel/TableMetadata.java" />
         <option value="$PROJECT_DIR$/WebInterface/src/main/java/Servlet/TableMetaDataServlet.java" />
-        <option value="$PROJECT_DIR$/DatatableModel/src/main/java/DatatableModel/TableDataOperations.java" />
         <option value="$PROJECT_DIR$/WebInterface/src/main/java/Servlet/DataServlet.java" />
         <option value="$PROJECT_DIR$/Database/src/main/java/Database/DatabaseQueries.java" />
+        <option value="$PROJECT_DIR$/DatatableModel/src/main/java/DatatableModel/TableDataOperations.java" />
       </list>
     </option>
   </component>
@@ -1741,7 +1752,11 @@
       <created>1412257277732</created>
       <updated>1412257277732</updated>
     </task>
-    <option name="localTasksCounter" value="82" />
+    <task id="LOCAL-00082" summary="versioning implemented">
+      <created>1412259957006</created>
+      <updated>1412259957006</updated>
+    </task>
+    <option name="localTasksCounter" value="83" />
     <servers />
   </component>
   <component name="TodoView" selected-index="0">
@@ -1783,11 +1798,11 @@
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32800853" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3365282" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3290735" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2489339" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2489339" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.14605543" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.23027718" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.23027718" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3258786" sideWeight="0.6924307" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -1810,7 +1825,6 @@
     <option name="myTodoPanelSettings">
       <TodoPanelSettings />
     </option>
-    <MESSAGE value="Java Doc" />
     <MESSAGE value="delete old resource file" />
     <MESSAGE value="passwords removed" />
     <MESSAGE value="README" />
@@ -1835,7 +1849,8 @@
     <MESSAGE value="record metadata" />
     <MESSAGE value="versioning" />
     <MESSAGE value="versioning basics" />
-    <option name="LAST_COMMIT_MESSAGE" value="versioning basics" />
+    <MESSAGE value="versioning implemented" />
+    <option name="LAST_COMMIT_MESSAGE" value="versioning implemented" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
   <component name="XDebuggerManager">
@@ -2185,32 +2200,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Database/src/main/java/Database/DataBaseConnectionPool.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="225" max-vertical-offset="1575">
-          <caret line="112" column="0" selection-start-line="112" selection-start-column="0" selection-end-line="112" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/DatatableModel/src/main/java/DatatableModel/TableDataOperations.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-13.407408" vertical-offset="3373" max-vertical-offset="3930">
-          <caret line="338" column="53" selection-start-line="338" selection-start-column="53" selection-end-line="338" selection-end-column="53" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/WebInterface/src/main/java/Servlet/DataServlet.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="2206" max-vertical-offset="4350">
-          <caret line="241" column="72" selection-start-line="241" selection-start-column="72" selection-end-line="241" selection-end-column="72" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/WebInterface/src/main/java/Servlet/TableMetaDataServlet.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-7.296296" vertical-offset="133" max-vertical-offset="825">
@@ -2253,11 +2242,39 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Database/src/main/java/Database/DatabaseQueries.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.6060606" vertical-offset="605" max-vertical-offset="3840">
-          <caret line="81" column="46" selection-start-line="81" selection-start-column="46" selection-end-line="81" selection-end-column="46" />
+        <state vertical-scroll-proportion="40.074074" vertical-offset="3212" max-vertical-offset="3870">
+          <caret line="156" column="35" selection-start-line="156" selection-start-column="35" selection-end-line="156" selection-end-column="35" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/WebInterface/src/main/java/Servlet/DataServlet.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-7.814815" vertical-offset="494" max-vertical-offset="4350">
+          <caret line="113" column="31" selection-start-line="113" selection-start-column="31" selection-end-line="113" selection-end-column="31" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/DatatableModel/src/main/java/DatatableModel/TableDataOperations.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="14.074074" vertical-offset="3455" max-vertical-offset="4110">
+          <caret line="283" column="13" selection-start-line="283" selection-start-column="13" selection-end-line="283" selection-end-column="13" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Database/src/main/java/Database/DataBaseConnectionPool.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="1.0909091" vertical-offset="180" max-vertical-offset="1515">
+          <caret line="142" column="39" selection-start-line="142" selection-start-column="39" selection-end-line="142" selection-end-column="39" />
+          <folding />
         </state>
       </provider>
     </entry>

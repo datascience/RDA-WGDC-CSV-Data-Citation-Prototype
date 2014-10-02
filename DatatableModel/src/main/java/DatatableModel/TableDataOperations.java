@@ -143,6 +143,7 @@ public class TableDataOperations {
         cachedResultSet.populate(result);
         connection.close();
 
+
         Map<String, String> columnMetadataMap = new LinkedHashMap<String, String>();
         while (cachedResultSet.next()) {
 

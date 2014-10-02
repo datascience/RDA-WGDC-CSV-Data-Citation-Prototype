@@ -85,7 +85,7 @@ public class DatabaseQueries {
                 tableMetadata = this.dbtools.getTableColumnMetadata(tableName);
                 this.logger.warning("Table metadata: " + tableMetadata.size());
 
-                String sortColumn = (new ArrayList<String>(
+                String sortColumn = "outerGroup." + (new ArrayList<String>(
                         tableMetadata.keySet())).get(sortingColumnsID);
 
                 String whereClause = "";
@@ -190,7 +190,7 @@ public class DatabaseQueries {
      * @return
      */
     private String getMostRecentVersionSQLString(String primaryKey, String tableName) {
-        String innerJoinSQLString = "FROM " + tableName + " outerGroup INNER JOIN ( SELECT " + primaryKey + ", " +
+        String innerJoinSQLString = "FROM " + tableName + " AS outerGroup INNER JOIN ( SELECT " + primaryKey + ", " +
                 "max(LAST_UPDATE) AS mostRecent FROM " +
                 tableName + " WHERE (RECORD_STATUS = 'inserted' OR RECORD_STATUS = 'updated') GROUP BY " + primaryKey
                 + ") innerGroup ON outerGroup." + primaryKey + " = innerGroup." + primaryKey + " AND outerGroup" +
