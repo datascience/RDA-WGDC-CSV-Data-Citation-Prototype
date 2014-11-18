@@ -31,7 +31,7 @@ import static javax.persistence.GenerationType.IDENTITY;
  */
 @Entity
 @Table(name = "user", uniqueConstraints = {@UniqueConstraint(columnNames = {"username"})})
-public class User {
+public class User implements TimeStamped {
     private int user_id;
     private String username;
     private String password;
@@ -95,28 +95,37 @@ public class User {
         this.password = password;
     }
 
+    @Override
     public Date getCreatedDate() {
-        return createdDate;
+        return this.createdDate;
     }
 
+    @Override
     public void setCreatedDate(Date createdDate) {
         this.createdDate = createdDate;
     }
 
+
+    @Override
     public Date getLastUpdatedDate() {
-        return lastUpdatedDate;
+        return this.lastUpdatedDate;
     }
 
+    @Override
     public void setLastUpdatedDate(Date lastUpdatedDate) {
         this.lastUpdatedDate = lastUpdatedDate;
+
     }
 
+    @Override
     public char getWasUpdated() {
-        return wasUpdated;
+        return this.wasUpdated;
     }
 
+    @Override
     public void setWasUpdated(char wasUpdated) {
         this.wasUpdated = wasUpdated;
+
     }
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
@@ -127,4 +136,6 @@ public class User {
     public void setOrganizations(Set<Organization> organizations) {
         this.organizations = organizations;
     }
+
+
 }

@@ -58,6 +58,18 @@ public class Organization implements TimeStamped {
     private int alphaPIDlength;
     private int alphanumericPIDlength;
     private int numericPIDlength;
+    private User user;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
     private Date createdDate;
     private Date lastUpdatedDate;
     private char wasUpdated;

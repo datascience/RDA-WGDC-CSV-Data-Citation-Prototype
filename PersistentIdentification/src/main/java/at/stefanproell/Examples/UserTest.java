@@ -17,11 +17,14 @@
 package at.stefanproell.Examples;
 
 import at.stefanproell.PersistentIdentifierMockup.*;
+import org.hibernate.Session;
 
 /**
  * Created by stefan on 18.11.14.
  */
 public class UserTest {
+    private Session session;
+
     public static void main(String[] args) {
         System.out.println("User ");
         UserTest userTest = new UserTest();
@@ -32,6 +35,15 @@ public class UserTest {
     }
 
     public void run() {
+        this.session = HibernateUtil.getSessionFactory().openSession();
+        this.session.beginTransaction();
+        User s = new User("stefan", "1234");
+        User t = new User("teresa", "5678");
 
+
+        this.session.save(s);
+        this.session.save(t);
+        this.session.getTransaction().commit();
+        this.session.close();
     }
 }
