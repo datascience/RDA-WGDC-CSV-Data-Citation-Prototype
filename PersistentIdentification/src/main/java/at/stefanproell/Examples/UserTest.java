@@ -14,28 +14,24 @@
  *    limitations under the License.
  */
 
-package at.stefanproell.PersistentIdentifierRestfulService;
+package at.stefanproell.Examples;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
+import at.stefanproell.PersistentIdentifierMockup.*;
 
 /**
- * Root resource (exposed at "myresource" path)
+ * Created by stefan on 18.11.14.
  */
-@Path("/myresource")
-public class MyResource {
+public class UserTest {
+    public static void main(String[] args) {
+        System.out.println("User ");
+        UserTest userTest = new UserTest();
+        userTest.run();
+        System.exit(0);
 
-    /**
-     * Method handling HTTP GET requests. The returned object will be sent
-     * to the client as "text/plain" media type.
-     *
-     * @return String that will be returned as a text/plain response.
-     */
-    @GET
-    @Produces(MediaType.TEXT_PLAIN)
-    public String getIt() {
-        return "Got it yay!";
+
+    }
+
+    public void run() {
+
     }
 }
