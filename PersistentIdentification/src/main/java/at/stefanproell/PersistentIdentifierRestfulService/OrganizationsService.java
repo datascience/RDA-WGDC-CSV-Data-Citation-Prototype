@@ -26,6 +26,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.UriInfo;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -65,6 +66,11 @@ public class OrganizationsService {
 
     }
 
+    /**
+     * List all organizations
+     *
+     * @return
+     */
     @GET
     @Path("/list")
     @Produces("application/json")
@@ -75,6 +81,49 @@ public class OrganizationsService {
         Gson gson = new Gson();
         String json = gson.toJson(listOfOrganizations);
         return json;
+    }
+
+    /**
+     * List all pids per otganization
+     *
+     * @return
+     */
+    @GET
+    @Path("/list/{prefix}")
+    @Produces("application/json")
+    public String getAllPIDsFromOrganization(@PathParam("prefix") int organizationPrefix) {
+
+        Organization org = null;
+        List<PersistentIdentifier> listOfIdentifiers;
+        Map<Integer, String> listOfNumberedIdentifiers = new HashMap();
+        ;
+        if (organizationPrefix > 0) {
+            if (this.pidAPI.checkOrganizationPrefix(organizationPrefix)) {
+                this.logger.info("The prefix exists.");
+                org = this.pidAPI.getOrganizationObjectByPrefix(organizationPrefix);
+                listOfIdentifiers = this.pidAPI.listAllPIDsOfOrganization(org);
+                this.logger.info("listofidentifiers size " + listOfIdentifiers.size());
+                int pidCounter = 0;
+                for (PersistentIdentifier pid : listOfIdentifiers) {
+                    pidCounter++;
+                    listOfNumberedIdentifiers.put(pidCounter, pid.getIdentifier());
+
+                }
+                Gson gson = new Gson();
+                String json = gson.toJson(listOfNumberedIdentifiers);
+                return json;
+
+
+            }
+            return "Prefix does not exist";
+
+
+        }
+        return "Invalid organizational prefix";
+
+
+
+
     }
 
 

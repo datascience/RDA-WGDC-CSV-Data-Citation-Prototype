@@ -286,29 +286,36 @@ public class PersistentIdentifierAPI {
         this.session = HibernateUtil.getSessionFactory().openSession();
         this.session.beginTransaction();
         Criteria criteria = session.createCriteria(Organization.class);
-        criteria.setProjection(Projections.property("organization_prefix"));
-        criteria.setProjection(Projections.property("organization_name"));
+
+        ProjectionList properties = Projections.projectionList();
+        properties.add(Projections.property("organization_prefix"));
+        properties.add(Projections.property("organization_name"));
+        criteria.setProjection(properties);
         criteria.addOrder(Order.asc("organization_prefix"));
-        List organizationsList = criteria.list();
-        this.logger.info("Found " + organizationsList.size() + " organizations in the list");
+        List<Object[]> rows = criteria.list();
 
 
         this.session.getTransaction().commit();
         this.session.close();
-        Map<Integer, String> organitationsMap = new HashMap();
-        ;
 
-        for (Iterator it = organizationsList.iterator(); it.hasNext(); ) {
-            Object[] myResult = (Object[]) it.next();
-            int prefix = Integer.parseInt(myResult[0].toString());
-            String orgName = (String) myResult[1];
+        Map<Integer, String> organitationsMap = new HashMap();
+
+
+        for (Object[] row : rows) {
+
+
+            int prefix = Integer.parseInt(row[0].toString());
+            String orgName = (String) row[1];
             organitationsMap.put(prefix, orgName);
         }
+
+
         this.logger.info("Found " + organitationsMap.size() + " organizations ");
 
         return organitationsMap;
 
     }
+
 
     /**
      * Get latest added PID in the database
