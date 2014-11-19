@@ -17,6 +17,7 @@
 package at.stefanproell.PersistentIdentifierRestfulService;
 
 import at.stefanproell.PersistentIdentifierMockup.Organization;
+import at.stefanproell.PersistentIdentifierMockup.PersistentIdentifierAPI;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
@@ -32,10 +33,13 @@ import java.util.logging.Logger;
 public class OrganizationsService {
 
     private Logger logger;
+    PersistentIdentifierAPI pidAPI;
 
     public OrganizationsService() {
         this.logger = Logger.getLogger(this.getClass().getName());
         this.logger.info("Identifier constructor");
+        pidAPI = new PersistentIdentifierAPI();
+
     }
 
     /**
@@ -58,17 +62,6 @@ public class OrganizationsService {
 
     }
 
-
-    @GET
-    @Path("/details/{identifier}")
-    @Produces(MediaType.TEXT_PLAIN)
-    public String getIdentifier(@PathParam("identifier") String identifier) {
-        if (identifier != null) {
-            // if the query parameter "name" is there
-            return "Show details for " + identifier;
-        }
-        return "No id provided";
-    }
 
 
     /**

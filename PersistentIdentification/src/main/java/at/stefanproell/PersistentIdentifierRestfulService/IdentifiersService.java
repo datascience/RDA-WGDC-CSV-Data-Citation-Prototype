@@ -32,6 +32,8 @@
 
 package at.stefanproell.PersistentIdentifierRestfulService;
 
+import at.stefanproell.PersistentIdentifierMockup.*;
+
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
@@ -48,10 +50,12 @@ import java.util.logging.Logger;
 public class IdentifiersService {
 
     private Logger logger;
-
+    private PersistentIdentifierAPI pidAPI = null;
+    private static String HARDCODED_URL = "http://localhost:8080/pid/service/identifiers/";
     public IdentifiersService() {
         this.logger = Logger.getLogger(this.getClass().getName());
         this.logger.info("Identifier constructor");
+        pidAPI = new PersistentIdentifierAPI();
     }
 
     /**
@@ -94,6 +98,66 @@ public class IdentifiersService {
             return "Show details for " + identifier;
         }
         return "No id provided";
+    }
+
+    /**
+     * Create a new identifier. Provide the organizational prefix and thr type: alpha, alphanum, numeric
+     *
+     * @param organizationPrefix
+     * @param identifierType
+     * @return
+     */
+    @GET
+    @Path("/new/{organizationPrefix}/{type}")
+    @Produces(MediaType.TEXT_PLAIN)
+    public String addIdentifier(@PathParam("organizationPrefix") int organizationPrefix, @PathParam("type") String identifierType) {
+        Organization org = null;
+
+        if (organizationPrefix > 0) {
+            if (this.pidAPI.checkOrganizationPrefix(organizationPrefix)) {
+                this.logger.info("The prefix exists.");
+                org = this.pidAPI.getOrganizationObjectByPrefix(organizationPrefix);
+                ;
+
+                this.logger.info("Provided parameter:" + identifierType);
+                if (identifierType != null) {
+                    switch (identifierType) {
+                        case "alpha":
+                            this.logger.info("Create a new alpha identifier");
+
+                            PersistentIdentifierAlpha alphaPID = this.pidAPI.getAlphaPID(org, HARDCODED_URL);
+                            this.pidAPI.updateURI(alphaPID.getIdentifier(), HARDCODED_URL + org.getOrganization_prefix() + "/" + alphaPID.getIdentifier());
+                            return org.getOrganization_prefix() + "/" + alphaPID.getIdentifier();
+
+                        case "alphanum":
+                            this.logger.info("Create a new alpha nummerical identifier");
+                            PersistentIdentifierAlphaNumeric alphaNumericPID = this.pidAPI.getAlphaNumericPID(org, HARDCODED_URL);
+                            this.pidAPI.updateURI(alphaNumericPID.getIdentifier(), HARDCODED_URL + org.getOrganization_prefix() + "/" + alphaNumericPID.getIdentifier());
+                            return org.getOrganization_prefix() + "/" + alphaNumericPID.getIdentifier();
+
+                        case "numeric":
+                            this.logger.info("Create a new numeric identifier");
+                            PersistentIdentifierNumeric numericPID = this.pidAPI.getNumericPID(org, HARDCODED_URL);
+                            this.pidAPI.updateURI(numericPID.getIdentifier(), HARDCODED_URL + org.getOrganization_prefix() + "/" + numericPID.getIdentifier());
+                            return org.getOrganization_prefix() + "/" + numericPID.getIdentifier();
+
+
+                    }
+
+                } else {
+
+                }
+                return "No identifier type provided";
+
+
+            }
+            return "Prefix does not exist";
+
+
+        }
+        return "Invalid organizational prefix";
+
+
     }
 
 

@@ -487,6 +487,12 @@ public class PersistentIdentifierAPI {
         return prefix + "/" + identifier;
     }
 
+    /**
+     * Get the organization object
+     *
+     * @param prefix
+     * @return
+     */
     public Organization getOrganizationObjectByPrefix(int prefix) {
         Organization org = null;
         this.session = HibernateUtil.getSessionFactory().openSession();
@@ -503,6 +509,34 @@ public class PersistentIdentifierAPI {
         } else {
             this.logger.severe("Organization prefix " + prefix + " NOT found");
             return null;
+        }
+
+
+    }
+
+    /**
+     * Check if there is a organization with the provided prefix. Return false if not.
+     *
+     * @param prefix
+     * @return
+     */
+    public boolean checkOrganizationPrefix(int prefix) {
+        Organization org = null;
+        this.session = HibernateUtil.getSessionFactory().openSession();
+        this.session.beginTransaction();
+        Criteria criteria = this.session.createCriteria(Organization.class, "org");
+        criteria.add(Restrictions.eq("org.organization_prefix", prefix));
+        org = (Organization) criteria.uniqueResult();
+        this.session.getTransaction().commit();
+        this.session.close();
+
+        if (org != null) {
+            this.logger.info("Organization prefix " + prefix + " found: " + org.getOrganization_name());
+
+            return true;
+        } else {
+            this.logger.severe("Organization prefix " + prefix + " NOT found");
+            return false;
         }
 
 
