@@ -17,7 +17,9 @@
 package at.stefanproell.PersistentIdentifierRestfulService;
 
 import at.stefanproell.PersistentIdentifierMockup.Organization;
+import at.stefanproell.PersistentIdentifierMockup.PersistentIdentifier;
 import at.stefanproell.PersistentIdentifierMockup.PersistentIdentifierAPI;
+import com.google.gson.Gson;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
@@ -25,6 +27,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.UriInfo;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
@@ -60,6 +63,18 @@ public class OrganizationsService {
 
         return "ok";
 
+    }
+
+    @GET
+    @Path("/list")
+    @Produces("application/json")
+    public String getIdentifier() {
+        Map<Integer, String> listOfOrganizations = null;
+        listOfOrganizations = this.pidAPI.listAllOrganizations();
+
+        Gson gson = new Gson();
+        String json = gson.toJson(listOfOrganizations);
+        return json;
     }
 
 

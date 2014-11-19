@@ -35,14 +35,9 @@ package at.stefanproell.PersistentIdentifierMockup;
 import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
-import org.hibernate.criterion.DetachedCriteria;
-import org.hibernate.criterion.Projections;
-import org.hibernate.criterion.Property;
-import org.hibernate.criterion.Restrictions;
+import org.hibernate.criterion.*;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 import java.util.logging.Logger;
 
 /**
@@ -276,6 +271,42 @@ public class PersistentIdentifierAPI {
 
         this.logger.info("Retrieved " + listOfPIDs.size() + " PIDs for " + org.getOrganization_name());
         return listOfPIDs;
+
+    }
+
+    /**
+     * List all organizations
+     *
+
+     * @return
+     */
+    public Map<Integer, String> listAllOrganizations() {
+
+
+        this.session = HibernateUtil.getSessionFactory().openSession();
+        this.session.beginTransaction();
+        Criteria criteria = session.createCriteria(Organization.class);
+        criteria.setProjection(Projections.property("organization_prefix"));
+        criteria.setProjection(Projections.property("organization_name"));
+        criteria.addOrder(Order.asc("organization_prefix"));
+        List organizationsList = criteria.list();
+        this.logger.info("Found " + organizationsList.size() + " organizations in the list");
+
+
+        this.session.getTransaction().commit();
+        this.session.close();
+        Map<Integer, String> organitationsMap = new HashMap();
+        ;
+
+        for (Iterator it = organizationsList.iterator(); it.hasNext(); ) {
+            Object[] myResult = (Object[]) it.next();
+            int prefix = Integer.parseInt(myResult[0].toString());
+            String orgName = (String) myResult[1];
+            organitationsMap.put(prefix, orgName);
+        }
+        this.logger.info("Found " + organitationsMap.size() + " organizations ");
+
+        return organitationsMap;
 
     }
 

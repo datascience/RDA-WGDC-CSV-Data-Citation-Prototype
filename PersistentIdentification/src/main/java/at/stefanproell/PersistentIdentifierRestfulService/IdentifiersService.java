@@ -44,7 +44,7 @@ import java.util.Map;
 import java.util.logging.Logger;
 
 /**
- * Root resource (exposed at "myresource" path)
+ * Root resource (exposed at "identifiers" path)
  */
 @Path("/identifiers")
 public class IdentifiersService {
