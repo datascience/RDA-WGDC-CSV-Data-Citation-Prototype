@@ -1,35 +1,3 @@
-/*
- * Copyright [2014] [Stefan Pröll]
- *
- *    Licensed under the Apache License, Version 2.0 (the "License");
- *    you may not use this file except in compliance with the License.
- *    You may obtain a copy of the License at
- *
- *        http://www.apache.org/licenses/LICENSE-2.0
- *
- *    Unless required by applicable law or agreed to in writing, software
- *    distributed under the License is distributed on an "AS IS" BASIS,
- *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *    See the License for the specific language governing permissions and
- *    limitations under the License.
- */
-
-/*
- * Copyright [2014] [Stefan Pröll]
- *
- *    Licensed under the Apache License, Version 2.0 (the "License");
- *    you may not use this file except in compliance with the License.
- *    You may obtain a copy of the License at
- *
- *        http://www.apache.org/licenses/LICENSE-2.0
- *
- *    Unless required by applicable law or agreed to in writing, software
- *    distributed under the License is distributed on an "AS IS" BASIS,
- *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *    See the License for the specific language governing permissions and
- *    limitations under the License.
- */
-
 package at.stefanproell.PersistentIdentifierMockup;
 
 import org.apache.commons.lang3.ArrayUtils;
@@ -65,23 +33,22 @@ public class TimeStampInterceptor extends EmptyInterceptor {
     public boolean onFlushDirty(Object entity, Serializable id, Object[] currentState,
                                 Object[] previousState, String[] propertyNames, Type[] types) {
 
-        logger.info("UPDATE operation");
-        logger.info("onFlushDirty: Detected dirty object " + entity + " with id " + id);
-        final int length = currentState.length;
-        logger.info("onFlushDirty: Object Details are as below: ");
-        for (int i = 0; i < length; i++) {
-            logger.info("onFlushDirty[" + i + "]: propertyName : " + propertyNames[i]
-                    + " ,type :  " + types[i]
-                    + " , previous state : " + previousState[i]
-                    + " , current state : " + currentState[i]);
-        }
-
 
         /**
          * Update the lastUpdateDate value and set the wasUpdated flag to 'Y'
          */
         if (entity instanceof TimeStamped) {
+            logger.info("UPDATE operation");
+            /*
+            logger.info("onFlushDirty: Object Details are as below: ");
 
+            for (int i = 0; i < length; i++) {
+                logger.info("onFlushDirty[" + i + "]: propertyName : " + propertyNames[i]
+                        + " ,type :  " + types[i]
+                        + " , previous state : " + previousState[i]
+                        + " , current state : " + currentState[i]);
+            }
+            */
 
             int indexOfLastUpdate = ArrayUtils.indexOf(propertyNames, "lastUpdatedDate");
             int indexOfCreatedDate = ArrayUtils.indexOf(propertyNames, "createdDate");
@@ -91,14 +58,16 @@ public class TimeStampInterceptor extends EmptyInterceptor {
             Date lastUpdateDate = (Date) currentState[indexOfLastUpdate];
 
 
+            /**
+             * If createdDate equals lastUpdateDate, this is the first update.
+             * Set the updated column to Y
+             */
             if (createdDate.equals(lastUpdateDate)) {
-                logger.warning("There was an update!");
-                currentState[indexOfLastUpdate] = new Date();
+                logger.warning("This is the first update of the record.");
                 currentState[indexOfWasUpdated] = 'Y';
-
             }
-
-            //     currentState[indexOfWasUpdated] = 'Y';
+            // set the new date of the update event
+            currentState[indexOfLastUpdate] = new Date();
 
 
             return true;
@@ -112,6 +81,8 @@ public class TimeStampInterceptor extends EmptyInterceptor {
                           String[] propertyNames, Type[] types) {
 
         logger.info("Save operation");
+        /*
+
         logger.info("onSave: Saving object " + entity + " with id " + id);
         final int length = state.length;
         logger.info("onSave: Object Details are as below: ");
@@ -120,6 +91,7 @@ public class TimeStampInterceptor extends EmptyInterceptor {
                     + " ,type :  " + types[i]
                     + " , state : " + state[i]);
         }
+        */
 
         /**
          * Set the createdDate and the lastUpdateDate to the current Date and indicate that this is a
@@ -150,6 +122,7 @@ public class TimeStampInterceptor extends EmptyInterceptor {
                           Type[] types) {
 
         // log loading events
+        /*
         logger.info("Load Operation");
         logger.info("onLoad: Attempting to load an object " + entity + " with id "
                 + id);
@@ -160,6 +133,7 @@ public class TimeStampInterceptor extends EmptyInterceptor {
                     + " ,type :  " + types[i]
                     + " ,state : " + state[i]);
         }
+        */
         return true;
     }
 

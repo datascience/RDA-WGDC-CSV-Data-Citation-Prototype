@@ -74,6 +74,7 @@ public class PersistentIdentifierAPI {
             org = new Organization(organizationName, prefix);
             this.session.save(org);
             this.session.getTransaction().commit();
+            this.session.flush();
             this.session.close();
 
         } else {
@@ -104,6 +105,7 @@ public class PersistentIdentifierAPI {
         pid.setURI(URIString);
         this.session.save(pid);
         this.session.getTransaction().commit();
+        this.session.flush();
         this.session.close();
 
 
@@ -126,6 +128,7 @@ public class PersistentIdentifierAPI {
         pid.setURI(URIString);
         this.session.save(pid);
         this.session.getTransaction().commit();
+        this.session.flush();
         this.session.close();
 
 
@@ -278,7 +281,6 @@ public class PersistentIdentifierAPI {
     /**
      * List all organizations
      *
-
      * @return
      */
     public Map<Integer, String> listAllOrganizations() {

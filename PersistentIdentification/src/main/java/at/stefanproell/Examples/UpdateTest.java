@@ -39,7 +39,9 @@ public class UpdateTest {
     private void one() {
         PersistentIdentifierAPI api = new PersistentIdentifierAPI();
         Organization org = api.getOrganizationObjectByPrefix(6789);
-        PersistentIdentifierAlphaNumeric newpid = api.getAlphaNumericPID(org, "www.dertest.org");
+        PersistentIdentifierAlphaNumeric newpid = api.getAlphaNumericPID(org, "URL1");
+        // PersistentIdentifierAlphaNumeric newpid2 = api.getAlphaNumericPID(org, "URL2");
+        // PersistentIdentifierAlphaNumeric newpid3 = api.getAlphaNumericPID(org, "URL3");
 
         try {
             Thread.sleep(5000);                 //1000 milliseconds is one second.
@@ -47,8 +49,24 @@ public class UpdateTest {
             Thread.currentThread().interrupt();
         }
 
-        api.updateURI(newpid.getIdentifier(), "this is updated");
+        api.updateURI(newpid.getIdentifier(), "URL1-1");
 
+        try {
+            Thread.sleep(5000);                 //1000 milliseconds is one second.
+        } catch (InterruptedException ex) {
+            Thread.currentThread().interrupt();
+        }
+
+        api.updateURI(newpid.getIdentifier(), "URL1-2");
+
+
+        try {
+            Thread.sleep(100);                 //1000 milliseconds is one second.
+        } catch (InterruptedException ex) {
+            Thread.currentThread().interrupt();
+        }
+
+        api.updateURI(newpid.getIdentifier(), "URL1-3");
 
     }
 
