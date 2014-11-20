@@ -34,11 +34,15 @@ package at.stefanproell.PersistentIdentifierRestfulService;
 
 import at.stefanproell.PersistentIdentifierMockup.*;
 
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.UriInfo;
+import java.io.IOException;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.logging.Logger;
@@ -52,6 +56,7 @@ public class IdentifiersService {
     private Logger logger;
     private PersistentIdentifierAPI pidAPI = null;
     private static String HARDCODED_URL = "http://localhost:8080/pid/service/identifiers/";
+
     public IdentifiersService() {
         this.logger = Logger.getLogger(this.getClass().getName());
         this.logger.info("Identifier constructor");
@@ -59,43 +64,23 @@ public class IdentifiersService {
     }
 
     /**
-     * Method handling HTTP GET requests. The returned object will be sent
-     * to the client as "text/plain" media type.
-     *
-     * @return String that will be returned as a text/plain response.
+     * Display a help page
      */
     @GET
-    @Produces(MediaType.TEXT_PLAIN)
-    public String get(@Context UriInfo ui) {
-        MultivaluedMap<String, String> queryParams = ui.getQueryParameters();
-        MultivaluedMap<String, String> pathParams = ui.getPathParameters();
-
-        printMap(queryParams);
-        printMap(pathParams);
-
-
-        return "ok";
-
+    @Produces(MediaType.TEXT_HTML)
+    public void get(@Context HttpServletRequest req, @Context HttpServletResponse resp) throws IOException, ServletException {
+        req.setAttribute(this.getClass().getName(), this);
+        req.getRequestDispatcher("/WEB-INF/jsp/identifiers.jsp").forward(req, resp);
     }
 
-    @GET
-    @Path("/sayname")
-    @Produces(MediaType.TEXT_PLAIN)
-    public String sayHello(@QueryParam("name") String name) {
-        if (name != null) {
-            // if the query parameter "name" is there
-            return "Hello " + name + "!";
-        }
-        return "Hello World!";
-    }
 
     @GET
-    @Path("/details/{identifier}")
+    @Path("/details/{prefix}/{identifier}")
     @Produces(MediaType.TEXT_PLAIN)
-    public String getIdentifier(@PathParam("identifier") String identifier) {
+    public String getIdentifier(@PathParam("prefix") String prefix, @PathParam("identifier") String identifier) {
         if (identifier != null) {
             // if the query parameter "name" is there
-            return "Show details for " + identifier;
+            return "Show details for prefix " + prefix + " / " + identifier;
         }
         return "No id provided";
     }
@@ -107,10 +92,11 @@ public class IdentifiersService {
      * @param identifierType
      * @return
      */
+
     @GET
     @Path("/new/{organizationPrefix}/{type}")
     @Produces(MediaType.TEXT_PLAIN)
-    public String addIdentifier(@PathParam("organizationPrefix") int organizationPrefix, @PathParam("type") String identifierType) {
+    public String addIdentifierGET(@PathParam("organizationPrefix") int organizationPrefix, @PathParam("type") String identifierType) {
         Organization org = null;
 
         if (organizationPrefix > 0) {
@@ -160,6 +146,111 @@ public class IdentifiersService {
 
     }
 
+    @POST
+    @Path("/new/{organizationPrefix}/{type}")
+    @Produces(MediaType.TEXT_PLAIN)
+    public String addIdentifierPOST(@PathParam("organizationPrefix") int organizationPrefix, @PathParam("type") String identifierType) {
+        Organization org = null;
+
+        if (organizationPrefix > 0) {
+            if (this.pidAPI.checkOrganizationPrefix(organizationPrefix)) {
+                this.logger.info("The prefix exists.");
+                org = this.pidAPI.getOrganizationObjectByPrefix(organizationPrefix);
+                ;
+
+                this.logger.info("Provided parameter:" + identifierType);
+                if (identifierType != null) {
+                    switch (identifierType) {
+                        case "alpha":
+                            this.logger.info("Create a new alpha identifier");
+
+                            PersistentIdentifierAlpha alphaPID = this.pidAPI.getAlphaPID(org, HARDCODED_URL);
+                            this.pidAPI.updateURI(alphaPID.getIdentifier(), HARDCODED_URL + org.getOrganization_prefix() + "/" + alphaPID.getIdentifier());
+                            return org.getOrganization_prefix() + "/" + alphaPID.getIdentifier();
+
+                        case "alphanum":
+                            this.logger.info("Create a new alpha nummerical identifier");
+                            PersistentIdentifierAlphaNumeric alphaNumericPID = this.pidAPI.getAlphaNumericPID(org, HARDCODED_URL);
+                            this.pidAPI.updateURI(alphaNumericPID.getIdentifier(), HARDCODED_URL + org.getOrganization_prefix() + "/" + alphaNumericPID.getIdentifier());
+                            return org.getOrganization_prefix() + "/" + alphaNumericPID.getIdentifier();
+
+                        case "numeric":
+                            this.logger.info("Create a new numeric identifier");
+                            PersistentIdentifierNumeric numericPID = this.pidAPI.getNumericPID(org, HARDCODED_URL);
+                            this.pidAPI.updateURI(numericPID.getIdentifier(), HARDCODED_URL + org.getOrganization_prefix() + "/" + numericPID.getIdentifier());
+                            return org.getOrganization_prefix() + "/" + numericPID.getIdentifier();
+
+
+                    }
+
+                } else {
+
+                }
+                return "No identifier type provided";
+
+
+            }
+            return "Prefix does not exist";
+
+
+        }
+        return "Invalid organizational prefix";
+
+
+    }
+
+    @PUT
+    @Path("/new/{organizationPrefix}/{type}")
+    @Produces(MediaType.TEXT_PLAIN)
+    public String addIdentifierPUT(@PathParam("organizationPrefix") int organizationPrefix, @PathParam("type") String identifierType) {
+        Organization org = null;
+
+        if (organizationPrefix > 0) {
+            if (this.pidAPI.checkOrganizationPrefix(organizationPrefix)) {
+                this.logger.info("The prefix exists.");
+                org = this.pidAPI.getOrganizationObjectByPrefix(organizationPrefix);
+                ;
+
+                this.logger.info("Provided parameter:" + identifierType);
+                if (identifierType != null) {
+                    switch (identifierType) {
+                        case "alpha":
+                            this.logger.info("Create a new alpha identifier");
+
+                            PersistentIdentifierAlpha alphaPID = this.pidAPI.getAlphaPID(org, HARDCODED_URL);
+                            this.pidAPI.updateURI(alphaPID.getIdentifier(), HARDCODED_URL + org.getOrganization_prefix() + "/" + alphaPID.getIdentifier());
+                            return org.getOrganization_prefix() + "/" + alphaPID.getIdentifier();
+
+                        case "alphanum":
+                            this.logger.info("Create a new alpha nummerical identifier");
+                            PersistentIdentifierAlphaNumeric alphaNumericPID = this.pidAPI.getAlphaNumericPID(org, HARDCODED_URL);
+                            this.pidAPI.updateURI(alphaNumericPID.getIdentifier(), HARDCODED_URL + org.getOrganization_prefix() + "/" + alphaNumericPID.getIdentifier());
+                            return org.getOrganization_prefix() + "/" + alphaNumericPID.getIdentifier();
+
+                        case "numeric":
+                            this.logger.info("Create a new numeric identifier");
+                            PersistentIdentifierNumeric numericPID = this.pidAPI.getNumericPID(org, HARDCODED_URL);
+                            this.pidAPI.updateURI(numericPID.getIdentifier(), HARDCODED_URL + org.getOrganization_prefix() + "/" + numericPID.getIdentifier());
+                            return org.getOrganization_prefix() + "/" + numericPID.getIdentifier();
+
+
+                    }
+
+                } else {
+
+                }
+                return "No identifier type provided";
+
+
+            }
+            return "Prefix does not exist";
+
+
+        }
+        return "Invalid organizational prefix";
+
+
+    }
 
     /**
      * Print parameter map

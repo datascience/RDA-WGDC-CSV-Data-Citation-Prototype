@@ -78,6 +78,14 @@ public class MinimalTest {
 
         PersistentIdentifierAlphaNumeric newpid = api.getAlphaNumericPID(evilOrganization, "www.dertest.org");
 
+        try {
+            Thread.sleep(1000);                 //1000 milliseconds is one second.
+        } catch (InterruptedException ex) {
+            Thread.currentThread().interrupt();
+        }
+
+        api.updateURI(newpid.getIdentifier(), "this is updated");
+
 
     }
 }

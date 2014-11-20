@@ -70,7 +70,7 @@ public class TimeStampInterceptor extends EmptyInterceptor {
         final int length = currentState.length;
         logger.info("onFlushDirty: Object Details are as below: ");
         for (int i = 0; i < length; i++) {
-            logger.info("onFlushDirty: propertyName : " + propertyNames[i]
+            logger.info("onFlushDirty[" + i + "]: propertyName : " + propertyNames[i]
                     + " ,type :  " + types[i]
                     + " , previous state : " + previousState[i]
                     + " , current state : " + currentState[i]);
@@ -84,10 +84,21 @@ public class TimeStampInterceptor extends EmptyInterceptor {
 
 
             int indexOfLastUpdate = ArrayUtils.indexOf(propertyNames, "lastUpdatedDate");
+            int indexOfCreatedDate = ArrayUtils.indexOf(propertyNames, "createdDate");
             int indexOfWasUpdated = ArrayUtils.indexOf(propertyNames, "wasUpdated");
 
-            currentState[indexOfLastUpdate] = new Date();
-            currentState[indexOfWasUpdated] = 'Y';
+            Date createdDate = (Date) previousState[indexOfCreatedDate];
+            Date lastUpdateDate = (Date) currentState[indexOfLastUpdate];
+
+
+            if (createdDate.equals(lastUpdateDate)) {
+                logger.warning("There was an update!");
+                currentState[indexOfLastUpdate] = new Date();
+                currentState[indexOfWasUpdated] = 'Y';
+
+            }
+
+            //     currentState[indexOfWasUpdated] = 'Y';
 
 
             return true;

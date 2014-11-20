@@ -149,6 +149,7 @@ public class PersistentIdentifierAPI {
         pid.setURI(URIString);
         this.session.save(pid);
         this.session.getTransaction().commit();
+        this.session.flush();
         this.session.close();
 
 

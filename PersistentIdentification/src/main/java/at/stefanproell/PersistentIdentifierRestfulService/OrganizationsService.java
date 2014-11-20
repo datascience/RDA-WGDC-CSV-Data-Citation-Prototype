@@ -20,12 +20,14 @@ import at.stefanproell.PersistentIdentifierMockup.Organization;
 import at.stefanproell.PersistentIdentifierMockup.PersistentIdentifier;
 import at.stefanproell.PersistentIdentifierMockup.PersistentIdentifierAPI;
 import com.google.gson.Gson;
+import org.glassfish.jersey.server.mvc.Viewable;
 
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.*;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.MultivaluedMap;
-import javax.ws.rs.core.UriInfo;
+import javax.ws.rs.core.*;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -47,23 +49,13 @@ public class OrganizationsService {
     }
 
     /**
-     * Method handling HTTP GET requests. The returned object will be sent
-     * to the client as "text/plain" media type.
-     *
-     * @return String that will be returned as a text/plain response.
+     * Display a help page
      */
     @GET
-    @Produces(MediaType.TEXT_PLAIN)
-    public String get(@Context UriInfo ui) {
-        MultivaluedMap<String, String> queryParams = ui.getQueryParameters();
-        MultivaluedMap<String, String> pathParams = ui.getPathParameters();
-
-        printMap(queryParams);
-        printMap(pathParams);
-
-
-        return "ok";
-
+    @Produces(MediaType.TEXT_HTML)
+    public void get(@Context HttpServletRequest req, @Context HttpServletResponse resp) throws IOException, ServletException {
+        req.setAttribute(this.getClass().getName(), this);
+        req.getRequestDispatcher("/WEB-INF/jsp/organization.jsp").forward(req, resp);
     }
 
     /**
@@ -122,10 +114,7 @@ public class OrganizationsService {
         return "Invalid organizational prefix";
 
 
-
-
     }
-
 
 
     /**

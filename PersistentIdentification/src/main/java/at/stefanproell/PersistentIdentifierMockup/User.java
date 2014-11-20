@@ -50,6 +50,10 @@ public class User implements TimeStamped {
 
     }
 
+    public User() {
+        super();
+    }
+
     /**
      * Check the password
      *

@@ -171,7 +171,7 @@ public class PersistentIdentifier implements java.io.Serializable, TimeStamped {
     @Override
     public void setLastUpdatedDate(Date lastUpdatedDate) {
 
-        this.lastUpdatedDate = this.lastUpdatedDate;
+        this.lastUpdatedDate = lastUpdatedDate;
 
     }
 
