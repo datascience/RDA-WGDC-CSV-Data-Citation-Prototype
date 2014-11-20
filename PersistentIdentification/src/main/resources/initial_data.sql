@@ -1,0 +1,2 @@
+INSERT INTO organization (organization_id,alphaPIDlength,alphanumericPIDlength,createdDate,lastUpdatedDate,numericPIDlength,organization_name,organization_prefix,wasUpdated,user_id) VALUES ('1', '12', '10', '2014-11-20 09:47:27', '2014-11-20 09:47:27', '5', 'Evil Corp', '2345', 'N', NULL);
+INSERT INTO organization (organization_id,alphaPIDlength,alphanumericPIDlength,createdDate,lastUpdatedDate,numericPIDlength,organization_name,organization_prefix,wasUpdated,user_id) VALUES ('2', '12', '10', '2014-11-20 09:48:27', '2014-11-20 09:49:27', '6', 'Good Corp', '6789', 'N', NULL);

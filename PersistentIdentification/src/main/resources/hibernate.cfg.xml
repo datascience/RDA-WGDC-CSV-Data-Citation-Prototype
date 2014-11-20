@@ -36,6 +36,7 @@
         <property name="use_sql_comments">false</property>
 
         <property name="hibernate.connection.autocommit">false</property>
+        <property name="hibernate.hbm2ddl.import_files">initial_data.sql</property>
 
 
         <property name="hibernate.jdbc.batch_size">20</property>
