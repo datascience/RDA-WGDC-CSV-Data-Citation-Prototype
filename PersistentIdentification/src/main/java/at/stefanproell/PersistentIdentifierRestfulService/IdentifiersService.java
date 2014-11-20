@@ -75,7 +75,7 @@ public class IdentifiersService {
 
 
     @GET
-    @Path("/details/{prefix}/{identifier}")
+    @Path("/ark:/{prefix}/{identifier}")
     @Produces(MediaType.TEXT_PLAIN)
     public String getIdentifier(@PathParam("prefix") String prefix, @PathParam("identifier") String identifier) {
         if (identifier != null) {
