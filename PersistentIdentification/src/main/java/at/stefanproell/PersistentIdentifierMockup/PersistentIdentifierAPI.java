@@ -161,7 +161,7 @@ public class PersistentIdentifierAPI {
     }
 
     /**
-     * Subcomponent
+     * Create a new Subcomponent of the specified identifier
      * @param parentPID
      * @param URIString
      * @return
@@ -185,34 +185,76 @@ public class PersistentIdentifierAPI {
     }
 
     /**
-     * retrieve a list of parents
+     * Create a new Subcomponent of the specified identifier
+     * @param parentPID
+     * @param URIString
+     * @return
+     */
+    public PersistentIdentifierSubcomponent getSubComponentWithManualIdentifierAlphaNummeric(PersistentIdentifier parentPID, String URIString, String manualIdentifier) {
+
+        this.session = HibernateUtil.getSessionFactory().openSession();
+        this.session.beginTransaction();
+        PersistentIdentifierSubcomponent subPID = new PersistentIdentifierSubcomponent();
+        subPID.setParentIdentifier(parentPID);
+        subPID.setIdentifier(manualIdentifier);
+        subPID.setURI(URIString);
+        subPID.setOrganization(parentPID.getOrganization());
+        this.session.save(subPID);
+        this.session.getTransaction().commit();
+        this.session.flush();
+        this.session.close();
+
+
+        return subPID;
+    }
+
+    /**
+     * retrieve a list of parents of an identifier.
      *
      * @param subcomponent
      * @return
      */
-    public List<PersistentIdentifier> getAllParentsFromSubcompoment(PersistentIdentifier subcomponent) {
-        List<PersistentIdentifier> parentList = new ArrayList<PersistentIdentifier>();
+    public LinkedList<PersistentIdentifier> getAllParentsFromSubcompoment(PersistentIdentifier subcomponent) {
+
+        LinkedList<PersistentIdentifier> parentList = new LinkedList<PersistentIdentifier>();
         boolean hasParent = true;
 
         PersistentIdentifier currentIdentifier = subcomponent;
         while (hasParent) {
 
+            /**
+             * If the current identifeir is a subcomponent itself, retrieve the parent and proceed
+             */
             if (currentIdentifier instanceof PersistentIdentifierSubcomponent) {
                 PersistentIdentifierSubcomponent currentSubcomponent = (PersistentIdentifierSubcomponent) currentIdentifier;
 
                 PersistentIdentifier pid = (PersistentIdentifier) currentSubcomponent.getParentIdentifier();
-                parentList.add(pid);
+                parentList.addFirst(pid);
                 this.logger.info("added parent " + pid.getIdentifier());
                 currentIdentifier = pid;
 
             } else {
                 hasParent = false;
+
             }
 
         }
+        this.printIdentifiersFromList(parentList);
         return parentList;
 
 
+    }
+
+
+    /**
+     * Return the root node of a given composite identifier
+     * @param pid
+     * @return
+     */
+    public PersistentIdentifier getRootParentOfIdentifier(PersistentIdentifier pid) {
+        PersistentIdentifier root = getAllParentsFromSubcompoment(pid).getFirst();
+        this.logger.info("The root node of " + pid.getIdentifier() + " is " + root.getIdentifier());
+        return root;
     }
 
 
@@ -638,6 +680,21 @@ public class PersistentIdentifierAPI {
         }
 
 
+    }
+
+    /**
+     * Prints the list of identifeirs
+     *
+     * @param identifierList
+     */
+    public void printIdentifiersFromList(LinkedList<PersistentIdentifier> identifierList) {
+        PersistentIdentifier pid = null;
+        for (int i = 0; i < identifierList.size(); i++) {
+            pid = (PersistentIdentifier) identifierList.get(i);
+
+
+            this.logger.info("Identifier (" + i + ") : " + pid.getIdentifier());
+        }
     }
 
 }

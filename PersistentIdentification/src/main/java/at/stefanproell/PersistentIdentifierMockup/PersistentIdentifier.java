@@ -65,7 +65,7 @@ import java.util.logging.Logger;
  */
 @Entity
 @Table(name = "persistent_identifier", uniqueConstraints = {
-        @UniqueConstraint(columnNames = {"organization_id", "identifier"})
+        @UniqueConstraint(columnNames = {"organization_id", "identifier", "parent_identifier_id"})
 })
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(

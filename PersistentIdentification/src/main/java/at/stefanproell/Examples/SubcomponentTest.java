@@ -32,10 +32,10 @@
 
 package at.stefanproell.Examples;
 
-import at.stefanproell.PersistentIdentifierMockup.Organization;
-import at.stefanproell.PersistentIdentifierMockup.PersistentIdentifierAPI;
-import at.stefanproell.PersistentIdentifierMockup.PersistentIdentifierAlphaNumeric;
-import at.stefanproell.PersistentIdentifierMockup.PersistentIdentifierSubcomponent;
+import at.stefanproell.PersistentIdentifierMockup.*;
+
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Created by stefan on 20.11.14.
@@ -56,12 +56,28 @@ public class SubcomponentTest {
     private void one() {
         PersistentIdentifierAPI api = new PersistentIdentifierAPI();
         Organization org = api.getOrganizationObjectByPrefix(6789);
-        PersistentIdentifierAlphaNumeric newpid = api.getAlphaNumericPID(org, "URL1");
-        PersistentIdentifierAlphaNumeric newpid2 = api.getAlphaNumericPID(org, "URL2");
-        PersistentIdentifierSubcomponent sub = api.getSubComponentAlphaNummeric(newpid, "http://subcomponent");
-        PersistentIdentifierSubcomponent sub2 = api.getSubComponentAlphaNummeric(newpid, "http://other_subcomponent");
-        PersistentIdentifierSubcomponent subsub = api.getSubComponentAlphaNummeric(sub, "http://subsub");
-        api.getAllParentsFromSubcompoment(subsub);
+        PersistentIdentifierAlphaNumeric newpid = api.getAlphaNumericPID(org, "root1");
+        PersistentIdentifierAlphaNumeric newpid2 = api.getAlphaNumericPID(org, "root2");
+        PersistentIdentifierSubcomponent sub = api.getSubComponentAlphaNummeric(newpid, "sub");
+        PersistentIdentifierSubcomponent sub2 = api.getSubComponentAlphaNummeric(newpid, "sub2");
+        PersistentIdentifierSubcomponent subsub = api.getSubComponentAlphaNummeric(sub, "subsub");
+        PersistentIdentifierSubcomponent subsubsub = api.getSubComponentAlphaNummeric(subsub, "subsubsub");
+        PersistentIdentifierSubcomponent subsubsubsub = api.getSubComponentAlphaNummeric(subsubsub, "subsubsub");
+
+        api.getAllParentsFromSubcompoment(subsubsubsub);
+        api.getRootParentOfIdentifier(subsubsubsub);
+
+        PersistentIdentifierAlphaNumeric manual1 = api.getAlphaNumericPID(org, "root1");
+        PersistentIdentifierSubcomponent mansub = api.getSubComponentWithManualIdentifierAlphaNummeric(manual1, "sub1", "set1");
+        PersistentIdentifierSubcomponent mansub2 = api.getSubComponentWithManualIdentifierAlphaNummeric(manual1, "sub2", "set2");
+        PersistentIdentifierSubcomponent mansubsub = api.getSubComponentWithManualIdentifierAlphaNummeric(mansub, "subset", "subset1");
+        PersistentIdentifierSubcomponent mansubsub3 = api.getSubComponentWithManualIdentifierAlphaNummeric(mansub2, "subset", "subset1");
+        api.getAllParentsFromSubcompoment(mansubsub);
+        api.getRootParentOfIdentifier(mansubsub);
+
+
+
+
 
     }
 }

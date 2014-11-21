@@ -79,9 +79,6 @@ import java.util.logging.Logger;
  * It uses a discriminator value in order to differentiate between the specialized identifiers.
  */
 @Entity
-@Table(name = "persistent_identifier_subcomponent", uniqueConstraints = {
-        @UniqueConstraint(columnNames = {"organization_id", "parentIdentifier"})
-})
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(
         name = "IdentifierTypes",
@@ -126,7 +123,7 @@ public class PersistentIdentifierSubcomponent extends PersistentIdentifier imple
         PIGenerator pig = new PIGenerator();
         if (this.subPIDlength <= 0) {
             this.logger.severe("No length specified. Set organization first!. Reading from property file");
-            this.subPIDlength = Helpers.getIntegerParameterFromPropertyFile(propertiesFileName, "alphaPIDlength");
+            this.subPIDlength = Helpers.getIntegerParameterFromPropertyFile(propertiesFileName, "subcomponent");
 
         }
         String identifier = (pig.getRandomAlpaNumericString(this.subPIDlength));
