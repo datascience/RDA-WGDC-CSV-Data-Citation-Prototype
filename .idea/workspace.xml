@@ -4,26 +4,9 @@
     <option name="SCOPE_TYPE" value="4" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fe0bbad9-08dd-49cf-9f33-eb5e1947ea1f" name="Default" comment="time interceptor">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/PersistentIdentification/src/main/java/at/stefanproell/PersistentIdentifierMockup/PersistentIdentifierSubcomponent.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/PersistentIdentification/src/main/java/at/stefanproell/Examples/SubcomponentTest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/PersistentIdentification/JavaDoc/at/stefanproell/PersistentIdentifierMockup/PersistentIdentifier.html" afterPath="$PROJECT_DIR$/PersistentIdentification/JavaDoc/at/stefanproell/PersistentIdentifierMockup/PersistentIdentifier.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/PersistentIdentification/src/main/java/at/stefanproell/PersistentIdentifierMockup/PersistentIdentifier.java" afterPath="$PROJECT_DIR$/PersistentIdentification/src/main/java/at/stefanproell/PersistentIdentifierMockup/PersistentIdentifier.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/PersistentIdentification/JavaDoc/at/stefanproell/PersistentIdentifierMockup/PersistentIdentifierAPI.html" afterPath="$PROJECT_DIR$/PersistentIdentification/JavaDoc/at/stefanproell/PersistentIdentifierMockup/PersistentIdentifierAPI.html" />
+    <list default="true" id="fe0bbad9-08dd-49cf-9f33-eb5e1947ea1f" name="Default" comment="subcomponent">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/PersistentIdentification/src/main/java/at/stefanproell/PersistentIdentifierMockup/PersistentIdentifierAPI.java" afterPath="$PROJECT_DIR$/PersistentIdentification/src/main/java/at/stefanproell/PersistentIdentifierMockup/PersistentIdentifierAPI.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/PersistentIdentification/JavaDoc/at/stefanproell/PersistentIdentifierMockup/PersistentIdentifierAlpha.html" afterPath="$PROJECT_DIR$/PersistentIdentification/JavaDoc/at/stefanproell/PersistentIdentifierMockup/PersistentIdentifierAlpha.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/PersistentIdentification/JavaDoc/at/stefanproell/PersistentIdentifierMockup/PersistentIdentifierAlphaNumeric.html" afterPath="$PROJECT_DIR$/PersistentIdentification/JavaDoc/at/stefanproell/PersistentIdentifierMockup/PersistentIdentifierAlphaNumeric.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/PersistentIdentification/JavaDoc/at/stefanproell/PersistentIdentifierMockup/PersistentIdentifierNumeric.html" afterPath="$PROJECT_DIR$/PersistentIdentification/JavaDoc/at/stefanproell/PersistentIdentifierMockup/PersistentIdentifierNumeric.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/PersistentIdentification/src/main/java/at/stefanproell/PersistentIdentifierMockup/TimeStampInterceptor.java" afterPath="$PROJECT_DIR$/PersistentIdentification/src/main/java/at/stefanproell/PersistentIdentifierMockup/TimeStampInterceptor.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/PersistentIdentification/src/main/resources/hibernate.cfg.xml" afterPath="$PROJECT_DIR$/PersistentIdentification/src/main/resources/hibernate.cfg.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/PersistentIdentification/JavaDoc/index-files/index-13.html" afterPath="$PROJECT_DIR$/PersistentIdentification/JavaDoc/index-files/index-13.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/PersistentIdentification/JavaDoc/index-files/index-14.html" afterPath="$PROJECT_DIR$/PersistentIdentification/JavaDoc/index-files/index-14.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/PersistentIdentification/JavaDoc/index-files/index-4.html" afterPath="$PROJECT_DIR$/PersistentIdentification/JavaDoc/index-files/index-4.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/PersistentIdentification/JavaDoc/index-files/index-9.html" afterPath="$PROJECT_DIR$/PersistentIdentification/JavaDoc/index-files/index-9.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/PersistentIdentification/JavaDoc/at/stefanproell/PersistentIdentifierMockup/package-summary.html" afterPath="$PROJECT_DIR$/PersistentIdentification/JavaDoc/at/stefanproell/PersistentIdentifierMockup/package-summary.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/PersistentIdentification/src/main/resources/pid.properties" afterPath="$PROJECT_DIR$/PersistentIdentification/src/main/resources/pid.properties" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/WebInterface/src/main/webapp/resolver.xhtml" afterPath="$PROJECT_DIR$/WebInterface/src/main/webapp/resolver.xhtml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/PersistentIdentification/JavaDoc/serialized-form.html" afterPath="$PROJECT_DIR$/PersistentIdentification/JavaDoc/serialized-form.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/PersistentIdentification/src/main/java/at/stefanproell/Examples/SubcomponentTest.java" afterPath="$PROJECT_DIR$/PersistentIdentification/src/main/java/at/stefanproell/Examples/SubcomponentTest.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="SCAPE-QueryStore.iws" />
@@ -132,7 +115,7 @@
         <entry file="file://$PROJECT_DIR$/PersistentIdentification/src/main/java/at/stefanproell/PersistentIdentifierMockup/TimeStampInterceptor.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0" vertical-offset="330" max-vertical-offset="2190">
-              <caret line="39" column="64" selection-start-line="39" selection-start-column="64" selection-end-line="39" selection-end-column="64" />
+              <caret line="39" column="66" selection-start-line="39" selection-start-column="66" selection-end-line="39" selection-end-column="66" />
               <folding />
             </state>
           </provider>
@@ -141,13 +124,13 @@
       <file leaf-file-name="PersistentIdentifierSubcomponent.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/PersistentIdentification/src/main/java/at/stefanproell/PersistentIdentifierMockup/PersistentIdentifierSubcomponent.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="298" max-vertical-offset="1155">
-              <caret line="95" column="63" selection-start-line="95" selection-start-column="63" selection-end-line="95" selection-end-column="63" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="613" max-vertical-offset="1155">
+              <caret line="92" column="13" selection-start-line="92" selection-start-column="13" selection-end-line="92" selection-end-column="13" />
               <folding>
-                <element signature="e#3914#3915#0" expanded="true" />
-                <element signature="e#3953#3954#0" expanded="true" />
-                <element signature="e#4031#4032#0" expanded="true" />
-                <element signature="e#4087#4088#0" expanded="true" />
+                <element signature="e#3910#3911#0" expanded="true" />
+                <element signature="e#3949#3950#0" expanded="true" />
+                <element signature="e#4027#4028#0" expanded="true" />
+                <element signature="e#4083#4084#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -176,8 +159,8 @@
       <file leaf-file-name="SubcomponentTest.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/PersistentIdentification/src/main/java/at/stefanproell/Examples/SubcomponentTest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.80258304" vertical-offset="0" max-vertical-offset="570">
-              <caret line="62" column="102" selection-start-line="62" selection-start-column="102" selection-end-line="62" selection-end-column="102" />
+            <state vertical-scroll-proportion="0.8579336" vertical-offset="0" max-vertical-offset="600">
+              <caret line="64" column="8" selection-start-line="64" selection-start-column="8" selection-end-line="64" selection-end-column="8" />
               <folding />
             </state>
           </provider>
@@ -186,9 +169,11 @@
       <file leaf-file-name="PersistentIdentifierAPI.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/PersistentIdentification/src/main/java/at/stefanproell/PersistentIdentifierMockup/PersistentIdentifierAPI.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="1654" max-vertical-offset="8730">
-              <caret line="175" column="58" selection-start-line="175" selection-start-column="58" selection-end-line="175" selection-end-column="58" />
-              <folding />
+            <state vertical-scroll-proportion="0.0" vertical-offset="2104" max-vertical-offset="9165">
+              <caret line="187" column="33" selection-start-line="187" selection-start-column="33" selection-end-line="187" selection-end-column="33" />
+              <folding>
+                <element signature="e#5754#5776#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -265,8 +250,8 @@
         <option value="$PROJECT_DIR$/PersistentIdentification/src/main/resources/hibernate.cfg.xml" />
         <option value="$PROJECT_DIR$/PersistentIdentification/src/main/java/at/stefanproell/PersistentIdentifierMockup/PersistentIdentifier.java" />
         <option value="$PROJECT_DIR$/PersistentIdentification/src/main/java/at/stefanproell/PersistentIdentifierMockup/PersistentIdentifierSubcomponent.java" />
-        <option value="$PROJECT_DIR$/PersistentIdentification/src/main/java/at/stefanproell/PersistentIdentifierMockup/PersistentIdentifierAPI.java" />
         <option value="$PROJECT_DIR$/PersistentIdentification/src/main/java/at/stefanproell/PersistentIdentifierMockup/TimeStampInterceptor.java" />
+        <option value="$PROJECT_DIR$/PersistentIdentification/src/main/java/at/stefanproell/PersistentIdentifierMockup/PersistentIdentifierAPI.java" />
         <option value="$PROJECT_DIR$/PersistentIdentification/src/main/java/at/stefanproell/Examples/SubcomponentTest.java" />
       </list>
     </option>
@@ -1634,7 +1619,11 @@
       <created>1416504350897</created>
       <updated>1416504350897</updated>
     </task>
-    <option name="localTasksCounter" value="98" />
+    <task id="LOCAL-00098" summary="subcomponent">
+      <created>1416559415721</created>
+      <updated>1416559415721</updated>
+    </task>
+    <option name="localTasksCounter" value="99" />
     <servers />
   </component>
   <component name="TodoView" selected-index="0">
@@ -1703,7 +1692,6 @@
     <option name="myTodoPanelSettings">
       <TodoPanelSettings />
     </option>
-    <MESSAGE value="dependency problems resolved" />
     <MESSAGE value="deployment works" />
     <MESSAGE value="selection works" />
     <MESSAGE value="compiler" />
@@ -1728,7 +1716,8 @@
     <MESSAGE value="organization list" />
     <MESSAGE value="testdaten" />
     <MESSAGE value="time interceptor" />
-    <option name="LAST_COMMIT_MESSAGE" value="time interceptor" />
+    <MESSAGE value="subcomponent" />
+    <option name="LAST_COMMIT_MESSAGE" value="subcomponent" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
   <component name="XDebuggerManager">
@@ -1879,6 +1868,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-0.6163873" vertical-offset="1171" max-vertical-offset="3135">
           <caret line="63" column="49" selection-start-line="63" selection-start-column="49" selection-end-line="63" selection-end-column="49" />
+          <folding>
+            <element signature="e#0#7871#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -2089,18 +2081,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/PersistentIdentification/src/main/java/at/stefanproell/PersistentIdentifierMockup/PersistentIdentifierAPI.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1654" max-vertical-offset="8730">
-          <caret line="175" column="58" selection-start-line="175" selection-start-column="58" selection-end-line="175" selection-end-column="58" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/PersistentIdentification/src/main/java/at/stefanproell/PersistentIdentifierMockup/TimeStampInterceptor.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="330" max-vertical-offset="2190">
-          <caret line="39" column="64" selection-start-line="39" selection-start-column="64" selection-end-line="39" selection-end-column="64" />
+          <caret line="39" column="66" selection-start-line="39" selection-start-column="66" selection-end-line="39" selection-end-column="66" />
           <folding />
         </state>
       </provider>
@@ -2108,20 +2092,30 @@
     <entry file="file://$PROJECT_DIR$/PersistentIdentification/src/main/java/at/stefanproell/PersistentIdentifierMockup/PersistentIdentifierSubcomponent.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="613" max-vertical-offset="1155">
-          <caret line="95" column="63" selection-start-line="95" selection-start-column="63" selection-end-line="95" selection-end-column="63" />
+          <caret line="92" column="13" selection-start-line="92" selection-start-column="13" selection-end-line="92" selection-end-column="13" />
           <folding>
-            <element signature="e#3914#3915#0" expanded="true" />
-            <element signature="e#3953#3954#0" expanded="true" />
-            <element signature="e#4031#4032#0" expanded="true" />
-            <element signature="e#4087#4088#0" expanded="true" />
+            <element signature="e#3910#3911#0" expanded="true" />
+            <element signature="e#3949#3950#0" expanded="true" />
+            <element signature="e#4027#4028#0" expanded="true" />
+            <element signature="e#4083#4084#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/PersistentIdentification/src/main/java/at/stefanproell/PersistentIdentifierMockup/PersistentIdentifierAPI.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="2104" max-vertical-offset="9165">
+          <caret line="187" column="33" selection-start-line="187" selection-start-column="33" selection-end-line="187" selection-end-column="33" />
+          <folding>
+            <element signature="e#5754#5776#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/PersistentIdentification/src/main/java/at/stefanproell/Examples/SubcomponentTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.80258304" vertical-offset="0" max-vertical-offset="570">
-          <caret line="62" column="102" selection-start-line="62" selection-start-column="102" selection-end-line="62" selection-end-column="102" />
+        <state vertical-scroll-proportion="0.8579336" vertical-offset="0" max-vertical-offset="600">
+          <caret line="64" column="8" selection-start-line="64" selection-start-column="8" selection-end-line="64" selection-end-column="8" />
           <folding />
         </state>
       </provider>

@@ -32,6 +32,7 @@
 
 package at.stefanproell.PersistentIdentifierMockup;
 
+import at.stefanproell.Examples.SubcomponentTest;
 import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -181,6 +182,37 @@ public class PersistentIdentifierAPI {
 
 
         return subPID;
+    }
+
+    /**
+     * retrieve a list of parents
+     *
+     * @param subcomponent
+     * @return
+     */
+    public List<PersistentIdentifier> getAllParentsFromSubcompoment(PersistentIdentifier subcomponent) {
+        List<PersistentIdentifier> parentList = new ArrayList<PersistentIdentifier>();
+        boolean hasParent = true;
+
+        PersistentIdentifier currentIdentifier = subcomponent;
+        while (hasParent) {
+
+            if (currentIdentifier instanceof PersistentIdentifierSubcomponent) {
+                PersistentIdentifierSubcomponent currentSubcomponent = (PersistentIdentifierSubcomponent) currentIdentifier;
+
+                PersistentIdentifier pid = (PersistentIdentifier) currentSubcomponent.getParentIdentifier();
+                parentList.add(pid);
+                this.logger.info("added parent " + pid.getIdentifier());
+                currentIdentifier = pid;
+
+            } else {
+                hasParent = false;
+            }
+
+        }
+        return parentList;
+
+
     }
 
 

@@ -61,5 +61,7 @@ public class SubcomponentTest {
         PersistentIdentifierSubcomponent sub = api.getSubComponentAlphaNummeric(newpid, "http://subcomponent");
         PersistentIdentifierSubcomponent sub2 = api.getSubComponentAlphaNummeric(newpid, "http://other_subcomponent");
         PersistentIdentifierSubcomponent subsub = api.getSubComponentAlphaNummeric(sub, "http://subsub");
+        api.getAllParentsFromSubcompoment(subsub);
+
     }
 }
