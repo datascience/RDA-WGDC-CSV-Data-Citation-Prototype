@@ -49,9 +49,12 @@
 package at.stefanproell.PersistentIdentifierMockup;
 
 import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 import java.util.logging.Logger;
 
 
@@ -87,6 +90,17 @@ public class PersistentIdentifier implements java.io.Serializable, TimeStamped {
     private Date createdDate;
     private Date lastUpdatedDate;
 
+    @OneToMany(mappedBy = "parentIdentifier")
+    @NotFound(action = NotFoundAction.IGNORE)
+    public List<PersistentIdentifierSubcomponent> getSubcomponents() {
+        return subcomponents;
+    }
+
+    public void setSubcomponents(List<PersistentIdentifierSubcomponent> subcomponents) {
+        this.subcomponents = subcomponents;
+    }
+
+    private List<PersistentIdentifierSubcomponent> subcomponents;
 
     private char wasUpdated;
 

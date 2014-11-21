@@ -33,6 +33,7 @@
 
 
 
+
 </script>
 <noscript>
     <div>JavaScript is disabled on your browser.</div>
@@ -80,6 +81,7 @@
     allClassesLink.style.display = "none";
   }
   //-->
+
 
 
 
@@ -146,7 +148,8 @@ extends java.lang.Object
 implements java.io.Serializable, <a href="../../../at/stefanproell/PersistentIdentifierMockup/TimeStamped.html"
                                     title="interface in at.stefanproell.PersistentIdentifierMockup">TimeStamped</a></pre>
             <div class="block">Generalized Persistent Identifier
-                This is the generalized persistent identifier class which is inherited by the specialized identifiers.
+                This is the generalized persistent parentIdentifier class which is inherited by the specialized
+                identifiers.
                 It uses a discriminator value in order to differentiate between the specialized identifiers.
             </div>
             <dl>
@@ -201,7 +204,7 @@ implements java.io.Serializable, <a href="../../../at/stefanproell/PersistentIde
                             <td class="colLast"><code><strong><a
                                     href="../../../at/stefanproell/PersistentIdentifierMockup/PersistentIdentifier.html#generateIdentifierString()">generateIdentifierString</a></strong>()</code>
 
-                                <div class="block">Generate a new identifier.</div>
+                                <div class="block">Generate a new parentIdentifier.</div>
                             </td>
                         </tr>
                         <tr class="rowColor">
@@ -236,7 +239,7 @@ implements java.io.Serializable, <a href="../../../at/stefanproell/PersistentIde
                             <td class="colLast"><code><strong><a
                                     href="../../../at/stefanproell/PersistentIdentifierMockup/PersistentIdentifier.html#getPersitentIdentifier_id()">getPersitentIdentifier_id</a></strong>()</code>
 
-                                <div class="block">The internal id of each identifier.</div>
+                                <div class="block">The internal id of each parentIdentifier.</div>
                             </td>
                         </tr>
                         <tr class="altColor">
@@ -260,7 +263,7 @@ implements java.io.Serializable, <a href="../../../at/stefanproell/PersistentIde
                         <tr class="rowColor">
                             <td class="colFirst"><code>void</code></td>
                             <td class="colLast"><code><strong><a
-                                    href="../../../at/stefanproell/PersistentIdentifierMockup/PersistentIdentifier.html#setIdentifier(java.lang.String)">setIdentifier</a></strong>(java.lang.String&nbsp;identifier)</code>&nbsp;
+                                    href="../../../at/stefanproell/PersistentIdentifierMockup/PersistentIdentifier.html#setIdentifier(java.lang.String)">setIdentifier</a></strong>(java.lang.String&nbsp;parentIdentifier)</code>&nbsp;
                             </td>
                         </tr>
                         <tr class="altColor">
@@ -345,7 +348,7 @@ implements java.io.Serializable, <a href="../../../at/stefanproell/PersistentIde
     <li class="blockList">
         <h4>getPersitentIdentifier_id</h4>
         <pre>public&nbsp;long&nbsp;getPersitentIdentifier_id()</pre>
-        <div class="block">The internal id of each identifier.</div>
+        <div class="block">The internal id of each parentIdentifier.</div>
         <dl>
             <dt><span class="strong">Returns:</span></dt>
             <dd></dd>
@@ -394,7 +397,7 @@ implements java.io.Serializable, <a href="../../../at/stefanproell/PersistentIde
 <ul class="blockList">
     <li class="blockList">
         <h4>setIdentifier</h4>
-        <pre>public&nbsp;void&nbsp;setIdentifier(java.lang.String&nbsp;identifier)</pre>
+        <pre>public&nbsp;void&nbsp;setIdentifier(java.lang.String&nbsp;parentIdentifier)</pre>
     </li>
 </ul>
 <a name="getOrganization()">
@@ -426,7 +429,7 @@ implements java.io.Serializable, <a href="../../../at/stefanproell/PersistentIde
     <li class="blockList">
         <h4>generateIdentifierString</h4>
         <pre>public&nbsp;void&nbsp;generateIdentifierString()</pre>
-        <div class="block">Generate a new identifier.</div>
+        <div class="block">Generate a new parentIdentifier.</div>
     </li>
 </ul>
 <a name="getCreatedDate()">
@@ -587,6 +590,7 @@ implements java.io.Serializable, <a href="../../../at/stefanproell/PersistentIde
     allClassesLink.style.display = "none";
   }
   //-->
+
 
 
 

@@ -33,6 +33,7 @@
 
 
 
+
 </script>
 <noscript>
     <div>JavaScript is disabled on your browser.</div>
@@ -80,6 +81,7 @@
     allClassesLink.style.display = "none";
   }
   //-->
+
 
 
 
@@ -193,7 +195,7 @@ extends java.lang.Object</pre>
                 title="class in at.stefanproell.PersistentIdentifierMockup">Organization</a>&nbsp;org,
             java.lang.String&nbsp;URIString)</code>
 
-            <div class="block">Get an alphanumeric identifier</div>
+            <div class="block">Get an alphanumeric parentIdentifier</div>
         </td>
     </tr>
     <tr class="altColor">
@@ -207,7 +209,7 @@ extends java.lang.Object</pre>
                 title="class in at.stefanproell.PersistentIdentifierMockup">Organization</a>&nbsp;org,
             java.lang.String&nbsp;URIString)</code>
 
-            <div class="block">Get an alphanumeric identifier</div>
+            <div class="block">Get an alphanumeric parentIdentifier</div>
         </td>
     </tr>
     <tr class="rowColor">
@@ -216,7 +218,7 @@ extends java.lang.Object</pre>
                 href="../../../at/stefanproell/PersistentIdentifierMockup/PersistentIdentifierAPI.html#getIdentifierString(int, java.lang.String)">getIdentifierString</a></strong>(int&nbsp;prefixInput,
             java.lang.String&nbsp;identifierInput)</code>
 
-            <div class="block">Append prefix and identifier</div>
+            <div class="block">Append prefix and parentIdentifier</div>
         </td>
     </tr>
     <tr class="altColor">
@@ -226,7 +228,7 @@ extends java.lang.Object</pre>
                 href="../../../at/stefanproell/PersistentIdentifierMockup/PersistentIdentifier.html"
                 title="class in at.stefanproell.PersistentIdentifierMockup">PersistentIdentifier</a>&nbsp;pid)</code>
 
-            <div class="block">Conctenate the prefix and the identifier</div>
+            <div class="block">Conctenate the prefix and the parentIdentifier</div>
         </td>
     </tr>
     <tr class="rowColor">
@@ -264,7 +266,7 @@ extends java.lang.Object</pre>
                 title="class in at.stefanproell.PersistentIdentifierMockup">Organization</a>&nbsp;org,
             java.lang.String&nbsp;URIString)</code>
 
-            <div class="block">Get an numeric identifier</div>
+            <div class="block">Get an numeric parentIdentifier</div>
         </td>
     </tr>
     <tr class="altColor">
@@ -337,7 +339,7 @@ extends java.lang.Object</pre>
                 href="../../../at/stefanproell/PersistentIdentifierMockup/PersistentIdentifierAPI.html#updateURI(java.lang.String, java.lang.String)">updateURI</a></strong>(java.lang.String&nbsp;stringPID,
             java.lang.String&nbsp;newURI)</code>
 
-            <div class="block">Update a PID's URL when the identifier is provided</div>
+            <div class="block">Update a PID's URL when the parentIdentifier is provided</div>
         </td>
     </tr>
     <tr class="rowColor">
@@ -346,7 +348,7 @@ extends java.lang.Object</pre>
                 href="../../../at/stefanproell/PersistentIdentifierMockup/PersistentIdentifierAPI.html#validatePID(int, java.lang.String)">validatePID</a></strong>(int&nbsp;prefixInput,
             java.lang.String&nbsp;identifierInput)</code>
 
-            <div class="block">Query database for the combination of prefix and identifier.</div>
+            <div class="block">Query database for the combination of prefix and parentIdentifier.</div>
         </td>
     </tr>
 </table>
@@ -423,7 +425,7 @@ extends java.lang.Object</pre>
         href="../../../at/stefanproell/PersistentIdentifierMockup/Organization.html"
         title="class in at.stefanproell.PersistentIdentifierMockup">Organization</a>&nbsp;org,
                                                   java.lang.String&nbsp;URIString)</pre>
-        <div class="block">Get an alphanumeric identifier</div>
+        <div class="block">Get an alphanumeric parentIdentifier</div>
         <dl>
             <dt><span class="strong">Parameters:</span></dt>
             <dd><code>org</code> -</dd>
@@ -444,7 +446,7 @@ extends java.lang.Object</pre>
         href="../../../at/stefanproell/PersistentIdentifierMockup/Organization.html"
         title="class in at.stefanproell.PersistentIdentifierMockup">Organization</a>&nbsp;org,
                                         java.lang.String&nbsp;URIString)</pre>
-        <div class="block">Get an numeric identifier</div>
+        <div class="block">Get an numeric parentIdentifier</div>
         <dl>
             <dt><span class="strong">Parameters:</span></dt>
             <dd><code>org</code> -</dd>
@@ -465,7 +467,7 @@ extends java.lang.Object</pre>
         href="../../../at/stefanproell/PersistentIdentifierMockup/Organization.html"
         title="class in at.stefanproell.PersistentIdentifierMockup">Organization</a>&nbsp;org,
                                     java.lang.String&nbsp;URIString)</pre>
-        <div class="block">Get an alphanumeric identifier</div>
+        <div class="block">Get an alphanumeric parentIdentifier</div>
         <dl>
             <dt><span class="strong">Parameters:</span></dt>
             <dd><code>org</code> -</dd>
@@ -572,7 +574,7 @@ extends java.lang.Object</pre>
         <h4>updateURI</h4>
 <pre>public&nbsp;void&nbsp;updateURI(java.lang.String&nbsp;stringPID,
              java.lang.String&nbsp;newURI)</pre>
-        <div class="block">Update a PID's URL when the identifier is provided</div>
+        <div class="block">Update a PID's URL when the parentIdentifier is provided</div>
         <dl>
             <dt><span class="strong">Parameters:</span></dt>
             <dd><code>stringPID</code> -</dd>
@@ -619,7 +621,7 @@ extends java.lang.Object</pre>
         <h4>validatePID</h4>
 <pre>public&nbsp;boolean&nbsp;validatePID(int&nbsp;prefixInput,
                   java.lang.String&nbsp;identifierInput)</pre>
-        <div class="block">Query database for the combination of prefix and identifier. If it exists, return
+        <div class="block">Query database for the combination of prefix and parentIdentifier. If it exists, return
             true
         </div>
         <dl>
@@ -639,7 +641,7 @@ extends java.lang.Object</pre>
         <h4>getIdentifierString</h4>
 <pre>public&nbsp;java.lang.String&nbsp;getIdentifierString(int&nbsp;prefixInput,
                                    java.lang.String&nbsp;identifierInput)</pre>
-        <div class="block">Append prefix and identifier</div>
+        <div class="block">Append prefix and parentIdentifier</div>
         <dl>
             <dt><span class="strong">Parameters:</span></dt>
             <dd><code>prefixInput</code> -</dd>
@@ -658,7 +660,7 @@ extends java.lang.Object</pre>
                 <pre>public&nbsp;java.lang.String&nbsp;getIdentifierStringWithPrefix(<a
                         href="../../../at/stefanproell/PersistentIdentifierMockup/PersistentIdentifier.html"
                         title="class in at.stefanproell.PersistentIdentifierMockup">PersistentIdentifier</a>&nbsp;pid)</pre>
-        <div class="block">Conctenate the prefix and the identifier</div>
+        <div class="block">Conctenate the prefix and the parentIdentifier</div>
         <dl>
             <dt><span class="strong">Parameters:</span></dt>
             <dd><code>pid</code> -</dd>
@@ -727,6 +729,7 @@ extends java.lang.Object</pre>
     allClassesLink.style.display = "none";
   }
   //-->
+
 
 
 

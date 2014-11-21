@@ -37,7 +37,7 @@ public class TimeStampInterceptor extends EmptyInterceptor {
         /**
          * Update the lastUpdateDate value and set the wasUpdated flag to 'Y'
          */
-        if (entity instanceof TimeStamped) {
+        if (entity instanceof TimeStamped && previousState != null) {
             logger.info("UPDATE operation");
             /*
             logger.info("onFlushDirty: Object Details are as below: ");

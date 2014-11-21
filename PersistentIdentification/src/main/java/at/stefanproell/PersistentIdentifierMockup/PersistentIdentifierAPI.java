@@ -160,6 +160,31 @@ public class PersistentIdentifierAPI {
     }
 
     /**
+     * Subcomponent
+     * @param parentPID
+     * @param URIString
+     * @return
+     */
+    public PersistentIdentifierSubcomponent getSubComponentAlphaNummeric(PersistentIdentifier parentPID, String URIString) {
+
+        this.session = HibernateUtil.getSessionFactory().openSession();
+        this.session.beginTransaction();
+        PersistentIdentifierSubcomponent subPID = new PersistentIdentifierSubcomponent();
+        subPID.setParentIdentifier(parentPID);
+        subPID.generateIdentifierString();
+        subPID.setURI(URIString);
+        subPID.setOrganization(parentPID.getOrganization());
+        this.session.save(subPID);
+        this.session.getTransaction().commit();
+        this.session.flush();
+        this.session.close();
+
+
+        return subPID;
+    }
+
+
+    /**
      * Resolve a PID and return its URL
      *
      * @param
