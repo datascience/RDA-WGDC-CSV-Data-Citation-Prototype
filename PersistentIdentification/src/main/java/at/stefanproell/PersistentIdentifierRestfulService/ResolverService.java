@@ -18,12 +18,18 @@ package at.stefanproell.PersistentIdentifierRestfulService;
 
 import at.stefanproell.PersistentIdentifierMockup.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.UriInfo;
+import java.util.Enumeration;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by stefan on 19.11.14.
@@ -32,6 +38,8 @@ import java.util.logging.Logger;
 public class ResolverService {
     private Logger logger;
     private PersistentIdentifierAPI pidAPI = null;
+    @Context
+    UriInfo uriInfo;
 
     public ResolverService() {
         this.logger = Logger.getLogger(this.getClass().getName());
@@ -47,9 +55,12 @@ public class ResolverService {
      * @return
      */
     @GET
-    @Path("/{organizationPrefix}/{identifier}")
+    @Path("/{organizationPrefix}/{identifier}*")
     @Produces(MediaType.TEXT_PLAIN)
+
+
     public String addIdentifier(@PathParam("organizationPrefix") int organizationPrefix, @PathParam("identifier") String identifier) {
+        this.logger.info("URI INFO: " + uriInfo.getPath());
         Organization org = null;
 
         if (organizationPrefix > 0) {
@@ -59,7 +70,7 @@ public class ResolverService {
 
                 this.logger.info("Provided parameter:" + identifier);
                 if (identifier != null) {
-                    String URL = this.pidAPI.resolveIdentifierToURI(organizationPrefix, identifier);
+                    String URL = this.pidAPI.resolveIdentifierToURIFromFQNIdentifier(organizationPrefix + "/" + identifier);
                     if (URL != null) {
                         return URL;
                     } else {
@@ -80,4 +91,30 @@ public class ResolverService {
 
 
     }
+
+
+    @GET
+    @Path("{ uri: (.+)?}")
+    @Produces(MediaType.TEXT_PLAIN)
+    public String resolve(@PathParam("uri") String fqn) {
+        this.logger.info("URI INFO: " + uriInfo.getPath());
+        this.logger.info("FQN INFO: " + fqn);
+        Organization org = null;
+
+        Pattern p = Pattern.compile("\\d{4}//[a-zA-Z0-9]*");
+        Matcher matcher = p.matcher(fqn);
+        if (matcher.matches()) {
+            this.logger.info("it matches: " + matcher.groupCount());
+        } else {
+            this.logger.info("it does NOT match");
+        }
+
+        matcher.groupCount();
+        //    String orgNr = matcher.group();
+
+
+        return fqn;
+
+    }
+
 }

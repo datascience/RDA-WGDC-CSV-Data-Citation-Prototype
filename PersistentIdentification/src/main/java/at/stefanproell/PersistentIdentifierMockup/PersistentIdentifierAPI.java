@@ -341,6 +341,55 @@ public class PersistentIdentifierAPI {
 
     }
 
+    /**
+     * Resolve a PID and return its URL by resolving its FQN
+     *
+     * @param
+     * @return
+     */
+    public String resolveIdentifierToURIFromFQNIdentifier(String identifierInput) {
+        String stringURI = null;
+        //Validate if identifier exists and retrieve URL
+
+        this.session = HibernateUtil.getSessionFactory().openSession();
+        this.session.beginTransaction();
+
+        Criteria criteria = this.session.createCriteria(PersistentIdentifier.class, "pid");
+
+        criteria.add(Restrictions.eq("pid.FQNidentifier", identifierInput));
+
+        criteria.setProjection(
+                Projections.distinct(
+                        Projections.projectionList()
+
+                                .add(Projections.property("pid.URI"), "URI")
+                )
+        );
+
+        // retrieve the result <Integer><String>
+        List resultList = criteria.list();
+
+
+        this.session.getTransaction().commit();
+        this.session.close();
+
+        this.logger.info("List size: " + resultList.size());
+
+        // There should only be one result.
+        for (Iterator it = resultList.iterator(); it.hasNext(); ) {
+            //    Object[] resultArray = (Object[]) it.next();
+            // get the Prefix and the identifier
+
+            stringURI = new String((String) it.next());
+
+        }
+
+
+        this.logger.info(identifierInput + " resolves to " + stringURI);
+        return stringURI;
+
+    }
+
 
     /**
      * Retrieve a PID object from the DB
