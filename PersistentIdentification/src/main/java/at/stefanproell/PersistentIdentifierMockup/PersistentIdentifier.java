@@ -85,6 +85,23 @@ public class PersistentIdentifier implements java.io.Serializable, TimeStamped {
 
     private String URI;
     private String identifier;
+
+    /**
+     * Get the fully qualified identifier name. This is a redundant field and denormalizes the database for performance reasons
+     *
+     * @return
+     */
+    @Column(name = "fqn_identifier", unique = true)
+    public String getFQNidentifier() {
+        return FQNidentifier;
+    }
+
+    public void setFQNidentifier(String FQNidentifier) {
+        this.FQNidentifier = FQNidentifier;
+    }
+
+    // fully qualified identifier
+    private String FQNidentifier;
     private Organization organization;
 
     private Date createdDate;

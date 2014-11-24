@@ -87,6 +87,33 @@ public class PersistentIdentifierAPI {
 
     }
 
+    /**
+     * Write new identifier into database
+     *
+     * @param pid
+     * @param org
+     * @param URIString
+     * @return
+     */
+    private PersistentIdentifier persistNewIdentifier(PersistentIdentifier pid, Organization org, String URIString) {
+
+        this.session = HibernateUtil.getSessionFactory().openSession();
+        this.session.beginTransaction();
+
+        pid.setOrganization(org);
+        pid.generateIdentifierString();
+        pid.setURI(URIString);
+        pid.setFQNidentifier(pid.getOrganization().getOrganization_prefix() + "/" + pid.getIdentifier());
+        this.session.save(pid);
+        this.session.getTransaction().commit();
+        this.session.flush();
+        this.session.close();
+
+
+        return pid;
+
+    }
+
 
     /**
      * Get an alphanumeric identifier
@@ -97,17 +124,9 @@ public class PersistentIdentifierAPI {
      */
     public PersistentIdentifierAlphaNumeric getAlphaNumericPID(Organization org, String URIString) {
 
-
-        this.session = HibernateUtil.getSessionFactory().openSession();
-        this.session.beginTransaction();
         PersistentIdentifierAlphaNumeric pid = new PersistentIdentifierAlphaNumeric();
-        pid.setOrganization(org);
-        pid.generateIdentifierString();
-        pid.setURI(URIString);
-        this.session.save(pid);
-        this.session.getTransaction().commit();
-        this.session.flush();
-        this.session.close();
+        pid = (PersistentIdentifierAlphaNumeric) this.persistNewIdentifier(pid, org, URIString);
+
 
 
         return pid;
@@ -121,40 +140,23 @@ public class PersistentIdentifierAPI {
      * @return
      */
     public PersistentIdentifierNumeric getNumericPID(Organization org, String URIString) {
-        this.session = HibernateUtil.getSessionFactory().openSession();
-        this.session.beginTransaction();
         PersistentIdentifierNumeric pid = new PersistentIdentifierNumeric();
-        pid.setOrganization(org);
-        pid.generateIdentifierString();
-        pid.setURI(URIString);
-        this.session.save(pid);
-        this.session.getTransaction().commit();
-        this.session.flush();
-        this.session.close();
+        pid = (PersistentIdentifierNumeric) this.persistNewIdentifier(pid, org, URIString);
 
 
         return pid;
     }
 
     /**
-     * Get an alphanumeric identifier
+     * Get an alpha identifier
      *
      * @param org
      * @param URIString
      * @return
      */
     public PersistentIdentifierAlpha getAlphaPID(Organization org, String URIString) {
-
-        this.session = HibernateUtil.getSessionFactory().openSession();
-        this.session.beginTransaction();
         PersistentIdentifierAlpha pid = new PersistentIdentifierAlpha();
-        pid.setOrganization(org);
-        pid.generateIdentifierString();
-        pid.setURI(URIString);
-        this.session.save(pid);
-        this.session.getTransaction().commit();
-        this.session.flush();
-        this.session.close();
+        pid = (PersistentIdentifierAlpha) this.persistNewIdentifier(pid, org, URIString);
 
 
         return pid;
@@ -175,6 +177,7 @@ public class PersistentIdentifierAPI {
         subPID.generateIdentifierString();
         subPID.setURI(URIString);
         subPID.setOrganization(parentPID.getOrganization());
+        subPID.setFQNidentifier(this.getFullyQuallifiedIdentifierNameForSubcomponent(subPID));
         this.session.save(subPID);
         this.session.getTransaction().commit();
         this.session.flush();
@@ -199,6 +202,7 @@ public class PersistentIdentifierAPI {
         subPID.setIdentifier(manualIdentifier);
         subPID.setURI(URIString);
         subPID.setOrganization(parentPID.getOrganization());
+        subPID.setFQNidentifier(this.getFullyQuallifiedIdentifierNameForSubcomponent(subPID));
         this.session.save(subPID);
         this.session.getTransaction().commit();
         this.session.flush();
@@ -242,6 +246,34 @@ public class PersistentIdentifierAPI {
         this.printIdentifiersFromList(parentList);
         return parentList;
 
+
+    }
+
+    /**
+     * Get the fully qualified identifier including prefix and all intermediate parent identifiers
+     *
+     * @param subcomponent
+     * @return
+     */
+    public String getFullyQuallifiedIdentifierNameForSubcomponent(PersistentIdentifierSubcomponent subcomponent) {
+        String fqn = "";
+        int parentPrefix = this.getRootParentOfIdentifier(subcomponent).getOrganization().getOrganization_prefix();
+        StringBuilder sb = new StringBuilder();
+        sb.append("");
+        sb.append(parentPrefix);
+
+        fqn = sb.toString();
+
+        LinkedList<PersistentIdentifier> parentList = this.getAllParentsFromSubcompoment(subcomponent);
+        if (parentList.size() > 0) {
+            for (PersistentIdentifier pid : parentList) {
+                fqn += "/" + pid.getIdentifier();
+            }
+
+        }
+        fqn += "/" + subcomponent.getIdentifier();
+
+        return fqn;
 
     }
 
