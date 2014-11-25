@@ -32,7 +32,6 @@
 
 package at.stefanproell.PersistentIdentifierMockup;
 
-import at.stefanproell.Examples.SubcomponentTest;
 import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -40,6 +39,8 @@ import org.hibernate.criterion.*;
 
 import java.util.*;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * API for generating, updating and resolving PIDs
@@ -777,5 +778,40 @@ public class PersistentIdentifierAPI {
             this.logger.info("Identifier (" + i + ") : " + pid.getIdentifier());
         }
     }
+
+    /**
+     * Extract the prefix from the URL string
+     *
+     * @param FQNString
+     * @return
+     */
+    public int getOrganizationPrefixFromURL(String FQNString) {
+
+
+        String regexPrefix = "^(\\d{4})";    // Any 4 digit number
+
+
+        Pattern pattern = Pattern.compile(regexPrefix);
+        Matcher matcher = pattern.matcher(FQNString);
+        this.printRegexMatches(matcher);
+        matcher.find();
+        int prefix = Integer.parseInt(matcher.group());
+        return prefix;
+
+
+    }
+
+
+    private void printRegexMatches(Matcher m) {
+        System.out.println("Testing String");
+        while (m.find()) {
+            for (int i = 1; i <= m.groupCount(); i++) {
+                System.out.println("matched text: " + m.group(i));
+                //    System.out.println("matched start: " + m.start(i));
+                //    System.out.println("matched end: " + m.end(i));
+            }
+        }
+    }
+
 
 }

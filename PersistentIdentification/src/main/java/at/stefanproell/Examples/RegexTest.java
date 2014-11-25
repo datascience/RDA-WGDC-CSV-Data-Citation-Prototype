@@ -27,7 +27,7 @@ public class RegexTest {
     public static void main(String[] args) {
         System.out.println("API Mini Test");
         RegexTest reg = new RegexTest();
-        reg.runRegex("1234/ab2cf/46gsvvvb2/bbsayy");
+        reg.runRegex("1237/ab2cf/rt567u/bbsayy");
         System.exit(0);
 
 
@@ -37,27 +37,28 @@ public class RegexTest {
     public void runRegex(String txt) {
 
 
-        String re1 = ".*?";    // Non-greedy match on filler
-        String regexPrefix = "(\\d{4})";    // Any Single Digit 1
-        String regexSlash = "(\\/)";    // Any Single Character 1
-        String regexAlphanum = "[a-zA-Z0-9]*";    // Alphanum 1
-        String regexSlashOptional = "(\\/)?";    // Any Single Character 2
+        String regexPrefix = "^(\\d{4})";    // Any Single Digit 1
 
 
-        //String re6=".*?";	// Non-greedy match on filler
-        //String re7="((?:[a-z][a-z]*[0-9]+[a-z0-9]*))";	// Alphanum 2
-
-        Pattern p = Pattern.compile(regexPrefix + regexSlash + "(" + regexAlphanum + regexSlashOptional + ")*", Pattern.CASE_INSENSITIVE | Pattern.DOTALL);
-        Matcher m = p.matcher(txt);
+        String testrex = "(\\/[a-zA-Z0-9]+)";
+        String testword = "1234/11ww33/aabbcc";
 
 
+        Pattern p2 = Pattern.compile(regexPrefix);
+        Matcher m2 = p2.matcher(testword);
+        this.print(m2);
+
+
+    }
+
+    private void print(Matcher m) {
+        System.out.println("Testing String");
         while (m.find()) {
             for (int i = 1; i <= m.groupCount(); i++) {
                 System.out.println("matched text: " + m.group(i));
-                //System.out.println("matched start: " + m.start(i));
-                //System.out.println("matched end: " + m.end(i));
+                //    System.out.println("matched start: " + m.start(i));
+                //    System.out.println("matched end: " + m.end(i));
             }
         }
-
     }
 }

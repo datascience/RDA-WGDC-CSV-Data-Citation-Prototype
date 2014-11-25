@@ -101,20 +101,14 @@ public class ResolverService {
         this.logger.info("FQN INFO: " + fqn);
         Organization org = null;
 
-        Pattern p = Pattern.compile("\\d{4}//[a-zA-Z0-9]*");
-        Matcher matcher = p.matcher(fqn);
-        if (matcher.matches()) {
-            this.logger.info("it matches: " + matcher.groupCount());
-        } else {
-            this.logger.info("it does NOT match");
-        }
+        int prefix = this.pidAPI.getOrganizationPrefixFromURL(fqn);
+        this.pidAPI.resolveIdentifierToURIFromFQNIdentifier(fqn);
 
-        matcher.groupCount();
-        //    String orgNr = matcher.group();
+        org = this.pidAPI.getOrganizationObjectByPrefix(prefix);
 
-
-        return fqn;
 
     }
 
+
 }
+
