@@ -93,26 +93,52 @@ public class ResolverService {
     }
 
 
+    /**
+     * Resolver for standard and hierarchical PIDs. The ark label is optional. Both provided arks would resolve to the
+     * same url: http://localhost:8080/pid/service/resolver/6789/7WwLdBc7Jvwh and
+     * http://localhost:8080/pid/service/resolver/ark:/6789/7WwLdBc7Jvwh
+     * <p/>
+     * If a URL starts with an ark label, this label gets removed.
+     *
+     * @param fqn
+     * @return
+     */
     @GET
-    @Path("{ uri: (.+)?}")
+    @Path("{ark:(/ark:/[^/]+?)?}{ uri: (.+)?}")
     @Produces(MediaType.TEXT_PLAIN)
-    public String resolve(@PathParam("uri") String fqn) {
+    public String resolve(@PathParam("uri") String fqn, @PathParam("ark") String arkLabel) {
         this.logger.info("URI INFO: " + uriInfo.getPath());
         this.logger.info("FQN INFO: " + fqn);
-        if (fqn == null) {
+
+        fqn = this.pidAPI.removeARKLabelFromString(arkLabel, fqn);
+
+        if (fqn == "") {
             return "No proper idenfier url provided.";
         }
 
 
-        int prefix = this.pidAPI.getOrganizationPrefixFromURL(fqn);
+        String prefix = null;
+        prefix = this.pidAPI.getOrganizationPrefixFromURL(fqn);
+        this.logger.info("The prefix parsed was: " + prefix);
+
         String URLstring = null;
+        // Get the URL from the PID
         URLstring = this.pidAPI.resolveIdentifierToURIFromFQNIdentifier(fqn);
 
         if (URLstring != null) {
             return URLstring;
 
         } else {
-            return "This PID does not exist";
+            // If there is a prefix, check if it actually exists
+            if (prefix != null) {
+                if (this.pidAPI.checkOrganizationPrefix(Integer.parseInt(prefix)) == false) {
+                    return "This organization prefix is not registered.";
+                } else {
+
+                }
+            }
+            return "This PID does not exist for this organization or your provided identifier is not formated " +
+                    "correctly. ";
         }
 
 

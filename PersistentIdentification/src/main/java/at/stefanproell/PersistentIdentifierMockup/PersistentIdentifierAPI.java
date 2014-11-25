@@ -32,6 +32,7 @@
 
 package at.stefanproell.PersistentIdentifierMockup;
 
+import com.google.gson.Gson;
 import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -49,6 +50,7 @@ public class PersistentIdentifierAPI {
 
     private Logger logger;
     private Session session;
+    private static int STANDARDPREFIXLENGTH = 4;
 
     /**
      * Constructor
@@ -397,6 +399,41 @@ public class PersistentIdentifierAPI {
 
     }
 
+    public PersistentIdentifier resolveIdentifierFromFQNIdentifier(String identifierInput) {
+
+        //Validate if identifier exists and retrieve URL
+
+        this.session = HibernateUtil.getSessionFactory().openSession();
+        this.session.beginTransaction();
+
+        Criteria criteria = this.session.createCriteria(PersistentIdentifier.class, "pid");
+
+        criteria.add(Restrictions.eq("pid.FQNidentifier", identifierInput));
+
+
+        // retrieve the result <Integer><String>
+        List identifierList = criteria.list();
+
+
+        this.session.getTransaction().commit();
+        this.session.close();
+
+        this.logger.info("List size: " + identifierList.size());
+        PersistentIdentifier pid = null;
+
+        // There should only be one result.
+        for (Iterator it = identifierList.iterator(); it.hasNext(); ) {
+            //    Object[] resultArray = (Object[]) it.next();
+            // get the Prefix and the identifier
+
+            pid = (PersistentIdentifier) it.next();
+
+        }
+
+
+        return pid;
+
+    }
 
     /**
      * Retrieve a PID object from the DB
@@ -791,34 +828,158 @@ public class PersistentIdentifierAPI {
      * @param FQNString
      * @return
      */
-    public int getOrganizationPrefixFromURL(String FQNString) {
+    public String getOrganizationPrefixFromURL(String FQNString) {
         this.logger.info("Get prefix from " + FQNString);
 
 
-        String regexPrefix = "^(\\d{4})";    // Any 4 digit number
+        String regexPrefix = "^(\\d{" + STANDARDPREFIXLENGTH + "})";    // Any X digit number
 
 
         Pattern pattern = Pattern.compile(regexPrefix);
         Matcher matcher = pattern.matcher(FQNString);
-        this.printRegexMatches(matcher);
-        matcher.find();
-        int prefix = Integer.parseInt(matcher.group());
-        return prefix;
+        String prefixString = null;
+        while (matcher.find()) {
+            for (int i = 1; i <= matcher.groupCount(); i++) {
+                prefixString = matcher.group(i);
+                System.out.println("matched text at group " + i + ": " + prefixString);
+                //    System.out.println("matched start: " + m.start(i));
+                //    System.out.println("matched end: " + m.end(i));
+            }
+        }
+        if (prefixString == null) {
+            this.logger.severe("The prefix could not be parsed correctly. Does it have " + STANDARDPREFIXLENGTH + " " +
+                    "digits? " + FQNString);
+        }
+        return prefixString;
 
 
     }
 
 
+    /**
+     * Print regular expression marches
+     *
+     * @param m
+     */
     private void printRegexMatches(Matcher m) {
         System.out.println("Testing String");
         while (m.find()) {
             for (int i = 1; i <= m.groupCount(); i++) {
-                System.out.println("matched text: " + m.group(i));
+                System.out.println("matched text at group " + i + ": " + m.group(i));
                 //    System.out.println("matched start: " + m.start(i));
                 //    System.out.println("matched end: " + m.end(i));
             }
         }
     }
 
+    /**
+     * Remove the ark label from a FQN string
+     *
+     * @param arkLabel
+     * @param fqn
+     * @return
+     */
+    public String removeARKLabelFromString(String arkLabel, String fqn) {
+        if (arkLabel == "" || arkLabel == null) {
+            this.logger.info("No ark label specified.");
+        } else {
+            this.logger.info("Ark label was: " + arkLabel);
+            fqn = fqn.replace("ark:/", "");
+            this.logger.info("Removed label for retriebal");
+
+        }
+
+        return fqn;
+    }
+
+    /**
+     * Check if a FQN ends with one question mark and should be pointing to a machine processible metadata page
+     *
+     * @param fqn
+     * @return
+     */
+    public boolean isSimpleMetadataRequest(String fqn) {
+        if (fqn.endsWith("?")) {
+            return true;
+        } else
+            return false;
+
+    }
+
+
+    /**
+     * Check if a FQN ends with two question mark and should be pointing to a machine processible metadata page
+     *
+     * @param fqn
+     * @return
+     */
+    public boolean isExtendedMetadataRequest(String fqn) {
+        if (fqn.endsWith("??")) {
+            return true;
+        } else
+            return false;
+
+    }
+
+    /**
+     * Removes all questionmarks from the string
+     *
+     * @param fqn
+     * @return
+     */
+    public String removeQuestionMarksFromFQN(String fqn) {
+        if (isSimpleMetadataRequest(fqn) || isExtendedMetadataRequest(fqn)) {
+            this.logger.info("This was a metadata string.");
+            return fqn.replaceAll("\\?", "");
+        }
+
+        return fqn;
+
+    }
+
+    /**
+     * Provide a JSON of simple metadata
+     *
+     * @param pid
+     * @return
+     */
+    public String getSimpleMetadataAsJSON(PersistentIdentifier pid) {
+        Map<String, String> metadatamap = new HashMap<>();
+        metadatamap.put("pid", pid.getIdentifier());
+        metadatamap.put("fqn", pid.getFQNidentifier());
+        metadatamap.put("created", pid.getCreatedDate().toString());
+        metadatamap.put("wasUpdated", new StringBuilder().append("").append(pid.getWasUpdated()).toString());
+        metadatamap.put("updated", pid.getLastUpdatedDate().toString());
+        Gson gson = new Gson();
+        String json = gson.toJson(metadatamap);
+        return json;
+    }
+
+    /**
+     * Provide a JSON of extended metadata
+     *
+     * @param pid
+     * @return
+     */
+    public String getExtendedMetadataAsJSON(PersistentIdentifier pid) {
+        Map<String, String> metadatamap = new HashMap<>();
+        StringBuilder sb = new StringBuilder();
+        sb.append("");
+        sb.append(pid.getOrganization().getOrganization_prefix());
+        String prefix = sb.toString();
+
+
+        metadatamap.put("prefix", prefix);
+        metadatamap.put("pid", pid.getIdentifier());
+        metadatamap.put("fqn", pid.getFQNidentifier());
+        metadatamap.put("created", pid.getCreatedDate().toString());
+        metadatamap.put("wasUpdated", new StringBuilder().append("").append(pid.getWasUpdated()).toString());
+        metadatamap.put("updated", pid.getLastUpdatedDate().toString());
+        metadatamap.put("OrganizationName", pid.getOrganization().getOrganization_name());
+
+        Gson gson = new Gson();
+        String json = gson.toJson(metadatamap);
+        return json;
+    }
 
 }

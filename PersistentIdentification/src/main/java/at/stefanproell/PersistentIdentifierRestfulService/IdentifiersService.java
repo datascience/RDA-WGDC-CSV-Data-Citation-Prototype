@@ -74,17 +74,6 @@ public class IdentifiersService {
     }
 
 
-    @GET
-    @Path("/ark:/{prefix}/{identifier}")
-    @Produces(MediaType.TEXT_PLAIN)
-    public String getIdentifier(@PathParam("prefix") String prefix, @PathParam("identifier") String identifier) {
-        if (identifier != null) {
-            // if the query parameter "name" is there
-            return "Show details for prefix " + prefix + " / " + identifier;
-        }
-        return "No id provided";
-    }
-
     /**
      * Create a new identifier. Provide the organizational prefix and thr type: alpha, alphanum, numeric
      *
