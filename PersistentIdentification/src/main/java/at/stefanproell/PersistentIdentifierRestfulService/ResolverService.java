@@ -99,12 +99,21 @@ public class ResolverService {
     public String resolve(@PathParam("uri") String fqn) {
         this.logger.info("URI INFO: " + uriInfo.getPath());
         this.logger.info("FQN INFO: " + fqn);
-        Organization org = null;
+        if (fqn == null) {
+            return "No proper idenfier url provided.";
+        }
+
 
         int prefix = this.pidAPI.getOrganizationPrefixFromURL(fqn);
-        this.pidAPI.resolveIdentifierToURIFromFQNIdentifier(fqn);
+        String URLstring = null;
+        URLstring = this.pidAPI.resolveIdentifierToURIFromFQNIdentifier(fqn);
 
-        org = this.pidAPI.getOrganizationObjectByPrefix(prefix);
+        if (URLstring != null) {
+            return URLstring;
+
+        } else {
+            return "This PID does not exist";
+        }
 
 
     }

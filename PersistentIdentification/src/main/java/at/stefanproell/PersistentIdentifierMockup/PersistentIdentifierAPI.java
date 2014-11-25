@@ -55,6 +55,12 @@ public class PersistentIdentifierAPI {
      */
     public PersistentIdentifierAPI() {
         this.logger = Logger.getLogger(PersistentIdentifierAPI.class.getName());
+        this.logger.warning("Initialize hibernate session");
+        this.session = HibernateUtil.getSessionFactory().openSession();
+
+        this.session.close();
+
+
 
 
     }
@@ -786,6 +792,7 @@ public class PersistentIdentifierAPI {
      * @return
      */
     public int getOrganizationPrefixFromURL(String FQNString) {
+        this.logger.info("Get prefix from " + FQNString);
 
 
         String regexPrefix = "^(\\d{4})";    // Any 4 digit number
