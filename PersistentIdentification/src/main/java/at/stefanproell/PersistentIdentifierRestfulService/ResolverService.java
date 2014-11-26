@@ -25,6 +25,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
 import java.util.Enumeration;
 import java.util.logging.Logger;
@@ -106,14 +107,35 @@ public class ResolverService {
     @GET
     @Path("{ark:(/ark:/[^/]+?)?}{ uri: (.+)?}")
     @Produces(MediaType.TEXT_PLAIN)
-    public String resolve(@PathParam("uri") String fqn, @PathParam("ark") String arkLabel) {
+    public String resolve(@PathParam("uri") String fqn, @PathParam("ark") String arkLabel, @Context
+    UriInfo ui, @Context HttpServletRequest hsr) {
         this.logger.info("URI INFO: " + uriInfo.getPath());
         this.logger.info("FQN INFO: " + fqn);
+        UriBuilder ub = uriInfo.getAbsolutePathBuilder();
+        this.logger.info("BBBBBBBBBBBBBBB" + ub.toString());
 
-        fqn = this.pidAPI.removeARKLabelFromString(arkLabel, fqn);
+
+        this.logger.info("U-R-I-" + uriInfo.getRequestUri().getRawPath() + "  " + uriInfo.getAbsolutePath() + "  " +
+                uriInfo.getAbsolutePath() + "  " + uriInfo.getQueryParameters().size() + " " + hsr.getContextPath() +
+                " "
+                + hsr.getPathInfo() + " " + hsr.getQueryString() + " " + hsr.getRequestURI() + hsr.getPathTranslated
+                () + "" +
+                " " +
+                " " + hsr.getRequestURL());
+        String requestURI = uriInfo.getRequestUri().toString();
+        this.logger.info("Request URI: " + requestURI);
+
+        this.logger.info("AAAAAAAAAAAAAAAAAAAAAAAAAA " + hsr.getRequestURL());
+
+
 
         if (fqn == "") {
             return "No proper idenfier url provided.";
+        } else {
+            fqn = this.pidAPI.removeARKLabelFromString(arkLabel, fqn);
+            if (fqn.endsWith("?")) {
+                this.logger.info("This is a metadata request!");
+            }
         }
 
 
