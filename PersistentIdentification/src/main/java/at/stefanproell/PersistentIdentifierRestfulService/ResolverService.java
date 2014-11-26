@@ -111,21 +111,18 @@ public class ResolverService {
     UriInfo ui, @Context HttpServletRequest hsr) {
         this.logger.info("URI INFO: " + uriInfo.getPath());
         this.logger.info("FQN INFO: " + fqn);
-        UriBuilder ub = uriInfo.getAbsolutePathBuilder();
-        this.logger.info("BBBBBBBBBBBBBBB" + ub.toString());
 
+        if (hsr.getQueryString() == null) {
+            this.logger.info("Normal link");
 
-        this.logger.info("U-R-I-" + uriInfo.getRequestUri().getRawPath() + "  " + uriInfo.getAbsolutePath() + "  " +
-                uriInfo.getAbsolutePath() + "  " + uriInfo.getQueryParameters().size() + " " + hsr.getContextPath() +
-                " "
-                + hsr.getPathInfo() + " " + hsr.getQueryString() + " " + hsr.getRequestURI() + hsr.getPathTranslated
-                () + "" +
-                " " +
-                " " + hsr.getRequestURL());
-        String requestURI = uriInfo.getRequestUri().toString();
-        this.logger.info("Request URI: " + requestURI);
+        } else if (hsr.getQueryString().equals("")) {
+            this.logger.info("one ?");
 
-        this.logger.info("AAAAAAAAAAAAAAAAAAAAAAAAAA " + hsr.getRequestURL());
+        } else if (hsr.getQueryString().equals("?")) {
+            this.logger.info("Two ??");
+        } else {
+            this.logger.info("None of the above");
+        }
 
 
 
