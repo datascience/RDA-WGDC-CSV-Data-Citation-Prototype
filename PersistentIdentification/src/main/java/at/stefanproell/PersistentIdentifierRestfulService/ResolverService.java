@@ -114,8 +114,6 @@ public class ResolverService {
         this.logger.info("URI INFO: " + uriInfo.getPath() + " uri host " + uriInfo.getBaseUri());
         this.logger.info("FQN INFO: " + fqn);
 
-        // Get the base uri, e.g.http://localhost:8080/pid/service/
-        String baseURI = uriInfo.getBaseUri().toString();
 
         if (hsr.getQueryString() == null) {
             this.logger.info("Normal link");
@@ -124,6 +122,9 @@ public class ResolverService {
             this.logger.info("one ?");
             try {
                 this.logger.info("Redirecting! ");
+                // Get the base uri, e.g.http://localhost:8080/pid/service/
+                UriBuilder baseURIbuilder = uriInfo.getBaseUriBuilder();
+                baseURIbuilder.queryParam("metadataRequest", "simpl")
                 response.sendRedirect(baseURI + "landing/?metadataRequestType=simple");
             } catch (IOException e) {
                 e.printStackTrace();
