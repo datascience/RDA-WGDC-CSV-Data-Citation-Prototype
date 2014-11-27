@@ -57,7 +57,8 @@ public class LandingPageService {
     @GET
     @Path("{ark:(/ark:/[^/]+?)?}{ uri: (.+)?}")
     @Produces("application/json")
-    public String resolveMetadataPage(@PathParam("uri") String fqn, @PathParam("ark") String arkLabel) {
+    public String resolveMetadataPage(@PathParam("uri") String fqn, @PathParam("ark") String arkLabel,
+                                      @PathParam("metadataRequestType") String metadataRequestType) {
         this.logger.info("URI INFO: " + uriInfo.getPath());
         this.logger.info("FQN INFO: " + fqn);
         PersistentIdentifier pid = null;
@@ -69,6 +70,16 @@ public class LandingPageService {
         if (fqn == "") {
             return "No proper idenfier url provided.";
         } else {
+            if (fqn.endsWith("/")) {
+                if (fqn.length() > 0 && fqn.charAt(fqn.length() - 1) == '/') {
+                    fqn = fqn.substring(0, fqn.length() - 1);
+                }
+
+            }
+
+            if (metadataRequestType.equals("simple")) {
+                isSimpleMetadataRequest = true;
+            }
 
             pid = this.pidAPI.resolveIdentifierFromFQNIdentifier(fqn);
         }
@@ -83,7 +94,7 @@ public class LandingPageService {
             }
 
         } else {
-            Map<String, String> errormap = null;
+            Map<String, String> errormap = new HashMap<String, String>();
             errormap.put("error message", "PID does not exist");
             Gson gson = new Gson();
             String json = gson.toJson(errormap);

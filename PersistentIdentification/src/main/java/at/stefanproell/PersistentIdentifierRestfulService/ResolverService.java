@@ -19,6 +19,7 @@ package at.stefanproell.PersistentIdentifierRestfulService;
 import at.stefanproell.PersistentIdentifierMockup.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -27,6 +28,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
+import java.io.IOException;
 import java.util.Enumeration;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
@@ -108,15 +110,25 @@ public class ResolverService {
     @Path("{ark:(/ark:/[^/]+?)?}{ uri: (.+)?}")
     @Produces(MediaType.TEXT_PLAIN)
     public String resolve(@PathParam("uri") String fqn, @PathParam("ark") String arkLabel, @Context
-    UriInfo ui, @Context HttpServletRequest hsr) {
-        this.logger.info("URI INFO: " + uriInfo.getPath());
+    UriInfo ui, @Context HttpServletRequest hsr, @Context final HttpServletResponse response) {
+        this.logger.info("URI INFO: " + uriInfo.getPath() + " uri host " + uriInfo.getBaseUri());
         this.logger.info("FQN INFO: " + fqn);
+
+        // Get the base uri, e.g.http://localhost:8080/pid/service/
+        String baseURI = uriInfo.getBaseUri().toString();
 
         if (hsr.getQueryString() == null) {
             this.logger.info("Normal link");
 
         } else if (hsr.getQueryString().equals("")) {
             this.logger.info("one ?");
+            try {
+                this.logger.info("Redirecting! ");
+                response.sendRedirect(baseURI + "landing/?metadataRequestType=simple");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
 
         } else if (hsr.getQueryString().equals("?")) {
             this.logger.info("Two ??");
