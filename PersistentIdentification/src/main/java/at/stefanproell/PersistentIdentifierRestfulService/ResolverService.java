@@ -45,6 +45,9 @@ public class ResolverService {
     @Context
     UriInfo uriInfo;
 
+    private static String SIMPLE = "simple";
+    private static String EXTENDED = "extended";
+
     public ResolverService() {
         this.logger = Logger.getLogger(this.getClass().getName());
         this.logger.info("Resolver constructor");
@@ -115,33 +118,47 @@ public class ResolverService {
         this.logger.info("URI INFO: " + uriInfo.getPath() + " uri host " + uriInfo.getBaseUri());
         this.logger.info("FQN INFO: " + fqn);
 
+        String currentMetadataType = null;
+        boolean forwardRequestToLandingPage = false;
+
 
         if (hsr.getQueryString() == null) {
             this.logger.info("Normal link");
 
         } else if (hsr.getQueryString().equals("")) {
             this.logger.info("one ?");
-            try {
-                this.logger.info("Redirecting! ");
-                // Get the base uri, e.g.http://localhost:8080/pid/service/
-                UriBuilder baseURIbuilder = uriInfo.getBaseUriBuilder();
-                baseURIbuilder.queryParam("metadataRequestType", "simple");
-                baseURIbuilder.path("landing");
-                URI newURI = baseURIbuilder.build();
-                this.logger.info("New URI is: " + newURI.toString());
+            currentMetadataType = SIMPLE;
+            forwardRequestToLandingPage = true;
 
+
+        } else if (hsr.getQueryString().equals("?")) {
+            this.logger.info("Two ??");
+            currentMetadataType = EXTENDED;
+            forwardRequestToLandingPage = true;
+        } else {
+            this.logger.info("None of the above");
+        }
+
+        if (forwardRequestToLandingPage) {
+            this.logger.info("Redirecting! ");
+            // Get the base uri, e.g.http://localhost:8080/pid/service/
+            UriBuilder baseURIbuilder = uriInfo.getBaseUriBuilder();
+            baseURIbuilder.queryParam("metadataRequestType", "extended");
+            baseURIbuilder.path("landing/" + fqn);
+            URI newURI = baseURIbuilder.build();
+
+            this.logger.info("New URI is: " + newURI.toString());
+
+
+            try {
                 response.sendRedirect(newURI.toString());
             } catch (IOException e) {
                 e.printStackTrace();
             }
 
+            return "forwarded";
 
-        } else if (hsr.getQueryString().equals("?")) {
-            this.logger.info("Two ??");
-        } else {
-            this.logger.info("None of the above");
         }
-
 
 
         if (fqn == "") {

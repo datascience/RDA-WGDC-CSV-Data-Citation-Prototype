@@ -69,7 +69,7 @@
             <version>3.8.1</version>
             <scope>test</scope>
         </dependency>
-        <!-- JDON -->
+        <!-- JSON -->
         <dependency>
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>

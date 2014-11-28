@@ -51,6 +51,7 @@ package at.stefanproell.PersistentIdentifierMockup;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
+import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -87,7 +88,8 @@ public class PersistentIdentifier implements java.io.Serializable, TimeStamped {
     private String identifier;
 
     /**
-     * Get the fully qualified identifier name. This is a redundant field and denormalizes the database for performance reasons
+     * Get the fully qualified identifier name. This is a redundant field and denormalizes the database for
+     * performance reasons
      *
      * @return
      */

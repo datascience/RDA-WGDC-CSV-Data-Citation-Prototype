@@ -21,10 +21,7 @@ import at.stefanproell.PersistentIdentifierMockup.PersistentIdentifier;
 import at.stefanproell.PersistentIdentifierMockup.PersistentIdentifierAPI;
 import com.google.gson.Gson;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.UriInfo;
@@ -58,7 +55,7 @@ public class LandingPageService {
     @Path("{ark:(/ark:/[^/]+?)?}{ uri: (.+)?}")
     @Produces("application/json")
     public String resolveMetadataPage(@PathParam("uri") String fqn, @PathParam("ark") String arkLabel,
-                                      @PathParam("metadataRequestType") String metadataRequestType) {
+                                      @QueryParam("metadataRequestType") String metadataRequestType) {
         this.logger.info("URI INFO: " + uriInfo.getPath());
         this.logger.info("FQN INFO: " + fqn);
         this.logger.info("metadataRequestType " + metadataRequestType);
@@ -79,8 +76,16 @@ public class LandingPageService {
 
             }
 
-            if ((!metadataRequestType.equals("") || metadataRequestType != null) && metadataRequestType.equals("simple")) {
-                isSimpleMetadataRequest = true;
+            if ((metadataRequestType.equals("") == false || metadataRequestType != null)) {
+                if (metadataRequestType.equals
+                        ("simple")) {
+                    isSimpleMetadataRequest = true;
+                    this.logger.info("Simple metadata request detected");
+                } else if (metadataRequestType.equals("extended")) {
+                    isExtendedMetadataRequest = true;
+                    this.logger.info("Extended metadata request detected");
+
+                }
             }
 
             pid = this.pidAPI.resolveIdentifierFromFQNIdentifier(fqn);
