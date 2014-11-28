@@ -61,6 +61,8 @@ public class LandingPageService {
                                       @PathParam("metadataRequestType") String metadataRequestType) {
         this.logger.info("URI INFO: " + uriInfo.getPath());
         this.logger.info("FQN INFO: " + fqn);
+        this.logger.info("metadataRequestType " + metadataRequestType);
+        this.logger.info("ark label: " + arkLabel);
         PersistentIdentifier pid = null;
         boolean isSimpleMetadataRequest = this.pidAPI.isSimpleMetadataRequest(fqn);
         boolean isExtendedMetadataRequest = this.pidAPI.isExtendedMetadataRequest(fqn);
@@ -77,7 +79,7 @@ public class LandingPageService {
 
             }
 
-            if (metadataRequestType.equals("simple")) {
+            if ((!metadataRequestType.equals("") || metadataRequestType != null) && metadataRequestType.equals("simple")) {
                 isSimpleMetadataRequest = true;
             }
 

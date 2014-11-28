@@ -29,6 +29,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
 import java.io.IOException;
+import java.net.URI;
 import java.util.Enumeration;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
@@ -124,8 +125,12 @@ public class ResolverService {
                 this.logger.info("Redirecting! ");
                 // Get the base uri, e.g.http://localhost:8080/pid/service/
                 UriBuilder baseURIbuilder = uriInfo.getBaseUriBuilder();
-                baseURIbuilder.queryParam("metadataRequest", "simpl")
-                response.sendRedirect(baseURI + "landing/?metadataRequestType=simple");
+                baseURIbuilder.queryParam("metadataRequestType", "simple");
+                baseURIbuilder.path("landing");
+                URI newURI = baseURIbuilder.build();
+                this.logger.info("New URI is: " + newURI.toString());
+
+                response.sendRedirect(newURI.toString());
             } catch (IOException e) {
                 e.printStackTrace();
             }
