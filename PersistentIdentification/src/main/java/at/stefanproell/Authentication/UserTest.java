@@ -14,36 +14,33 @@
  *    limitations under the License.
  */
 
-package at.stefanproell.Examples;
+package at.stefanproell.Authentication;
 
-import at.stefanproell.PersistentIdentifierMockup.*;
-import org.hibernate.Session;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
- * Created by stefan on 18.11.14.
+ * SCAPE-QueryStore
+ * Created by stefan
+ * {MONTH_NAME_FULL} {YEAR}
  */
 public class UserTest {
-    private Session session;
-
     public static void main(String[] args) {
-        System.out.println("User ");
-        UserTest userTest = new UserTest();
-        userTest.run();
+        System.out.println("Persistent Identifier Mockup");
+        UserTest u = new UserTest();
+        u.testUsers();
         System.exit(0);
 
 
     }
 
-    public void run() {
-        this.session = HibernateUtil.getSessionFactory().openSession();
-        this.session.beginTransaction();
-        User s = new User("stefan", "1234");
-        User t = new User("teresa", "5678");
+    private void testUsers() {
+        UserAPI userapi = new UserAPI();
+        UserDetails u1 = userapi.createNewUser("stefanuser", "hallo");
+        GroupDetails g = userapi.createnewGroup("arkusers");
+        userapi.addUserToGroup(u1, g);
 
 
-        this.session.save(s);
-        this.session.save(t);
-        this.session.getTransaction().commit();
-        this.session.close();
     }
+
 }
