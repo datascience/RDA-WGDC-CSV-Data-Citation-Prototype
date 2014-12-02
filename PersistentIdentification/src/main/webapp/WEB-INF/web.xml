@@ -33,4 +33,29 @@
         <servlet-name>Jersey Web Application</servlet-name>
         <url-pattern>/service/*</url-pattern>
     </servlet-mapping>
+
+    <!--Access Configuration based on Realms-->
+
+    <security-constraint>
+        <display-name>Entire application</display-name>
+        <web-resource-collection>
+            <web-resource-name>Everything</web-resource-name>
+            <description>coarse grained approach</description>
+            <url-pattern>/pid/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <description/>
+            <role-name>user</role-name>
+        </auth-constraint>
+    </security-constraint>
+    <login-config>
+        <auth-method>BASIC</auth-method>
+        <realm-name>Hibernate Application</realm-name>
+    </login-config>
+    <security-role>
+        <description>generic user of application</description>
+        <role-name>user</role-name>
+    </security-role>
+
+
 </web-app>
