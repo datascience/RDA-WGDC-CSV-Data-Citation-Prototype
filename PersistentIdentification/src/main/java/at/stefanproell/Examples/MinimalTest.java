@@ -57,7 +57,7 @@ public class MinimalTest {
 
 
         // create a dummy organization and provide a prefix
-        Organization evilOrganization = api.createNewOrganitation("Evil Corp", 2345);
+        Organization evilOrganization = api.createNewOrganitation("Evil Corp", 7890);
         System.out.println("Organization created");
 
         // create identifiers
