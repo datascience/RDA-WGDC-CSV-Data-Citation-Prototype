@@ -47,6 +47,7 @@
     <orderEntry type="module" module-name="CSVTools" />
     <orderEntry type="library" name="Maven: commons-codec:commons-codec:1.9" level="project" />
     <orderEntry type="library" name="Maven: at.stefanproell.at:QueryStore:1.0-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="Maven: at.stefanproell.at:PersistentIdentification:1.0-SNAPSHOT" level="project" />
   </component>
 </module>
 

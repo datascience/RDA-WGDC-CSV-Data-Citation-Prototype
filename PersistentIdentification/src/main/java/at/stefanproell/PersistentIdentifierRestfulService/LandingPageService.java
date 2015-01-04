@@ -66,6 +66,12 @@ public class LandingPageService {
         fqn = this.pidAPI.removeARKLabelFromString(arkLabel, fqn);
         fqn = this.pidAPI.removeQuestionMarksFromFQN(fqn);
 
+        if (metadataRequestType == null) {
+            this.logger.warning("No metadata request type specified. using standar: simplre");
+            metadataRequestType = "simple";
+        }
+
+
         if (fqn == "") {
             return "No proper idenfier url provided.";
         } else {
@@ -76,7 +82,8 @@ public class LandingPageService {
 
             }
 
-            if ((metadataRequestType.equals("") == false || metadataRequestType != null)) {
+            if ((metadataRequestType.equals("") == false)) {
+
                 if (metadataRequestType.equals
                         ("simple")) {
                     isSimpleMetadataRequest = true;
