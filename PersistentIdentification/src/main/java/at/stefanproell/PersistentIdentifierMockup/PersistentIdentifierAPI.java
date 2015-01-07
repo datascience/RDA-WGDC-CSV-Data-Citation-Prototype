@@ -50,7 +50,7 @@ public class PersistentIdentifierAPI {
 
     private Logger logger;
     private Session session;
-    private static int STANDARDPREFIXLENGTH = 4;
+    private static int STANDARDPREFIXLENGTH = 5;
 
     /**
      * Constructor
@@ -630,12 +630,15 @@ public class PersistentIdentifierAPI {
 
 
     /**
-     * Check if the prefix is within the range of 1000 and 9999
+     * Check if the prefix is within the range of 1000 and the specified length. Calculate the max number by the
+     * formula (10^x)-1, e.g. (10^5)-1 = 99999
      *
      * @param prefix
      */
     private boolean checkOrganitationalPrefix(int prefix) {
-        if (prefix >= 1000 || prefix <= 9999) {
+        int maxPrefix = (int) (Math.pow(10, STANDARDPREFIXLENGTH) - 1);
+        if (prefix >= 1000 || prefix <= maxPrefix) {
+            this.logger.info("Standard max prefix is " + maxPrefix);
 
             return true;
 
