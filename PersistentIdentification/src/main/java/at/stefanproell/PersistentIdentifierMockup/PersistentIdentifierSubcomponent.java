@@ -1,11 +1,12 @@
 package at.stefanproell.PersistentIdentifierMockup;
 
-import org.hibernate.annotations.DynamicUpdate;
-import org.hibernate.annotations.NotFound;
-import org.hibernate.annotations.NotFoundAction;
+import org.hibernate.annotations.*;
 import org.hibernate.envers.Audited;
 
+
 import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
 import java.util.Date;
 import java.util.logging.Logger;
 

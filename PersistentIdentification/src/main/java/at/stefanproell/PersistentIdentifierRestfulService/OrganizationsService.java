@@ -4,7 +4,7 @@ import at.stefanproell.PersistentIdentifierMockup.Organization;
 import at.stefanproell.PersistentIdentifierMockup.PersistentIdentifier;
 import at.stefanproell.PersistentIdentifierMockup.PersistentIdentifierAPI;
 import com.google.gson.Gson;
-import org.glassfish.jersey.server.mvc.Viewable;
+
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;

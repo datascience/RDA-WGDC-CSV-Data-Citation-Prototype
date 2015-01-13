@@ -97,8 +97,8 @@ public class ResolverService {
     @GET
     @Path("{ark:(/ark:/[^/]+?)?}{ uri: (.+)?}")
     @Produces(MediaType.TEXT_PLAIN)
-    public String resolve(@PathParam("uri") String fqn, @PathParam("ark") String arkLabel, @Context
-    UriInfo ui, @Context HttpServletRequest hsr, @Context final HttpServletResponse response) {
+    public String resolve(@PathParam("uri") String fqn, @PathParam("ark") String arkLabel, @javax.ws.rs.core.Context
+    UriInfo ui, @Context HttpServletRequest hsr, @javax.ws.rs.core.Context final HttpServletResponse response) {
         this.logger.info("URI INFO: " + uriInfo.getPath() + " uri host " + uriInfo.getBaseUri());
         this.logger.info("FQN INFO: " + fqn);
 

@@ -5,157 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fe0bbad9-08dd-49cf-9f33-eb5e1947ea1f" name="Default" comment="persistent identification module">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/JavaDoc/allclasses-frame.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/JavaDoc/allclasses-noframe.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/JavaDoc/at/stefanproell/Examples/ExamplesAPI.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/JavaDoc/at/stefanproell/Examples/LittleTest.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/JavaDoc/at/stefanproell/Examples/MinimalTest.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/JavaDoc/at/stefanproell/Examples/TestPID.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/JavaDoc/at/stefanproell/Examples/package-frame.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/JavaDoc/at/stefanproell/Examples/package-summary.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/JavaDoc/at/stefanproell/Examples/package-tree.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/JavaDoc/at/stefanproell/PersistentIdentifierMockup/Helpers.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/JavaDoc/at/stefanproell/PersistentIdentifierMockup/HibernateSchemaGeneratorPID.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/JavaDoc/at/stefanproell/PersistentIdentifierMockup/HibernateUtil.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/JavaDoc/at/stefanproell/PersistentIdentifierMockup/Organization.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/JavaDoc/at/stefanproell/PersistentIdentifierMockup/PIGenerator.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/JavaDoc/at/stefanproell/PersistentIdentifierMockup/PersistentIdentifier.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/JavaDoc/at/stefanproell/PersistentIdentifierMockup/PersistentIdentifierAPI.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/JavaDoc/at/stefanproell/PersistentIdentifierMockup/PersistentIdentifierAlpha.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/JavaDoc/at/stefanproell/PersistentIdentifierMockup/PersistentIdentifierAlphaNumeric.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/JavaDoc/at/stefanproell/PersistentIdentifierMockup/PersistentIdentifierNumeric.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/JavaDoc/at/stefanproell/PersistentIdentifierMockup/TimeStampInterceptor.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/JavaDoc/at/stefanproell/PersistentIdentifierMockup/TimeStamped.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/JavaDoc/at/stefanproell/PersistentIdentifierMockup/package-frame.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/JavaDoc/at/stefanproell/PersistentIdentifierMockup/package-summary.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/JavaDoc/at/stefanproell/PersistentIdentifierMockup/package-tree.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/JavaDoc/constant-values.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/JavaDoc/deprecated-list.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/JavaDoc/help-doc.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/JavaDoc/index-files/index-1.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/JavaDoc/index-files/index-10.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/JavaDoc/index-files/index-11.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/JavaDoc/index-files/index-12.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/JavaDoc/index-files/index-13.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/JavaDoc/index-files/index-14.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/JavaDoc/index-files/index-2.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/JavaDoc/index-files/index-3.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/JavaDoc/index-files/index-4.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/JavaDoc/index-files/index-5.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/JavaDoc/index-files/index-6.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/JavaDoc/index-files/index-7.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/JavaDoc/index-files/index-8.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/JavaDoc/index-files/index-9.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/JavaDoc/index.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/JavaDoc/overview-frame.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/JavaDoc/overview-summary.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/JavaDoc/overview-tree.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/JavaDoc/package-list" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/JavaDoc/resources/background.gif" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/JavaDoc/resources/tab.gif" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/JavaDoc/resources/titlebar.gif" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/JavaDoc/resources/titlebar_end.gif" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/JavaDoc/serialized-form.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/JavaDoc/stylesheet.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/PersistentIdentification.iml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/additional_configuration/PID-Hibernate-schema.sql" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/additional_configuration/Query-Hibernate-schema.sql" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/additional_configuration/Query_FKs.sql" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/additional_configuration/drop_create_schema.sql" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/additional_configuration/kill_process.sql" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/additional_configuration/kill_tomcat.sh" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/pom.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/src/main/java/at/stefanproell/Authentication/GroupDetails.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/src/main/java/at/stefanproell/Authentication/UserAPI.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/src/main/java/at/stefanproell/Authentication/UserDetails.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/src/main/java/at/stefanproell/Authentication/UserTest.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/src/main/java/at/stefanproell/Examples/ExamplesAPI.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/src/main/java/at/stefanproell/Examples/ListTest.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/src/main/java/at/stefanproell/Examples/MinimalTest.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/src/main/java/at/stefanproell/Examples/RegexTest.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/src/main/java/at/stefanproell/Examples/ResolverTest.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/src/main/java/at/stefanproell/Examples/SubcomponentTest.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/src/main/java/at/stefanproell/Examples/UpdateTest.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/src/main/java/at/stefanproell/PersistentIdentifierMockup/Helpers.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/src/main/java/at/stefanproell/PersistentIdentifierMockup/Organization.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/src/main/java/at/stefanproell/PersistentIdentifierMockup/PersistentIdentifier.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/src/main/java/at/stefanproell/PersistentIdentifierMockup/PersistentIdentifierAPI.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/src/main/java/at/stefanproell/PersistentIdentifierMockup/PersistentIdentifierAlpha.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/src/main/java/at/stefanproell/PersistentIdentifierMockup/PersistentIdentifierAlphaNumeric.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/src/main/java/at/stefanproell/PersistentIdentifierMockup/PersistentIdentifierNumeric.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/src/main/java/at/stefanproell/PersistentIdentifierMockup/TimeStampInterceptor.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/src/main/java/at/stefanproell/PersistentIdentifierRestfulService/IdentifiersService.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/src/main/java/at/stefanproell/PersistentIdentifierRestfulService/LandingPageService.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/src/main/java/at/stefanproell/PersistentIdentifierRestfulService/OrganizationsService.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/src/main/java/at/stefanproell/PersistentIdentifierRestfulService/PathSegments.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/src/main/java/at/stefanproell/PersistentIdentifierRestfulService/ResolverService.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/src/main/resources/hibernate.cfg.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/src/main/resources/pid.properties" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/src/main/webapp/WEB-INF/context.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/src/main/webapp/WEB-INF/jsp/identifiers.jsp" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/src/main/webapp/WEB-INF/jsp/organization.jsp" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/src/main/webapp/WEB-INF/web.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/src/main/webapp/index.jsp" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification/target/classes/at/stefanproell/Examples/ExamplesAPI.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification/target/classes/at/stefanproell/Examples/MinimalTest.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification/target/classes/at/stefanproell/PersistentIdentifierMockup/Helpers.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification/target/classes/at/stefanproell/PersistentIdentifierMockup/HibernateSchemaGeneratorPID.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification/target/classes/at/stefanproell/PersistentIdentifierMockup/HibernateUtil.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification/target/classes/at/stefanproell/PersistentIdentifierMockup/Organization.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification/target/classes/at/stefanproell/PersistentIdentifierMockup/PIGenerator.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification/target/classes/at/stefanproell/PersistentIdentifierMockup/PersistentIdentifier.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification/target/classes/at/stefanproell/PersistentIdentifierMockup/PersistentIdentifierAPI.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification/target/classes/at/stefanproell/PersistentIdentifierMockup/PersistentIdentifierAlpha.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification/target/classes/at/stefanproell/PersistentIdentifierMockup/PersistentIdentifierAlphaNumeric.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification/target/classes/at/stefanproell/PersistentIdentifierMockup/PersistentIdentifierNumeric.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification/target/classes/at/stefanproell/PersistentIdentifierMockup/TimeStampInterceptor.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification/target/classes/at/stefanproell/PersistentIdentifierMockup/TimeStamped.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification/target/classes/hibernate.cfg.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification/target/classes/pid.properties" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/QueryStore/target/classes/hibernate.cfg.xml" afterPath="" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/additional_configuration/tomcat-users.xml" afterPath="$PROJECT_DIR$/PersistentIdentification/additional_configuration/tomcat-users.xml" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/additional_configuration/tomcat_realm_view.sql" afterPath="$PROJECT_DIR$/PersistentIdentification/additional_configuration/tomcat_realm_view.sql" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/additional_configuration/tomcat_users.sql" afterPath="$PROJECT_DIR$/PersistentIdentification/additional_configuration/tomcat_users.sql" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/src/main/java/at/stefanproell/PersistentIdentifierMockup/HibernateSchemaGeneratorPID.java" afterPath="$PROJECT_DIR$/PersistentIdentification/src/main/java/at/stefanproell/PersistentIdentifierMockup/HibernateSchemaGeneratorPID.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/src/main/java/at/stefanproell/PersistentIdentifierMockup/HibernateUtil.java" afterPath="$PROJECT_DIR$/PersistentIdentification/src/main/java/at/stefanproell/PersistentIdentifierMockup/HibernateUtil.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/src/main/java/at/stefanproell/PersistentIdentifierMockup/PIGenerator.java" afterPath="$PROJECT_DIR$/PersistentIdentification/src/main/java/at/stefanproell/PersistentIdentifierMockup/PIGenerator.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/src/main/java/at/stefanproell/PersistentIdentifierMockup/PersistentIdentifierSubcomponent.java" afterPath="$PROJECT_DIR$/PersistentIdentification/src/main/java/at/stefanproell/PersistentIdentifierMockup/PersistentIdentifierSubcomponent.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/src/main/java/at/stefanproell/PersistentIdentifierMockup/TimeStamped.java" afterPath="$PROJECT_DIR$/PersistentIdentification/src/main/java/at/stefanproell/PersistentIdentifierMockup/TimeStamped.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/src/main/resources/db.properties" afterPath="$PROJECT_DIR$/PersistentIdentification/src/main/resources/db.properties" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/src/main/resources/initial_data.sql" afterPath="$PROJECT_DIR$/PersistentIdentification/src/main/resources/initial_data.sql" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CSV-Citation-Deployment-Module/CSV-Citation-Deployment-Module.iml" afterPath="$PROJECT_DIR$/CSV-Citation-Deployment-Module/CSV-Citation-Deployment-Module.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CSV-DataCitation.iml" afterPath="$PROJECT_DIR$/CSV-DataCitation.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CSVTools/CSVTools.iml" afterPath="$PROJECT_DIR$/CSVTools/CSVTools.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Database/Database.iml" afterPath="$PROJECT_DIR$/Database/Database.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DatatableModel/DatatableModel.iml" afterPath="$PROJECT_DIR$/DatatableModel/DatatableModel.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/PersistentIdentification/src/main/java/at/stefanproell/Examples/ExamplesAPI.java" afterPath="$PROJECT_DIR$/PersistentIdentification/src/main/java/at/stefanproell/Examples/ExamplesAPI.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/PersistentIdentification/src/main/java/at/stefanproell/Authentication/GroupDetails.java" afterPath="$PROJECT_DIR$/PersistentIdentification/src/main/java/at/stefanproell/Authentication/GroupDetails.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/PersistentIdentification/src/main/java/at/stefanproell/PersistentIdentifierMockup/Helpers.java" afterPath="$PROJECT_DIR$/PersistentIdentification/src/main/java/at/stefanproell/PersistentIdentifierMockup/Helpers.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/PersistentIdentification/src/main/java/at/stefanproell/PersistentIdentifierRestfulService/IdentifiersService.java" afterPath="$PROJECT_DIR$/PersistentIdentification/src/main/java/at/stefanproell/PersistentIdentifierRestfulService/IdentifiersService.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/PersistentIdentification/src/main/main.iml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/PersistentIdentification/src/main/java/at/stefanproell/PersistentIdentifierRestfulService/LandingPageService.java" afterPath="$PROJECT_DIR$/PersistentIdentification/src/main/java/at/stefanproell/PersistentIdentifierRestfulService/LandingPageService.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/PersistentIdentification/src/main/java/at/stefanproell/Examples/ListTest.java" afterPath="$PROJECT_DIR$/PersistentIdentification/src/main/java/at/stefanproell/Examples/ListTest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/PersistentIdentification/src/main/java/at/stefanproell/Examples/MinimalTest.java" afterPath="$PROJECT_DIR$/PersistentIdentification/src/main/java/at/stefanproell/Examples/MinimalTest.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/PersistentIdentification/src/main/java/at/stefanproell/PersistentIdentifierMockup/Organization.java" afterPath="$PROJECT_DIR$/PersistentIdentification/src/main/java/at/stefanproell/PersistentIdentifierMockup/Organization.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/PersistentIdentification/src/main/java/at/stefanproell/PersistentIdentifierRestfulService/OrganizationsService.java" afterPath="$PROJECT_DIR$/PersistentIdentification/src/main/java/at/stefanproell/PersistentIdentifierRestfulService/OrganizationsService.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/PersistentIdentification/src/main/java/at/stefanproell/PersistentIdentifierRestfulService/PathSegments.java" afterPath="$PROJECT_DIR$/PersistentIdentification/src/main/java/at/stefanproell/PersistentIdentifierRestfulService/PathSegments.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/PersistentIdentification/PersistentIdentification.iml" afterPath="$PROJECT_DIR$/PersistentIdentification/PersistentIdentification.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/PersistentIdentification/src/main/java/at/stefanproell/PersistentIdentifierMockup/PersistentIdentifier.java" afterPath="$PROJECT_DIR$/PersistentIdentification/src/main/java/at/stefanproell/PersistentIdentifierMockup/PersistentIdentifier.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/PersistentIdentification/src/main/java/at/stefanproell/PersistentIdentifierMockup/PersistentIdentifierAPI.java" afterPath="$PROJECT_DIR$/PersistentIdentification/src/main/java/at/stefanproell/PersistentIdentifierMockup/PersistentIdentifierAPI.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/PersistentIdentification/src/main/java/at/stefanproell/PersistentIdentifierMockup/PersistentIdentifierAlpha.java" afterPath="$PROJECT_DIR$/PersistentIdentification/src/main/java/at/stefanproell/PersistentIdentifierMockup/PersistentIdentifierAlpha.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/PersistentIdentification/src/main/java/at/stefanproell/PersistentIdentifierMockup/PersistentIdentifierAlphaNumeric.java" afterPath="$PROJECT_DIR$/PersistentIdentification/src/main/java/at/stefanproell/PersistentIdentifierMockup/PersistentIdentifierAlphaNumeric.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/PersistentIdentification/src/main/java/at/stefanproell/PersistentIdentifierMockup/PersistentIdentifierNumeric.java" afterPath="$PROJECT_DIR$/PersistentIdentification/src/main/java/at/stefanproell/PersistentIdentifierMockup/PersistentIdentifierNumeric.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/QueryStore/QueryStore.iml" afterPath="$PROJECT_DIR$/QueryStore/QueryStore.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/PersistentIdentification/additional_configuration/Query_FKs.sql" afterPath="$PROJECT_DIR$/PersistentIdentification/additional_configuration/Query_FKs.sql" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/PersistentIdentification/src/main/java/at/stefanproell/Examples/RegexTest.java" afterPath="$PROJECT_DIR$/PersistentIdentification/src/main/java/at/stefanproell/Examples/RegexTest.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/PersistentIdentification/src/main/java/at/stefanproell/PersistentIdentifierMockup/PersistentIdentifierSubcomponent.java" afterPath="$PROJECT_DIR$/PersistentIdentification/src/main/java/at/stefanproell/PersistentIdentifierMockup/PersistentIdentifierSubcomponent.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/PersistentIdentification/src/main/java/at/stefanproell/PersistentIdentifierRestfulService/ResolverService.java" afterPath="$PROJECT_DIR$/PersistentIdentification/src/main/java/at/stefanproell/PersistentIdentifierRestfulService/ResolverService.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/PersistentIdentification/src/main/java/at/stefanproell/Examples/ResolverTest.java" afterPath="$PROJECT_DIR$/PersistentIdentification/src/main/java/at/stefanproell/Examples/ResolverTest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ResultSetVerification/ResultSetVerification.iml" afterPath="$PROJECT_DIR$/ResultSetVerification/ResultSetVerification.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/PersistentIdentification/src/main/java/at/stefanproell/Examples/SubcomponentTest.java" afterPath="$PROJECT_DIR$/PersistentIdentification/src/main/java/at/stefanproell/Examples/SubcomponentTest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/PersistentIdentification/src/main/java/at/stefanproell/Examples/UpdateTest.java" afterPath="$PROJECT_DIR$/PersistentIdentification/src/main/java/at/stefanproell/Examples/UpdateTest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/PersistentIdentification/src/main/java/at/stefanproell/Authentication/UserAPI.java" afterPath="$PROJECT_DIR$/PersistentIdentification/src/main/java/at/stefanproell/Authentication/UserAPI.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/PersistentIdentification/src/main/java/at/stefanproell/Authentication/UserDetails.java" afterPath="$PROJECT_DIR$/PersistentIdentification/src/main/java/at/stefanproell/Authentication/UserDetails.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/PersistentIdentification/src/main/java/at/stefanproell/Authentication/UserTest.java" afterPath="$PROJECT_DIR$/PersistentIdentification/src/main/java/at/stefanproell/Authentication/UserTest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/PersistentIdentification/src/main/resources/hibernate.cfg.xml" afterPath="$PROJECT_DIR$/PersistentIdentification/src/main/resources/hibernate.cfg.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/encodings.xml" afterPath="$PROJECT_DIR$/.idea/encodings.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/modules.xml" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
@@ -230,8 +86,8 @@
         <option name="LOG_MESSAGE" value="" />
       </breakpoint>
     </breakpoint_any>
-    <breakpoint_rules converted="true" />
     <ui_properties converted="true" />
+    <breakpoint_rules converted="true" />
   </component>
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FavoritesManager">
@@ -239,11 +95,107 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="UpdateTest.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/PersistentIdentification/src/main/java/at/stefanproell/Examples/UpdateTest.java">
+      <file leaf-file-name="ResolverService.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/PersistentIdentification/src/main/java/at/stefanproell/PersistentIdentifierRestfulService/ResolverService.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.050083473" vertical-offset="0" max-vertical-offset="945">
-              <caret line="2" column="50" selection-start-line="2" selection-start-column="50" selection-end-line="2" selection-end-column="50" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="540" max-vertical-offset="2895">
+              <caret line="19" column="31" selection-start-line="19" selection-start-column="31" selection-end-line="19" selection-end-column="31" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="OrganizationsService.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/PersistentIdentification/src/main/java/at/stefanproell/PersistentIdentifierRestfulService/OrganizationsService.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1845">
+              <caret line="6" column="0" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="IdentifiersService.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/PersistentIdentification/src/main/java/at/stefanproell/PersistentIdentifierRestfulService/IdentifiersService.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3465">
+              <caret line="3" column="0" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="pom.xml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/PersistentIdentification/pom.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="330" max-vertical-offset="2235">
+              <caret line="22" column="52" selection-start-line="22" selection-start-column="52" selection-end-line="22" selection-end-column="52" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="LandingPageService.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/PersistentIdentification/src/main/java/at/stefanproell/PersistentIdentifierRestfulService/LandingPageService.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="1005" max-vertical-offset="1710">
+              <caret line="97" column="16" selection-start-line="97" selection-start-column="12" selection-end-line="97" selection-end-column="16" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Organization.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/PersistentIdentification/src/main/java/at/stefanproell/PersistentIdentifierMockup/Organization.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="210" max-vertical-offset="2775">
+              <caret line="14" column="0" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="PIGenerator.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/PersistentIdentification/src/main/java/at/stefanproell/PersistentIdentifierMockup/PIGenerator.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="780">
+              <caret line="12" column="29" selection-start-line="12" selection-start-column="12" selection-end-line="12" selection-end-column="29" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="TimeStampInterceptor.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/PersistentIdentification/src/main/java/at/stefanproell/PersistentIdentifierMockup/TimeStampInterceptor.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="135" max-vertical-offset="2190">
+              <caret line="16" column="13" selection-start-line="16" selection-start-column="13" selection-end-line="16" selection-end-column="13" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="PersistentIdentifierSubcomponent.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/PersistentIdentification/src/main/java/at/stefanproell/PersistentIdentifierMockup/PersistentIdentifierSubcomponent.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1170">
+              <caret line="4" column="0" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="HibernateUtil.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/PersistentIdentification/src/main/java/at/stefanproell/PersistentIdentifierMockup/HibernateUtil.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.1758794" vertical-offset="0" max-vertical-offset="915">
+              <caret line="15" column="13" selection-start-line="15" selection-start-column="13" selection-end-line="15" selection-end-column="13" />
               <folding />
             </state>
           </provider>
@@ -265,6 +217,13 @@
       <list>
         <option value="$PROJECT_DIR$/PersistentIdentification/src/main/java/at/stefanproell/PersistentIdentifierMockup/PersistentIdentifierAPI.java" />
         <option value="$PROJECT_DIR$/PersistentIdentification/src/main/java/at/stefanproell/Examples/ExamplesAPI.java" />
+        <option value="$PROJECT_DIR$/PersistentIdentification/pom.xml" />
+        <option value="$PROJECT_DIR$/PersistentIdentification/src/main/java/at/stefanproell/PersistentIdentifierMockup/Organization.java" />
+        <option value="$PROJECT_DIR$/PersistentIdentification/src/main/java/at/stefanproell/PersistentIdentifierRestfulService/ResolverService.java" />
+        <option value="$PROJECT_DIR$/PersistentIdentification/src/main/java/at/stefanproell/PersistentIdentifierRestfulService/LandingPageService.java" />
+        <option value="$PROJECT_DIR$/PersistentIdentification/src/main/java/at/stefanproell/PersistentIdentifierRestfulService/OrganizationsService.java" />
+        <option value="$PROJECT_DIR$/PersistentIdentification/src/main/java/at/stefanproell/PersistentIdentifierRestfulService/IdentifiersService.java" />
+        <option value="$PROJECT_DIR$/PersistentIdentification/src/main/java/at/stefanproell/PersistentIdentifierMockup/PersistentIdentifierSubcomponent.java" />
       </list>
     </option>
   </component>
@@ -281,6 +240,44 @@
         <PATH_ELEMENT>
           <option name="myItemId" value="" />
           <option name="myItemType" value="org.jetbrains.idea.maven.navigator.MavenProjectsStructure$RootNode" />
+        </PATH_ELEMENT>
+      </PATH>
+      <PATH>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="" />
+          <option name="myItemType" value="org.jetbrains.idea.maven.navigator.MavenProjectsStructure$RootNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PersistentIdentification" />
+          <option name="myItemType" value="org.jetbrains.idea.maven.navigator.MavenProjectsStructure$ProjectNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="Dependencies" />
+          <option name="myItemType" value="org.jetbrains.idea.maven.navigator.MavenProjectsStructure$DependenciesNode" />
+        </PATH_ELEMENT>
+      </PATH>
+      <PATH>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="" />
+          <option name="myItemType" value="org.jetbrains.idea.maven.navigator.MavenProjectsStructure$RootNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PersistentIdentification" />
+          <option name="myItemType" value="org.jetbrains.idea.maven.navigator.MavenProjectsStructure$ProjectNode" />
+        </PATH_ELEMENT>
+      </PATH>
+      <PATH>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="" />
+          <option name="myItemType" value="org.jetbrains.idea.maven.navigator.MavenProjectsStructure$RootNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PersistentIdentification" />
+          <option name="myItemType" value="org.jetbrains.idea.maven.navigator.MavenProjectsStructure$ProjectNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="Lifecycle" />
+          <option name="myItemType" value="org.jetbrains.idea.maven.navigator.MavenProjectsStructure$LifecycleNode" />
         </PATH_ELEMENT>
       </PATH>
     </treeState>
@@ -362,7 +359,9 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
+      <pane id="Scope">
+        <subPane subId="Problems" />
+      </pane>
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -370,10 +369,6 @@
               <option name="myItemId" value="SCAPE-QueryStore" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="External Libraries" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ExternalLibrariesNode" />
-            </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
@@ -444,16 +439,16 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="at" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="stefanproell" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="PersistentIdentifierRestfulService" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
@@ -481,7 +476,37 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="at" />
+              <option name="myItemId" value="stefanproell" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="PersistentIdentifierMockup" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SCAPE-QueryStore" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="CSV-DataCitation-PID-Testrepository" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="PersistentIdentification" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -493,11 +518,39 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SCAPE-QueryStore" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="CSV-DataCitation-PID-Testrepository" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="PersistentIdentification" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="stefanproell" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
-      <pane id="Scope">
-        <subPane subId="Problems" />
-      </pane>
+      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -541,7 +594,7 @@
     <property name="LayoutCode.rearrangeEntriesJava" value="true" />
     <property name="OverrideImplement.combined" value="true" />
     <property name="OverrideImplement.overriding.sorted" value="false" />
-    <property name="options.lastSelected" value="project.propVCSSupport.Mappings" />
+    <property name="options.lastSelected" value="reference.settings.project.maven.ignored.files" />
     <property name="options.splitter.main.proportions" value="0.3" />
     <property name="options.splitter.details.proportions" value="0.2" />
     <property name="options.searchVisible" value="true" />
@@ -679,27 +732,6 @@
       <option name="PROGRAM_PARAMETERS" />
       <method />
     </configuration>
-    <configuration default="true" type="AndroidTestRunConfigurationType" factoryName="Android Tests">
-      <module name="" />
-      <option name="TESTING_TYPE" value="0" />
-      <option name="INSTRUMENTATION_RUNNER_CLASS" value="" />
-      <option name="METHOD_NAME" value="" />
-      <option name="CLASS_NAME" value="" />
-      <option name="PACKAGE_NAME" value="" />
-      <option name="TARGET_SELECTION_MODE" value="EMULATOR" />
-      <option name="USE_LAST_SELECTED_DEVICE" value="false" />
-      <option name="PREFERRED_AVD" value="" />
-      <option name="USE_COMMAND_LINE" value="true" />
-      <option name="COMMAND_LINE" value="" />
-      <option name="WIPE_USER_DATA" value="false" />
-      <option name="DISABLE_BOOT_ANIMATION" value="false" />
-      <option name="NETWORK_SPEED" value="full" />
-      <option name="NETWORK_LATENCY" value="none" />
-      <option name="CLEAR_LOGCAT" value="false" />
-      <option name="SHOW_LOGCAT_AUTOMATICALLY" value="true" />
-      <option name="FILTER_LOGCAT_AUTOMATICALLY" value="true" />
-      <method />
-    </configuration>
     <configuration default="true" type="MavenRunConfiguration" factoryName="Maven">
       <MavenSettings>
         <option name="myGeneralSettings" />
@@ -720,6 +752,27 @@
           </MavenRunnerParameters>
         </option>
       </MavenSettings>
+      <method />
+    </configuration>
+    <configuration default="true" type="AndroidTestRunConfigurationType" factoryName="Android Tests">
+      <module name="" />
+      <option name="TESTING_TYPE" value="0" />
+      <option name="INSTRUMENTATION_RUNNER_CLASS" value="" />
+      <option name="METHOD_NAME" value="" />
+      <option name="CLASS_NAME" value="" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="TARGET_SELECTION_MODE" value="EMULATOR" />
+      <option name="USE_LAST_SELECTED_DEVICE" value="false" />
+      <option name="PREFERRED_AVD" value="" />
+      <option name="USE_COMMAND_LINE" value="true" />
+      <option name="COMMAND_LINE" value="" />
+      <option name="WIPE_USER_DATA" value="false" />
+      <option name="DISABLE_BOOT_ANIMATION" value="false" />
+      <option name="NETWORK_SPEED" value="full" />
+      <option name="NETWORK_LATENCY" value="none" />
+      <option name="CLEAR_LOGCAT" value="false" />
+      <option name="SHOW_LOGCAT_AUTOMATICALLY" value="true" />
+      <option name="FILTER_LOGCAT_AUTOMATICALLY" value="true" />
       <method />
     </configuration>
     <configuration default="true" type="Remote" factoryName="Remote">
@@ -751,6 +804,19 @@
       </ExternalSystemSettings>
       <method />
     </configuration>
+    <configuration default="true" type="Applet" factoryName="Applet">
+      <module name="" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="HTML_FILE_NAME" />
+      <option name="HTML_USED" value="false" />
+      <option name="WIDTH" value="400" />
+      <option name="HEIGHT" value="300" />
+      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
+      <option name="VM_PARAMETERS" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <method />
+    </configuration>
     <configuration default="true" type="TestNG" factoryName="TestNG">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <module name="" />
@@ -777,19 +843,6 @@
       <envs />
       <properties />
       <listeners />
-      <method />
-    </configuration>
-    <configuration default="true" type="Applet" factoryName="Applet">
-      <module name="" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="HTML_FILE_NAME" />
-      <option name="HTML_USED" value="false" />
-      <option name="WIDTH" value="400" />
-      <option name="HEIGHT" value="300" />
-      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
-      <option name="VM_PARAMETERS" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
       <method />
     </configuration>
     <configuration default="true" type="Application" factoryName="Application">
@@ -974,12 +1027,6 @@
       <created>1407135258553</created>
       <option name="number" value="Default" />
       <updated>1407135258553</updated>
-    </task>
-    <task id="LOCAL-00063" summary="upload existing data">
-      <created>1410782809274</created>
-      <option name="number" value="00063" />
-      <option name="project" value="LOCAL" />
-      <updated>1410782809274</updated>
     </task>
     <task id="LOCAL-00064" summary="problem tablename in session">
       <created>1410791478458</created>
@@ -1269,7 +1316,13 @@
       <option name="project" value="LOCAL" />
       <updated>1417541702365</updated>
     </task>
-    <option name="localTasksCounter" value="112" />
+    <task id="LOCAL-00112" summary="persistent identification module">
+      <created>1421145089833</created>
+      <option name="number" value="00112" />
+      <option name="project" value="LOCAL" />
+      <updated>1421145089834</updated>
+    </task>
+    <option name="localTasksCounter" value="113" />
     <servers />
   </component>
   <component name="TodoView" selected-index="0">
@@ -1294,7 +1347,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-1" y="0" width="1922" height="1055" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -1304,16 +1357,15 @@
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2428115" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.33475026" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.33546326" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.23109691" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32800853" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.33475026" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32837406" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24866879" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.17891374" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.18051118" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2625133" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2625133" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Statistic" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32800853" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32055378" sideWeight="0.6911608" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
@@ -1321,6 +1373,7 @@
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32694355" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.38943896" sideWeight="0.7976773" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.33546326" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
@@ -1378,6 +1431,68 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/PersistentIdentification/src/main/java/at/stefanproell/Examples/UpdateTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="30" max-vertical-offset="945">
+          <caret line="2" column="50" selection-start-line="2" selection-start-column="50" selection-end-line="2" selection-end-column="50" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/PersistentIdentification/src/main/java/at/stefanproell/PersistentIdentifierMockup/HibernateSchemaGeneratorPID.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="240" max-vertical-offset="480">
+          <caret line="18" column="55" selection-start-line="18" selection-start-column="34" selection-end-line="18" selection-end-column="55" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/PersistentIdentification/src/main/java/at/stefanproell/PersistentIdentifierRestfulService/ResolverService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="180" max-vertical-offset="2640">
+          <caret line="30" column="20" selection-start-line="30" selection-start-column="20" selection-end-line="30" selection-end-column="20" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/PersistentIdentification/src/main/java/at/stefanproell/PersistentIdentifierRestfulService/OrganizationsService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="495" max-vertical-offset="1845">
+          <caret line="33" column="0" selection-start-line="33" selection-start-column="0" selection-end-line="33" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/PersistentIdentification/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="330" max-vertical-offset="2235">
+          <caret line="22" column="52" selection-start-line="22" selection-start-column="52" selection-end-line="22" selection-end-column="52" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/PersistentIdentification/src/main/java/at/stefanproell/PersistentIdentifierRestfulService/LandingPageService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="4" max-vertical-offset="1695">
+          <caret line="16" column="13" selection-start-line="16" selection-start-column="13" selection-end-line="16" selection-end-column="13" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/PersistentIdentification/src/main/java/at/stefanproell/PersistentIdentifierMockup/Organization.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2775">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/WebInterface/src/main/webapp/uploadNewCSV.xhtml">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="1560" max-vertical-offset="2100">
@@ -1485,8 +1600,102 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/PersistentIdentification/src/main/java/at/stefanproell/Examples/UpdateTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.050083473" vertical-offset="0" max-vertical-offset="945">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="945">
           <caret line="2" column="50" selection-start-line="2" selection-start-column="50" selection-end-line="2" selection-end-column="50" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/PersistentIdentification/src/main/java/at/stefanproell/PersistentIdentifierMockup/HibernateSchemaGeneratorPID.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="480">
+          <caret line="18" column="55" selection-start-line="18" selection-start-column="34" selection-end-line="18" selection-end-column="55" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/PersistentIdentification/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2235">
+          <caret line="22" column="52" selection-start-line="22" selection-start-column="52" selection-end-line="22" selection-end-column="52" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/PersistentIdentification/src/main/java/at/stefanproell/PersistentIdentifierMockup/Organization.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="210" max-vertical-offset="2775">
+          <caret line="14" column="0" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/PersistentIdentification/src/main/java/at/stefanproell/PersistentIdentifierMockup/PIGenerator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="780">
+          <caret line="12" column="29" selection-start-line="12" selection-start-column="12" selection-end-line="12" selection-end-column="29" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/PersistentIdentification/src/main/java/at/stefanproell/PersistentIdentifierMockup/TimeStampInterceptor.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="135" max-vertical-offset="2190">
+          <caret line="16" column="13" selection-start-line="16" selection-start-column="13" selection-end-line="16" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/PersistentIdentification/src/main/java/at/stefanproell/PersistentIdentifierRestfulService/ResolverService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="540" max-vertical-offset="2895">
+          <caret line="19" column="31" selection-start-line="19" selection-start-column="31" selection-end-line="19" selection-end-column="31" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/PersistentIdentification/src/main/java/at/stefanproell/PersistentIdentifierRestfulService/LandingPageService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1005" max-vertical-offset="1710">
+          <caret line="97" column="16" selection-start-line="97" selection-start-column="12" selection-end-line="97" selection-end-column="16" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/PersistentIdentification/src/main/java/at/stefanproell/PersistentIdentifierRestfulService/OrganizationsService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1845">
+          <caret line="6" column="0" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/PersistentIdentification/src/main/java/at/stefanproell/PersistentIdentifierRestfulService/IdentifiersService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3465">
+          <caret line="3" column="0" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/PersistentIdentification/src/main/java/at/stefanproell/PersistentIdentifierMockup/PersistentIdentifierSubcomponent.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1170">
+          <caret line="4" column="0" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/PersistentIdentification/src/main/java/at/stefanproell/PersistentIdentifierMockup/HibernateUtil.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.1758794" vertical-offset="0" max-vertical-offset="915">
+          <caret line="15" column="13" selection-start-line="15" selection-start-column="13" selection-end-line="15" selection-end-column="13" />
           <folding />
         </state>
       </provider>
@@ -1555,7 +1764,7 @@
       </state>
       <state key="ModuleStructureConfigurable.UI">
         <settings>
-          <last-edited>CSV-Citation-Deployment-Module</last-edited>
+          <last-edited>PersistentIdentification</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>
@@ -1579,7 +1788,7 @@
       </state>
       <state key="ProjectLibrariesConfigurable.UI">
         <settings>
-          <last-edited>Maven: antlr:antlr:2.7.7</last-edited>
+          <last-edited>Maven: com.google.code.gson:gson:2.2.4</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>
