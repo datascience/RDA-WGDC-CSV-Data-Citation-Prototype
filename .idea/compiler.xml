@@ -27,7 +27,6 @@
         <module name="CSVTools" />
         <module name="Database" />
         <module name="DatatableModel" />
-        <module name="PersistentIdentification" />
         <module name="PersistentIdentifier" />
         <module name="QueryStore" />
         <module name="ResultSetVerification" />
@@ -46,4 +45,3 @@
     </bytecodeTargetLevel>
   </component>
 </project>
-

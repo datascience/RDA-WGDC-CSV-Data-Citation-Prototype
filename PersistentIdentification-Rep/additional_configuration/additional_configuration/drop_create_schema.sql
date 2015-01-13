@@ -1,2 +1,0 @@
-DROP DATABASE IF EXISTS querystoreDB;
-CREATE DATABASE querystoreDB;
