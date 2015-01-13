@@ -1,3 +1,4 @@
+# needs to be done every time again...
 # get the repository and integrate a new subtree called PID-Subtree
 
 git remote add PID-Subtree https://github.com/stefanproell/PersistentIdentificationService.git
