@@ -11,10 +11,8 @@
     <orderEntry type="module" module-name="CSVTools" exported="" />
     <orderEntry type="module" module-name="Database" exported="" />
     <orderEntry type="module" module-name="DatatableModel" exported="" />
-    <orderEntry type="module" module-name="PersistentIdentification" exported="" />
     <orderEntry type="module" module-name="QueryStore" exported="" />
     <orderEntry type="module" module-name="ResultSetVerification" exported="" />
     <orderEntry type="module" module-name="WebInterface" exported="" />
   </component>
 </module>
-

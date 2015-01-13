@@ -24,7 +24,7 @@ public class ResolverTest {
 
     private void one() {
         PersistentIdentifierAPI api = new PersistentIdentifierAPI();
-        Organization org = api.getOrganizationObjectByPrefix(6789);
+        Organization org = api.getOrganizationObjectByPrefix(56789);
         PersistentIdentifierAlphaNumeric newpid = api.getAlphaNumericPID(org, "root1");
         PersistentIdentifierAlphaNumeric newpid2 = api.getAlphaNumericPID(org, "root2");
         PersistentIdentifierSubcomponent sub = api.getSubComponentAlphaNummeric(newpid, "sub");
