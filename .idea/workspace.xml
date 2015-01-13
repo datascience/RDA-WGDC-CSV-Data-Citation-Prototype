@@ -5,216 +5,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fe0bbad9-08dd-49cf-9f33-eb5e1947ea1f" name="Default" comment="persistent identification module">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/JavaDoc/allclasses-frame.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/JavaDoc/allclasses-noframe.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/JavaDoc/at/stefanproell/Examples/ExamplesAPI.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/JavaDoc/at/stefanproell/Examples/LittleTest.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/JavaDoc/at/stefanproell/Examples/MinimalTest.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/JavaDoc/at/stefanproell/Examples/TestPID.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/JavaDoc/at/stefanproell/Examples/package-frame.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/JavaDoc/at/stefanproell/Examples/package-summary.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/JavaDoc/at/stefanproell/Examples/package-tree.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/JavaDoc/at/stefanproell/PersistentIdentifierMockup/Helpers.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/JavaDoc/at/stefanproell/PersistentIdentifierMockup/HibernateSchemaGeneratorPID.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/JavaDoc/at/stefanproell/PersistentIdentifierMockup/HibernateUtil.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/JavaDoc/at/stefanproell/PersistentIdentifierMockup/Organization.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/JavaDoc/at/stefanproell/PersistentIdentifierMockup/PIGenerator.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/JavaDoc/at/stefanproell/PersistentIdentifierMockup/PersistentIdentifier.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/JavaDoc/at/stefanproell/PersistentIdentifierMockup/PersistentIdentifierAPI.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/JavaDoc/at/stefanproell/PersistentIdentifierMockup/PersistentIdentifierAlpha.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/JavaDoc/at/stefanproell/PersistentIdentifierMockup/PersistentIdentifierAlphaNumeric.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/JavaDoc/at/stefanproell/PersistentIdentifierMockup/PersistentIdentifierNumeric.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/JavaDoc/at/stefanproell/PersistentIdentifierMockup/TimeStampInterceptor.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/JavaDoc/at/stefanproell/PersistentIdentifierMockup/TimeStamped.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/JavaDoc/at/stefanproell/PersistentIdentifierMockup/package-frame.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/JavaDoc/at/stefanproell/PersistentIdentifierMockup/package-summary.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/JavaDoc/at/stefanproell/PersistentIdentifierMockup/package-tree.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/JavaDoc/constant-values.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/JavaDoc/deprecated-list.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/JavaDoc/help-doc.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/JavaDoc/index-files/index-1.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/JavaDoc/index-files/index-10.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/JavaDoc/index-files/index-11.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/JavaDoc/index-files/index-12.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/JavaDoc/index-files/index-13.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/JavaDoc/index-files/index-14.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/JavaDoc/index-files/index-2.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/JavaDoc/index-files/index-3.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/JavaDoc/index-files/index-4.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/JavaDoc/index-files/index-5.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/JavaDoc/index-files/index-6.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/JavaDoc/index-files/index-7.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/JavaDoc/index-files/index-8.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/JavaDoc/index-files/index-9.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/JavaDoc/index.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/JavaDoc/overview-frame.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/JavaDoc/overview-summary.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/JavaDoc/overview-tree.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/JavaDoc/package-list" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/JavaDoc/resources/background.gif" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/JavaDoc/resources/tab.gif" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/JavaDoc/resources/titlebar.gif" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/JavaDoc/resources/titlebar_end.gif" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/JavaDoc/serialized-form.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/JavaDoc/stylesheet.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/PersistentIdentification.iml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/additional_configuration/GitHub-Steps.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/additional_configuration/JavaDoc/allclasses-frame.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/additional_configuration/JavaDoc/allclasses-noframe.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/additional_configuration/JavaDoc/at/stefanproell/Examples/ExamplesAPI.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/additional_configuration/JavaDoc/at/stefanproell/Examples/LittleTest.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/additional_configuration/JavaDoc/at/stefanproell/Examples/MinimalTest.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/additional_configuration/JavaDoc/at/stefanproell/Examples/TestPID.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/additional_configuration/JavaDoc/at/stefanproell/Examples/package-frame.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/additional_configuration/JavaDoc/at/stefanproell/Examples/package-summary.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/additional_configuration/JavaDoc/at/stefanproell/Examples/package-tree.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/additional_configuration/JavaDoc/at/stefanproell/PersistentIdentifierMockup/Helpers.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/additional_configuration/JavaDoc/at/stefanproell/PersistentIdentifierMockup/HibernateSchemaGeneratorPID.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/additional_configuration/JavaDoc/at/stefanproell/PersistentIdentifierMockup/HibernateUtil.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/additional_configuration/JavaDoc/at/stefanproell/PersistentIdentifierMockup/Organization.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/additional_configuration/JavaDoc/at/stefanproell/PersistentIdentifierMockup/PIGenerator.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/additional_configuration/JavaDoc/at/stefanproell/PersistentIdentifierMockup/PersistentIdentifier.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/additional_configuration/JavaDoc/at/stefanproell/PersistentIdentifierMockup/PersistentIdentifierAPI.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/additional_configuration/JavaDoc/at/stefanproell/PersistentIdentifierMockup/PersistentIdentifierAlpha.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/additional_configuration/JavaDoc/at/stefanproell/PersistentIdentifierMockup/PersistentIdentifierAlphaNumeric.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/additional_configuration/JavaDoc/at/stefanproell/PersistentIdentifierMockup/PersistentIdentifierNumeric.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/additional_configuration/JavaDoc/at/stefanproell/PersistentIdentifierMockup/TimeStampInterceptor.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/additional_configuration/JavaDoc/at/stefanproell/PersistentIdentifierMockup/TimeStamped.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/additional_configuration/JavaDoc/at/stefanproell/PersistentIdentifierMockup/package-frame.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/additional_configuration/JavaDoc/at/stefanproell/PersistentIdentifierMockup/package-summary.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/additional_configuration/JavaDoc/at/stefanproell/PersistentIdentifierMockup/package-tree.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/additional_configuration/JavaDoc/constant-values.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/additional_configuration/JavaDoc/deprecated-list.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/additional_configuration/JavaDoc/help-doc.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/additional_configuration/JavaDoc/index-files/index-1.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/additional_configuration/JavaDoc/index-files/index-10.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/additional_configuration/JavaDoc/index-files/index-11.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/additional_configuration/JavaDoc/index-files/index-12.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/additional_configuration/JavaDoc/index-files/index-13.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/additional_configuration/JavaDoc/index-files/index-14.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/additional_configuration/JavaDoc/index-files/index-2.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/additional_configuration/JavaDoc/index-files/index-3.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/additional_configuration/JavaDoc/index-files/index-4.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/additional_configuration/JavaDoc/index-files/index-5.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/additional_configuration/JavaDoc/index-files/index-6.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/additional_configuration/JavaDoc/index-files/index-7.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/additional_configuration/JavaDoc/index-files/index-8.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/additional_configuration/JavaDoc/index-files/index-9.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/additional_configuration/JavaDoc/index.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/additional_configuration/JavaDoc/overview-frame.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/additional_configuration/JavaDoc/overview-summary.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/additional_configuration/JavaDoc/overview-tree.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/additional_configuration/JavaDoc/package-list" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/additional_configuration/JavaDoc/resources/background.gif" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/additional_configuration/JavaDoc/resources/tab.gif" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/additional_configuration/JavaDoc/resources/titlebar.gif" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/additional_configuration/JavaDoc/resources/titlebar_end.gif" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/additional_configuration/JavaDoc/serialized-form.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/additional_configuration/JavaDoc/stylesheet.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/additional_configuration/PersistentIdentification.iml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/additional_configuration/README.md" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/additional_configuration/additional_configuration/PID-Hibernate-schema.sql" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/additional_configuration/additional_configuration/Query-Hibernate-schema.sql" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/additional_configuration/additional_configuration/Query_FKs.sql" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/additional_configuration/additional_configuration/drop_create_schema.sql" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/additional_configuration/additional_configuration/kill_process.sql" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/additional_configuration/additional_configuration/kill_tomcat.sh" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/additional_configuration/additional_configuration/tomcat-users.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/additional_configuration/additional_configuration/tomcat_realm_view.sql" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/additional_configuration/additional_configuration/tomcat_users.sql" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/additional_configuration/pom.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/additional_configuration/src/main/java/at/stefanproell/Authentication/GroupDetails.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/additional_configuration/src/main/java/at/stefanproell/Authentication/UserAPI.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/additional_configuration/src/main/java/at/stefanproell/Authentication/UserDetails.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/additional_configuration/src/main/java/at/stefanproell/Authentication/UserTest.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/additional_configuration/src/main/java/at/stefanproell/Examples/ExamplesAPI.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/additional_configuration/src/main/java/at/stefanproell/Examples/ListTest.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/additional_configuration/src/main/java/at/stefanproell/Examples/MinimalTest.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/additional_configuration/src/main/java/at/stefanproell/Examples/RegexTest.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/additional_configuration/src/main/java/at/stefanproell/Examples/ResolverTest.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/additional_configuration/src/main/java/at/stefanproell/Examples/SubcomponentTest.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/additional_configuration/src/main/java/at/stefanproell/Examples/UpdateTest.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/additional_configuration/src/main/java/at/stefanproell/PersistentIdentifierMockup/Helpers.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/additional_configuration/src/main/java/at/stefanproell/PersistentIdentifierMockup/HibernateSchemaGeneratorPID.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/additional_configuration/src/main/java/at/stefanproell/PersistentIdentifierMockup/HibernateUtil.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/additional_configuration/src/main/java/at/stefanproell/PersistentIdentifierMockup/Organization.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/additional_configuration/src/main/java/at/stefanproell/PersistentIdentifierMockup/PIGenerator.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/additional_configuration/src/main/java/at/stefanproell/PersistentIdentifierMockup/PersistentIdentifier.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/additional_configuration/src/main/java/at/stefanproell/PersistentIdentifierMockup/PersistentIdentifierAPI.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/additional_configuration/src/main/java/at/stefanproell/PersistentIdentifierMockup/PersistentIdentifierAlpha.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/additional_configuration/src/main/java/at/stefanproell/PersistentIdentifierMockup/PersistentIdentifierAlphaNumeric.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/additional_configuration/src/main/java/at/stefanproell/PersistentIdentifierMockup/PersistentIdentifierNumeric.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/additional_configuration/src/main/java/at/stefanproell/PersistentIdentifierMockup/PersistentIdentifierSubcomponent.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/additional_configuration/src/main/java/at/stefanproell/PersistentIdentifierMockup/TimeStampInterceptor.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/additional_configuration/src/main/java/at/stefanproell/PersistentIdentifierMockup/TimeStamped.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/additional_configuration/src/main/java/at/stefanproell/PersistentIdentifierRestfulService/IdentifiersService.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/additional_configuration/src/main/java/at/stefanproell/PersistentIdentifierRestfulService/LandingPageService.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/additional_configuration/src/main/java/at/stefanproell/PersistentIdentifierRestfulService/OrganizationsService.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/additional_configuration/src/main/java/at/stefanproell/PersistentIdentifierRestfulService/PathSegments.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/additional_configuration/src/main/java/at/stefanproell/PersistentIdentifierRestfulService/ResolverService.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/additional_configuration/src/main/resources/db.properties" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/additional_configuration/src/main/resources/hibernate.cfg.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/additional_configuration/src/main/resources/initial_data.sql" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/additional_configuration/src/main/resources/pid.properties" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/additional_configuration/src/main/webapp/WEB-INF/context.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/additional_configuration/src/main/webapp/WEB-INF/jsp/identifiers.jsp" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/additional_configuration/src/main/webapp/WEB-INF/jsp/organization.jsp" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/additional_configuration/src/main/webapp/WEB-INF/web.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/additional_configuration/src/main/webapp/index.jsp" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/pom.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/src/main/java/at/stefanproell/Authentication/GroupDetails.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/src/main/java/at/stefanproell/Authentication/UserAPI.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/src/main/java/at/stefanproell/Authentication/UserDetails.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/src/main/java/at/stefanproell/Authentication/UserTest.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/src/main/java/at/stefanproell/Examples/ExamplesAPI.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/src/main/java/at/stefanproell/Examples/ListTest.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/src/main/java/at/stefanproell/Examples/MinimalTest.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/src/main/java/at/stefanproell/Examples/RegexTest.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/src/main/java/at/stefanproell/Examples/ResolverTest.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/src/main/java/at/stefanproell/Examples/SubcomponentTest.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/src/main/java/at/stefanproell/Examples/UpdateTest.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/src/main/java/at/stefanproell/PersistentIdentifierMockup/Helpers.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/src/main/java/at/stefanproell/PersistentIdentifierMockup/HibernateSchemaGeneratorPID.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/src/main/java/at/stefanproell/PersistentIdentifierMockup/HibernateUtil.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/src/main/java/at/stefanproell/PersistentIdentifierMockup/Organization.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/src/main/java/at/stefanproell/PersistentIdentifierMockup/PIGenerator.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/src/main/java/at/stefanproell/PersistentIdentifierMockup/PersistentIdentifier.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/src/main/java/at/stefanproell/PersistentIdentifierMockup/PersistentIdentifierAPI.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/src/main/java/at/stefanproell/PersistentIdentifierMockup/PersistentIdentifierAlpha.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/src/main/java/at/stefanproell/PersistentIdentifierMockup/PersistentIdentifierAlphaNumeric.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/src/main/java/at/stefanproell/PersistentIdentifierMockup/PersistentIdentifierNumeric.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/src/main/java/at/stefanproell/PersistentIdentifierMockup/PersistentIdentifierSubcomponent.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/src/main/java/at/stefanproell/PersistentIdentifierMockup/TimeStampInterceptor.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/src/main/java/at/stefanproell/PersistentIdentifierMockup/TimeStamped.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/src/main/java/at/stefanproell/PersistentIdentifierRestfulService/IdentifiersService.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/src/main/java/at/stefanproell/PersistentIdentifierRestfulService/LandingPageService.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/src/main/java/at/stefanproell/PersistentIdentifierRestfulService/OrganizationsService.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/src/main/java/at/stefanproell/PersistentIdentifierRestfulService/PathSegments.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/src/main/java/at/stefanproell/PersistentIdentifierRestfulService/ResolverService.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/src/main/main.iml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/src/main/resources/db.properties" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/src/main/resources/hibernate.cfg.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/src/main/resources/initial_data.sql" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/src/main/resources/pid.properties" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/src/main/webapp/WEB-INF/context.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/src/main/webapp/WEB-INF/jsp/identifiers.jsp" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/src/main/webapp/WEB-INF/jsp/organization.jsp" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/src/main/webapp/WEB-INF/web.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/src/main/webapp/index.jsp" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/target/classes/at/stefanproell/Examples/ExamplesAPI.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/target/classes/at/stefanproell/Examples/MinimalTest.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/target/classes/at/stefanproell/PersistentIdentifierMockup/Helpers.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/target/classes/at/stefanproell/PersistentIdentifierMockup/HibernateSchemaGeneratorPID.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/target/classes/at/stefanproell/PersistentIdentifierMockup/HibernateUtil.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/target/classes/at/stefanproell/PersistentIdentifierMockup/Organization.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/target/classes/at/stefanproell/PersistentIdentifierMockup/PIGenerator.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/target/classes/at/stefanproell/PersistentIdentifierMockup/PersistentIdentifier.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/target/classes/at/stefanproell/PersistentIdentifierMockup/PersistentIdentifierAPI.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/target/classes/at/stefanproell/PersistentIdentifierMockup/PersistentIdentifierAlpha.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/target/classes/at/stefanproell/PersistentIdentifierMockup/PersistentIdentifierAlphaNumeric.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/target/classes/at/stefanproell/PersistentIdentifierMockup/PersistentIdentifierNumeric.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/target/classes/at/stefanproell/PersistentIdentifierMockup/TimeStampInterceptor.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PersistentIdentification-Rep/target/classes/at/stefanproell/PersistentIdentifierMockup/TimeStamped.class" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="SCAPE-QueryStore.iws" />
@@ -918,12 +708,6 @@
       <option name="number" value="Default" />
       <updated>1407135258553</updated>
     </task>
-    <task id="LOCAL-00070" summary="upload table metadata">
-      <created>1411997388080</created>
-      <option name="number" value="00070" />
-      <option name="project" value="LOCAL" />
-      <updated>1411997388080</updated>
-    </task>
     <task id="LOCAL-00071" summary="upload table metadata">
       <created>1411998489647</created>
       <option name="number" value="00071" />
@@ -1212,7 +996,13 @@
       <option name="project" value="LOCAL" />
       <updated>1421151407759</updated>
     </task>
-    <option name="localTasksCounter" value="119" />
+    <task id="LOCAL-00119" summary="persistent identification module">
+      <created>1421153477769</created>
+      <option name="number" value="00119" />
+      <option name="project" value="LOCAL" />
+      <updated>1421153477769</updated>
+    </task>
+    <option name="localTasksCounter" value="120" />
     <servers />
   </component>
   <component name="TodoView" selected-index="0">
