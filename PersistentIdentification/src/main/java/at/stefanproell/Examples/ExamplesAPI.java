@@ -20,8 +20,8 @@ public class ExamplesAPI {
 
 
         // create a dummy organization and provide a prefix
-        Organization evilOrganization = api.createNewOrganitation("Evil Corp", 23456);
-        Organization goodOrganization = api.createNewOrganitation("Good Company", 56789);
+        Organization evilOrganization = api.createNewOrganitation("Evil Corp", 334455);
+        Organization goodOrganization = api.createNewOrganitation("Good Company", 55667);
         // set the length for alphanumeric identifiers
         evilOrganization.setAlphanumericPIDlength(20);
         goodOrganization.setAlphanumericPIDlength(12);
