@@ -1,0 +1,8 @@
+cd Test/CSV-DataCitation-PID-Testrepository/
+git remote add -f PersistentIdentification-Rep https://github.com/stefanproell/PersistentIdentificationService.git
+git merge -s ours --no-commit PersistentIdentification-Rep/master
+mkdir PersistentIdentification-Rep
+git read-tree --prefix=PersistentIdentification-Rep/ -u PersistentIdentification-Rep/master
+git commit -m "Subtree merged"
+git pull -s subtree PersistentIdentification-Rep master
+git commit -m "Subtree merged"
