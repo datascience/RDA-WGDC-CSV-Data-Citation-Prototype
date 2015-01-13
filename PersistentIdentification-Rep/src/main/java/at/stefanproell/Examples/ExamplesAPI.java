@@ -7,7 +7,7 @@ import at.stefanproell.PersistentIdentifierMockup.*;
  */
 public class ExamplesAPI {
     public static void main(String[] args) {
-        System.out.println("Persistent Identifier Mockup Test");
+        System.out.println("Persistent Identifier Mockup With Moule");
         ExamplesAPI apiTest = new ExamplesAPI();
         apiTest.run();
         System.exit(0);
