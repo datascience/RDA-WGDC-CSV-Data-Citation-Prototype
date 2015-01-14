@@ -11,9 +11,6 @@
       <module fileurl="file://$PROJECT_DIR$/QueryStore/QueryStore.iml" filepath="$PROJECT_DIR$/QueryStore/QueryStore.iml" />
       <module fileurl="file://$PROJECT_DIR$/ResultSetVerification/ResultSetVerification.iml" filepath="$PROJECT_DIR$/ResultSetVerification/ResultSetVerification.iml" />
       <module fileurl="file://$PROJECT_DIR$/WebInterface/WebInterface.iml" filepath="$PROJECT_DIR$/WebInterface/WebInterface.iml" />
-      <module fileurl="file://$PROJECT_DIR$/PersistentIdentification-Rep/src/main/main.iml" filepath="$PROJECT_DIR$/PersistentIdentification-Rep/src/main/main.iml" />
-      <module fileurl="file://$PROJECT_DIR$/PersistentIdentification/src/main/main1.iml" filepath="$PROJECT_DIR$/PersistentIdentification/src/main/main1.iml" />
-      <module fileurl="file://$PROJECT_DIR$/PersistentIdentification/src/main/main2.iml" filepath="$PROJECT_DIR$/PersistentIdentification/src/main/main2.iml" />
     </modules>
   </component>
 </project>
