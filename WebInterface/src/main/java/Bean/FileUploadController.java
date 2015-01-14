@@ -64,7 +64,7 @@
 
 package Bean;
 
-import CSVTools.CSVHelper;
+import CSVTools.CSV_API;
 import Database.DatabaseTools;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
@@ -181,6 +181,12 @@ public class FileUploadController implements Serializable {
         this.filesList = filesList;
     }
 
+    /**
+     * Handle the file upload an store the file in the Web server directory.
+     * Get all the column names and store them in the session data.
+     *
+     * @param event
+     */
     public void handleFileUpload(FileUploadEvent event) {
         System.out.println("Upload event...");
         UploadedFile file = event.getFile();
@@ -336,7 +342,7 @@ public class FileUploadController implements Serializable {
         this.columns.add("ID_SYSTEM_SEQUENCE");
 
         String path = "";
-        CSVHelper csvHelper = new CSVHelper();
+        CSV_API csvAPI = new CSV_API();
         Map<String, Object> sessionMAP = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
         HashMap<String, String> filesList = (HashMap<String, String>) sessionMAP.get("fileListHashMap");
         List pathList = new ArrayList(this.filesList.values());
@@ -351,7 +357,7 @@ public class FileUploadController implements Serializable {
 
         // Append all headers to the default (which is the sequence number)
 
-        columns.addAll(csvHelper.getListOfHeadersCSV(path));
+        columns.addAll(csvAPI.getListOfHeadersCSV(path));
 
 
         this.logger.info("Updating columns.... found " + columns.size() + " cols");

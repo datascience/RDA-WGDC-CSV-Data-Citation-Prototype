@@ -22,6 +22,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
+        <module name="BatchMode" />
         <module name="CSV2DB" />
         <module name="CSVModule" />
         <module name="CSVTools" />
@@ -35,6 +36,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="1.7">
+      <module name="BatchMode" target="1.7" />
       <module name="CSV-Citation-Deployment-Module" target="1.7" />
       <module name="CSVTools" target="1.7" />
       <module name="Database" target="1.7" />

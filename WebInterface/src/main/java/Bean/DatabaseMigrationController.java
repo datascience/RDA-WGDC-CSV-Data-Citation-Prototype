@@ -2,7 +2,7 @@
 package Bean;
 
 
-import CSVTools.CSVHelper;
+import CSVTools.CSV_API;
 
 import CSVTools.Column;
 import Database.DatabaseTools;
@@ -103,8 +103,8 @@ public class DatabaseMigrationController implements Serializable {
 
             this.logger.info("TableName = " + pairs.getKey().toString() + " Path: " + pairs.getValue().toString());
 
-            CSVHelper csv;
-            csv = new CSVHelper();
+            CSV_API csv;
+            csv = new CSV_API();
             String currentTableName = csv.replaceSpaceWithDash(pairs.getKey().toString());
             String currentPath = pairs.getValue().toString();
             // Read headers
@@ -235,8 +235,8 @@ public class DatabaseMigrationController implements Serializable {
             // from the drop down menu. is is provided in the session variable
             this.logger.info("TableName = " + this.getCurrentTableName() + " Path: " + pairs.getValue().toString());
 
-            CSVHelper csv;
-            csv = new CSVHelper();
+            CSV_API csv;
+            csv = new CSV_API();
             String currentPath = pairs.getValue().toString();
 
 
@@ -313,8 +313,8 @@ public class DatabaseMigrationController implements Serializable {
             // from the drop down menu. is is provided in the session variable
             this.logger.info("TableName = " + this.getCurrentTableName() + " Path: " + pairs.getValue().toString());
 
-            CSVHelper csv;
-            csv = new CSVHelper();
+            CSV_API csv;
+            csv = new CSV_API();
             String currentPath = pairs.getValue().toString();
 
 

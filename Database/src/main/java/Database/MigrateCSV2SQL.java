@@ -81,16 +81,12 @@
 package Database;
 
 
-import CSVTools.CSVHelper;
+import CSVTools.CSV_API;
 import CSVTools.Column;
 import org.supercsv.io.CsvListReader;
 import org.supercsv.io.ICsvListReader;
 import org.supercsv.prefs.CsvPreference;
 
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
-import javax.sql.DataSource;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -205,8 +201,8 @@ public class MigrateCSV2SQL {
         }
 
         PreparedStatement preparedStatement;
-        CSVHelper csvHelper;
-        csvHelper = new CSVHelper();
+        CSV_API csvAPI;
+        csvAPI = new CSV_API();
         CsvListReader reader = null;
         int rowCount = 0;
         try {
@@ -282,9 +278,9 @@ public class MigrateCSV2SQL {
                         // insert the hash
                     } else if (columnCount == (header.length + 4) & calculateHashKeyColumn) {
 
-                        String appendedColumns = CSVHelper.convertStringListToAppendedString(row);
+                        String appendedColumns = CSV_API.convertStringListToAppendedString(row);
 
-                        String hash = CSVHelper
+                        String hash = CSV_API
                                 .calculateSHA1HashFromString(appendedColumns);
 
                         preparedStatement.setString(columnCount, hash);
@@ -363,8 +359,8 @@ public class MigrateCSV2SQL {
 
             this.logger.info("TableName = " + pairs.getKey().toString() + " Path: " + pairs.getValue().toString());
 
-            CSVHelper csv;
-            csv = new CSVHelper();
+            CSV_API csv;
+            csv = new CSV_API();
             String currentTableName = csv.replaceSpaceWithDash(pairs.getKey().toString());
             String currentPath = pairs.getValue().toString();
             // Read headers
@@ -468,8 +464,8 @@ public class MigrateCSV2SQL {
 
 
         PreparedStatement preparedStatement;
-        CSVHelper csvHelper;
-        csvHelper = new CSVHelper();
+        CSV_API csvAPI;
+        csvAPI = new CSV_API();
         CsvListReader reader = null;
         int rowCount = 0;
         try {
@@ -563,9 +559,9 @@ public class MigrateCSV2SQL {
                         // insert the hash
                     } else if (columnCount == (numberOfColumns + 4) & calculateHashKeyColumn) {
 
-                        String appendedColumns = CSVHelper.convertStringListToAppendedString(row);
+                        String appendedColumns = CSV_API.convertStringListToAppendedString(row);
 
-                        String hash = CSVHelper
+                        String hash = CSV_API
                                 .calculateSHA1HashFromString(appendedColumns);
 
                         preparedStatement.setString(columnCount, hash);
@@ -645,8 +641,8 @@ public class MigrateCSV2SQL {
         PreparedStatement preparedStatement;
 
 
-        CSVHelper csvHelper;
-        csvHelper = new CSVHelper();
+        CSV_API csvAPI;
+        csvAPI = new CSV_API();
         CsvListReader reader = null;
         int rowCount = 0;
         try {
@@ -781,9 +777,9 @@ public class MigrateCSV2SQL {
                     // insert the hash
                     else if (columnCount == (numberOfColumns + 4) & calculateHashKeyColumn) {
 
-                        String appendedColumns = CSVHelper.convertStringListToAppendedString(row);
+                        String appendedColumns = CSV_API.convertStringListToAppendedString(row);
 
-                        String hash = CSVHelper
+                        String hash = CSV_API
                                 .calculateSHA1HashFromString(appendedColumns);
 
                         preparedStatement.setString(columnCount, hash);

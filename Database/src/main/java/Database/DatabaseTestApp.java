@@ -113,7 +113,7 @@
 package Database;
 
 
-import CSVTools.CSVHelper;
+import CSVTools.CSV_API;
 import CSVTools.Column;
 
 import java.io.IOException;
@@ -132,8 +132,8 @@ public class DatabaseTestApp {
         String csvFileName = "msd1k.csv";
         boolean calulateHashColumn = false;
 
-        CSVHelper csv;
-        csv = new CSVHelper();
+        CSV_API csv;
+        csv = new CSV_API();
         String[] csvColumnHeaders = csv.getArrayOfHeadersCSV(path + csvFileName);
         Column[] meta = null;
         try {

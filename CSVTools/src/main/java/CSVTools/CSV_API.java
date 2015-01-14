@@ -1,131 +1,3 @@
-/*
- * Copyright [2014] [Stefan Pröll]
- *
- *    Licensed under the Apache License, Version 2.0 (the "License");
- *    you may not use this file except in compliance with the License.
- *    You may obtain a copy of the License at
- *
- *        http://www.apache.org/licenses/LICENSE-2.0
- *
- *    Unless required by applicable law or agreed to in writing, software
- *    distributed under the License is distributed on an "AS IS" BASIS,
- *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *    See the License for the specific language governing permissions and
- *    limitations under the License.
- */
-
-/*
- * Copyright [2014] [Stefan Pröll]
- *
- *    Licensed under the Apache License, Version 2.0 (the "License");
- *    you may not use this file except in compliance with the License.
- *    You may obtain a copy of the License at
- *
- *        http://www.apache.org/licenses/LICENSE-2.0
- *
- *    Unless required by applicable law or agreed to in writing, software
- *    distributed under the License is distributed on an "AS IS" BASIS,
- *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *    See the License for the specific language governing permissions and
- *    limitations under the License.
- */
-
-/*
- * Copyright [2014] [Stefan Pröll]
- *
- *    Licensed under the Apache License, Version 2.0 (the "License");
- *    you may not use this file except in compliance with the License.
- *    You may obtain a copy of the License at
- *
- *        http://www.apache.org/licenses/LICENSE-2.0
- *
- *    Unless required by applicable law or agreed to in writing, software
- *    distributed under the License is distributed on an "AS IS" BASIS,
- *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *    See the License for the specific language governing permissions and
- *    limitations under the License.
- */
-
-/*
- * Copyright [2014] [Stefan Pröll]
- *
- *    Licensed under the Apache License, Version 2.0 (the "License");
- *    you may not use this file except in compliance with the License.
- *    You may obtain a copy of the License at
- *
- *        http://www.apache.org/licenses/LICENSE-2.0
- *
- *    Unless required by applicable law or agreed to in writing, software
- *    distributed under the License is distributed on an "AS IS" BASIS,
- *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *    See the License for the specific language governing permissions and
- *    limitations under the License.
- */
-
-/*
- * Copyright [2014] [Stefan Pröll]
- *
- *    Licensed under the Apache License, Version 2.0 (the "License");
- *    you may not use this file except in compliance with the License.
- *    You may obtain a copy of the License at
- *
- *        http://www.apache.org/licenses/LICENSE-2.0
- *
- *    Unless required by applicable law or agreed to in writing, software
- *    distributed under the License is distributed on an "AS IS" BASIS,
- *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *    See the License for the specific language governing permissions and
- *    limitations under the License.
- */
-
-/*
- * Copyright [2014] [Stefan Pröll]
- *
- *    Licensed under the Apache License, Version 2.0 (the "License");
- *    you may not use this file except in compliance with the License.
- *    You may obtain a copy of the License at
- *
- *        http://www.apache.org/licenses/LICENSE-2.0
- *
- *    Unless required by applicable law or agreed to in writing, software
- *    distributed under the License is distributed on an "AS IS" BASIS,
- *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *    See the License for the specific language governing permissions and
- *    limitations under the License.
- */
-
-/*
- * Copyright [2014] [Stefan Pröll]
- *
- *    Licensed under the Apache License, Version 2.0 (the "License");
- *    you may not use this file except in compliance with the License.
- *    You may obtain a copy of the License at
- *
- *        http://www.apache.org/licenses/LICENSE-2.0
- *
- *    Unless required by applicable law or agreed to in writing, software
- *    distributed under the License is distributed on an "AS IS" BASIS,
- *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *    See the License for the specific language governing permissions and
- *    limitations under the License.
- */
-
-/*
- * Copyright [2014] [Stefan Pröll]
- *
- *    Licensed under the Apache License, Version 2.0 (the "License");
- *    you may not use this file except in compliance with the License.
- *    You may obtain a copy of the License at
- *
- *        http://www.apache.org/licenses/LICENSE-2.0
- *
- *    Unless required by applicable law or agreed to in writing, software
- *    distributed under the License is distributed on an "AS IS" BASIS,
- *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *    See the License for the specific language governing permissions and
- *    limitations under the License.
- */
-
 package CSVTools;
 
 
@@ -141,11 +13,14 @@ import java.security.NoSuchAlgorithmException;
 import java.util.*;
 import java.util.logging.Logger;
 
-public class CSVHelper {
+/**
+ * Provides methods and tools for working with CSV files.
+ */
+public class CSV_API {
     private Logger logger;
     private static MessageDigest crypto;
 
-    public CSVHelper() {
+    public CSV_API() {
         this.logger = Logger.getLogger(this.getClass().getName());
         try {
             this.crypto = MessageDigest.getInstance("SHA-1");
@@ -398,8 +273,13 @@ public class CSVHelper {
         writer.close();
     }
 
-    public static String convertStringListToAppendedString(List<String> columns)
-            throws NoSuchAlgorithmException {
+    /**
+     * Append all elements of a list in one string
+     *
+     * @param columns
+     * @return
+     */
+    public static String convertStringListToAppendedString(List<String> columns) {
         String allColumnsAppended = "";
         for (int i = 0; i < columns.size(); i++) {
             allColumnsAppended += columns.get(i);
@@ -410,6 +290,12 @@ public class CSVHelper {
         return allColumnsAppended;
     }
 
+    /**
+     * Calculate a SHA1-Hash from a string
+     * @param inputString
+     * @return
+     * @throws NoSuchAlgorithmException
+     */
     public static String calculateSHA1HashFromString(String inputString)
             throws NoSuchAlgorithmException {
 
@@ -422,11 +308,6 @@ public class CSVHelper {
         String hash = DigestUtils.sha1Hex(crypto.digest());
         return hash;
 
-    }
-
-    private void testHash() {
-        // System.out.println(calculateSHA1HashFromString("AT1	AT13	AT130	90101	0	68079	.	.	31.12
-        // .1869"));
     }
 
     private static void deleteOutputFile(String fileName) {

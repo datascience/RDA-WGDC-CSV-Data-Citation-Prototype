@@ -97,7 +97,7 @@
 package Database;
 
 
-import CSVTools.CSVHelper;
+import CSVTools.CSV_API;
 import CSVTools.Column;
 import com.sun.rowset.CachedRowSetImpl;
 import org.supercsv.io.CsvListReader;
@@ -202,8 +202,8 @@ public class DatabaseTools {
 
         stat = connection.createStatement();
 
-        CSVHelper csv;
-        csv = new CSVHelper();
+        CSV_API csv;
+        csv = new CSV_API();
         String headersSQL = null;
         headersSQL = csv.getHeadersOfCSV(csvFileName);
 
@@ -620,7 +620,7 @@ public class DatabaseTools {
             connection.setAutoCommit(false);
         }
         PreparedStatement preparedStatement;
-        CSVHelper csvHelper = new CSVHelper();
+        CSV_API csvAPI = new CSV_API();
         CsvListReader reader = null;
         int rowCount = 0;
         try {
@@ -690,9 +690,9 @@ public class DatabaseTools {
                         // insert the hash
                     } else if (columnCount == (header.length + 4) & calculateHashKeyColumn) {
 
-                        String appendedColumns = CSVHelper
+                        String appendedColumns = CSV_API
                                 .convertStringListToAppendedString(row);
-                        String hash = CSVHelper
+                        String hash = CSV_API
                                 .calculateSHA1HashFromString(appendedColumns);
 
                         preparedStatement.setString(columnCount, hash);
@@ -960,7 +960,7 @@ public class DatabaseTools {
         String previousKey = "";
         String compositeHash = "";
         CachedRowSet cached = null;
-        CSVHelper csvHelper = new CSVHelper();
+        CSV_API csvAPI = new CSV_API();
         long startTime = System.currentTimeMillis();
         //int hashCounter =0;
 
@@ -994,15 +994,15 @@ public class DatabaseTools {
 
                 if (cached.isFirst()) {
 
-                    resultSetHash = csvHelper.calculateSHA1HashFromString(currentHash);
+                    resultSetHash = csvAPI.calculateSHA1HashFromString(currentHash);
                     // this.logger.info("First Hash! Original: " + currentHash + " First new Hash " +  resultSetHash);
                 } else {
 			/*		// Move the cursor to the previous row and read the hash value.
-					if(cached.previous()){
+                    if(cached.previous()){
 						previousKey = cached.getString("sha1_hash");
 						if(cached.next()){
 							compositeKey = currentKey + previousKey;
-							resultSetHash = csvHelper.calculateSHA1HashFromString(compositeKey);
+							resultSetHash = csvAPI.calculateSHA1HashFromString(compositeKey);
 							this.logger.info("Appended Hash " + previousKey + " to hash " + currentKey + " and
 							calulated " + resultSetHash);
 
@@ -1010,7 +1010,7 @@ public class DatabaseTools {
 					}*/
 
                     compositeHash = (resultSetHash + currentHash);
-                    newResultSetHash = csvHelper.calculateSHA1HashFromString(compositeHash);
+                    newResultSetHash = csvAPI.calculateSHA1HashFromString(compositeHash);
                     //this.logger.info("[resultSetHash] "+resultSetHash + "[currentHash] " + currentHash +" ->
                     // [newResultSetHash]" + newResultSetHash );
                     resultSetHash = newResultSetHash;
