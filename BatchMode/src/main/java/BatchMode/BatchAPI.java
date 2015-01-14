@@ -1,15 +1,15 @@
 package BatchMode;
 
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
+import java.util.logging.Logger;
 
 public class BatchAPI {
+    private Logger logger;
 
 
     public BatchAPI() {
+        this.logger = Logger.getLogger(BatchMode_Main.class.getName());
 
     }
 
@@ -24,6 +24,47 @@ public class BatchAPI {
         return file;
 
 
+    }
+
+    /**
+     * Print the first line of a file
+     *
+     * @param file
+     * @return
+     * @throws IOException
+     */
+    public String readFirstLinesFromFile(File file, int lines) throws IOException {
+        // read as stream
+        BufferedReader r = new BufferedReader(new FileReader(file));
+        StringBuilder sb = new StringBuilder();
+
+        String line = r.readLine();
+        int counter = 0;
+        while (counter < lines && line != null) {
+            sb.append(line + "\n");
+            counter++;
+            line = r.readLine();
+        }
+
+
+        return sb.toString();
+    }
+
+    /**
+     * Read from input and return true ir false depending if user provided yes or y.
+     *
+     * @return
+     */
+    public boolean readYesOrNoFromInput() {
+        String answer = this.readFromCommandline();
+        if (answer.toLowerCase().equals("y") || answer.toLowerCase().equals("yes")) {
+            this.logger.info("Answer was YES");
+            return true;
+
+        } else {
+            this.logger.info("Answer was No");
+            return false;
+        }
     }
 
     /**

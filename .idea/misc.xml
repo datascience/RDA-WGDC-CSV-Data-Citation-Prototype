@@ -32,6 +32,7 @@
         <option value="$PROJECT_DIR$/DatatableModel/pom.xml" />
         <option value="$PROJECT_DIR$/CSVTools/pom.xml" />
         <option value="$PROJECT_DIR$/CSV-Citation-Deployment-Module/pom.xml" />
+        <option value="$PROJECT_DIR$/BatchMode/pom.xml" />
       </list>
     </option>
   </component>
