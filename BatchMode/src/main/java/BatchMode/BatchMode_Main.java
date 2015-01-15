@@ -1,10 +1,12 @@
 package BatchMode;
 
+import Bean.DatabaseMigrationController;
 import CSVTools.CSV_API;
 import CSVTools.Column;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.logging.Logger;
 
 /**
@@ -43,12 +45,34 @@ public class BatchMode_Main {
         this.logger = Logger.getLogger(BatchMode_Main.class.getName());
         this.batchAPI = new BatchAPI();
         boolean containsHeaders = false;
+        boolean isNewFile = true;
+        boolean containsOnlyNewRows = false;
+        boolean containsChangedRecords = false;
+        boolean calulateHashColumn = false;
+        HashMap filesList;
 
-        arguments = "/tmp/addresses_small.csv";
+        arguments = "/media/Data/Datasets/CSV-Datasets/addresses_small.csv";
         this.filePath = this.getFilePath(arguments);
 
 
         File csvFile = this.batchAPI.readFileFromPath(this.getFilePath());
+
+        filesList = this.batchAPI.addFileToFileList(csvFile);
+
+        // launch CSV api
+        CSV_API csvAPI = new CSV_API();
+        Column[] columns;
+        try {
+            columns = csvAPI.analyseColumns(containsHeaders, csvFile.getAbsolutePath().toString());
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+
+        /* Does the file contain headers?
+        * */
         try {
             int numberOfLines = 5;
             String firstFiveLinesLine = this.batchAPI.readFirstLinesFromFile(csvFile, numberOfLines);
@@ -59,18 +83,63 @@ public class BatchMode_Main {
             containsHeaders = this.batchAPI.readYesOrNoFromInput();
 
 
+
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        // launch CSV api
-        CSV_API csvAPI = new CSV_API();
-        Column[] columns;
-        try {
-            columns = csvAPI.analyseColumns(containsHeaders, csvFile.getAbsolutePath().toString());
+        /* Is is a completely new file which is not stored in the database
+        * */
+        this.batchAPI.promtMessageToCommandline("Is this a new CSV file which is not already in the database?");
+        this.batchAPI.promtMessageToCommandline(">");
+        isNewFile = this.batchAPI.readYesOrNoFromInput();
 
-        } catch (IOException e) {
-            e.printStackTrace();
+        /*
+        * Create a new database
+        * **/
+        if (isNewFile) {
+            DatabaseMigrationController dbMigrate = new DatabaseMigrationController();
+
+        } else {
+
+            this.batchAPI.promtMessageToCommandline("Does this file only contain new rows which are not yet contained" +
+                    " in the corresponding CSV dataset? ");
+            this.batchAPI.promtMessageToCommandline(">");
+            containsOnlyNewRows = this.batchAPI.readYesOrNoFromInput();
+
+            /*File only contains new records to append
+            *
+            * */
+            if (containsOnlyNewRows == true) {
+
+
+            }
+
+
+            /*
+            * All the records in this file might be changed. Update existing rows and append new rows.
+            * */
+            else {
+                this.batchAPI.promtMessageToCommandline("Does this file contain changed records which should be " +
+                        "updated? If there are new rows, should they be appended? ");
+                this.batchAPI.promtMessageToCommandline(">");
+                containsChangedRecords = this.batchAPI.readYesOrNoFromInput();
+
+                /*
+                * Check for updates, update existing records and append new records
+                * */
+                if (containsChangedRecords == true) {
+
+                } else {
+                    this.batchAPI.promtMessageToCommandline("Your selection is not valid! Exiting");
+                    System.exit(0);
+
+
+                }
+
+            }
+
+
         }
 
 

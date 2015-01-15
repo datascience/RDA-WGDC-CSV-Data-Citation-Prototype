@@ -86,13 +86,29 @@ public class DatabaseMigrationController implements Serializable {
      * @TODO needs to be rewritten!!
      */
 
-    public void migrate() {
+    /*
+    * Method called from the Web interface with no parameters
+    * */
+    public void migrationController() {
+        this.migrate(null);
+
+    }
+
+    /*
+    * Migration
+    * */
+    public void migrate(HashMap filesListInput) {
         System.out.println("Doing the migration");
         boolean calulateHashColumn = false;
 
         this.logger.info("Calculate Hash Columns is OFF");
         // retrieve file names
-        this.filesList = this.getFileListFromSession();
+        if (filesListInput == null) {
+            this.filesList = this.getFileListFromSession();
+        } else {
+            this.filesList = filesListInput;
+        }
+
 
         System.out.println("Retrieved  " + filesList.size() + " file names");
 

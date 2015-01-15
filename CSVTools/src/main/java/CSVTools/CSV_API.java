@@ -363,7 +363,7 @@ public class CSV_API {
         CsvListReader reader = new CsvListReader(new FileReader(fileName),
                 CsvPreference.STANDARD_PREFERENCE);
 
-        //
+
         // String[] header = reader.getHeader(true);
 
         List<String> rowAsTokens;
@@ -413,7 +413,6 @@ public class CSV_API {
                 row.put(header.get(i), rowAsTokens.get(i));
 
 
-                columnsMetadata[i].setMaxContentLength(contentLength);
 
                 columnsMetadata[i].setMaxContentLength(contentLength);
 

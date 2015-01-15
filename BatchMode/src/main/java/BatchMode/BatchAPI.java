@@ -2,15 +2,17 @@ package BatchMode;
 
 
 import java.io.*;
+import java.util.HashMap;
 import java.util.logging.Logger;
 
 public class BatchAPI {
     private Logger logger;
+    private HashMap filesList;
 
 
     public BatchAPI() {
         this.logger = Logger.getLogger(BatchMode_Main.class.getName());
-
+        this.filesList = new HashMap<String, String>();
     }
 
     /**
@@ -92,5 +94,31 @@ public class BatchAPI {
 
     public void promtMessageToCommandline(String msg) {
         System.out.print(msg);
+    }
+
+    public String getTableNameFromFileName(File file) {
+
+        return "table_" + file.getName();
+
+
+    }
+
+    public HashMap addFileToFileList(File file) {
+
+        String tableName = this.getTableNameFromFileName(file);
+        String path = file.getAbsolutePath();
+
+        this.filesList.put(tableName, path);
+        this.logger.info("Put file " + path + " as table " + tableName + " into a list with size " + this.filesList
+                .size());
+        return this.filesList;
+    }
+
+    public HashMap getFilesList() {
+        return filesList;
+    }
+
+    public void setFilesList(HashMap filesList) {
+        this.filesList = filesList;
     }
 }
