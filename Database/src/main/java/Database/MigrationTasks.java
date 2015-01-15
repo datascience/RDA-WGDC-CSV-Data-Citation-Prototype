@@ -44,7 +44,8 @@ public class MigrationTasks {
 * Migration
 * */
     public void migrate(HashMap filesListInput, String primaryKey) {
-        System.out.println("Doing the migration.");
+        this.logger.info("Doing the migration.");
+
         boolean calulateHashColumn = false;
         this.logger.info("Calculate Hash Columns is OFF");
         // retrieve file names

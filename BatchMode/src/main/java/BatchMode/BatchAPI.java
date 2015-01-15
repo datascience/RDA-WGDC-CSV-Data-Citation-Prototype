@@ -1,6 +1,8 @@
 package BatchMode;
 
 
+import org.apache.commons.io.FilenameUtils;
+
 import java.io.*;
 import java.util.HashMap;
 import java.util.logging.Logger;
@@ -105,7 +107,8 @@ public class BatchAPI {
 
     public HashMap addFileToFileList(File file) {
 
-        String tableName = this.getTableNameFromFileName(file);
+
+        String tableName = FilenameUtils.removeExtension(this.getTableNameFromFileName(file));
         String path = file.getAbsolutePath();
 
         this.filesList.put(tableName, path);

@@ -3,6 +3,7 @@ package BatchMode;
 import Bean.DatabaseMigrationController;
 import CSVTools.CSV_API;
 import CSVTools.Column;
+import Database.MigrationTasks;
 
 import java.io.File;
 import java.io.IOException;
@@ -90,7 +91,7 @@ public class BatchMode_Main {
 
         /* Is is a completely new file which is not stored in the database
         * */
-        this.batchAPI.promtMessageToCommandline("Is this a new CSV file which is not already in the database?");
+        this.batchAPI.promtMessageToCommandline("Is this a new CSV file which is not already in the database?\n");
         this.batchAPI.promtMessageToCommandline(">");
         isNewFile = this.batchAPI.readYesOrNoFromInput();
 
@@ -98,12 +99,15 @@ public class BatchMode_Main {
         * Create a new database
         * **/
         if (isNewFile) {
-            DatabaseMigrationController dbMigrate = new DatabaseMigrationController();
+            MigrationTasks migrationTasks = new MigrationTasks();
+            migrationTasks.migrate(filesList, "ID_SYSTEM_SEQUENCE");
+
+
 
         } else {
 
             this.batchAPI.promtMessageToCommandline("Does this file only contain new rows which are not yet contained" +
-                    " in the corresponding CSV dataset? ");
+                    " in the corresponding CSV dataset? \n");
             this.batchAPI.promtMessageToCommandline(">");
             containsOnlyNewRows = this.batchAPI.readYesOrNoFromInput();
 
@@ -121,7 +125,7 @@ public class BatchMode_Main {
             * */
             else {
                 this.batchAPI.promtMessageToCommandline("Does this file contain changed records which should be " +
-                        "updated? If there are new rows, should they be appended? ");
+                        "updated? If there are new rows, should they be appended?\n ");
                 this.batchAPI.promtMessageToCommandline(">");
                 containsChangedRecords = this.batchAPI.readYesOrNoFromInput();
 

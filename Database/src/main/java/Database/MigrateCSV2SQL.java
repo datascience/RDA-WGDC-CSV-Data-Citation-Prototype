@@ -168,6 +168,7 @@ public class MigrateCSV2SQL {
 
         this.logger.info("CREATE String: " + createTableString);
         Connection connection = this.getConnection();
+        this.logger.info("The current DATABASE is " + connection.getCatalog());
         stat = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
                 ResultSet.CONCUR_READ_ONLY);
         stat.execute("DROP TABLE IF EXISTS " + tableName);
