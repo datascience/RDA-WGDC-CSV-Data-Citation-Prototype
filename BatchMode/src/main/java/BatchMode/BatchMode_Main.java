@@ -52,8 +52,11 @@ public class BatchMode_Main {
         boolean calulateHashColumn = false;
         HashMap filesList;
         MigrationTasks migrationTasks = new MigrationTasks();
+        String first10 = "/media/Data/Datasets/CSV-Datasets/csv-citation-test/addresses_first10.csv";
+        String updated10 = "/media/Data/Datasets/CSV-Datasets/csv-citation-test/addresses_first10_changed.csv";
 
-        arguments = "/media/Data/Datasets/CSV-Datasets/addresses_small.csv";
+        arguments = updated10;
+        //arguments = first10;
         this.filePath = this.getFilePath(arguments);
 
 
@@ -140,7 +143,10 @@ public class BatchMode_Main {
                 /*
                 * Check for updates, update existing records and append new records
                 * */
+
+                String tableName = "table_addresses_first10";
                 if (containsChangedRecords == true) {
+                    migrationTasks.updateDataInExistingTable(filesList, tableName, containsHeaders, false);
 
                 } else {
                     this.batchAPI.promtMessageToCommandline("Your selection is not valid! Exiting");

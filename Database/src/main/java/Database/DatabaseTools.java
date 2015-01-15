@@ -1041,14 +1041,22 @@ public class DatabaseTools {
      * Retrieve the primary key from a table by using the metadata of the database
      *
      * @param tableName
-     * @param databaseName
+
      * @return
      */
-    public List<String> getPrimaryKeyFromTable(String tableName, String databaseName) {
+    public List<String> getPrimaryKeyFromTable(String tableName) {
         List<String> primaryKeyList = new ArrayList<String>();
 
         String catalog = null;
-        String schema = databaseName;
+        String schema = null;
+        try {
+            schema = this.dbcp.getConnection().getSchema();
+            catalog = this.dbcp.getConnection().getCatalog();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+
         DatabaseMetaData databaseMetaData = null;
         try {
             databaseMetaData = this.dbcp.getConnection().getMetaData();

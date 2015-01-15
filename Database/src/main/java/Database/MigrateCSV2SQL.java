@@ -614,6 +614,7 @@ public class MigrateCSV2SQL {
         System.out.println("Inserted " + rowCount + " rows in " + (totalTime / 1000) + " sec");
     }
 
+
     /**
      * Update existing data in a table. Checks if each record exists.
      *
@@ -628,9 +629,13 @@ public class MigrateCSV2SQL {
     public void updateDataInExistingDB(Map<String, String> columnsMap, List<String> primaryKeyList, String path,
                                        String tableName,
                                        boolean hasHeaders, boolean
-            calculateHashKeyColumn) throws SQLException, IOException {
+                                               calculateHashKeyColumn) throws SQLException, IOException {
         this.logger.info("Appending new records to an existing database");
         Connection connection = this.getConnection();
+
+        // This variable indicates whether the CSV file contains the primary key of the table or if only a
+        // automaticly generated SYSTEM_ID is available.
+        boolean primaryKeyCanBeDetected = false;
 
 
         if (connection.getAutoCommit()) {
@@ -702,6 +707,7 @@ public class MigrateCSV2SQL {
             // search the corresponding header column
             int primaryKeyCSVColumnInt = -1;
             String primaryKeyCSVColumName = null;
+
             for (int i = 0; i < header.length; i++) {
                 this.logger.info("Comparing " + header[i] + " primary key: " + primaryKeyTableString);
                 if (header[i].equals(primaryKeyTableString)) {
@@ -714,6 +720,14 @@ public class MigrateCSV2SQL {
                 }
             }
 
+            if (primaryKeyCSVColumnInt < 0 || primaryKeyCSVColumName == null) {
+                this.logger.warning("The primary key column can not be detected in the header row of the CSV file. " +
+                        "All fields need to be checked... ");
+                primaryKeyCanBeDetected = false;
+            } else {
+                primaryKeyCanBeDetected = true;
+            }
+
             //@todo continue here
 
 
@@ -721,102 +735,113 @@ public class MigrateCSV2SQL {
             String updatedOrNewString = "inserted";
 
             while ((row = reader.read()) != null) {
+
                 int currentMaxSequenceNumber = this.dbtools.getMaxSequenceNumberFromTable(tableName);
 
                 rowCount++;
 
                 //check if primary key exists:
-                boolean recordExists = this.dbtools.checkIfRecordExistsInTable(tableName, primaryKeyTableString,
-                        row.get(primaryKeyCSVColumnInt));
+                boolean recordExists = false;
 
-                Timestamp insertDateFromRecord = null;
-                // if the record exists, set the status to updated, reuse insert date and sequence number
-                if (recordExists) {
-                    updatedOrNewString = "updated";
-                    RecordMetadata recordMetadata = this.dbtools.getMetadataFromRecord(tableName,
-                            primaryKeyTableString, row.get(primaryKeyCSVColumnInt));
-                    insertDateFromRecord = recordMetadata.getINSERT_DATE();
-                    currentSequenceNumber = recordMetadata.getID_SYSTEM_SEQUENCE();
-                } else {
-                    // get the latest sequence number from the DB.
-                    currentSequenceNumber = currentMaxSequenceNumber++;
-                    updatedOrNewString = "inserted";
+
+                // the primary key can be used
+                if (primaryKeyCanBeDetected) {
+                    recordExists = this.dbtools.checkIfRecordExistsInTable(tableName, primaryKeyTableString,
+                            row.get(primaryKeyCSVColumnInt));
+
+                    Timestamp insertDateFromRecord = null;
+                    // if the record exists, set the status to updated, reuse insert date and sequence number
+                    if (recordExists) {
+                        updatedOrNewString = "updated";
+                        RecordMetadata recordMetadata = this.dbtools.getMetadataFromRecord(tableName,
+                                primaryKeyTableString, row.get(primaryKeyCSVColumnInt));
+                        insertDateFromRecord = recordMetadata.getINSERT_DATE();
+                        currentSequenceNumber = recordMetadata.getID_SYSTEM_SEQUENCE();
+                    } else {
+                        // get the latest sequence number from the DB.
+                        currentSequenceNumber = currentMaxSequenceNumber++;
+                        updatedOrNewString = "inserted";
+                    }
+
+                    // there are five metadata columns: sequence, inserted, time, updated time, hash,status
+                    for (int columnCount = 1; columnCount <= numberOfColumns + 5; columnCount++) {
+
+                        // first column contains sequence. If the record exists, keep the number, else get a new one
+                        if (columnCount == 1) {
+
+                            preparedStatement.setInt(columnCount, currentSequenceNumber);
+
+                            // column values (first column is the id)
+                        } else if (columnCount > 1
+                                && columnCount <= (numberOfColumns + 1)) {
+
+                            // index starts at 0 and the counter at 1.
+                            preparedStatement.setString(columnCount, row.get(columnCount - 2));
+
+                            // insert timestamps
+                            // if the record exists, only update the updated_timestamp and use the original inserted
+                            // time
+                            // timestamp
+                        } else if (columnCount == (numberOfColumns + 2) && recordExists) {
+                            preparedStatement.setTimestamp(columnCount, insertDateFromRecord);
+                            this.logger.info("The insert date was kept at " + insertDateFromRecord.toString());
+
+                            // The record is new
+                        } else if (columnCount == (numberOfColumns + 2) && !recordExists) {
+                            preparedStatement.setDate(columnCount, null);
+
+                            // update date
+                        } else if (columnCount == (numberOfColumns + 3)) {
+                            preparedStatement.setDate(columnCount, null);
+
+
+                        }
+                        // insert the hash
+                        else if (columnCount == (numberOfColumns + 4) & calculateHashKeyColumn) {
+
+                            String appendedColumns = CSV_API.convertStringListToAppendedString(row);
+
+                            String hash = null;
+                            try {
+                                hash = CSV_API
+                                        .calculateSHA1HashFromString(appendedColumns);
+                            } catch (NoSuchAlgorithmException e) {
+                                e.printStackTrace();
+                            }
+
+                            preparedStatement.setString(columnCount, hash);
+
+                        }
+                        // if there is no hash column, then the last record state field has is at position +4
+                        else if (columnCount == (numberOfColumns + 4) & calculateHashKeyColumn == false) {
+                            preparedStatement.setString(columnCount, updatedOrNewString);
+
+                        }
+
+                        // if there is a hash column, then the last record state field has is at position +5
+                        else if (columnCount == (numberOfColumns + 5) & calculateHashKeyColumn) {
+                            preparedStatement.setString(columnCount, updatedOrNewString);
+                        }
+                    }
+
+                    // this.logger.info("prepared statement before exec: " + preparedStatement.toString());
+                    int statuscode = preparedStatement.executeUpdate();
+
+
+                    if (rowCount % 1000 == 0) {
+                        connection.commit();
+                    }
+
                 }
 
-                // there are five metadata columns: sequence, inserted, time, updated time, hash,status
-                for (int columnCount = 1; columnCount <= numberOfColumns + 5; columnCount++) {
 
-                    // first column contains sequence. If the record exists, keep the number, else get a new one
-                    if (columnCount == 1) {
+                long endTime = System.currentTimeMillis();
+                long totalTime = endTime - startTime;
+                System.out.println("Inserted " + rowCount + " rows in " + (totalTime / 1000) + " sec");
 
-                        preparedStatement.setInt(columnCount, currentSequenceNumber);
-
-                        // column values (first column is the id)
-                    } else if (columnCount > 1
-                            && columnCount <= (numberOfColumns + 1)) {
-
-                        // index starts at 0 and the counter at 1.
-                        preparedStatement.setString(columnCount, row.get(columnCount - 2));
-
-                        // insert timestamps
-                        // if the record exists, only update the updated_timestamp and use the original inserted time
-                        // timestamp
-                    } else if (columnCount == (numberOfColumns + 2) && recordExists) {
-                        preparedStatement.setTimestamp(columnCount, insertDateFromRecord);
-                        this.logger.info("The insert date was kept at " + insertDateFromRecord.toString());
-
-                        // The record is new
-                    } else if (columnCount == (numberOfColumns + 2) && !recordExists) {
-                        preparedStatement.setDate(columnCount, null);
-
-                        // update date
-                    } else if (columnCount == (numberOfColumns + 3)) {
-                        preparedStatement.setDate(columnCount, null);
-
-
-                    }
-                    // insert the hash
-                    else if (columnCount == (numberOfColumns + 4) & calculateHashKeyColumn) {
-
-                        String appendedColumns = CSV_API.convertStringListToAppendedString(row);
-
-                        String hash = CSV_API
-                                .calculateSHA1HashFromString(appendedColumns);
-
-                        preparedStatement.setString(columnCount, hash);
-
-                    }
-                    // if there is no hash column, then the last record state field has is at position +4
-                    else if (columnCount == (numberOfColumns + 4) & calculateHashKeyColumn == false) {
-                        preparedStatement.setString(columnCount, updatedOrNewString);
-
-                    }
-
-                    // if there is a hash column, then the last record state field has is at position +5
-                    else if (columnCount == (numberOfColumns + 5) & calculateHashKeyColumn) {
-                        preparedStatement.setString(columnCount, updatedOrNewString);
-                    }
-                }
-
-                // this.logger.info("prepared statement before exec: " + preparedStatement.toString());
-                int statuscode = preparedStatement.executeUpdate();
-
-
-                if (rowCount % 1000 == 0) {
-                    connection.commit();
-                }
 
             }
 
-
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (NoSuchAlgorithmException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (SQLIntegrityConstraintViolationException m) {
-            this.logger.severe("duplicate key detected!: " + m.getSQLState() + " " + m.getLocalizedMessage());
 
         } finally {
             if (listReader != null) {
@@ -829,10 +854,6 @@ public class MigrateCSV2SQL {
             }
             reader.close();
 
-
         }
-        long endTime = System.currentTimeMillis();
-        long totalTime = endTime - startTime;
-        System.out.println("Inserted " + rowCount + " rows in " + (totalTime / 1000) + " sec");
     }
 }
