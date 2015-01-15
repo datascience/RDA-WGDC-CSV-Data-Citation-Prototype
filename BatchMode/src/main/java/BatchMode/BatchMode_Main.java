@@ -51,9 +51,11 @@ public class BatchMode_Main {
         boolean containsChangedRecords = false;
         boolean calulateHashColumn = false;
         HashMap filesList;
+        MigrationTasks migrationTasks = new MigrationTasks();
 
         arguments = "/media/Data/Datasets/CSV-Datasets/addresses_small.csv";
         this.filePath = this.getFilePath(arguments);
+
 
 
         File csvFile = this.batchAPI.readFileFromPath(this.getFilePath());
@@ -99,7 +101,8 @@ public class BatchMode_Main {
         * Create a new database
         * **/
         if (isNewFile) {
-            MigrationTasks migrationTasks = new MigrationTasks();
+
+            this.logger.warning("Using Hardcoded primary key ID_SYSTEM_SEQUENCE");
             migrationTasks.migrate(filesList, "ID_SYSTEM_SEQUENCE");
 
 
@@ -115,6 +118,11 @@ public class BatchMode_Main {
             *
             * */
             if (containsOnlyNewRows == true) {
+                migrationTasks.insertNewCSVDataToExistingTable(filesList, null, containsHeaders, false);
+
+
+
+
 
 
             }

@@ -135,6 +135,9 @@ public class DatabaseMigrationController implements Serializable {
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(summary));
     }
 
+    /**
+     * Called from Web interface
+     */
     public void updateTableData() {
         this.logger.info("Update button clicked");
         this.logger.info("Currently the selected table is " + this.getCurrentTableName());
@@ -142,7 +145,9 @@ public class DatabaseMigrationController implements Serializable {
             this.logger.info("Only new data will be inserted");
             this.displayMessage("Insert new data", "Only new data will be inserted");
 
-            this.insertNewCSVDataToExistingTable();
+            this.insertNewCSVDataToExistingTableController(this.getFileListFromSession(), this.getCurrentTableName(),
+                    this
+                            .getCurrentDatabaseName(), this.isHeaderRow(), calulateHashColumn);
 
         } else {
             this.logger.info("Existing rows will be updated");
@@ -153,87 +158,23 @@ public class DatabaseMigrationController implements Serializable {
         }
     }
 
+    private void insertNewCSVDataToExistingTableController(HashMap inputFileMap, String tableName, String
+            databaseName, boolean
+            hasHeaders, boolean calulateHashColumn) {
+
+        MigrationTasks migrationTasks = new MigrationTasks();
+        migrationTasks.insertNewCSVDataToExistingTable(inputFileMap, tableName, hasHeaders,
+                calulateHashColumn);
+
+
+    }
+
     private void displayMessage(String text, String details) {
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(details));
 
     }
 
-    /**
-     * Append new CSV Data to an existing table
-     */
-    private void insertNewCSVDataToExistingTable() {
-        System.out.println("inserting new data");
 
-        // retrieve file names
-        this.filesList = this.getFileListFromSession();
-        if (this.filesList == null) {
-            this.logger.severe("File list was NULL");
-        } else {
-            this.logger.info("Filelist is okay. Number of files " + this.filesList.size());
-            HashMap<String, String> testMap = this.filesList;
-            for (Map.Entry<String, String> entry : testMap.entrySet()) {
-                this.logger.info("File list loop: Key = " + entry.getKey() + ", Value = " + entry.getValue());
-            }
-        }
-
-        if (this.currentTableName == null) {
-            this.logger.warning("Current table name was null... reading from session");
-
-        }
-
-        this.logger.info("Selected database: " + this.getCurrentDatabaseName() + " Table: " + this
-                .getCurrentTableName());
-
-
-        Iterator it = this.filesList.entrySet().iterator();
-        while (it.hasNext()) {
-            Map.Entry pairs = (Map.Entry) it.next();
-            // When uploading data for an existing table, the table name is not provided by the user but is selected
-            // from the drop down menu. is is provided in the session variable
-            this.logger.info("TableName = " + this.getCurrentTableName() + " Path: " + pairs.getValue().toString());
-
-            CSV_API csv;
-            csv = new CSV_API();
-            String currentPath = pairs.getValue().toString();
-
-
-
-
-
-            try {
-                DatabaseTools dbt = new DatabaseTools();
-                this.logger.info("Table: " + this.currentTableName + " DB: " + this.getCurrentDatabaseName());
-                Map<String, String> columnsMap = (dbt.getColumnNamesFromTableWithoutMetadataColumns(this
-                        .currentTableName, this.currentDatabaseName));
-
-
-                // read CSV file
-
-                MigrateCSV2SQL migrate = new MigrateCSV2SQL();
-
-
-                // Import CSV Data
-                migrate.appendingNewCSVDataIntoExistingDB(columnsMap, currentPath, this.currentTableName,
-                        this.isHeaderRow(),
-                        calulateHashColumn);
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-            try {
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-
-            it.remove(); // avoids a ConcurrentModificationException
-
-        }
-
-
-    }
 
     /**
      * Update existing records
@@ -290,7 +231,7 @@ public class DatabaseMigrationController implements Serializable {
                 DatabaseTools dbt = new DatabaseTools();
                 this.logger.info("Table: " + this.currentTableName + " DB: " + this.getCurrentDatabaseName());
                 Map<String, String> columnsMap = (dbt.getColumnNamesFromTableWithoutMetadataColumns(this
-                        .currentTableName, this.currentDatabaseName));
+                        .currentTableName));
 
 
                 // read CSV file

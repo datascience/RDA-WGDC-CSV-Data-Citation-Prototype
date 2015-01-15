@@ -486,23 +486,20 @@ public class DatabaseTools {
      * Get a map of <ColumnName, ColumnType> but remove the automatically generated metadata columns from the map:
      * ID_SYSTEM_SEQUENCE, INSERT_DATE, LAST_UPDATE, RECORD_STATUS
      */
-    public Map<String, String> getColumnNamesFromTableWithoutMetadataColumns(String tableName, String dataBaseName)
+    public Map<String, String> getColumnNamesFromTableWithoutMetadataColumns(String tableName)
             throws SQLException {
 
-        if (tableName == null || dataBaseName == null) {
+        if (tableName == null) {
             this.logger.severe("SESSION DATA IS NOT SET CORRECTLY");
         }
 
 
         Connection conn = this.dbcp.getConnection();
-        String catalog = null;
-        String schemaPattern = tableName;
-        String tableNamePattern = dataBaseName;
-        String columnNamePattern = null;
+
 
         Map<String, String> columnMetadataMap = new LinkedHashMap<String, String>();
         // this query is needed to retrieve the column names from the database
-        String dummySQL = "SELECT * FROM " + dataBaseName + "." + tableName +
+        String dummySQL = "SELECT * FROM " + conn.getCatalog() + "." + tableName +
                 " WHERE ID_SYSTEM_SEQUENCE > 0 AND ID_SYSTEM_SEQUENCE < 2";
         this.logger.info("Dummy string " + dummySQL);
         PreparedStatement pt = conn.prepareStatement(dummySQL);

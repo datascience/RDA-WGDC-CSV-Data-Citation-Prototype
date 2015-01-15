@@ -32,6 +32,8 @@ import java.util.logging.Logger;
 public class MigrationTasks {
     private Logger logger;
     HashMap filesList;
+    private String currentTableName;
+    private String currentDatabaseName;
 
     public MigrationTasks() {
         this.logger = Logger.getLogger(this.getClass().getName());
@@ -106,4 +108,108 @@ public class MigrationTasks {
 
     }
 
+    /**
+     * Append new CSV Data to an existing table
+     */
+    public void insertNewCSVDataToExistingTable(HashMap inputFileMap, String sessionTableName, boolean
+            hasHeaders, boolean calulateHashColumn) {
+
+
+        System.out.println("inserting new data");
+
+        if (sessionTableName != null) {
+            this.setCurrentTableName(sessionTableName);
+        }
+
+        // retrieve file names
+        this.filesList = inputFileMap;
+        if (this.filesList == null) {
+            this.logger.severe("File list was NULL");
+        } else {
+            this.logger.info("Filelist is okay. Number of files " + this.filesList.size());
+            HashMap<String, String> testMap = this.filesList;
+            for (Map.Entry<String, String> entry : testMap.entrySet()) {
+                this.logger.info("File list loop: Key = " + entry.getKey() + ", Value = " + entry.getValue());
+            }
+        }
+
+
+        Iterator it = this.filesList.entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry pairs = (Map.Entry) it.next();
+            // When uploading data for an existing table, the table name is not provided by the user but is selected
+            // from the drop down menu. is is provided in the session variable
+            this.logger.info("TableName = " + this.getCurrentTableName() + " Path: " + pairs.getValue().toString());
+
+
+            CSV_API csv;
+            csv = new CSV_API();
+
+            // if the table name was not set in a session, read it from the file name
+            if (this.currentTableName == null || this.currentTableName.equals("")) {
+                this.currentTableName = csv.replaceSpaceWithDash(pairs.getKey().toString());
+
+            }
+
+            String currentPath = pairs.getValue().toString();
+
+
+            try {
+                DatabaseTools dbt = new DatabaseTools();
+
+                Map<String, String> columnsMap = (dbt.getColumnNamesFromTableWithoutMetadataColumns(this
+                        .currentTableName));
+
+
+                // read CSV file
+
+                MigrateCSV2SQL migrate = new MigrateCSV2SQL();
+
+
+                // Import CSV Data
+                migrate.appendingNewCSVDataIntoExistingDB(columnsMap, currentPath, this.currentTableName,
+                        hasHeaders,
+                        calulateHashColumn);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            try {
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+
+            it.remove(); // avoids a ConcurrentModificationException
+
+        }
+
+
+    }
+
+    public String getCurrentTableName() {
+        return currentTableName;
+    }
+
+    public void setCurrentTableName(String currentTableName) {
+        this.currentTableName = currentTableName;
+    }
+
+    public String getCurrentDatabaseName() {
+        return currentDatabaseName;
+    }
+
+    public void setCurrentDatabaseName(String currentDatabaseName) {
+        this.currentDatabaseName = currentDatabaseName;
+    }
+
+    public HashMap getFilesList() {
+        return filesList;
+    }
+
+    public void setFilesList(HashMap filesList) {
+        this.filesList = filesList;
+    }
 }

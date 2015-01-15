@@ -4,10 +4,10 @@
     <option name="SCOPE_TYPE" value="4" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fe0bbad9-08dd-49cf-9f33-eb5e1947ea1f" name="Default" comment="migration controller extracted&#10;">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BatchMode/src/main/java/BatchMode/BatchAPI.java" afterPath="$PROJECT_DIR$/BatchMode/src/main/java/BatchMode/BatchAPI.java" />
+    <list default="true" id="fe0bbad9-08dd-49cf-9f33-eb5e1947ea1f" name="Default" comment="batch: new file fixed&#10;">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BatchMode/src/main/java/BatchMode/BatchMode_Main.java" afterPath="$PROJECT_DIR$/BatchMode/src/main/java/BatchMode/BatchMode_Main.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Database/src/main/java/Database/MigrateCSV2SQL.java" afterPath="$PROJECT_DIR$/Database/src/main/java/Database/MigrateCSV2SQL.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/WebInterface/src/main/java/Bean/DatabaseMigrationController.java" afterPath="$PROJECT_DIR$/WebInterface/src/main/java/Bean/DatabaseMigrationController.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Database/src/main/java/Database/DatabaseTools.java" afterPath="$PROJECT_DIR$/Database/src/main/java/Database/DatabaseTools.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Database/src/main/java/Database/MigrationTasks.java" afterPath="$PROJECT_DIR$/Database/src/main/java/Database/MigrationTasks.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
@@ -91,11 +91,23 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="BatchMode_Main.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="BatchMode_Main.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/BatchMode/src/main/java/BatchMode/BatchMode_Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="1.6693945" vertical-offset="1470" max-vertical-offset="2955">
-              <caret line="166" column="9" selection-start-line="166" selection-start-column="9" selection-end-line="166" selection-end-column="9" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="1744" max-vertical-offset="3075">
+              <caret line="115" column="0" selection-start-line="115" selection-start-column="0" selection-end-line="115" selection-end-column="0" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="DatabaseMigrationController.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/WebInterface/src/main/java/Bean/DatabaseMigrationController.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-0.8857143" vertical-offset="3780" max-vertical-offset="4305">
+              <caret line="231" column="41" selection-start-line="231" selection-start-column="41" selection-end-line="231" selection-end-column="41" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -107,7 +119,7 @@
         <entry file="file://$PROJECT_DIR$/BatchMode/src/main/java/BatchMode/BatchAPI.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0" vertical-offset="1234" max-vertical-offset="1845">
-              <caret line="110" column="94" selection-start-line="110" selection-start-column="94" selection-end-line="110" selection-end-column="94" />
+              <caret line="110" column="93" selection-start-line="110" selection-start-column="93" selection-end-line="110" selection-end-column="93" />
               <folding />
             </state>
           </provider>
@@ -116,11 +128,33 @@
       <file leaf-file-name="MigrationTasks.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Database/src/main/java/Database/MigrationTasks.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="630" max-vertical-offset="1515">
-              <caret line="84" column="38" selection-start-line="84" selection-start-column="38" selection-end-line="84" selection-end-column="38" />
+            <state vertical-scroll-proportion="-5.321429" vertical-offset="2116" max-vertical-offset="3195">
+              <caret line="165" column="69" selection-start-line="165" selection-start-column="69" selection-end-line="165" selection-end-column="69" />
               <folding>
                 <element signature="imports" expanded="true" />
+                <element signature="e#6035#6036#0" expanded="true" />
+                <element signature="e#6074#6075#0" expanded="true" />
+                <element signature="e#6138#6139#0" expanded="true" />
+                <element signature="e#6194#6195#0" expanded="true" />
+                <element signature="e#6240#6241#0" expanded="true" />
+                <element signature="e#6282#6283#0" expanded="true" />
+                <element signature="e#6352#6353#0" expanded="true" />
+                <element signature="e#6414#6415#0" expanded="true" />
+                <element signature="e#6451#6452#0" expanded="true" />
+                <element signature="e#6483#6484#0" expanded="true" />
+                <element signature="e#6534#6535#0" expanded="true" />
+                <element signature="e#6576#6577#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="DatabaseTools.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Database/src/main/java/Database/DatabaseTools.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="5482" max-vertical-offset="16830">
+              <caret line="501" column="62" selection-start-line="501" selection-start-column="62" selection-end-line="501" selection-end-column="62" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -170,11 +204,12 @@
         <option value="$PROJECT_DIR$/BatchMode/pom.xml" />
         <option value="$PROJECT_DIR$/WebInterface/pom.xml" />
         <option value="$PROJECT_DIR$/WebInterface/src/main/webapp/uploadNewCSV.xhtml" />
-        <option value="$PROJECT_DIR$/WebInterface/src/main/java/Bean/DatabaseMigrationController.java" />
-        <option value="$PROJECT_DIR$/BatchMode/src/main/java/BatchMode/BatchMode_Main.java" />
         <option value="$PROJECT_DIR$/BatchMode/src/main/java/BatchMode/BatchAPI.java" />
-        <option value="$PROJECT_DIR$/Database/src/main/java/Database/MigrationTasks.java" />
         <option value="$PROJECT_DIR$/Database/src/main/java/Database/MigrateCSV2SQL.java" />
+        <option value="$PROJECT_DIR$/BatchMode/src/main/java/BatchMode/BatchMode_Main.java" />
+        <option value="$PROJECT_DIR$/Database/src/main/java/Database/MigrationTasks.java" />
+        <option value="$PROJECT_DIR$/Database/src/main/java/Database/DatabaseTools.java" />
+        <option value="$PROJECT_DIR$/WebInterface/src/main/java/Bean/DatabaseMigrationController.java" />
       </list>
     </option>
   </component>
@@ -1491,12 +1526,6 @@
       <option name="number" value="Default" />
       <updated>1407135258553</updated>
     </task>
-    <task id="LOCAL-00077" summary="maven">
-      <created>1412164971098</created>
-      <option name="number" value="00077" />
-      <option name="project" value="LOCAL" />
-      <updated>1412164971098</updated>
-    </task>
     <task id="LOCAL-00078" summary="record metadata">
       <created>1412167270756</created>
       <option name="number" value="00078" />
@@ -1785,7 +1814,13 @@
       <option name="project" value="LOCAL" />
       <updated>1421314389176</updated>
     </task>
-    <option name="localTasksCounter" value="126" />
+    <task id="LOCAL-00126" summary="batch: new file fixed&#10;">
+      <created>1421315194880</created>
+      <option name="number" value="00126" />
+      <option name="project" value="LOCAL" />
+      <updated>1421315194880</updated>
+    </task>
+    <option name="localTasksCounter" value="127" />
     <servers />
   </component>
   <component name="TodoView" selected-index="0">
@@ -1810,7 +1845,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-1" y="0" width="1922" height="1055" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -1821,7 +1856,7 @@
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.38943896" sideWeight="0.7976773" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32055378" sideWeight="0.3088392" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3684771" sideWeight="0.3088392" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.23109691" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32800853" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33546326" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -1831,7 +1866,7 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2625133" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32055378" sideWeight="0.6911608" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3684771" sideWeight="0.6911608" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Statistic" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32800853" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -1855,7 +1890,6 @@
     <option name="myTodoPanelSettings">
       <TodoPanelSettings />
     </option>
-    <MESSAGE value="header drop down works" />
     <MESSAGE value="updating data" />
     <MESSAGE value="appending new data" />
     <MESSAGE value="appending new data works" />
@@ -1880,7 +1914,8 @@
     <MESSAGE value=" java.lang.NoClassDefFoundError: org/supercsv/io/CsvListReader" />
     <MESSAGE value="migration controller extrahieren&#10;" />
     <MESSAGE value="migration controller extracted&#10;" />
-    <option name="LAST_COMMIT_MESSAGE" value="migration controller extracted&#10;" />
+    <MESSAGE value="batch: new file fixed&#10;" />
+    <option name="LAST_COMMIT_MESSAGE" value="batch: new file fixed&#10;" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
   <component name="XDebuggerManager">
@@ -1920,10 +1955,10 @@
           <caret line="59" column="42" selection-start-line="59" selection-start-column="42" selection-end-line="59" selection-end-column="42" />
           <folding>
             <element signature="imports" expanded="false" />
-            <element signature="e#2957#2958#0" expanded="false" />
-            <element signature="e#2989#2990#0" expanded="false" />
-            <element signature="e#3040#3041#0" expanded="false" />
-            <element signature="e#3082#3083#0" expanded="false" />
+            <element signature="e#2956#2957#0" expanded="false" />
+            <element signature="e#2988#2989#0" expanded="false" />
+            <element signature="e#3039#3040#0" expanded="false" />
+            <element signature="e#3081#3082#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -2253,26 +2288,8 @@
     <entry file="file://$PROJECT_DIR$/BatchMode/src/main/java/BatchMode/BatchAPI.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="1234" max-vertical-offset="1845">
-          <caret line="110" column="94" selection-start-line="110" selection-start-column="94" selection-end-line="110" selection-end-column="94" />
+          <caret line="110" column="93" selection-start-line="110" selection-start-column="93" selection-end-line="110" selection-end-column="93" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/WebInterface/src/main/java/Bean/DatabaseMigrationController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.34369886" vertical-offset="870" max-vertical-offset="4980">
-          <caret line="98" column="28" selection-start-line="98" selection-start-column="28" selection-end-line="98" selection-end-column="28" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Database/src/main/java/Database/MigrationTasks.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="630" max-vertical-offset="1515">
-          <caret line="84" column="38" selection-start-line="84" selection-start-column="38" selection-end-line="84" selection-end-column="38" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -2286,8 +2303,48 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/BatchMode/src/main/java/BatchMode/BatchMode_Main.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="1.6693945" vertical-offset="1470" max-vertical-offset="2955">
-          <caret line="166" column="9" selection-start-line="166" selection-start-column="9" selection-end-line="166" selection-end-column="9" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="1744" max-vertical-offset="3075">
+          <caret line="115" column="0" selection-start-line="115" selection-start-column="0" selection-end-line="115" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Database/src/main/java/Database/MigrationTasks.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-5.321429" vertical-offset="2116" max-vertical-offset="3195">
+          <caret line="165" column="69" selection-start-line="165" selection-start-column="69" selection-end-line="165" selection-end-column="69" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#6035#6036#0" expanded="true" />
+            <element signature="e#6074#6075#0" expanded="true" />
+            <element signature="e#6138#6139#0" expanded="true" />
+            <element signature="e#6194#6195#0" expanded="true" />
+            <element signature="e#6240#6241#0" expanded="true" />
+            <element signature="e#6282#6283#0" expanded="true" />
+            <element signature="e#6352#6353#0" expanded="true" />
+            <element signature="e#6414#6415#0" expanded="true" />
+            <element signature="e#6451#6452#0" expanded="true" />
+            <element signature="e#6483#6484#0" expanded="true" />
+            <element signature="e#6534#6535#0" expanded="true" />
+            <element signature="e#6576#6577#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Database/src/main/java/Database/DatabaseTools.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="5482" max-vertical-offset="16830">
+          <caret line="501" column="62" selection-start-line="501" selection-start-column="62" selection-end-line="501" selection-end-column="62" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/WebInterface/src/main/java/Bean/DatabaseMigrationController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.8857143" vertical-offset="3780" max-vertical-offset="4305">
+          <caret line="231" column="41" selection-start-line="231" selection-start-column="41" selection-end-line="231" selection-end-column="41" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
