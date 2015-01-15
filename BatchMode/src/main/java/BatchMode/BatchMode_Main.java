@@ -8,6 +8,7 @@ import Database.MigrationTasks;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Logger;
 
 /**
@@ -53,10 +54,13 @@ public class BatchMode_Main {
         HashMap filesList;
         MigrationTasks migrationTasks = new MigrationTasks();
         String first10 = "/media/Data/Datasets/CSV-Datasets/csv-citation-test/addresses_first10.csv";
+        String first10one = "/media/Data/Datasets/CSV-Datasets/csv-citation-test/addresses_first10_one_change.csv";
         String updated10 = "/media/Data/Datasets/CSV-Datasets/csv-citation-test/addresses_first10_changed.csv";
 
+
+        //arguments = first10;
         //arguments = updated10;
-        arguments = first10;
+        arguments = first10one;
         this.filePath = this.getFilePath(arguments);
 
 
@@ -67,13 +71,7 @@ public class BatchMode_Main {
 
         // launch CSV api
         CSV_API csvAPI = new CSV_API();
-        Column[] columns;
-        try {
-            columns = csvAPI.analyseColumns(containsHeaders, csvFile.getAbsolutePath().toString());
 
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 
 
 
@@ -94,6 +92,16 @@ public class BatchMode_Main {
             e.printStackTrace();
         }
 
+        Column[] columns = null;
+        try {
+            columns = csvAPI.analyseColumns(containsHeaders, csvFile.getAbsolutePath().toString());
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+
         /* Is is a completely new file which is not stored in the database
         * */
         this.batchAPI.promtMessageToCommandline("Is this a new CSV file which is not already in the database?\n");
@@ -105,8 +113,21 @@ public class BatchMode_Main {
         * **/
         if (isNewFile) {
 
-            this.logger.warning("Using Hardcoded primary key ID_SYSTEM_SEQUENCE");
-            migrationTasks.migrate(filesList, "ID_SYSTEM_SEQUENCE");
+            // Display headers and let user specify the primary key
+            this.batchAPI.promtMessageToCommandline("List of columns. Please press the Number of the primary key. \n");
+            for (int i = 0; i < columns.length; i++) {
+                this.batchAPI.promtMessageToCommandline("[" + i + "] " + columns[i].getColumnName() + "\n");
+            }
+            this.batchAPI.promtMessageToCommandline(">");
+            String position = this.batchAPI.readFromCommandline();
+
+            String selectPrimaryKey = columns[Integer.parseInt(position)].getColumnName();
+            columns[Integer.parseInt(position)].setPrimaryKey(true);
+
+            this.batchAPI.promtMessageToCommandline("You selected " + selectPrimaryKey + "as PrimaryKey");
+
+
+            migrationTasks.migrate(filesList, selectPrimaryKey);
 
 
 
@@ -121,6 +142,8 @@ public class BatchMode_Main {
             *
             * */
             if (containsOnlyNewRows == true) {
+
+
                 migrationTasks.insertNewCSVDataToExistingTable(filesList, null, containsHeaders, false);
 
 
