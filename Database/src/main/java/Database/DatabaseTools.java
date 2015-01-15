@@ -1203,6 +1203,38 @@ public class DatabaseTools {
         return recordMetadata;
     }
 
+    /*
+    * Retrieve the metadata from a record by comparing all columns
+    * */
+    public RecordMetadata getMetadataFromRecordWithFullData(Map<String, String> columnsMap, String tableName,
+                                                            List<String> csvRow) throws SQLException {
+        RecordMetadata recordMetadata = null;
+        Connection connection = this.dbcp.getConnection();
+
+        Statement selectLastSequenceNumber = connection.createStatement();
+        String metadataSQL = "SELECT ID_SYSTEM_SEQUENCE, " +
+                "INSERT_DATE, MAX(LAST_UPDATE) AS LAST_UPDATE, RECORD_STATUS " +
+                " FROM " + connection.getCatalog() + "." + tableName + " " + this
+                .recordExistsWhereClause
+                        (columnsMap,
+                                csvRow) + ";";
+        this.logger.info("Record metadata SQL: " + metadataSQL);
+        ResultSet resultSet = selectLastSequenceNumber.executeQuery(metadataSQL);
+
+
+        if (resultSet.next()) {
+            recordMetadata = new RecordMetadata(resultSet.getInt("ID_SYSTEM_SEQUENCE"),
+                    resultSet.getTimestamp("INSERT_DATE"), resultSet.getTimestamp("LAST_UPDATE"),
+                    resultSet.getString("RECORD_STATUS"));
+
+        }
+        connection.close();
+
+        return recordMetadata;
+    }
+
+
+
 
     /**
      * Check if a record having the primary key value already exists in the database
@@ -1213,8 +1245,8 @@ public class DatabaseTools {
      * @return
      * @throws SQLException
      */
-    public boolean checkIfRecordExistsInTable(String tableName, String primaryKeyColumnName,
-                                              String primaryKeyValue) throws SQLException {
+    public boolean checkIfRecordExistsInTableByPrimaryKey(String tableName, String primaryKeyColumnName,
+                                                          String primaryKeyValue) throws SQLException {
         Connection connection = this.dbcp.getConnection();
 
         Statement checkRecordExistance = connection.createStatement();
@@ -1242,4 +1274,72 @@ public class DatabaseTools {
     }
 
 
+    /*
+    * Check for each row if the exact same row exists
+    * */
+    public boolean checkIfRecordExistsInTableByFullCompare(Map<String, String> columnsMap, String tableName,
+                                                           List<String> csvRow) throws SQLException {
+        Connection connection = this.dbcp.getConnection();
+
+        Statement checkRecordExistance = connection.createStatement();
+        String checkSQL = "SELECT EXISTS(SELECT 1 FROM " + connection.getCatalog() + "." + tableName + " " + this
+                .recordExistsWhereClause
+                        (columnsMap,
+                                csvRow)
+                + ") " +
+                "AS recordDoesExist;";
+
+        this.logger.info("CHECK SQL: " + checkSQL);
+        ResultSet maxSequenceResult = checkRecordExistance.executeQuery(checkSQL);
+        int existsInteger = -1;
+        if (maxSequenceResult.next()) {
+            existsInteger = maxSequenceResult.getInt("recordDoesExist");
+        }
+        connection.close();
+
+
+        if (existsInteger == 1) {
+            this.logger.info("The record exists via FULL compare");
+            return true;
+        } else {
+            this.logger.info("The record does NOT exist via FULL compare.");
+            return false;
+        }
+
+
+    }
+
+    /*
+    * Create the WHERE clause for a full compare
+    * */
+    private String recordExistsWhereClause(Map<String, String> columnsMap, List<String> csvRow) {
+        int columnCounter = -1;
+        StringBuilder sb = new StringBuilder();
+        String currentCheck = " WHERE ";
+        sb.append(currentCheck);
+
+        for (Map.Entry<String, String> entry : columnsMap.entrySet()) {
+
+            columnCounter++;
+
+            String columnNameInDB = entry.getKey();
+            String columnType = entry.getValue();
+            String csvRowValue = csvRow.get(columnCounter);
+            this.logger.info("Compare -------------- : " + columnNameInDB + " " + columnType + " " + csvRowValue);
+
+            sb.append(columnNameInDB);
+            sb.append("= \"" + csvRowValue + "\"");
+            sb.append(" AND ");
+
+        }
+        if (sb.toString().endsWith(" AND ")) {
+            this.logger.info("The WHERE string ends with AND ");
+            sb.setLength(sb.length() - " AND ".length());
+
+        }
+        String whereClause = sb.toString();
+        this.logger.info("This is the WHERE string: " + whereClause);
+        return whereClause;
+
+    }
 }

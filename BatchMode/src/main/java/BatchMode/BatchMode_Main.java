@@ -55,8 +55,8 @@ public class BatchMode_Main {
         String first10 = "/media/Data/Datasets/CSV-Datasets/csv-citation-test/addresses_first10.csv";
         String updated10 = "/media/Data/Datasets/CSV-Datasets/csv-citation-test/addresses_first10_changed.csv";
 
-        arguments = updated10;
-        //arguments = first10;
+        //arguments = updated10;
+        arguments = first10;
         this.filePath = this.getFilePath(arguments);
 
 
