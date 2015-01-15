@@ -7,6 +7,7 @@ import CSVTools.CSV_API;
 import CSVTools.Column;
 import Database.DatabaseTools;
 import Database.MigrateCSV2SQL;
+import Database.MigrationTasks;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -90,75 +91,15 @@ public class DatabaseMigrationController implements Serializable {
     * Method called from the Web interface with no parameters
     * */
     public void migrationController() {
-        this.migrate(null);
+
+        String primaryKey = this.getPrimaryKey();
+        MigrationTasks migrationTasks = new MigrationTasks();
+        this.logger.info("Called Migration Controller. Primary key is " + primaryKey + "Filelist size from session: "
+                + this.getFileListFromSession().size());
+        migrationTasks.migrate(this.getFileListFromSession(), primaryKey);
 
     }
 
-    /*
-    * Migration
-    * */
-    public void migrate(HashMap filesListInput) {
-        System.out.println("Doing the migration");
-        boolean calulateHashColumn = false;
-
-        this.logger.info("Calculate Hash Columns is OFF");
-        // retrieve file names
-        if (filesListInput == null) {
-            this.filesList = this.getFileListFromSession();
-        } else {
-            this.filesList = filesListInput;
-        }
-
-
-        System.out.println("Retrieved  " + filesList.size() + " file names");
-
-        //
-        Iterator it = this.filesList.entrySet().iterator();
-        while (it.hasNext()) {
-            Map.Entry pairs = (Map.Entry) it.next();
-
-            this.logger.info("TableName = " + pairs.getKey().toString() + " Path: " + pairs.getValue().toString());
-
-            CSV_API csv;
-            csv = new CSV_API();
-            String currentTableName = csv.replaceSpaceWithDash(pairs.getKey().toString());
-            String currentPath = pairs.getValue().toString();
-            // Read headers
-            String[] headers = csv.getArrayOfHeadersCSV(currentPath);
-            try {
-                csv.readWithCsvListReaderAsStrings(currentPath);
-                // get column metadata
-                Column[] meta = csv.analyseColumns(true, currentPath);
-
-                // read CSV file
-                csv.readWithCsvListReaderAsStrings(currentPath);
-                MigrateCSV2SQL migrate = new MigrateCSV2SQL();
-
-
-                // Create DB schema
-                migrate.createSimpleDBFromCSV(meta, currentTableName, this.getPrimaryKey(), calulateHashColumn);
-                // Import CSV Data
-                migrate.insertCSVDataIntoDB(currentPath, currentTableName, true, calulateHashColumn);
-
-                // add indices
-                migrate.addDatabaseIndicesToMetadataColumns(currentTableName);
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-            try {
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-
-            it.remove(); // avoids a ConcurrentModificationException
-        }
-
-
-    }
 
 
     /**
