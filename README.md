@@ -134,3 +134,9 @@ the password and the database into the Hibernate configuration files called hibe
 <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/QueryStore</property>
  ```
 
+### CSV Data Citation
+
+Users should be able to upload CSV files which they want to make citable. The CSV files are previously unkown to the
+server, therefore the files are analyzed and a new table schema is created automatically.
+
+## Workfows

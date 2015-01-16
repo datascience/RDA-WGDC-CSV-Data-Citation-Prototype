@@ -38,8 +38,6 @@ public class HibernateUtilPersistentIdentification {
             extraProperties.setProperty("hibernate.connection.username",dbuser);
             extraProperties.setProperty("hibernate.connection.password",dbpw);
 
-
-
             Configuration configuration = new Configuration().setInterceptor(new TimeStampInterceptor());
 
             configuration.addProperties(extraProperties);
