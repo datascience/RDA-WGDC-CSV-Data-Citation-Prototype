@@ -26,11 +26,9 @@ public class PersistentIdentifierAPI {
     public PersistentIdentifierAPI() {
         this.logger = Logger.getLogger(PersistentIdentifierAPI.class.getName());
         this.logger.warning("Initialize hibernate session");
-        this.session = HibernateUtil.getSessionFactory().openSession();
+        this.session = HibernateUtilPersistentIdentification.getSessionFactory().openSession();
 
         this.session.close();
-
-
 
 
     }
@@ -47,7 +45,7 @@ public class PersistentIdentifierAPI {
         if (this.checkOrganitationalPrefix(prefix)) {
             this.logger.info("new organization created. Prefix: " + prefix);
 
-            this.session = HibernateUtil.getSessionFactory().openSession();
+            this.session = HibernateUtilPersistentIdentification.getSessionFactory().openSession();
             this.session.beginTransaction();
             org = new Organization(organizationName, prefix);
             this.session.save(org);
@@ -74,7 +72,7 @@ public class PersistentIdentifierAPI {
      */
     private PersistentIdentifier persistNewIdentifier(PersistentIdentifier pid, Organization org, String URIString) {
 
-        this.session = HibernateUtil.getSessionFactory().openSession();
+        this.session = HibernateUtilPersistentIdentification.getSessionFactory().openSession();
         this.session.beginTransaction();
 
         pid.setOrganization(org);
@@ -103,7 +101,6 @@ public class PersistentIdentifierAPI {
 
         PersistentIdentifierAlphaNumeric pid = new PersistentIdentifierAlphaNumeric();
         pid = (PersistentIdentifierAlphaNumeric) this.persistNewIdentifier(pid, org, URIString);
-
 
 
         return pid;
@@ -141,13 +138,14 @@ public class PersistentIdentifierAPI {
 
     /**
      * Create a new Subcomponent of the specified identifier
+     *
      * @param parentPID
      * @param URIString
      * @return
      */
     public PersistentIdentifierSubcomponent getSubComponentAlphaNummeric(PersistentIdentifier parentPID, String URIString) {
 
-        this.session = HibernateUtil.getSessionFactory().openSession();
+        this.session = HibernateUtilPersistentIdentification.getSessionFactory().openSession();
         this.session.beginTransaction();
         PersistentIdentifierSubcomponent subPID = new PersistentIdentifierSubcomponent();
         subPID.setParentIdentifier(parentPID);
@@ -166,13 +164,14 @@ public class PersistentIdentifierAPI {
 
     /**
      * Create a new Subcomponent of the specified identifier
+     *
      * @param parentPID
      * @param URIString
      * @return
      */
     public PersistentIdentifierSubcomponent getSubComponentWithManualIdentifierAlphaNummeric(PersistentIdentifier parentPID, String URIString, String manualIdentifier) {
 
-        this.session = HibernateUtil.getSessionFactory().openSession();
+        this.session = HibernateUtilPersistentIdentification.getSessionFactory().openSession();
         this.session.beginTransaction();
         PersistentIdentifierSubcomponent subPID = new PersistentIdentifierSubcomponent();
         subPID.setParentIdentifier(parentPID);
@@ -257,6 +256,7 @@ public class PersistentIdentifierAPI {
 
     /**
      * Return the root node of a given composite identifier
+     *
      * @param pid
      * @return
      */
@@ -277,7 +277,7 @@ public class PersistentIdentifierAPI {
         String stringURI = null;
         //Validate if identifier exists and retrieve URL
         if (this.validatePID(prefixInput, identifierInput)) {
-            this.session = HibernateUtil.getSessionFactory().openSession();
+            this.session = HibernateUtilPersistentIdentification.getSessionFactory().openSession();
             this.session.beginTransaction();
 
             Criteria criteria = this.session.createCriteria(PersistentIdentifier.class, "pid");
@@ -328,7 +328,7 @@ public class PersistentIdentifierAPI {
         String stringURI = null;
         //Validate if identifier exists and retrieve URL
 
-        this.session = HibernateUtil.getSessionFactory().openSession();
+        this.session = HibernateUtilPersistentIdentification.getSessionFactory().openSession();
         this.session.beginTransaction();
 
         Criteria criteria = this.session.createCriteria(PersistentIdentifier.class, "pid");
@@ -371,7 +371,7 @@ public class PersistentIdentifierAPI {
 
         //Validate if identifier exists and retrieve URL
 
-        this.session = HibernateUtil.getSessionFactory().openSession();
+        this.session = HibernateUtilPersistentIdentification.getSessionFactory().openSession();
         this.session.beginTransaction();
 
         Criteria criteria = this.session.createCriteria(PersistentIdentifier.class, "pid");
@@ -415,7 +415,7 @@ public class PersistentIdentifierAPI {
 
         //Validate if identifier exists and retrieve URL
         if (this.validatePID(prefixInput, identifierInput)) {
-            this.session = HibernateUtil.getSessionFactory().openSession();
+            this.session = HibernateUtilPersistentIdentification.getSessionFactory().openSession();
             this.session.beginTransaction();
 
             Criteria criteria = this.session.createCriteria(PersistentIdentifier.class, "pid");
@@ -449,7 +449,7 @@ public class PersistentIdentifierAPI {
     public List<PersistentIdentifier> listAllPIDsOfOrganization(Organization org) {
 
         List<PersistentIdentifier> listOfPIDs = new ArrayList<PersistentIdentifier>();
-        this.session = HibernateUtil.getSessionFactory().openSession();
+        this.session = HibernateUtilPersistentIdentification.getSessionFactory().openSession();
         this.session.beginTransaction();
 
         int org_id = org.getOrganization_id();
@@ -478,7 +478,7 @@ public class PersistentIdentifierAPI {
     public Map<Integer, String> listAllOrganizations() {
 
 
-        this.session = HibernateUtil.getSessionFactory().openSession();
+        this.session = HibernateUtilPersistentIdentification.getSessionFactory().openSession();
         this.session.beginTransaction();
         Criteria criteria = session.createCriteria(Organization.class);
 
@@ -519,7 +519,7 @@ public class PersistentIdentifierAPI {
      */
     public PersistentIdentifier getLatestAddedPID() {
         PersistentIdentifier pid = null;
-        this.session = HibernateUtil.getSessionFactory().openSession();
+        this.session = HibernateUtilPersistentIdentification.getSessionFactory().openSession();
         this.session.beginTransaction();
 
 
@@ -552,7 +552,7 @@ public class PersistentIdentifierAPI {
      */
     public PersistentIdentifier getLatestAddedPIDbyOrganization(Organization org) {
         PersistentIdentifier pid = null;
-        this.session = HibernateUtil.getSessionFactory().openSession();
+        this.session = HibernateUtilPersistentIdentification.getSessionFactory().openSession();
         this.session.beginTransaction();
 
         // Get the ID of the PID which has the highest ID per organization
@@ -581,7 +581,7 @@ public class PersistentIdentifierAPI {
      */
 
     public void updateURI(String stringPID, String newURI) {
-        this.session = HibernateUtil.getSessionFactory().openSession();
+        this.session = HibernateUtilPersistentIdentification.getSessionFactory().openSession();
         this.session.beginTransaction();
 
         Query query = session.createQuery("from PersistentIdentifier  where identifier= :identifier");
@@ -654,7 +654,7 @@ public class PersistentIdentifierAPI {
         Integer prefixIntegerDB = null;
 
 
-        this.session = HibernateUtil.getSessionFactory().openSession();
+        this.session = HibernateUtilPersistentIdentification.getSessionFactory().openSession();
         this.session.beginTransaction();
 
         Criteria criteria = this.session.createCriteria(PersistentIdentifier.class, "pid");
@@ -731,7 +731,7 @@ public class PersistentIdentifierAPI {
      */
     public Organization getOrganizationObjectByPrefix(int prefix) {
         Organization org = null;
-        this.session = HibernateUtil.getSessionFactory().openSession();
+        this.session = HibernateUtilPersistentIdentification.getSessionFactory().openSession();
         this.session.beginTransaction();
         Criteria criteria = this.session.createCriteria(Organization.class, "org");
         criteria.add(Restrictions.eq("org.organization_prefix", prefix));
@@ -758,7 +758,7 @@ public class PersistentIdentifierAPI {
      */
     public boolean checkOrganizationPrefix(int prefix) {
         Organization org = null;
-        this.session = HibernateUtil.getSessionFactory().openSession();
+        this.session = HibernateUtilPersistentIdentification.getSessionFactory().openSession();
         this.session.beginTransaction();
         Criteria criteria = this.session.createCriteria(Organization.class, "org");
         criteria.add(Restrictions.eq("org.organization_prefix", prefix));

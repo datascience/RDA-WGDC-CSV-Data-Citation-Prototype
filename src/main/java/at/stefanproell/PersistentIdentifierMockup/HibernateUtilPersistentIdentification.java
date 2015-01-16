@@ -6,14 +6,12 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
 
-import java.io.FileInputStream;
-import java.io.InputStream;
 import java.util.Properties;
 
 /**
  * Hibernate session management
  */
-public class HibernateUtil {
+public class HibernateUtilPersistentIdentification {
     private static SessionFactory sessionFactory;
     private static ServiceRegistry serviceRegistry;
 
@@ -43,11 +41,9 @@ public class HibernateUtil {
 
 
             Configuration configuration = new Configuration().setInterceptor(new TimeStampInterceptor());
-            configuration=configuration.configure("hibernate.cfg.xml");
-            configuration=configuration.addProperties(extraProperties);
 
-
-            configuration.configure();
+            configuration.addProperties(extraProperties);
+            configuration.configure("hibernate.persistentidentification.cfg.xml");
 
             serviceRegistry = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties()).build();
             sessionFactory = configuration.buildSessionFactory(serviceRegistry);

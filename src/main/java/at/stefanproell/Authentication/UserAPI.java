@@ -1,10 +1,9 @@
 package at.stefanproell.Authentication;
 
 
-import at.stefanproell.PersistentIdentifierMockup.HibernateUtil;
+import at.stefanproell.PersistentIdentifierMockup.HibernateUtilPersistentIdentification;
 import org.hibernate.Session;
 
-import java.util.Set;
 import java.util.logging.Logger;
 
 /**
@@ -25,7 +24,7 @@ public class UserAPI {
     public UserDetails createNewUser(String username, String password) {
 
 
-        this.session = HibernateUtil.getSessionFactory().openSession();
+        this.session = HibernateUtilPersistentIdentification.getSessionFactory().openSession();
         this.session.beginTransaction();
         UserDetails newUser = new UserDetails();
         newUser.setName(username);
@@ -43,7 +42,7 @@ public class UserAPI {
     public GroupDetails createnewGroup(String groupname) {
 
 
-        this.session = HibernateUtil.getSessionFactory().openSession();
+        this.session = HibernateUtilPersistentIdentification.getSessionFactory().openSession();
         this.session.beginTransaction();
         GroupDetails gp = new GroupDetails("arkuser");
         this.session.save(gp);
@@ -57,7 +56,7 @@ public class UserAPI {
 
     public UserDetails addUserToGroup(UserDetails user, GroupDetails group) {
 
-        this.session = HibernateUtil.getSessionFactory().openSession();
+        this.session = HibernateUtilPersistentIdentification.getSessionFactory().openSession();
         this.session.beginTransaction();
         user.addUserToGroup(group);
 
