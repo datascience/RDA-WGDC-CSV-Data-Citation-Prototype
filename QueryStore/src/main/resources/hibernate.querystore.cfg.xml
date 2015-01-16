@@ -44,20 +44,21 @@
         <mapping class="QueryStore.Sorting"/>
         <mapping class="QueryStore.TimeStampInterceptor"/>
 
-        <!--
-          <mapping
-                  class="at.stefanproell.PersistentIdentifierMockup.PersistentIdentifier"/>
-          <mapping
-                  class="at.stefanproell.PersistentIdentifierMockup.PersistentIdentifierAlphaNumeric"/>
-          <mapping
-                  class="at.stefanproell.PersistentIdentifierMockup.PersistentIdentifierAlpha"/>
-          <mapping
-                  class="at.stefanproell.PersistentIdentifierMockup.PersistentIdentifierNumeric"/>
 
-          <mapping class="at.stefanproell.PersistentIdentifierMockup.TimeStampInterceptor"/>
+        <mapping
+                class="at.stefanproell.PersistentIdentifierMockup.PersistentIdentifier"/>
+        <mapping
+                class="at.stefanproell.PersistentIdentifierMockup.PersistentIdentifierAlphaNumeric"/>
+        <mapping
+                class="at.stefanproell.PersistentIdentifierMockup.PersistentIdentifierAlpha"/>
+        <mapping
+                class="at.stefanproell.PersistentIdentifierMockup.PersistentIdentifierNumeric"/>
 
-  <mapping class="at.stefanproell.PersistentIdentifierMockup.Organization"/>
-          -->
+        <mapping class="at.stefanproell.PersistentIdentifierMockup.TimeStampInterceptor"/>
+
+        <mapping class="at.stefanproell.PersistentIdentifierMockup.Organization"/>
+
+        <mapping class="at.stefanproell.PersistentIdentifierMockup.PersistentIdentifierSubcomponent"/>
 
 
     </session-factory>

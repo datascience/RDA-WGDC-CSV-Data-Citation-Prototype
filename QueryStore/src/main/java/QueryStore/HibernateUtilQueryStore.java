@@ -58,7 +58,7 @@ import org.hibernate.service.ServiceRegistry;
 /**
  * Hibernate session management
  */
-public class HibernateUtil {
+public class HibernateUtilQueryStore {
     private static SessionFactory sessionFactory;
     private static ServiceRegistry serviceRegistry;
 
@@ -66,7 +66,7 @@ public class HibernateUtil {
         try {
 
             Configuration configuration = new Configuration().setInterceptor(new TimeStampInterceptor());
-            configuration.configure();
+            configuration.configure("hibernate.querystore.cfg.xml");
 
             serviceRegistry = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties()).build();
             sessionFactory = configuration.buildSessionFactory(serviceRegistry);

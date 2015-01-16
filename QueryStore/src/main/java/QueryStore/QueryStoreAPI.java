@@ -65,7 +65,7 @@ public class QueryStoreAPI {
         // the query is not yet persisted, hence we need a dummy hash
         query.setQueryHash("TEMPORAL HASH");
         // Store query persistently in database
-        this.session = HibernateUtil.getSessionFactory().openSession();
+        this.session = HibernateUtilQueryStore.getSessionFactory().openSession();
         this.session.beginTransaction();
         this.session.save(query);
 
@@ -176,7 +176,7 @@ public class QueryStoreAPI {
         // create new filter and persist it
         Filter filter = new Filter(query, key, value);
 
-        this.session = HibernateUtil.getSessionFactory().openSession();
+        this.session = HibernateUtilQueryStore.getSessionFactory().openSession();
         this.session.beginTransaction();
         this.session.saveOrUpdate(filter);
         query.getFilters().add(filter);
@@ -210,7 +210,7 @@ public class QueryStoreAPI {
         Sorting sorting = new Sorting(query, column, direction);
 
 
-        this.session = HibernateUtil.getSessionFactory().openSession();
+        this.session = HibernateUtilQueryStore.getSessionFactory().openSession();
         this.session.beginTransaction();
         this.session.saveOrUpdate(sorting);
         query.getSortings().add(sorting);
@@ -256,7 +256,7 @@ public class QueryStoreAPI {
         String hash = this.calculateSHA1("THIS IS A DUMMY HASH" + Helpers.getRandomAlpaNumericString(5));
         query.setResultSetHash(hash);
         this.logger.info("Result set hash: " + hash);
-        this.session = HibernateUtil.getSessionFactory().openSession();
+        this.session = HibernateUtilQueryStore.getSessionFactory().openSession();
         this.session.beginTransaction();
         this.session.saveOrUpdate(query);
         this.session.getTransaction().commit();
@@ -283,7 +283,7 @@ public class QueryStoreAPI {
      * @return
      */
     public Query getQueryByPID(String pid) {
-        this.session = HibernateUtil.getSessionFactory().openSession();
+        this.session = HibernateUtilQueryStore.getSessionFactory().openSession();
         this.session.beginTransaction();
 
         Query query = null;
@@ -338,7 +338,7 @@ public class QueryStoreAPI {
      * @param query
      */
     public int finalizeQuery(Query query) {
-        this.session = HibernateUtil.getSessionFactory().openSession();
+        this.session = HibernateUtilQueryStore.getSessionFactory().openSession();
         this.session.beginTransaction();
         Query sameQuery = null;
         Criteria criteria = this.session.createCriteria(Query.class, "query");
