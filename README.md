@@ -134,9 +134,28 @@ the password and the database into the Hibernate configuration files called hibe
 <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/QueryStore</property>
  ```
 
-### CSV Data Citation
+# CSV Data Citation
 
 Users should be able to upload CSV files which they want to make citable. The CSV files are previously unkown to the
 server, therefore the files are analyzed and a new table schema is created automatically.
 
 ## Workfows
+The following secenarios are considered.
+
+### A new file
+The user uploads a new file to the server. The user needs to specify a primary key. If no primary key can be
+specified, updates can not be detected automatically. The server then server creates a new table schema and adds
+metadata.
+
+### Appending data
+The user appends data to an existing file. The file needs to have the same structure as the original file and only
+new records may be contained in the file. If a record is already there, an error is thrown.
+
+### Updating data
+A user provides a file which contains updated records or new records. Existing records are identified via their
+primary key. When a primary key already exists in the database, the records gets updated and a new timestamp gets
+inserted.
+
+### Deleting records
+
+The user uploads a file where rows have been deleted.

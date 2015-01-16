@@ -5,7 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fe0bbad9-08dd-49cf-9f33-eb5e1947ea1f" name="Default" comment="mapping problem between modules solved">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/QueryStore/src/main/resources/hibernate.querystore.cfg.xml" afterPath="$PROJECT_DIR$/QueryStore/src/main/resources/hibernate.querystore.cfg.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/README.md" afterPath="$PROJECT_DIR$/README.md" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="SCAPE-QueryStore.iws" />
@@ -20,6 +20,7 @@
     <ignored path="$PROJECT_DIR$/ResultSetVerification/target/" />
     <ignored path="$PROJECT_DIR$/WebInterface/target/" />
     <ignored path="$PROJECT_DIR$/BatchMode/target/" />
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -78,8 +79,8 @@
         <option name="LOG_MESSAGE" value="" />
       </breakpoint>
     </breakpoint_any>
-    <ui_properties converted="true" />
     <breakpoint_rules converted="true" />
+    <ui_properties converted="true" />
   </component>
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FavoritesManager">
@@ -87,17 +88,17 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="HibernateUtilPersistentIdentification.java" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="HibernateUtilPersistentIdentification.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/PersistentIdentification/src/main/java/at/stefanproell/PersistentIdentifierMockup/HibernateUtilPersistentIdentification.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="106" max-vertical-offset="885">
-              <caret line="45" column="12" selection-start-line="45" selection-start-column="12" selection-end-line="45" selection-end-column="82" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="855">
+              <caret line="35" column="36" selection-start-line="35" selection-start-column="36" selection-end-line="35" selection-end-column="36" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="hibernate.querystore.cfg.xml" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="hibernate.querystore.cfg.xml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/QueryStore/src/main/resources/hibernate.querystore.cfg.xml">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0" vertical-offset="237" max-vertical-offset="855">
@@ -107,11 +108,74 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ExamplesQueryAPI.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="ExamplesQueryAPI.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/QueryStore/src/main/java/Examples/ExamplesQueryAPI.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.6553398" vertical-offset="0" max-vertical-offset="1875">
+            <state vertical-scroll-proportion="0.0" vertical-offset="405" max-vertical-offset="1875">
               <caret line="65" column="0" selection-start-line="65" selection-start-column="0" selection-end-line="65" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="MigrationTasks.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Database/src/main/java/Database/MigrationTasks.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="3648" max-vertical-offset="5700">
+              <caret line="284" column="54" selection-start-line="284" selection-start-column="16" selection-end-line="284" selection-end-column="54" />
+              <folding>
+                <element signature="e#11943#11944#0" expanded="true" />
+                <element signature="e#11982#11983#0" expanded="true" />
+                <element signature="e#12046#12047#0" expanded="true" />
+                <element signature="e#12102#12103#0" expanded="true" />
+                <element signature="e#12148#12149#0" expanded="true" />
+                <element signature="e#12190#12191#0" expanded="true" />
+                <element signature="e#12260#12261#0" expanded="true" />
+                <element signature="e#12322#12323#0" expanded="true" />
+                <element signature="e#12359#12360#0" expanded="true" />
+                <element signature="e#12391#12392#0" expanded="true" />
+                <element signature="e#12442#12443#0" expanded="true" />
+                <element signature="e#12484#12485#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="README.md" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/PersistentIdentification/README.md">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-0.0" vertical-offset="0" max-vertical-offset="105">
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="README.md" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/README.md">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.92872804" vertical-offset="1553" max-vertical-offset="2490">
+              <caret line="160" column="54" selection-start-line="160" selection-start-column="54" selection-end-line="160" selection-end-column="54" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="MigrateCSV2SQL.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Database/src/main/java/Database/MigrateCSV2SQL.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="10583" max-vertical-offset="11520">
+              <caret line="851" column="9" selection-start-line="851" selection-start-column="9" selection-end-line="851" selection-end-column="9" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="hibernate.persistentidentification.cfg.xml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/PersistentIdentification/src/main/resources/hibernate.persistentidentification.cfg.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="750">
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -129,13 +193,11 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="IdeDocumentHistory">
-    <option name="changedFiles">
+    <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/WebInterface/src/main/resources/hibernate.cfg.xml" />
-        <option value="$PROJECT_DIR$/QueryStore/src/main/resources/hibernate.cfg.xml" />
-        <option value="$PROJECT_DIR$/QueryStore/src/main/java/QueryStore/HibernateUtilQueryStore.java" />
+        <option value="$PROJECT_DIR$/Database/src/main/java/Database/MigrationTasks.java" />
         <option value="$PROJECT_DIR$/PersistentIdentification/src/main/java/at/stefanproell/PersistentIdentifierMockup/HibernateUtilPersistentIdentification.java" />
-        <option value="$PROJECT_DIR$/QueryStore/src/main/resources/hibernate.querystore.cfg.xml" />
+        <option value="$PROJECT_DIR$/README.md" />
       </list>
     </option>
   </component>
@@ -366,9 +428,8 @@
   </component>
   <component name="ProjectFrameBounds">
     <option name="x" value="-1" />
-    <option name="y" value="30" />
-    <option name="width" value="1682" />
-    <option name="height" value="1025" />
+    <option name="width" value="1922" />
+    <option name="height" value="1055" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
     <entry key="Project Default">
@@ -442,6 +503,7 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -924,9 +986,52 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="CSV-DataCitation" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="CSV-DataCitation" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Database" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="CSV-DataCitation" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="CSV-DataCitation" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Database" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Database" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
       <pane id="Scope">
         <subPane subId="Problems" />
       </pane>
@@ -1121,6 +1226,27 @@
       <option name="PROGRAM_PARAMETERS" />
       <method />
     </configuration>
+    <configuration default="true" type="AndroidTestRunConfigurationType" factoryName="Android Tests">
+      <module name="" />
+      <option name="TESTING_TYPE" value="0" />
+      <option name="INSTRUMENTATION_RUNNER_CLASS" value="" />
+      <option name="METHOD_NAME" value="" />
+      <option name="CLASS_NAME" value="" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="TARGET_SELECTION_MODE" value="EMULATOR" />
+      <option name="USE_LAST_SELECTED_DEVICE" value="false" />
+      <option name="PREFERRED_AVD" value="" />
+      <option name="USE_COMMAND_LINE" value="true" />
+      <option name="COMMAND_LINE" value="" />
+      <option name="WIPE_USER_DATA" value="false" />
+      <option name="DISABLE_BOOT_ANIMATION" value="false" />
+      <option name="NETWORK_SPEED" value="full" />
+      <option name="NETWORK_LATENCY" value="none" />
+      <option name="CLEAR_LOGCAT" value="false" />
+      <option name="SHOW_LOGCAT_AUTOMATICALLY" value="true" />
+      <option name="FILTER_LOGCAT_AUTOMATICALLY" value="true" />
+      <method />
+    </configuration>
     <configuration default="true" type="MavenRunConfiguration" factoryName="Maven">
       <MavenSettings>
         <option name="myGeneralSettings" />
@@ -1143,27 +1269,6 @@
       </MavenSettings>
       <method />
     </configuration>
-    <configuration default="true" type="AndroidTestRunConfigurationType" factoryName="Android Tests">
-      <module name="" />
-      <option name="TESTING_TYPE" value="0" />
-      <option name="INSTRUMENTATION_RUNNER_CLASS" value="" />
-      <option name="METHOD_NAME" value="" />
-      <option name="CLASS_NAME" value="" />
-      <option name="PACKAGE_NAME" value="" />
-      <option name="TARGET_SELECTION_MODE" value="EMULATOR" />
-      <option name="USE_LAST_SELECTED_DEVICE" value="false" />
-      <option name="PREFERRED_AVD" value="" />
-      <option name="USE_COMMAND_LINE" value="true" />
-      <option name="COMMAND_LINE" value="" />
-      <option name="WIPE_USER_DATA" value="false" />
-      <option name="DISABLE_BOOT_ANIMATION" value="false" />
-      <option name="NETWORK_SPEED" value="full" />
-      <option name="NETWORK_LATENCY" value="none" />
-      <option name="CLEAR_LOGCAT" value="false" />
-      <option name="SHOW_LOGCAT_AUTOMATICALLY" value="true" />
-      <option name="FILTER_LOGCAT_AUTOMATICALLY" value="true" />
-      <method />
-    </configuration>
     <configuration default="true" type="Remote" factoryName="Remote">
       <option name="USE_SOCKET_TRANSPORT" value="true" />
       <option name="SERVER_MODE" value="false" />
@@ -1174,6 +1279,7 @@
     </configuration>
     <configuration default="true" type="GradleRunConfiguration" factoryName="Gradle">
       <ExternalSystemSettings>
+        <option name="executionName" />
         <option name="externalProjectPath" />
         <option name="externalSystemIdString" value="GRADLE" />
         <option name="scriptParameters" />
@@ -1185,19 +1291,6 @@
         </option>
         <option name="vmOptions" />
       </ExternalSystemSettings>
-      <method />
-    </configuration>
-    <configuration default="true" type="Applet" factoryName="Applet">
-      <module name="" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="HTML_FILE_NAME" />
-      <option name="HTML_USED" value="false" />
-      <option name="WIDTH" value="400" />
-      <option name="HEIGHT" value="300" />
-      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
-      <option name="VM_PARAMETERS" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
       <method />
     </configuration>
     <configuration default="true" type="TestNG" factoryName="TestNG">
@@ -1226,6 +1319,19 @@
       <envs />
       <properties />
       <listeners />
+      <method />
+    </configuration>
+    <configuration default="true" type="Applet" factoryName="Applet">
+      <module name="" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="HTML_FILE_NAME" />
+      <option name="HTML_USED" value="false" />
+      <option name="WIDTH" value="400" />
+      <option name="HEIGHT" value="300" />
+      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
+      <option name="VM_PARAMETERS" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
       <method />
     </configuration>
     <configuration default="true" type="Application" factoryName="Application">
@@ -1408,209 +1514,304 @@
     <task active="true" id="Default" summary="Default task">
       <changelist id="fe0bbad9-08dd-49cf-9f33-eb5e1947ea1f" name="Default" comment="" />
       <created>1407135258553</created>
+      <option name="number" value="Default" />
       <updated>1407135258553</updated>
-    </task>
-    <task id="LOCAL-00083" summary="Too many connections&#10; problem">
-      <created>1412261502175</created>
-      <updated>1412261502175</updated>
-    </task>
-    <task id="LOCAL-00084" summary="restful service&#10;">
-      <created>1416226118673</created>
-      <updated>1416226118673</updated>
     </task>
     <task id="LOCAL-00085" summary="restful service&#10;">
       <created>1416236599097</created>
+      <option name="number" value="00085" />
+      <option name="project" value="LOCAL" />
       <updated>1416236599097</updated>
     </task>
     <task id="LOCAL-00086" summary="restful service&#10;">
       <created>1416237169150</created>
+      <option name="number" value="00086" />
+      <option name="project" value="LOCAL" />
       <updated>1416237169150</updated>
     </task>
     <task id="LOCAL-00087" summary="restful service&#10;">
       <created>1416313931882</created>
+      <option name="number" value="00087" />
+      <option name="project" value="LOCAL" />
       <updated>1416313931882</updated>
     </task>
     <task id="LOCAL-00088" summary="restful service&#10;">
       <created>1416321523960</created>
+      <option name="number" value="00088" />
+      <option name="project" value="LOCAL" />
       <updated>1416321523961</updated>
     </task>
     <task id="LOCAL-00089" summary="restful service&#10;">
       <created>1416322456142</created>
+      <option name="number" value="00089" />
+      <option name="project" value="LOCAL" />
       <updated>1416322456143</updated>
     </task>
     <task id="LOCAL-00090" summary="restful create identifier&#10;">
       <created>1416391428130</created>
+      <option name="number" value="00090" />
+      <option name="project" value="LOCAL" />
       <updated>1416391428130</updated>
     </task>
     <task id="LOCAL-00091" summary="organization list (problem)&#10;">
       <created>1416396099711</created>
+      <option name="number" value="00091" />
+      <option name="project" value="LOCAL" />
       <updated>1416396099711</updated>
     </task>
     <task id="LOCAL-00092" summary="organization list">
       <created>1416399548956</created>
+      <option name="number" value="00092" />
+      <option name="project" value="LOCAL" />
       <updated>1416399548956</updated>
     </task>
     <task id="LOCAL-00093" summary="testdaten">
       <created>1416475353288</created>
+      <option name="number" value="00093" />
+      <option name="project" value="LOCAL" />
       <updated>1416475353288</updated>
     </task>
     <task id="LOCAL-00094" summary="time interceptor">
       <created>1416493728385</created>
+      <option name="number" value="00094" />
+      <option name="project" value="LOCAL" />
       <updated>1416493728385</updated>
     </task>
     <task id="LOCAL-00095" summary="time interceptor">
       <created>1416500109475</created>
+      <option name="number" value="00095" />
+      <option name="project" value="LOCAL" />
       <updated>1416500109475</updated>
     </task>
     <task id="LOCAL-00096" summary="time interceptor">
       <created>1416503112371</created>
+      <option name="number" value="00096" />
+      <option name="project" value="LOCAL" />
       <updated>1416503112371</updated>
     </task>
     <task id="LOCAL-00097" summary="time interceptor">
       <created>1416504350897</created>
+      <option name="number" value="00097" />
+      <option name="project" value="LOCAL" />
       <updated>1416504350897</updated>
     </task>
     <task id="LOCAL-00098" summary="subcomponent">
       <created>1416559415721</created>
+      <option name="number" value="00098" />
+      <option name="project" value="LOCAL" />
       <updated>1416559415721</updated>
     </task>
     <task id="LOCAL-00099" summary="subcomponent">
       <created>1416560420824</created>
+      <option name="number" value="00099" />
+      <option name="project" value="LOCAL" />
       <updated>1416560420825</updated>
     </task>
     <task id="LOCAL-00100" summary="subcomponent">
       <created>1416571549087</created>
+      <option name="number" value="00100" />
+      <option name="project" value="LOCAL" />
       <updated>1416571549087</updated>
     </task>
     <task id="LOCAL-00101" summary="subcomponent">
       <created>1416578426809</created>
+      <option name="number" value="00101" />
+      <option name="project" value="LOCAL" />
       <updated>1416578426809</updated>
     </task>
     <task id="LOCAL-00102" summary="subcomponent">
       <created>1416821027190</created>
+      <option name="number" value="00102" />
+      <option name="project" value="LOCAL" />
       <updated>1416821027190</updated>
     </task>
     <task id="LOCAL-00103" summary="resolver">
       <created>1416921044296</created>
+      <option name="number" value="00103" />
+      <option name="project" value="LOCAL" />
       <updated>1416921044296</updated>
     </task>
     <task id="LOCAL-00104" summary="resolver">
       <created>1416925898634</created>
+      <option name="number" value="00104" />
+      <option name="project" value="LOCAL" />
       <updated>1416925898634</updated>
     </task>
     <task id="LOCAL-00105" summary="landing page">
       <created>1416933199391</created>
+      <option name="number" value="00105" />
+      <option name="project" value="LOCAL" />
       <updated>1416933199391</updated>
     </task>
     <task id="LOCAL-00106" summary="landing page">
       <created>1417032965045</created>
+      <option name="number" value="00106" />
+      <option name="project" value="LOCAL" />
       <updated>1417032965046</updated>
     </task>
     <task id="LOCAL-00107" summary="landing page">
       <created>1417085788473</created>
+      <option name="number" value="00107" />
+      <option name="project" value="LOCAL" />
       <updated>1417085788473</updated>
     </task>
     <task id="LOCAL-00108" summary="landing page">
       <created>1417089144135</created>
+      <option name="number" value="00108" />
+      <option name="project" value="LOCAL" />
       <updated>1417089144135</updated>
     </task>
     <task id="LOCAL-00109" summary="landing page">
       <created>1417181006265</created>
+      <option name="number" value="00109" />
+      <option name="project" value="LOCAL" />
       <updated>1417181006265</updated>
     </task>
     <task id="LOCAL-00110" summary="authentication">
       <created>1417447528001</created>
+      <option name="number" value="00110" />
+      <option name="project" value="LOCAL" />
       <updated>1417447528001</updated>
     </task>
     <task id="LOCAL-00111" summary="authentication">
       <created>1417541702364</created>
+      <option name="number" value="00111" />
+      <option name="project" value="LOCAL" />
       <updated>1417541702365</updated>
     </task>
     <task id="LOCAL-00112" summary="persistent identification module">
       <created>1421145089833</created>
+      <option name="number" value="00112" />
+      <option name="project" value="LOCAL" />
       <updated>1421145089834</updated>
     </task>
     <task id="LOCAL-00113" summary="persistent identification module">
       <created>1421146094680</created>
+      <option name="number" value="00113" />
+      <option name="project" value="LOCAL" />
       <updated>1421146094680</updated>
     </task>
     <task id="LOCAL-00114" summary="persistent identification module">
       <created>1421146260783</created>
+      <option name="number" value="00114" />
+      <option name="project" value="LOCAL" />
       <updated>1421146260783</updated>
     </task>
     <task id="LOCAL-00115" summary="persistent identification module">
       <created>1421146402865</created>
+      <option name="number" value="00115" />
+      <option name="project" value="LOCAL" />
       <updated>1421146402865</updated>
     </task>
     <task id="LOCAL-00116" summary="persistent identification module">
       <created>1421151175741</created>
+      <option name="number" value="00116" />
+      <option name="project" value="LOCAL" />
       <updated>1421151175741</updated>
     </task>
     <task id="LOCAL-00117" summary="persistent identification module">
       <created>1421151402204</created>
+      <option name="number" value="00117" />
+      <option name="project" value="LOCAL" />
       <updated>1421151402204</updated>
     </task>
     <task id="LOCAL-00118" summary="persistent identification module">
       <created>1421151407758</created>
+      <option name="number" value="00118" />
+      <option name="project" value="LOCAL" />
       <updated>1421151407759</updated>
     </task>
     <task id="LOCAL-00119" summary="persistent identification module">
       <created>1421153477769</created>
+      <option name="number" value="00119" />
+      <option name="project" value="LOCAL" />
       <updated>1421153477769</updated>
     </task>
     <task id="LOCAL-00120" summary="persistent identification module">
       <created>1421237031178</created>
+      <option name="number" value="00120" />
+      <option name="project" value="LOCAL" />
       <updated>1421237031178</updated>
     </task>
     <task id="LOCAL-00121" summary="persistent identification module">
       <created>1421237102388</created>
+      <option name="number" value="00121" />
+      <option name="project" value="LOCAL" />
       <updated>1421237102388</updated>
     </task>
     <task id="LOCAL-00122" summary="batch mode">
       <created>1421245485165</created>
+      <option name="number" value="00122" />
+      <option name="project" value="LOCAL" />
       <updated>1421245485165</updated>
     </task>
     <task id="LOCAL-00123" summary=" java.lang.NoClassDefFoundError: org/supercsv/io/CsvListReader">
       <created>1421248030132</created>
+      <option name="number" value="00123" />
+      <option name="project" value="LOCAL" />
       <updated>1421248030132</updated>
     </task>
     <task id="LOCAL-00124" summary="migration controller extrahieren&#10;">
       <created>1421313154497</created>
+      <option name="number" value="00124" />
+      <option name="project" value="LOCAL" />
       <updated>1421313154497</updated>
     </task>
     <task id="LOCAL-00125" summary="migration controller extracted&#10;">
       <created>1421314389176</created>
+      <option name="number" value="00125" />
+      <option name="project" value="LOCAL" />
       <updated>1421314389176</updated>
     </task>
     <task id="LOCAL-00126" summary="batch: new file fixed&#10;">
       <created>1421315194880</created>
+      <option name="number" value="00126" />
+      <option name="project" value="LOCAL" />
       <updated>1421315194880</updated>
     </task>
     <task id="LOCAL-00127" summary="batch: append fixed">
       <created>1421317295452</created>
+      <option name="number" value="00127" />
+      <option name="project" value="LOCAL" />
       <updated>1421317295452</updated>
     </task>
     <task id="LOCAL-00128" summary="batch update">
       <created>1421320124097</created>
+      <option name="number" value="00128" />
+      <option name="project" value="LOCAL" />
       <updated>1421320124097</updated>
     </task>
     <task id="LOCAL-00129" summary="batch update">
       <created>1421330492535</created>
+      <option name="number" value="00129" />
+      <option name="project" value="LOCAL" />
       <updated>1421330492535</updated>
     </task>
     <task id="LOCAL-00130" summary="batch update fixed">
       <created>1421332897321</created>
+      <option name="number" value="00130" />
+      <option name="project" value="LOCAL" />
       <updated>1421332897321</updated>
     </task>
     <task id="LOCAL-00131" summary="mapping problem between modules">
       <created>1421334190830</created>
+      <option name="number" value="00131" />
+      <option name="project" value="LOCAL" />
       <updated>1421334190831</updated>
     </task>
     <task id="LOCAL-00132" summary="mapping problem between modules solved">
       <created>1421395853011</created>
+      <option name="number" value="00132" />
+      <option name="project" value="LOCAL" />
       <updated>1421395853011</updated>
     </task>
-    <option name="localTasksCounter" value="133" />
+    <task id="LOCAL-00133" summary="mapping problem between modules solved">
+      <created>1421411747024</created>
+      <option name="number" value="00133" />
+      <option name="project" value="LOCAL" />
+      <updated>1421411747024</updated>
+    </task>
+    <option name="localTasksCounter" value="134" />
     <servers />
   </component>
   <component name="TodoView" selected-index="0">
@@ -1634,41 +1835,41 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-1" y="30" width="1682" height="1025" extended-state="6" />
-    <editor active="false" />
+    <frame x="-1" y="0" width="1922" height="1055" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3290735" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Problems" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3365282" sideWeight="0.5" order="14" side_tool="false" content_ui="tabs" />
-      <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.28966987" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.38943896" sideWeight="0.7976773" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4227902" sideWeight="0.3088392" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.23109691" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32800853" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33443344" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32837406" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24866879" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.18742369" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.18903089" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.26190478" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.29042906" sideWeight="0.6911608" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.26144835" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Statistic" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32800853" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.29042906" sideWeight="0.6911608" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32694355" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.38943896" sideWeight="0.7976773" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
     <layout-to-restore>
-      <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Statistic" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32800853" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3290735" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Statistic" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32800853" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="Problems" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3365282" sideWeight="0.5" order="14" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.4227902" sideWeight="0.3088392" order="8" side_tool="true" content_ui="tabs" />
@@ -1688,8 +1889,8 @@
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.23109691" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33546326" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24866879" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.18530351" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout-to-restore>
   </component>
@@ -1740,27 +1941,13 @@
     <breakpoint-manager>
       <option name="time" value="9" />
     </breakpoint-manager>
+    <watches-manager />
   </component>
   <component name="antWorkspaceConfiguration">
     <option name="IS_AUTOSCROLL_TO_SOURCE" value="false" />
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/PersistentIdentification/src/main/java/at/stefanproell/Examples/ExamplesAPI.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="735">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/PersistentIdentification/additional_configuration/GitHub-Subtree.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="100">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/DatatableModel/src/main/java/DatatableModel/TableDataOperations.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.7653061" vertical-offset="0" max-vertical-offset="4110">
@@ -1985,32 +2172,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Database/src/main/java/Database/MigrateCSV2SQL.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="11600" max-vertical-offset="12900">
-          <caret line="850" column="0" selection-start-line="850" selection-start-column="0" selection-end-line="850" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Database/src/main/java/Database/MigrationTasks.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-7.642857" vertical-offset="2501" max-vertical-offset="4455">
-          <caret line="195" column="16" selection-start-line="195" selection-start-column="16" selection-end-line="195" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/BatchMode/src/main/java/BatchMode/BatchMode_Main.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="685" max-vertical-offset="3510">
           <caret line="62" column="8" selection-start-line="62" selection-start-column="8" selection-end-line="62" selection-end-column="8" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/PersistentIdentification/src/main/resources/hibernate.persistentidentification.cfg.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="750">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -2075,7 +2240,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.048543688" vertical-offset="0" max-vertical-offset="960">
           <caret line="48" column="12" selection-start-line="48" selection-start-column="8" selection-end-line="48" selection-end-column="18" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2083,7 +2247,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.446281" vertical-offset="0" max-vertical-offset="605">
           <caret line="68" column="37" selection-start-line="68" selection-start-column="37" selection-end-line="68" selection-end-column="37" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2091,15 +2254,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.38590604" vertical-offset="85" max-vertical-offset="945">
           <caret line="23" column="25" selection-start-line="23" selection-start-column="25" selection-end-line="23" selection-end-column="25" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/PersistentIdentification/src/main/java/at/stefanproell/PersistentIdentifierMockup/HibernateUtilPersistentIdentification.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="106" max-vertical-offset="885">
-          <caret line="45" column="12" selection-start-line="45" selection-start-column="12" selection-end-line="45" selection-end-column="82" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2111,10 +2265,71 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/Database/src/main/java/Database/MigrateCSV2SQL.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="10583" max-vertical-offset="11520">
+          <caret line="851" column="9" selection-start-line="851" selection-start-column="9" selection-end-line="851" selection-end-column="9" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/PersistentIdentification/src/main/resources/hibernate.persistentidentification.cfg.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="750">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/PersistentIdentification/src/main/java/at/stefanproell/PersistentIdentifierMockup/HibernateUtilPersistentIdentification.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="855">
+          <caret line="35" column="36" selection-start-line="35" selection-start-column="36" selection-end-line="35" selection-end-column="36" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/QueryStore/src/main/java/Examples/ExamplesQueryAPI.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.6553398" vertical-offset="0" max-vertical-offset="1875">
+        <state vertical-scroll-proportion="0.0" vertical-offset="405" max-vertical-offset="1875">
           <caret line="65" column="0" selection-start-line="65" selection-start-column="0" selection-end-line="65" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Database/src/main/java/Database/MigrationTasks.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="3648" max-vertical-offset="5700">
+          <caret line="284" column="54" selection-start-line="284" selection-start-column="16" selection-end-line="284" selection-end-column="54" />
+          <folding>
+            <element signature="e#11943#11944#0" expanded="true" />
+            <element signature="e#11982#11983#0" expanded="true" />
+            <element signature="e#12046#12047#0" expanded="true" />
+            <element signature="e#12102#12103#0" expanded="true" />
+            <element signature="e#12148#12149#0" expanded="true" />
+            <element signature="e#12190#12191#0" expanded="true" />
+            <element signature="e#12260#12261#0" expanded="true" />
+            <element signature="e#12322#12323#0" expanded="true" />
+            <element signature="e#12359#12360#0" expanded="true" />
+            <element signature="e#12391#12392#0" expanded="true" />
+            <element signature="e#12442#12443#0" expanded="true" />
+            <element signature="e#12484#12485#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/PersistentIdentification/README.md">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="912">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.92872804" vertical-offset="1553" max-vertical-offset="2490">
+          <caret line="160" column="54" selection-start-line="160" selection-start-column="54" selection-end-line="160" selection-end-column="54" />
           <folding />
         </state>
       </provider>
@@ -2234,4 +2449,3 @@
     <option value="" />
   </component>
 </project>
-
