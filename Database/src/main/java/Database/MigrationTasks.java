@@ -285,7 +285,7 @@ public class MigrationTasks {
     public void findDeletedCSVRowsAndMarkAsDeletedInDB(HashMap inputFileMap, String sessionTableName, boolean
             hasHeaders, boolean calulateHashColumn) {
 
-        System.out.println("UPDATING data in an existing table ");
+        System.out.println("DELETED records ");
 
         if (sessionTableName != null) {
             this.setCurrentTableName(sessionTableName);
