@@ -34,7 +34,7 @@
         </p:inputText>
 
         <p:fileUpload fileUploadListener="#{fileUploadController.handleFileUpload}"
-                      mode="advanced" update="messages, dt" auto="true"
+                      mode="advanced" update=":primaryKeyForm:primaryKeyMultiCheckbox,messages, dt" auto="true"
                       sizeLimit="100000000"
                       allowTypes="/(\.|\/)(csv|txt)$/"/>
         <p:dataTable id="dt" var="filename" value="#{fileUploadController.filesListStrings}">
@@ -54,22 +54,18 @@
     <p:separator/>
     <h:form id="primaryKeyForm">
         <p:outputLabel value="Primary key"/>
-        <h:selectOneMenu id="primaryKeyDropDown" valueChangeListener="#{fileUploadController.handleChangePrimaryKey}"
-                         required="true" value="#{databaseMigrationController.primaryKey}"
-                         binding="#{primaryKeyDropDown}">
-            <f:selectItems value="#{fileUploadController.CSVcolumnNames}"/>
 
-            <f:ajax event="click"
-                    render="primaryKeyDropDown"
-                    listener="#{fileUploadController.updateCSVColumnList}"/>
-            <p:ajax update="@this"/>
-        </h:selectOneMenu>
+
+        <h:selectManyCheckbox id="primaryKeyMultiCheckbox" value="#{fileUploadController.selectedPrimaryKeyColumns}">
+            <f:selectItems value="#{fileUploadController.columnsValue}"/>
+        </h:selectManyCheckbox>
         <p:commandButton id="primaryKeyButton" value="Select primary key."
                          action="#{databaseMigrationController.setPrimarKeyAction}">
 
 
         </p:commandButton>
         <h:message for="primaryKeyButton" id="primaryKeyMessage"/>
+
 
     </h:form>
     <p:separator/>
@@ -85,3 +81,4 @@
 
 </h:body>
 </html>
+

@@ -92,6 +92,19 @@ public class FileUploadController implements Serializable {
     private String tableName;
     private List<String> columns = null;
 
+    public List<String> getSelectedPrimaryKeyColumns() {
+        return selectedPrimaryKeyColumns;
+    }
+
+    public void setSelectedPrimaryKeyColumns(List<String> selectedPrimaryKeyColumns) {
+        this.logger.info("Set primary key check boxes. Size is " + selectedPrimaryKeyColumns.size());
+        this.selectedPrimaryKeyColumns = selectedPrimaryKeyColumns;
+    }
+
+    private List<String> selectedPrimaryKeyColumns = null;
+    
+    
+
     public String getCSVcolumnName() {
         return CSVcolumnName;
     }
@@ -366,4 +379,15 @@ public class FileUploadController implements Serializable {
     }
 
 
+    /*
+    * Get the colums for the Web interface. Used for building the check boxes
+    * * * */
+    public List<String> getColumnsValue() {
+        //this.updateCSVColumnList();
+        return columns;
+    }
+
+    public void setColumns(List<String> columns) {
+        this.columns = columns;
+    }
 }
