@@ -233,11 +233,14 @@ public class BatchMode_Main {
 
             HashMap<String, File> batchModefilesListSingleFile = new HashMap<String, File>();
             batchModefilesListSingleFile.put(currentFileName, currentFile);
-            filesList.remove(currentFileName);
+            entries.remove();
             
 
 
             migrationTasks.migrate(batchModefilesListSingleFile, this.batchAPI.getPrimaryKeys());
+
+            this.batchAPI.resetPrimaryKeys();
+
 
 
         }

@@ -218,5 +218,14 @@ public class BatchAPI {
 
     }
 
+    /**
+     * This method is used to reset the primary key list.
+     */
+    public void resetPrimaryKeys() {
+        this.primaryKeys = new ArrayList<String>();
+        this.logger.info("Primary key list is now resetted. Ready for next table...");
+
+
+    }
 
 }
