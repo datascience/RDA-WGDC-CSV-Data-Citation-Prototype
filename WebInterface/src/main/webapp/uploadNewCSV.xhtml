@@ -14,8 +14,18 @@
 </h:head>
 
 <h:body>
-    <h1>Upload a new CSV data file</h1>
+    <h1>CSV Datafile Upload</h1>
 
+    <p>With this you can upload a CSV file into the system. You need to select a database schema where you want to store
+        the file and then specify a table name.<br></br> Please only chose table names starting with an alphabetical
+        identifier
+        (e.g. csv_measurement).<br></br> The system will create a new table with this name. Existing tables with the
+        same name
+        will be dropped and replaced.
+    </p>
+
+
+    <h2>The Database Table Definition</h2>
     <p>Provide a name first, then upload the file.</p>
     <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true"/>
     <h:form enctype="multipart/form-data">
@@ -33,6 +43,9 @@
             <f:ajax event="blur"/>
         </p:inputText>
 
+        <h2>Upload the data</h2>
+
+        <p>Select one file from your hard disk. It will be uploaded to the systems and analyzed. <br></br></p>
         <p:fileUpload fileUploadListener="#{fileUploadController.handleFileUpload}"
                       mode="advanced" update=":primaryKeyForm:primaryKeyMultiCheckbox,messages, dt" auto="true"
                       sizeLimit="100000000"
@@ -49,9 +62,16 @@
         <f:attribute name="uploadSessionType" value="newCSV"/>
 
     </h:form>
-
-    <!-- primary column -->
     <p:separator/>
+    <h2>The Primary Key</h2>
+
+    <p> Be aware
+        that a
+        primary key and also a combination of key forming a compound primary key must be unique. <br></br> The
+        system automatically creates an internal sequence number column. If you can't provide a unique column as
+        primary key, you can select the insert sequence number as unique key.</p>
+    <!-- primary column -->
+
     <h:form id="primaryKeyForm">
         <p:outputLabel value="Primary key"/>
 
