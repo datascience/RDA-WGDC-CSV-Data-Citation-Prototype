@@ -232,7 +232,9 @@ public class BatchMode_Main {
             this.logger.info("You entered these keys: " + keys);
 
             HashMap<String, File> batchModefilesListSingleFile = new HashMap<String, File>();
-            batchModefilesListSingleFile.put(entry);
+            batchModefilesListSingleFile.put(currentFileName, currentFile);
+            filesList.remove(currentFileName);
+            
 
 
             migrationTasks.migrate(batchModefilesListSingleFile, this.batchAPI.getPrimaryKeys());
