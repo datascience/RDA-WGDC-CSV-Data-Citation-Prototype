@@ -230,7 +230,12 @@ public class BatchMode_Main {
             StringHelpers stringHelpers = new StringHelpers();
             String keys = stringHelpers.getCommaSeperatedListofPrimaryKeys(this.batchAPI.getPrimaryKeys());
             this.logger.info("You entered these keys: " + keys);
-            migrationTasks.migrate(filesList, this.batchAPI.getPrimaryKeys());
+
+            HashMap<String, File> batchModefilesListSingleFile = new HashMap<String, File>();
+            batchModefilesListSingleFile.put(entry);
+
+
+            migrationTasks.migrate(batchModefilesListSingleFile, this.batchAPI.getPrimaryKeys());
 
 
         }
