@@ -83,6 +83,7 @@ package Database;
 
 import CSVTools.CSV_API;
 import CSVTools.Column;
+import Database.Helpers.StringHelpers;
 import org.supercsv.io.CsvListReader;
 import org.supercsv.io.ICsvListReader;
 import org.supercsv.prefs.CsvPreference;
@@ -132,9 +133,13 @@ public class MigrateCSV2SQL {
      * @throws java.sql.SQLException
      * @throws ClassNotFoundException
      */
-    public void createSimpleDBFromCSV(Column[] columnMetadata, String tableName, String primaryKeyColumnName,
+    public void createSimpleDBFromCSV(Column[] columnMetadata, String tableName, List<String> primaryKeyColumns,
                                       boolean calculateHashKeyColumn)
             throws SQLException, ClassNotFoundException {
+
+
+        StringHelpers stringHelpers = new StringHelpers();
+
         Statement stat;
 
         String createTableString = "CREATE TABLE " + tableName
@@ -157,9 +162,11 @@ public class MigrateCSV2SQL {
 
         // append record status column
         createTableString += ", RECORD_STATUS enum('inserted','updated','deleted') NOT NULL DEFAULT 'inserted'";
+
+        String primaryKeysString = stringHelpers.getCommaSeperatedListofPrimaryKeys(primaryKeyColumns);
         // append primary key
-        createTableString += ",PRIMARY KEY (" + primaryKeyColumnName + ",LAST_UPDATE)";
-        this.logger.info("Primary key is " + primaryKeyColumnName + " and the update column!");
+        createTableString += ",PRIMARY KEY (" + primaryKeysString + ",LAST_UPDATE)";
+        this.logger.info("Primary key is " + primaryKeysString + " and the update column!");
 
 
         // Finalize SQL String

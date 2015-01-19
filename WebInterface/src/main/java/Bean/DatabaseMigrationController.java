@@ -2,12 +2,9 @@
 package Bean;
 
 
-import CSVTools.CSV_API;
-
-import CSVTools.Column;
-import Database.DatabaseTools;
-import Database.MigrateCSV2SQL;
+import Database.Helpers.StringHelpers;
 import Database.MigrationTasks;
+
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -15,7 +12,6 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import java.io.Serializable;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
@@ -32,14 +28,35 @@ public class DatabaseMigrationController implements Serializable {
     private HashMap<String, String> filesList;
     private Logger logger;
     private static final boolean calulateHashColumn = false;
-    private String primaryKey;
+    private List<String> primaryKeys;
 
-    public String getPrimaryKey() {
-        return primaryKey;
+    public List<String> getPrimaryKey() {
+        this.primaryKeys = this.getPrimaryKeyListFromSession();
+
+
+        return this.primaryKeys;
     }
 
-    public void setPrimaryKey(String primaryKey) {
-        this.primaryKey = primaryKey;
+
+    private List<String> getPrimaryKeyListFromSession() {
+        System.out.println("Store primary key list in session");
+
+        // schreiben
+        Map<String, Object> session = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
+        List<String> primaryKeys = (List<String>) session.get("selectedPrimaryKeyList");
+        if (primaryKeys == null) {
+            this.logger.warning("There was no primary key session data");
+        } else {
+            this.logger.info("Found " + primaryKeys.size() + "keys in session");
+
+        }
+
+        return primaryKeys;
+
+    }
+
+    public void setPrimaryKey(List<String> primaryKeys) {
+        this.primaryKeys = primaryKeys;
     }
 
     public boolean isNewDataOnly() {
@@ -91,12 +108,15 @@ public class DatabaseMigrationController implements Serializable {
     * Method called from the Web interface with no parameters
     * */
     public void migrationController() {
+        StringHelpers stringHelpers = new StringHelpers();
 
-        String primaryKey = this.getPrimaryKey();
+        List<String> primaryKeys = this.getPrimaryKey();
         MigrationTasks migrationTasks = new MigrationTasks();
-        this.logger.info("Called Migration Controller. Primary key is " + primaryKey + "Filelist size from session: "
-                + this.getFileListFromSession().size());
-        migrationTasks.migrate(this.getFileListFromSession(), primaryKey);
+        this.logger.info("Called Migration Controller. Primary keys are " + stringHelpers
+                .getCommaSeperatedListofPrimaryKeys
+                (primaryKeys));
+
+        migrationTasks.migrate(this.getFileListFromSession(), primaryKeys);
 
     }
 
@@ -119,21 +139,7 @@ public class DatabaseMigrationController implements Serializable {
 
 
 
-    /**
-     * Action button
-     */
-    public void setPrimarKeyAction() {
-        this.logger.info("Primary key is " + this.getPrimaryKey());
-        //FacesContext.getCurrentInstance().addMessage("primaryKeyform:primaryKeyButton", new FacesMessage("yayyayyay"));
-        FacesMessage msg = new FacesMessage("The primary key is " + this.getPrimaryKey(), "The primary key must be unique");
-        FacesContext.getCurrentInstance().addMessage(null, msg);
 
-    }
-
-    public void addMessage() {
-        String summary = this.isNewDataOnly ? "Checked" : "Unchecked";
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(summary));
-    }
 
     /**
      * Called from Web interface
@@ -209,5 +215,6 @@ public class DatabaseMigrationController implements Serializable {
         return this.currentTableName;
 
     }
+
 
 }

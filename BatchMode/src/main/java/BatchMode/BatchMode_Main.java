@@ -7,7 +7,9 @@ import Database.MigrationTasks;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
@@ -52,6 +54,8 @@ public class BatchMode_Main {
         boolean containsChangedRecords = false;
         boolean calulateHashColumn = false;
         HashMap filesList;
+        List<String> primaryKeys;
+
         MigrationTasks migrationTasks = new MigrationTasks();
         String first10 = "/media/Data/Datasets/CSV-Datasets/csv-citation-test/addresses_first10.csv";
         String first10one = "/media/Data/Datasets/CSV-Datasets/csv-citation-test/addresses_first10_one_change.csv";
@@ -112,6 +116,8 @@ public class BatchMode_Main {
         * Create a new database
         * **/
         if (isNewFile) {
+            primaryKeys = new ArrayList<String>();
+
 
             // Display headers and let user specify the primary key
             this.batchAPI.promtMessageToCommandline("List of columns. Please press the Number of the primary key. \n");
@@ -122,12 +128,15 @@ public class BatchMode_Main {
             String position = this.batchAPI.readFromCommandline();
 
             String selectPrimaryKey = columns[Integer.parseInt(position)].getColumnName();
+
+            primaryKeys.add(selectPrimaryKey);
             columns[Integer.parseInt(position)].setPrimaryKey(true);
 
             this.batchAPI.promtMessageToCommandline("You selected " + selectPrimaryKey + "as PrimaryKey");
+            this.logger.warning("Currently only a single primary key is implemented in batch mode");
 
 
-            migrationTasks.migrate(filesList, selectPrimaryKey);
+            migrationTasks.migrate(filesList, primaryKeys);
 
 
 

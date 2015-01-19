@@ -281,6 +281,16 @@ public class FileUploadController implements Serializable {
 
     }
 
+    private void storePrimaryKeyListInSession(List<String> selectedPrimaryKeyColumns) {
+        System.out.println("Store primary key list in session");
+
+        // schreiben
+        Map<String, Object> session = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
+        session.put("selectedPrimaryKeyList", selectedPrimaryKeyColumns);
+
+    }
+    
+
     /**
      * Get the type of the upload. Available types are: newCSV, updateExistingCSV, appendNewRowsToExistingCSV.
      * The information is stored in the session variable uploadSessionType
@@ -334,18 +344,7 @@ public class FileUploadController implements Serializable {
 
     }
 
-    /**
-     * React on change of primary key drop down
-     *
-     * @param event
-     */
-    public void handleChangePrimaryKey(ValueChangeEvent event) {
-        this.logger.info(event.getComponent().toString() + " " + event.toString());
 
-        String selectedPrimaryKey = event.getNewValue().toString();
-        this.logger.info("Selected primary key= " + selectedPrimaryKey);
-
-    }
 
     public void updateCSVColumnList() {
 
@@ -390,4 +389,23 @@ public class FileUploadController implements Serializable {
     public void setColumns(List<String> columns) {
         this.columns = columns;
     }
+
+    /**
+     * Action button
+     */
+    public void setPrimarKeyAction() {
+
+        this.storePrimaryKeyListInSession(this.getSelectedPrimaryKeyColumns());
+
+
+        FacesMessage msg = new FacesMessage("You selected " + this.getSelectedPrimaryKeyColumns().size() + " colums " +
+                "as a " +
+                "compund primary key", "Please ensure that the primary key (bei it a single column or a compound key)" +
+                " must be unique within the complete file.");
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+
+    }
+
+
+    
 }

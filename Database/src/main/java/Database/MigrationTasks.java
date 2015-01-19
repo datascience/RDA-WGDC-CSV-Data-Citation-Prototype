@@ -46,7 +46,7 @@ public class MigrationTasks {
     /*
 * Migration
 * */
-    public void migrate(HashMap filesListInput, String primaryKey) {
+    public void migrate(HashMap filesListInput, List<String> primaryKey) {
         this.logger.info("Doing the migration.");
 
         boolean calulateHashColumn = false;
