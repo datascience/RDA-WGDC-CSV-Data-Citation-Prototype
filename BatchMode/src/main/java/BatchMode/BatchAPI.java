@@ -2,6 +2,7 @@ package BatchMode;
 
 
 import CSVTools.Column;
+import Database.Helpers.StringHelpers;
 import org.apache.commons.io.FilenameUtils;
 
 import java.io.*;
@@ -13,6 +14,7 @@ import java.util.logging.Logger;
 public class BatchAPI {
     private Logger logger;
     private HashMap filesList;
+    private StringHelpers stringHelpers;
 
     public List<String> getPrimaryKeys() {
         return primaryKeys;
@@ -28,6 +30,7 @@ public class BatchAPI {
         this.logger = Logger.getLogger(BatchMode_Main.class.getName());
         this.filesList = new HashMap<String, String>();
         this.primaryKeys = new ArrayList<String>();
+        this.stringHelpers = new StringHelpers();
     }
 
     /**
@@ -118,14 +121,15 @@ public class BatchAPI {
 
     }
 
-    public HashMap addFileToFileList(File file) {
+    public HashMap<String, File> addFileToFileList(File file) {
 
 
         String tableName = FilenameUtils.removeExtension(this.getTableNameFromFileName(file));
-        String path = file.getAbsolutePath();
 
-        this.filesList.put(tableName, path);
-        this.logger.info("Put file " + path + " as table " + tableName + " into a list with size " + this.filesList
+
+        this.filesList.put(tableName, file);
+        this.logger.info("Put file " + file.getAbsolutePath() + " as table " + tableName + " into a list with size " +
+                this.filesList
                 .size());
         return this.filesList;
     }
@@ -196,7 +200,9 @@ public class BatchAPI {
                 String currentFileName = child.getAbsoluteFile().toString();
 
                 if (currentFileName.toLowerCase().endsWith(".csv")) {
-                    directoryFileList.put(child.getAbsolutePath(), child);
+
+                    String tableName = this.stringHelpers.removeCSVFileExtention(child.getName());
+                    directoryFileList.put(tableName, child);
                     this.logger.info("Added " + currentFileName + " to file list");
                 }
 

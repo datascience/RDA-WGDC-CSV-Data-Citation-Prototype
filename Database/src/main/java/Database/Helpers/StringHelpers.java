@@ -38,4 +38,19 @@ public class StringHelpers {
         return listOfKeys;
 
     }
+
+
+    /**
+     * Remove the extention CSV from the string
+     * * * @param inputString
+     *
+     * @return
+     */
+    public String removeCSVFileExtention(String inputString) {
+        String noExtention = inputString.substring(0, inputString.lastIndexOf(".csv"));
+        this.logger.info("Removed CSV Extention: " + noExtention);
+        return noExtention;
+
+
+    }
 }

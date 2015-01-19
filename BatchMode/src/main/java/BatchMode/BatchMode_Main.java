@@ -51,28 +51,42 @@ public class BatchMode_Main {
         boolean containsOnlyNewRows = false;
         boolean containsChangedRecords = false;
         boolean calulateHashColumn = false;
-        HashMap filesList;
 
+        boolean isSingleFileMode = false;
 
         MigrationTasks migrationTasks = new MigrationTasks();
-        String first10 = "/media/Data/Datasets/CSV-Datasets/csv-citation-test/addresses_first10.csv";
-        String first10one = "/media/Data/Datasets/CSV-Datasets/csv-citation-test/addresses_first10_one_change.csv";
-        String updated10 = "/media/Data/Datasets/CSV-Datasets/csv-citation-test/addresses_first10_changed.csv";
+
+        HashMap<String, File> filesList = null;
+
+        // only use one test file
+        if (isSingleFileMode) {
+
+            String first10 = "/media/Data/Datasets/CSV-Datasets/csv-citation-test/addresses_first10.csv";
+            String first10one = "/media/Data/Datasets/CSV-Datasets/csv-citation-test/addresses_first10_one_change.csv";
+            String updated10 = "/media/Data/Datasets/CSV-Datasets/csv-citation-test/addresses_first10_changed.csv";
 
 
-        //arguments = first10;
-        //arguments = updated10;
-        arguments = first10one;
-        this.filePath = this.getFilePath(arguments);
+            //arguments = first10;
+            //arguments = updated10;
+            arguments = first10one;
+            this.filePath = this.getFilePath(arguments);
 
 
+            File csvFile = this.batchAPI.readFileFromPath(this.getFilePath());
 
-        File csvFile = this.batchAPI.readFileFromPath(this.getFilePath());
+            filesList = this.batchAPI.addFileToFileList(csvFile);
 
-        filesList = this.batchAPI.addFileToFileList(csvFile);
+            isNewFile = this.isItANewFile(csvFile);
+        } else {
 
+            String path = "/media/Data/Datasets/CSV-Datasets/Collection-Test";
+            filesList = this.batchAPI.getAllFilesInDirectory(path);
+
+
+        }
        
 
+            
 
 
 
@@ -84,7 +98,7 @@ public class BatchMode_Main {
         if (isNewFile) {
 
 
-            this.migrateNewFile(columns);
+            this.migrateNewFile(filesList);
 
 
         } else {
@@ -101,10 +115,6 @@ public class BatchMode_Main {
 
 
                 migrationTasks.insertNewCSVDataToExistingTable(filesList, null, containsHeaders, false);
-
-
-
-
 
 
             }
@@ -169,13 +179,18 @@ public class BatchMode_Main {
      *
      * @param
      */
-    private void migrateNewFile(HashMap filesList) {
+    private void migrateNewFile(HashMap<String, File> filesList) {
         CSV_API csvAPI = new CSV_API();
-        Iterator it = it.entrySet().iterator();
-        while (it.hasNext()) {
-            Map.Entry pairs = (Map.Entry) it.next();
-            System.out.println(pairs.getKey() + " = " + pairs.getValue());
-            it.remove(); // avoids a ConcurrentModificationException
+
+        String currentFileName = "";
+        File currentFile = null;
+
+        Iterator<Map.Entry<String, File>> entries = filesList.entrySet().iterator();
+
+        while (entries.hasNext()) {
+            Map.Entry<String, File> entry = entries.next();
+            currentFileName = entry.getKey().toString();
+            currentFile = (File) entry.getValue();
 
 
             // Read the columns
@@ -259,7 +274,7 @@ public class BatchMode_Main {
         this.batchAPI.promtMessageToCommandline(">");
         return this.batchAPI.readYesOrNoFromInput();
     }
-    
+
 
     public String getFilePath() {
         return filePath;
@@ -292,8 +307,6 @@ public class BatchMode_Main {
     public void setLogger(Logger logger) {
         this.logger = logger;
     }
-    
-    
-   
+
 
 }
