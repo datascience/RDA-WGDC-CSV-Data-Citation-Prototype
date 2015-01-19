@@ -1,20 +1,33 @@
 package BatchMode;
 
 
+import CSVTools.Column;
 import org.apache.commons.io.FilenameUtils;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.logging.Logger;
 
 public class BatchAPI {
     private Logger logger;
     private HashMap filesList;
 
+    public List<String> getPrimaryKeys() {
+        return primaryKeys;
+    }
+
+    public void setPrimaryKeys(List<String> primaryKeys) {
+        this.primaryKeys = primaryKeys;
+    }
+
+    List<String> primaryKeys;
 
     public BatchAPI() {
         this.logger = Logger.getLogger(BatchMode_Main.class.getName());
         this.filesList = new HashMap<String, String>();
+        this.primaryKeys = new ArrayList<String>();
     }
 
     /**
@@ -124,4 +137,80 @@ public class BatchAPI {
     public void setFilesList(HashMap filesList) {
         this.filesList = filesList;
     }
+
+    /**
+     * Add a string primary key to the lust
+     */
+
+    public List<String> addPrimaryKeyToList(String primaryKey) {
+        this.primaryKeys.add(primaryKey);
+        return this.primaryKeys;
+
+    }
+
+    public void printColumns(Column[] columns) {
+        for (int i = 0; i < columns.length; i++) {
+            this.promtMessageToCommandline("[" + i + "] " + columns[i].getColumnName() + "\n");
+        }
+
+    }
+
+    /*Show all columns and ask for primary key
+    * 
+    * * * */
+    public String promptAndSelectPrimaryKey(Column[] columns) {
+        String selectedPrimaryKey = null;
+
+        // Display headers and let user specify the primary key
+        this.printColumns(columns);
+
+
+        this.promtMessageToCommandline(">");
+        String position = this.readFromCommandline();
+
+        if (position.equals("x")) {
+            this.logger.info("All keys have beend added");
+            selectedPrimaryKey = null;
+        } else {
+            selectedPrimaryKey = columns[Integer.parseInt(position)].getColumnName();
+        }
+
+
+        return selectedPrimaryKey;
+
+
+    }
+
+    /*
+    * Iterate through directory and add all CSV files to a list
+    * Return this list
+    */
+    public HashMap<String, File> getAllFilesInDirectory(String directoryPath) {
+        File dir = new File(directoryPath);
+        File[] directoryListing = dir.listFiles();
+        HashMap<String, File> directoryFileList = new HashMap<String, File>();
+
+
+        if (directoryListing != null) {
+            for (File child : directoryListing) {
+                String currentFileName = child.getAbsoluteFile().toString();
+
+                if (currentFileName.toLowerCase().endsWith(".csv")) {
+                    directoryFileList.put(child.getAbsolutePath(), child);
+                    this.logger.info("Added " + currentFileName + " to file list");
+                }
+
+            }
+        } else {
+            // Handle the case where dir is not really a directory.
+            // Checking dir.isDirectory() above would not be sufficient
+            // to avoid race conditions with another process that deletes
+            // directories.
+        }
+
+        return directoryFileList;
+
+    }
+
+
 }

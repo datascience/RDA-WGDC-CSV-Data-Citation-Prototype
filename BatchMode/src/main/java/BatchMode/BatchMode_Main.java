@@ -3,14 +3,12 @@ package BatchMode;
 import Bean.DatabaseMigrationController;
 import CSVTools.CSV_API;
 import CSVTools.Column;
+import Database.Helpers.StringHelpers;
 import Database.MigrationTasks;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.logging.Logger;
 
 /**
@@ -54,7 +52,7 @@ public class BatchMode_Main {
         boolean containsChangedRecords = false;
         boolean calulateHashColumn = false;
         HashMap filesList;
-        List<String> primaryKeys;
+
 
         MigrationTasks migrationTasks = new MigrationTasks();
         String first10 = "/media/Data/Datasets/CSV-Datasets/csv-citation-test/addresses_first10.csv";
@@ -73,71 +71,20 @@ public class BatchMode_Main {
 
         filesList = this.batchAPI.addFileToFileList(csvFile);
 
-        // launch CSV api
-        CSV_API csvAPI = new CSV_API();
+       
 
 
 
 
-        /* Does the file contain headers?
-        * */
-        try {
-            int numberOfLines = 5;
-            String firstFiveLinesLine = this.batchAPI.readFirstLinesFromFile(csvFile, numberOfLines);
-            this.batchAPI.promtMessageToCommandline("This are the " + numberOfLines + "line of the file. Does " +
-                    "the first line contain headers?\n");
-            this.batchAPI.promtMessageToCommandline(firstFiveLinesLine);
-            this.batchAPI.promtMessageToCommandline(">");
-            containsHeaders = this.batchAPI.readYesOrNoFromInput();
 
-
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        Column[] columns = null;
-        try {
-            columns = csvAPI.analyseColumns(containsHeaders, csvFile.getAbsolutePath().toString());
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-
-
-        /* Is is a completely new file which is not stored in the database
-        * */
-        this.batchAPI.promtMessageToCommandline("Is this a new CSV file which is not already in the database?\n");
-        this.batchAPI.promtMessageToCommandline(">");
-        isNewFile = this.batchAPI.readYesOrNoFromInput();
 
         /*
         * Create a new database
         * **/
         if (isNewFile) {
-            primaryKeys = new ArrayList<String>();
 
 
-            // Display headers and let user specify the primary key
-            this.batchAPI.promtMessageToCommandline("List of columns. Please press the Number of the primary key. \n");
-            for (int i = 0; i < columns.length; i++) {
-                this.batchAPI.promtMessageToCommandline("[" + i + "] " + columns[i].getColumnName() + "\n");
-            }
-            this.batchAPI.promtMessageToCommandline(">");
-            String position = this.batchAPI.readFromCommandline();
-
-            String selectPrimaryKey = columns[Integer.parseInt(position)].getColumnName();
-
-            primaryKeys.add(selectPrimaryKey);
-            columns[Integer.parseInt(position)].setPrimaryKey(true);
-
-            this.batchAPI.promtMessageToCommandline("You selected " + selectPrimaryKey + "as PrimaryKey");
-            this.logger.warning("Currently only a single primary key is implemented in batch mode");
-
-
-            migrationTasks.migrate(filesList, primaryKeys);
-
+            this.migrateNewFile(columns);
 
 
         } else {
@@ -217,6 +164,102 @@ public class BatchMode_Main {
         return filePath;
     }
 
+    /**
+     * Migrate a new file into the database*
+     *
+     * @param
+     */
+    private void migrateNewFile(HashMap filesList) {
+        CSV_API csvAPI = new CSV_API();
+        Iterator it = it.entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry pairs = (Map.Entry) it.next();
+            System.out.println(pairs.getKey() + " = " + pairs.getValue());
+            it.remove(); // avoids a ConcurrentModificationException
+
+
+            // Read the columns
+            Column[] columns = null;
+            try {
+                boolean containsHeaders = this.doesThisFileContainHeaders(currentFile);
+                columns = csvAPI.analyseColumns(containsHeaders, currentFile.getAbsolutePath().toString());
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+
+            MigrationTasks migrationTasks = new MigrationTasks();
+            String answer = "";
+
+            while (answer != null) {
+                this.batchAPI.promtMessageToCommandline("This is the list of potential primary keys. Add a key by " +
+                        "pressing the corresponding number\n");
+
+                answer = this.batchAPI.promptAndSelectPrimaryKey(columns);
+                if (answer == null) {
+                    this.logger.info("No more primary keys added... proceeding");
+                    if (this.batchAPI.getPrimaryKeys().size() == 0) {
+                        this.logger.warning("No primary key was set. Usign hard coded default");
+                        this.batchAPI.addPrimaryKeyToList("ID_SYSTEM_SEQUENCE");
+                    }
+                } else {
+                    this.logger.info("Adding " + answer + " to list");
+                    this.batchAPI.addPrimaryKeyToList(answer);
+                    answer = this.batchAPI.promptAndSelectPrimaryKey(columns);
+                }
+
+
+            }
+
+            StringHelpers stringHelpers = new StringHelpers();
+            String keys = stringHelpers.getCommaSeperatedListofPrimaryKeys(this.batchAPI.getPrimaryKeys());
+            this.logger.info("You entered these keys: " + keys);
+            migrationTasks.migrate(filesList, this.batchAPI.getPrimaryKeys());
+
+
+        }
+
+
+    }
+
+    /**
+     * Read the first 5 lines of the file and ask the user if it contains headers
+     *
+     * @return
+     */
+    private boolean doesThisFileContainHeaders(File csvFile) {
+        boolean containsHeaders = false;
+        // launch CSV api
+
+        try {
+            int numberOfLines = 5;
+            String firstFiveLinesLine = this.batchAPI.readFirstLinesFromFile(csvFile, numberOfLines);
+            this.batchAPI.promtMessageToCommandline("This are the " + numberOfLines + "line of the file. Does " +
+                    "the first line contain headers?\n");
+            this.batchAPI.promtMessageToCommandline(firstFiveLinesLine);
+            this.batchAPI.promtMessageToCommandline(">");
+            containsHeaders = this.batchAPI.readYesOrNoFromInput();
+
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return containsHeaders;
+
+    }
+
+    private boolean isItANewFile(File csvFile) {
+       
+
+        /* Is is a completely new file which is not stored in the database
+        * */
+        this.batchAPI.promtMessageToCommandline("Is this a new CSV file which is not already in the database?\n");
+        this.batchAPI.promtMessageToCommandline(">");
+        return this.batchAPI.readYesOrNoFromInput();
+    }
+    
 
     public String getFilePath() {
         return filePath;
@@ -249,5 +292,8 @@ public class BatchMode_Main {
     public void setLogger(Logger logger) {
         this.logger = logger;
     }
+    
+    
+   
 
 }
