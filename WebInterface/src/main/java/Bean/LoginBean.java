@@ -37,6 +37,15 @@ public class LoginBean implements Serializable {
     private static final long serialVersionUID = 1L;
     private String uname;
     private String password;
+
+    public User getCurrentUser() {
+        return currentUser;
+    }
+
+    public void setCurrentUser(User currentUser) {
+        this.currentUser = currentUser;
+    }
+
     private User currentUser;
     private Logger logger;
 
@@ -74,7 +83,7 @@ public class LoginBean implements Serializable {
         }
         if (result) {
             currentUser = auth.getCurrentUser(uname);
-            return "home";
+            return "menu";
         } else {
             FacesContext.getCurrentInstance().addMessage(
                     null,
@@ -83,5 +92,16 @@ public class LoginBean implements Serializable {
                             "Please Try Again!"));
             return "login";
         }
+    }
+
+    public String logout() {
+        FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
+        return "index?faces-redirect=true";
+    }
+
+    public boolean isLoggedIn() {
+        SessionManager sm = new SessionManager();
+        sm.printSessionVariables();
+        return currentUser != null;
     }
 }

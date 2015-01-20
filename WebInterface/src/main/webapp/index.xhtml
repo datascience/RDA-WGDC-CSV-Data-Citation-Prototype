@@ -1,31 +1,18 @@
+<!DOCTYPE html>
+
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core"
       xmlns:p="http://primefaces.org/ui">
-
-<h:head></h:head>
-
+<h:head>
+    <title>login</title>
+    <meta http-equiv="refresh" content="0;url=login.xhtml"></meta>
+</h:head>
 <h:body>
 
-    <div>
-        <h1>Data Citation Tool for CSV Data...</h1>
-        This tool allows to upload, update and reference CSV subsets.
-        <!--
-                <h1>Dummy Login</h1>
-                <h:form>
-                    <h:inputText value="#{user.username}"/>
-                    <h:inputSecret value="#{user.password}"/>
-                    <h:commandButton value="login" action="#{user.login}"/>
-                </h:form>
-        -->
-        <h1>Upload CSV data</h1>
         <h:form>
-            <p:commandButton action="uploadNewCSV.xhtml?faces-redirect=true" value="Upload new data"/>
-            <p:commandButton action="update.xhtml?faces-redirect=true" value="Update existing data"/>
-            <p:commandButton action="table.xhtml?faces-redirect=true" value="View existing data"/>
+            <h:commandButton action="login.xhtml?faces-redirect=true" value="Login"/>
         </h:form>
 
-
-    </div>
 </h:body>
 </html>
+

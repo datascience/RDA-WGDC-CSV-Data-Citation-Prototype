@@ -95,23 +95,23 @@ public class UserAPI {
         Criteria criteria = this.session.createCriteria(User.class, "user");
         criteria.add(Restrictions.eq("user.username", username));
         user = (User) criteria.uniqueResult();
-
-        this.logger.info("User: " + user.getUsername() + " Password: " + user.getPassword());
-                
         this.session.close();
 
+        if (user != null) {
+            this.logger.info("Password input: " + password + " password DB: " + user.getPassword());
+            isPasswordCorrect = BCrypt.checkpw(password, user.getPassword());
 
-        this.logger.info("Password input: " + password + " password DB: " + user.getPassword());
-        isPasswordCorrect = BCrypt.checkpw(password, user.getPassword());
+            if (isPasswordCorrect) {
+                this.logger.info("Password correct");
 
-        if (isPasswordCorrect) {
-            this.logger.info("Password correct");
+                return true;
+            }
 
-            return true;
         } else {
             this.logger.severe("Username wrong or password incorrect");
-            return false;
+
         }
+        return false;
 
 
     }

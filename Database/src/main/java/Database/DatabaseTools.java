@@ -811,7 +811,7 @@ public class DatabaseTools {
     }
 
     /**
-     * Get a list of database names
+     * Get a list of database names in the system
      *
      * @return
      */
@@ -848,6 +848,41 @@ public class DatabaseTools {
         return listOfDatabases;
 
     }
+
+    /**
+     * This only returns the database of the current connection. This is used by the drop down menu for only
+     * * providing the current schema. Can be replaced by getAvailableDatabases which provides all databases.
+     *
+     * @return
+     */
+    public List<String> getADatabaseCatalogFromDatabaseConnection() {
+        Connection connection = null;
+        List<String> listOfDatabases = new ArrayList<String>();
+
+        try {
+            connection = this.getConnection();
+            String databaseFromConnection = connection.getCatalog();
+            listOfDatabases.add(databaseFromConnection);
+            this.logger.info("Database from connection is " + databaseFromConnection);
+
+            connection.close();
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } finally {
+            try {
+                if (connection != null) {
+                    connection.close();
+                }
+
+            } catch (SQLException sqlee) {
+                sqlee.printStackTrace();
+            }
+        }
+        return listOfDatabases;
+
+    }
+
 
     /**
      * @param databaseName

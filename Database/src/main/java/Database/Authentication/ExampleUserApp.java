@@ -34,7 +34,7 @@ public class ExampleUserApp {
     public void run() {
         UserAPI api = new UserAPI();
         api.addUser("carl", "secret");
-
+        api.addUser("stefan", "secret");
         api.authenticateUser("carl", "secret");
         api.authenticateUser("carl", "banana");
 

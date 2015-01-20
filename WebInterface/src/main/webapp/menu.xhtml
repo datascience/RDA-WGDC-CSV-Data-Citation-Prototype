@@ -1,0 +1,35 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head></h:head>
+
+<h:body>
+
+    <!-- BEGIN user management -->
+    <div>
+        <h:form>
+            <h:panelGroup rendered="#{loginBean.loggedIn}">
+                <p>Logged in username:<span style="color:red"><em> #{loginBean.currentUser.username}</em></span>.
+                    Click here to <a href="logout">logout</a>
+                </p>
+            </h:panelGroup>
+        </h:form>
+    </div>
+    <!-- END user management -->
+    <div>
+        <h1>Data Citation Tool for CSV Data...</h1>
+        This tool allows to upload, update and reference CSV subsets.
+
+        <h1>Upload CSV data</h1>
+        <h:form>
+            <p:commandButton action="uploadNewCSV.xhtml?faces-redirect=true" value="Upload new data"/>
+            <p:commandButton action="update.xhtml?faces-redirect=true" value="Update existing data"/>
+            <p:commandButton action="table.xhtml?faces-redirect=true" value="View existing data"/>
+        </h:form>
+
+
+    </div>
+</h:body>
+</html>

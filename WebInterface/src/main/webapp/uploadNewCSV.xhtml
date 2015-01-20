@@ -14,6 +14,19 @@
 </h:head>
 
 <h:body>
+    <!-- BEGIN user management -->
+    <div>
+        <h:form>
+            <h:panelGroup rendered="#{loginBean.loggedIn}">
+                <p>Logged in username:<span style="color:red"><em> #{loginBean.currentUser.username}</em></span>.
+                    Click here to <a href="logout">logout</a>
+                </p>
+            </h:panelGroup>
+        </h:form>
+    </div>
+    <p:separator/>
+    <!-- END user management -->
+
     <h1>CSV Datafile Upload</h1>
 
     <p>With this you can upload a CSV file into the system. You need to select a database schema where you want to store

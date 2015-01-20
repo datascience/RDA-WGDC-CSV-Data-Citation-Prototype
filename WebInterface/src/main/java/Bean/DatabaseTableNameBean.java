@@ -94,9 +94,10 @@ public class DatabaseTableNameBean implements Serializable {
         try {
 
             dbtools = new DatabaseTools();
-            databaseNames = dbtools.getAvailableDatabases();
-            //databaseNames = new ArrayList<String>();
-            //databaseNames.add("Test hard coedd");
+            // this only returns the database schema specified in the connection profile.
+            databaseNames = dbtools.getADatabaseCatalogFromDatabaseConnection();
+
+            
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -113,12 +114,13 @@ public class DatabaseTableNameBean implements Serializable {
      * @param event
      */
     public void handleChangeDatabaseName(ValueChangeEvent event) {
+
         this.logger.info(event.getComponent().toString() + " " + event.toString());
 
         String selectedDB = event.getNewValue().toString();
         this.logger.info("Databasename = " + selectedDB);
-
-        this.storeSessionData("currentDatabaseName", selectedDB);
+        SessionManager sm = new SessionManager();
+        sm.storeSessionData("currentDatabaseName", selectedDB);
 
         this.tableNames = this.dbtools.getAvailableTablesFromDatabase(selectedDB);
 
@@ -135,27 +137,13 @@ public class DatabaseTableNameBean implements Serializable {
 
         String selectedTable = event.getNewValue().toString();
         this.logger.info("selected table name CHANGED  = " + selectedTable);
-
-        this.storeSessionData("currentTableName", selectedTable);
-
-    }
-
-
-    /**
-     * Store details in session
-     */
-    private void storeSessionData(String key, String value) {
-        System.out.println("Writing data into session: Key " + key + "  Value:  " + value);
-
-
-        Map<String, Object> session = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
-
-        // schreiben
-
-        session.put(key, value);
-
+        SessionManager sm = new SessionManager();
+        sm.storeSessionData("currentTableName", selectedTable);
 
     }
+
+
+
 
 
 }
