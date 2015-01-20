@@ -397,12 +397,17 @@ public class FileUploadController implements Serializable {
 
         this.storePrimaryKeyListInSession(this.getSelectedPrimaryKeyColumns());
 
+        FacesContext context = FacesContext.getCurrentInstance();
+
 
         FacesMessage msg = new FacesMessage("You selected " + this.getSelectedPrimaryKeyColumns().size() + " colums " +
                 "as a " +
                 "compund primary key", "Please ensure that the primary key (bei it a single column or a compound key)" +
                 " must be unique within the complete file.");
-        FacesContext.getCurrentInstance().addMessage(null, msg);
+        context.addMessage(
+                "primaryKeyForm:primaryKeyButton", msg
+        );
+
 
     }
 

@@ -157,6 +157,8 @@ public class BatchAPI {
             this.promtMessageToCommandline("[" + i + "] " + columns[i].getColumnName() + "\n");
         }
 
+        this.promtMessageToCommandline("[s] " + " System Generated Sequence Number\n");
+
     }
 
     /*Show all columns and ask for primary key
@@ -175,6 +177,9 @@ public class BatchAPI {
         if (position.equals("x")) {
             this.logger.info("All keys have beend added");
             selectedPrimaryKey = null;
+        } else if (position.equals("s")) {
+            selectedPrimaryKey = "ID_SYSTEM_SEQUENCE";
+            this.logger.info("Use the internal system generated primary key");
         } else {
             selectedPrimaryKey = columns[Integer.parseInt(position)].getColumnName();
         }
