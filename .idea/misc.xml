@@ -21,16 +21,6 @@
     <option name="OPEN_IN_BROWSER" value="true" />
     <option name="OPTION_INCLUDE_LIBS" value="false" />
   </component>
-  <component name="MavenCompilerTasksManager">
-    <option name="afterCompileTasks">
-      <set>
-        <MavenCompilerTask>
-          <option name="goal" value="org.apache.tomcat.maven:tomcat7-maven-plugin:2.0:deploy" />
-          <option name="projectPath" value="$PROJECT_DIR$/CSV-Citation-Deployment-Module/pom.xml" />
-        </MavenCompilerTask>
-      </set>
-    </option>
-  </component>
   <component name="MavenProjectsManager">
     <option name="originalFiles">
       <list>

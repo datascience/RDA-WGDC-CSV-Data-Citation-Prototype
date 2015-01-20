@@ -1,5 +1,5 @@
 /*
- * Copyright [2014] [Stefan Pröll]
+ * Copyright [2015] [Stefan Pröll]
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -46,74 +46,55 @@
  *    limitations under the License.
  */
 
-package Bean;
+/*
+ * Copyright [2014] [Stefan Pröll]
+ *
+ *    Licensed under the Apache License, Version 2.0 (the "License");
+ *    you may not use this file except in compliance with the License.
+ *    You may obtain a copy of the License at
+ *
+ *        http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *    Unless required by applicable law or agreed to in writing, software
+ *    distributed under the License is distributed on an "AS IS" BASIS,
+ *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *    See the License for the specific language governing permissions and
+ *    limitations under the License.
+ */
 
-import Database.Authentication.User;
+package Database.Authentication;
 
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
-import javax.faces.context.FacesContext;
-import java.io.Serializable;
+
+import org.hibernate.HibernateException;
+import org.hibernate.SessionFactory;
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+import org.hibernate.cfg.Configuration;
+import org.hibernate.service.ServiceRegistry;
 
 /**
- * Created by stefan on 18.06.14.
+ * Hibernate session management
  */
+public class HibernateUtilUserAuthentication {
+    private static SessionFactory sessionFactory;
+    private static ServiceRegistry serviceRegistry;
 
-@ManagedBean(name = "user")
-@SessionScoped
-public class UserManager implements Serializable {
+    static {
+        try {
 
-    private String username;
-    private String password;
-    private User current;
+            Configuration configuration = new Configuration();
+            configuration.configure("hibernate.userauthentication.cfg.xml");
 
-    private UserManager userService;
+            serviceRegistry = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties()).build();
+            sessionFactory = configuration.buildSessionFactory(serviceRegistry);
 
-    public String getPassword() {
-        return password;
+
+        } catch (HibernateException he) {
+            System.err.println("Error creating Session: " + he);
+            throw new ExceptionInInitializerError(he);
+        }
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public static SessionFactory getSessionFactory() {
+        return sessionFactory;
     }
-
-    public UserManager getUserService() {
-        return userService;
-    }
-
-    public void setUserService(UserManager userService) {
-        this.userService = userService;
-    }
-
-    public String getLogin() {
-     /*   current = userService.find(username, password);
-
-        if (current == null) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Unknown login, try again"));
-            return (username = password = null);
-        } else {
-            return "upload?faces-redirect=true";
-        }*/
-
-
-        return "upload?faces-redirect=true";
-    }
-
-    public String logout() {
-        FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
-        return "index?faces-redirect=true";
-    }
-
-    public boolean isLoggedIn() {
-        return current != null;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-    // Getters/setters (but do NOT provide a setter for current!)
 }

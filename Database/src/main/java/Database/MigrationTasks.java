@@ -46,7 +46,7 @@ public class MigrationTasks {
     /*
 * Migration
 * */
-    public void migrate(HashMap filesListInput, List<String> primaryKey) {
+    public boolean migrate(HashMap filesListInput, List<String> primaryKey) {
         this.logger.info("Doing the migration.");
 
         boolean calulateHashColumn = false;
@@ -94,18 +94,22 @@ public class MigrationTasks {
 
             } catch (Exception e) {
                 e.printStackTrace();
+                return false;
             }
 
             try {
 
             } catch (Exception e) {
                 e.printStackTrace();
+                return false;
             }
 
 
             it.remove(); // avoids a ConcurrentModificationException
+
         }
 
+        return true;
 
     }
 

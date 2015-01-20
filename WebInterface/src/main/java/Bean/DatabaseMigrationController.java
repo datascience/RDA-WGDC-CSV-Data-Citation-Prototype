@@ -29,7 +29,7 @@ public class DatabaseMigrationController implements Serializable {
     private Logger logger;
     private static final boolean calulateHashColumn = false;
     private List<String> primaryKeys;
-
+    private boolean successStatus = false;
     public List<String> getPrimaryKey() {
         this.primaryKeys = this.getPrimaryKeyListFromSession();
 
@@ -100,6 +100,22 @@ public class DatabaseMigrationController implements Serializable {
         return "table.xhtml?faces-redirect=true";
     }
 
+    public boolean getSuccessStatus() {
+        return successStatus;
+    }
+
+    public void setSuccessStatus(boolean successStatus) {
+        this.successStatus = successStatus;
+    }
+
+    public void setCurrentTableName(String currentTableName) {
+        this.currentTableName = currentTableName;
+    }
+
+    public void setCurrentDatabaseName(String currentDatabaseName) {
+        this.currentDatabaseName = currentDatabaseName;
+    }
+
     /**
      * @TODO needs to be rewritten!!
      */
@@ -116,9 +132,38 @@ public class DatabaseMigrationController implements Serializable {
                 .getCommaSeperatedListofPrimaryKeys
                 (primaryKeys));
 
-        migrationTasks.migrate(this.getFileListFromSession(), primaryKeys);
+        boolean migrationSuccess = false;
+        migrationSuccess = migrationTasks.migrate(this.getFileListFromSession(), primaryKeys);
+        this.setSuccessStatus(migrationSuccess);
+        this.displayMigrationMessage();
+        
+        
+        
 
     }
+
+    private void displayMigrationMessage() {
+
+
+        String msgText = "";
+
+        FacesContext context = FacesContext.getCurrentInstance();
+
+        if (this.getSuccessStatus()) {
+            msgText = "You successfully imported the data into the system! Click on View existing data to proceed or " +
+                    "upload a new file.";
+        } else {
+            msgText = "There was an error during uploading. Please consult the logs!";
+        }
+
+        this.logger.info("Displaying message  " + msgText);
+
+        FacesMessage msg = new FacesMessage(msgText);
+        context.addMessage("migrateForm:migrateButton", msg);
+
+
+    }
+    
 
 
 

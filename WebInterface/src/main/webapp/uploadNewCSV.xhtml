@@ -24,7 +24,7 @@
     </p>
 
 
-    <h2>The Database Table Definition</h2>
+    <h2>Step 1: The Database Table Definition</h2>
 
     <p>Please select the database which should store your data. Use CITATION_DB in most cases. A tablename must start
         with an alphabetical letter and may then only consist of alphanummeric characters and underscores.
@@ -45,9 +45,11 @@
             <f:ajax event="blur"/>
         </p:inputText>
 
-        <h2>Upload the data</h2>
+        <h2>Step 2: Upload the data</h2>
 
-        <p>Select one file from your hard disk. It will be uploaded to the systems and analyzed. <br></br></p>
+        <p>Select one file from your hard disk. It will be uploaded to the systems and analyzed. The system currently
+            only supports a single file per upload.
+            <br></br></p>
         <p:fileUpload fileUploadListener="#{fileUploadController.handleFileUpload}"
                       mode="advanced" update=":primaryKeyForm:primaryKeyMultiCheckbox,messages, dt" auto="true"
                       sizeLimit="100000000"
@@ -65,7 +67,7 @@
 
     </h:form>
     <p:separator/>
-    <h2>The Primary Key</h2>
+    <h2>Step 3: Choose the Primary Key</h2>
 
     <p> Be aware that a primary key and also a combination of key forming a compound primary key must be unique.
         <br></br> The
@@ -91,13 +93,16 @@
     </h:form>
 
     <p:separator/>
-    <h:form>
-        <p:commandButton value="Migrate into Database."
+    <h:form id="migrateForm">
+        <p:commandButton id="migrateButton" value="Migrate into Database."
                          action="#{databaseMigrationController.migrationController}">
 
 
         </p:commandButton>
         <p:commandButton action="table.xhtml?faces-redirect=true" value="View existing data"/>
+        <p:message id="migrationMessage" for="migrateButton" showDetail="true" autoUpdate="true"
+                   closable="true"
+                   globalOnly="false"/>
     </h:form>
 
 
