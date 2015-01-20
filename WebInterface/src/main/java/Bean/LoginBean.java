@@ -16,6 +16,7 @@
 
 package Bean;
 
+import Database.Authentication.User;
 import Database.Authentication.UserAuthentication;
 
 import java.io.Serializable;
@@ -36,6 +37,7 @@ public class LoginBean implements Serializable {
     private static final long serialVersionUID = 1L;
     private String uname;
     private String password;
+    private User currentUser;
     private Logger logger;
 
     public LoginBean() {
@@ -59,16 +61,19 @@ public class LoginBean implements Serializable {
         this.uname = uname;
     }
 
-    public String loginProject() {
+    public String login() {
         UserAuthentication auth = new UserAuthentication();
         boolean result = false;
         try {
             result = auth.login(uname, password);
+
+
         } catch (SQLException e) {
             this.logger.severe("Authentication error");
             e.printStackTrace();
         }
         if (result) {
+            currentUser = auth.getCurrentUser(uname);
             return "home";
         } else {
             FacesContext.getCurrentInstance().addMessage(

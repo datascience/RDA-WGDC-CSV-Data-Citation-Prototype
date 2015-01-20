@@ -116,5 +116,30 @@ public class UserAPI {
 
     }
 
+    /*
+* Check if the username exists in the database
+* * * */
+    public User getUserObject(String username) {
+        User user = null;
+        this.session = HibernateUtilUserAuthentication.getSessionFactory().openSession();
+        this.session.beginTransaction();
+        Criteria criteria = this.session.createCriteria(User.class, "user");
+        criteria.add(Restrictions.eq("user.username", username));
+        user = (User) criteria.uniqueResult();
+        this.session.getTransaction().commit();
+        this.session.close();
+
+        if (user != null) {
+            this.logger.info("User exists");
+
+            return user;
+        } else {
+            this.logger.severe("User NOT found");
+            return null;
+        }
+
+
+    }
+
 
 }

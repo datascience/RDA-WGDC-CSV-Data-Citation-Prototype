@@ -51,4 +51,13 @@ public class UserAuthentication {
 
     }
 
+    /*
+    * get the user object from the API
+    *  */
+    public User getCurrentUser(String username) {
+        return this.userAPI.getUserObject(username);
+
+
+    }
+
 }
