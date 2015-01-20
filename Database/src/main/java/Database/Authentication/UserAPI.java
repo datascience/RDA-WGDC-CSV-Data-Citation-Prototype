@@ -19,6 +19,7 @@ package Database.Authentication;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
+import org.mindrot.jbcrypt.BCrypt;
 
 import java.util.logging.Logger;
 
@@ -37,9 +38,13 @@ public class UserAPI {
 
     }
 
+    /*
+    * Add a user to the system
+    * */
     public boolean addUser(String username, String password) {
         User user = new User(username, password);
         boolean success = false;
+
         this.session = HibernateUtilUserAuthentication.getSessionFactory().openSession();
         this.session.beginTransaction();
         this.session.save(user);
@@ -78,18 +83,28 @@ public class UserAPI {
 
     }
 
+    /*
+    * authenticate a user
+    * */
     public boolean authenticateUser(String username, String password) {
         User user = null;
+        boolean isPasswordCorrect = false;
+        
         this.session = HibernateUtilUserAuthentication.getSessionFactory().openSession();
         this.session.beginTransaction();
         Criteria criteria = this.session.createCriteria(User.class, "user");
         criteria.add(Restrictions.eq("user.username", username));
-        criteria.add(Restrictions.eq("user.password", password));
         user = (User) criteria.uniqueResult();
-        this.session.getTransaction().commit();
+
+        this.logger.info("User: " + user.getUsername() + " Password: " + user.getPassword());
+                
         this.session.close();
 
-        if (user != null) {
+
+        this.logger.info("Password input: " + password + " password DB: " + user.getPassword());
+        isPasswordCorrect = BCrypt.checkpw(password, user.getPassword());
+
+        if (isPasswordCorrect) {
             this.logger.info("Password correct");
 
             return true;

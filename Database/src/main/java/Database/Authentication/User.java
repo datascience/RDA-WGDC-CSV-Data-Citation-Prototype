@@ -34,6 +34,7 @@ package Database.Authentication;
 
 
 import org.hibernate.envers.Audited;
+import org.mindrot.jbcrypt.BCrypt;
 
 import java.io.Serializable;
 import javax.persistence.*;
@@ -50,29 +51,34 @@ public class User implements Serializable {
     private Long user_id;
 
 
+    /*
+    * Create a new user
+    *  */
     public User(String username, String password) {
         this.username = username;
-        this.password = password;
+        this.password = this.hashPassword(password);
     }
 
     public User() {
     }
 
-    @Column(name = "username")
+    @Column(name = "username", unique = true)
     public String getUsername() {
-        return username;
+        return this.username;
     }
 
     public void setUsername(String username) {
         this.username = username;
     }
 
-    @Column(name = "password")
+    @Column(name = "password", columnDefinition = "char(60)")
     public String getPassword() {
-        return password;
+        return this.password;
     }
 
     public void setPassword(String password) {
+
+
         this.password = password;
     }
 
@@ -85,5 +91,19 @@ public class User implements Serializable {
 
     public void setUser_id(Long user_id) {
         this.user_id = user_id;
+    }
+
+    /*
+    * Hash the password
+    * * * */
+    private String hashPassword(String input) {
+
+        // gensalt's log_rounds parameter determines the complexity the work factor is 2**log_rounds, and the default
+        // is 10
+        String hashedInput = BCrypt.hashpw(input, BCrypt.gensalt(12));
+
+        return hashedInput;
+
+
     }
 }
