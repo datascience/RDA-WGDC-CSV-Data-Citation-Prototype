@@ -21,10 +21,7 @@
     <!-- END user management -->
     <p:separator/>
     <div>
-        <h1>Data Citation Tool for CSV Data...</h1>
-        This tool allows to upload, update and reference CSV subsets.
-
-        <h1>Upload CSV data</h1>
+        <h1>Data Citation for CSV</h1>
 
         <h:form id="loginForm" class="inner">
             <p:panel header="CSV Data Citation Main Menu" style="width: 800px;">
@@ -33,63 +30,25 @@
 
                 <p:commandButton id="uploadButton" action="uploadNewCSV.xhtml?faces-redirect=true"
                                  value="Upload new data"></p:commandButton>
-                <h:outputText value="Upload a new CSV file"/>
+                <h:outputText value="Upload a new CSV file and migrate the data into a datanbase."/>
                 <p:spacer></p:spacer>
                 <p:message for="uploadButton"></p:message>
 
+
                 <p:commandButton id="updateButton" action="update.xhtml?faces-redirect=true"
                                  value="Update existing data"></p:commandButton>
-                <h:outputText value="Update existing CSV file"/>
-
-
+                <h:outputText value="Update an existing CSV file and "/>
                 <p:spacer></p:spacer>
+                <p:message for="updateButton"></p:message>
 
-
-                <p:spacer></p:spacer>
-
-                <p:commandButton action="table.xhtml?faces-redirect=true" value="View existing data"></p:commandButton>
-                <h:outputText value="View data"/>
+                <p:commandButton id="viewButton" action="table.xhtml?faces-redirect=true"
+                                 value="View existing data"></p:commandButton>
+                <h:outputText value="View data and create citable subsets."/>
 
 
             </h:panelGrid>
 
         </p:panel>
-        </h:form>
-
-
-        <h:form id="test" class="inner">
-
-
-            <p:growl id="msg" showDetail="true" life="3000"/>
-            <p:panel header="testp" style="width: 360px;">
-
-                <h:panelGrid id="testlp" columns="2">
-
-                    <h:outputText value="Username"/>
-
-                    <p:inputText id="username" value="#{loginBean.uname}"></p:inputText>
-
-                    <p:spacer></p:spacer>
-
-                    <p:message for="username"></p:message>
-
-                    <h:outputText value="Password"/>
-
-                    <p:password id="password" value="#{loginBean.password}" feedback="false"></p:password>
-
-                    <p:spacer></p:spacer>
-
-                    <p:message for="password"></p:message>
-
-                    <p:spacer></p:spacer>
-
-                    <p:commandButton action="#{loginBean.login}" value="Login"
-                                     ajax="true"></p:commandButton>
-
-                </h:panelGrid>
-
-            </p:panel>
-
         </h:form>
 
     </div>
