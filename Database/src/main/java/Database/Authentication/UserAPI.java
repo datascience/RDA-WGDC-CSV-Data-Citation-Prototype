@@ -45,15 +45,21 @@ public class UserAPI {
         User user = new User(username, password);
         boolean success = false;
 
-        this.session = HibernateUtilUserAuthentication.getSessionFactory().openSession();
-        this.session.beginTransaction();
-        this.session.save(user);
-        this.session.getTransaction().commit();
-        this.session.flush();
-        this.session.close();
+        if (this.checkIfUserExists(username)) {
+            this.logger.severe("User already exists in database");
+            return false;
+        } else {
+            this.session = HibernateUtilUserAuthentication.getSessionFactory().openSession();
+            this.session.beginTransaction();
+            this.session.save(user);
+            this.session.getTransaction().commit();
+            this.session.flush();
+            this.session.close();
 
-        success = this.checkIfUserExists(username);
-        return success;
+            success = this.checkIfUserExists(username);
+            return success;
+
+        }
 
 
     }
@@ -137,8 +143,6 @@ public class UserAPI {
             this.logger.severe("User NOT found");
             return null;
         }
-
-
     }
 
 

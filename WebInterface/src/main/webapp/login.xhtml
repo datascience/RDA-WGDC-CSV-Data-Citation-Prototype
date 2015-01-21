@@ -10,8 +10,9 @@
 
 </h:head>
 <h:body>
+    <div class="container">
 
-    <h:form id="loginForm" class="panelGridCenter">
+        <h:form id="loginForm" class="inner">
 
 
         <p:growl id="msg" showDetail="true" life="3000"/>
@@ -45,6 +46,16 @@
         </p:panel>
 
     </h:form>
+        <div id="dataSecurity">
+            <p>
+                If you need a login please contact the administrator. Your passwords will be stored encrypted in the
+                database, however the transmission of the data is NOT encrypted in the current version. For adding a
+                user
+                you need to use the UserAPI from command line. Please do not use a sensitive password for this service.
+            </p>
+
+        </div>
+    </div>
 
 
 </h:body>
