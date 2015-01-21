@@ -41,8 +41,8 @@ public class UserAPI {
     /*
     * Add a user to the system
     * */
-    public boolean addUser(String username, String password) {
-        User user = new User(username, password);
+    public boolean addUser(String username, String password, int organizational_id) {
+        User user = new User(username, password, organizational_id);
         boolean success = false;
 
         if (this.checkIfUserExists(username)) {

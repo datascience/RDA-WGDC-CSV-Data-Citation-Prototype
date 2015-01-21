@@ -139,13 +139,7 @@
         </dependency>
 
     </dependencies>
-    <!--
-        <modules>
-            <module>../DatatableModel</module>
-            <module>../Database</module>
-            <module>../CSVTools</module>
-        </modules>
-    -->
+
     <build>
         <finalName>${project.artifactId}</finalName>
 

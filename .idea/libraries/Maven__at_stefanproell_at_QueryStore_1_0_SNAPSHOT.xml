@@ -10,6 +10,7 @@
     <SOURCES>
       <root url="jar://$PROJECT_DIR$/QueryStore/QueryStore-1.0-SNAPSHOT-sources.jar!/" />
       <root url="jar://$MAVEN_REPOSITORY$/at/stefanproell/at/QueryStore/1.0-SNAPSHOT/QueryStore-1.0-SNAPSHOT-sources.jar!/" />
+      <root url="file://$PROJECT_DIR$/QueryStore/src/main/java" />
     </SOURCES>
   </library>
 </component>

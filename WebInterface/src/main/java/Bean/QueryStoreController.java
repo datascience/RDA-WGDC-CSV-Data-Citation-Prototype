@@ -32,12 +32,12 @@
 
 package Bean;
 
-import QueryStore.Filter;
-import QueryStore.HibernateUtil;
-import QueryStore.Query;
-import QueryStore.Sorting;
+import QueryStore.*;
 
+import at.stefanproell.PersistentIdentifierMockup.Organization;
 import at.stefanproell.PersistentIdentifierMockup.PIGenerator;
+import at.stefanproell.PersistentIdentifierMockup.PersistentIdentifierAPI;
+import at.stefanproell.PersistentIdentifierMockup.PersistentIdentifierAlphaNumeric;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import org.hibernate.Session;
@@ -62,9 +62,20 @@ import java.util.logging.Logger;
 @ManagedBean(name = "queryStoreController")
 @SessionScoped
 public class QueryStoreController implements Serializable {
-    private Session session = null;
-    private Logger logger;
 
+    private Logger logger;
+    private QueryStoreAPI queryStoreAPI;
+    private PersistentIdentifierAPI pidAPI;
+
+    public QueryStoreController() {
+        this.logger = Logger.getLogger(this.getClass().getName());
+        this.queryStoreAPI = new QueryStoreAPI();
+        this.pidAPI = new PersistentIdentifierAPI();
+
+
+    }
+    
+    
     public Query getQuery() {
         if (this.query == null) {
             this.initializeQueryStore();
@@ -94,51 +105,41 @@ public class QueryStoreController implements Serializable {
 
     public void setFilterMap(Map<String, String> filterMap) {
 
-        this.logger.info("Setting filtermap inside the bean!!! " +
-                "------------------------aaaaaaAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+        this.logger.info("Setting filtermap inside the bean!!! ");
         this.filterMap = filterMap;
     }
 
     private Map<String, String> filterMap;
 
 
-    public QueryStoreController() {
-        this.logger = Logger.getLogger(this.getClass().getName());
-        this.session = HibernateUtil.getSessionFactory().openSession();
 
 
-    }
-
-    public Session getSession() {
-        return session;
-    }
-
-    public void setSession(Session session) {
-        this.session = session;
-    }
 
 
     public void initializeQueryStore() {
 
-        if (this.query == null) {
-            this.setQuery(new Query());
+
+        this.logger.warning("Using predefined organizational ID!");
+        Organization org = this.pidAPI.getOrganizationObjectByPrefix(12345);
+        PersistentIdentifierAlphaNumeric pid = this.pidAPI.getAlphaNumericPID(org, "localhostTEST");
+
+        PersistentIdentifierAlphaNumeric pidDS = this.pidAPI.getAlphaNumericPID(org, "DATASOURCE PID");
 
 
-        }
+        Query query = this.queryStoreAPI.createNewQuery("DUMMYUSER", "EMPTYDESCRIPTION", "DUMMYTABLENAME", pid
+                .getIdentifier());
+        
+        
 
-        PIGenerator pIGenerator = new PIGenerator();
-        String pid = pIGenerator.getRandomAlpaString(5);
 
-
-        session.beginTransaction();
         this.query.setExecution_timestamp(new Date());
-        this.query.setPID(pid);
-        this.query.setDatasourcePID(pIGenerator.getRandomAlpaString(5));
+        this.query.setPID(pid.getIdentifier());
+        this.query.setDatasourcePID(pidDS.getIdentifier());
         this.query.setQuery_text("SELECT * FROM table");
-        this.query.setQueryHash(pIGenerator.getRandomAlpaString(5));
+        this.query.setQueryHash("abcded");
         this.query.setUserName("stefan");
-        session.save(query);
-        session.getTransaction().commit();
+
+        //  this.queryStoreAPI.
 
 
     }
@@ -153,26 +154,16 @@ public class QueryStoreController implements Serializable {
         Map<String, String> filterMap = this.convertJSON2Map(filterMapJSON);
         this.printMap(filterMap);
 
-
-        // Iterate over Filters
-        // TODO: externalize in own method
-        session.beginTransaction();
-        for (Map.Entry<String, String> entry : filterMap.entrySet()) {
-            String filterName = entry.getKey();
-            String filterValue = entry.getValue();
-            Filter filter = new Filter(this.query, filterName, filterValue);
-            this.logger.info("new Filter persisted");
-            session.save(filter);
+        this.queryStoreAPI.addfilters !!!!!!!!!!!!!!!!!!!!!1
 
 
-        }
-        session.save(query);
-        session.getTransaction().commit();
-
+        //todo filter extrahiert in query api
+        //todo momentan werden sourcen nicht erkannt.
+        
         String sortingsMapJSON = this.getJSONFromWebService("?lastSortings=1");
         Map<String, String> sortingsMap = this.convertJSON2Map(filterMapJSON);
         this.printMap(sortingsMap);
-
+/*todo 2015 01 21
 
         // Iterate over Sorting
         // TODO: externalize in own method
@@ -188,7 +179,7 @@ public class QueryStoreController implements Serializable {
         }
         session.save(query);
         session.getTransaction().commit();
-
+*/
 
     }
 

@@ -50,13 +50,16 @@ public class User implements Serializable {
     private String password;
     private Long user_id;
 
+    private int organizational_id;
+
 
     /*
     * Create a new user
     *  */
-    public User(String username, String password) {
+    public User(String username, String password, int organizational_id) {
         this.username = username;
         this.password = this.hashPassword(password);
+        this.organizational_id = organizational_id;
     }
 
     public User() {
@@ -82,6 +85,18 @@ public class User implements Serializable {
         this.password = password;
     }
 
+    /*
+* 
+* Needed for the persistent identifiers */
+    @Column(name = "organizational_id")
+    public int getOrganizational_id() {
+        return organizational_id;
+    }
+
+    public void setOrganizational_id(int organizational_id) {
+        this.organizational_id = organizational_id;
+    }
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id", unique = true, nullable = false)

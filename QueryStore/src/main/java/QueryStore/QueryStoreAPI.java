@@ -39,6 +39,7 @@ import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Set;
 import java.util.logging.Logger;
 
@@ -230,6 +231,38 @@ public class QueryStoreAPI {
 
 
     }
+    
+    /*
+    * Store query persistently n database.
+    * * * */
+    public void persistQuery(Query query){
+        this.session.beginTransaction();
+        this.session.saveOrUpdate(query);
+        this.session.getTransaction().commit();
+        this.session.close();
+        
+    }
+    
+    public void addFilters(Query query, Map<String, String> filterMap){
+        // Iterate over Filters
+        // TODO: externalize in own method
+        session.beginTransaction();
+        for (Map.Entry<String, String> entry : filterMap.entrySet()) {
+            String filterName = entry.getKey();
+            String filterValue = entry.getValue();
+            Filter filter = new Filter(query, filterName, filterValue);
+            this.logger.info("new Filter persisted");
+            session.save(filter);
+
+
+        }
+        session.save(query);
+        session.getTransaction().commit();
+        
+    }
+
+
+
 
 
     /**
