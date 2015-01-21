@@ -1,6 +1,7 @@
 <html xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns="http://www.w3.org/1999/xhtml">
 
 
@@ -100,17 +101,7 @@ function AjaxUpdateDataFailed(result) {
 <h:body id="dt_data_table">
     <div class="container">
         <!-- BEGIN user management -->
-        <div>
-            <h:form>
-                <h:panelGroup rendered="#{loginBean.loggedIn}">
-                    <p>Logged in username:<span style="color:red"><em> #{loginBean.currentUser.username}</em></span>.
-                        Click here to <a href="logout">logout</a>. Click here to get back to the <a
-                                href="menu.xhtml">start page</a>.
-                    </p>
-                </h:panelGroup>
-            </h:form>
-        </div>
-        <p:separator/>
+        <ui:include src="/topmenu.xhtml"/>
         <!-- END user management -->
     <h:form>
         <h:selectOneMenu id="databaseDropDown" valueChangeListener="#{databaseTableNameBean.handleChangeDatabaseName}"

@@ -1,0 +1,20 @@
+<ui:composition
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:p="http://primefaces.org/ui">
+    <!-- BEGIN user management -->
+    <div>
+        <h:form>
+            <h:panelGroup rendered="#{loginBean.loggedIn}">
+                <p>Hello <span style="color:green"><em> #{loginBean.currentUser.username}</em></span>!
+                    Click here to <a href="logout">logout</a>. Click here to get back to the <a
+                            href="menu.xhtml">start page</a>.
+                </p>
+            </h:panelGroup>
+        </h:form>
+    </div>
+    <!-- END user management -->
+    <p:separator/>
+</ui:composition>

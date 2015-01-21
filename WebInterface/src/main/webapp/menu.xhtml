@@ -11,7 +11,7 @@
     <div>
         <h:form>
             <h:panelGroup rendered="#{loginBean.loggedIn}">
-                <p>Logged in username:<span style="color:red"><em> #{loginBean.currentUser.username}</em></span>.
+                <p>Logged in username:<span style="color:green"><em> #{loginBean.currentUser.username}</em></span>.
                     Click here to <a href="logout">logout</a>. Click here to get back to the <a
                             href="menu.xhtml">start page</a>.
                 </p>
@@ -26,20 +26,25 @@
 
         <h1>Upload CSV data</h1>
 
-
-        <p:panel header="CSV Data Citation Main Menu" style="width: 1024px;">
+        <h:form id="loginForm" class="inner">
+            <p:panel header="CSV Data Citation Main Menu" style="width: 800px;">
 
             <h:panelGrid id="mainMenuPanel" columns="2">
 
-
-                <p:commandButton action="uploadNewCSV.xhtml?faces-redirect=true"
+                <p:commandButton id="uploadButton" action="uploadNewCSV.xhtml?faces-redirect=true"
                                  value="Upload new data"></p:commandButton>
                 <h:outputText value="Upload a new CSV file"/>
                 <p:spacer></p:spacer>
+                <p:message for="uploadButton"></p:message>
 
-                <p:commandButton action="update.xhtml?faces-redirect=true"
+                <p:commandButton id="updateButton" action="update.xhtml?faces-redirect=true"
                                  value="Update existing data"></p:commandButton>
                 <h:outputText value="Update existing CSV file"/>
+
+
+                <p:spacer></p:spacer>
+
+
                 <p:spacer></p:spacer>
 
                 <p:commandButton action="table.xhtml?faces-redirect=true" value="View existing data"></p:commandButton>
@@ -49,7 +54,43 @@
             </h:panelGrid>
 
         </p:panel>
+        </h:form>
 
+
+        <h:form id="test" class="inner">
+
+
+            <p:growl id="msg" showDetail="true" life="3000"/>
+            <p:panel header="testp" style="width: 360px;">
+
+                <h:panelGrid id="testlp" columns="2">
+
+                    <h:outputText value="Username"/>
+
+                    <p:inputText id="username" value="#{loginBean.uname}"></p:inputText>
+
+                    <p:spacer></p:spacer>
+
+                    <p:message for="username"></p:message>
+
+                    <h:outputText value="Password"/>
+
+                    <p:password id="password" value="#{loginBean.password}" feedback="false"></p:password>
+
+                    <p:spacer></p:spacer>
+
+                    <p:message for="password"></p:message>
+
+                    <p:spacer></p:spacer>
+
+                    <p:commandButton action="#{loginBean.login}" value="Login"
+                                     ajax="true"></p:commandButton>
+
+                </h:panelGrid>
+
+            </p:panel>
+
+        </h:form>
 
     </div>
 </h:body>
