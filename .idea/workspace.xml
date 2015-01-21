@@ -5,16 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fe0bbad9-08dd-49cf-9f33-eb5e1947ea1f" name="Default" comment="login form fixed">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/WebInterface/src/main/java/Filters/LoginFilter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/WebInterface/src/main/java/Bean/LoginBean.java" afterPath="$PROJECT_DIR$/WebInterface/src/main/java/Bean/LoginBean.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/WebInterface/src/main/java/Bean/SessionManager.java" afterPath="$PROJECT_DIR$/WebInterface/src/main/java/Bean/SessionManager.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/WebInterface/src/main/webapp/css/csv-citation-custom.css" afterPath="$PROJECT_DIR$/WebInterface/src/main/webapp/css/csv-citation-custom.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Database/src/main/resources/hibernate.userauthentication.cfg.xml" afterPath="$PROJECT_DIR$/Database/src/main/resources/hibernate.userauthentication.cfg.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/WebInterface/src/main/webapp/login.xhtml" afterPath="$PROJECT_DIR$/WebInterface/src/main/webapp/login.xhtml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/WebInterface/src/main/webapp/menu.xhtml" afterPath="$PROJECT_DIR$/WebInterface/src/main/webapp/menu.xhtml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/WebInterface/src/main/webapp/table.xhtml" afterPath="$PROJECT_DIR$/WebInterface/src/main/webapp/table.xhtml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/WebInterface/src/main/webapp/uploadNewCSV.xhtml" afterPath="$PROJECT_DIR$/WebInterface/src/main/webapp/uploadNewCSV.xhtml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/WebInterface/src/main/webapp/WEB-INF/web.xml" afterPath="$PROJECT_DIR$/WebInterface/src/main/webapp/WEB-INF/web.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/WebInterface/src/main/java/Filters/LoginFilter.java" afterPath="$PROJECT_DIR$/WebInterface/src/main/java/Filters/LoginFilter.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="SCAPE-QueryStore.iws" />
@@ -121,7 +112,7 @@
         <entry file="file://$PROJECT_DIR$/WebInterface/src/main/webapp/table.xhtml">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="-8.75" vertical-offset="1305" max-vertical-offset="2595">
-              <caret line="101" column="0" selection-start-line="101" selection-start-column="0" selection-end-line="113" selection-end-column="32" />
+              <caret line="101" column="0" selection-start-line="101" selection-start-column="0" selection-end-line="113" selection-end-column="36" />
               <folding />
             </state>
           </provider>
@@ -130,7 +121,7 @@
       <file leaf-file-name="login.xhtml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/WebInterface/src/main/webapp/login.xhtml">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-5.0" vertical-offset="0" max-vertical-offset="1140">
+            <state vertical-scroll-proportion="-5.0" vertical-offset="0" max-vertical-offset="1155">
               <caret line="8" column="79" selection-start-line="8" selection-start-column="79" selection-end-line="8" selection-end-column="79" />
               <folding />
             </state>
@@ -140,8 +131,8 @@
       <file leaf-file-name="LoginFilter.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/WebInterface/src/main/java/Filters/LoginFilter.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.673947" vertical-offset="393" max-vertical-offset="1305">
-              <caret line="55" column="42" selection-start-line="55" selection-start-column="42" selection-end-line="55" selection-end-column="42" />
+            <state vertical-scroll-proportion="0.6973479" vertical-offset="423" max-vertical-offset="1245">
+              <caret line="58" column="74" selection-start-line="58" selection-start-column="74" selection-end-line="58" selection-end-column="74" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -162,7 +153,7 @@
       <file leaf-file-name="uploadNewCSV.xhtml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/WebInterface/src/main/webapp/uploadNewCSV.xhtml">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-5.0" vertical-offset="0" max-vertical-offset="1965">
+            <state vertical-scroll-proportion="-5.0" vertical-offset="0" max-vertical-offset="2055">
               <caret line="8" column="0" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="79" />
               <folding />
             </state>
@@ -172,7 +163,7 @@
       <file leaf-file-name="web.xml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/WebInterface/src/main/webapp/WEB-INF/web.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="334" max-vertical-offset="1035">
+            <state vertical-scroll-proportion="0.0" vertical-offset="334" max-vertical-offset="1005">
               <caret line="55" column="32" selection-start-line="55" selection-start-column="21" selection-end-line="55" selection-end-column="32" />
               <folding />
             </state>
@@ -182,7 +173,7 @@
       <file leaf-file-name="menu.xhtml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/WebInterface/src/main/webapp/menu.xhtml">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-12.5" vertical-offset="0" max-vertical-offset="945">
+            <state vertical-scroll-proportion="-12.5" vertical-offset="0" max-vertical-offset="930">
               <caret line="20" column="0" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
               <folding />
             </state>
@@ -1805,12 +1796,6 @@
       <option name="number" value="Default" />
       <updated>1407135258553</updated>
     </task>
-    <task id="LOCAL-00102" summary="subcomponent">
-      <created>1416821027190</created>
-      <option name="number" value="00102" />
-      <option name="project" value="LOCAL" />
-      <updated>1416821027190</updated>
-    </task>
     <task id="LOCAL-00103" summary="resolver">
       <created>1416921044296</created>
       <option name="number" value="00103" />
@@ -2099,7 +2084,13 @@
       <option name="project" value="LOCAL" />
       <updated>1421834868415</updated>
     </task>
-    <option name="localTasksCounter" value="151" />
+    <task id="LOCAL-00151" summary="login form fixed">
+      <created>1421844653287</created>
+      <option name="number" value="00151" />
+      <option name="project" value="LOCAL" />
+      <updated>1421844653287</updated>
+    </task>
+    <option name="localTasksCounter" value="152" />
     <servers />
   </component>
   <component name="TodoView" selected-index="0">
@@ -2124,14 +2115,14 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-1" y="0" width="1922" height="1055" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3290735" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Problems" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3365282" sideWeight="0.5" order="14" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2886049" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2886049" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32694355" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -2146,7 +2137,7 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25825346" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2886049" sideWeight="0.6911608" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2886049" sideWeight="0.6911608" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Statistic" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32800853" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -2576,7 +2567,7 @@
     <entry file="file://$PROJECT_DIR$/WebInterface/src/main/webapp/table.xhtml">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-8.75" vertical-offset="1305" max-vertical-offset="2595">
-          <caret line="101" column="0" selection-start-line="101" selection-start-column="0" selection-end-line="113" selection-end-column="32" />
+          <caret line="101" column="0" selection-start-line="101" selection-start-column="0" selection-end-line="113" selection-end-column="36" />
           <folding />
         </state>
       </provider>
@@ -2655,8 +2646,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/WebInterface/src/main/java/Filters/LoginFilter.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.673947" vertical-offset="393" max-vertical-offset="1305">
-          <caret line="55" column="42" selection-start-line="55" selection-start-column="42" selection-end-line="55" selection-end-column="42" />
+        <state vertical-scroll-proportion="0.6973479" vertical-offset="423" max-vertical-offset="1245">
+          <caret line="58" column="74" selection-start-line="58" selection-start-column="74" selection-end-line="58" selection-end-column="74" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>

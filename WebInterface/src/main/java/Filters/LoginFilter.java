@@ -56,7 +56,7 @@ public class LoginFilter implements Filter {
                 this.logger.info("Resource detected");
 
             } else if (path.endsWith(".xhtml")) {
-                this.logger.info("User was not logged in");
+                this.logger.info("User was not logged in. Filter triggered");
                 ((HttpServletResponse) response).sendRedirect(contextPath + "/login.xhtml");
             }
         }
