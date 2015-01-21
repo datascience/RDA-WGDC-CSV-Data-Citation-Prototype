@@ -71,6 +71,7 @@ public class LoginBean implements Serializable {
     }
 
     public String login() {
+        this.logger.severe("Logging in...");
         UserAuthentication auth = new UserAuthentication();
         boolean result = false;
         try {
@@ -101,7 +102,6 @@ public class LoginBean implements Serializable {
 
     public boolean isLoggedIn() {
         SessionManager sm = new SessionManager();
-        sm.printSessionVariables();
         return currentUser != null;
     }
 }

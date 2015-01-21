@@ -29,6 +29,7 @@ import java.util.logging.Logger;
 public class SessionManager {
     private Logger logger;
 
+
     public SessionManager() {
         this.logger = Logger.getLogger(this.getClass().getName());
     }
@@ -37,9 +38,12 @@ public class SessionManager {
         Map<String, Object> sessionMap = this.getSessionMap();
         this.logger.info("Stored session variables (keys)");
 
-        for (Map.Entry<String, Object> entry : sessionMap.entrySet()) {
-            this.logger.info(entry.getKey());
+        if (sessionMap != null) {
+            for (Map.Entry<String, Object> entry : sessionMap.entrySet()) {
+                this.logger.info(entry.getKey());
+            }
         }
+
 
     }
 
@@ -49,12 +53,14 @@ public class SessionManager {
     protected void storeSessionData(String key, String value) {
         System.out.println("Writing data into session: Key " + key + "  Value:  " + value);
 
+        if (FacesContext.getCurrentInstance() != null) {
+            Map<String, Object> session = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
 
-        Map<String, Object> session = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
+            // schreiben
 
-        // schreiben
+            session.put(key, value);
 
-        session.put(key, value);
+        }
 
 
     }
@@ -63,11 +69,16 @@ public class SessionManager {
     * Get session data
     * * * */
     protected Map<String, Object> getSessionMap() {
-        Map<String, Object> sessionMAP = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
-        if (sessionMAP == null) {
-            this.logger.severe("No session data");
+        Map<String, Object> sessionMAP = null;
+        if (FacesContext.getCurrentInstance() != null) {
+            sessionMAP = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
+            if (sessionMAP == null) {
+                this.logger.severe("No session data");
+                return sessionMAP;
+            }
         }
         return sessionMAP;
+
 
     }
 }

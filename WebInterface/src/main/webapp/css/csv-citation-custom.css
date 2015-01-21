@@ -1,4 +1,4 @@
-.container {
+.loginContainer {
     width: 1024px; /* pick whatever width you want */
     display: block;
     margin-left: auto;
@@ -11,4 +11,15 @@
     margin-right: auto;
 
 
+}
+
+.container {
+    width: 1024px; /* pick whatever width you want */
+    display: block;
+    margin-left: 15px;
+/*    margin-right: auto */
+}
+
+.centerText{
+text-align: center;
 }

@@ -12,22 +12,43 @@
         <h:form>
             <h:panelGroup rendered="#{loginBean.loggedIn}">
                 <p>Logged in username:<span style="color:red"><em> #{loginBean.currentUser.username}</em></span>.
-                    Click here to <a href="logout">logout</a>
+                    Click here to <a href="logout">logout</a>. Click here to get back to the <a
+                            href="menu.xhtml">start page</a>.
                 </p>
             </h:panelGroup>
         </h:form>
     </div>
     <!-- END user management -->
+    <p:separator/>
     <div>
         <h1>Data Citation Tool for CSV Data...</h1>
         This tool allows to upload, update and reference CSV subsets.
 
         <h1>Upload CSV data</h1>
-        <h:form>
-            <p:commandButton action="uploadNewCSV.xhtml?faces-redirect=true" value="Upload new data"/>
-            <p:commandButton action="update.xhtml?faces-redirect=true" value="Update existing data"/>
-            <p:commandButton action="table.xhtml?faces-redirect=true" value="View existing data"/>
-        </h:form>
+
+
+        <p:panel header="CSV Data Citation Main Menu" style="width: 1024px;">
+
+            <h:panelGrid id="mainMenuPanel" columns="2">
+
+
+                <p:commandButton action="uploadNewCSV.xhtml?faces-redirect=true"
+                                 value="Upload new data"></p:commandButton>
+                <h:outputText value="Upload a new CSV file"/>
+                <p:spacer></p:spacer>
+
+                <p:commandButton action="update.xhtml?faces-redirect=true"
+                                 value="Update existing data"></p:commandButton>
+                <h:outputText value="Update existing CSV file"/>
+                <p:spacer></p:spacer>
+
+                <p:commandButton action="table.xhtml?faces-redirect=true" value="View existing data"></p:commandButton>
+                <h:outputText value="View data"/>
+
+
+            </h:panelGrid>
+
+        </p:panel>
 
 
     </div>

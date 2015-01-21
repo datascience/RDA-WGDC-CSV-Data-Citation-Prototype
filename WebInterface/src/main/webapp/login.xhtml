@@ -10,7 +10,8 @@
 
 </h:head>
 <h:body>
-    <div class="container">
+
+    <div class="loginContainer">
 
         <h:form id="loginForm" class="inner">
 
@@ -48,12 +49,20 @@
     </h:form>
         <div id="dataSecurity">
             <p>
-                If you need a login please contact the administrator. Your passwords will be stored encrypted in the
-                database, however the transmission of the data is NOT encrypted in the current version. For adding a
-                user
-                you need to use the UserAPI from command line. Please do not use a sensitive password for this service.
+                Your passwords will be <span
+                    style="color:green"><em>stored encrypted</em></span> in the
+                database, however the transmission of the data is <span
+                    style="color:red"><em>NOT encrypted</em></span> in the current version. For adding a user you
+                need to use the UserAPI from command line. Please do not use a sensitive password for this service. If
+                you need a login please contact the administrator.
             </p>
 
+        </div>
+        <div class="centerText">
+
+            <p>
+                <a href="http://www.datacitation.eu">www.datacitation.eu</a>
+            </p>
         </div>
     </div>
 
