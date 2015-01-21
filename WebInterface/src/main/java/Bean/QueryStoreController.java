@@ -154,7 +154,7 @@ public class QueryStoreController implements Serializable {
         Map<String, String> filterMap = this.convertJSON2Map(filterMapJSON);
         this.printMap(filterMap);
 
-        this.queryStoreAPI.addfilters !!!!!!!!!!!!!!!!!!!!!1
+        //anschauen !! this.queryStoreAPI.addfilters !!!!!!!!!!!!!!!!!!!!!1
 
 
         //todo filter extrahiert in query api
