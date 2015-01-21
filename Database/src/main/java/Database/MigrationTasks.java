@@ -53,7 +53,9 @@ public class MigrationTasks {
         this.logger.info("Calculate Hash Columns is OFF");
         // retrieve file names
         if (filesListInput == null) {
-            System.out.println("FileListInput is NULL");
+            this.logger.severe("FileListInput is NULL");
+            return false;
+            
         } else {
             this.logger.info("FileListInput size is " + filesListInput.size());
             this.filesList = filesListInput;
