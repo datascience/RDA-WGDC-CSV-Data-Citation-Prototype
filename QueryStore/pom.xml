@@ -19,11 +19,6 @@
             <scope>test</scope>
         </dependency>
 
-        <dependency>
-            <groupId>at.stefanproell</groupId>
-            <artifactId>PersistentIdentification</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
 
         <!-- MySQL -->
         <dependency>
@@ -58,10 +53,11 @@
         </dependency>
 
         <dependency>
-            <groupId>at.stefanproell.at</groupId>
+            <groupId>at.stefanproell</groupId>
             <artifactId>PersistentIdentification</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
+
 
     </dependencies>
 

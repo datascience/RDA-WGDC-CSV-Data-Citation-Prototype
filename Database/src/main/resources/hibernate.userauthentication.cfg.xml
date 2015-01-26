@@ -20,7 +20,7 @@
 <hibernate-configuration>
     <session-factory>
 
-        <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
+    <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
 
         <!-- Connection details -->
         <property name="hibernate.connection.username">querystoreuser</property>
@@ -41,7 +41,9 @@
         <property name="hibernate.jdbc.batch_size">20</property>
 
         <mapping class="Database.Authentication.User"/>
+
     </session-factory>
 
 
 </hibernate-configuration>
+

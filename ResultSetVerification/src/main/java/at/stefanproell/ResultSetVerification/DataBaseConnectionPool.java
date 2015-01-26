@@ -58,11 +58,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Logger;
 
-/**
- * SCAPE-QueryStore
- * Created by stefan
- * {MONTH_NAME_FULL} {YEAR}
- */
+
 public class DataBaseConnectionPool {
     private final String DATABASE_URL = "jdbc:mysql://localhost:3306/";
     private final String DATABASE_SCHEMA = "CITATION_DB";

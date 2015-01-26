@@ -32,8 +32,9 @@
 
 package Bean;
 
-import QueryStore.*;
 
+import QueryStore.Query;
+import QueryStore.QueryStoreAPI;
 import at.stefanproell.PersistentIdentifierMockup.Organization;
 import at.stefanproell.PersistentIdentifierMockup.PIGenerator;
 import at.stefanproell.PersistentIdentifierMockup.PersistentIdentifierAPI;

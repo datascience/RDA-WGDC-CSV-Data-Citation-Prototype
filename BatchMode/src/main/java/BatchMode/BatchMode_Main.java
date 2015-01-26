@@ -1,6 +1,6 @@
 package BatchMode;
 
-import Bean.DatabaseMigrationController;
+
 import CSVTools.CSV_API;
 import CSVTools.Column;
 import Database.Helpers.StringHelpers;
