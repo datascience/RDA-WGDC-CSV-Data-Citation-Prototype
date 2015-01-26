@@ -1,5 +1,6 @@
 package at.stefanproell.PersistentIdentifierMockup;
 
+import GenericTools.PropertyHelpers;
 import org.hibernate.envers.Audited;
 
 import javax.persistence.DiscriminatorValue;
@@ -54,7 +55,8 @@ public class PersistentIdentifierNumeric extends PersistentIdentifier implements
         this.setIdentifier(pig.getRandomAlpaString(this.numericPIDlength));
         if (this.numericPIDlength <= 0) {
             this.logger.severe("No length specified. Set organization first!. Reading from property file");
-            this.numericPIDlength = Helpers.getIntegerParameterFromPropertyFile(propertiesFileName, "numericPIDlength");
+            this.numericPIDlength = PropertyHelpers.getIntegerParameterFromPropertyFile(propertiesFileName,
+                    "numericPIDlength");
 
         }
         String identifier = (pig.getRandomNumeric(this.numericPIDlength));

@@ -1,5 +1,5 @@
 /*
- * Copyright [2014] [Stefan Pröll]
+ * Copyright [2015] [Stefan Pröll]
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -15,7 +15,7 @@
  */
 
 /*
- * Copyright [2014] [Stefan Pröll]
+ * Copyright [2015] [Stefan Pröll]
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -80,60 +80,62 @@
 
 package Database.DatabaseOperations;
 
-import com.jolbox.bonecp.BoneCPDataSource;
+
+import GenericTools.PropertyHelpers;
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
+import org.hibernate.HibernateException;
+import org.hibernate.SessionFactory;
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+import org.hibernate.cfg.Configuration;
+import org.hibernate.service.ServiceRegistry;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.Properties;
 import java.util.logging.Logger;
 
 /**
- * SCAPE-QueryStore
- * Created by stefan
- * {MONTH_NAME_FULL} {YEAR}
+ * Hibernate session management
  */
-public class DataBaseConnectionPool {
-    private final String DATABASE_URL = "jdbc:mysql://localhost:3306/";
-    private final String DATABASE_SCHEMA = "CITATION_DB";
-    private final String DATABASE_CONNECTION_STRING = DATABASE_URL + DATABASE_SCHEMA;
-    private final String USER_NAME = "querystoreuser";
-    private final String PASSWORD = "query2014";
-
-    private BoneCPDataSource dataSource = null;
-    private Connection connection;
-    private String dataBaseName;
-    private String tableName;
+public class HikariConnectionPool {
+    private HikariDataSource dataSource;
     private Logger logger;
+    private Connection connection;
 
 
-    /**
-     * Constructor
-     */
-    public DataBaseConnectionPool() {
+    public HikariConnectionPool() {
+        this.connection = null;
         this.logger = Logger.getLogger(this.getClass().getName());
+        HikariConfig config = new HikariConfig();
 
-        this.dataBaseName = DATABASE_SCHEMA;
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
-        } catch (ClassNotFoundException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }    // load the DB driver
-        this.setDataSource(new BoneCPDataSource());  // create a new datasource object
-        this.dataSource.setJdbcUrl(DATABASE_URL + this.dataBaseName);        // set the JDBC url
+        String filename = "db.properties";
+        Properties prop = null;
 
-        this.dataSource.setUser(USER_NAME);
-        this.dataSource.setPassword(PASSWORD);
+        prop = PropertyHelpers.readPropertyFile(filename);
 
-        try {
-            this.setConnection(dataSource.getConnection());
-        } catch (SQLException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+        String dbhost = prop.getProperty("dbhost");
+        String dbport = prop.getProperty("dbport");
+        String dbname = prop.getProperty("dbname");
+        String dbuser = prop.getProperty("dbuser");
+        String dbpw = prop.getProperty("dbpassword");
 
+        String mysqlString = "jdbc:mysql://" + dbhost + ":" + dbport + "/" + dbname;
+        System.out.println("db string_ " + mysqlString);
+        Properties extraProperties = new Properties();
+
+
+        config.setJdbcUrl(mysqlString);
+        config.setUsername(dbuser);
+        config.setPassword(dbpw);
+        config.addDataSourceProperty("cachePrepStmts", "true");
+        config.addDataSourceProperty("prepStmtCacheSize", "250");
+        config.addDataSourceProperty("prepStmtCacheSqlLimit", "2048");
+        config.addDataSourceProperty("useServerPrepStmts", "true");
+
+        this.dataSource = new HikariDataSource(config);
 
     }
-
 
     /**
      * Get connection.
@@ -153,37 +155,27 @@ public class DataBaseConnectionPool {
                 e.printStackTrace();
             }
             return this.connection;
-        } else
+        } else if (this.connection == null) {
+            try {
+                this.connection = this.dataSource.getConnection();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
 
-            return null;
+        }
+
+        return this.connection;
 
     }
-
-
-    public void setConnection(Connection connection) {
-        this.connection = connection;
-    }
-
-    public BoneCPDataSource getDataSource() {
-        return dataSource;
-    }
-
-    public void setDataSource(BoneCPDataSource dataSource) {
-        this.dataSource = dataSource;
-    }
-
 
     public String getDataBaseName() {
-        return dataBaseName;
+        Connection con = this.getConnection();
+        String databaseName = null;
+        try {
+            databaseName = con.getCatalog();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return databaseName;
     }
-
-    public String getTableName() {
-        return tableName;
-    }
-
-    public Logger getLogger() {
-        return logger;
-    }
-
-
 }

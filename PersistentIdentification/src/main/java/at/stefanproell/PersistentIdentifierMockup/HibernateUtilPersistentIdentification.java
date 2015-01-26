@@ -1,5 +1,6 @@
 package at.stefanproell.PersistentIdentifierMockup;
 
+import GenericTools.PropertyHelpers;
 import org.hibernate.HibernateException;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
@@ -23,7 +24,7 @@ public class HibernateUtilPersistentIdentification {
             String filename = "db.properties";
             Properties prop = null;
 
-            prop = Helpers.readPropertyFile(filename);
+            prop = PropertyHelpers.readPropertyFile(filename);
 
             String dbhost=prop.getProperty("dbhost");
             String dbport=prop.getProperty("dbport");

@@ -136,7 +136,7 @@ public class DatabaseTools {
 
 
     private Connection connection;
-    private DataBaseConnectionPool dbcp;
+    private HikariConnectionPool dbcp;
 
     public DatabaseTools(String dataBaseName) {
         this.logger = Logger.getLogger(this.getClass().getName());
@@ -148,7 +148,7 @@ public class DatabaseTools {
 		 * e.printStackTrace(); }
 		 */
         this.dataBaseName = dataBaseName;
-        this.dbcp = new DataBaseConnectionPool();
+        this.dbcp = new HikariConnectionPool();
 
 
     }
@@ -163,7 +163,7 @@ public class DatabaseTools {
      */
     public DatabaseTools() throws SQLException, ClassNotFoundException {
         this.logger = Logger.getLogger(this.getClass().getName());
-        this.dbcp = new DataBaseConnectionPool();
+        this.dbcp = new HikariConnectionPool();
 
     }
 
@@ -173,7 +173,7 @@ public class DatabaseTools {
             try {
                 if (this.connection.isClosed()) {
 
-                    this.dbcp = new DataBaseConnectionPool();
+                    this.dbcp = new HikariConnectionPool();
 
                     this.setConnection(dbcp.getConnection());
                 }
@@ -183,7 +183,7 @@ public class DatabaseTools {
             }
             return this.connection;
         } else if (this.connection == null) {
-            this.dbcp = new DataBaseConnectionPool();
+            this.dbcp = new HikariConnectionPool();
 
             this.setConnection(dbcp.getConnection());
 
@@ -474,11 +474,11 @@ public class DatabaseTools {
 
     }
 
-    public DataBaseConnectionPool getBaseConnectionPool() {
+    public HikariConnectionPool getBaseConnectionPool() {
         return dbcp;
     }
 
-    public void setBaseConnectionPool(DataBaseConnectionPool baseConnectionPool) {
+    public void setBaseConnectionPool(HikariConnectionPool baseConnectionPool) {
         this.dbcp = baseConnectionPool;
     }
 

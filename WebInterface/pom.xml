@@ -10,6 +10,13 @@
     <name>WebInterface</name>
     <url>http://maven.apache.org</url>
 
+    <parent>
+        <artifactId>CSV-Citation-Deployment-Module</artifactId>
+        <groupId>at.stefanproell</groupId>
+        <version>1.0-SNAPSHOT</version>
+        <relativePath>../CSV-Citation-Deployment-Module/pom.xml</relativePath>
+    </parent>
+
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>

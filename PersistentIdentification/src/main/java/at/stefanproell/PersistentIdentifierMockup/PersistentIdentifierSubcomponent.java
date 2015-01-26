@@ -1,12 +1,12 @@
 package at.stefanproell.PersistentIdentifierMockup;
 
+import GenericTools.PropertyHelpers;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
 import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
-import java.util.Date;
 import java.util.logging.Logger;
 
 
@@ -61,7 +61,7 @@ public class PersistentIdentifierSubcomponent extends PersistentIdentifier imple
         PIGenerator pig = new PIGenerator();
         if (this.subPIDlength <= 0) {
             this.logger.severe("No length specified. Set organization first!. Reading from property file");
-            this.subPIDlength = Helpers.getIntegerParameterFromPropertyFile(propertiesFileName, "subcomponent");
+            this.subPIDlength = PropertyHelpers.getIntegerParameterFromPropertyFile(propertiesFileName, "subcomponent");
 
         }
         String identifier = (pig.getRandomAlpaNumericString(this.subPIDlength));

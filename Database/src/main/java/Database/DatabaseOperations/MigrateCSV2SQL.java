@@ -103,7 +103,7 @@ import java.util.logging.Logger;
  */
 public class MigrateCSV2SQL {
     private Logger logger;
-    private DataBaseConnectionPool dbcp;
+    private HikariConnectionPool dbcp;
     private DatabaseTools dbtools;
 
     public MigrateCSV2SQL() {

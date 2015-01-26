@@ -32,7 +32,7 @@ public class DatabaseTest {
         String dataBaseName = "CITATION_DB";
 
 
-        DataBaseConnectionPool datasource = new DataBaseConnectionPool();
+        HikariConnectionPool datasource = new HikariConnectionPool();
 
         Connection conn = datasource.getConnection();
 

@@ -96,6 +96,7 @@
 
 package at.stefanproell.ResultSetVerification;
 
+import Database.DatabaseOperations.HikariConnectionPool;
 import com.sun.rowset.CachedRowSetImpl;
 import org.apache.commons.codec.digest.DigestUtils;
 
@@ -117,18 +118,6 @@ public class ResultSetVerificationAPI {
     private static final String DEFAULT_HASH_ALGORITHM = "SHA-1";
     private MessageDigest crypto = null;
 
-    /**
-     * Constructor
-     *
-     * @return
-     */
-    public DataBaseConnectionPool getDcp() {
-
-        if (this.dcp == null) {
-            this.dcp = new DataBaseConnectionPool();
-        }
-        return this.dcp;
-    }
 
     /**
      * Get row count from table name
@@ -155,16 +144,18 @@ public class ResultSetVerificationAPI {
         return numberOfRecords;
     }
 
-    public void setDcp(DataBaseConnectionPool dcp) {
+    public void setDcp(HikariConnectionPool dcp) {
         this.dcp = dcp;
     }
 
-    private DataBaseConnectionPool dcp = null;
+    private HikariConnectionPool dcp = null;
 
     public ResultSetVerificationAPI() {
         this.logger = Logger.getLogger(ResultSetVerificationAPI.class.getName());
         if (this.dcp == null) {
-            this.dcp = new DataBaseConnectionPool();
+            this.dcp = new HikariConnectionPool();
+            
+
         }
 
         // Initialize Crypto

@@ -35,12 +35,12 @@ import java.util.logging.Logger;
 public class DatabaseQueries {
 
     private Logger logger;
-    private DataBaseConnectionPool dbcp;
+    private HikariConnectionPool dbcp;
     private DatabaseTools dbtools;
 
     public DatabaseQueries() {
         this.logger = Logger.getLogger(this.getClass().getName());
-        this.dbcp = new DataBaseConnectionPool();
+        this.dbcp = new HikariConnectionPool();
         this.dbtools = new DatabaseTools(this.dbcp.getDataBaseName());
 
     }

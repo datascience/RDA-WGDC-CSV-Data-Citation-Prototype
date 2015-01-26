@@ -8,6 +8,14 @@
     <packaging>jar</packaging>
     <!-- war???? -->
 
+    <parent>
+        <artifactId>CSV-Citation-Deployment-Module</artifactId>
+        <groupId>at.stefanproell</groupId>
+        <version>1.0-SNAPSHOT</version>
+        <relativePath>../CSV-Citation-Deployment-Module/pom.xml</relativePath>
+    </parent>
+
+
     <name>PersistentIdentification</name>
     <url>http://maven.apache.org</url>
 
@@ -98,8 +106,14 @@
             <version>2.2.4</version>
         </dependency>
 
-
+        <!-- Internal Dependencies -->
+        <dependency>
+            <groupId>at.stefanproell</groupId>
+            <artifactId>CSVTools</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
     </dependencies>
+
 
     <build>
         <finalName>${project.artifactId}</finalName>

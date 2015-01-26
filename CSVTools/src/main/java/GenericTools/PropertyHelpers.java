@@ -1,4 +1,4 @@
-package at.stefanproell.PersistentIdentifierMockup;
+package GenericTools;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -8,7 +8,7 @@ import java.util.Properties;
 /**
  * Helper methods for reading properties files
  */
-public class Helpers {
+public class PropertyHelpers {
 
     /**
      * Read the properties file and return the properties object.
@@ -24,7 +24,7 @@ public class Helpers {
         try {
 
 
-            input = Organization.class.getClassLoader().getResourceAsStream(filename);
+            input = PropertyHelpers.class.getClassLoader().getResourceAsStream(filename);
 
             if (input == null) {
                 System.out.println("Sorry, unable to find " + filename);
@@ -63,7 +63,7 @@ public class Helpers {
 
         int parameterValue = -1;
         // get the properties object
-        Properties prop = Helpers.readPropertyFile(filename);
+        Properties prop = PropertyHelpers.readPropertyFile(filename);
         parameterValue = Integer.parseInt(prop.getProperty(parameterName));
 
         return parameterValue;
@@ -76,7 +76,7 @@ public class Helpers {
      */
     public static void printPropertiesFile(String filename) {
 
-        Properties prop = Helpers.readPropertyFile(filename);
+        Properties prop = PropertyHelpers.readPropertyFile(filename);
 
         Enumeration<?> e = prop.propertyNames();
         while (e.hasMoreElements()) {

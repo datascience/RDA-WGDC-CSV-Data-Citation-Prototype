@@ -1,8 +1,9 @@
 package DatatableModel;
 
 
-import Database.DatabaseOperations.DataBaseConnectionPool;
+
 import Database.DatabaseOperations.DatabaseTools;
+import Database.DatabaseOperations.HikariConnectionPool;
 
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -12,14 +13,14 @@ import java.util.Map;
 import java.util.logging.Logger;
 
 public class TableMetadata {
-    private DataBaseConnectionPool dbcp;
+    private HikariConnectionPool dbcp;
     private DatabaseTools dbtools;
 
     private Logger logger;
 
     public TableMetadata() {
         this.logger = Logger.getLogger(this.getClass().getName());
-        this.dbcp = new DataBaseConnectionPool();
+        this.dbcp = new HikariConnectionPool();
         this.dbtools = new DatabaseTools(dbcp.getDataBaseName());
 
 
