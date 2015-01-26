@@ -65,7 +65,7 @@
 package Bean;
 
 import CSVTools.CSV_API;
-import Database.DatabaseTools;
+import Database.DatabaseOperations.DatabaseTools;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
 

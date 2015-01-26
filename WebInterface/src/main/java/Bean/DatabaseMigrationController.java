@@ -3,7 +3,7 @@ package Bean;
 
 
 import Database.Helpers.StringHelpers;
-import Database.MigrationTasks;
+import Database.DatabaseOperations.MigrationTasks;
 
 
 import javax.faces.application.FacesMessage;

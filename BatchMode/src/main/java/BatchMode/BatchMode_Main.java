@@ -4,7 +4,7 @@ package BatchMode;
 import CSVTools.CSV_API;
 import CSVTools.Column;
 import Database.Helpers.StringHelpers;
-import Database.MigrationTasks;
+import Database.DatabaseOperations.MigrationTasks;
 
 import java.io.File;
 import java.io.IOException;

@@ -78,7 +78,7 @@
  *    limitations under the License.
  */
 
-package Database;
+package Database.DatabaseOperations;
 
 import com.jolbox.bonecp.BoneCPDataSource;
 

@@ -79,7 +79,7 @@ public class LoginBean implements Serializable {
 
 
         } catch (SQLException e) {
-            this.logger.severe("Authentication error");
+            this.logger.severe("TomcatAuthentication error");
             e.printStackTrace();
         }
         if (result) {

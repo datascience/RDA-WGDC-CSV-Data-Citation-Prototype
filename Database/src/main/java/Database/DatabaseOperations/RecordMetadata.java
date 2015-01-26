@@ -14,7 +14,7 @@
  *    limitations under the License.
  */
 
-package Database;
+package Database.DatabaseOperations;
 
 import java.sql.Timestamp;
 import java.util.Date;

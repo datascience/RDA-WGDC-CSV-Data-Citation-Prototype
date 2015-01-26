@@ -82,8 +82,8 @@
 package DatatableModel;
 
 
-import Database.DataBaseConnectionPool;
-import Database.DatabaseQueries;
+import Database.DatabaseOperations.DataBaseConnectionPool;
+import Database.DatabaseOperations.DatabaseQueries;
 import JSON.JSONArray;
 import JSON.JSONException;
 import JSON.JSONObject;
