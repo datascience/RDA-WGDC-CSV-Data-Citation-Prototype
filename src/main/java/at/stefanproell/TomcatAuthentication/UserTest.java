@@ -1,7 +1,4 @@
-package at.stefanproell.Authentication;
-
-import java.util.HashSet;
-import java.util.Set;
+package at.stefanproell.TomcatAuthentication;
 
 /**
  * SCAPE-QueryStore

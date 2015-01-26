@@ -1,4 +1,4 @@
-package at.stefanproell.Authentication;
+package at.stefanproell.TomcatAuthentication;
 
 
 import javax.persistence.*;

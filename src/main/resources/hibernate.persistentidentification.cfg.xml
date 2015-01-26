@@ -35,8 +35,8 @@
         <mapping class="at.stefanproell.PersistentIdentifierMockup.Organization"/>
         <mapping class="at.stefanproell.PersistentIdentifierMockup.TimeStampInterceptor"/>
         <mapping class="at.stefanproell.PersistentIdentifierMockup.PersistentIdentifierSubcomponent"/>
-        <mapping class="at.stefanproell.Authentication.UserDetails"/>
-        <mapping class="at.stefanproell.Authentication.GroupDetails"/>
+        <mapping class="at.stefanproell.TomcatAuthentication.UserDetails"/>
+        <mapping class="at.stefanproell.TomcatAuthentication.GroupDetails"/>
 
     </session-factory>
 
