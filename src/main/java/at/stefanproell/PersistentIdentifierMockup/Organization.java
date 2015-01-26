@@ -1,5 +1,6 @@
 package at.stefanproell.PersistentIdentifierMockup;
 
+import GenericTools.PropertyHelpers;
 import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
@@ -158,12 +159,12 @@ public class Organization implements TimeStamped {
         String filename = "pid.properties";
         Properties prop = null;
 
-        prop = Helpers.readPropertyFile(filename);
+        prop = PropertyHelpers.readPropertyFile(filename);
 
         if (prop == null) {
             this.logger.severe("Property filew as null");
         } else {
-            Helpers.printPropertiesFile(filename);
+            PropertyHelpers.printPropertiesFile(filename);
             this.alphanumericPIDlength = Integer.parseInt(prop.getProperty("alphaNumericPIDlength"));
             this.numericPIDlength = Integer.parseInt(prop.getProperty("numericPIDlength"));
             this.alphaPIDlength = Integer.parseInt(prop.getProperty("alphaPIDlength"));
