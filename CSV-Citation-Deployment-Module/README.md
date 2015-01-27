@@ -4,4 +4,5 @@ Deploying the System
 Maven 
 -------
 
-mvn clean install  org.apache.tomcat.maven:tomcat7-maven-plugin:2.0:deploy
+Deploy with the command line:
+    mvn clean install  org.apache.tomcat.maven:tomcat7-maven-plugin:2.0:deploy
