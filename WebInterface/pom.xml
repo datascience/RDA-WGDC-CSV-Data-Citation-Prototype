@@ -119,11 +119,7 @@
 
 
         <!-- Internal dependencies -->
-        <dependency>
-            <groupId>DatatableModel</groupId>
-            <artifactId>DatatableModel</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
+
 
         <dependency>
             <groupId>at.stefanproell</groupId>
