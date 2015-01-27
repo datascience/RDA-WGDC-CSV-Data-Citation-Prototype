@@ -321,8 +321,6 @@ public class FileUploadController implements Serializable {
             //databaseNames = new ArrayList<String>();
             //databaseNames.add("Test hard coedd");
 
-        } catch (SQLException e) {
-            e.printStackTrace();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }

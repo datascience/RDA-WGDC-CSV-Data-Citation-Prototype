@@ -94,8 +94,6 @@ public class DatabaseTableNameBean implements Serializable {
 
             
 
-        } catch (SQLException e) {
-            e.printStackTrace();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
