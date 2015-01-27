@@ -121,7 +121,7 @@ public class DatabaseTableNameBean implements Serializable {
 
         if (selectedDB == null || selectedDB.equals("")) {
             String databaseNameFromConnection = this.dbtools.getADatabaseCatalogFromDatabaseConnection().get(0);
-
+            this.logger.info("Database retrieved: " + databaseNameFromConnection);
             this.tableNames = this.dbtools.getAvailableTablesFromDatabase(selectedDB);
 
         } else {
@@ -137,6 +137,8 @@ public class DatabaseTableNameBean implements Serializable {
     * * */
     public void onLoad(ActionEvent event) {
         this.logger.info("Yay-.. " + event.toString());
+        //this.handleChangeDatabaseName(null);
+        
 
     }
 
