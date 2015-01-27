@@ -111,7 +111,7 @@ public class DatabaseQueries {
                 stat = connection.createStatement(
                         ResultSet.TYPE_SCROLL_INSENSITIVE,
                         ResultSet.CONCUR_READ_ONLY);
-                System.out.println("TEEEEEE: " + selectSQL);
+
 
                 ResultSet sortedResultSet = stat.executeQuery(selectSQL);
 

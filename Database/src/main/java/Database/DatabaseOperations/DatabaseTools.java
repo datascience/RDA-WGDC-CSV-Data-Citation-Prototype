@@ -879,11 +879,12 @@ public class DatabaseTools {
                 // System.out.println("getAvailableTablesFromDatabase__________________");
                 String tableName = rs.getString("TABLE_NAME");
 
-                System.out.println("   " + rs.getString("TABLE_CAT") + ", "
+                this.logger.info("   " + rs.getString("TABLE_CAT") + ", "
                         + rs.getString("TABLE_SCHEM") + ", "
                         + rs.getString("TABLE_NAME") + ", "
                         + rs.getString("TABLE_TYPE") + ", "
                         + rs.getString("REMARKS"));
+
                 listOfTables.add(tableName);
                 this.logger.info(tableName);
 

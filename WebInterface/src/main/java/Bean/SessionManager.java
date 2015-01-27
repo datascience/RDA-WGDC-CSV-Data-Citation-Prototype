@@ -16,7 +16,10 @@
 
 package Bean;
 
+import Database.Authentication.User;
+
 import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
@@ -78,6 +81,36 @@ public class SessionManager {
             }
         }
         return sessionMAP;
+
+
+    }
+
+    /*
+    * Get the user object from the session
+    * * * */
+    protected User getLogedInUserObject() {
+        // Get the loginBean from session attribute
+        Map<String, Object> sessionMAP = this.getSessionMap();
+
+        LoginBean loginBean = (LoginBean) sessionMAP.get("loginBean");
+        User user = loginBean.getCurrentUser();
+        this.logger.info("Login Bean retrieved for user " + user.getUsername());
+        return user;
+
+
+    }
+
+    /*
+ * Get the user object from the session
+ * * * */
+    protected String getLogedInUserName() {
+        // Get the loginBean from session attribute
+        Map<String, Object> sessionMAP = this.getSessionMap();
+
+        LoginBean loginBean = (LoginBean) sessionMAP.get("loginBean");
+        User user = loginBean.getCurrentUser();
+        this.logger.info("Login Bean retrieved for user " + user.getUsername());
+        return user.getUsername();
 
 
     }

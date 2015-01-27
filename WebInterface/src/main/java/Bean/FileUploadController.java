@@ -66,6 +66,7 @@ package Bean;
 
 import CSVTools.CSV_API;
 import Database.DatabaseOperations.DatabaseTools;
+import org.hibernate.Session;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
 
@@ -169,8 +170,18 @@ public class FileUploadController implements Serializable {
 
     }
 
+    /*
+    *If there is no table name, return the user name prefix as a suggestion for the form.
+     *  *  * */
     public String getTableName() {
-        return tableName;
+        SessionManager sm = new SessionManager();
+        String username = sm.getLogedInUserName();
+        if (this.tableName == null) {
+            return username + "_";
+        } else {
+            return tableName;
+        }
+
     }
 
     public void setTableName(String tableName) {
