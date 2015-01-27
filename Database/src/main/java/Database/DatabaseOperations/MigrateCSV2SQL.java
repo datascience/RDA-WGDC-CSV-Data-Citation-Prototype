@@ -103,14 +103,15 @@ import java.util.logging.Logger;
  */
 public class MigrateCSV2SQL {
     private Logger logger;
-    private HikariConnectionPool dbcp;
+
     private DatabaseTools dbtools;
 
+    private HikariConnectionPool pool;
+    
     public MigrateCSV2SQL() {
         this.logger = Logger.getLogger(this.getClass().getName());
         try {
             this.dbtools = new DatabaseTools();
-            this.dbcp = this.dbtools.getBaseConnectionPool();
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -192,8 +193,14 @@ public class MigrateCSV2SQL {
      * @return
      */
     private Connection getConnection() {
+        HikariConnectionPool pool = HikariConnectionPool.getInstance();
+        Connection connection = null;
 
-        Connection connection = this.dbcp.getConnection();
+        try {
+            connection = pool.getConnection();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return connection;
 
     }

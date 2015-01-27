@@ -23,13 +23,10 @@ public class TableDataOperations {
 
     private Logger logger;
     private String tableName;
-    private HikariConnectionPool dbcp;
+
 
     public TableDataOperations() {
         this.logger = Logger.getLogger(this.getClass().getName());
-        this.dbcp = new HikariConnectionPool();
-
-
 
     }
 
@@ -48,7 +45,7 @@ public class TableDataOperations {
             System.out.println("Table war null -..................> setze auf MillionSongs");
             // tableName = "MillionSongs";
         }
-        Connection connection = this.dbcp.getConnection();
+        Connection connection = this.getConnection();
         DatabaseMetaData meta = connection.getMetaData();
         CachedRowSetImpl cachedResultSet = new CachedRowSetImpl();
         String catalog = null;
@@ -82,47 +79,90 @@ public class TableDataOperations {
 
     }
 
-    public int getNumberofColumnsPerTable(String tableName) throws SQLException {
-        Connection connection = this.dbcp.getConnection();
+    public int getNumberofColumnsPerTable(String tableName) {
+        Connection connection = null;
         int columncCount = 0;
-        DatabaseMetaData meta = connection.getMetaData();
-        String catalog = null;
-        String schemaPattern = null;
-        String tableNamePattern = tableName;
-        String columnNamePattern = null;
+        DatabaseMetaData meta = null;
+        ResultSet result = null;
 
-        ResultSet result = meta.getColumns(catalog, schemaPattern,
-                tableNamePattern, columnNamePattern);
+        try {
+            connection = this.getConnection();
 
-        Map<String, String> columnMetadataMap = new HashMap<String, String>();
-        while (result.next()) {
-            columncCount++;
 
+            meta = connection.getMetaData();
+            String catalog = null;
+            String schemaPattern = null;
+            String tableNamePattern = tableName;
+            String columnNamePattern = null;
+
+            result = meta.getColumns(catalog, schemaPattern,
+                    tableNamePattern, columnNamePattern);
+
+            Map<String, String> columnMetadataMap = new HashMap<String, String>();
+            while (result.next()) {
+                columncCount++;
+
+            }
+
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (connection != null) {
+                    connection.close();
+                }
+                if (result != null) {
+                    result.close();
+                }
+            } catch (SQLException sqlee) {
+                sqlee.printStackTrace();
+            }
         }
 
-        connection.close();
+
         return columncCount;
 
     }
 
 
-
-
-
-    public int getRowCount(String tableName) throws SQLException {
+    public int getRowCount(String tableName) {
         // TODO SQL injection
         String sql = "SELECT COUNT(*) FROM " + tableName;
         int numberOfRecords = -1;
-        Connection connection = this.dbcp.getConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        ResultSet resultSet = null;
+        Connection connection = null;
+        try {
+            connection = this.getConnection();
 
-        ResultSet rs = preparedStatement.executeQuery();
-        while (rs.next()) {
-            numberOfRecords = rs.getInt(1);
+
+            PreparedStatement preparedStatement = null;
+
+            preparedStatement = connection.prepareStatement(sql);
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                numberOfRecords = resultSet.getInt(1);
+            }
+
+            this.logger.warning("Row Set Size:  " + numberOfRecords);
+            connection.close();
+
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (connection != null) {
+                    connection.close();
+                }
+                if (resultSet != null) {
+                    resultSet.close();
+                }
+            } catch (SQLException sqlee) {
+                sqlee.printStackTrace();
+            }
         }
 
-        this.logger.warning("Row Set Size:  " + numberOfRecords);
-        connection.close();
 
         return numberOfRecords;
     }
@@ -200,16 +240,16 @@ public class TableDataOperations {
     public List<String> getAvailableDatabases() {
         Connection connection = null;
         List<String> listOfDatabases = new ArrayList<String>();
-
+        ResultSet resultSet = null;
         try {
-            connection = this.dbcp.getConnection();
+            connection = this.getConnection();
 
             DatabaseMetaData meta = connection.getMetaData();
             CachedRowSetImpl cachedResultSet = new CachedRowSetImpl();
-            ResultSet rs = connection.getMetaData().getCatalogs();
+            resultSet = connection.getMetaData().getCatalogs();
 
-            while (rs.next()) {
-                listOfDatabases.add(rs.getString("TABLE_CAT"));
+            while (resultSet.next()) {
+                listOfDatabases.add(resultSet.getString("TABLE_CAT"));
             }
             connection.close();
         } catch (SQLException e) {
@@ -220,7 +260,9 @@ public class TableDataOperations {
                 if (connection != null) {
                     connection.close();
                 }
-
+                if (resultSet != null) {
+                    resultSet.close();
+                }
             } catch (SQLException sqlee) {
                 sqlee.printStackTrace();
             }
@@ -260,6 +302,21 @@ public class TableDataOperations {
                 sortingDirection, filterMap, startRow, offset);
 
         return cachedRowSet;
+    }
+
+    /**
+     * Get the connection from the connection pool
+     *
+     * @return
+     */
+    private Connection getConnection() throws SQLException {
+        HikariConnectionPool pool = HikariConnectionPool.getInstance();
+        Connection connection = null;
+
+
+        connection = pool.getConnection();
+        return connection;
+
     }
 
 

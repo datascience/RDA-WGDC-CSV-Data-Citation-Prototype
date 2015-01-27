@@ -130,7 +130,7 @@ public class ResultSetVerificationAPI {
         // TODO SQL injection
         String sql = "SELECT COUNT(*) FROM " + tableName;
         int numberOfRecords = -1;
-        Connection connection = this.dcp.getConnection();
+        Connection connection = this.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
 
         ResultSet rs = preparedStatement.executeQuery();
@@ -144,19 +144,10 @@ public class ResultSetVerificationAPI {
         return numberOfRecords;
     }
 
-    public void setDcp(HikariConnectionPool dcp) {
-        this.dcp = dcp;
-    }
 
-    private HikariConnectionPool dcp = null;
 
     public ResultSetVerificationAPI() {
         this.logger = Logger.getLogger(ResultSetVerificationAPI.class.getName());
-        if (this.dcp == null) {
-            this.dcp = new HikariConnectionPool();
-            
-
-        }
 
         // Initialize Crypto
         this.initCryptoModule(DEFAULT_HASH_ALGORITHM);
@@ -168,7 +159,7 @@ public class ResultSetVerificationAPI {
      */
     public Map<String, String> getTableColumnMetadata(String tableName)
             throws SQLException {
-        Connection connection = this.dcp.getConnection();
+        Connection connection = this.getConnection();
         DatabaseMetaData meta = connection.getMetaData();
         CachedRowSetImpl cachedResultSet = new CachedRowSetImpl();
         String catalog = null;
@@ -226,7 +217,7 @@ public class ResultSetVerificationAPI {
      * @throws SQLException
      */
     public int getNumberofColumnsPerTable(String tableName) throws SQLException {
-        Connection connection = this.dcp.getConnection();
+        Connection connection = this.getConnection();
         int columncCount = 0;
         DatabaseMetaData meta = connection.getMetaData();
         String catalog = null;
@@ -258,7 +249,10 @@ public class ResultSetVerificationAPI {
     public String calculateCRCofTable(String tableName) {
         String appendedChecksum = "";
         String hashedCRC = "";
-        String currentDatabaseName = this.dcp.getDataBaseName();
+
+        HikariConnectionPool pool = HikariConnectionPool.getInstance();
+
+        String currentDatabaseName = pool.getDataBaseName();
         List<String> listOfColumns = this.getListOfColumnNames(tableName);
         String sql = "SELECT ";
         String prefix = "sum(crc32(" + currentDatabaseName + "." + tableName + ".";
@@ -270,7 +264,7 @@ public class ResultSetVerificationAPI {
         sql += " ORDER BY " + primaryKeysString;
         this.logger.info(sql);
 
-        Connection connection = this.dcp.getConnection();
+        Connection connection = this.getConnection();
 
         ResultSet rs = null;
         PreparedStatement preparedStatement = null;
@@ -313,10 +307,12 @@ public class ResultSetVerificationAPI {
         String primaryKey;
         primaryKeys = new ArrayList<String>();
 
-        String currentDatabaseName = this.dcp.getDataBaseName();
+        HikariConnectionPool pool = HikariConnectionPool.getInstance();
+
+        String currentDatabaseName = pool.getDataBaseName();
         String sql = "SHOW KEYS FROM " + currentDatabaseName + "." + tableName + " WHERE Key_name = 'PRIMARY'";
         int numberOfRecords = -1;
-        Connection connection = this.dcp.getConnection();
+        Connection connection = this.getConnection();
         PreparedStatement preparedStatement = null;
         try {
             preparedStatement = connection.prepareStatement(sql);
@@ -416,7 +412,7 @@ public class ResultSetVerificationAPI {
     public ResultSet executeQuery(String sqlString) {
         this.logger.info("Trying to execute: " + sqlString);
 
-        Connection connection = this.dcp.getConnection();
+        Connection connection = this.getConnection();
         PreparedStatement preparedStatement = null;
         ResultSet rs = null;
         try {
@@ -711,7 +707,7 @@ public class ResultSetVerificationAPI {
      * @return
      */
     private ResultSet getCompleteResultSetFromTable(String tableName) {
-        Connection connection = this.dcp.getConnection();
+        Connection connection = this.getConnection();
         java.sql.PreparedStatement stmt;
         ResultSet rs = null;
         try {
@@ -749,7 +745,7 @@ public class ResultSetVerificationAPI {
         List<String> columnNames = this.getListOfColumnNames(tableName);
         // Prepend the table name to all columns
         String columnNamesAsString = Helpers.commaSeparatedStringWithPrefixAndSuffix(columnNames, tableName + ".", "");
-        Connection connection = this.dcp.getConnection();
+        Connection connection = this.getConnection();
         java.sql.PreparedStatement stmt;
         ResultSet rs = null;
 
@@ -787,7 +783,7 @@ public class ResultSetVerificationAPI {
         List<String> columnNames = this.getListOfColumnNames(tableName);
         // Prepend the table name to all columns
         String columnNamesAsString = Helpers.commaSeparatedStringWithPrefixAndSuffix(columnNames, tableName + ".", "");
-        Connection connection = this.dcp.getConnection();
+        Connection connection = this.getConnection();
         java.sql.PreparedStatement stmt;
         ResultSet rs = null;
 
@@ -835,6 +831,24 @@ public class ResultSetVerificationAPI {
             return this.calculateResultSetHashServerSide(rs);
         }
 
+
+    }
+
+    /**
+     * Get the connection from the connection pool
+     *
+     * @return
+     */
+    private Connection getConnection() {
+        HikariConnectionPool pool = HikariConnectionPool.getInstance();
+        Connection connection = null;
+
+        try {
+            connection = pool.getConnection();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return connection;
 
     }
 }

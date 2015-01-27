@@ -35,13 +35,14 @@ import java.util.logging.Logger;
 public class DatabaseQueries {
 
     private Logger logger;
-    private HikariConnectionPool dbcp;
+    private HikariConnectionPool pool;
     private DatabaseTools dbtools;
 
     public DatabaseQueries() {
         this.logger = Logger.getLogger(this.getClass().getName());
-        this.dbcp = new HikariConnectionPool();
-        this.dbtools = new DatabaseTools(this.dbcp.getDataBaseName());
+        HikariConnectionPool pool = HikariConnectionPool.getInstance();
+
+        this.dbtools = new DatabaseTools(pool.getDataBaseName());
 
     }
 
@@ -93,7 +94,7 @@ public class DatabaseQueries {
                     whereClause = this.getWhereString(filterMap);
                 }
 
-                connection = this.dbcp.getConnection();
+                connection = this.getConnection();
 
                 // get primary key from the table
 
@@ -139,7 +140,7 @@ public class DatabaseQueries {
 
         } else {
             try {
-                connection = this.dbcp.getConnection();
+                connection = this.getConnection();
 
 
                 stat = connection.createStatement(
@@ -261,6 +262,24 @@ public class DatabaseQueries {
         // "\' AND \'" + (startRow + offset) + "\'";
         paginationString = " LIMIT " + showRows + " OFFSET " + offset;
         return paginationString;
+    }
+
+    /**
+     * Get the connection from the connection pool
+     *
+     * @return
+     */
+    private Connection getConnection() {
+        HikariConnectionPool pool = HikariConnectionPool.getInstance();
+        Connection connection = null;
+
+        try {
+            connection = pool.getConnection();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return connection;
+
     }
 
 }

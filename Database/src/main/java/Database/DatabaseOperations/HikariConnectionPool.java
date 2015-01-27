@@ -99,13 +99,25 @@ import java.util.logging.Logger;
  * Hibernate session management
  */
 public class HikariConnectionPool {
-    private HikariDataSource dataSource;
+
     private Logger logger;
-    private Connection connection;
 
 
-    public HikariConnectionPool() {
-        this.connection = null;
+    private static HikariConnectionPool instance = null;
+    private HikariDataSource ds = null;
+
+    static {
+        try {
+            instance = new HikariConnectionPool();
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage(), e);
+        }
+
+    }
+
+
+    private HikariConnectionPool() {
+
         this.logger = Logger.getLogger(this.getClass().getName());
         HikariConfig config = new HikariConfig();
 
@@ -133,7 +145,10 @@ public class HikariConnectionPool {
         config.addDataSourceProperty("prepStmtCacheSqlLimit", "2048");
         config.addDataSourceProperty("useServerPrepStmts", "true");
 
-        this.dataSource = new HikariDataSource(config);
+        config.addDataSourceProperty("minimumPoolSize", "20");
+        config.addDataSourceProperty("maximumPoolSize", "250");
+
+        ds = new HikariDataSource(config);
 
     }
 
@@ -142,40 +157,35 @@ public class HikariConnectionPool {
      *
      * @return
      */
-    public Connection getConnection() {
-        if (this.connection != null) {
-            this.logger.info("Connection retrieved");
-            try {
-                if (this.connection.isClosed()) {
+    public static HikariConnectionPool getInstance() {
+        return instance;
+    }
 
-                    this.connection = this.dataSource.getConnection();
-                }
-            } catch (SQLException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-            return this.connection;
-        } else if (this.connection == null) {
-            try {
-                this.connection = this.dataSource.getConnection();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-
-        }
-
-        return this.connection;
-
+    public Connection getConnection() throws SQLException {
+        return ds.getConnection();
     }
 
     public String getDataBaseName() {
-        Connection con = this.getConnection();
         String databaseName = null;
+        Connection con = null;
         try {
+            con = ds.getConnection();
+
             databaseName = con.getCatalog();
+
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            if (con != null) {
+                try {
+                    con.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
         }
+
+
         return databaseName;
     }
 }

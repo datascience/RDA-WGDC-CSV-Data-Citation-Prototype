@@ -136,7 +136,7 @@ public class DatabaseTools {
 
 
     private Connection connection;
-    private HikariConnectionPool dbcp;
+    private HikariConnectionPool pool;
 
     public DatabaseTools(String dataBaseName) {
         this.logger = Logger.getLogger(this.getClass().getName());
@@ -148,7 +148,7 @@ public class DatabaseTools {
 		 * e.printStackTrace(); }
 		 */
         this.dataBaseName = dataBaseName;
-        this.dbcp = new HikariConnectionPool();
+
 
 
     }
@@ -163,34 +163,25 @@ public class DatabaseTools {
      */
     public DatabaseTools() throws SQLException, ClassNotFoundException {
         this.logger = Logger.getLogger(this.getClass().getName());
-        this.dbcp = new HikariConnectionPool();
+
 
     }
 
-    public Connection getConnection() {
-        if (this.connection != null) {
-            this.logger.warning("get connection");
-            try {
-                if (this.connection.isClosed()) {
+    /**
+     * Get the connection from the connection pool
+     *
+     * @return
+     */
+    private Connection getConnection() {
+        HikariConnectionPool pool = HikariConnectionPool.getInstance();
+        Connection connection = null;
 
-                    this.dbcp = new HikariConnectionPool();
-
-                    this.setConnection(dbcp.getConnection());
-                }
-            } catch (SQLException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-            return this.connection;
-        } else if (this.connection == null) {
-            this.dbcp = new HikariConnectionPool();
-
-            this.setConnection(dbcp.getConnection());
-
-
+        try {
+            connection = pool.getConnection();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-
-        return this.connection;
+        return connection;
 
     }
 
@@ -474,13 +465,6 @@ public class DatabaseTools {
 
     }
 
-    public HikariConnectionPool getBaseConnectionPool() {
-        return dbcp;
-    }
-
-    public void setBaseConnectionPool(HikariConnectionPool baseConnectionPool) {
-        this.dbcp = baseConnectionPool;
-    }
 
     /**
      * Get a map of <ColumnName, ColumnType> but remove the automatically generated metadata columns from the map:
@@ -494,7 +478,7 @@ public class DatabaseTools {
         }
 
 
-        Connection conn = this.dbcp.getConnection();
+        Connection conn = this.getConnection();
 
 
         Map<String, String> columnMetadataMap = new LinkedHashMap<String, String>();
@@ -1085,8 +1069,8 @@ public class DatabaseTools {
         String catalog = null;
         String schema = null;
         try {
-            schema = this.dbcp.getConnection().getSchema();
-            catalog = this.dbcp.getConnection().getCatalog();
+            schema = this.getConnection().getSchema();
+            catalog = this.getConnection().getCatalog();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -1094,7 +1078,7 @@ public class DatabaseTools {
 
         DatabaseMetaData databaseMetaData = null;
         try {
-            databaseMetaData = this.dbcp.getConnection().getMetaData();
+            databaseMetaData = this.getConnection().getMetaData();
             ResultSet result = databaseMetaData.getPrimaryKeys(
                     catalog, schema, tableName);
 
@@ -1128,7 +1112,7 @@ public class DatabaseTools {
         String schema = this.getDataBaseName();
         DatabaseMetaData databaseMetaData = null;
         try {
-            databaseMetaData = this.dbcp.getConnection().getMetaData();
+            databaseMetaData = this.getConnection().getMetaData();
             ResultSet result = databaseMetaData.getPrimaryKeys(
                     catalog, schema, tableName);
 
@@ -1161,7 +1145,7 @@ public class DatabaseTools {
      * @throws SQLException
      */
     public int getMaxSequenceNumberFromTable(String tableName) throws SQLException {
-        Connection connection = this.dbcp.getConnection();
+        Connection connection = this.getConnection();
 
         Statement selectLastSequenceNumber = connection.createStatement();
         ResultSet maxSequenceResult = selectLastSequenceNumber.executeQuery("SELECT MAX(ID_SYSTEM_SEQUENCE) " +
@@ -1188,7 +1172,7 @@ public class DatabaseTools {
      */
     public Date getInsertDateFromRecord(String tableName, String primaryKeyColumn,
                                         String primaryKeyValue) throws SQLException {
-        Connection connection = this.dbcp.getConnection();
+        Connection connection = this.getConnection();
 
         Statement selectLastSequenceNumber = connection.createStatement();
         ResultSet minInsertDateResultSet = selectLastSequenceNumber.executeQuery("SELECT MIN(INSERT_DATE) " +
@@ -1216,7 +1200,7 @@ public class DatabaseTools {
     public RecordMetadata getMetadataFromRecord(String tableName, String primaryKeyColumn,
                                       String primaryKeyValue) throws SQLException {
         RecordMetadata recordMetadata = null;
-        Connection connection = this.dbcp.getConnection();
+        Connection connection = this.getConnection();
 
         Statement selectLastSequenceNumber = connection.createStatement();
         String metadataSQL = "SELECT ID_SYSTEM_SEQUENCE, " +
@@ -1244,7 +1228,7 @@ public class DatabaseTools {
     public RecordMetadata getMetadataFromRecordWithFullData(Map<String, String> columnsMap, String tableName,
                                                             List<String> csvRow) throws SQLException {
         RecordMetadata recordMetadata = null;
-        Connection connection = this.dbcp.getConnection();
+        Connection connection = this.getConnection();
 
         Statement selectLastSequenceNumber = connection.createStatement();
         String metadataSQL = "SELECT ID_SYSTEM_SEQUENCE, " +
@@ -1282,7 +1266,7 @@ public class DatabaseTools {
      */
     public boolean checkIfRecordExistsInTableByPrimaryKey(String tableName, String primaryKeyColumnName,
                                                           String primaryKeyValue) throws SQLException {
-        Connection connection = this.dbcp.getConnection();
+        Connection connection = this.getConnection();
 
         Statement checkRecordExistance = connection.createStatement();
         String checkSQL = "SELECT EXISTS(SELECT 1 FROM " + tableName + " WHERE " + primaryKeyColumnName + "= '" +
@@ -1314,7 +1298,7 @@ public class DatabaseTools {
     * */
     public boolean checkIfRecordExistsInTableByFullCompare(Map<String, String> columnsMap, String tableName,
                                                            List<String> csvRow) throws SQLException {
-        Connection connection = this.dbcp.getConnection();
+        Connection connection = this.getConnection();
 
         Statement checkRecordExistance = connection.createStatement();
         String checkSQL = "SELECT EXISTS(SELECT 1 FROM " + connection.getCatalog() + "." + tableName + " " + this

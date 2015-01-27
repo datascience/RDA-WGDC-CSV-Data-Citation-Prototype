@@ -27,14 +27,14 @@ import java.util.Map;
  * {MONTH_NAME_FULL} {YEAR}
  */
 public class DatabaseTest {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException {
         String tableName = "Addressen";
         String dataBaseName = "CITATION_DB";
 
 
-        HikariConnectionPool datasource = new HikariConnectionPool();
+        HikariConnectionPool pool = HikariConnectionPool.getInstance();
 
-        Connection conn = datasource.getConnection();
+        Connection conn = pool.getConnection();
 
 
         String catalog = null;

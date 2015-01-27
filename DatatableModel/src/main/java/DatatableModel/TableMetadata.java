@@ -5,6 +5,7 @@ package DatatableModel;
 import Database.DatabaseOperations.DatabaseTools;
 import Database.DatabaseOperations.HikariConnectionPool;
 
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -13,15 +14,16 @@ import java.util.Map;
 import java.util.logging.Logger;
 
 public class TableMetadata {
-    private HikariConnectionPool dbcp;
+
     private DatabaseTools dbtools;
 
     private Logger logger;
 
     public TableMetadata() {
         this.logger = Logger.getLogger(this.getClass().getName());
-        this.dbcp = new HikariConnectionPool();
-        this.dbtools = new DatabaseTools(dbcp.getDataBaseName());
+        HikariConnectionPool pool = HikariConnectionPool.getInstance();
+
+        this.dbtools = new DatabaseTools(pool.getDataBaseName());
 
 
     }
@@ -153,7 +155,8 @@ public class TableMetadata {
 
         Map<String, String> tableMap = null;
 
-        List<String> listOfTables = this.dbtools.getAvailableTablesFromDatabase(this.dbcp.getDataBaseName());
+        HikariConnectionPool pool = HikariConnectionPool.getInstance();
+        List<String> listOfTables = this.dbtools.getAvailableTablesFromDatabase(pool.getDataBaseName());
         tableMap = new HashMap<String, String>();
         for (String tableName : listOfTables) {
             tableMap.put(tableName, tableName);
@@ -164,6 +167,23 @@ public class TableMetadata {
 
     }
 
+    /**
+     * Get the connection from the connection pool
+     *
+     * @return
+     */
+    private Connection getConnection() {
+        HikariConnectionPool pool = HikariConnectionPool.getInstance();
+        Connection connection = null;
+
+        try {
+            connection = pool.getConnection();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return connection;
+
+    }
 
 
 
