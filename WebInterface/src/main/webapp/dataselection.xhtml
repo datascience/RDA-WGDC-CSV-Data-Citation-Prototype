@@ -138,7 +138,26 @@
 </h:head>
 
 <h:body id="dt_data_table">
+
+  <!-- BEGIN: Hidden Form for Init-->
+  <h:form>
+    <p:remoteCommand name="onLoad" actionListener="#{databaseTableNameBean.onLoad}" autoRun="true"/>
+  </h:form>
+  <!-- END Hidden form-->
+  <!-- BEGIN user management -->
+  <div>
     <h:form>
+      <h:panelGroup rendered="#{loginBean.loggedIn}">
+        <p>Logged in username:<span style="color:green"><em> #{loginBean.currentUser.username}</em></span>.
+          Click here to <a href="logout">logout</a>. Click here to get back to the <a
+                  href="menu.xhtml">start page</a>.
+        </p>
+      </h:panelGroup>
+    </h:form>
+  </div>
+  <!-- END user management -->
+
+  <h:form>
         <h:selectOneMenu id="databaseDropDown" valueChangeListener="#{databaseTableNameBean.handleChangeDatabaseName}"
                          required="true" value="#{databaseTableNameBean.databaseName}"
                          binding="#{databaseNameDropdown}">

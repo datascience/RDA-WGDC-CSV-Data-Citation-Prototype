@@ -24,11 +24,13 @@ import org.hibernate.Session;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.event.ActionEvent;
 import javax.faces.event.ValueChangeEvent;
 import java.io.Serializable;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.logging.Logger;
+import javax.faces.event.AjaxBehaviorEvent;
 
 /**
  * Created by stefan on 04.07.14.
@@ -110,13 +112,31 @@ public class DatabaseTableNameBean implements Serializable {
 
         this.logger.info(event.getComponent().toString() + " " + event.toString());
 
-        String selectedDB = event.getNewValue().toString();
+
+        String selectedDB = null;
+        selectedDB = event.getNewValue().toString();
         this.logger.info("Databasename = " + selectedDB);
         SessionManager sm = new SessionManager();
         sm.storeSessionData("currentDatabaseName", selectedDB);
 
-        this.tableNames = this.dbtools.getAvailableTablesFromDatabase(selectedDB);
+        if (selectedDB == null || selectedDB.equals("")) {
+            String databaseNameFromConnection = this.dbtools.getADatabaseCatalogFromDatabaseConnection().get(0);
 
+            this.tableNames = this.dbtools.getAvailableTablesFromDatabase(selectedDB);
+
+        } else {
+            this.tableNames = this.dbtools.getAvailableTablesFromDatabase(selectedDB);
+        }
+
+
+
+
+    }
+
+    /*Load this event when the page is refreshed.
+    * * */
+    public void onLoad(ActionEvent event) {
+        this.logger.info("Yay-.. " + event.toString());
 
     }
 

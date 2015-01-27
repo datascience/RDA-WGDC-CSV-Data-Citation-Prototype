@@ -13,6 +13,14 @@
 </h:head>
 
 <h:body>
+
+    <!-- BEGIN: Hidden Form for Init-->
+    <h:form>
+        <p:remoteCommand name="onLoad" actionListener="#{databaseTableNameBean.onLoad}" autoRun="true"/>
+    </h:form>
+    <!-- END Hidden form-->
+
+
     <div class="container">
 
         <!-- BEGIN user management -->
