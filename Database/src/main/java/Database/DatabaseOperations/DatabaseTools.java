@@ -1,98 +1,3 @@
-/*
- * Copyright [2014] [Stefan Pröll]
- *
- *    Licensed under the Apache License, Version 2.0 (the "License");
- *    you may not use this file except in compliance with the License.
- *    You may obtain a copy of the License at
- *
- *        http://www.apache.org/licenses/LICENSE-2.0
- *
- *    Unless required by applicable law or agreed to in writing, software
- *    distributed under the License is distributed on an "AS IS" BASIS,
- *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *    See the License for the specific language governing permissions and
- *    limitations under the License.
- */
-
-/*
- * Copyright [2014] [Stefan Pröll]
- *
- *    Licensed under the Apache License, Version 2.0 (the "License");
- *    you may not use this file except in compliance with the License.
- *    You may obtain a copy of the License at
- *
- *        http://www.apache.org/licenses/LICENSE-2.0
- *
- *    Unless required by applicable law or agreed to in writing, software
- *    distributed under the License is distributed on an "AS IS" BASIS,
- *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *    See the License for the specific language governing permissions and
- *    limitations under the License.
- */
-
-/*
- * Copyright [2014] [Stefan Pröll]
- *
- *    Licensed under the Apache License, Version 2.0 (the "License");
- *    you may not use this file except in compliance with the License.
- *    You may obtain a copy of the License at
- *
- *        http://www.apache.org/licenses/LICENSE-2.0
- *
- *    Unless required by applicable law or agreed to in writing, software
- *    distributed under the License is distributed on an "AS IS" BASIS,
- *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *    See the License for the specific language governing permissions and
- *    limitations under the License.
- */
-
-/*
- * Copyright [2014] [Stefan Pröll]
- *
- *    Licensed under the Apache License, Version 2.0 (the "License");
- *    you may not use this file except in compliance with the License.
- *    You may obtain a copy of the License at
- *
- *        http://www.apache.org/licenses/LICENSE-2.0
- *
- *    Unless required by applicable law or agreed to in writing, software
- *    distributed under the License is distributed on an "AS IS" BASIS,
- *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *    See the License for the specific language governing permissions and
- *    limitations under the License.
- */
-
-/*
- * Copyright [2014] [Stefan Pröll]
- *
- *    Licensed under the Apache License, Version 2.0 (the "License");
- *    you may not use this file except in compliance with the License.
- *    You may obtain a copy of the License at
- *
- *        http://www.apache.org/licenses/LICENSE-2.0
- *
- *    Unless required by applicable law or agreed to in writing, software
- *    distributed under the License is distributed on an "AS IS" BASIS,
- *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *    See the License for the specific language governing permissions and
- *    limitations under the License.
- */
-
-/*
- * Copyright [2014] [Stefan Pröll]
- *
- *    Licensed under the Apache License, Version 2.0 (the "License");
- *    you may not use this file except in compliance with the License.
- *    You may obtain a copy of the License at
- *
- *        http://www.apache.org/licenses/LICENSE-2.0
- *
- *    Unless required by applicable law or agreed to in writing, software
- *    distributed under the License is distributed on an "AS IS" BASIS,
- *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *    See the License for the specific language governing permissions and
- *    limitations under the License.
- */
 
 package Database.DatabaseOperations;
 
@@ -118,26 +23,10 @@ import java.util.logging.Logger;
  * Created by stefan on 03.09.14.
  */
 public class DatabaseTools {
-    public String getDataBaseName() {
-        return dataBaseName;
-    }
-
-    public String getTableName() {
-        return tableName;
-    }
-
-    public Logger getLogger() {
-        return logger;
-    }
-
     private String dataBaseName;
     private String tableName;
     private Logger logger;
-
-
-    private Connection connection;
     private HikariConnectionPool pool;
-
     public DatabaseTools(String dataBaseName) {
         this.logger = Logger.getLogger(this.getClass().getName());
         /*
@@ -150,10 +39,7 @@ public class DatabaseTools {
         this.dataBaseName = dataBaseName;
 
 
-
     }
-
-
     /**
      * Constructor that connects with the default database schema
      * DATABASE_SCHEMA
@@ -161,10 +47,22 @@ public class DatabaseTools {
      * @throws SQLException
      * @throws ClassNotFoundException
      */
-    public DatabaseTools() throws SQLException, ClassNotFoundException {
+    public DatabaseTools() throws ClassNotFoundException {
         this.logger = Logger.getLogger(this.getClass().getName());
 
 
+    }
+
+    public String getDataBaseName() {
+        return dataBaseName;
+    }
+
+    public String getTableName() {
+        return tableName;
+    }
+
+    public Logger getLogger() {
+        return logger;
     }
 
     /**
@@ -172,41 +70,54 @@ public class DatabaseTools {
      *
      * @return
      */
-    private Connection getConnection() {
+    private Connection getConnection() throws SQLException {
         HikariConnectionPool pool = HikariConnectionPool.getInstance();
         Connection connection = null;
 
-        try {
-            connection = pool.getConnection();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+
+        connection = pool.getConnection();
+
         return connection;
 
     }
 
-    public void importCSVtoDatabase(String csvFileName, String tableName)
-            throws SQLException {
+    public void importCSVtoDatabase(String csvFileName, String tableName) {
         this.tableName = tableName;
-        Statement stat;
-        Connection connection = this.getConnection();
+        Statement stat = null;
+        Connection connection = null;
+        try {
+            connection = this.getConnection();
 
-        stat = connection.createStatement();
+            stat = connection.createStatement();
 
-        CSV_API csv;
-        csv = new CSV_API();
-        String headersSQL = null;
-        headersSQL = csv.getHeadersOfCSV(csvFileName);
+            CSV_API csv;
+            csv = new CSV_API();
+            String headersSQL = null;
+            headersSQL = csv.getHeadersOfCSV(csvFileName);
 
 
-        stat.execute("DROP TABLE IF EXISTS " + this.tableName);
-        String sqlCREATE = "CREATE TABLE " + this.tableName + " " + headersSQL
-                + "  AS SELECT * FROM CSVREAD( \'" + csvFileName + "\' );";
-        System.out.println(sqlCREATE);
-        stat.execute(sqlCREATE);
-        stat.close();
-        connection.close();
-        // this.connection.close();
+            stat.execute("DROP TABLE IF EXISTS " + this.tableName);
+            String sqlCREATE = "CREATE TABLE " + this.tableName + " " + headersSQL
+                    + "  AS SELECT * FROM CSVREAD( \'" + csvFileName + "\' );";
+            System.out.println(sqlCREATE);
+            stat.execute(sqlCREATE);
+            stat.close();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (connection != null) {
+                    connection.close();
+                }
+                if (stat != null) {
+                    stat.close();
+                }
+            } catch (SQLException sqlee) {
+                sqlee.printStackTrace();
+            }
+        }
+
 
     }
 
@@ -316,43 +227,83 @@ public class DatabaseTools {
 
     }
 
-    public int getRowCount(String tableName) throws SQLException {
+    /*
+    * Get the row count of a table
+    * */
+    public int getRowCount(String tableName) {
         // TODO SQL injection
         String sql = "SELECT COUNT(*) FROM " + tableName;
         int numberOfRecords = -1;
-        Connection connection = this.getConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        Connection connection = null;
+        ResultSet resultSet = null;
+        try {
+            connection = this.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
 
-        ResultSet rs = preparedStatement.executeQuery();
-        while (rs.next()) {
-            numberOfRecords = rs.getInt(1);
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                numberOfRecords = resultSet.getInt(1);
+            }
+
+            this.logger.warning("Row Set Size:  " + numberOfRecords);
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (connection != null) {
+                    connection.close();
+                }
+                if (resultSet != null) {
+                    resultSet.close();
+                }
+            } catch (SQLException sqlee) {
+                sqlee.printStackTrace();
+            }
         }
 
-        this.logger.warning("Row Set Size:  " + numberOfRecords);
-        connection.close();
 
         return numberOfRecords;
     }
 
-    public List<List<String>> getRowList(ResultSet rs) throws SQLException {
-        ResultSetMetaData meta = rs.getMetaData();
-        final int columnCount = meta.getColumnCount();
-        List<List<String>> rowList = new LinkedList<List<String>>();
-        while (rs.next()) {
-            List<String> columnList = new LinkedList<String>();
-            rowList.add(columnList);
+    /* Get the list of rows from a result set
+    * * */
+    public List<List<String>> getRowList(ResultSet resultSet) {
+        ResultSetMetaData meta = null;
+        List<List<String>> rowList = null;
+        try {
+            meta = resultSet.getMetaData();
+            final int columnCount = meta.getColumnCount();
 
-            for (int column = 1; column <= columnCount; column++) {
-                Object value = rs.getObject(column);
-                if (value != null) {
-                    columnList.add((String) value);
-                } else {
-                    columnList.add("null"); // you need this to keep your
-                    // columns in sync....
+            rowList = new LinkedList<List<String>>();
+            while (resultSet.next()) {
+                List<String> columnList = new LinkedList<String>();
+                rowList.add(columnList);
+
+                for (int column = 1; column <= columnCount; column++) {
+                    Object value = resultSet.getObject(column);
+                    if (value != null) {
+                        columnList.add((String) value);
+                    } else {
+                        columnList.add("null"); // you need this to keep your
+                        // columns in sync....
+                    }
                 }
             }
+            resultSet.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+
+                if (resultSet != null) {
+                    resultSet.close();
+                }
+            } catch (SQLException sqlee) {
+                sqlee.printStackTrace();
+            }
         }
-        rs.close();
+
         return rowList;
     }
 
@@ -375,90 +326,55 @@ public class DatabaseTools {
         }
 
     }
-/*
-    *//**
-     * @param rs
-     * @return
-     * @throws JSONException
-     * @throws SQLException  Provides the table data as DatatableModel.JSON
-     *//*
-    public String getJSON(CachedRowSet rs, JQueryDataTableParamModel param)
-            throws JSONException, SQLException {
-
-        JSONObject jsonObject = new JSONObject();
-
-        ResultSetConverter rsc = new ResultSetConverter();
-        JSONArray aaDataJSONArray = rsc.convert(rs);
-
-        jsonObject.put("sEcho", param.sEcho);
-        jsonObject.put("iTotalDisplayRecords", param.iTotalDisplayRecords);
-        jsonObject.put("iTotalRecords", param.iTotalRecords);
-
-        jsonObject.put("aaData", aaDataJSONArray);
-
-        String prettyJSON = jsonObject.toString(4);
-        // this.logger.warning("DatatableModel.JSON: " + prettyJSON);
-
-        // https://stackoverflow.com/questions/14258640/hash-map-array-list-to-json-array-in-android
-        return prettyJSON;
-
-    }*/
-
-/*    public static String getJSON(CachedRowSet rs) throws JSONException, SQLException {
-
-        JSONObject jsonObject = new JSONObject();
-        ResultSetConverter rsc = new ResultSetConverter();
-        JSONArray aaDataJSONArray = rsc.convert(rs);
-
-        jsonObject.put("aaData", aaDataJSONArray);
-
-        String prettyJSON = jsonObject.toString(4);
-
-        rs.close();
-        // https://stackoverflow.com/questions/14258640/hash-map-array-list-to-json-array-in-android
-        return prettyJSON;
-
-    }*/
-
-	/*
-     * public void close() throws SQLException { this.connection.close();
-	 * this.logger.warning("DB Connection closed");
-	 *
-	 * }
-	 */
 
     /**
      * Get a map of <ColumnName, ColumnType>
      */
-    public Map<String, String> getTableColumnMetadata(String tableName)
-            throws SQLException {
-        Connection connection = this.getConnection();
-        DatabaseMetaData meta = connection.getMetaData();
-        CachedRowSetImpl cachedResultSet = new CachedRowSetImpl();
-        String catalog = null;
-        String schemaPattern = null;
-        String tableNamePattern = tableName;
-        this.logger.warning("Getting metadata for table: " + tableName);
-        String columnNamePattern = null;
+    public Map<String, String> getTableColumnMetadata(String tableName) {
+        Map<String, String> columnMetadataMap = null;
+        Connection connection = null;
+        try {
+            connection = this.getConnection();
 
-        ResultSet result = meta.getColumns(catalog, schemaPattern,
-                tableNamePattern, columnNamePattern);
-        System.out.println(result.getFetchSize());
-        cachedResultSet.populate(result);
-        connection.close();
+            DatabaseMetaData meta = connection.getMetaData();
+            CachedRowSetImpl cachedResultSet = new CachedRowSetImpl();
+            String catalog = null;
+            String schemaPattern = null;
+            String tableNamePattern = tableName;
+            this.logger.warning("Getting metadata for table: " + tableName);
+            String columnNamePattern = null;
 
-        Map<String, String> columnMetadataMap = new LinkedHashMap<String, String>();
-        while (cachedResultSet.next()) {
+            ResultSet result = meta.getColumns(catalog, schemaPattern,
+                    tableNamePattern, columnNamePattern);
+            System.out.println(result.getFetchSize());
+            cachedResultSet.populate(result);
+            connection.close();
 
 
-            // ColumnName
-            String columnName = cachedResultSet.getString(4);
+            columnMetadataMap = new LinkedHashMap<String, String>();
+            while (cachedResultSet.next()) {
 
-            // ColumnType
-            String columnType = cachedResultSet.getString(6);
 
-            columnMetadataMap.put(columnName, columnType);
+                // ColumnName
+                String columnName = cachedResultSet.getString(4);
 
+                // ColumnType
+                String columnType = cachedResultSet.getString(6);
+
+                columnMetadataMap.put(columnName, columnType);
+
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (connection != null) {
+                    connection.close();
+                }
+
+            } catch (SQLException sqlee) {
+                sqlee.printStackTrace();
+            }
         }
 
         return columnMetadataMap;
@@ -470,74 +386,117 @@ public class DatabaseTools {
      * Get a map of <ColumnName, ColumnType> but remove the automatically generated metadata columns from the map:
      * ID_SYSTEM_SEQUENCE, INSERT_DATE, LAST_UPDATE, RECORD_STATUS
      */
-    public Map<String, String> getColumnNamesFromTableWithoutMetadataColumns(String tableName)
-            throws SQLException {
+    public Map<String, String> getColumnNamesFromTableWithoutMetadataColumns(String tableName) {
 
         if (tableName == null) {
             this.logger.severe("SESSION DATA IS NOT SET CORRECTLY");
         }
 
 
-        Connection conn = this.getConnection();
+        Connection connection = null;
+        ResultSet rs = null;
+        Map<String, String> columnMetadataMap = null;
+        try {
+            connection = this.getConnection();
 
 
-        Map<String, String> columnMetadataMap = new LinkedHashMap<String, String>();
-        // this query is needed to retrieve the column names from the database
-        String dummySQL = "SELECT * FROM " + conn.getCatalog() + "." + tableName +
-                " WHERE ID_SYSTEM_SEQUENCE > 0 AND ID_SYSTEM_SEQUENCE < 2";
-        this.logger.info("Dummy string " + dummySQL);
-        PreparedStatement pt = conn.prepareStatement(dummySQL);
+            columnMetadataMap = new LinkedHashMap<String, String>();
+            // this query is needed to retrieve the column names from the database
+            String dummySQL = "SELECT * FROM " + connection.getCatalog() + "." + tableName +
+                    " WHERE ID_SYSTEM_SEQUENCE > 0 AND ID_SYSTEM_SEQUENCE < 2";
+            this.logger.info("Dummy string " + dummySQL);
+            PreparedStatement pt = connection.prepareStatement(dummySQL);
 
-        ResultSet rs = pt.executeQuery();
-        ResultSetMetaData meta = rs.getMetaData();
-        int columnCount = meta.getColumnCount();
 
-        for (int i = 1; i <= columnCount; i++) {
+            rs = pt.executeQuery();
+            ResultSetMetaData meta = rs.getMetaData();
+            int columnCount = meta.getColumnCount();
 
-            String columnName = meta.getColumnName(i);
-            String columnType = meta.getColumnTypeName(i);
+            for (int i = 1; i <= columnCount; i++) {
 
-            columnMetadataMap.put(columnName, columnType);
-            System.out.println("Key: " + columnName + " Value " + columnType);
+                String columnName = meta.getColumnName(i);
+                String columnType = meta.getColumnTypeName(i);
 
+                columnMetadataMap.put(columnName, columnType);
+                System.out.println("Key: " + columnName + " Value " + columnType);
+
+            }
+
+
+            // remove the sequence nu,ber, timestamps and status columns
+            this.logger.info("There are " + columnMetadataMap.size() + " columns in the table");
+            columnMetadataMap.remove("ID_SYSTEM_SEQUENCE");
+            columnMetadataMap.remove("INSERT_DATE");
+            columnMetadataMap.remove("LAST_UPDATE");
+            columnMetadataMap.remove("RECORD_STATUS");
+            columnMetadataMap.remove("SHA1_HASH");
+            this.logger.info("Removed the metadata . Now there are " + columnMetadataMap.size() + " columns in the " +
+                    "table");
+
+
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (connection != null) {
+                    connection.close();
+                }
+                if (rs != null) {
+                    rs.close();
+                }
+            } catch (SQLException sqlee) {
+                sqlee.printStackTrace();
+            }
         }
-
-
-        // remove the sequence nu,ber, timestamps and status columns
-        this.logger.info("There are " + columnMetadataMap.size() + " columns in the table");
-        columnMetadataMap.remove("ID_SYSTEM_SEQUENCE");
-        columnMetadataMap.remove("INSERT_DATE");
-        columnMetadataMap.remove("LAST_UPDATE");
-        columnMetadataMap.remove("RECORD_STATUS");
-        columnMetadataMap.remove("SHA1_HASH");
-        this.logger.info("Removed the metadata . Now there are " + columnMetadataMap.size() + " columns in the " +
-                "table");
-
-
-        conn.close();
+        
         return columnMetadataMap;
 
     }
 
-    public int getNumberofColumnsPerTable(String tableName) throws SQLException {
-        Connection connection = this.getConnection();
+    /*Gets the number of columns from a table
+    * * */
+    public int getNumberofColumnsPerTable(String tableName) {
+        Connection connection = null;
+        ResultSet resultSet = null;
         int columncCount = 0;
-        DatabaseMetaData meta = connection.getMetaData();
-        String catalog = null;
-        String schemaPattern = null;
-        String tableNamePattern = tableName;
-        String columnNamePattern = null;
+        try {
+            connection = this.getConnection();
 
-        ResultSet result = meta.getColumns(catalog, schemaPattern,
-                tableNamePattern, columnNamePattern);
+            columncCount = 0;
+            DatabaseMetaData meta = connection.getMetaData();
+            String catalog = null;
+            String schemaPattern = null;
+            String tableNamePattern = tableName;
+            String columnNamePattern = null;
 
-        Map<String, String> columnMetadataMap = new HashMap<String, String>();
-        while (result.next()) {
-            columncCount++;
 
+            resultSet = meta.getColumns(catalog, schemaPattern,
+                    tableNamePattern, columnNamePattern);
+
+            Map<String, String> columnMetadataMap = new HashMap<String, String>();
+            while (resultSet.next()) {
+                columncCount++;
+
+            }
+
+            connection.close();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (connection != null) {
+                    connection.close();
+                }
+                if (resultSet != null) {
+                    resultSet.close();
+                }
+            } catch (SQLException sqlee) {
+                sqlee.printStackTrace();
+            }
         }
 
-        connection.close();
         return columncCount;
 
     }
@@ -554,9 +513,9 @@ public class DatabaseTools {
      * @throws ClassNotFoundException
      */
     public void createSimpleDBFromCSV(Column[] columnMetadata, String tableName, boolean calculateHashKeyColumn)
-            throws SQLException, ClassNotFoundException {
-        Statement stat;
-        Connection connection;
+            throws ClassNotFoundException {
+        Statement stat = null;
+        Connection connection = null;
         String createTableString = "CREATE TABLE " + tableName
                 + " ( ID_SYSTEM_SEQUENCE INTEGER PRIMARY KEY AUTO_INCREMENT";
 
@@ -580,40 +539,60 @@ public class DatabaseTools {
         createTableString += ");";
 
         this.logger.info("CREATE String: " + createTableString);
-        connection = this.getConnection();
-        stat = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
-                ResultSet.CONCUR_READ_ONLY);
-        stat.execute("DROP TABLE IF EXISTS " + tableName);
-        stat.execute(createTableString);
+        try {
+            connection = this.getConnection();
+            stat = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
+                    ResultSet.CONCUR_READ_ONLY);
+            stat.execute("DROP TABLE IF EXISTS " + tableName);
+            stat.execute(createTableString);
 
-        stat.close();
-        connection.close();
+            stat.close();
+            connection.close();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (connection != null) {
+                    connection.close();
+                }
+                if (stat != null) {
+                    stat.close();
+                }
+            } catch (SQLException sqlee) {
+                sqlee.printStackTrace();
+            }
+        }
+
 
     }
 
     public void insertCSVDataIntoDB(String path, String tableName,
-                                    boolean hasHeaders, boolean calculateHashKeyColumn) throws IOException,
-            SQLException {
+                                    boolean hasHeaders, boolean calculateHashKeyColumn) throws IOException {
 
-        Connection connection = this.getConnection();
-        if (connection.getAutoCommit()) {
-            //this.logger.info("AUTO COMMIT OFF");
-            connection.setAutoCommit(false);
-        }
-        PreparedStatement preparedStatement;
-        CSV_API csvAPI = new CSV_API();
+        Connection connection = null;
+        ICsvListReader listReader = null;
         CsvListReader reader = null;
+        long startTime = 0;
         int rowCount = 0;
         try {
+            startTime = System.currentTimeMillis();
+            connection = this.getConnection();
+
+            if (connection.getAutoCommit()) {
+                //this.logger.info("AUTO COMMIT OFF");
+                connection.setAutoCommit(false);
+            }
+            PreparedStatement preparedStatement;
+            CSV_API csvAPI = new CSV_API();
+            reader = null;
+            rowCount = 0;
+
             reader = new CsvListReader(new FileReader(path),
                     CsvPreference.STANDARD_PREFERENCE);
-        } catch (FileNotFoundException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        long startTime = System.currentTimeMillis();
-        ICsvListReader listReader = null;
-        try {
+
+            listReader = null;
+
             final String[] header = reader.getHeader(hasHeaders);
 
             // Calculate the number of place holders required by the amount of
@@ -697,13 +676,26 @@ public class DatabaseTools {
         } catch (NoSuchAlgorithmException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
         } finally {
             if (listReader != null) {
                 listReader.close();
             }
-            connection.setAutoCommit(true);
-            reader.close();
-            connection.close();
+            try {
+                if (connection != null) {
+                    connection.setAutoCommit(true);
+
+                    connection.close();
+                }
+
+            } catch (SQLException sqlee) {
+                sqlee.printStackTrace();
+            }
+            if (reader != null) {
+                reader.close();
+            }
+
 
         }
         long endTime = System.currentTimeMillis();
@@ -915,14 +907,13 @@ public class DatabaseTools {
 
     }
 
-    public void setConnection(Connection connection) {
-        this.connection = connection;
-    }
 
     public ResultSet getCompleteResultSetFromTable(String tableName) {
         java.sql.PreparedStatement stmt;
+        Connection connection = null;
         ResultSet rs = null;
         try {
+            connection = this.getConnection();
             stmt = connection.prepareStatement("SELECT * FROM `" + tableName + "`");
             rs = stmt.executeQuery();
             System.out.println("Statement was: " + stmt);
@@ -931,6 +922,15 @@ public class DatabaseTools {
         } catch (SQLException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
+        } finally {
+            try {
+                if (connection != null) {
+                    connection.close();
+                }
+
+            } catch (SQLException sqlee) {
+                sqlee.printStackTrace();
+            }
         }
         return rs;
 
@@ -946,10 +946,15 @@ public class DatabaseTools {
      */
     public ResultSet getResultSetFromTable(String columnsAsList, String tableName) {
         java.sql.PreparedStatement stmt;
-        ResultSet rs = null;
+
         String sql = "SELECT " + columnsAsList + " FROM `" + tableName + "`";
         this.logger.info("SQL Statements" + sql);
+
+        ResultSet rs = null;
+        Connection connection = null;
         try {
+            connection = this.getConnection();
+
             stmt = connection.prepareStatement(sql);
             rs = stmt.executeQuery();
             System.out.println("Statement was: " + stmt);
@@ -958,6 +963,15 @@ public class DatabaseTools {
         } catch (SQLException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
+        } finally {
+            try {
+                if (connection != null) {
+                    connection.close();
+                }
+
+            } catch (SQLException sqlee) {
+                sqlee.printStackTrace();
+            }
         }
         return rs;
 
@@ -990,7 +1004,7 @@ public class DatabaseTools {
             String newResultSetHash = null;
             while (cached.next()) {
     /*			hashCounter++;
-				if (hashCounter % 1000 ==0){
+                if (hashCounter % 1000 ==0){
 					this.logger.warning("Calculated " + hashCounter + " hashes so far");
 				}*/
                 // if there is a hash column, retrieve the value from the table
@@ -1060,26 +1074,26 @@ public class DatabaseTools {
      * Retrieve the primary key from a table by using the metadata of the database
      *
      * @param tableName
-
      * @return
      */
     public List<String> getPrimaryKeyFromTable(String tableName) {
         List<String> primaryKeyList = new ArrayList<String>();
-
+        ResultSet result = null;
         String catalog = null;
         String schema = null;
+        Connection connection = null;
         try {
-            schema = this.getConnection().getSchema();
-            catalog = this.getConnection().getCatalog();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+            connection = this.getConnection();
+
+            schema = connection.getSchema();
+            catalog = connection.getCatalog();
 
 
-        DatabaseMetaData databaseMetaData = null;
-        try {
+            DatabaseMetaData databaseMetaData = null;
+
             databaseMetaData = this.getConnection().getMetaData();
-            ResultSet result = databaseMetaData.getPrimaryKeys(
+
+            result = databaseMetaData.getPrimaryKeys(
                     catalog, schema, tableName);
 
             while (result.next()) {
@@ -1091,6 +1105,17 @@ public class DatabaseTools {
 
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            try {
+                if (connection != null) {
+                    connection.close();
+                }
+                if (result != null) {
+                    result.close();
+                }
+            } catch (SQLException sqlee) {
+                sqlee.printStackTrace();
+            }
         }
 
         return primaryKeyList;
@@ -1111,9 +1136,13 @@ public class DatabaseTools {
         String catalog = null;
         String schema = this.getDataBaseName();
         DatabaseMetaData databaseMetaData = null;
+        Connection connection = null;
+        ResultSet result = null;
         try {
-            databaseMetaData = this.getConnection().getMetaData();
-            ResultSet result = databaseMetaData.getPrimaryKeys(
+            connection = this.getConnection();
+            databaseMetaData = connection.getMetaData();
+
+            result = databaseMetaData.getPrimaryKeys(
                     catalog, schema, tableName);
 
             while (result.next()) {
@@ -1130,6 +1159,15 @@ public class DatabaseTools {
 
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            try {
+                if (connection != null) {
+                    connection.close();
+                }
+
+            } catch (SQLException sqlee) {
+                sqlee.printStackTrace();
+            }
         }
 
         return primaryKeyList;
@@ -1144,19 +1182,39 @@ public class DatabaseTools {
      * @return
      * @throws SQLException
      */
-    public int getMaxSequenceNumberFromTable(String tableName) throws SQLException {
-        Connection connection = this.getConnection();
+    public int getMaxSequenceNumberFromTable(String tableName) {
+        Connection connection = null;
+        ResultSet maxSequenceResult = null;
+        int maxSequenceNumber = 0;
+        try {
+            connection = this.getConnection();
 
-        Statement selectLastSequenceNumber = connection.createStatement();
-        ResultSet maxSequenceResult = selectLastSequenceNumber.executeQuery("SELECT MAX(ID_SYSTEM_SEQUENCE) " +
-                "AS maxSequence FROM " + tableName + ";");
-        int maxSequenceNumber = -1;
-        if (maxSequenceResult.next()) {
-            maxSequenceNumber = maxSequenceResult.getInt("maxSequence");
-            this.logger.info("MAX sequence number of " + tableName + " is " + maxSequenceNumber);
 
+            Statement selectLastSequenceNumber = connection.createStatement();
+
+            maxSequenceResult = selectLastSequenceNumber.executeQuery("SELECT MAX(ID_SYSTEM_SEQUENCE) " +
+                    "AS maxSequence FROM " + tableName + ";");
+            maxSequenceNumber = -1;
+            if (maxSequenceResult.next()) {
+                maxSequenceNumber = maxSequenceResult.getInt("maxSequence");
+                this.logger.info("MAX sequence number of " + tableName + " is " + maxSequenceNumber);
+
+            }
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (connection != null) {
+                    connection.close();
+                }
+                if (maxSequenceResult != null) {
+                    maxSequenceResult.close();
+                }
+            } catch (SQLException sqlee) {
+                sqlee.printStackTrace();
+            }
         }
-        connection.close();
 
         return maxSequenceNumber;
     }
@@ -1171,19 +1229,39 @@ public class DatabaseTools {
      * @throws SQLException
      */
     public Date getInsertDateFromRecord(String tableName, String primaryKeyColumn,
-                                        String primaryKeyValue) throws SQLException {
-        Connection connection = this.getConnection();
-
-        Statement selectLastSequenceNumber = connection.createStatement();
-        ResultSet minInsertDateResultSet = selectLastSequenceNumber.executeQuery("SELECT MIN(INSERT_DATE) " +
-                " FROM " + tableName + "WHERE + " + primaryKeyColumn + "='" + primaryKeyValue + "';");
+                                        String primaryKeyValue) {
+        Connection connection = null;
+        ResultSet minInsertDateResultSet = null;
         Date minInsertDate = null;
-        if (minInsertDateResultSet.next()) {
-            minInsertDate = minInsertDateResultSet.getDate("INSERT_DATE");
-            this.logger.info("Insert Date was " + minInsertDate);
+        try {
+            connection = this.getConnection();
 
+
+            Statement selectLastSequenceNumber = connection.createStatement();
+
+            minInsertDateResultSet = selectLastSequenceNumber.executeQuery("SELECT MIN(INSERT_DATE) " +
+                    " FROM " + tableName + "WHERE + " + primaryKeyColumn + "='" + primaryKeyValue + "';");
+            minInsertDate = null;
+            if (minInsertDateResultSet.next()) {
+                minInsertDate = minInsertDateResultSet.getDate("INSERT_DATE");
+                this.logger.info("Insert Date was " + minInsertDate);
+
+            }
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (connection != null) {
+                    connection.close();
+                }
+                if (minInsertDateResultSet != null) {
+                    minInsertDateResultSet.close();
+                }
+            } catch (SQLException sqlee) {
+                sqlee.printStackTrace();
+            }
         }
-        connection.close();
 
         return minInsertDate;
     }
@@ -1198,9 +1276,13 @@ public class DatabaseTools {
      * @throws SQLException
      */
     public RecordMetadata getMetadataFromRecord(String tableName, String primaryKeyColumn,
-                                      String primaryKeyValue) throws SQLException {
+                                                String primaryKeyValue) {
         RecordMetadata recordMetadata = null;
-        Connection connection = this.getConnection();
+        Connection connection = null;
+        ResultSet resultSet = null;
+        try {
+            connection = this.getConnection();
+
 
         Statement selectLastSequenceNumber = connection.createStatement();
         String metadataSQL = "SELECT ID_SYSTEM_SEQUENCE, " +
@@ -1208,16 +1290,31 @@ public class DatabaseTools {
                 " FROM " + tableName + " WHERE " + primaryKeyColumn + "='" + primaryKeyValue + "' GROUP BY  " +
                 primaryKeyColumn + ";";
         this.logger.info("Record metadata SQL: " + metadataSQL);
-        ResultSet resultSet = selectLastSequenceNumber.executeQuery(metadataSQL);
+
+            resultSet = selectLastSequenceNumber.executeQuery(metadataSQL);
 
 
-        if (resultSet.next()) {
+            if (resultSet.next()) {
             recordMetadata = new RecordMetadata(resultSet.getInt("ID_SYSTEM_SEQUENCE"),
                     resultSet.getTimestamp("INSERT_DATE"), resultSet.getTimestamp("LAST_UPDATE"),
                     resultSet.getString("RECORD_STATUS"));
 
         }
         connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (connection != null) {
+                    connection.close();
+                }
+                if (resultSet != null) {
+                    resultSet.close();
+                }
+            } catch (SQLException sqlee) {
+                sqlee.printStackTrace();
+            }
+        }
 
         return recordMetadata;
     }
@@ -1226,33 +1323,55 @@ public class DatabaseTools {
     * Retrieve the metadata from a record by comparing all columns
     * */
     public RecordMetadata getMetadataFromRecordWithFullData(Map<String, String> columnsMap, String tableName,
-                                                            List<String> csvRow) throws SQLException {
+                                                            List<String> csvRow) {
         RecordMetadata recordMetadata = null;
-        Connection connection = this.getConnection();
+        Connection connection = null;
+        Statement selectLastSequenceNumber = null;
+        ResultSet resultSet = null;
+        try {
+            connection = this.getConnection();
 
-        Statement selectLastSequenceNumber = connection.createStatement();
-        String metadataSQL = "SELECT ID_SYSTEM_SEQUENCE, " +
+
+            selectLastSequenceNumber = connection.createStatement();
+            String metadataSQL = "SELECT ID_SYSTEM_SEQUENCE, " +
                 "INSERT_DATE, MAX(LAST_UPDATE) AS LAST_UPDATE, RECORD_STATUS " +
                 " FROM " + connection.getCatalog() + "." + tableName + " " + this
                 .recordExistsWhereClause
                         (columnsMap,
                                 csvRow) + ";";
         this.logger.info("Record metadata SQL: " + metadataSQL);
-        ResultSet resultSet = selectLastSequenceNumber.executeQuery(metadataSQL);
+
+            resultSet = selectLastSequenceNumber.executeQuery(metadataSQL);
 
 
-        if (resultSet.next()) {
+            if (resultSet.next()) {
             recordMetadata = new RecordMetadata(resultSet.getInt("ID_SYSTEM_SEQUENCE"),
                     resultSet.getTimestamp("INSERT_DATE"), resultSet.getTimestamp("LAST_UPDATE"),
                     resultSet.getString("RECORD_STATUS"));
 
         }
         connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (connection != null) {
+                    connection.close();
+                }
+                if (selectLastSequenceNumber != null) {
+                    selectLastSequenceNumber.close();
+                }
+                if (resultSet != null) {
+                    resultSet.close();
+
+                }
+            } catch (SQLException sqlee) {
+                sqlee.printStackTrace();
+            }
+        }
 
         return recordMetadata;
     }
-
-
 
 
     /**
@@ -1265,20 +1384,39 @@ public class DatabaseTools {
      * @throws SQLException
      */
     public boolean checkIfRecordExistsInTableByPrimaryKey(String tableName, String primaryKeyColumnName,
-                                                          String primaryKeyValue) throws SQLException {
-        Connection connection = this.getConnection();
+                                                          String primaryKeyValue) {
+        Connection connection = null;
+        Statement checkRecordExistance = null;
+        int existsInteger = 0;
+        try {
+            connection = this.getConnection();
 
-        Statement checkRecordExistance = connection.createStatement();
-        String checkSQL = "SELECT EXISTS(SELECT 1 FROM " + tableName + " WHERE " + primaryKeyColumnName + "= '" +
-                primaryKeyValue + "') AS recordDoesExist;";
 
-        this.logger.info("CHECK SQL: " + checkSQL);
-        ResultSet maxSequenceResult = checkRecordExistance.executeQuery(checkSQL);
-        int existsInteger = -1;
-        if (maxSequenceResult.next()) {
-            existsInteger = maxSequenceResult.getInt("recordDoesExist");
+            checkRecordExistance = connection.createStatement();
+            String checkSQL = "SELECT EXISTS(SELECT 1 FROM " + tableName + " WHERE " + primaryKeyColumnName + "= '" +
+                    primaryKeyValue + "') AS recordDoesExist;";
+
+            this.logger.info("CHECK SQL: " + checkSQL);
+            ResultSet maxSequenceResult = checkRecordExistance.executeQuery(checkSQL);
+            existsInteger = -1;
+            if (maxSequenceResult.next()) {
+                existsInteger = maxSequenceResult.getInt("recordDoesExist");
+            }
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (connection != null) {
+                    connection.close();
+                }
+                if (checkRecordExistance != null) {
+                    checkRecordExistance.close();
+                }
+            } catch (SQLException sqlee) {
+                sqlee.printStackTrace();
+            }
         }
-        connection.close();
 
 
         if (existsInteger == 1) {
@@ -1297,24 +1435,50 @@ public class DatabaseTools {
     * Check for each row if the exact same row exists
     * */
     public boolean checkIfRecordExistsInTableByFullCompare(Map<String, String> columnsMap, String tableName,
-                                                           List<String> csvRow) throws SQLException {
-        Connection connection = this.getConnection();
+                                                           List<String> csvRow) {
+        Connection connection = null;
+        ResultSet maxSequenceResult = null;
+        Statement checkRecordExistance = null;
+        int existsInteger = 0;
+        try {
+            connection = this.getConnection();
 
-        Statement checkRecordExistance = connection.createStatement();
-        String checkSQL = "SELECT EXISTS(SELECT 1 FROM " + connection.getCatalog() + "." + tableName + " " + this
-                .recordExistsWhereClause
-                        (columnsMap,
-                                csvRow)
-                + ") " +
-                "AS recordDoesExist;";
 
-        this.logger.info("CHECK SQL: " + checkSQL);
-        ResultSet maxSequenceResult = checkRecordExistance.executeQuery(checkSQL);
-        int existsInteger = -1;
-        if (maxSequenceResult.next()) {
-            existsInteger = maxSequenceResult.getInt("recordDoesExist");
+            checkRecordExistance = connection.createStatement();
+            String checkSQL = "SELECT EXISTS(SELECT 1 FROM " + connection.getCatalog() + "." + tableName + " " + this
+                    .recordExistsWhereClause
+                            (columnsMap,
+                                    csvRow)
+                    + ") " +
+                    "AS recordDoesExist;";
+
+            this.logger.info("CHECK SQL: " + checkSQL);
+            ;
+            maxSequenceResult = checkRecordExistance.executeQuery(checkSQL);
+            existsInteger = -1;
+            if (maxSequenceResult.next()) {
+                existsInteger = maxSequenceResult.getInt("recordDoesExist");
+            }
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (connection != null) {
+                    connection.close();
+                }
+                if (checkRecordExistance != null) {
+                    checkRecordExistance.close();
+                }
+                if (maxSequenceResult != null) {
+                    maxSequenceResult.close();
+
+
+                }
+            } catch (SQLException sqlee) {
+                sqlee.printStackTrace();
+            }
         }
-        connection.close();
 
 
         if (existsInteger == 1) {

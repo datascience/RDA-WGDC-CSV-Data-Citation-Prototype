@@ -110,11 +110,9 @@ public class MigrateCSV2SQL {
     
     public MigrateCSV2SQL() {
         this.logger = Logger.getLogger(this.getClass().getName());
+
         try {
             this.dbtools = new DatabaseTools();
-
-        } catch (SQLException e) {
-            e.printStackTrace();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }

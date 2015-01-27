@@ -86,8 +86,6 @@ public class DatabaseTest {
             List<String> primaryKeyList = dbt.getPrimaryKeyFromTable(tableName);
 
 
-        } catch (SQLException e) {
-            e.printStackTrace();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }

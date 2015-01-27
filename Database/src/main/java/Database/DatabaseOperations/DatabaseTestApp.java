@@ -152,8 +152,7 @@ public class DatabaseTestApp {
             db.getRowCount(tableName);
             names = db.getTableColumnMetadata(tableName);
 
-        } catch (SQLException e) {
-            e.printStackTrace();
+
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
