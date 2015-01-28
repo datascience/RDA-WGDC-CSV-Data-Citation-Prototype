@@ -23,7 +23,8 @@ public class TableMetadata {
         this.logger = Logger.getLogger(this.getClass().getName());
         HikariConnectionPool pool = HikariConnectionPool.getInstance();
 
-        this.dbtools = new DatabaseTools(pool.getDataBaseName());
+        this.dbtools = new DatabaseTools();
+        
 
 
     }
@@ -36,8 +37,8 @@ public class TableMetadata {
      * @throws java.sql.SQLException
      */
     public static String getTableHeadersAsHTML(String tableName) throws SQLException {
-        TableDataOperations tableOperations = new TableDataOperations();
-        Map<String, String> columnMap = tableOperations.getTableColumnMetadata(tableName);
+        DatabaseTools dbTools = new DatabaseTools();
+        Map<String, String> columnMap = dbTools.getTableColumnMetadata(tableName);
         String htmlTableHeaders = "<thead>\n\t<tr>\n";
         Iterator it = columnMap.entrySet().iterator();
         while (it.hasNext()) {
@@ -53,8 +54,8 @@ public class TableMetadata {
 
 
     public static String getDataTablesMDataProp(String tableName) throws SQLException {
-        TableDataOperations tableOperations = new TableDataOperations();
-        Map<String, String> columnMap = tableOperations.getTableColumnMetadata(tableName);
+        DatabaseTools dbTools = new DatabaseTools();
+        Map<String, String> columnMap = dbTools.getTableColumnMetadata(tableName);
 
         // If the value of a column is null, datatables shows an error
         // This string is shown as a default value
@@ -79,8 +80,8 @@ public class TableMetadata {
 
     // returns the tags required for the filter input fields
     public static String getColumnFilterColumnns(String tableName) throws SQLException {
-        TableDataOperations tableOperations = new TableDataOperations();
-        Map<String, String> columnMap = tableOperations.getTableColumnMetadata(tableName);
+        DatabaseTools dbTools = new DatabaseTools();
+        Map<String, String> columnMap = dbTools.getTableColumnMetadata(tableName);
         String columnsList = "";
         for (int i = 0; i < columnMap.values().size(); i++) {
             columnsList += "{ type: \"text\"}, \n";
@@ -98,9 +99,9 @@ public class TableMetadata {
 
 
     public static String getTableFooterAsHTML(String tableName) throws SQLException {
-        TableDataOperations tableOperations = new TableDataOperations();
-        int columnCount = tableOperations.getNumberofColumnsPerTable(tableName);
-        Map<String, String> tableMetadata = tableOperations.getTableColumnMetadata(tableName);
+        DatabaseTools dbTools = new DatabaseTools();
+        int columnCount = dbTools.getNumberofColumnsPerTable(tableName);
+        Map<String, String> tableMetadata = dbTools.getTableColumnMetadata(tableName);
 
 
         String emptyTableRows = "<tfoot><tr>\n";

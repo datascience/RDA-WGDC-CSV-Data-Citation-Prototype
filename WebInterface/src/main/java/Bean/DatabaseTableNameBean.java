@@ -122,7 +122,7 @@ public class DatabaseTableNameBean implements Serializable {
         if (selectedDB == null || selectedDB.equals("")) {
             String databaseNameFromConnection = this.dbtools.getADatabaseCatalogFromDatabaseConnection().get(0);
             this.logger.info("Database retrieved: " + databaseNameFromConnection);
-            this.tableNames = this.dbtools.getAvailableTablesFromDatabase(selectedDB);
+            this.tableNames = this.dbtools.getAvailableTablesFromDatabase(databaseNameFromConnection);
 
         } else {
             this.tableNames = this.dbtools.getAvailableTablesFromDatabase(selectedDB);

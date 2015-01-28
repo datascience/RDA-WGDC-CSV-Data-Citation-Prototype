@@ -27,19 +27,8 @@ public class DatabaseTools {
     private String tableName;
     private Logger logger;
     private HikariConnectionPool pool;
-    public DatabaseTools(String dataBaseName) {
-        this.logger = Logger.getLogger(this.getClass().getName());
-        /*
-         * // start the TCP Server try {
-		 *
-		 * Server server = Server.createTcpServer().start(); } catch
-		 * (SQLException e) { // TODO Auto-generated catch block
-		 * e.printStackTrace(); }
-		 */
-        this.dataBaseName = dataBaseName;
 
 
-    }
     /**
      * Constructor that connects with the default database schema
      * DATABASE_SCHEMA
@@ -47,14 +36,22 @@ public class DatabaseTools {
      * @throws SQLException
      * @throws ClassNotFoundException
      */
-    public DatabaseTools() throws ClassNotFoundException {
+    public DatabaseTools() {
         this.logger = Logger.getLogger(this.getClass().getName());
 
 
     }
 
+    /*Get database name from current connection
+    * * */
     public String getDataBaseName() {
-        return dataBaseName;
+        if (this.dataBaseName == null || this.dataBaseName.equals("")) {
+            HikariConnectionPool pool = HikariConnectionPool.getInstance();
+            this.dataBaseName = pool.getDataBaseName();
+
+        }
+
+        return this.dataBaseName;
     }
 
     public String getTableName() {
@@ -1526,4 +1523,6 @@ public class DatabaseTools {
         return whereClause;
 
     }
+
+
 }
