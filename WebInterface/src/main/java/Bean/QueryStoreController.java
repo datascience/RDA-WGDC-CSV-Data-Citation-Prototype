@@ -33,6 +33,7 @@
 package Bean;
 
 
+import Database.Authentication.User;
 import QueryStore.Query;
 import QueryStore.QueryStoreAPI;
 import at.stefanproell.PersistentIdentifierMockup.Organization;
@@ -121,21 +122,33 @@ public class QueryStoreController implements Serializable {
 
 
         this.logger.warning("Using predefined organizational ID!");
-        Organization org = this.pidAPI.getOrganizationObjectByPrefix(12345);
-        PersistentIdentifierAlphaNumeric pid = this.pidAPI.getAlphaNumericPID(org, "localhostTEST");
-
-        PersistentIdentifierAlphaNumeric pidDS = this.pidAPI.getAlphaNumericPID(org, "DATASOURCE PID");
+        SessionManager sm = new SessionManager();
+        User user = sm.getLogedInUserObject();
 
 
-        Query query = this.queryStoreAPI.createNewQuery("DUMMYUSER", "EMPTYDESCRIPTION", "DUMMYTABLENAME", pid
+        int prefix = user.getOrganizational_id();
+
+        Organization org = this.pidAPI.getOrganizationObjectByPrefix(prefix);
+        this.logger.info("Retrieving ORG by prefix: " + prefix + " Organizationa name (from object) :  " + org
+                .getOrganization_name());
+        //@todo real landing page
+
+        PersistentIdentifierAlphaNumeric pid = this.pidAPI.getAlphaNumericPID(org, 
+                "http://localhost:8080/landingpages/XXX");
+
+
+        Query query = this.queryStoreAPI.createNewQuery(user.getUsername(), "EMPTYDESCRIPTION", sm
+                .getCurrentTableNameFromSession(), pid
                 .getIdentifier());
-        
-        
+
+        this.logger.info("Created query: " + query.getCreatedDate());
 
 
-        this.query.setExecution_timestamp(new Date());
+        Date nowDate = new Date();
+
+        this.query.setExecution_timestamp(nowDate);
         this.query.setPID(pid.getIdentifier());
-        this.query.setDatasourcePID(pidDS.getIdentifier());
+
         this.query.setQuery_text("SELECT * FROM table");
         this.query.setQueryHash("abcded");
         this.query.setUserName("stefan");
