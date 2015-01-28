@@ -136,8 +136,7 @@ public class SessionManager {
     }
 
     /**
-     * Get the type of the upload. Available types are: newCSV, updateExistingCSV, appendNewRowsToExistingCSV.
-     * The information is stored in the session variable uploadSessionType
+     * Get the session tablename
      */
     public String getCurrentTableNameFromSession() {
 
@@ -151,5 +150,22 @@ public class SessionManager {
 
         }
         return currentTableName;
+    }
+
+    /**
+     * Get the database name from the session
+     */
+    public String getCurrentDatabaseNameFromSession() {
+
+        // lesen
+//        Map<String, Object> sessionMAP = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
+        Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
+        String currentDatabaseName = params.get("currentDatabaseName");
+
+        if (currentDatabaseName == null || currentDatabaseName.equals("")) {
+            this.logger.warning("There was no  currentDatabaseName name in the session. ");
+
+        }
+        return currentDatabaseName;
     }
 }

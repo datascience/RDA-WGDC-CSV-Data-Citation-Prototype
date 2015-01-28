@@ -14,4 +14,4 @@ Create setenv.sh file in CATALINA_HOME/bin
 
 chmod 755 setenv.sh
 stefan@stefan-Linux:~/Development/apache/bin$ cat setenv.sh
-export CATALINA_OPTS="-XX:+CMSClassUnloadingEnabled -XX:+CMSPermGenSweepingEnabled "
+export CATALINA_OPTS="-XX:+CMSClassUnloadingEnabled"

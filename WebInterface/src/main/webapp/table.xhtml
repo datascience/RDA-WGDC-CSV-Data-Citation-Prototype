@@ -98,18 +98,19 @@ function AjaxUpdateDataFailed(result) {
 
 </h:head>
 
-<!-- BEGIN: Hidden Form for Init-->
-<h:form>
-    <p:remoteCommand name="onLoad" actionListener="#{databaseTableNameBean.onLoad}" autoRun="true" ajax="false"/>
-</h:form>
-<!-- END Hidden form-->
 
 <h:body id="dt_data_table">
-    <div class="container">
+    <!-- BEGIN: Hidden Form for Init-->
+    <h:form id="remoteCommandForm">
+        <p:remoteCommand name="onLoadTable" actionListener="#{databaseTableNameBean.onLoadTable}" autoRun="true"/>
+    </h:form>
+    <!-- END Hidden form-->
+
+    <div id="containerId" class="container">
         <!-- BEGIN user management -->
         <ui:include src="/topmenu.xhtml"/>
         <!-- END user management -->
-    <h:form>
+        <h:form id="selectForm">
         <h:selectOneMenu id="databaseDropDown" valueChangeListener="#{databaseTableNameBean.handleChangeDatabaseName}"
                          required="true" value="#{databaseTableNameBean.databaseName}"
                          binding="#{databaseNameDropdown}">

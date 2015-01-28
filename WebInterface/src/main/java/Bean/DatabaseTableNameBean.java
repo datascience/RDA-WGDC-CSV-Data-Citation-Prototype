@@ -24,13 +24,17 @@ import org.hibernate.Session;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.ExternalContext;
+import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.ValueChangeEvent;
+import java.io.IOException;
 import java.io.Serializable;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.logging.Logger;
 import javax.faces.event.AjaxBehaviorEvent;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * Created by stefan on 04.07.14.
@@ -92,11 +96,9 @@ public class DatabaseTableNameBean implements Serializable {
 
             dbtools = new DatabaseTools();
             // this only returns the database schema specified in the connection profile.
-            databaseNames = dbtools.getADatabaseCatalogFromDatabaseConnection();
-
-
-
-
+        this.databaseNames = dbtools.getADatabaseCatalogFromDatabaseConnection();
+        this.tableNames = this.dbtools.getAvailableTablesFromDatabase(databaseNames.get(0));
+        
     }
 
     /**
@@ -106,20 +108,24 @@ public class DatabaseTableNameBean implements Serializable {
      */
     public void handleChangeDatabaseName(ValueChangeEvent event) {
         String selectedDB = null;
+        SessionManager sm = new SessionManager();
         if (event != null) {
             this.logger.info("Event: " + event.getComponent().toString() + " " + event.toString());
             selectedDB = event.getNewValue().toString();
+
         } else {
-            this.logger.info("Event was null");
+
+            selectedDB = sm.getCurrentDatabaseNameFromSession();
+            this.logger.info("Event was null. Try reading session. Tablename is now: " + selectedDB);
 
 
         }
 
 
-        
+
 
         /*
-        * If there is no database selected, get the session database and chose the first available table for this 
+        * If there is no database selected, get the session database and chose the first available table for this
         * * database
         * * * */
         if (selectedDB == null || selectedDB.equals("")) {
@@ -130,9 +136,10 @@ public class DatabaseTableNameBean implements Serializable {
 
             this.tableName = this.tableNames.get(0);
             this.logger.info("Databasename was null and is now: " + selectedDB);
-            SessionManager sm = new SessionManager();
+
             sm.storeSessionData("currentDatabaseName", selectedDB);
             sm.storeSessionData("currentTableName", this.tableName);
+
 
         } else {
             this.logger.info("Databasename was set and it was:  " + selectedDB);
@@ -145,12 +152,18 @@ public class DatabaseTableNameBean implements Serializable {
 
     }
 
-    /*Load this event when the page is refreshed.
+    /*Load this event when the table page is refreshed.
     * * */
+    public void onLoadTable(ActionEvent event) {
+        this.logger.info("Page load event: .. " + event.toString());
+    }
+
+    /*Load this event when the page is refreshed.
+* * */
     public void onLoad(ActionEvent event) {
         this.logger.info("Yay-.. " + event.toString());
-        this.handleChangeDatabaseName(null);
-        
+        //this.handleChangeDatabaseName(null);
+
 
     }
 

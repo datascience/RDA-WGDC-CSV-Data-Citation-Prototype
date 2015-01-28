@@ -203,9 +203,10 @@ public class DataServlet extends HttpServlet {
 
             // if there was no table set, get the session table
             if (currentTable == null || currentTable.equals("")) {
-                this.logger.warning("Table was null. Using session table");
+
                 SessionManager sm = new SessionManager();
                 currentTable = sm.getCurrentTableNameFromSession();
+                this.logger.warning("Table was null. Using session table" + currentTable);
 
             }
             

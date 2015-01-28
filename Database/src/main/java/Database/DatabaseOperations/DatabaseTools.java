@@ -333,8 +333,9 @@ public class DatabaseTools {
     public Map<String, String> getTableColumnMetadata(String tableName) {
 
         if (tableName == null || tableName.equals("")) {
-            this.logger.info("No table name provided.");
+
             tableName = this.getFirstTableFromStandardSessionDatabase();
+            this.logger.info("No table name provided. Must be first call. Using default: " + tableName);
 
         }
         Map<String, String> columnMetadataMap = null;
@@ -1582,6 +1583,7 @@ public class DatabaseTools {
         String selectedDB = this.getADatabaseCatalogFromDatabaseConnection().get(0);
         this.logger.info("Database retrieved: " + selectedDB);
         String tableName = this.getAvailableTablesFromDatabase(selectedDB).get(0);
+        this.logger.info("Table retrieved retrieved: " + tableName);
         return tableName;
     }
 
