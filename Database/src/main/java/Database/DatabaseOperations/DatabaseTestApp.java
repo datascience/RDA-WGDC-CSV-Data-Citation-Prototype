@@ -144,7 +144,7 @@ public class DatabaseTestApp {
         }
 
 
-        DatabaseTools db = new DatabaseTools(databaseName);
+        DatabaseTools db = new DatabaseTools();
         Map<String, String> names = null;
         try {
             db.createSimpleDBFromCSV(meta, tableName, calulateHashColumn);

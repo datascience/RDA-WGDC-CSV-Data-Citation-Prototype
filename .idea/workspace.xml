@@ -4,9 +4,18 @@
     <option name="SCOPE_TYPE" value="4" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fe0bbad9-08dd-49cf-9f33-eb5e1947ea1f" name="Default" comment="change events">
+    <list default="true" id="fe0bbad9-08dd-49cf-9f33-eb5e1947ea1f" name="Default" comment="moving methods">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/WebInterface/src/main/java/Servlet/DataServlet.java" afterPath="$PROJECT_DIR$/WebInterface/src/main/java/Servlet/DataServlet.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Database/src/main/java/Database/DatabaseOperations/DatabaseQueries.java" afterPath="$PROJECT_DIR$/Database/src/main/java/Database/DatabaseOperations/DatabaseQueries.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/WebInterface/src/main/java/Bean/DatabaseTableNameBean.java" afterPath="$PROJECT_DIR$/WebInterface/src/main/java/Bean/DatabaseTableNameBean.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Database/src/main/java/Database/DatabaseOperations/DatabaseTest.java" afterPath="$PROJECT_DIR$/Database/src/main/java/Database/DatabaseOperations/DatabaseTest.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Database/src/main/java/Database/DatabaseOperations/DatabaseTestApp.java" afterPath="$PROJECT_DIR$/Database/src/main/java/Database/DatabaseOperations/DatabaseTestApp.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Database/src/main/java/Database/DatabaseOperations/DatabaseTools.java" afterPath="$PROJECT_DIR$/Database/src/main/java/Database/DatabaseOperations/DatabaseTools.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/WebInterface/src/main/java/Bean/FileUploadController.java" afterPath="$PROJECT_DIR$/WebInterface/src/main/java/Bean/FileUploadController.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Database/src/main/java/Database/DatabaseOperations/MigrateCSV2SQL.java" afterPath="$PROJECT_DIR$/Database/src/main/java/Database/DatabaseOperations/MigrateCSV2SQL.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CSV-Citation-Deployment-Module/README.md" afterPath="$PROJECT_DIR$/CSV-Citation-Deployment-Module/README.md" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/WebInterface/src/main/java/Bean/ServletController.java" afterPath="$PROJECT_DIR$/WebInterface/src/main/java/Bean/ServletController.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/WebInterface/src/main/java/Bean/SessionManager.java" afterPath="$PROJECT_DIR$/WebInterface/src/main/java/Bean/SessionManager.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DatatableModel/src/main/java/DatatableModel/TableDataOperations.java" afterPath="$PROJECT_DIR$/DatatableModel/src/main/java/DatatableModel/TableDataOperations.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DatatableModel/src/main/java/DatatableModel/TableMetadata.java" afterPath="$PROJECT_DIR$/DatatableModel/src/main/java/DatatableModel/TableMetadata.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/WebInterface/src/main/webapp/table.xhtml" afterPath="$PROJECT_DIR$/WebInterface/src/main/webapp/table.xhtml" />
@@ -95,24 +104,8 @@
       <file leaf-file-name="DatabaseTools.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Database/src/main/java/Database/DatabaseOperations/DatabaseTools.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-17.071428" vertical-offset="22412" max-vertical-offset="23025">
-              <caret line="1526" column="0" selection-start-line="1526" selection-start-column="0" selection-end-line="1526" selection-end-column="0" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#1417#1418#0" expanded="true" />
-                <element signature="e#1449#1450#0" expanded="true" />
-                <element signature="e#1482#1483#0" expanded="true" />
-                <element signature="e#1511#1512#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="TableMetadata.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/DatatableModel/src/main/java/DatatableModel/TableMetadata.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="135" max-vertical-offset="2970">
-              <caret line="26" column="8" selection-start-line="26" selection-start-column="8" selection-end-line="26" selection-end-column="8" />
+            <state vertical-scroll-proportion="-4.607143" vertical-offset="4851" max-vertical-offset="23925">
+              <caret line="336" column="72" selection-start-line="336" selection-start-column="72" selection-end-line="336" selection-end-column="72" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -120,44 +113,24 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="TableDataOperations.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/DatatableModel/src/main/java/DatatableModel/TableDataOperations.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.8829953" vertical-offset="2179" max-vertical-offset="2880">
-              <caret line="195" column="0" selection-start-line="64" selection-start-column="3" selection-end-line="195" selection-end-column="0" />
-              <folding>
-                <element signature="e#3149#3157#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="dataselection.xhtml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/WebInterface/src/main/webapp/dataselection.xhtml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-11.333333" vertical-offset="1858" max-vertical-offset="2745">
-              <caret line="142" column="10" selection-start-line="141" selection-start-column="0" selection-end-line="145" selection-end-column="25" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="table.xhtml" pinned="false" current-in-tab="false">
+      <file leaf-file-name="table.xhtml" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/WebInterface/src/main/webapp/table.xhtml">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-9.375" vertical-offset="1260" max-vertical-offset="2550">
-              <caret line="99" column="0" selection-start-line="99" selection-start-column="0" selection-end-line="99" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.5215232" vertical-offset="1215" max-vertical-offset="2550">
+              <caret line="102" column="112" selection-start-line="102" selection-start-column="112" selection-end-line="102" selection-end-column="112" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ValueChangeEvent.class" pinned="false" current-in-tab="false">
-        <entry file="jar://$MAVEN_REPOSITORY$/com/sun/faces/jsf-api/2.2.2/jsf-api-2.2.2.jar!/javax/faces/event/ValueChangeEvent.class">
+      <file leaf-file-name="DatabaseTableNameBean.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/WebInterface/src/main/java/Bean/DatabaseTableNameBean.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="30" max-vertical-offset="450">
-              <caret line="5" column="25" selection-start-line="5" selection-start-column="8" selection-end-line="5" selection-end-column="25" />
-              <folding />
+            <state vertical-scroll-proportion="0.0" vertical-offset="1062" max-vertical-offset="2280">
+              <caret line="128" column="12" selection-start-line="128" selection-start-column="12" selection-end-line="128" selection-end-column="12" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -176,8 +149,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/Database/src/main/java/Database/Authentication/CreateUsersExample.java" />
-        <option value="$PROJECT_DIR$/QueryStore/src/main/java/QueryStore/QueryStoreAPI.java" />
         <option value="$PROJECT_DIR$/WebInterface/src/main/webapp/WEB-INF/web.xml" />
         <option value="$PROJECT_DIR$/ResultSetVerification/src/main/java/at/stefanproell/ResultSetVerification/DataBaseConnectionPool.java" />
         <option value="$PROJECT_DIR$/WebInterface/src/main/java/Bean/QueryStoreController.java" />
@@ -204,29 +175,31 @@
         <option value="$PROJECT_DIR$/ResultSetVerification/pom.xml" />
         <option value="$PROJECT_DIR$/WebInterface/pom.xml" />
         <option value="$PROJECT_DIR$/CSV-Citation-Deployment-Module/pom.xml" />
-        <option value="$PROJECT_DIR$/CSV-Citation-Deployment-Module/README.md" />
         <option value="$PROJECT_DIR$/ResultSetVerification/src/main/java/at/stefanproell/ResultSetVerification/ResultSetVerificationAPI.java" />
         <option value="$PROJECT_DIR$/Database/src/main/java/Database/DatabaseOperations/HikariConnectionPool.java" />
-        <option value="$PROJECT_DIR$/Database/src/main/java/Database/DatabaseOperations/MigrateCSV2SQL.java" />
-        <option value="$PROJECT_DIR$/Database/src/main/java/Database/DatabaseOperations/DatabaseTestApp.java" />
-        <option value="$PROJECT_DIR$/Database/src/main/java/Database/DatabaseOperations/DatabaseTest.java" />
         <option value="$PROJECT_DIR$/Database/src/main/resources/hibernate.hikari.properties" />
         <option value="$PROJECT_DIR$/PersistentIdentification/src/main/resources/db.properties" />
         <option value="$PROJECT_DIR$/QueryStore/src/main/resources/hibernate.querystore.cfg.xml" />
         <option value="$PROJECT_DIR$/Database/src/main/resources/db.properties" />
         <option value="$PROJECT_DIR$/Database/src/main/resources/initial_user_data.sql" />
-        <option value="$PROJECT_DIR$/Database/src/main/java/Database/DatabaseOperations/DatabaseQueries.java" />
         <option value="$PROJECT_DIR$/WebInterface/src/main/java/Views/PredefinedInputTextView.java" />
-        <option value="$PROJECT_DIR$/WebInterface/src/main/java/Bean/SessionManager.java" />
-        <option value="$PROJECT_DIR$/WebInterface/src/main/java/Bean/FileUploadController.java" />
         <option value="$PROJECT_DIR$/Database/src/main/resources/hibernate.userauthentication.cfg.xml" />
         <option value="$PROJECT_DIR$/WebInterface/src/main/webapp/dataselection.xhtml" />
         <option value="$PROJECT_DIR$/WebInterface/src/main/webapp/uploadNewCSV.xhtml" />
-        <option value="$PROJECT_DIR$/WebInterface/src/main/java/Bean/DatabaseTableNameBean.java" />
-        <option value="$PROJECT_DIR$/WebInterface/src/main/webapp/table.xhtml" />
-        <option value="$PROJECT_DIR$/DatatableModel/src/main/java/DatatableModel/TableMetadata.java" />
-        <option value="$PROJECT_DIR$/Database/src/main/java/Database/DatabaseOperations/DatabaseTools.java" />
         <option value="$PROJECT_DIR$/DatatableModel/src/main/java/DatatableModel/TableDataOperations.java" />
+        <option value="$PROJECT_DIR$/Database/src/main/java/Database/DatabaseOperations/MigrateCSV2SQL.java" />
+        <option value="$PROJECT_DIR$/Database/src/main/java/Database/DatabaseOperations/DatabaseTestApp.java" />
+        <option value="$PROJECT_DIR$/Database/src/main/java/Database/DatabaseOperations/DatabaseTest.java" />
+        <option value="$PROJECT_DIR$/DatatableModel/src/main/java/DatatableModel/TableMetadata.java" />
+        <option value="$PROJECT_DIR$/WebInterface/src/main/java/Bean/ServletController.java" />
+        <option value="$PROJECT_DIR$/CSV-Citation-Deployment-Module/README.md" />
+        <option value="$PROJECT_DIR$/Database/src/main/java/Database/DatabaseOperations/DatabaseQueries.java" />
+        <option value="$PROJECT_DIR$/WebInterface/src/main/java/Bean/FileUploadController.java" />
+        <option value="$PROJECT_DIR$/WebInterface/src/main/java/Bean/SessionManager.java" />
+        <option value="$PROJECT_DIR$/WebInterface/src/main/java/Servlet/DataServlet.java" />
+        <option value="$PROJECT_DIR$/WebInterface/src/main/java/Bean/DatabaseTableNameBean.java" />
+        <option value="$PROJECT_DIR$/Database/src/main/java/Database/DatabaseOperations/DatabaseTools.java" />
+        <option value="$PROJECT_DIR$/WebInterface/src/main/webapp/table.xhtml" />
       </list>
     </option>
   </component>
@@ -1769,19 +1742,19 @@
     <key name="MoveMembersDialog.RECENTS_KEY">
       <recent name="DatatableModel.TableDataOperations" />
     </key>
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/WebInterface/src/main/webapp" />
-      <recent name="$PROJECT_DIR$/WebInterface/src/main/webapp/webapp" />
-      <recent name="$PROJECT_DIR$/PersistentIdentification/src/main/webapp/WEB-INF/jsp" />
-      <recent name="$PROJECT_DIR$/PersistentIdentification/src/main" />
-      <recent name="$PROJECT_DIR$/DatatableModel/src/main/java" />
-    </key>
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
       <recent name="CSVTools" />
       <recent name="Database.Authentication" />
       <recent name="Database" />
       <recent name="DatatableModel" />
       <recent name="CSV" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/WebInterface/src/main/webapp" />
+      <recent name="$PROJECT_DIR$/WebInterface/src/main/webapp/webapp" />
+      <recent name="$PROJECT_DIR$/PersistentIdentification/src/main/webapp/WEB-INF/jsp" />
+      <recent name="$PROJECT_DIR$/PersistentIdentification/src/main" />
+      <recent name="$PROJECT_DIR$/DatatableModel/src/main/java" />
     </key>
   </component>
   <component name="RunManager" selected="Application.DatabaseTest">
@@ -2243,12 +2216,6 @@
       <option name="number" value="Default" />
       <updated>1407135258553</updated>
     </task>
-    <task id="LOCAL-00123" summary=" java.lang.NoClassDefFoundError: org/supercsv/io/CsvListReader">
-      <created>1421248030132</created>
-      <option name="number" value="00123" />
-      <option name="project" value="LOCAL" />
-      <updated>1421248030132</updated>
-    </task>
     <task id="LOCAL-00124" summary="migration controller extrahieren&#10;">
       <created>1421313154497</created>
       <option name="number" value="00124" />
@@ -2537,7 +2504,13 @@
       <option name="project" value="LOCAL" />
       <updated>1422371155096</updated>
     </task>
-    <option name="localTasksCounter" value="172" />
+    <task id="LOCAL-00172" summary="moving methods">
+      <created>1422435008932</created>
+      <option name="number" value="00172" />
+      <option name="project" value="LOCAL" />
+      <updated>1422435008933</updated>
+    </task>
+    <option name="localTasksCounter" value="173" />
     <servers />
   </component>
   <component name="TodoView" selected-index="0">
@@ -2571,10 +2544,12 @@
       <window_info id="Problems" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3365282" sideWeight="0.5" order="14" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2886049" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32694355" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4227902" sideWeight="0.3088392" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.23109691" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32800853" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33333334" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32837406" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24866879" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.20766774" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -2586,9 +2561,7 @@
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2886049" sideWeight="0.6911608" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32694355" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.38943896" sideWeight="0.7976773" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33333334" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
@@ -2607,7 +2580,6 @@
     <option name="myTodoPanelSettings">
       <TodoPanelSettings />
     </option>
-    <MESSAGE value="batch: new file fixed&#10;" />
     <MESSAGE value="batch: append fixed" />
     <MESSAGE value="batch update" />
     <MESSAGE value="batch update fixed" />
@@ -2632,7 +2604,8 @@
     <MESSAGE value="hikari eingebaut" />
     <MESSAGE value="connections cleaned up" />
     <MESSAGE value="change events" />
-    <option name="LAST_COMMIT_MESSAGE" value="change events" />
+    <MESSAGE value="moving methods" />
+    <option name="LAST_COMMIT_MESSAGE" value="moving methods" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
   <component name="XDebuggerManager">
@@ -2646,22 +2619,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/PersistentIdentification/pom.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-8.5" vertical-offset="1487" max-vertical-offset="2490">
-          <caret line="115" column="0" selection-start-line="115" selection-start-column="0" selection-end-line="115" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/QueryStore/pom.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="709" max-vertical-offset="1350">
-          <caret line="17" column="13" selection-start-line="17" selection-start-column="13" selection-end-line="17" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/PersistentIdentification/src/main/java/at/stefanproell/Examples/ExamplesAPI.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.017160686" vertical-offset="94" max-vertical-offset="735">
@@ -2707,16 +2664,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/CSV-Citation-Deployment-Module/README.md">
-      <provider editor-type-id="MarkdownPreviewEditor">
-        <state />
-      </provider>
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-4.137931" vertical-offset="0" max-vertical-offset="210">
-          <caret line="8" column="0" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/ResultSetVerification/src/main/java/at/stefanproell/ResultSetVerification/ResultSetVerificationAPI.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-2.5438597" vertical-offset="2255" max-vertical-offset="11490">
@@ -2747,38 +2694,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-0.70826834" vertical-offset="589" max-vertical-offset="1230">
           <caret line="107" column="57" selection-start-line="107" selection-start-column="57" selection-end-line="107" selection-end-column="57" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Database/src/main/java/Database/DatabaseOperations/MigrateCSV2SQL.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="5.892857" vertical-offset="510" max-vertical-offset="11685">
-          <caret line="116" column="12" selection-start-line="116" selection-start-column="12" selection-end-line="116" selection-end-column="32" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Database/src/main/java/Database/DatabaseOperations/DatabaseTestApp.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="334" max-vertical-offset="975">
-          <caret line="154" column="0" selection-start-line="154" selection-start-column="0" selection-end-line="154" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Database/src/main/java/Database/DatabaseOperations/DatabaseTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="363" max-vertical-offset="1275">
-          <caret line="88" column="0" selection-start-line="88" selection-start-column="0" selection-end-line="88" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/WebInterface/src/main/java/Bean/DatabaseMigrationController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3645">
-          <caret line="24" column="13" selection-start-line="24" selection-start-column="13" selection-end-line="24" selection-end-column="13" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2868,25 +2783,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Database/src/main/java/Database/DatabaseOperations/DatabaseQueries.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.6264274" vertical-offset="966" max-vertical-offset="4020">
-          <caret line="113" column="0" selection-start-line="113" selection-start-column="0" selection-end-line="113" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Database/src/main/java/Database/Authentication/UserAuthentication.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.4851794" vertical-offset="94" max-vertical-offset="735">
-          <caret line="43" column="50" selection-start-line="43" selection-start-column="50" selection-end-line="43" selection-end-column="50" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Database/src/main/java/Database/Authentication/UserAPI.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-0.08892356" vertical-offset="1182" max-vertical-offset="2040">
           <caret line="94" column="19" selection-start-line="94" selection-start-column="19" selection-end-line="94" selection-end-column="19" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -2901,13 +2802,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="641">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/WebInterface/src/main/java/Bean/LoginBean.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="4" max-vertical-offset="1095">
-          <caret line="31" column="30" selection-start-line="31" selection-start-column="21" selection-end-line="31" selection-end-column="30" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -2916,27 +2811,6 @@
         <state vertical-scroll-proportion="0.0" vertical-offset="180" max-vertical-offset="1050">
           <caret line="41" column="8" selection-start-line="41" selection-start-column="8" selection-end-line="42" selection-end-column="112" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/WebInterface/src/main/java/Bean/SessionManager.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.8595944" vertical-offset="829" max-vertical-offset="1545">
-          <caret line="112" column="33" selection-start-line="112" selection-start-column="33" selection-end-line="112" selection-end-column="33" />
-          <folding>
-            <element signature="e#1014#1015#0" expanded="false" />
-            <element signature="e#1087#1088#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/WebInterface/src/main/java/Bean/FileUploadController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1260" max-vertical-offset="5730">
-          <caret line="173" column="89" selection-start-line="173" selection-start-column="89" selection-end-line="173" selection-end-column="89" />
-          <folding>
-            <element signature="e#0#13259#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -2978,32 +2852,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/WebInterface/src/main/webapp/table.xhtml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-9.375" vertical-offset="1260" max-vertical-offset="2550">
-          <caret line="99" column="0" selection-start-line="99" selection-start-column="0" selection-end-line="99" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/WebInterface/src/main/java/Bean/DatabaseTableNameBean.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.44461778" vertical-offset="1125" max-vertical-offset="2100">
-          <caret line="124" column="100" selection-start-line="124" selection-start-column="100" selection-end-line="124" selection-end-column="100" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/WebInterface/src/main/webapp/menu.xhtml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="300" max-vertical-offset="930">
-          <caret line="20" column="32" selection-start-line="9" selection-start-column="3" selection-end-line="20" selection-end-column="32" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/WebInterface/src/main/webapp/update.xhtml">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1785">
@@ -3020,37 +2868,165 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/DatatableModel/src/main/java/DatatableModel/TableMetadata.java">
+    <entry file="file://$PROJECT_DIR$/Database/src/main/java/Database/DatabaseOperations/MigrateCSV2SQL.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="135" max-vertical-offset="2970">
-          <caret line="26" column="8" selection-start-line="26" selection-start-column="8" selection-end-line="26" selection-end-column="8" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="11640">
+          <caret line="113" column="4" selection-start-line="113" selection-start-column="4" selection-end-line="113" selection-end-column="4" />
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Database/src/main/java/Database/DatabaseOperations/DatabaseTools.java">
+    <entry file="file://$PROJECT_DIR$/Database/src/main/java/Database/DatabaseOperations/DatabaseTestApp.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-17.071428" vertical-offset="22412" max-vertical-offset="23025">
-          <caret line="1526" column="0" selection-start-line="1526" selection-start-column="0" selection-end-line="1526" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="975">
+          <caret line="146" column="45" selection-start-line="146" selection-start-column="45" selection-end-line="146" selection-end-column="45" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Database/src/main/java/Database/DatabaseOperations/DatabaseTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="589" max-vertical-offset="1230">
+          <caret line="91" column="5" selection-start-line="91" selection-start-column="5" selection-end-line="91" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/DatatableModel/src/main/java/DatatableModel/TableMetadata.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="2074" max-vertical-offset="2715">
+          <caret line="170" column="0" selection-start-line="170" selection-start-column="0" selection-end-line="170" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#1417#1418#0" expanded="true" />
-            <element signature="e#1449#1450#0" expanded="true" />
-            <element signature="e#1482#1483#0" expanded="true" />
-            <element signature="e#1511#1512#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/DatatableModel/src/main/java/DatatableModel/TableDataOperations.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.8829953" vertical-offset="2179" max-vertical-offset="2880">
-          <caret line="195" column="0" selection-start-line="64" selection-start-column="3" selection-end-line="195" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="799" max-vertical-offset="1440">
+          <caret line="35" column="0" selection-start-line="35" selection-start-column="0" selection-end-line="35" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/WebInterface/src/main/java/Bean/ServletController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1104" max-vertical-offset="2040">
+          <caret line="161" column="2" selection-start-line="161" selection-start-column="2" selection-end-line="161" selection-end-column="2" />
           <folding>
-            <element signature="e#3149#3157#0" expanded="true" />
+            <element signature="e#5132#5133#0" expanded="true" />
+            <element signature="e#5188#5189#0" expanded="true" />
+            <element signature="e#5226#5227#0" expanded="true" />
+            <element signature="e#5275#5276#0" expanded="true" />
+            <element signature="e#5329#5330#0" expanded="true" />
+            <element signature="e#5375#5376#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/CSV-Citation-Deployment-Module/README.md">
+      <provider editor-type-id="MarkdownPreviewEditor">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-8.793103" vertical-offset="0" max-vertical-offset="345">
+          <caret line="17" column="0" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Database/src/main/java/Database/DatabaseOperations/DatabaseQueries.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="454" max-vertical-offset="4170">
+          <caret line="70" column="12" selection-start-line="70" selection-start-column="12" selection-end-line="70" selection-end-column="12" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/WebInterface/src/main/java/Bean/DatabaseMigrationController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.023400936" vertical-offset="165" max-vertical-offset="3645">
+          <caret line="24" column="13" selection-start-line="24" selection-start-column="13" selection-end-line="24" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/WebInterface/src/main/java/Bean/LoginBean.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.5085803" vertical-offset="364" max-vertical-offset="1095">
+          <caret line="85" column="36" selection-start-line="85" selection-start-column="36" selection-end-line="85" selection-end-column="36" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/WebInterface/src/main/java/Bean/FileUploadController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="42.535713" vertical-offset="3636" max-vertical-offset="4500">
+          <caret line="271" column="17" selection-start-line="271" selection-start-column="17" selection-end-line="271" selection-end-column="17" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/WebInterface/src/main/java/Bean/SessionManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-13.321428" vertical-offset="1412" max-vertical-offset="2085">
+          <caret line="141" column="10" selection-start-line="141" selection-start-column="10" selection-end-line="141" selection-end-column="10" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/WebInterface/src/main/java/Servlet/DataServlet.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-8.035714" vertical-offset="1890" max-vertical-offset="4500">
+          <caret line="207" column="31" selection-start-line="207" selection-start-column="31" selection-end-line="207" selection-end-column="31" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/WebInterface/src/main/webapp/menu.xhtml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-14.833333" vertical-offset="289" max-vertical-offset="930">
+          <caret line="43" column="57" selection-start-line="43" selection-start-column="57" selection-end-line="43" selection-end-column="68" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Database/src/main/java/Database/Authentication/UserAuthentication.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.69578785" vertical-offset="94" max-vertical-offset="735">
+          <caret line="52" column="16" selection-start-line="52" selection-start-column="16" selection-end-line="52" selection-end-column="16" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Database/src/main/java/Database/DatabaseOperations/DatabaseTools.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-4.607143" vertical-offset="4851" max-vertical-offset="23925">
+          <caret line="336" column="72" selection-start-line="336" selection-start-column="72" selection-end-line="336" selection-end-column="72" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/WebInterface/src/main/java/Bean/DatabaseTableNameBean.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1062" max-vertical-offset="2280">
+          <caret line="128" column="12" selection-start-line="128" selection-start-column="12" selection-end-line="128" selection-end-column="12" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/WebInterface/src/main/webapp/table.xhtml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.5215232" vertical-offset="1215" max-vertical-offset="2550">
+          <caret line="102" column="112" selection-start-line="102" selection-start-column="112" selection-end-line="102" selection-end-column="112" />
+          <folding />
         </state>
       </provider>
     </entry>

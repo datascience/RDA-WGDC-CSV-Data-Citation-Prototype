@@ -88,17 +88,13 @@ public class DatabaseTableNameBean implements Serializable {
 
     @PostConstruct
     public void init() {
-        try {
+
 
             dbtools = new DatabaseTools();
             // this only returns the database schema specified in the connection profile.
             databaseNames = dbtools.getADatabaseCatalogFromDatabaseConnection();
 
-            
 
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
 
 
     }
@@ -109,23 +105,39 @@ public class DatabaseTableNameBean implements Serializable {
      * @param event
      */
     public void handleChangeDatabaseName(ValueChangeEvent event) {
-
-        this.logger.info(event.getComponent().toString() + " " + event.toString());
-
-
         String selectedDB = null;
-        selectedDB = event.getNewValue().toString();
-        this.logger.info("Databasename = " + selectedDB);
-        SessionManager sm = new SessionManager();
-        sm.storeSessionData("currentDatabaseName", selectedDB);
+        if (event != null) {
+            this.logger.info("Event: " + event.getComponent().toString() + " " + event.toString());
+            selectedDB = event.getNewValue().toString();
+        } else {
+            this.logger.info("Event was null");
 
+
+        }
+
+
+        
+
+        /*
+        * If there is no database selected, get the session database and chose the first available table for this 
+        * * database
+        * * * */
         if (selectedDB == null || selectedDB.equals("")) {
-            String databaseNameFromConnection = this.dbtools.getADatabaseCatalogFromDatabaseConnection().get(0);
-            this.logger.info("Database retrieved: " + databaseNameFromConnection);
-            this.tableNames = this.dbtools.getAvailableTablesFromDatabase(databaseNameFromConnection);
+            selectedDB = this.dbtools.getADatabaseCatalogFromDatabaseConnection().get(0);
+            this.logger.info("Database retrieved: " + selectedDB);
+            this.tableNames = this.dbtools.getAvailableTablesFromDatabase(selectedDB);
+
+
+            this.tableName = this.tableNames.get(0);
+            this.logger.info("Databasename was null and is now: " + selectedDB);
+            SessionManager sm = new SessionManager();
+            sm.storeSessionData("currentDatabaseName", selectedDB);
+            sm.storeSessionData("currentTableName", this.tableName);
 
         } else {
+            this.logger.info("Databasename was set and it was:  " + selectedDB);
             this.tableNames = this.dbtools.getAvailableTablesFromDatabase(selectedDB);
+
         }
 
 
@@ -137,7 +149,7 @@ public class DatabaseTableNameBean implements Serializable {
     * * */
     public void onLoad(ActionEvent event) {
         this.logger.info("Yay-.. " + event.toString());
-        //this.handleChangeDatabaseName(null);
+        this.handleChangeDatabaseName(null);
         
 
     }

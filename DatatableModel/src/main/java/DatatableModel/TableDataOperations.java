@@ -33,13 +33,6 @@ public class TableDataOperations {
 
 
 
-
-
-
-
-
-
-
     public List<List<String>> getRowList(ResultSet rs) throws SQLException {
         ResultSetMetaData meta = rs.getMetaData();
         final int columnCount = meta.getColumnCount();
@@ -105,94 +98,5 @@ public class TableDataOperations {
         return prettyJSON;
 
     }
-
-    /**
-     * Get list of databases
-     * @return
-     */
-    public List<String> getAvailableDatabases() {
-        Connection connection = null;
-        List<String> listOfDatabases = new ArrayList<String>();
-        ResultSet resultSet = null;
-        try {
-            connection = this.getConnection();
-
-            DatabaseMetaData meta = connection.getMetaData();
-            CachedRowSetImpl cachedResultSet = new CachedRowSetImpl();
-            resultSet = connection.getMetaData().getCatalogs();
-
-            while (resultSet.next()) {
-                listOfDatabases.add(resultSet.getString("TABLE_CAT"));
-            }
-            connection.close();
-        } catch (SQLException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } finally {
-            try {
-                if (connection != null) {
-                    connection.close();
-                }
-                if (resultSet != null) {
-                    resultSet.close();
-                }
-            } catch (SQLException sqlee) {
-                sqlee.printStackTrace();
-            }
-        }
-        return listOfDatabases;
-
-    }
-
-
-
-
-
-    /*
-    Get the name of the column by ID. Needed for building the sorting list
-     */
-    public String getColumnNameByID(int columnID) {
-        DatabaseTools dbTools = new DatabaseTools();
-
-        Map<String, String> tableMetadata;
-        String columnName = null;
-
-        tableMetadata = dbTools.getTableColumnMetadata(this.tableName);
-            columnName = (new ArrayList<String>(tableMetadata.keySet())).get(columnID);
-        ;
-
-        return columnName;
-
-    }
-
-    /* Execute Query
-    *
-    * * * */
-    public CachedRowSet executeQuery(String tableName, int sortingColumnsID,
-                                     String sortingDirection, Map<String, String> filterMap,
-                                     int startRow, int offset) {
-        DatabaseQueries dbQuery = new DatabaseQueries();
-
-        CachedRowSet cachedRowSet = dbQuery.queryDatabase(tableName, sortingColumnsID,
-                sortingDirection, filterMap, startRow, offset);
-
-        return cachedRowSet;
-    }
-
-    /**
-     * Get the connection from the connection pool
-     *
-     * @return
-     */
-    private Connection getConnection() throws SQLException {
-        HikariConnectionPool pool = HikariConnectionPool.getInstance();
-        Connection connection = null;
-
-
-        connection = pool.getConnection();
-        return connection;
-
-    }
-
 
 }

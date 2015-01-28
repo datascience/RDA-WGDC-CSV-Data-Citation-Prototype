@@ -81,14 +81,11 @@ public class DatabaseTest {
 
 
         DatabaseTools dbt = null;
-        try {
-            dbt = new DatabaseTools();
+
+        dbt = new DatabaseTools();
             List<String> primaryKeyList = dbt.getPrimaryKeyFromTable(tableName);
 
 
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
 
 
 

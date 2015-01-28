@@ -161,7 +161,8 @@ public class FileUploadController implements Serializable {
         this.logger = Logger.getLogger(this.getClass().getName());
         this.filesList = new HashMap<String, String>();
         this.filesListStrings = new ArrayList<String>();
-        this.currentSessionType = getUploadTypeFromSession();
+        SessionManager sm = new SessionManager();
+        this.currentSessionType = sm.getUploadTypeFromSession();
         this.columns = new ArrayList<String>() {
         };
 
@@ -302,39 +303,18 @@ public class FileUploadController implements Serializable {
     }
     
 
-    /**
-     * Get the type of the upload. Available types are: newCSV, updateExistingCSV, appendNewRowsToExistingCSV.
-     * The information is stored in the session variable uploadSessionType
-     */
-    private String getUploadTypeFromSession() {
 
-        // lesen
-//        Map<String, Object> sessionMAP = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
-        Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
-        String uploadSessionType = params.get("uploadSessionType");
-
-        this.logger.info("request data");
-        for (Map.Entry<String, String> entry : params.entrySet()) {
-            this.logger.info("Key: " + entry.getKey() + "  Value: " + entry.getValue().toString());
-        }
-
-
-        return uploadSessionType;
-    }
 
     @PostConstruct
     public void init() {
         this.logger.info("Initializign databasenames");
-        try {
 
-            DatabaseTools dbtools = new DatabaseTools();
+
+        DatabaseTools dbtools = new DatabaseTools();
             databaseNames = dbtools.getAvailableDatabases();
             //databaseNames = new ArrayList<String>();
             //databaseNames.add("Test hard coedd");
 
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
 
 
     }

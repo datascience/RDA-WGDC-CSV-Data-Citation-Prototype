@@ -42,7 +42,7 @@ public class DatabaseQueries {
         this.logger = Logger.getLogger(this.getClass().getName());
         HikariConnectionPool pool = HikariConnectionPool.getInstance();
 
-        this.dbtools = new DatabaseTools(pool.getDataBaseName());
+        this.dbtools = new DatabaseTools();
 
     }
 
@@ -62,6 +62,15 @@ public class DatabaseQueries {
                                       String sortingDirection, Map<String, String> filterMap,
                                       int startRow, int offset) {
         Connection connection = null;
+        
+        /*If there was no table name set in the interface, pick the first one from the selected DB
+        * * */
+        if (tableName == null || tableName.equals("")) {
+            this.logger.warning("Get the first table of the database as there was no table selected.");
+            tableName = this.dbtools.getAvailableTablesFromDatabase(this.dbtools.getDataBaseName()).get(0);
+
+
+        }
         this.logger.warning("TABLE NAME in query : " + tableName);
 
         ResultSet rs = null;

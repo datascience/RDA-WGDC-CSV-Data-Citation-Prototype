@@ -151,6 +151,7 @@ public class ServletController implements Serializable {
 
         String tableName = (String) sessionMAP.get("currentTableName");
 
+        /*
 
         // ACHTUNG HARDCECODET
 
@@ -158,7 +159,7 @@ public class ServletController implements Serializable {
             this.logger.warning("VERWENDE STANDARD WERT !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!11");
             tableName = "MillionSong";
         }
-
+*/
 
         return tableName;
     }

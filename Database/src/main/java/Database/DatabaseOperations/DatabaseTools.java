@@ -45,9 +45,11 @@ public class DatabaseTools {
     /*Get database name from current connection
     * * */
     public String getDataBaseName() {
+
         if (this.dataBaseName == null || this.dataBaseName.equals("")) {
             HikariConnectionPool pool = HikariConnectionPool.getInstance();
             this.dataBaseName = pool.getDataBaseName();
+            this.logger.info("Get database name from connection. It is" + this.dataBaseName);
 
         }
 
@@ -228,6 +230,7 @@ public class DatabaseTools {
     * Get the row count of a table
     * */
     public int getRowCount(String tableName) {
+        this.logger.info("Execurint row count for " + tableName);
         // TODO SQL injection
         String sql = "SELECT COUNT(*) FROM " + tableName;
         int numberOfRecords = -1;
@@ -328,6 +331,12 @@ public class DatabaseTools {
      * Get a map of <ColumnName, ColumnType>
      */
     public Map<String, String> getTableColumnMetadata(String tableName) {
+
+        if (tableName == null || tableName.equals("")) {
+            this.logger.info("No table name provided.");
+            tableName = this.getFirstTableFromStandardSessionDatabase();
+
+        }
         Map<String, String> columnMetadataMap = null;
         Connection connection = null;
         try {
@@ -868,15 +877,22 @@ public class DatabaseTools {
         try {
             connection = this.getConnection();
 
+            if (databaseName == null || databaseName.equals("")) {
+                this.logger.info("Database was null");
+                databaseName = this.getDataBaseName();
+            }
+
             DatabaseMetaData meta = connection.getMetaData();
             String[] types = {"TABLE"};
-            this.logger.info("retrieve metadata for " + databaseName);
+
             ResultSet rs = meta.getTables(databaseName, null, null, types);
+
+            this.logger.info("retrieve metadata for " + databaseName + " retrieved " + rs.getFetchSize() + " tables");
             while (rs.next()) {
                 // System.out.println("getAvailableTablesFromDatabase__________________");
                 String tableName = rs.getString("TABLE_NAME");
 
-                this.logger.info("   " + rs.getString("TABLE_CAT") + ", "
+                this.logger.info("Inside resultset:    " + rs.getString("TABLE_CAT") + ", "
                         + rs.getString("TABLE_SCHEM") + ", "
                         + rs.getString("TABLE_NAME") + ", "
                         + rs.getString("TABLE_TYPE") + ", "
@@ -1129,6 +1145,7 @@ public class DatabaseTools {
      * @return
      */
     public List<String> getPrimaryKeyFromTableWithoutMetadataColumns(String tableName) {
+
         List<String> primaryKeyList = new ArrayList<String>();
 
         String catalog = null;
@@ -1524,5 +1541,48 @@ public class DatabaseTools {
 
     }
 
+
+    /*
+    Get the name of the column by ID. Needed for building the sorting list
+     */
+    public String getColumnNameByID(int columnID) {
+
+
+        Map<String, String> tableMetadata;
+        String columnName = null;
+
+        tableMetadata = this.getTableColumnMetadata(this.tableName);
+        columnName = (new ArrayList<String>(tableMetadata.keySet())).get(columnID);
+        ;
+
+        return columnName;
+
+    }
+
+    /* Execute Query
+    *
+    * * * */
+    public CachedRowSet executeQuery(String tableName, int sortingColumnsID,
+                                     String sortingDirection, Map<String, String> filterMap,
+                                     int startRow, int offset) {
+        DatabaseQueries dbQuery = new DatabaseQueries();
+
+        CachedRowSet cachedRowSet = dbQuery.queryDatabase(tableName, sortingColumnsID,
+                sortingDirection, filterMap, startRow, offset);
+
+        return cachedRowSet;
+    }
+
+
+    /*
+    * This method retrieves the first table of the standard database used by the session. it is needed for 
+    * * initializing the web interfacce.
+    * * * */
+    public String getFirstTableFromStandardSessionDatabase() {
+        String selectedDB = this.getADatabaseCatalogFromDatabaseConnection().get(0);
+        this.logger.info("Database retrieved: " + selectedDB);
+        String tableName = this.getAvailableTablesFromDatabase(selectedDB).get(0);
+        return tableName;
+    }
 
 }

@@ -65,11 +65,14 @@
 package Servlet;
 
 
+import Bean.SessionManager;
+import Database.DatabaseOperations.DatabaseTools;
 import DatatableModel.DataTablesParamUtility;
 import DatatableModel.JQueryDataTableParamModel;
 import DatatableModel.TableDataOperations;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+
 import org.hibernate.metamodel.relational.Database;
 
 import javax.faces.bean.SessionScoped;
@@ -198,13 +201,16 @@ public class DataServlet extends HttpServlet {
             JQueryDataTableParamModel param = DataTablesParamUtility.getParam(request);
             String currentTable = param.currentTable;
 
+            // if there was no table set, get the session table
+            if (currentTable == null || currentTable.equals("")) {
+                this.logger.warning("Table was null. Using session table");
+                SessionManager sm = new SessionManager();
+                currentTable = sm.getCurrentTableNameFromSession();
 
-            if (currentTable == null) {
-                this.logger.severe("table name war null.. verwende HARDGECODED");
-                //currentTable = "MillionSong";
-            } else {
-                this.logger.warning("TABLE NAME " + currentTable);
             }
+            
+
+
 
 
             if (param == null || param.sEcho == "") {
@@ -225,7 +231,9 @@ public class DataServlet extends HttpServlet {
 
             String sortingDirection = this.getSortingDirection(param, request);
 
-            String sortingColumnName = this.tableData.getColumnNameByID(sortingColumnID);
+            DatabaseTools dbTools = new DatabaseTools();
+
+            String sortingColumnName = dbTools.getColumnNameByID(sortingColumnID);
             this.sortingMap.put(sortingColumnName, sortingDirection);
 
 
@@ -239,12 +247,12 @@ public class DataServlet extends HttpServlet {
 
             try {
 
-                CachedRowSet cachedRowSet = this.tableData.executeQuery(currentTable, sortingColumnID,
+                CachedRowSet cachedRowSet = dbTools.executeQuery(currentTable, sortingColumnID,
                         sortingDirection, filterMap, showRows, offset);
 
 //                this.logger.warning("Cached size ->> " + cachedRowSet.size());
 
-                param.iTotalRecords = this.tableData.getRowCount(currentTable);
+                param.iTotalRecords = dbTools.getRowCount(currentTable);
                 param.iTotalDisplayRecords = param.iTotalRecords;//cachedRowSet.size();// value will be set when code
                 // filters
 

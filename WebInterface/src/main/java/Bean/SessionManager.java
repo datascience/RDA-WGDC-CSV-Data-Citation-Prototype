@@ -114,4 +114,42 @@ public class SessionManager {
 
 
     }
+
+    /**
+     * Get the type of the upload. Available types are: newCSV, updateExistingCSV, appendNewRowsToExistingCSV.
+     * The information is stored in the session variable uploadSessionType
+     */
+    protected String getUploadTypeFromSession() {
+
+        // lesen
+//        Map<String, Object> sessionMAP = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
+        Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
+        String uploadSessionType = params.get("uploadSessionType");
+
+        this.logger.info("request data");
+        for (Map.Entry<String, String> entry : params.entrySet()) {
+            this.logger.info("Key: " + entry.getKey() + "  Value: " + entry.getValue().toString());
+        }
+
+
+        return uploadSessionType;
+    }
+
+    /**
+     * Get the type of the upload. Available types are: newCSV, updateExistingCSV, appendNewRowsToExistingCSV.
+     * The information is stored in the session variable uploadSessionType
+     */
+    public String getCurrentTableNameFromSession() {
+
+        // lesen
+//        Map<String, Object> sessionMAP = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
+        Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
+        String currentTableName = params.get("currentTableName");
+
+        if (currentTableName == null || currentTableName.equals("")) {
+            this.logger.warning("There was no current table name in the session. ");
+
+        }
+        return currentTableName;
+    }
 }

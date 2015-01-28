@@ -119,8 +119,8 @@ public class TableMetadata {
     }
 
     public static String getEmptyTableHeaders(String tableName) throws SQLException {
-        TableDataOperations tableOperations = new TableDataOperations();
-        int columnCount = tableOperations.getNumberofColumnsPerTable(tableName);
+        DatabaseTools dbTools = new DatabaseTools();
+        int columnCount = dbTools.getNumberofColumnsPerTable(tableName);
 
         String emptyTableRows = "<tr>\n";
         for (int i = 0; i < columnCount; i++) {
@@ -136,10 +136,10 @@ public class TableMetadata {
 
 
     public static List<String> getAvailableDatabasesAsList() {
-        TableDataOperations tableOperations = new TableDataOperations();
+        DatabaseTools dbTools = new DatabaseTools();
 
         List<String> listOfDatabases = null;
-        listOfDatabases = tableOperations.getAvailableDatabases();
+        listOfDatabases = dbTools.getAvailableDatabases();
 
 
         return listOfDatabases;
@@ -168,23 +168,6 @@ public class TableMetadata {
 
     }
 
-    /**
-     * Get the connection from the connection pool
-     *
-     * @return
-     */
-    private Connection getConnection() {
-        HikariConnectionPool pool = HikariConnectionPool.getInstance();
-        Connection connection = null;
-
-        try {
-            connection = pool.getConnection();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return connection;
-
-    }
 
 
 
