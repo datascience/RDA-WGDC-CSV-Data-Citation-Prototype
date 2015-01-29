@@ -36,6 +36,7 @@ package QueryStore;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 
 import java.util.Iterator;
@@ -249,10 +250,25 @@ public class QueryStoreAPI {
         // TODO: externalize in own method
         this.session = HibernateUtilQueryStore.getSessionFactory().openSession();
         session.beginTransaction();
+        int currentFilterSequence = -1;
+        Long qID = query.getQueryId();
+        this.logger.info("Query id = " + qID);
+        // Get the max sequence number for the filters of query 
+        Criteria cr = session.createCriteria(Filter.class);
+        cr.setProjection(Projections.projectionList()
+                //.add(Projections.groupProperty("query"))
+                .add(Projections.max("filterSequence")));
+        cr.add(Restrictions.eq("query.queryId", new Long(query.getQueryId())));
+        currentFilterSequence = (Integer) cr.uniqueResult();
+
+
+        this.logger.info("The filter sequence number is currently");
+        
         for (Map.Entry<String, String> entry : filterMap.entrySet()) {
             String filterName = entry.getKey();
             String filterValue = entry.getValue();
             Filter filter = new Filter(query, filterName, filterValue);
+            filter.setFilterSequence(currentFilterSequence + 1);
             this.logger.info("new Filter persisted");
             session.save(filter);
 
