@@ -152,6 +152,7 @@ public class Query implements Serializable, TimeStamped {
     }
 
 
+    @Column(name = "query_description", unique = false, nullable = false)
     protected String getQueryDescription() {
         return queryDescription;
     }
@@ -162,7 +163,7 @@ public class Query implements Serializable, TimeStamped {
     }
 
 
-    @Column(name = "data_source", unique = false)
+    @Column(name = "data_source", unique = false, nullable = true)
     protected String getDatasourcePID() {
         return datasourcePID;
     }

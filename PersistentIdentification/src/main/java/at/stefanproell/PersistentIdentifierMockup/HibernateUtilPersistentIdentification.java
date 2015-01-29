@@ -20,8 +20,7 @@ public class HibernateUtilPersistentIdentification {
         try {
 
 
-
-            String filename = "db.properties";
+            String filename = "pid.db.properties";
             Properties prop = null;
 
             prop = PropertyHelpers.readPropertyFile(filename);

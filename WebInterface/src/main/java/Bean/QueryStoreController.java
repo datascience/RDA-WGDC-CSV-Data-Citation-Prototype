@@ -121,7 +121,7 @@ public class QueryStoreController implements Serializable {
     public void initializeQueryStore() {
 
 
-        this.logger.warning("Using predefined organizational ID!");
+
         SessionManager sm = new SessionManager();
         User user = sm.getLogedInUserObject();
 
@@ -131,29 +131,29 @@ public class QueryStoreController implements Serializable {
         Organization org = this.pidAPI.getOrganizationObjectByPrefix(prefix);
         this.logger.info("Retrieving ORG by prefix: " + prefix + " Organizationa name (from object) :  " + org
                 .getOrganization_name());
-        //@todo real landing page
 
-        PersistentIdentifierAlphaNumeric pid = this.pidAPI.getAlphaNumericPID(org, 
+        //@todo real landing page
+        PersistentIdentifierAlphaNumeric pid = this.pidAPI.getAlphaNumericPID(org,
                 "http://localhost:8080/landingpages/XXX");
 
+        String userName = user.getUsername();
+        String currentPID = pid.getFQNidentifier();
+        Date creationDate = new Date();
 
-        Query query = this.queryStoreAPI.createNewQuery(user.getUsername(), "EMPTYDESCRIPTION", sm
-                .getCurrentTableNameFromSession(), pid
-                .getIdentifier());
 
+        Query query = this.queryStoreAPI.createNewQuery();
+        query.setCreatedDate(nowDate);
+        query.setExecution_timestamp(nowDate);
+        query.setDatasourcePID(sm.getCurrentDatabaseNameFromSession() + "." + sm.getCurrentTableNameFromSession());
+        query.setUserName(user.getUsername());
+        query.setPID(currentPID);
+        this.queryStoreAPI.persistQuery(query);
+        this.query = query;
+        
         this.logger.info("Created query: " + query.getCreatedDate());
 
 
-        Date nowDate = new Date();
 
-        this.query.setExecution_timestamp(nowDate);
-        this.query.setPID(pid.getIdentifier());
-
-        this.query.setQuery_text("SELECT * FROM table");
-        this.query.setQueryHash("abcded");
-        this.query.setUserName("stefan");
-
-        //  this.queryStoreAPI.
 
 
     }

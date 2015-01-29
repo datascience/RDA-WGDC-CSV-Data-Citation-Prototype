@@ -54,15 +54,14 @@ public class QueryStoreAPI {
         this.logger = Logger.getLogger(QueryStoreAPI.class.getName());
     }
 
-    public Query createNewQuery(String userName, String queryDescription, String pidDataSourceString,
-                                String pidString) {
+    /*
+    * Create query with parameters
+    * * * */
+    public Query createNewQuery(String userName, String pidString) {
         Query query = new Query();
         query.setUserName(userName);
-        query.setQueryDescription(queryDescription);
-
-
         query.setPID(pidString);
-        query.setDatasourcePID(pidDataSourceString);
+
         // the query is not yet persisted, hence we need a dummy hash
         query.setQueryHash("TEMPORAL HASH");
         // Store query persistently in database
@@ -81,6 +80,7 @@ public class QueryStoreAPI {
 
 
     }
+
 
     /**
      * Iterate over filters and sortings and calculate a unique hash. Sortings and Filterings are stored in

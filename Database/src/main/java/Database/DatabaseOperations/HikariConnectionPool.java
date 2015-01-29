@@ -84,11 +84,6 @@ package Database.DatabaseOperations;
 import GenericTools.PropertyHelpers;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
-import org.hibernate.HibernateException;
-import org.hibernate.SessionFactory;
-import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
-import org.hibernate.cfg.Configuration;
-import org.hibernate.service.ServiceRegistry;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -121,7 +116,7 @@ public class HikariConnectionPool {
         this.logger = Logger.getLogger(this.getClass().getName());
         HikariConfig config = new HikariConfig();
 
-        String filename = "db.properties";
+        String filename = "db.data.properties";
         Properties prop = null;
 
         prop = PropertyHelpers.readPropertyFile(filename);
