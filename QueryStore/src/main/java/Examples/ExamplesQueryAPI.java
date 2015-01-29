@@ -79,8 +79,7 @@ public class ExamplesQueryAPI {
         // Initialize Query Store
         QueryStoreAPI queryAPI = new QueryStoreAPI();
         // Create a query
-        Query query = queryAPI.createNewQuery("username@repository.org", "Descriptive query text", dataSourcePID,
-                queryPID);
+        Query query = queryAPI.createNewQuery("username@repository.org", queryPID);
 
         // some filters
         queryAPI.addFilter(query, "Filter1", "Value1");
@@ -117,8 +116,7 @@ public class ExamplesQueryAPI {
                 "www.evlil.org/query");
         String newQueryPID = pidAPI.getIdentifierStringWithPrefix(newPid);
         // second query
-        Query newQuery = queryAPI.createNewQuery("username@repository.org", "Different query text", dataSourcePID,
-                newQueryPID);
+        Query newQuery = queryAPI.createNewQuery("username@repository.org", newQueryPID);
 
 
         // some filters

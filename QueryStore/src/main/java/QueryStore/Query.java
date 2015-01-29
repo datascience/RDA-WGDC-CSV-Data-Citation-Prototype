@@ -152,7 +152,7 @@ public class Query implements Serializable, TimeStamped {
     }
 
 
-    @Column(name = "query_description", unique = false, nullable = false)
+    @Column(name = "query_description", unique = false, nullable = true)
     protected String getQueryDescription() {
         return queryDescription;
     }

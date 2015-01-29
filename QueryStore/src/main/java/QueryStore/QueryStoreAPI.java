@@ -236,6 +236,7 @@ public class QueryStoreAPI {
     * Store query persistently n database.
     * * * */
     public void persistQuery(Query query){
+        this.session = HibernateUtilQueryStore.getSessionFactory().openSession();
         this.session.beginTransaction();
         this.session.saveOrUpdate(query);
         this.session.getTransaction().commit();
@@ -246,6 +247,7 @@ public class QueryStoreAPI {
     public void addFilters(Query query, Map<String, String> filterMap){
         // Iterate over Filters
         // TODO: externalize in own method
+        this.session = HibernateUtilQueryStore.getSessionFactory().openSession();
         session.beginTransaction();
         for (Map.Entry<String, String> entry : filterMap.entrySet()) {
             String filterName = entry.getKey();
@@ -256,9 +258,30 @@ public class QueryStoreAPI {
 
 
         }
-        session.save(query);
+        session.saveOrUpdate(query);
         session.getTransaction().commit();
+        session.close();
         
+    }
+
+    public void addSortings(Query query, Map<String, String> sortingMap) {
+        // Iterate over Filters
+        // TODO: externalize in own method
+        this.session = HibernateUtilQueryStore.getSessionFactory().openSession();
+        session.beginTransaction();
+        for (Map.Entry<String, String> entry : sortingMap.entrySet()) {
+            String sortingName = entry.getKey();
+            String sortingDir = entry.getValue();
+            Sorting sorting = new Sorting(query, sortingName, sortingDir);
+            this.logger.info("new Sorting persisted");
+            session.save(sorting);
+
+
+        }
+        session.saveOrUpdate(query);
+        session.getTransaction().commit();
+        session.close();
+
     }
 
 

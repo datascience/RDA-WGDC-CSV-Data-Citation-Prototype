@@ -67,6 +67,18 @@ public class QueryStoreController implements Serializable {
 
     private Logger logger;
     private QueryStoreAPI queryStoreAPI;
+
+    public QueryStoreAPI getQueryStoreAPI() {
+        if (this.queryStoreAPI == null) {
+            this.queryStoreAPI = new QueryStoreAPI();
+        }
+        return this.queryStoreAPI;
+    }
+
+    public void setQueryStoreAPI(QueryStoreAPI queryStoreAPI) {
+        this.queryStoreAPI = queryStoreAPI;
+    }
+
     private PersistentIdentifierAPI pidAPI;
 
     public QueryStoreController() {
@@ -141,12 +153,10 @@ public class QueryStoreController implements Serializable {
         Date creationDate = new Date();
 
 
-        Query query = this.queryStoreAPI.createNewQuery();
-        query.setCreatedDate(nowDate);
-        query.setExecution_timestamp(nowDate);
+        Query query = this.queryStoreAPI.createNewQuery(userName, currentPID);
+        query.setCreatedDate(creationDate);
+        query.setExecution_timestamp(creationDate);
         query.setDatasourcePID(sm.getCurrentDatabaseNameFromSession() + "." + sm.getCurrentTableNameFromSession());
-        query.setUserName(user.getUsername());
-        query.setPID(currentPID);
         this.queryStoreAPI.persistQuery(query);
         this.query = query;
         
@@ -163,37 +173,25 @@ public class QueryStoreController implements Serializable {
     }
 
     public void storeCurrentSelection() {
+
         this.logger.info("Store selection");
         String filterMapJSON = this.getJSONFromWebService("?lastFilters=1");
         Map<String, String> filterMap = this.convertJSON2Map(filterMapJSON);
         this.printMap(filterMap);
 
-        //anschauen !! this.queryStoreAPI.addfilters !!!!!!!!!!!!!!!!!!!!!1
+        // persist the filters
+        this.queryStoreAPI.addFilters(this.query, filterMap);
+        
 
-
-        //todo filter extrahiert in query api
-        //todo momentan werden sourcen nicht erkannt.
         
         String sortingsMapJSON = this.getJSONFromWebService("?lastSortings=1");
         Map<String, String> sortingsMap = this.convertJSON2Map(filterMapJSON);
         this.printMap(sortingsMap);
-/*todo 2015 01 21
 
-        // Iterate over Sorting
-        // TODO: externalize in own method
-        session.beginTransaction();
-        for (Map.Entry<String, String> entry : sortingsMap.entrySet()) {
-            String sortingColumn = entry.getKey();
-            String direction = entry.getValue();
-            Sorting sorting = new Sorting(this.query, sortingColumn, direction);
-            this.logger.info("new sorting persisted");
-            session.save(sorting);
+        // persist the sortings
+        this.queryStoreAPI.addSortings(this.query, sortingsMap);
+       
 
-
-        }
-        session.save(query);
-        session.getTransaction().commit();
-*/
 
     }
 
