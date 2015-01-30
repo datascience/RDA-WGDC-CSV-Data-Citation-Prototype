@@ -159,6 +159,8 @@ public class QueryStoreController implements Serializable {
         query.setDatasourcePID(sm.getCurrentDatabaseNameFromSession() + "." + sm.getCurrentTableNameFromSession());
 
         query.setBaseTable(sm.getCurrentDatabaseNameFromSession() + "." + sm.getCurrentTableNameFromSession());
+
+        //@todo current databasename und table name sind null vom session manager.
         
         this.queryStoreAPI.persistQuery(query);
         this.query = query;
