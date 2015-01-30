@@ -157,6 +157,9 @@ public class QueryStoreController implements Serializable {
         query.setCreatedDate(creationDate);
         query.setExecution_timestamp(creationDate);
         query.setDatasourcePID(sm.getCurrentDatabaseNameFromSession() + "." + sm.getCurrentTableNameFromSession());
+
+        query.setBaseTable(sm.getCurrentDatabaseNameFromSession() + "." + sm.getCurrentTableNameFromSession());
+        
         this.queryStoreAPI.persistQuery(query);
         this.query = query;
         
@@ -170,6 +173,7 @@ public class QueryStoreController implements Serializable {
 
     public void finalizeDataSet() {
         this.logger.info("finalize ");
+        this.queryStoreAPI.finalizeQuery(this.query);
     }
 
     public void storeCurrentSelection() {

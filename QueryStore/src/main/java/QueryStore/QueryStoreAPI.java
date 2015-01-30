@@ -548,6 +548,8 @@ public class QueryStoreAPI {
         this.session.getTransaction().commit();
         this.session.close();
 
+        this.generateQueryString(query);
+
         if (query != null) {
             this.logger.severe("There was a identical query. This could be a new version!");
             return 1;
@@ -558,7 +560,29 @@ public class QueryStoreAPI {
 
 
     }
+
+    /*
+    * Generate the string from the persisted query
+    * * * */
+    public String generateQueryString(Query query) {
+        Set<Filter> filterSet = query.getFilters();
+        Set<Sorting> sortingsSet = query.getSortings();
+        String fromString = query.getBaseTable();
+        String sqlString = "SELECT * FROM " + fromString + " WHERE ";
+
+        String whereString = "";
+        for (Filter currentFilter : filterSet) {
+            whereString += currentFilter.getFilterName() + "=" + currentFilter.getFilterValue();
+        }
+        sqlString += whereString;
+        this.logger.info(sqlString);
+
+        return sqlString;
+
+
+    }
 }
+
 
 
 

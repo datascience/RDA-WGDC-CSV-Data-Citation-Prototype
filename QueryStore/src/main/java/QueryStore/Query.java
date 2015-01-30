@@ -73,6 +73,18 @@ public class Query implements Serializable, TimeStamped {
     private String datasourcePID;
     private String queryHash;
 
+    @Column(name = "baseTable")
+    public String getBaseTable() {
+        return baseTable;
+    }
+
+    public void setBaseTable(String baseTable) {
+        this.baseTable = baseTable;
+    }
+
+    private String baseTable;
+    
+
     public String getQuery_text() {
         return query_text;
     }

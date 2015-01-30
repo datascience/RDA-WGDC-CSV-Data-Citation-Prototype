@@ -5,7 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fe0bbad9-08dd-49cf-9f33-eb5e1947ea1f" name="Default" comment="sorting and filtering">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/CSV-Citation-Deployment-Module/additional_configuration/SchemataAndUsers.sql" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/QueryStore/src/main/java/QueryStore/Query.java" afterPath="$PROJECT_DIR$/QueryStore/src/main/java/QueryStore/Query.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/QueryStore/src/main/java/QueryStore/QueryStoreAPI.java" afterPath="$PROJECT_DIR$/QueryStore/src/main/java/QueryStore/QueryStoreAPI.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/WebInterface/src/main/java/Bean/QueryStoreController.java" afterPath="$PROJECT_DIR$/WebInterface/src/main/java/Bean/QueryStoreController.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="SCAPE-QueryStore.iws" />
@@ -93,44 +95,12 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="QueryStoreController.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="QueryStoreController.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/WebInterface/src/main/java/Bean/QueryStoreController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="1800" max-vertical-offset="3075">
-              <caret line="193" column="0" selection-start-line="193" selection-start-column="0" selection-end-line="193" selection-end-column="0" />
-              <folding>
-                <element signature="e#0#7264#0" expanded="false" />
-                <element signature="imports" expanded="false" />
-                <element signature="e#3107#3108#0" expanded="false" />
-                <element signature="e#3141#3142#0" expanded="false" />
-                <element signature="e#4890#4891#0" expanded="false" />
-                <element signature="e#4935#4936#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ExamplesQueryAPI.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/QueryStore/src/main/java/Examples/ExamplesQueryAPI.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="986" max-vertical-offset="1845">
-              <caret line="118" column="76" selection-start-line="118" selection-start-column="76" selection-end-line="118" selection-end-column="76" />
-              <folding>
-                <element signature="e#0#5727#0" expanded="false" />
-                <element signature="imports" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="PersistentIdentifierAPI.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/PersistentIdentification/src/main/java/at/stefanproell/PersistentIdentifierMockup/PersistentIdentifierAPI.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="735" max-vertical-offset="14295">
-              <caret line="82" column="47" selection-start-line="82" selection-start-column="47" selection-end-line="82" selection-end-column="47" />
-              <folding>
-                <element signature="imports" expanded="false" />
-              </folding>
+            <state vertical-scroll-proportion="0.7083333" vertical-offset="1275" max-vertical-offset="3135">
+              <caret line="175" column="53" selection-start-line="175" selection-start-column="53" selection-end-line="175" selection-end-column="53" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -138,10 +108,10 @@
       <file leaf-file-name="QueryStoreAPI.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/QueryStore/src/main/java/QueryStore/QueryStoreAPI.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="1305" max-vertical-offset="8580">
-              <caret line="91" column="19" selection-start-line="91" selection-start-column="19" selection-end-line="91" selection-end-column="19" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="8280" max-vertical-offset="9000">
+              <caret line="581" column="25" selection-start-line="581" selection-start-column="25" selection-end-line="581" selection-end-column="25" />
               <folding>
-                <element signature="e#0#18220#0" expanded="true" />
+                <element signature="e#0#18970#0" expanded="true" />
                 <element signature="imports" expanded="true" />
                 <element signature="e#1745#1746#0" expanded="true" />
                 <element signature="e#1822#1823#0" expanded="true" />
@@ -150,12 +120,52 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="SchemataAndUsers.sql" pinned="false" current-in-tab="true">
+      <file leaf-file-name="DatabaseTableNameBean.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/WebInterface/src/main/java/Bean/DatabaseTableNameBean.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="1500" max-vertical-offset="2235">
+              <caret line="157" column="43" selection-start-line="157" selection-start-column="43" selection-end-line="157" selection-end-column="43" />
+              <folding>
+                <element signature="e#4523#4524#0" expanded="true" />
+                <element signature="e#4598#4599#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="table.xhtml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/WebInterface/src/main/webapp/table.xhtml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="10.291667" vertical-offset="1882" max-vertical-offset="2565">
+              <caret line="109" column="0" selection-start-line="109" selection-start-column="0" selection-end-line="111" selection-end-column="36" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="SchemataAndUsers.sql" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/CSV-Citation-Deployment-Module/additional_configuration/SchemataAndUsers.sql">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.5208333" vertical-offset="0" max-vertical-offset="720">
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="465">
               <caret line="25" column="0" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Query.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/QueryStore/src/main/java/QueryStore/Query.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="240" max-vertical-offset="2340">
+              <caret line="75" column="29" selection-start-line="75" selection-start-column="29" selection-end-line="75" selection-end-column="29" />
+              <folding>
+                <element signature="e#2600#2601#0" expanded="true" />
+                <element signature="e#2632#2633#0" expanded="true" />
+                <element signature="e#2682#2683#0" expanded="true" />
+                <element signature="e#2724#2725#0" expanded="true" />
+                <element signature="e#5284#5285#0" expanded="true" />
+                <element signature="e#5326#5327#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -173,8 +183,8 @@
       <file leaf-file-name="DataServlet.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/WebInterface/src/main/java/Servlet/DataServlet.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-13.035714" vertical-offset="2290" max-vertical-offset="4155">
-              <caret line="267" column="55" selection-start-line="267" selection-start-column="55" selection-end-line="267" selection-end-column="55" />
+            <state vertical-scroll-proportion="15.357142" vertical-offset="1030" max-vertical-offset="4155">
+              <caret line="130" column="33" selection-start-line="130" selection-start-column="33" selection-end-line="130" selection-end-column="33" />
               <folding />
             </state>
           </provider>
@@ -250,13 +260,13 @@
         <option value="$PROJECT_DIR$/Database/src/main/resources/db.auth.properties" />
         <option value="$PROJECT_DIR$/PersistentIdentification/src/main/java/at/stefanproell/PersistentIdentifierMockup/PersistentIdentifierAPI.java" />
         <option value="$PROJECT_DIR$/QueryStore/src/main/java/Examples/ExamplesQueryAPI.java" />
-        <option value="$PROJECT_DIR$/QueryStore/src/main/java/QueryStore/Query.java" />
-        <option value="$PROJECT_DIR$/WebInterface/src/main/java/Bean/QueryStoreController.java" />
         <option value="$PROJECT_DIR$/QueryStore/src/main/resources/hibernate.querystore.cfg.xml" />
         <option value="$PROJECT_DIR$/QueryStore/src/main/java/QueryStore/Sorting.java" />
         <option value="$PROJECT_DIR$/WebInterface/src/main/java/Servlet/DataServlet.java" />
-        <option value="$PROJECT_DIR$/QueryStore/src/main/java/QueryStore/QueryStoreAPI.java" />
         <option value="$PROJECT_DIR$/CSV-Citation-Deployment-Module/additional_configuration/SchemataAndUsers.sql" />
+        <option value="$PROJECT_DIR$/QueryStore/src/main/java/QueryStore/Query.java" />
+        <option value="$PROJECT_DIR$/QueryStore/src/main/java/QueryStore/QueryStoreAPI.java" />
+        <option value="$PROJECT_DIR$/WebInterface/src/main/java/Bean/QueryStoreController.java" />
       </list>
     </option>
   </component>
@@ -711,6 +721,36 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="META-INF" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="CSV-DataCitation" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="CSV-DataCitation" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="WebInterface" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="WebInterface" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -1881,12 +1921,6 @@
       <option name="number" value="Default" />
       <updated>1407135258553</updated>
     </task>
-    <task id="LOCAL-00134" summary="mapping problem between modules solved">
-      <created>1421412412822</created>
-      <option name="number" value="00134" />
-      <option name="project" value="LOCAL" />
-      <updated>1421412412822</updated>
-    </task>
     <task id="LOCAL-00135" summary="mapping problem between modules solved">
       <created>1421414868838</created>
       <option name="number" value="00135" />
@@ -2175,7 +2209,13 @@
       <option name="project" value="LOCAL" />
       <updated>1422624515630</updated>
     </task>
-    <option name="localTasksCounter" value="183" />
+    <task id="LOCAL-00183" summary="sorting and filtering">
+      <created>1422624556596</created>
+      <option name="number" value="00183" />
+      <option name="project" value="LOCAL" />
+      <updated>1422624556596</updated>
+    </task>
+    <option name="localTasksCounter" value="184" />
     <servers />
   </component>
   <component name="TodoView" selected-index="0">
@@ -2200,14 +2240,14 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-1" y="0" width="1922" height="1055" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3290735" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Problems" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3365282" sideWeight="0.5" order="14" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.20447284" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.20447284" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32694355" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -2341,13 +2381,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/WebInterface/src/main/java/Bean/DatabaseTableNameBean.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-26.142857" vertical-offset="1173" max-vertical-offset="2475">
-          <caret line="157" column="43" selection-start-line="157" selection-start-column="43" selection-end-line="157" selection-end-column="43" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/README.md">
       <provider editor-type-id="MarkdownPreviewEditor">
         <state />
@@ -2393,13 +2426,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="822" max-vertical-offset="2355">
           <caret line="90" column="39" selection-start-line="90" selection-start-column="19" selection-end-line="90" selection-end-column="39" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/WebInterface/src/main/webapp/table.xhtml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-7.0416665" vertical-offset="1466" max-vertical-offset="2565">
-          <caret line="109" column="0" selection-start-line="109" selection-start-column="0" selection-end-line="111" selection-end-column="36" />
         </state>
       </provider>
     </entry>
@@ -2595,32 +2621,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/WebInterface/src/main/java/Bean/QueryStoreController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1800" max-vertical-offset="3075">
-          <caret line="193" column="0" selection-start-line="193" selection-start-column="0" selection-end-line="193" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#7264#0" expanded="false" />
-            <element signature="imports" expanded="false" />
-            <element signature="e#3107#3108#0" expanded="false" />
-            <element signature="e#3141#3142#0" expanded="false" />
-            <element signature="e#4890#4891#0" expanded="false" />
-            <element signature="e#4935#4936#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/QueryStore/src/main/java/QueryStore/Query.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.33333334" vertical-offset="1275" max-vertical-offset="2160">
-          <caret line="188" column="16" selection-start-line="188" selection-start-column="16" selection-end-line="188" selection-end-column="16" />
-          <folding>
-            <element signature="e#5056#5057#0" expanded="true" />
-            <element signature="e#5098#5099#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/QueryStore/src/main/java/QueryStore/Sorting.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.7083333" vertical-offset="375" max-vertical-offset="1095">
@@ -2638,27 +2638,6 @@
           <caret line="59" column="25" selection-start-line="59" selection-start-column="17" selection-end-line="59" selection-end-column="25" />
           <folding>
             <element signature="e#0#3650#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/WebInterface/src/main/java/Servlet/DataServlet.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-13.035714" vertical-offset="2290" max-vertical-offset="4155">
-          <caret line="267" column="55" selection-start-line="267" selection-start-column="55" selection-end-line="267" selection-end-column="55" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/QueryStore/src/main/java/QueryStore/QueryStoreAPI.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1305" max-vertical-offset="8655">
-          <caret line="91" column="19" selection-start-line="91" selection-start-column="19" selection-end-line="91" selection-end-column="19" />
-          <folding>
-            <element signature="e#0#18220#0" expanded="true" />
-            <element signature="imports" expanded="true" />
-            <element signature="e#1745#1746#0" expanded="true" />
-            <element signature="e#1822#1823#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -2681,8 +2660,71 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/CSV-Citation-Deployment-Module/additional_configuration/SchemataAndUsers.sql">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5208333" vertical-offset="0" max-vertical-offset="720">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="465">
           <caret line="25" column="0" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/WebInterface/src/main/java/Servlet/DataServlet.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="15.357142" vertical-offset="1030" max-vertical-offset="4155">
+          <caret line="130" column="33" selection-start-line="130" selection-start-column="33" selection-end-line="130" selection-end-column="33" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/QueryStore/src/main/java/QueryStore/Query.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="240" max-vertical-offset="2340">
+          <caret line="75" column="29" selection-start-line="75" selection-start-column="29" selection-end-line="75" selection-end-column="29" />
+          <folding>
+            <element signature="e#2600#2601#0" expanded="true" />
+            <element signature="e#2632#2633#0" expanded="true" />
+            <element signature="e#2682#2683#0" expanded="true" />
+            <element signature="e#2724#2725#0" expanded="true" />
+            <element signature="e#5284#5285#0" expanded="true" />
+            <element signature="e#5326#5327#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/QueryStore/src/main/java/QueryStore/QueryStoreAPI.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="8280" max-vertical-offset="9000">
+          <caret line="581" column="25" selection-start-line="581" selection-start-column="25" selection-end-line="581" selection-end-column="25" />
+          <folding>
+            <element signature="e#0#18970#0" expanded="true" />
+            <element signature="imports" expanded="true" />
+            <element signature="e#1745#1746#0" expanded="true" />
+            <element signature="e#1822#1823#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/WebInterface/src/main/java/Bean/DatabaseTableNameBean.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1500" max-vertical-offset="2235">
+          <caret line="157" column="43" selection-start-line="157" selection-start-column="43" selection-end-line="157" selection-end-column="43" />
+          <folding>
+            <element signature="e#4523#4524#0" expanded="true" />
+            <element signature="e#4598#4599#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/WebInterface/src/main/webapp/table.xhtml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="10.291667" vertical-offset="1882" max-vertical-offset="2565">
+          <caret line="109" column="0" selection-start-line="109" selection-start-column="0" selection-end-line="111" selection-end-column="36" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/WebInterface/src/main/java/Bean/QueryStoreController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.7083333" vertical-offset="1275" max-vertical-offset="3135">
+          <caret line="175" column="53" selection-start-line="175" selection-start-column="53" selection-end-line="175" selection-end-column="53" />
           <folding />
         </state>
       </provider>
