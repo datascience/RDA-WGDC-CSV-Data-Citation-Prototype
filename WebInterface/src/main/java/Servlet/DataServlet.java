@@ -139,7 +139,6 @@ public class DataServlet extends HttpServlet {
      * Query data from DB after request
      */
 
-    // TODO rebise row count becaue now calles DB twice
     protected void doGet(HttpServletRequest request,
                          HttpServletResponse response) {
 
@@ -236,6 +235,7 @@ public class DataServlet extends HttpServlet {
 
             String sortingColumnName = dbTools.getColumnNameByID(sortingColumnID);
             this.sortingMap.put(sortingColumnName, sortingDirection);
+            this.logger.info("Servlet: Sorting " + sortingColumnName + " Direction: " + sortingDirection);
 
 
             // retrieve filters
@@ -265,7 +265,7 @@ public class DataServlet extends HttpServlet {
                 json = this.tableData.getJSON(cachedRowSet, param);
 
 
-                this.logger.warning("Number of Records" + param.iTotalRecords);
+                this.logger.warning("Number of Records " + param.iTotalRecords);
 
 
                 // System.out.println(json);

@@ -340,6 +340,7 @@ public class QueryStoreAPI {
             currentSortingCounter++;
             String sortingName = entry.getKey();
             String sortingDir = entry.getValue();
+            this.logger.info("Sorting direction: " + entry.getValue());
             Sorting sorting = new Sorting(query, sortingName, sortingDir);
 
             if (this.checkIfSortingExists(query, sorting)) {
@@ -348,15 +349,9 @@ public class QueryStoreAPI {
             } else {
                 currentSortingCounter++;
                 sorting.setSortingSequence(currentSortingSequence + currentSortingCounter);
-                this.logger.info("new Filter persisted");
+                this.logger.info("new sorting persisted");
                 session.save(sorting);
             }
-
-
-
-
-            this.logger.info("new Sorting persisted");
-            session.save(sorting);
 
 
         }
