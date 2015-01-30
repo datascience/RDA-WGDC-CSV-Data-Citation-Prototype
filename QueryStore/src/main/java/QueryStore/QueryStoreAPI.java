@@ -128,7 +128,7 @@ public class QueryStoreAPI {
             Iterator<Sorting> sortingIterator = sortings.iterator();
             while (sortingIterator.hasNext()) {
                 Sorting sorting = (Sorting) (sortingIterator.next());
-                allSortings += sorting.getSorting_column() + sorting.getDirection();
+                allSortings += sorting.getSortingColumn() + sorting.getDirection();
             }
 
             allSortings = this.normalizeString(allSortings);
@@ -244,7 +244,9 @@ public class QueryStoreAPI {
         this.session.close();
         
     }
-    
+
+    /*Add filter map to the query
+    * * */
     public void addFilters(Query query, Map<String, String> filterMap){
         // Iterate over Filters
         // TODO: externalize in own method
@@ -259,44 +261,175 @@ public class QueryStoreAPI {
                 //.add(Projections.groupProperty("query"))
                 .add(Projections.max("filterSequence")));
         cr.add(Restrictions.eq("query.queryId", new Long(query.getQueryId())));
-        currentFilterSequence = (Integer) cr.uniqueResult();
+        Object unique = (Object) cr.uniqueResult();
+
+        if (unique == null) {
+            this.logger.warning("No previous filter exists");
+            currentFilterSequence = 0;
+        } else {
+            this.logger.info("Filter exists. Setting filter sequence");
+            currentFilterSequence = (Integer) unique;
+
+        }
 
 
-        this.logger.info("The filter sequence number is currently");
-        
+        this.logger.info("The filter sequence number is currently: " + currentFilterSequence);
+
+        int currentFilterCounter = 0;
         for (Map.Entry<String, String> entry : filterMap.entrySet()) {
+
             String filterName = entry.getKey();
             String filterValue = entry.getValue();
             Filter filter = new Filter(query, filterName, filterValue);
-            filter.setFilterSequence(currentFilterSequence + 1);
-            this.logger.info("new Filter persisted");
-            session.save(filter);
+
+            if (this.checkIfFilterExists(query, filter)) {
+                this.logger.info("Filter exists");
+                filter = null;
+            } else {
+                currentFilterCounter++;
+                filter.setFilterSequence(currentFilterSequence + currentFilterCounter);
+                this.logger.info("new Filter persisted");
+                session.save(filter);
+            }
+
 
 
         }
+
+        // recalculate query hash
+        String newQueryHash = this.calculateQueryHash(query);
+        query.setQueryHash(newQueryHash);
         session.saveOrUpdate(query);
         session.getTransaction().commit();
         session.close();
         
     }
 
+    /*add sorting map to the query 
+    * * */
     public void addSortings(Query query, Map<String, String> sortingMap) {
-        // Iterate over Filters
-        // TODO: externalize in own method
+
         this.session = HibernateUtilQueryStore.getSessionFactory().openSession();
         session.beginTransaction();
+        int currentSortingSequence = -1;
+        Long qID = query.getQueryId();
+        this.logger.info("Query id = " + qID);
+
+        // Get the max sequence number for the sortings of query
+        Criteria cr = session.createCriteria(Sorting.class);
+        cr.setProjection(Projections.projectionList()
+                //.add(Projections.groupProperty("query"))
+                .add(Projections.max("sortingSequence")));
+        cr.add(Restrictions.eq("query.queryId", new Long(query.getQueryId())));
+        Object unique = (Object) cr.uniqueResult();
+
+        if (unique == null) {
+            this.logger.warning("No previous sorting exists");
+            currentSortingSequence = 0;
+        } else {
+            this.logger.info("Sorting exists. Setting sorting sequence");
+            currentSortingSequence = (Integer) unique;
+
+        }
+
+
+        this.logger.info("The sorting sequence number is currently: " + currentSortingSequence);
+
+        int currentSortingCounter = 0;
         for (Map.Entry<String, String> entry : sortingMap.entrySet()) {
+            currentSortingCounter++;
             String sortingName = entry.getKey();
             String sortingDir = entry.getValue();
             Sorting sorting = new Sorting(query, sortingName, sortingDir);
+
+            if (this.checkIfSortingExists(query, sorting)) {
+                this.logger.info("Filter exists");
+                sorting = null;
+            } else {
+                currentSortingCounter++;
+                sorting.setSortingSequence(currentSortingSequence + currentSortingCounter);
+                this.logger.info("new Filter persisted");
+                session.save(sorting);
+            }
+
+
+
+
             this.logger.info("new Sorting persisted");
             session.save(sorting);
 
 
         }
+        // recalculate query hash
+        String newQueryHash = this.calculateQueryHash(query);
+        query.setQueryHash(newQueryHash);
         session.saveOrUpdate(query);
         session.getTransaction().commit();
         session.close();
+
+    }
+
+    /* Check if a filter is already set.
+    * * */
+    private boolean checkIfFilterExists(Query query, Filter filter) {
+        Session filterSession = HibernateUtilQueryStore.getSessionFactory().openSession();
+        filterSession.beginTransaction();
+
+        Long qID = query.getQueryId();
+
+
+        // Get the max sequence number for the sortings of query
+        Criteria cr = filterSession.createCriteria(Filter.class);
+
+        cr.setProjection(Projections.projectionList()
+                //.add(Projections.groupProperty("query"))
+                .add(Projections.property("filterId")));
+        cr.add(Restrictions.eq("query.queryId", new Long(query.getQueryId())));
+        cr.add(Restrictions.eq("filterName", filter.getFilterName()));
+        cr.add(Restrictions.eq("filterValue", filter.getFilterValue()));
+
+        Object filterRecord = (Object) cr.uniqueResult();
+        filterSession.getTransaction().commit();
+        filterSession.close();
+        if (filterRecord == null) {
+
+            return false;
+        } else {
+            return true;
+        }
+
+
+    }
+
+    /* Check if a filter is already set.
+* * */
+    private boolean checkIfSortingExists(Query query, Sorting sorting) {
+        Session sortingSession = HibernateUtilQueryStore.getSessionFactory().openSession();
+        sortingSession.beginTransaction();
+
+        Long qID = query.getQueryId();
+
+
+        // Get the max sequence number for the sortings of query
+        Criteria cr = sortingSession.createCriteria(Sorting.class);
+
+        cr.setProjection(Projections.projectionList()
+                //.add(Projections.groupProperty("query"))
+                .add(Projections.property("sortingId")));
+        cr.add(Restrictions.eq("query.queryId", new Long(query.getQueryId())));
+        cr.add(Restrictions.eq("sortingColumn", sorting.getSortingColumn()));
+        cr.add(Restrictions.eq("direction", sorting.getDirection()));
+
+        Object sortingResult = (Object) cr.uniqueResult();
+        sortingSession.getTransaction().commit();
+        sortingSession.close();
+        if (sortingResult == null) {
+
+            return false;
+        } else {
+            return true;
+        }
+
 
     }
 

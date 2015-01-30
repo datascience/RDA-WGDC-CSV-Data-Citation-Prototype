@@ -60,22 +60,27 @@ import java.io.Serializable;
 public class Sorting implements Serializable {
     private Long sortingId;
     private Query query;
-    private String sorting_column;
+    private String sortingColumn;
     private String direction;
 
+    public void setSortingSequence(int sortingSequence) {
+        this.sortingSequence = sortingSequence;
+    }
+
+    private int sortingSequence;
     protected Sorting() {
 
     }
 
     /**
      * @param query
-     * @param sorting_column
+     * @param sortingColumn
      * @param direction
      */
-    public Sorting(Query query, String sorting_column, String direction) {
+    public Sorting(Query query, String sortingColumn, String direction) {
         super();
         this.query = query;
-        this.sorting_column = sorting_column;
+        this.sortingColumn = sortingColumn;
         this.direction = direction;
     }
 
@@ -90,13 +95,13 @@ public class Sorting implements Serializable {
         this.query = query;
     }
 
-    @Column(name = "sorting_column")
-    protected String getSorting_column() {
-        return sorting_column;
+    @Column(name = "sortingColumn")
+    protected String getSortingColumn() {
+        return sortingColumn;
     }
 
-    protected void setSorting_column(String sorting_column) {
-        this.sorting_column = sorting_column;
+    protected void setSortingColumn(String sortingColumn) {
+        this.sortingColumn = sortingColumn;
     }
 
     @Column(name = "direction")
@@ -106,6 +111,11 @@ public class Sorting implements Serializable {
 
     protected void setDirection(String direction) {
         this.direction = direction;
+    }
+
+    @Column(name = "sorting_sequence")
+    protected int getSortingSequence() {
+        return this.sortingSequence;
     }
 
     @Id
