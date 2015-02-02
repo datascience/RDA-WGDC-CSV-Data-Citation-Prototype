@@ -17,6 +17,7 @@
 package Bean;
 
 import Database.Authentication.User;
+import Database.DatabaseOperations.DatabaseTools;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -78,7 +79,7 @@ public class SessionManager {
     /**
      * Store details in session
      */
-    protected void storeSelectedColumnsFromTableMap(List<String> selectedColumnsFromTableList) {
+    public void storeSelectedColumnsFromTableMap(List<String> selectedColumnsFromTableList) {
 
         this.logger.info("Writing data into session (storeSelectedColumnsFromTableMap... here the size is " +
                 "" + selectedColumnsFromTableList.size() + ")");
@@ -100,23 +101,26 @@ public class SessionManager {
     * * * */
     public List<String> getSelectedColumnsFromTableMapSession() {
 
-
+        List<String> selectedColumnsSessionData = null;
         Map<String, Object> sessionMAP = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
         if (sessionMAP == null) {
             this.logger.severe("Session map is null in the session manager");
+            this.initializeSelectedColumns();
+
+        } else {
+            selectedColumnsSessionData = (List<String>) sessionMAP.get("selectedColumnsFromTableMap");
         }
-        List<String> selectedColumnsSessionData = (List<String>) sessionMAP.get("selectedColumnsFromTableMap");
 
 
-        this.logger.info("Retrieving selected columns data from session. Size is " + selectedColumnsSessionData.size());
+
 
         if (selectedColumnsSessionData != null && selectedColumnsSessionData.size() >= 1) {
             this.logger.info("There are " + selectedColumnsSessionData.size() + " selected columns");
+
             return selectedColumnsSessionData;
         } else {
             this.logger.info("There was no session data available. Setting default column");
-            selectedColumnsSessionData = new ArrayList<String>();
-            selectedColumnsSessionData.add("ID_SYSTEM_SEQUENCE");
+            this.initializeSelectedColumns();
             return selectedColumnsSessionData;
 
         }
@@ -237,5 +241,32 @@ public class SessionManager {
 
         }
         return currentDatabaseName;
+    }
+
+    public void initializeSelectedColumns() {
+        DatabaseTools dbTools = new DatabaseTools();
+        String selectedDB = dbTools.getDatabaseCatalogFromDatabaseConnection().get(0);
+        this.logger.info("Database retrieved: " + selectedDB);
+        List<String> tableNames = dbTools.getAvailableTablesFromDatabase(selectedDB);
+
+
+        String tableName = tableNames.get(0);
+        this.logger.info("Databasename was null and is now: " + selectedDB);
+
+        Map<String, String> columnNamesMap = dbTools.getTableColumnMetadata(tableName);
+        List<String> initializeSelectedColumns = new ArrayList<String>();
+        for (Map.Entry<String, String> entry : columnNamesMap.entrySet()) {
+
+
+            String column = entry.getKey();
+
+            initializeSelectedColumns.add(column);
+
+
+        }
+        SessionManager sm = new SessionManager();
+        sm.storeSelectedColumnsFromTableMap(initializeSelectedColumns);
+
+
     }
 }

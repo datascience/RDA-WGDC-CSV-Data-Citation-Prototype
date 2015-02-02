@@ -51,6 +51,7 @@ package Bean;
 
 import Database.DatabaseOperations.DatabaseTools;
 import DatatableModel.TableMetadata;
+import org.hibernate.Session;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -166,10 +167,17 @@ public class ServletController implements Serializable {
     //@todo
     public List<String> getSelectedColumnsFromWebInterfaceViaSession() {
 
-        Map<String, Object> sessionMAP = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
-        List<String> selectedColumnsSessionData = (List<String>) sessionMAP.get("selectedColumnsFromTableMap");
+        SessionManager sm = new SessionManager();
+
+        List<String> selectedColumnsSessionData = sm.getSelectedColumnsFromTableMapSession();
+
+        ;
         if (selectedColumnsSessionData == null) {
-            this.logger.info("The session was not yet set. Retrieve ");
+            this.logger.info("The session was not yet set. ");
+            sm.initializeSelectedColumns();
+            
+
+            
 
         }
         return selectedColumnsSessionData;
@@ -180,6 +188,7 @@ public class ServletController implements Serializable {
     }
 
     public String getmDataString() {
+
         return this.dataTablesMDataProp();
     }
 
@@ -194,6 +203,7 @@ public class ServletController implements Serializable {
         String tableMetaString = null;
 
         try {
+
             tableMetaString = TableMetadata.getDataTablesMDataProp(this.getSelectedColumnsFromWebInterfaceViaSession());
         } catch (SQLException e) {
             e.printStackTrace();

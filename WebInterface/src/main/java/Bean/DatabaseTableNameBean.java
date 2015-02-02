@@ -90,10 +90,11 @@ public class DatabaseTableNameBean implements Serializable {
     public void init() {
 
 
-            dbtools = new DatabaseTools();
+        dbtools = new DatabaseTools();
             // this only returns the database schema specified in the connection profile.
         this.databaseNames = dbtools.getDatabaseCatalogFromDatabaseConnection();
         this.tableNames = this.dbtools.getAvailableTablesFromDatabase(databaseNames.get(0));
+
         
     }
 
@@ -172,18 +173,11 @@ public class DatabaseTableNameBean implements Serializable {
         }
 
         if (selectedColumnsSessionData == null) {
-            Map<String, String> columnNamesMap = this.dbtools.getTableColumnMetadata(tableName);
-            List<String> initializeSelectedColumns = null;
-            for (Map.Entry<String, String> entry : columnNamesMap.entrySet()) {
+            SessionManager sm = new SessionManager();
+            sm.initializeSelectedColumns();
 
 
-                String column = entry.getKey();
-
-                initializeSelectedColumns.add(column);
-
-
-            }
-            //@todo colum daten schreiben!
+        }
     }
 
     /*Load this event when the page is refreshed.
@@ -209,9 +203,6 @@ public class DatabaseTableNameBean implements Serializable {
         sm.storeSessionData("currentTableName", selectedTable);
 
     }
-
-
-
 
 
 }
