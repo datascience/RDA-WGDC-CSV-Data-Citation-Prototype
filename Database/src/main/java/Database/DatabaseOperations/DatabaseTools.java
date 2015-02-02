@@ -230,9 +230,11 @@ public class DatabaseTools {
     * Get the row count of a table
     * */
     public int getRowCount(String tableName) {
-        this.logger.info("Execurint row count for " + tableName);
+        this.logger.info("Executing row count for " + tableName);
+
         // TODO SQL injection
         String sql = "SELECT COUNT(*) FROM " + tableName;
+
         int numberOfRecords = -1;
         Connection connection = null;
         ResultSet resultSet = null;
