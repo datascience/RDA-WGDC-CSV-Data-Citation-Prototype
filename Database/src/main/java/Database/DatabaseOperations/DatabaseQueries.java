@@ -51,14 +51,14 @@ public class DatabaseQueries {
      * Query the database and retrieve the records. Rewrite Statement for most recent version only
      *
      * @param tableName
-     * @param sortingColumnsID
+     * @param columnSequenceMap
+     *@param sortingColumnsID
      * @param sortingDirection
      * @param filterMap
      * @param startRow
-     * @param offset
-     * @return
+     * @param offset      @return
      */
-    public CachedRowSet queryDatabase(String tableName, int sortingColumnsID,
+    public CachedRowSet queryDatabase(String tableName, Map<Integer, String> columnSequenceMap, int sortingColumnsID,
                                       String sortingDirection, Map<String, String> filterMap,
                                       int startRow, int offset) {
         Connection connection = null;
@@ -111,7 +111,8 @@ public class DatabaseQueries {
 
 
                 this.logger.info("Primary key is: " + primaryKey);
-                String selectSQL = "SELECT * ";
+                String selectSQL = this.dbtools.createSELECTstringFromColumnMap(columnSequenceMap);
+                
                 selectSQL += this.getMostRecentVersionSQLString(primaryKey, tableName);
                 selectSQL += whereClause + " ORDER BY " + sortColumn + " "
                         + sortingDirection
@@ -200,9 +201,12 @@ public class DatabaseQueries {
      * @return
      */
     private String getMostRecentVersionSQLString(String primaryKey, String tableName) {
-        String innerJoinSQLString = "FROM " + tableName + " AS outerGroup INNER JOIN ( SELECT " + primaryKey + ", " +
+        String innerJoinSQLString = " FROM " + tableName + " AS outerGroup INNER JOIN ( SELECT " + primaryKey + ", " +
                 "max(LAST_UPDATE) AS mostRecent FROM " +
-                tableName + " WHERE (RECORD_STATUS = 'inserted' OR RECORD_STATUS = 'updated') GROUP BY " + primaryKey
+                tableName + " AS innerSELECT WHERE (innerSELECT.RECORD_STATUS = 'inserted' OR innerSELECT" +
+                ".RECORD_STATUS = 'updated')" +
+                " GROUP BY "
+                + primaryKey
                 + ") innerGroup ON outerGroup." + primaryKey + " = innerGroup." + primaryKey + " AND outerGroup" +
                 ".LAST_UPDATE = innerGroup.mostRecent ";
         this.logger.info("Rewritten INNER JOIN SQL: " + innerJoinSQLString);

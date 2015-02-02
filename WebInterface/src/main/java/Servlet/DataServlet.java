@@ -67,6 +67,7 @@ package Servlet;
 
 import Bean.SessionManager;
 import Database.DatabaseOperations.DatabaseTools;
+import Database.Helpers.StringHelpers;
 import DatatableModel.DataTablesParamUtility;
 import DatatableModel.JQueryDataTableParamModel;
 import DatatableModel.TableDataOperations;
@@ -87,6 +88,7 @@ import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.logging.Handler;
 import java.util.logging.Logger;
@@ -96,34 +98,12 @@ import java.util.logging.Logger;
 @SessionScoped
 @WebServlet("/csvdata")
 public class DataServlet extends HttpServlet {
+    Map<String, String> filterMap;
+    Map<String, String> sortingMap;
+    Map<Integer, String> columnSequenceMap;
     private Logger logger;
     private DataSource dataSource;
-
     private TableDataOperations tableData;
-    Map<String, String> filterMap;
-
-
-    public Map<String, String> getSortingMap() {
-        return sortingMap;
-    }
-
-    public void setSortingMap(Map<String, String> sortingMap) {
-        this.sortingMap = sortingMap;
-    }
-
-    Map<String, String> sortingMap;
-
-
-    public Map<String, String> getFilterMap() {
-        this.logger.info("GET Filter Map.........");
-        return filterMap;
-    }
-
-    public void setFilterMap(Map<String, String> filterMap) {
-        this.logger.info("Set the filtermap...");
-        this.filterMap = filterMap;
-    }
-
 
     public DataServlet() {
         this.logger = Logger.getLogger(this.getClass().getName());
@@ -133,6 +113,24 @@ public class DataServlet extends HttpServlet {
         sortingMap = new HashMap<>();
 
 
+    }
+
+    public Map<String, String> getSortingMap() {
+        return sortingMap;
+    }
+
+    public void setSortingMap(Map<String, String> sortingMap) {
+        this.sortingMap = sortingMap;
+    }
+
+    public Map<String, String> getFilterMap() {
+        this.logger.info("GET Filter Map.........");
+        return filterMap;
+    }
+
+    public void setFilterMap(Map<String, String> filterMap) {
+        this.logger.info("Set the filtermap...");
+        this.filterMap = filterMap;
     }
 
     /**
@@ -208,9 +206,6 @@ public class DataServlet extends HttpServlet {
                 this.logger.warning("Table was null. Using session table" + currentTable);
 
             }
-            
-
-
 
 
             if (param == null || param.sEcho == "") {
@@ -231,6 +226,8 @@ public class DataServlet extends HttpServlet {
 
             String sortingDirection = this.getSortingDirection(param, request);
 
+            this.columnSequenceMap = this.getColumnSequenceFromRequest(param, request);
+
             DatabaseTools dbTools = new DatabaseTools();
 
             String sortingColumnName = dbTools.getColumnNameByID(sortingColumnID);
@@ -242,13 +239,11 @@ public class DataServlet extends HttpServlet {
             this.setFilterMap(param.filterMap);
 
 
-            // TEST TEST// TEST TEST funktioniert nicht!
-            this.printMap(this.getFilterMap());
 
 
             try {
 
-                CachedRowSet cachedRowSet = dbTools.executeQuery(currentTable, sortingColumnID,
+                CachedRowSet cachedRowSet = dbTools.executeQuery(currentTable, this.columnSequenceMap, sortingColumnID,
                         sortingDirection, filterMap, showRows, offset);
 
 //                this.logger.warning("Cached size ->> " + cachedRowSet.size());
@@ -293,6 +288,8 @@ public class DataServlet extends HttpServlet {
 
     }
 
+    /* Get the sorting parameters from the request
+    * * */
     public int getSortingStringID(JQueryDataTableParamModel param,
                                   HttpServletRequest request) {
         int sortingSQL = 0;
@@ -304,6 +301,8 @@ public class DataServlet extends HttpServlet {
         return sortingSQL;
     }
 
+    /*Get the sorting direction from request
+    * * */
     public String getSortingDirection(JQueryDataTableParamModel param,
                                       HttpServletRequest request) {
         String sortingDirection = "";
@@ -331,6 +330,25 @@ public class DataServlet extends HttpServlet {
         }
 
     }
+
+    /* Get the sorting parameters from the request
+* * */
+    public Map<Integer, String> getColumnSequenceFromRequest(JQueryDataTableParamModel param,
+                                                             HttpServletRequest request) {
+        // reset map of columns. LinkedHashMap is sorted in insertion order
+        Map<Integer, String> columnSequenceMap = new LinkedHashMap<Integer, String>();
+
+        for (int i = 0; i < param.iColumns; i++) {
+            String columnName = request.getParameter("mDataProp_" + i);
+            columnSequenceMap.put(i, columnName);
+            this.logger.info("Column Position " + i + " is " + columnName);
+
+
+        }
+        return columnSequenceMap;
+    }
+    
+    
 
 
     private void printMap(Map<String, String> map) {

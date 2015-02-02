@@ -1563,12 +1563,12 @@ public class DatabaseTools {
     /* Execute Query
     *
     * * * */
-    public CachedRowSet executeQuery(String tableName, int sortingColumnsID,
+    public CachedRowSet executeQuery(String tableName, Map<Integer, String> columnSequenceMap, int sortingColumnsID,
                                      String sortingDirection, Map<String, String> filterMap,
                                      int startRow, int offset) {
         DatabaseQueries dbQuery = new DatabaseQueries();
 
-        CachedRowSet cachedRowSet = dbQuery.queryDatabase(tableName, sortingColumnsID,
+        CachedRowSet cachedRowSet = dbQuery.queryDatabase(tableName, columnSequenceMap, sortingColumnsID,
                 sortingDirection, filterMap, startRow, offset);
 
         return cachedRowSet;
@@ -1585,6 +1585,33 @@ public class DatabaseTools {
         String tableName = this.getAvailableTablesFromDatabase(selectedDB).get(0);
         this.logger.info("Table retrieved retrieved: " + tableName);
         return tableName;
+    }
+
+    /* Get the list fo columns which have been displaxyed in the Web interface and return a string where the columns 
+    are concatenated in the correct order.
+    * * */
+    public String createSELECTstringFromColumnMap(Map<Integer, String> columnSequenceMap) {
+        String joinAlias = "outerGroup";
+        StringBuilder sb = new StringBuilder();
+
+        sb.append("SELECT ");
+
+        for (Map.Entry<Integer, String> entry : columnSequenceMap.entrySet()) {
+            int columnSequence = entry.getKey();
+            String columnName = entry.getValue();
+            sb.append(joinAlias + "." + columnName + ",");
+        }
+
+        if (sb.toString().endsWith(",")) {
+
+            sb.setLength(sb.length() - 1);
+
+        }
+        String SELECTclause = sb.toString();
+        this.logger.info("The SELECT clause is: " + SELECTclause);
+        return SELECTclause;
+
+
     }
 
 }
