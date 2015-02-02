@@ -24,6 +24,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
@@ -111,8 +112,10 @@ public class DatabaseQueries {
 
 
                 this.logger.info("Primary key is: " + primaryKey);
+
+
                 String selectSQL = this.dbtools.createSELECTstringFromColumnMap(columnSequenceMap);
-                
+
                 selectSQL += this.getMostRecentVersionSQLString(primaryKey, tableName);
                 selectSQL += whereClause + " ORDER BY " + sortColumn + " "
                         + sortingDirection
@@ -232,6 +235,7 @@ public class DatabaseQueries {
 
     }
 
+
     /**
      * Check if there are filters
      *
@@ -312,5 +316,6 @@ public class DatabaseQueries {
         return connection;
 
     }
+
 
 }

@@ -1,5 +1,6 @@
 package Servlet;
 
+import Bean.SessionManager;
 import Database.DatabaseOperations.DatabaseTools;
 import Database.Helpers.StringHelpers;
 import DatatableModel.DataTablesParamUtility;
@@ -40,7 +41,7 @@ public class DataServlet extends HttpServlet {
     public DataServlet() {
         this.logger = Logger.getLogger(this.getClass().getName());
         this.tableData = new TableDataOperations();
-        this.logger.info("SERVLET");
+
         filterMap = new HashMap<>();
         sortingMap = new HashMap<>();
 
@@ -73,12 +74,6 @@ public class DataServlet extends HttpServlet {
                          HttpServletResponse response) {
         this.logger.info("S-E-R-V-L-E-T");
 
-
-        HttpSession session = request.getSession(true);
-
-        List<String> columns = (List<String>) session.getAttribute("selectedColumnsFromTableMap");
-        this.logger.info("The session delivered " + columns.size());
-        
 
         PrintWriter out = null;
         try {
@@ -142,9 +137,16 @@ public class DataServlet extends HttpServlet {
             this.columnSequenceMap = this.getColumnSequenceFromRequest(param, request);
             this.logger.info("Sequence map size is " + this.columnSequenceMap.size());
 
+            HttpSession session = request.getSession(true);
+            List<String> columnsFromSession = (List<String>) session.getAttribute("selectedColumnsFromTableMap");
+       
+
+            
+            
+
             //todo remove unselected
-            //Map<Integer, String> selectedColumnsSequenceMap = this.removeUnselectedColumnsFromQuery(this
-            // .columnSequenceMap);
+            Map<Integer, String> selectedColumnsSequenceMap = this.removeUnselectedColumnsFromQuery(this
+                    .columnSequenceMap, columnsFromSession);
 
 
             DatabaseTools dbTools = new DatabaseTools();
@@ -162,7 +164,8 @@ public class DataServlet extends HttpServlet {
 
             try {
 
-                CachedRowSet cachedRowSet = dbTools.executeQuery(currentTable, columnSequenceMap, sortingColumnID,
+                CachedRowSet cachedRowSet = dbTools.executeQuery(currentTable, selectedColumnsSequenceMap, 
+                        sortingColumnID,
                         sortingDirection, filterMap, showRows, offset);
 
 //                this.logger.warning("Cached size ->> " + cachedRowSet.size());
@@ -295,5 +298,46 @@ public class DataServlet extends HttpServlet {
 
         this.logger.info("Converted Map to this DatatableModel.JSON: " + json);
         return json;
+    }
+
+
+    /*The user may unselect colums. Remove unselected columns from the query.
+* * */
+    private Map<Integer, String> removeUnselectedColumnsFromQuery(Map<Integer, String> columnSequenceMap, List<String
+            > columnsFromSession) {
+        this.logger.info("Removing unselected columns");
+
+        Iterator it = columnSequenceMap.entrySet().iterator();
+        boolean isContained = false;
+        while (it.hasNext()) {
+            Map.Entry<Integer, String> entry = (Map.Entry<Integer, String>) it.next();
+
+            int sequenceNumber = entry.getKey();
+            String columnName = entry.getValue();
+
+            // Iterate over selected colums and remove if not contained
+            for (String listItem : columnsFromSession) {
+                if (columnName.equals(listItem)) {
+                    this.logger.info("The column was selected");
+                    isContained = true;
+                    break;
+                } else {
+                    this.logger.info("Removed column " + listItem + " with seqquence number " + sequenceNumber);
+                    isContained = false;
+
+                }
+
+            }
+            if (isContained == false) {
+                Logger.getGlobal().info("Removeddddddddddddddddddddddddddddd " + entry.getValue());
+                it.remove();
+
+            }
+
+        }
+
+        return columnSequenceMap;
+
+
     }
 }

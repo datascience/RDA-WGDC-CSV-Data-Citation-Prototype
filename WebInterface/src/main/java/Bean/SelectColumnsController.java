@@ -129,34 +129,5 @@ public class SelectColumnsController implements Serializable {
 
     }
 
-    /*The user may unselect colums. Remove unselected columns from the query.
-* * */
-    private Map<Integer, String> removeUnselectedColumnsFromQuery(Map<Integer, String> columnSequenceMap) {
-        this.logger.info("Removing unselected columns");
-
-        SessionManager sm = new SessionManager();
-        List<String> selectedColumns = sm.getSelectedColumnsFromTableMapSession();
-
-        for (Map.Entry<Integer, String> entry : columnSequenceMap.entrySet()) {
-            int sequenceNumber = entry.getKey();
-            String columnName = entry.getValue();
-
-            this.logger.info("Map Key (Sequence) : " + sequenceNumber + "  Value: " + columnName);
-            // Iterate over selected colums and remove if not contained
-            for (String listItem : selectedColumns) {
-                if (columnName.equals(listItem)) {
-                    this.logger.info("The column was selected");
-                } else {
-                    this.logger.info("Removed column " + listItem + " with seqquence number " + sequenceNumber);
-                    columnSequenceMap.remove(sequenceNumber);
-                }
-
-            }
-        }
-
-        return columnSequenceMap;
-
-
-    }
 
 }
