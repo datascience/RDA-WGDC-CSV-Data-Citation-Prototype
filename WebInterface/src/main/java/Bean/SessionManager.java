@@ -210,6 +210,19 @@ public class SessionManager {
     }
 
     /**
+     * Get the session tablename
+     */
+    public void setCurrentTableNameFromSession(String currentTableName) {
+
+        // lesen
+//        Map<String, Object> sessionMAP = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
+        Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
+        params.put("currentTableName", currentTableName);
+        this.logger.warning("There was no current table name in the session. Now it is  " + currentTableName);
+
+    }
+
+    /**
      * Get the database name from the session
      */
     public String getCurrentDatabaseNameFromSession() {

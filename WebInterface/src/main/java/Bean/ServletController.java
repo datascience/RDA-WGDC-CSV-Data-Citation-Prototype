@@ -49,6 +49,7 @@
 package Bean;
 
 
+import Database.DatabaseOperations.DatabaseTools;
 import DatatableModel.TableMetadata;
 
 import javax.faces.bean.ManagedBean;
@@ -76,17 +77,23 @@ public class ServletController implements Serializable {
     private String currentTableName = null;
     private String mDataString;
 
+
     private List<String> selectedColumnsFromWebInterfaceViaSession = null;
 
 
     public ServletController() {
         this.logger = Logger.getLogger(this.getClass().getName());
         this.logger.info("Servlet controller");
+        this.selectedColumnsFromWebInterfaceViaSession = this.getSelectedColumnsFromWebInterfaceViaSession();
+        
+
 
 
     }
 
     public String getEmptyTableHeaders() {
+
+
         String htmlString = null;
         try {
             htmlString = TableMetadata.getEmptyTableHeaders(this.getCurrentTableName());
@@ -104,7 +111,9 @@ public class ServletController implements Serializable {
     public String getTableFooterAsHTML() {
         String htmlString = null;
         try {
-            htmlString = TableMetadata.getTableFooterAsHTML(this.getCurrentTableName());
+
+
+            htmlString = TableMetadata.getTableFooterAsHTML(this.selectedColumnsFromWebInterfaceViaSession);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -119,7 +128,7 @@ public class ServletController implements Serializable {
     public String getTableHeadersAsHTML() {
         String htmlString = null;
         try {
-            htmlString = TableMetadata.getTableHeadersAsHTML(this.getCurrentTableName());
+            htmlString = TableMetadata.getTableHeadersAsHTML(this.getSelectedColumnsFromWebInterfaceViaSession());
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -135,7 +144,7 @@ public class ServletController implements Serializable {
 
         String filterColumns = null;
         try {
-            filterColumns = TableMetadata.getColumnFilterColumnns(this.getCurrentTableName());
+            filterColumns = TableMetadata.getColumnFilterColumnns(this.getSelectedColumnsFromWebInterfaceViaSession());
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -159,6 +168,10 @@ public class ServletController implements Serializable {
 
         Map<String, Object> sessionMAP = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
         List<String> selectedColumnsSessionData = (List<String>) sessionMAP.get("selectedColumnsFromTableMap");
+        if (selectedColumnsSessionData == null) {
+            this.logger.info("The session was not yet set. Retrieve ");
+
+        }
         return selectedColumnsSessionData;
     }
 
@@ -181,7 +194,7 @@ public class ServletController implements Serializable {
         String tableMetaString = null;
 
         try {
-            tableMetaString = TableMetadata.getDataTablesMDataProp(tableName);
+            tableMetaString = TableMetadata.getDataTablesMDataProp(this.getSelectedColumnsFromWebInterfaceViaSession());
         } catch (SQLException e) {
             e.printStackTrace();
         }

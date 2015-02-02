@@ -10,7 +10,6 @@ import org.supercsv.io.ICsvListReader;
 import org.supercsv.prefs.CsvPreference;
 
 import javax.sql.rowset.CachedRowSet;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
@@ -840,7 +839,7 @@ public class DatabaseTools {
      *
      * @return
      */
-    public List<String> getADatabaseCatalogFromDatabaseConnection() {
+    public List<String> getDatabaseCatalogFromDatabaseConnection() {
         Connection connection = null;
         List<String> listOfDatabases = new ArrayList<String>();
 
@@ -1582,7 +1581,7 @@ public class DatabaseTools {
     * * initializing the web interfacce.
     * * * */
     public String getFirstTableFromStandardSessionDatabase() {
-        String selectedDB = this.getADatabaseCatalogFromDatabaseConnection().get(0);
+        String selectedDB = this.getDatabaseCatalogFromDatabaseConnection().get(0);
         this.logger.info("Database retrieved: " + selectedDB);
         String tableName = this.getAvailableTablesFromDatabase(selectedDB).get(0);
         this.logger.info("Table retrieved retrieved: " + tableName);

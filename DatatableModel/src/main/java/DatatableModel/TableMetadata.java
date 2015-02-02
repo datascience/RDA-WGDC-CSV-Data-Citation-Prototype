@@ -53,6 +53,26 @@ public class TableMetadata {
     }
 
 
+    /**
+     * Provides the HTML Code for building the table headers
+     *
+     * @return
+     * @throws java.sql.SQLException
+     */
+    public static String getTableHeadersAsHTML(List<String> selectedColumns) throws SQLException {
+
+        String htmlTableHeaders = "<thead>\n\t<tr>\n";
+        for (int i = 0; i < selectedColumns.size(); i++) {
+
+            htmlTableHeaders += " <th><u>" + selectedColumns.get(i) + "</u></th>\n";
+
+        }
+        htmlTableHeaders += "</tr>\n</thead>\n";
+        System.out.println(htmlTableHeaders);
+
+        return htmlTableHeaders;
+    }
+
     public static String getDataTablesMDataProp(String tableName) throws SQLException {
         DatabaseTools dbTools = new DatabaseTools();
         Map<String, String> columnMap = dbTools.getTableColumnMetadata(tableName);
@@ -78,6 +98,31 @@ public class TableMetadata {
         return dataTablesMDataProp;
     }
 
+    public static String getDataTablesMDataProp(List<String> selectedColumns) throws SQLException {
+
+
+        // If the value of a column is null, datatables shows an error
+        // This string is shown as a default value
+        String defaultContent = ",\"sDefaultContent\":\"(Data n/a)\"";
+
+        String dataTablesMDataProp = " [ ";
+
+
+        for (int i = 0; i < selectedColumns.size(); i++) {
+            dataTablesMDataProp += "{ \"mDataProp\": \"" + selectedColumns.get(i) + "\"" + defaultContent
+                    + "},\n";
+
+
+        }
+
+        dataTablesMDataProp += " ] ";
+        System.out.println(dataTablesMDataProp);
+
+        return dataTablesMDataProp;
+    }
+
+    
+
     // returns the tags required for the filter input fields
     public static String getColumnFilterColumnns(String tableName) throws SQLException {
         DatabaseTools dbTools = new DatabaseTools();
@@ -97,7 +142,27 @@ public class TableMetadata {
         return columnsList;
     }
 
+    // returns the tags required for the filter input fields for selected columns
+    public static String getColumnFilterColumnns(List<String> selectedColumns) throws SQLException {
 
+        String columnsList = "";
+        for (int i = 0; i < selectedColumns.size(); i++) {
+            columnsList += "{ type: \"text\"}, \n";
+
+        }
+
+
+        if (columnsList.endsWith(",")) {
+            columnsList = columnsList.substring(0, columnsList.length() - 1);
+        }
+
+        columnsList += "";
+        return columnsList;
+    }
+
+
+    /* Render HTML for all table columns
+    * * */
     public static String getTableFooterAsHTML(String tableName) throws SQLException {
         DatabaseTools dbTools = new DatabaseTools();
         int columnCount = dbTools.getNumberofColumnsPerTable(tableName);
@@ -118,9 +183,51 @@ public class TableMetadata {
         return emptyTableRows;
     }
 
+    /*Selected columns only
+    * * */
+    public static String getTableFooterAsHTML(List<String> selectedColumnsFromInterface) throws SQLException {
+
+        int columnCount = selectedColumnsFromInterface.size();
+
+
+        String emptyTableRows = "<tfoot><tr>\n";
+
+
+        for (String row : selectedColumnsFromInterface) {
+            emptyTableRows += " <th>" + row + "</th>\n";
+        }
+
+
+        emptyTableRows += "</tr></tfoot>\n";
+        System.out.println(emptyTableRows);
+
+        return emptyTableRows;
+    }
+
+
+    /*get all headers
+    * * */
     public static String getEmptyTableHeaders(String tableName) throws SQLException {
         DatabaseTools dbTools = new DatabaseTools();
         int columnCount = dbTools.getNumberofColumnsPerTable(tableName);
+
+        String emptyTableRows = "<tr>\n";
+        for (int i = 0; i < columnCount; i++) {
+            emptyTableRows += " <th></th>\n";
+
+        }
+
+        emptyTableRows += "</tr>\n";
+        System.out.println(emptyTableRows);
+
+        return emptyTableRows;
+    }
+
+    /* Get table headers for selected columns
+    * * */
+    public static String getEmptyTableHeaders(List<String> selectedColumnsFromInterface) throws SQLException {
+
+        int columnCount = selectedColumnsFromInterface.size();
 
         String emptyTableRows = "<tr>\n";
         for (int i = 0; i < columnCount; i++) {

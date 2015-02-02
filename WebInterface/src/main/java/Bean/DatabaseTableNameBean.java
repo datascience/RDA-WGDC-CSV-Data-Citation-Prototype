@@ -24,17 +24,13 @@ import org.hibernate.Session;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.ValueChangeEvent;
-import java.io.IOException;
 import java.io.Serializable;
-import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
-import javax.faces.event.AjaxBehaviorEvent;
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * Created by stefan on 04.07.14.
@@ -96,7 +92,7 @@ public class DatabaseTableNameBean implements Serializable {
 
             dbtools = new DatabaseTools();
             // this only returns the database schema specified in the connection profile.
-        this.databaseNames = dbtools.getADatabaseCatalogFromDatabaseConnection();
+        this.databaseNames = dbtools.getDatabaseCatalogFromDatabaseConnection();
         this.tableNames = this.dbtools.getAvailableTablesFromDatabase(databaseNames.get(0));
         
     }
@@ -129,7 +125,7 @@ public class DatabaseTableNameBean implements Serializable {
         * * database
         * * * */
         if (selectedDB == null || selectedDB.equals("")) {
-            selectedDB = this.dbtools.getADatabaseCatalogFromDatabaseConnection().get(0);
+            selectedDB = this.dbtools.getDatabaseCatalogFromDatabaseConnection().get(0);
             this.logger.info("Database retrieved: " + selectedDB);
             this.tableNames = this.dbtools.getAvailableTablesFromDatabase(selectedDB);
 
@@ -155,7 +151,39 @@ public class DatabaseTableNameBean implements Serializable {
     /*Load this event when the table page is refreshed.
     * * */
     public void onLoadTable(ActionEvent event) {
+
         this.logger.info("Page load event: .. " + event.toString());
+        Map<String, Object> sessionMAP = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
+        List<String> selectedColumnsSessionData = (List<String>) sessionMAP.get("selectedColumnsFromTableMap");
+        if (selectedColumnsSessionData == null) {
+            this.logger.info("The session was not yet set. Retrieve ");
+
+        }
+
+        if (this.getTableName() == null) {
+
+
+            String databaseName = this.dbtools.getDatabaseCatalogFromDatabaseConnection().get(0);
+            String tableName = this.dbtools.getAvailableTablesFromDatabase(databaseName).get(0);
+            this.logger.info("No session data set. ");
+            SessionManager sm = new SessionManager();
+            sm.setCurrentTableNameFromSession(tableName);
+
+        }
+
+        if (selectedColumnsSessionData == null) {
+            Map<String, String> columnNamesMap = this.dbtools.getTableColumnMetadata(tableName);
+            List<String> initializeSelectedColumns = null;
+            for (Map.Entry<String, String> entry : columnNamesMap.entrySet()) {
+
+
+                String column = entry.getKey();
+
+                initializeSelectedColumns.add(column);
+
+
+            }
+            //@todo colum daten schreiben!
     }
 
     /*Load this event when the page is refreshed.
