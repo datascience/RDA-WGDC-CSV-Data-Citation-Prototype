@@ -156,9 +156,10 @@ function AjaxUpdateDataFailed(result) {
 
 
             <h:selectManyCheckbox id="selectedColumnsFormMultiCheckbox"
-                                  value="#{selectColumnsController.availableColumnsList}">
-                <f:selectItems value="#{selectColumnsController.columnsValue}"/>
+                                  value="#{selectColumnsController.selectedColumnsList}">
+                <f:selectItems value="#{selectColumnsController.availableColumnsList}"/>
             </h:selectManyCheckbox>
+
             <p:commandButton id="selectedColumnsButton" value="Select the columns to use."
                              action="#{selectColumnsController.setSelectedColumnsAction}"
                              update="selectedColumnsMessage">

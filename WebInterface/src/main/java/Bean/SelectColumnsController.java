@@ -40,10 +40,24 @@ import java.util.logging.Logger;
 public class SelectColumnsController implements Serializable {
 
     private Logger logger;
-    private List<String> columns = null;
-    Map<String, String> selectedColumnsMap = null;
+
+    private List<String> selectedColumnsList;
+    private List<String> availableColumnsList;
+
+
+    public List<String> getSelectedColumnsList() {
+        return selectedColumnsList;
+    }
+
+    public void setSelectedColumnsList(List<String> selectedColumnsList) {
+        this.selectedColumnsList = selectedColumnsList;
+    }
+
+   
+
 
     public List<String> getAvailableColumnsList() {
+
         return availableColumnsList;
     }
 
@@ -51,34 +65,7 @@ public class SelectColumnsController implements Serializable {
         this.availableColumnsList = availableColumnsList;
     }
 
-    public Map<String, String> getSelectedColumnsMap() {
-        return selectedColumnsMap;
-    }
 
-    public void setSelectedColumnsMap(Map<String, String> selectedColumnsMap) {
-        this.selectedColumnsMap = selectedColumnsMap;
-    }
-
-    public List<String> getColumns() {
-        return columns;
-    }
-
-    public void setColumns(List<String> columns) {
-        this.columns = columns;
-    }
-
-    private List<String> availableColumnsList = null;
-
-    public List<String> getSelectedColumns() {
-        return selectedColumns;
-    }
-
-    public void setSelectedColumns(List<String> selectedColumns) {
-
-        this.selectedColumns = selectedColumns;
-    }
-
-    private List<String> selectedColumns = null;
 
     public SelectColumnsController() {
         this.logger = Logger.getLogger(this.getClass().getName());
@@ -89,30 +76,34 @@ public class SelectColumnsController implements Serializable {
     /*
 * Get the colums for the Web interface from the database. Used for building the check boxes
 * * * */
-    public List<String> getColumnsValue() {
+    public List<String> getColumnsFromDatabase() {
+        
         DatabaseTools dbtools = new DatabaseTools();
         SessionManager sm = new SessionManager();
         String tableName = sm.getCurrentTableNameFromSession();
-        availableColumnsList = new ArrayList<String>();
+        this.availableColumnsList = new ArrayList<String>();
         Map<String, String> availableColumnsMap = dbtools.getTableColumnMetadata(tableName);
 
         for (Map.Entry<String, String> entry : availableColumnsMap.entrySet()) {
 
 
             String columnName = entry.getKey();
-            availableColumnsList.add(columnName);
+            this.availableColumnsList.add(columnName);
 
         }
 
-        //this.updateCSVColumnList();
-        return availableColumnsList;
+        return this.availableColumnsList;
     }
 
     @PostConstruct
     public void init() {
         this.logger.info("Initializign columns");
-        this.availableColumnsList = this.getColumnsValue();
+        this.availableColumnsList = this.getColumnsFromDatabase();
+        //@todo
+        this.selectedColumnsList = this.availableColumnsList;
+        
         SessionManager sm = new SessionManager();
+        this.logger.info("Initialization count : " + availableColumnsList.size());
         sm.storeSelectedColumnsFromTableMap(availableColumnsList);
 
 
@@ -122,14 +113,14 @@ public class SelectColumnsController implements Serializable {
      * Action button
      */
     public void setSelectedColumnsAction() {
-        this.logger.info("Pressed columns button");
+
+        this.logger.info("Pressed columns button. There are selected columns: " + this.getSelectedColumnsList().size());
         SessionManager sm = new SessionManager();
-        sm.storeSelectedColumnsFromTableMap(this.getSelectedColumns());
+
+        sm.storeSelectedColumnsFromTableMap(this.getSelectedColumnsList());
 
 
         FacesContext context = FacesContext.getCurrentInstance();
-
-
         FacesMessage msg = new FacesMessage("Your selection has been stored.");
         context.addMessage(
                 "selectedColumnsForm:selectedColumnsButton", msg

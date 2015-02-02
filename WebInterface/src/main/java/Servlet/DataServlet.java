@@ -15,6 +15,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
 import javax.sql.rowset.CachedRowSet;
 import java.io.IOException;
@@ -70,6 +71,14 @@ public class DataServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request,
                          HttpServletResponse response) {
+        this.logger.info("S-E-R-V-L-E-T");
+
+
+        HttpSession session = request.getSession(true);
+
+        List<String> columns = (List<String>) session.getAttribute("selectedColumnsFromTableMap");
+        this.logger.info("The session delivered " + columns.size());
+        
 
         PrintWriter out = null;
         try {

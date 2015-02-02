@@ -4,10 +4,12 @@
     <option name="SCOPE_TYPE" value="4" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fe0bbad9-08dd-49cf-9f33-eb5e1947ea1f" name="Default" comment="versuch">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/WebInterface/src/main/java/Servlet/DataTablesRESTService.java" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Database/src/main/java/Database/DatabaseOperations/DatabaseTools.java" afterPath="$PROJECT_DIR$/Database/src/main/java/Database/DatabaseOperations/DatabaseTools.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/WebInterface/src/main/webapp/META-INF/context.xml" afterPath="$PROJECT_DIR$/WebInterface/src/main/webapp/META-INF/context.xml" />
+    <list default="true" id="fe0bbad9-08dd-49cf-9f33-eb5e1947ea1f" name="Default" comment="wieder servlet">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/WebInterface/src/main/java/Servlet/DataServlet.java" afterPath="$PROJECT_DIR$/WebInterface/src/main/java/Servlet/DataServlet.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/WebInterface/src/main/java/Bean/DatabaseTableNameBean.java" afterPath="$PROJECT_DIR$/WebInterface/src/main/java/Bean/DatabaseTableNameBean.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/WebInterface/src/main/java/Bean/SelectColumnsController.java" afterPath="$PROJECT_DIR$/WebInterface/src/main/java/Bean/SelectColumnsController.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/WebInterface/src/main/java/Bean/SessionManager.java" afterPath="$PROJECT_DIR$/WebInterface/src/main/java/Bean/SessionManager.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/WebInterface/src/main/webapp/table.xhtml" afterPath="$PROJECT_DIR$/WebInterface/src/main/webapp/table.xhtml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="SCAPE-QueryStore.iws" />
@@ -95,35 +97,72 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="table.xhtml" pinned="false" current-in-tab="false">
+      <file leaf-file-name="SessionManager.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/WebInterface/src/main/java/Bean/SessionManager.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-5.785714" vertical-offset="648" max-vertical-offset="3120">
+              <caret line="80" column="40" selection-start-line="80" selection-start-column="19" selection-end-line="80" selection-end-column="51" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="table.xhtml" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/WebInterface/src/main/webapp/table.xhtml">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-10.541667" vertical-offset="392" max-vertical-offset="3225">
-              <caret line="43" column="50" selection-start-line="43" selection-start-column="50" selection-end-line="43" selection-end-column="50" />
+            <state vertical-scroll-proportion="0.38943896" vertical-offset="2149" max-vertical-offset="3240">
+              <caret line="159" column="84" selection-start-line="159" selection-start-column="84" selection-end-line="159" selection-end-column="84" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="DatabaseTools.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Database/src/main/java/Database/DatabaseOperations/DatabaseTools.java">
+      <file leaf-file-name="SelectColumnsController.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/WebInterface/src/main/java/Bean/SelectColumnsController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="2895" max-vertical-offset="24090">
-              <caret line="233" column="8" selection-start-line="233" selection-start-column="8" selection-end-line="233" selection-end-column="8" />
-              <folding />
+            <state vertical-scroll-proportion="-7.678571" vertical-offset="1165" max-vertical-offset="2370">
+              <caret line="103" column="7" selection-start-line="103" selection-start-column="7" selection-end-line="103" selection-end-column="7" />
+              <folding>
+                <element signature="e#0#4947#0" expanded="true" />
+                <element signature="e#1378#1379#0" expanded="true" />
+                <element signature="e#1420#1421#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="DataServlet.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="DataServlet.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/WebInterface/src/main/java/Servlet/DataServlet.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.6666667" vertical-offset="1950" max-vertical-offset="4410">
-              <caret line="160" column="70" selection-start-line="160" selection-start-column="58" selection-end-line="160" selection-end-column="70" />
+            <state vertical-scroll-proportion="-5.535714" vertical-offset="1030" max-vertical-offset="4575">
+              <caret line="81" column="68" selection-start-line="81" selection-start-column="68" selection-end-line="81" selection-end-column="68" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#1493#1494#0" expanded="true" />
-                <element signature="e#1526#1527#0" expanded="true" />
+                <element signature="e#1534#1535#0" expanded="true" />
+                <element signature="e#1567#1568#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="uploadNewCSV.xhtml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/WebInterface/src/main/webapp/uploadNewCSV.xhtml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-3.8269231" vertical-offset="1316" max-vertical-offset="2010">
+              <caret line="101" column="73" selection-start-line="101" selection-start-column="61" selection-end-line="101" selection-end-column="73" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="FileUploadController.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/WebInterface/src/main/java/Bean/FileUploadController.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="1134" max-vertical-offset="4530">
+              <caret line="313" column="60" selection-start-line="313" selection-start-column="60" selection-end-line="313" selection-end-column="60" />
+              <folding>
+                <element signature="e#3386#3387#0" expanded="true" />
+                <element signature="e#3434#3435#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -164,7 +203,6 @@
         <option value="$PROJECT_DIR$/DatatableModel/src/main/java/DatatableModel/TableMetadata.java" />
         <option value="$PROJECT_DIR$/WebInterface/src/main/java/Bean/FileUploadController.java" />
         <option value="$PROJECT_DIR$/WebInterface/src/main/java/Controllers/DataTableController.java" />
-        <option value="$PROJECT_DIR$/WebInterface/src/main/java/Bean/DatabaseTableNameBean.java" />
         <option value="$PROJECT_DIR$/CSV-Citation-Deployment-Module/README.md" />
         <option value="$PROJECT_DIR$/WebInterface/src/main/webapp/topmenu.xhtml" />
         <option value="$PROJECT_DIR$/WebInterface/src/main/webapp/menu.xhtml" />
@@ -184,16 +222,17 @@
         <option value="$PROJECT_DIR$/WebInterface/src/main/java/Bean/QueryStoreController.java" />
         <option value="$PROJECT_DIR$/Database/src/main/resources/hibernate.userauthentication.cfg.xml" />
         <option value="$PROJECT_DIR$/Database/src/main/java/Database/DatabaseOperations/DatabaseQueries.java" />
-        <option value="$PROJECT_DIR$/WebInterface/src/main/java/Bean/SelectColumnsController.java" />
-        <option value="$PROJECT_DIR$/WebInterface/src/main/java/Bean/SessionManager.java" />
         <option value="$PROJECT_DIR$/WebInterface/src/main/java/Bean/ServletController.java" />
         <option value="$PROJECT_DIR$/WebInterface/src/main/java/Servlet/ServletSessionManager.java" />
-        <option value="$PROJECT_DIR$/WebInterface/src/main/java/Servlet/DataServlet.java" />
         <option value="$PROJECT_DIR$/WebInterface/src/main/java/Servlet/DataTablesRESTService.java" />
         <option value="$PROJECT_DIR$/WebInterface/src/main/webapp/META-INF/context.xml" />
         <option value="$PROJECT_DIR$/WebInterface/src/main/webapp/WEB-INF/web.xml" />
-        <option value="$PROJECT_DIR$/WebInterface/src/main/webapp/table.xhtml" />
         <option value="$PROJECT_DIR$/Database/src/main/java/Database/DatabaseOperations/DatabaseTools.java" />
+        <option value="$PROJECT_DIR$/WebInterface/src/main/java/Bean/DatabaseTableNameBean.java" />
+        <option value="$PROJECT_DIR$/WebInterface/src/main/java/Servlet/DataServlet.java" />
+        <option value="$PROJECT_DIR$/WebInterface/src/main/java/Bean/SessionManager.java" />
+        <option value="$PROJECT_DIR$/WebInterface/src/main/java/Bean/SelectColumnsController.java" />
+        <option value="$PROJECT_DIR$/WebInterface/src/main/webapp/table.xhtml" />
       </list>
     </option>
   </component>
@@ -1679,12 +1718,6 @@
       <option name="number" value="Default" />
       <updated>1407135258553</updated>
     </task>
-    <task id="LOCAL-00141" summary="multiple files">
-      <created>1421677470730</created>
-      <option name="number" value="00141" />
-      <option name="project" value="LOCAL" />
-      <updated>1421677470730</updated>
-    </task>
     <task id="LOCAL-00142" summary="multiple files: concurrent mod error">
       <created>1421677554072</created>
       <option name="number" value="00142" />
@@ -1973,7 +2006,13 @@
       <option name="project" value="LOCAL" />
       <updated>1422879389190</updated>
     </task>
-    <option name="localTasksCounter" value="190" />
+    <task id="LOCAL-00190" summary="wieder servlet">
+      <created>1422880237469</created>
+      <option name="number" value="00190" />
+      <option name="project" value="LOCAL" />
+      <updated>1422880237469</updated>
+    </task>
+    <option name="localTasksCounter" value="191" />
     <servers />
   </component>
   <component name="TodoView" selected-index="0">
@@ -2007,24 +2046,24 @@
       <window_info id="Problems" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3365282" sideWeight="0.5" order="14" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3003195" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32694355" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4227902" sideWeight="0.3088392" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.23109691" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32800853" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32800853" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32837406" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24866879" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24866879" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.22683705" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25825346" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25825346" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Statistic" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32800853" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.20766774" sideWeight="0.5" order="6" side_tool="true" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.28753993" sideWeight="0.6911608" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32694355" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.38943896" sideWeight="0.7976773" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
@@ -2073,7 +2112,6 @@
     <option name="myTodoPanelSettings">
       <TodoPanelSettings />
     </option>
-    <MESSAGE value="multiple primary keys" />
     <MESSAGE value="multiple files" />
     <MESSAGE value="multiple files: concurrent mod error" />
     <MESSAGE value="multiple files works" />
@@ -2098,7 +2136,8 @@
     <MESSAGE value="rearrange columns working" />
     <MESSAGE value="selected columns list" />
     <MESSAGE value="versuch" />
-    <option name="LAST_COMMIT_MESSAGE" value="versuch" />
+    <MESSAGE value="wieder servlet" />
+    <option name="LAST_COMMIT_MESSAGE" value="wieder servlet" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
   <component name="XDebuggerManager">
@@ -2358,83 +2397,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/WebInterface/src/main/java/Bean/DatabaseTableNameBean.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1490" max-vertical-offset="2235">
-          <caret line="157" column="43" selection-start-line="157" selection-start-column="43" selection-end-line="157" selection-end-column="43" />
-          <folding>
-            <element signature="e#4523#4524#0" expanded="false" />
-            <element signature="e#4598#4599#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/WebInterface/src/main/webapp/uploadNewCSV.xhtml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1305" max-vertical-offset="2010">
-          <caret line="100" column="89" selection-start-line="100" selection-start-column="64" selection-end-line="100" selection-end-column="89" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/WebInterface/src/main/java/Bean/FileUploadController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.35714287" vertical-offset="295" max-vertical-offset="4500">
-          <caret line="99" column="0" selection-start-line="99" selection-start-column="0" selection-end-line="104" selection-end-column="58" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Database/src/main/java/Database/DatabaseOperations/DatabaseQueries.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="429" max-vertical-offset="4485">
           <caret line="60" column="31" selection-start-line="60" selection-start-column="24" selection-end-line="60" selection-end-column="37" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/WebInterface/src/main/java/Bean/SessionManager.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1068" max-vertical-offset="3285">
-          <caret line="106" column="111" selection-start-line="106" selection-start-column="7" selection-end-line="106" selection-end-column="111" />
-          <folding>
-            <element signature="e#0#7258#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/WebInterface/src/main/java/Bean/SelectColumnsController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1778" max-vertical-offset="2460">
-          <caret line="146" column="58" selection-start-line="146" selection-start-column="58" selection-end-line="146" selection-end-column="58" />
-          <folding>
-            <element signature="e#0#5146#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/WebInterface/src/main/java/Bean/ServletController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="135" max-vertical-offset="1905">
-          <caret line="78" column="66" selection-start-line="78" selection-start-column="25" selection-end-line="78" selection-end-column="66" />
-          <folding>
-            <element signature="e#0#5883#0" expanded="false" />
-            <element signature="imports" expanded="false" />
-            <element signature="e#3206#3207#0" expanded="false" />
-            <element signature="e#3264#3265#0" expanded="false" />
-            <element signature="e#3623#3624#0" expanded="false" />
-            <element signature="e#3681#3682#0" expanded="false" />
-            <element signature="e#4044#4045#0" expanded="false" />
-            <element signature="e#4104#4105#0" expanded="false" />
-            <element signature="e#4482#4483#0" expanded="false" />
-            <element signature="e#4544#4545#0" expanded="false" />
-            <element signature="e#5230#5231#0" expanded="false" />
-            <element signature="e#5286#5287#0" expanded="false" />
-            <element signature="e#5324#5325#0" expanded="false" />
-            <element signature="e#5373#5374#0" expanded="false" />
-            <element signature="e#5427#5428#0" expanded="false" />
-            <element signature="e#5473#5474#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -2486,31 +2453,89 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/WebInterface/src/main/webapp/table.xhtml">
+    <entry file="file://$PROJECT_DIR$/Database/src/main/java/Database/DatabaseOperations/DatabaseTools.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-10.541667" vertical-offset="392" max-vertical-offset="3225">
-          <caret line="43" column="50" selection-start-line="43" selection-start-column="50" selection-end-line="43" selection-end-column="50" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="2895" max-vertical-offset="24090">
+          <caret line="233" column="0" selection-start-line="233" selection-start-column="0" selection-end-line="233" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Database/src/main/java/Database/DatabaseOperations/DatabaseTools.java">
+    <entry file="file://$PROJECT_DIR$/WebInterface/src/main/java/Bean/DatabaseTableNameBean.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="2895" max-vertical-offset="24090">
-          <caret line="233" column="8" selection-start-line="233" selection-start-column="8" selection-end-line="233" selection-end-column="8" />
+        <state vertical-scroll-proportion="0.2857143" vertical-offset="1590" max-vertical-offset="2235">
+          <caret line="164" column="7" selection-start-line="164" selection-start-column="7" selection-end-line="164" selection-end-column="7" />
+          <folding>
+            <element signature="e#4523#4524#0" expanded="true" />
+            <element signature="e#4598#4599#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/WebInterface/src/main/java/Bean/ServletController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1035" max-vertical-offset="1905">
+          <caret line="78" column="66" selection-start-line="78" selection-start-column="25" selection-end-line="78" selection-end-column="66" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/WebInterface/src/main/java/Servlet/DataServlet.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.6666667" vertical-offset="1950" max-vertical-offset="4410">
-          <caret line="160" column="70" selection-start-line="160" selection-start-column="58" selection-end-line="160" selection-end-column="70" />
+        <state vertical-scroll-proportion="-5.535714" vertical-offset="1030" max-vertical-offset="4575">
+          <caret line="81" column="68" selection-start-line="81" selection-start-column="68" selection-end-line="81" selection-end-column="68" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#1493#1494#0" expanded="true" />
-            <element signature="e#1526#1527#0" expanded="true" />
+            <element signature="e#1534#1535#0" expanded="true" />
+            <element signature="e#1567#1568#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/WebInterface/src/main/java/Bean/SessionManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-5.785714" vertical-offset="648" max-vertical-offset="3120">
+          <caret line="80" column="40" selection-start-line="80" selection-start-column="19" selection-end-line="80" selection-end-column="51" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/WebInterface/src/main/java/Bean/FileUploadController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1134" max-vertical-offset="4530">
+          <caret line="313" column="60" selection-start-line="313" selection-start-column="60" selection-end-line="313" selection-end-column="60" />
+          <folding>
+            <element signature="e#3386#3387#0" expanded="true" />
+            <element signature="e#3434#3435#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/WebInterface/src/main/webapp/uploadNewCSV.xhtml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-3.8269231" vertical-offset="1316" max-vertical-offset="2010">
+          <caret line="101" column="73" selection-start-line="101" selection-start-column="61" selection-end-line="101" selection-end-column="73" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/WebInterface/src/main/java/Bean/SelectColumnsController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-7.678571" vertical-offset="1165" max-vertical-offset="2370">
+          <caret line="103" column="7" selection-start-line="103" selection-start-column="7" selection-end-line="103" selection-end-column="7" />
+          <folding>
+            <element signature="e#0#4947#0" expanded="true" />
+            <element signature="e#1378#1379#0" expanded="true" />
+            <element signature="e#1420#1421#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/WebInterface/src/main/webapp/table.xhtml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.38943896" vertical-offset="2149" max-vertical-offset="3240">
+          <caret line="159" column="84" selection-start-line="159" selection-start-column="84" selection-end-line="159" selection-end-column="84" />
+          <folding />
         </state>
       </provider>
     </entry>

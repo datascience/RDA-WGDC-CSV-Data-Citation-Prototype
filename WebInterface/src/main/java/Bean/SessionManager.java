@@ -80,7 +80,8 @@ public class SessionManager {
      */
     protected void storeSelectedColumnsFromTableMap(List<String> selectedColumnsFromTableList) {
 
-        System.out.println("Writing data into session");
+        this.logger.info("Writing data into session (storeSelectedColumnsFromTableMap... here the size is " +
+                "" + selectedColumnsFromTableList.size() + ")");
 
         if (FacesContext.getCurrentInstance() != null) {
             Map<String, Object> session = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();

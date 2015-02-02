@@ -162,7 +162,7 @@ public class DatabaseTableNameBean implements Serializable {
 * * */
     public void onLoad(ActionEvent event) {
         this.logger.info("Yay-.. " + event.toString());
-        //this.handleChangeDatabaseName(null);
+        this.handleChangeDatabaseName(null);
 
 
     }
