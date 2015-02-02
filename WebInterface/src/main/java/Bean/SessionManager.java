@@ -18,8 +18,11 @@ package Bean;
 
 import Database.Authentication.User;
 
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,6 +33,9 @@ import java.util.logging.Logger;
  * Created by stefan
  * {MONTH_NAME_FULL} {YEAR}
  */
+
+@ManagedBean
+@SessionScoped
 public class SessionManager {
     private Logger logger;
 
@@ -87,7 +93,36 @@ public class SessionManager {
 
 
     }
-    
+
+    /*
+    * Get the selected columns from the session
+    * * * */
+    public List<String> getSelectedColumnsFromTableMapSession() {
+
+
+        Map<String, Object> sessionMAP = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
+        if (sessionMAP == null) {
+            this.logger.severe("Session map is null in the session manager");
+        }
+        List<String> selectedColumnsSessionData = (List<String>) sessionMAP.get("selectedColumnsFromTableMap");
+
+
+        this.logger.info("Retrieving selected columns data from session. Size is " + selectedColumnsSessionData.size());
+
+        if (selectedColumnsSessionData != null && selectedColumnsSessionData.size() >= 1) {
+            this.logger.info("There are " + selectedColumnsSessionData.size() + " selected columns");
+            return selectedColumnsSessionData;
+        } else {
+            this.logger.info("There was no session data available. Setting default column");
+            selectedColumnsSessionData = new ArrayList<String>();
+            selectedColumnsSessionData.add("ID_SYSTEM_SEQUENCE");
+            return selectedColumnsSessionData;
+
+        }
+
+
+    }
+
 
     /*
     * Get session data

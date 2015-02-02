@@ -62,6 +62,7 @@
 	               "fnServerParams": function ( aoData ) {
 	              	aoData.push(
 	              			{ "name": "currentTable", "value": "<h:outputText value="#{servletController.currentTableName}" escape="false"/>"}
+
 					);}				
 
             
@@ -151,7 +152,7 @@ function AjaxUpdateDataFailed(result) {
         </h:form>
 
         <h:form id="selectedColumnsForm">
-            <p:outputLabel value="Primary key"/>
+            <p:outputLabel value="Selected columns:"/>
 
 
             <h:selectManyCheckbox id="selectedColumnsFormMultiCheckbox"

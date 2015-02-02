@@ -56,6 +56,7 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import java.io.Serializable;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
@@ -74,6 +75,8 @@ public class ServletController implements Serializable {
     private String columnFilterColumns = null;
     private String currentTableName = null;
     private String mDataString;
+
+    private List<String> selectedColumnsFromWebInterfaceViaSession = null;
 
 
     public ServletController() {
@@ -147,21 +150,16 @@ public class ServletController implements Serializable {
     public String getCurrentTableName() {
 
         Map<String, Object> sessionMAP = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
-//        HashMap<String, String> filesList = (HashMap<String, String>) sessionMAP.get("fileListHashMap");
-
         String tableName = (String) sessionMAP.get("currentTableName");
-
-        /*
-
-        // ACHTUNG HARDCECODET
-
-        if (tableName == null) {
-            this.logger.warning("VERWENDE STANDARD WERT !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!11");
-            tableName = "MillionSong";
-        }
-*/
-
         return tableName;
+    }
+
+    //@todo
+    public List<String> getSelectedColumnsFromWebInterfaceViaSession() {
+
+        Map<String, Object> sessionMAP = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
+        List<String> selectedColumnsSessionData = (List<String>) sessionMAP.get("selectedColumnsFromTableMap");
+        return selectedColumnsSessionData;
     }
 
     public void setCurrentTableName(String currentTableName) {

@@ -74,6 +74,7 @@ public class SelectColumnsController implements Serializable {
     }
 
     public void setSelectedColumns(List<String> selectedColumns) {
+
         this.selectedColumns = selectedColumns;
     }
 
@@ -86,7 +87,7 @@ public class SelectColumnsController implements Serializable {
     }
 
     /*
-* Get the colums for the Web interface. Used for building the check boxes
+* Get the colums for the Web interface from the database. Used for building the check boxes
 * * * */
     public List<String> getColumnsValue() {
         DatabaseTools dbtools = new DatabaseTools();
@@ -111,6 +112,8 @@ public class SelectColumnsController implements Serializable {
     public void init() {
         this.logger.info("Initializign columns");
         this.availableColumnsList = this.getColumnsValue();
+        SessionManager sm = new SessionManager();
+        sm.storeSelectedColumnsFromTableMap(availableColumnsList);
 
 
     }
@@ -131,6 +134,36 @@ public class SelectColumnsController implements Serializable {
         context.addMessage(
                 "selectedColumnsForm:selectedColumnsButton", msg
         );
+
+
+    }
+
+    /*The user may unselect colums. Remove unselected columns from the query.
+* * */
+    private Map<Integer, String> removeUnselectedColumnsFromQuery(Map<Integer, String> columnSequenceMap) {
+        this.logger.info("Removing unselected columns");
+
+        SessionManager sm = new SessionManager();
+        List<String> selectedColumns = sm.getSelectedColumnsFromTableMapSession();
+
+        for (Map.Entry<Integer, String> entry : columnSequenceMap.entrySet()) {
+            int sequenceNumber = entry.getKey();
+            String columnName = entry.getValue();
+
+            this.logger.info("Map Key (Sequence) : " + sequenceNumber + "  Value: " + columnName);
+            // Iterate over selected colums and remove if not contained
+            for (String listItem : selectedColumns) {
+                if (columnName.equals(listItem)) {
+                    this.logger.info("The column was selected");
+                } else {
+                    this.logger.info("Removed column " + listItem + " with seqquence number " + sequenceNumber);
+                    columnSequenceMap.remove(sequenceNumber);
+                }
+
+            }
+        }
+
+        return columnSequenceMap;
 
 
     }

@@ -1,84 +1,101 @@
+/*
+ * Copyright [2015] [Stefan Pröll]
+ *
+ *    Licensed under the Apache License, Version 2.0 (the "License");
+ *    you may not use this file except in compliance with the License.
+ *    You may obtain a copy of the License at
+ *
+ *        http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *    Unless required by applicable law or agreed to in writing, software
+ *    distributed under the License is distributed on an "AS IS" BASIS,
+ *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *    See the License for the specific language governing permissions and
+ *    limitations under the License.
+ */
+
 package Servlet;
 
 import Database.DatabaseOperations.DatabaseTools;
-import Database.Helpers.StringHelpers;
 import DatatableModel.DataTablesParamUtility;
 import DatatableModel.JQueryDataTableParamModel;
 import DatatableModel.TableDataOperations;
+import at.stefanproell.PersistentIdentifierMockup.Organization;
+import at.stefanproell.PersistentIdentifierMockup.PersistentIdentifierAPI;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import org.hibernate.metamodel.relational.Database;
-
-import javax.faces.bean.SessionScoped;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 import javax.sql.rowset.CachedRowSet;
-import java.io.IOException;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.UriInfo;
 import java.io.PrintWriter;
 import java.sql.SQLException;
-import java.util.*;
-import java.util.logging.Handler;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.logging.Logger;
 
-// import com.sandeep.data.object.DataTableObject;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.UriBuilder;
+import javax.ws.rs.core.UriInfo;
+import java.io.IOException;
+import java.net.URI;
+import java.util.Enumeration;
+import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-@SessionScoped
-@WebServlet("/csvdata")
-public class DataServlet extends HttpServlet {
+/**
+ * CSV-DataCitation
+ * Created by stefan
+ * {MONTH_NAME_FULL} {YEAR}
+ */
+@Path("/tables")
+public class DataTablesRESTService {
+
     Map<String, String> filterMap;
     Map<String, String> sortingMap;
     Map<Integer, String> columnSequenceMap;
     private Logger logger;
     private DataSource dataSource;
     private TableDataOperations tableData;
+    private PersistentIdentifierAPI pidAPI = null;
+    @Context
+    UriInfo uriInfo;
 
-    public DataServlet() {
+    @Context
+    private HttpServletRequest request;
+
+
+    public DataTablesRESTService() {
         this.logger = Logger.getLogger(this.getClass().getName());
         this.tableData = new TableDataOperations();
         this.logger.info("SERVLET");
         filterMap = new HashMap<>();
         sortingMap = new HashMap<>();
 
-
     }
 
-    public Map<String, String> getSortingMap() {
-        return sortingMap;
-    }
-
-    public void setSortingMap(Map<String, String> sortingMap) {
-        this.sortingMap = sortingMap;
-    }
-
-    public Map<String, String> getFilterMap() {
-        this.logger.info("GET Filter Map.........");
-        return filterMap;
-    }
-
-    public void setFilterMap(Map<String, String> filterMap) {
-        this.logger.info("Set the filtermap...");
-        this.filterMap = filterMap;
-    }
-
-    /**
-     * Query data from DB after request
-     */
-
-    protected void doGet(HttpServletRequest request,
-                         HttpServletResponse response) {
-
+    @GET
+    @Path("/{data")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String getData() {
         PrintWriter out = null;
-        try {
-            out = response.getWriter();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
         String json = null;
-        response.setContentType("application/json");
 
 
         // get the map of the latest filters
@@ -113,11 +130,7 @@ public class DataServlet extends HttpServlet {
 
 
             if (param == null || param.sEcho == "") {
-                try {
-                    response.sendRedirect("error.htm");
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                this.logger.severe("Error in method ");
             }
 
 
@@ -147,8 +160,6 @@ public class DataServlet extends HttpServlet {
 
             // retrieve filters
             this.setFilterMap(param.filterMap);
-
-
 
 
             try {
@@ -182,25 +193,24 @@ public class DataServlet extends HttpServlet {
 
 
         }
-        out.print(json);
+        return json;
 
 
     }
 
-
-    public void addHandler(Handler handler) throws SecurityException {
-        logger.addHandler(handler);
+    public Map<String, String> getFilterMap() {
+        this.logger.info("GET Filter Map.........");
+        return filterMap;
     }
 
-    protected void doPost(HttpServletRequest request,
-                          HttpServletResponse response) {
-        System.out.println("POST received");
-        doGet(request, response);
-
+    public void setFilterMap(Map<String, String> filterMap) {
+        this.logger.info("Set the filtermap...");
+        this.filterMap = filterMap;
     }
+
 
     /* Get the sorting parameters from the request
-    * * */
+   * * */
     public int getSortingStringID(JQueryDataTableParamModel param,
                                   HttpServletRequest request) {
         int sortingSQL = 0;
@@ -258,8 +268,6 @@ public class DataServlet extends HttpServlet {
         }
         return columnSequenceMap;
     }
-    
-    
 
 
     private void printMap(Map<String, String> map) {
@@ -287,4 +295,14 @@ public class DataServlet extends HttpServlet {
         this.logger.info("Converted Map to this DatatableModel.JSON: " + json);
         return json;
     }
+
+    public Map<String, String> getSortingMap() {
+        return sortingMap;
+    }
+
+    public void setSortingMap(Map<String, String> sortingMap) {
+        this.sortingMap = sortingMap;
+    }
+
 }
+
