@@ -68,6 +68,16 @@
              
             }).columnFilter();
 
+$('a.toggle-vis').on( 'click', function (e) {
+        e.preventDefault();
+ 
+        // Get the column API object
+        var column = table.column( $(this).attr('data-column') );
+ 
+        // Toggle the visibility
+        column.visible( ! column.visible() );
+    } );
+
 
 
  function submitTable() {
@@ -79,7 +89,7 @@
         return false;
     };
 
-	});
+});
 
 
 
@@ -139,6 +149,27 @@ function AjaxUpdateDataFailed(result) {
 
 
         </h:form>
+
+        <h:form id="selectedColumnsForm">
+            <p:outputLabel value="Primary key"/>
+
+
+            <h:selectManyCheckbox id="selectedColumnsFormMultiCheckbox"
+                                  value="#{selectColumnsController.availableColumnsList}">
+                <f:selectItems value="#{selectColumnsController.columnsValue}"/>
+            </h:selectManyCheckbox>
+            <p:commandButton id="selectedColumnsButton" value="Select the columns to use."
+                             action="#{selectColumnsController.setSelectedColumnsAction}"
+                             update="selectedColumnsMessage">
+
+
+            </p:commandButton>
+            <p:message id="selectedColumnsMessage" for="selectedColumnsForm:selectedColumnsButton" showDetail="true"
+                       autoUpdate="true"
+                       closable="true"
+                       globalOnly="false"/>
+        </h:form>
+
 
         <div id="demo_jui">
 

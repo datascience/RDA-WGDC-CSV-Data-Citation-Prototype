@@ -190,11 +190,29 @@ public class DatabaseQueries {
 
     /**
      * Creates the INNER JOIN part of the Query which retrieves only the latest record.
-     * Example: SELECT * FROM addresses outerGroup INNER JOIN (
-     * SELECT email, max(LAST_UPDATE) AS mostRecent
-     * FROM addresses WHERE (RECORD_STATUS = 'inserted' OR RECORD_STATUS = 'updated') GROUP BY email
-     * ) grouped
-     * ON adr.email = grouped.email AND adr.LAST_UPDATE = grouped.mostRecent
+     * Example: SELECT
+     outerGroup.ID_SYSTEM_SEQUENCE,
+     outerGroup.id,
+     outerGroup.first_name,
+     outerGroup.last_name,
+     outerGroup.email,
+     outerGroup.country,
+     outerGroup.ip_address,
+     outerGroup.INSERT_DATE,
+     outerGroup.LAST_UPDATE,
+     outerGroup.RECORD_STATUS
+     FROM
+     stefan_test AS outerGroup
+     INNER JOIN
+     (SELECT
+     id, max(LAST_UPDATE) AS mostRecent
+     FROM
+     stefan_test AS innerSelect
+     WHERE
+     (innerSELECT.RECORD_STATUS = 'inserted'
+     OR innerSELECT.RECORD_STATUS = 'updated')
+     GROUP BY id) innerGroup ON outerGroup.id = innerGroup.id
+     AND outerGroup.LAST_UPDATE = innerGroup.mostRecent;
      *
      * @param primaryKey
      * @param tableName

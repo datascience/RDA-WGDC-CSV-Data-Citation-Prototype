@@ -21,6 +21,7 @@ import Database.Authentication.User;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
@@ -67,6 +68,26 @@ public class SessionManager {
 
 
     }
+
+    /**
+     * Store details in session
+     */
+    protected void storeSelectedColumnsFromTableMap(List<String> selectedColumnsFromTableList) {
+
+        System.out.println("Writing data into session");
+
+        if (FacesContext.getCurrentInstance() != null) {
+            Map<String, Object> session = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
+
+            // schreiben
+
+            session.put("selectedColumnsFromTableMap", selectedColumnsFromTableList);
+
+        }
+
+
+    }
+    
 
     /*
     * Get session data
