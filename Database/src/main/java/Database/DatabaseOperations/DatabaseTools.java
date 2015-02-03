@@ -889,17 +889,18 @@ public class DatabaseTools {
 
             ResultSet rs = meta.getTables(databaseName, null, null, types);
 
-            this.logger.info("retrieve metadata for " + databaseName + " retrieved " + rs.getFetchSize() + " tables");
+            //  this.logger.info("retrieve metadata for " + databaseName + " retrieved " + rs.getFetchSize() + " tables");
             while (rs.next()) {
                 // System.out.println("getAvailableTablesFromDatabase__________________");
                 String tableName = rs.getString("TABLE_NAME");
 
+                /*
                 this.logger.info("Inside resultset:    " + rs.getString("TABLE_CAT") + ", "
                         + rs.getString("TABLE_SCHEM") + ", "
                         + rs.getString("TABLE_NAME") + ", "
                         + rs.getString("TABLE_TYPE") + ", "
                         + rs.getString("REMARKS"));
-
+                */
                 listOfTables.add(tableName);
                 this.logger.info(tableName);
 
@@ -1613,6 +1614,26 @@ public class DatabaseTools {
         return SELECTclause;
 
 
+    }
+
+    /*
+* Get the colums for the Web interface from the database. Used for building the check boxes
+* * * */
+    public List<String> getColumnsFromDatabaseAsList(String tableName) {
+
+
+        List<String> availableColumnsList = new ArrayList<String>();
+        Map<String, String> availableColumnsMap = this.getTableColumnMetadata(tableName);
+
+        for (Map.Entry<String, String> entry : availableColumnsMap.entrySet()) {
+
+
+            String columnName = entry.getKey();
+            availableColumnsList.add(columnName);
+
+        }
+
+        return availableColumnsList;
     }
 
 

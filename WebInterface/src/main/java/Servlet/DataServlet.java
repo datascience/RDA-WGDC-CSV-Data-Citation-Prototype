@@ -114,6 +114,11 @@ public class DataServlet extends HttpServlet {
 
             JQueryDataTableParamModel param = DataTablesParamUtility.getParam(request);
             String currentTable = param.currentTable;
+            if (param.currentTable == null || param.currentTable.equals("")) {
+                this.logger.severe("There is a idscrepancy in the parameter and the session! Using session data.");
+                SessionManager sm = new SessionManager();
+                currentTable = sm.getCurrentTableNameFromSession();
+            }
 
 
             if (param == null || param.sEcho == "") {

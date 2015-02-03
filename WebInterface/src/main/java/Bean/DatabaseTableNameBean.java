@@ -94,6 +94,14 @@ public class DatabaseTableNameBean implements Serializable {
             // this only returns the database schema specified in the connection profile.
         this.databaseNames = dbtools.getDatabaseCatalogFromDatabaseConnection();
         this.tableNames = this.dbtools.getAvailableTablesFromDatabase(databaseNames.get(0));
+        SessionManager sm = new SessionManager();
+        this.tableName = sm.getCurrentTableNameFromSession();
+        if (this.tableName == null) {
+            this.logger.info("Table name in init method null. using first from db");
+            this.tableName = this.tableNames.get(0);
+        }
+        
+        
 
         
     }
@@ -113,7 +121,8 @@ public class DatabaseTableNameBean implements Serializable {
         } else {
 
             selectedDB = sm.getCurrentDatabaseNameFromSession();
-            this.logger.info("Event was null. Try reading session. Tablename is now: " + selectedDB);
+            this.logger.info("Event was null. Try reading session. Database is now: " + selectedDB);
+            sm.storeSessionData("currentDatabaseName", selectedDB);
 
 
         }
@@ -157,27 +166,24 @@ public class DatabaseTableNameBean implements Serializable {
         Map<String, Object> sessionMAP = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
         List<String> selectedColumnsSessionData = (List<String>) sessionMAP.get("selectedColumnsFromTableMap");
         if (selectedColumnsSessionData == null) {
-            this.logger.info("The session was not yet set. Retrieve ");
+            this.logger.info("The session was not yet set. ");
+            SessionManager sm = new SessionManager();
+            sm.initializeSelectedColumns();
 
         }
 
         if (this.getTableName() == null) {
 
 
-            String databaseName = this.dbtools.getDatabaseCatalogFromDatabaseConnection().get(0);
-            String tableName = this.dbtools.getAvailableTablesFromDatabase(databaseName).get(0);
+            this.databaseName = this.dbtools.getDatabaseCatalogFromDatabaseConnection().get(0);
+            this.tableName = this.dbtools.getAvailableTablesFromDatabase(databaseName).get(0);
             this.logger.info("No session data set. ");
             SessionManager sm = new SessionManager();
             sm.setCurrentTableNameFromSession(tableName);
 
-        }
-
-        if (selectedColumnsSessionData == null) {
-            SessionManager sm = new SessionManager();
-            sm.initializeSelectedColumns();
-
 
         }
+
     }
 
     /*Load this event when the page is refreshed.

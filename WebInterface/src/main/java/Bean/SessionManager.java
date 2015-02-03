@@ -21,10 +21,9 @@ import Database.DatabaseOperations.DatabaseTools;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
-import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
@@ -61,7 +60,7 @@ public class SessionManager {
     /**
      * Store details in session
      */
-    protected void storeSessionData(String key, String value) {
+    public void storeSessionData(String key, String value) {
         System.out.println("Writing data into session: Key " + key + "  Value:  " + value);
 
         if (FacesContext.getCurrentInstance() != null) {
@@ -79,22 +78,22 @@ public class SessionManager {
     /**
      * Store details in session
      */
-    public void storeSelectedColumnsFromTableMap(List<String> selectedColumnsFromTableList) {
-
-        this.logger.info("Writing data into session (storeSelectedColumnsFromTableMap... here the size is " +
-                "" + selectedColumnsFromTableList.size() + ")");
+    public void storeSelectedColumnsFromTableMap(List<String> columnList) {
+        this.logger.info("Storing the selectedColumnsFromTableMap into session ");
 
         if (FacesContext.getCurrentInstance() != null) {
             Map<String, Object> session = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
 
             // schreiben
 
-            session.put("selectedColumnsFromTableMap", selectedColumnsFromTableList);
+            session.put("selectedColumnsFromTableMap", columnList);
+            this.logger.info("Wrote the key selectedColumnsFromTableMap  a list of size " + columnList.size());
 
         }
 
 
     }
+
 
     /*
     * Get the selected columns from the session
@@ -202,12 +201,13 @@ public class SessionManager {
     public String getCurrentTableNameFromSession() {
 
         // lesen
-//        Map<String, Object> sessionMAP = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
-        Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
-        String currentTableName = params.get("currentTableName");
+        Map<String, Object> sessionMAP = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
+//        Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
+        String currentTableName = (String) sessionMAP.get("currentTableName");
 
         if (currentTableName == null || currentTableName.equals("")) {
             this.logger.warning("There was no current table name in the session. ");
+
 
         }
         return currentTableName;
@@ -218,11 +218,12 @@ public class SessionManager {
      */
     public void setCurrentTableNameFromSession(String currentTableName) {
 
-        // lesen
-//        Map<String, Object> sessionMAP = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
-        Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
-        params.put("currentTableName", currentTableName);
-        this.logger.warning("There was no current table name in the session. Now it is  " + currentTableName);
+
+        ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
+        Map<String, Object> sessionMap = externalContext.getSessionMap();
+        sessionMap.put("currentTableName", currentTableName);
+
+        this.logger.warning("The table name is stored in the session  " + currentTableName);
 
     }
 
@@ -232,9 +233,9 @@ public class SessionManager {
     public String getCurrentDatabaseNameFromSession() {
 
         // lesen
-//        Map<String, Object> sessionMAP = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
-        Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
-        String currentDatabaseName = params.get("currentDatabaseName");
+        Map<String, Object> sessionMAP = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
+//        Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
+        String currentDatabaseName = (String) sessionMAP.get("currentDatabaseName");
 
         if (currentDatabaseName == null || currentDatabaseName.equals("")) {
             this.logger.warning("There was no  currentDatabaseName name in the session. ");
@@ -244,29 +245,52 @@ public class SessionManager {
     }
 
     public void initializeSelectedColumns() {
+        String currentTableName = this.getCurrentTableNameFromSession();
         DatabaseTools dbTools = new DatabaseTools();
-        String selectedDB = dbTools.getDatabaseCatalogFromDatabaseConnection().get(0);
-        this.logger.info("Database retrieved: " + selectedDB);
-        List<String> tableNames = dbTools.getAvailableTablesFromDatabase(selectedDB);
+
+        if (currentTableName == null || currentTableName.equals("")) {
+
+            String selectedDB = dbTools.getDatabaseCatalogFromDatabaseConnection().get(0);
+            this.logger.info("Database retrieved: " + selectedDB);
+            List<String> tableNames = dbTools.getAvailableTablesFromDatabase(selectedDB);
 
 
-        String tableName = tableNames.get(0);
-        this.logger.info("Databasename was null and is now: " + selectedDB);
-
-        Map<String, String> columnNamesMap = dbTools.getTableColumnMetadata(tableName);
-        List<String> initializeSelectedColumns = new ArrayList<String>();
-        for (Map.Entry<String, String> entry : columnNamesMap.entrySet()) {
-
-
-            String column = entry.getKey();
-
-            initializeSelectedColumns.add(column);
-
-
+            currentTableName = tableNames.get(0);
+            
+            
         }
+
+
+        List<String> initializeSelectedColumns = dbTools.getColumnsFromDatabaseAsList(currentTableName);
         SessionManager sm = new SessionManager();
+
+
         sm.storeSelectedColumnsFromTableMap(initializeSelectedColumns);
 
 
     }
+
+    public List<String> getColumnNamesForSelectedColumnsCheckBoxesFromDB() {
+
+
+        String tableName = this.getCurrentTableNameFromSession();
+        DatabaseTools dbtools = new DatabaseTools();
+
+        List<String> availableColumnsList = new ArrayList<String>();
+        Map<String, String> availableColumnsMap = dbtools.getTableColumnMetadata(tableName);
+
+        for (Map.Entry<String, String> entry : availableColumnsMap.entrySet()) {
+
+
+            String columnName = entry.getKey();
+            availableColumnsList.add(columnName);
+
+        }
+
+        return availableColumnsList;
+    }
+
 }
+
+
+

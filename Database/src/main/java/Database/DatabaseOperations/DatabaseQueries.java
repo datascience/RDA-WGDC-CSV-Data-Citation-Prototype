@@ -121,6 +121,7 @@ public class DatabaseQueries {
                         + sortingDirection
                         + this.getPaginationStringWithLIMIT(startRow, offset);
 
+                this.logger.info("Final SQL String: " + selectSQL);
                 stat = connection.createStatement(
                         ResultSet.TYPE_SCROLL_INSENSITIVE,
                         ResultSet.CONCUR_READ_ONLY);

@@ -73,36 +73,17 @@ public class SelectColumnsController implements Serializable {
 
     }
 
-    /*
-* Get the colums for the Web interface from the database. Used for building the check boxes
-* * * */
-    public List<String> getColumnsFromDatabase() {
-        
-        DatabaseTools dbtools = new DatabaseTools();
-        SessionManager sm = new SessionManager();
-        String tableName = sm.getCurrentTableNameFromSession();
-        this.availableColumnsList = new ArrayList<String>();
-        Map<String, String> availableColumnsMap = dbtools.getTableColumnMetadata(tableName);
-
-        for (Map.Entry<String, String> entry : availableColumnsMap.entrySet()) {
-
-
-            String columnName = entry.getKey();
-            this.availableColumnsList.add(columnName);
-
-        }
-
-        return this.availableColumnsList;
-    }
 
     @PostConstruct
     public void init() {
         this.logger.info("Initializign columns");
-        this.availableColumnsList = this.getColumnsFromDatabase();
+        SessionManager sm = new SessionManager();
+
+        this.availableColumnsList = sm.getColumnNamesForSelectedColumnsCheckBoxesFromDB();
         //@todo
         this.selectedColumnsList = this.availableColumnsList;
-        
-        SessionManager sm = new SessionManager();
+
+
         this.logger.info("Initialization count : " + availableColumnsList.size());
         sm.storeSelectedColumnsFromTableMap(availableColumnsList);
 

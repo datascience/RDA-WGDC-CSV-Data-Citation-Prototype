@@ -47,16 +47,16 @@ public class LoginFilter implements Filter {
         if (loginBean == null || !loginBean.isLoggedIn()) {
             String contextPath = ((HttpServletRequest) request).getContextPath();
             String path = ((HttpServletRequest) request).getRequestURI();
-            this.logger.info("Path is: " + path);
+            //this.logger.info("Path is: " + path);
 
             if (path.endsWith("login.xhtml") == true) {
-                this.logger.info("Login page detected");
+                //this.logger.info("Login page detected");
 
             } else if (path.contains("/cite/javax.faces.resource")) {
-                this.logger.info("Resource detected");
+                //this.logger.info("Resource detected");
 
             } else if (path.endsWith(".xhtml")) {
-                this.logger.info("User was not logged in. Filter triggered");
+                this.logger.warning("User was not logged in. Filter triggered");
                 ((HttpServletResponse) response).sendRedirect(contextPath + "/login.xhtml");
             }
         }

@@ -114,7 +114,7 @@ public class ServletController implements Serializable {
         try {
 
 
-            htmlString = TableMetadata.getTableFooterAsHTML(this.selectedColumnsFromWebInterfaceViaSession);
+            htmlString = TableMetadata.getTableFooterAsHTML(this.getSelectedColumnsFromWebInterfaceViaSession());
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -175,7 +175,7 @@ public class ServletController implements Serializable {
         if (selectedColumnsSessionData == null) {
             this.logger.info("The session was not yet set. ");
             sm.initializeSelectedColumns();
-            
+            selectedColumnsSessionData = sm.getSelectedColumnsFromTableMapSession();
 
             
 

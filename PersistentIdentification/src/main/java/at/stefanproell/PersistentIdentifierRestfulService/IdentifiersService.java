@@ -36,9 +36,11 @@ public class IdentifiersService {
      */
     @GET
     @Produces(MediaType.TEXT_HTML)
-    public void get(@Context HttpServletRequest req, @Context HttpServletResponse resp) throws IOException, ServletException {
+    public String get(@Context HttpServletRequest req, @Context HttpServletResponse resp) throws IOException,
+            ServletException {
         req.setAttribute(this.getClass().getName(), this);
         req.getRequestDispatcher("/WEB-INF/jsp/identifiers.jsp").forward(req, resp);
+        return null;
     }
 
 
