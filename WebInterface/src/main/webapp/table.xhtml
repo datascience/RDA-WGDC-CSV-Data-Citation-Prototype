@@ -116,6 +116,8 @@ function AjaxUpdateDataFailed(result) {
 
 
 <h:body id="dt_data_table">
+    <ui:debug/>
+
     <!-- BEGIN: Hidden Form for Init-->
     <h:form id="remoteCommandForm">
         <p:remoteCommand name="onLoadTable" actionListener="#{databaseTableNameBean.onLoadTable}" autoRun="true"/>

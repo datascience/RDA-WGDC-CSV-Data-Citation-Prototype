@@ -27,6 +27,7 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.ValueChangeEvent;
+import javax.xml.crypto.Data;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
@@ -48,7 +49,7 @@ public class DatabaseTableNameBean implements Serializable {
     }
 
     public String getDatabaseName() {
-        return databaseName;
+        return this.databaseName;
     }
 
     public void setDatabaseName(String databaseName) {
@@ -93,12 +94,18 @@ public class DatabaseTableNameBean implements Serializable {
         dbtools = new DatabaseTools();
             // this only returns the database schema specified in the connection profile.
         this.databaseNames = dbtools.getDatabaseCatalogFromDatabaseConnection();
+        //this.databaseName = this.databaseNames.get(0);
         this.tableNames = this.dbtools.getAvailableTablesFromDatabase(databaseNames.get(0));
         SessionManager sm = new SessionManager();
         this.tableName = sm.getCurrentTableNameFromSession();
         if (this.tableName == null) {
             this.logger.info("Table name in init method null. using first from db");
-            this.tableName = this.tableNames.get(0);
+            // check if there actually is a table in the database
+            if (this.tableNames == null) {
+                this.logger.severe("There are no tables yet!");
+                this.tableName = this.tableNames.get(0);
+            }
+            
         }
         
         
@@ -151,7 +158,10 @@ public class DatabaseTableNameBean implements Serializable {
             this.logger.info("Databasename was set and it was:  " + selectedDB);
             this.tableNames = this.dbtools.getAvailableTablesFromDatabase(selectedDB);
 
+
         }
+
+        this.handleChangeTableName(null);
 
 
 
@@ -163,11 +173,14 @@ public class DatabaseTableNameBean implements Serializable {
     public void onLoadTable(ActionEvent event) {
 
         this.logger.info("Page load event: .. " + event.toString());
+        SessionManager sm = new SessionManager();
+
         Map<String, Object> sessionMAP = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
-        List<String> selectedColumnsSessionData = (List<String>) sessionMAP.get("selectedColumnsFromTableMap");
+        List<String> selectedColumnsSessionData = sm.getColumnNamesForSelectedColumnsCheckBoxesFromDB();
+        sm.storeSelectedColumnsFromTableMap(selectedColumnsSessionData);
         if (selectedColumnsSessionData == null) {
             this.logger.info("The session was not yet set. ");
-            SessionManager sm = new SessionManager();
+            sm = new SessionManager();
             sm.initializeSelectedColumns();
 
         }
@@ -178,7 +191,7 @@ public class DatabaseTableNameBean implements Serializable {
             this.databaseName = this.dbtools.getDatabaseCatalogFromDatabaseConnection().get(0);
             this.tableName = this.dbtools.getAvailableTablesFromDatabase(databaseName).get(0);
             this.logger.info("No session data set. ");
-            SessionManager sm = new SessionManager();
+
             sm.setCurrentTableNameFromSession(tableName);
 
 
@@ -204,9 +217,19 @@ public class DatabaseTableNameBean implements Serializable {
         this.logger.info(event.getComponent().toString() + " " + event.toString());
 
         String selectedTable = event.getNewValue().toString();
-        this.logger.info("selected table name CHANGED  = " + selectedTable);
+        if (selectedTable != null) {
+            this.logger.info("selected table name CHANGED  = " + selectedTable);
+
+
+        } else {
+            DatabaseTools dbTools = new DatabaseTools();
+            dbTools.getFirstTableFromDatabase(this.getDatabaseName());
+
+
+        }
         SessionManager sm = new SessionManager();
         sm.storeSessionData("currentTableName", selectedTable);
+
 
     }
 

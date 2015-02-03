@@ -1589,6 +1589,18 @@ public class DatabaseTools {
         return tableName;
     }
 
+    /*
+* This method retrieves the first table of the standard database used by the session. it is needed for
+* * initializing the web interfacce.
+* * * */
+    public String getFirstTableFromDatabase(String dataBaseName) {
+        String selectedDB = dataBaseName;
+        this.logger.info("Database retrieved: " + selectedDB);
+        String tableName = this.getAvailableTablesFromDatabase(selectedDB).get(0);
+        this.logger.info("Table retrieved retrieved: " + tableName);
+        return tableName;
+    }
+
     /* Get the list fo columns which have been displaxyed in the Web interface and return a string where the columns 
     are concatenated in the correct order.
     * * */
