@@ -176,24 +176,26 @@ public class DatabaseTableNameBean implements Serializable {
         SessionManager sm = new SessionManager();
 
         Map<String, Object> sessionMAP = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
+
+
+
+        if (this.getTableName() == null) {
+
+            this.logger.info("No session data set. ");
+            this.databaseName = this.dbtools.getDatabaseCatalogFromDatabaseConnection().get(0);
+            this.tableName = this.dbtools.getAvailableTablesFromDatabase(databaseName).get(0);
+
+        }
+
+        sm.setCurrentTableNameFromSession(this.tableName);
+
         List<String> selectedColumnsSessionData = sm.getColumnNamesForSelectedColumnsCheckBoxesFromDB();
         sm.storeSelectedColumnsFromTableMap(selectedColumnsSessionData);
+
         if (selectedColumnsSessionData == null) {
             this.logger.info("The session was not yet set. ");
             sm = new SessionManager();
             sm.initializeSelectedColumns();
-
-        }
-
-        if (this.getTableName() == null) {
-
-
-            this.databaseName = this.dbtools.getDatabaseCatalogFromDatabaseConnection().get(0);
-            this.tableName = this.dbtools.getAvailableTablesFromDatabase(databaseName).get(0);
-            this.logger.info("No session data set. ");
-
-            sm.setCurrentTableNameFromSession(tableName);
-
 
         }
 
@@ -203,7 +205,7 @@ public class DatabaseTableNameBean implements Serializable {
 * * */
     public void onLoad(ActionEvent event) {
         this.logger.info("Yay-.. " + event.toString());
-        this.handleChangeDatabaseName(null);
+        //   this.handleChangeDatabaseName(null);
 
 
     }

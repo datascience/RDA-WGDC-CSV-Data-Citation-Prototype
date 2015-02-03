@@ -269,7 +269,6 @@ public class DataServlet extends HttpServlet {
         for (int i = 0; i < param.iColumns; i++) {
             String columnName = request.getParameter("mDataProp_" + i);
             columnSequenceMap.put(i, columnName);
-            this.logger.info("Column Position " + i + " is " + columnName);
 
 
         }
@@ -310,7 +309,7 @@ public class DataServlet extends HttpServlet {
 * * */
     private Map<Integer, String> removeUnselectedColumnsFromQuery(Map<Integer, String> columnSequenceMap, List<String
             > columnsFromSession) {
-        this.logger.info("Removing unselected columns");
+
 
         Iterator it = columnSequenceMap.entrySet().iterator();
         boolean isContained = false;
@@ -323,11 +322,11 @@ public class DataServlet extends HttpServlet {
             // Iterate over selected colums and remove if not contained
             for (String listItem : columnsFromSession) {
                 if (columnName.equals(listItem)) {
-                    this.logger.info("The column was selected");
+
                     isContained = true;
                     break;
                 } else {
-                    this.logger.info("Removed column " + listItem + " with seqquence number " + sequenceNumber);
+
                     isContained = false;
 
                 }

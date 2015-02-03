@@ -1583,9 +1583,9 @@ public class DatabaseTools {
     * * * */
     public String getFirstTableFromStandardSessionDatabase() {
         String selectedDB = this.getDatabaseCatalogFromDatabaseConnection().get(0);
-        this.logger.info("Database retrieved: " + selectedDB);
+
         String tableName = this.getAvailableTablesFromDatabase(selectedDB).get(0);
-        this.logger.info("Table retrieved retrieved: " + tableName);
+
         return tableName;
     }
 
@@ -1595,9 +1595,9 @@ public class DatabaseTools {
 * * * */
     public String getFirstTableFromDatabase(String dataBaseName) {
         String selectedDB = dataBaseName;
-        this.logger.info("Database retrieved: " + selectedDB);
+
         String tableName = this.getAvailableTablesFromDatabase(selectedDB).get(0);
-        this.logger.info("Table retrieved retrieved: " + tableName);
+
         return tableName;
     }
 

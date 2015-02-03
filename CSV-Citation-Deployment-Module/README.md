@@ -15,3 +15,10 @@ Create setenv.sh file in CATALINA_HOME/bin
 chmod 755 setenv.sh
 stefan@stefan-Linux:~/Development/apache/bin$ cat setenv.sh
 export CATALINA_OPTS="-XX:+CMSClassUnloadingEnabled"
+
+Remote debugging:
+=================
+export JPDA_OPTS="-agentlib:jdwp=transport=dt_socket, address=localhost:1043, server=y, suspend=n"
+
+Anpassung in  startup.sh:
+

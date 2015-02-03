@@ -110,7 +110,7 @@ public class DataTablesParamUtility {
         logger = Logger.getAnonymousLogger();
 
         if (request.getParameter("sEcho") != null && request.getParameter("sEcho") != "") {
-            logger.warning("REAL parameters");
+
             JQueryDataTableParamModel param = new JQueryDataTableParamModel();
             param.sEcho = request.getParameter("sEcho");
             param.sSearch = request.getParameter("sSearch");

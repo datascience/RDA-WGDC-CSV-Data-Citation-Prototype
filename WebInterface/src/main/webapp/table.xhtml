@@ -140,7 +140,7 @@ function AjaxUpdateDataFailed(result) {
                              required="#{not empty param[databaseTableNameBean.databaseNames]}"
                              value="#{databaseTableNameBean.tableName}" onclick="submit()">
                 <f:selectItems value="#{databaseTableNameBean.tableNames}"/>
-                <p:ajax update="@this"/>
+                <p:ajax update=":selectedColumnsForm"/>
             </h:selectOneMenu>
             <p:commandButton action="table.xhtml?faces-redirect=true" value="Load table"/>
 
@@ -188,7 +188,7 @@ function AjaxUpdateDataFailed(result) {
             </table>
             <div id="buttonPlaceholder"></div>
         </div>
-    </div>
+
     <p></p>
 
     <div id="MenuButtonsDiv">
@@ -204,6 +204,6 @@ function AjaxUpdateDataFailed(result) {
             </h:form>
 
     </div>
-
+    </div>
 </h:body>
 </html>

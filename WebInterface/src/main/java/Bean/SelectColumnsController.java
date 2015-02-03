@@ -20,9 +20,14 @@ import Database.DatabaseOperations.DatabaseTools;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
+import javax.faces.application.ViewHandler;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.component.UIViewRoot;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -50,6 +55,7 @@ public class SelectColumnsController implements Serializable {
     }
 
     public void setSelectedColumnsList(List<String> selectedColumnsList) {
+        this.logger.info("Set selected list. Size is: " + selectedColumnsList.size());
         this.selectedColumnsList = selectedColumnsList;
     }
 
@@ -76,9 +82,11 @@ public class SelectColumnsController implements Serializable {
 
     @PostConstruct
     public void init() {
-        this.logger.info("Initializign columns");
+        this.logger.info("Initializign columnsssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss");
         SessionManager sm = new SessionManager();
-
+        this.availableColumnsList = null;
+        this.selectedColumnsList = null;
+        
         this.availableColumnsList = sm.getColumnNamesForSelectedColumnsCheckBoxesFromDB();
         //@todo
         this.selectedColumnsList = this.availableColumnsList;
@@ -95,10 +103,10 @@ public class SelectColumnsController implements Serializable {
      */
     public void setSelectedColumnsAction() {
 
-        this.logger.info("Pressed columns button. There are selected columns: " + this.getSelectedColumnsList().size());
-        SessionManager sm = new SessionManager();
 
-        sm.storeSelectedColumnsFromTableMap(this.getSelectedColumnsList());
+        SessionManager sm = new SessionManager();
+        sm.storeSelectedColumnsFromTableMap(this.selectedColumnsList);
+        
 
 
         FacesContext context = FacesContext.getCurrentInstance();
@@ -107,7 +115,20 @@ public class SelectColumnsController implements Serializable {
                 "selectedColumnsForm:selectedColumnsButton", msg
         );
 
+        this.refreshPage();
 
+
+    }
+
+    /*Refresh the originating page
+    * * */
+    protected void refreshPage() {
+        ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+        try {
+            ec.redirect(((HttpServletRequest) ec.getRequest()).getRequestURI());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 
