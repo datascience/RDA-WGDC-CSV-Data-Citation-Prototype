@@ -867,6 +867,14 @@ public class DatabaseTools {
 
     }
 
+    public String getDefaultDatabaseNameFromConnection() {
+
+        List<String> databaseNames = this.getDatabaseCatalogFromDatabaseConnection();
+        String databaseName = databaseNames.get(0);
+        this.logger.info("The DEFAULT database name is " + databaseName);
+        return databaseName;
+
+    }
 
     /**
      * @param databaseName

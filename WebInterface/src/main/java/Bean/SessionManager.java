@@ -19,6 +19,7 @@ package Bean;
 import Database.Authentication.User;
 import Database.DatabaseOperations.DatabaseTools;
 
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.ExternalContext;
@@ -43,6 +44,7 @@ public class SessionManager {
 
     public SessionManager() {
         this.logger = Logger.getLogger(this.getClass().getName());
+
     }
 
     public void printSessionVariables() {
@@ -124,6 +126,16 @@ public class SessionManager {
             return selectedColumnsSessionData;
 
         }
+
+
+    }
+
+    @PostConstruct
+    public void init() {
+        this.logger.info("Initializign Session Manager");
+        DatabaseTools dbtools = new DatabaseTools();
+        String defaultDatabase = dbtools.getDefaultDatabaseNameFromConnection();
+        this.storeSessionData("currentDatabaseName", defaultDatabase);
 
 
     }
@@ -240,6 +252,7 @@ public class SessionManager {
 
         if (currentDatabaseName == null || currentDatabaseName.equals("")) {
             this.logger.warning("There was no  currentDatabaseName name in the session. ");
+
 
         }
         return currentDatabaseName;

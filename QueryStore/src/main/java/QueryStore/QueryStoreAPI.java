@@ -568,13 +568,26 @@ public class QueryStoreAPI {
         Set<Filter> filterSet = query.getFilters();
         Set<Sorting> sortingsSet = query.getSortings();
         String fromString = query.getBaseTable();
-        String sqlString = "SELECT * FROM " + fromString + " WHERE ";
+        String sqlString = "SELECT * FROM " + fromString;
 
-        String whereString = "";
-        for (Filter currentFilter : filterSet) {
-            whereString += currentFilter.getFilterName() + "=" + currentFilter.getFilterValue();
+        if (filterSet.size() > 0) {
+            String whereString = " WHERE ";
+            for (Filter currentFilter : filterSet) {
+                whereString += currentFilter.getFilterName() + "=" + currentFilter.getFilterValue();
+            }
+
+            sqlString += whereString;
         }
-        sqlString += whereString;
+        if (sortingsSet.size() > 0) {
+            String sortingString = " ORDER BY ";
+            for (Sorting currentSorting : sortingsSet) {
+                sortingString += currentSorting.getSortingColumn() + "=" + currentSorting.getDirection();
+            }
+
+            sqlString += sortingString;
+        }
+
+
         this.logger.info(sqlString);
 
         return sqlString;
