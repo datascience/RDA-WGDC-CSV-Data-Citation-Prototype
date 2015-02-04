@@ -132,4 +132,16 @@ public class SelectColumnsController implements Serializable {
     }
 
 
+    public void reloadPageAndRefresh() {
+        this.logger.info("Reload and refresh pressed");
+        SessionManager sm = new SessionManager();
+        String currentTable = sm.getCurrentTableNameFromSession();
+        this.logger.info("Table is now");
+        this.init();
+        this.refreshPage();
+
+
+    }
+
+
 }
