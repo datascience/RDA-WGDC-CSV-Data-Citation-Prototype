@@ -37,12 +37,10 @@ import Database.Authentication.User;
 import QueryStore.Query;
 import QueryStore.QueryStoreAPI;
 import at.stefanproell.PersistentIdentifierMockup.Organization;
-import at.stefanproell.PersistentIdentifierMockup.PIGenerator;
 import at.stefanproell.PersistentIdentifierMockup.PersistentIdentifierAPI;
 import at.stefanproell.PersistentIdentifierMockup.PersistentIdentifierAlphaNumeric;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import org.hibernate.Session;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -126,10 +124,8 @@ public class QueryStoreController implements Serializable {
     private Map<String, String> filterMap;
 
 
-
-
-
-
+    /* Initialize the query
+    * * */
     public void initializeQueryStore() {
 
 
@@ -175,6 +171,19 @@ public class QueryStoreController implements Serializable {
 
     public void finalizeDataSet() {
         this.logger.info("finalize ");
+        Query query = this.getQuery();
+        SessionManager sm = new SessionManager();
+        Map<Integer, String> selectedColumnsMap = sm.getColumnNamesFromSessionAsMap();
+        query.setSelectedColumns(selectedColumnsMap);
+        this.queryStoreAPI.persistQuery(query);
+        
+        
+        
+
+
+        
+        
+        
         this.queryStoreAPI.finalizeQuery(this.query);
     }
 

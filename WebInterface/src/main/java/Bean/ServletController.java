@@ -49,9 +49,7 @@
 package Bean;
 
 
-import Database.DatabaseOperations.DatabaseTools;
 import DatatableModel.TableMetadata;
-import org.hibernate.Session;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -169,13 +167,13 @@ public class ServletController implements Serializable {
 
         SessionManager sm = new SessionManager();
 
-        List<String> selectedColumnsSessionData = sm.getSelectedColumnsFromTableMapSession();
+        List<String> selectedColumnsSessionData = sm.getSelectedColumnsFromTableSessionAsList();
 
         ;
         if (selectedColumnsSessionData == null) {
             this.logger.info("The session was not yet set. ");
             sm.initializeSelectedColumns();
-            selectedColumnsSessionData = sm.getSelectedColumnsFromTableMapSession();
+            selectedColumnsSessionData = sm.getSelectedColumnsFromTableSessionAsList();
 
             
 

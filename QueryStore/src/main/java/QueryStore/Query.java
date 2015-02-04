@@ -54,6 +54,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.LinkedHashSet;
+import java.util.Map;
 import java.util.Set;
 import java.util.logging.Logger;
 
@@ -72,6 +73,20 @@ public class Query implements Serializable, TimeStamped {
     private String queryDescription;
     private String datasourcePID;
     private String queryHash;
+    Map<Integer, String> selectedColumns;
+
+    @ElementCollection
+    public Map<Integer, String> getSelectedColumns() {
+        return selectedColumns;
+    }
+
+    public void setSelectedColumns(Map<Integer, String> selectedColumns) {
+        this.selectedColumns = selectedColumns;
+    }
+
+    
+    
+    
 
     @Column(name = "baseTable")
     public String getBaseTable() {

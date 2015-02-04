@@ -24,6 +24,7 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
@@ -98,7 +99,7 @@ public class SessionManager {
     /*
     * Get the selected columns from the session
     * * * */
-    public List<String> getSelectedColumnsFromTableMapSession() {
+    public List<String> getSelectedColumnsFromTableSessionAsList() {
 
         List<String> selectedColumnsSessionData = null;
         Map<String, Object> sessionMAP = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
@@ -270,6 +271,9 @@ public class SessionManager {
 
     }
 
+    /*
+    * Retrieve the columns from the database
+    * * * */
     public List<String> getColumnNamesForSelectedColumnsCheckBoxesFromDB() {
 
 
@@ -288,6 +292,17 @@ public class SessionManager {
         }
 
         return availableColumnsList;
+    }
+
+    public Map<Integer, String> getColumnNamesFromSessionAsMap() {
+        List<String> selectedColumnsList = this.getSelectedColumnsFromTableSessionAsList();
+        Map<Integer, String> selectedColumnsMap = new HashMap<>();
+        for (int i = 0; i < selectedColumnsList.size(); i++) {
+            selectedColumnsMap.put(i, selectedColumnsList.get(i));
+        }
+
+        return selectedColumnsMap;
+
     }
 
 }
