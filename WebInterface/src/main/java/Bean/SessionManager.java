@@ -79,7 +79,7 @@ public class SessionManager {
      * Store details in session
      */
     public void storeSelectedColumnsFromTableMap(List<String> columnList) {
-        this.logger.info("Storing the selectedColumnsFromTableMap into session ");
+        this.logger.info("++++++++++++++++++++++++ Store ... First item: " + columnList.get(0));
 
         if (FacesContext.getCurrentInstance() != null) {
             Map<String, Object> session = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
@@ -280,7 +280,10 @@ public class SessionManager {
 
     }
 
+    /*The user may have rearranged the columns in the interface
+    * * */
     public void updateSortingOfSelectedColumnsInSession(Map<Integer, String> sortedColumns) {
+        this.logger.info("-------------------------------------------------------UPDATE Sorted");
         List<String> sortedColumnList = new LinkedList<>();
 
         for (Map.Entry<Integer, String> entry : sortedColumns.entrySet()) {

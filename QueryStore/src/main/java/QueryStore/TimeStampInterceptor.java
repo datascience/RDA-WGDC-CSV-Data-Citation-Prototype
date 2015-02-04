@@ -40,6 +40,7 @@ import org.hibernate.type.Type;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -47,6 +48,10 @@ import java.util.logging.Logger;
  */
 public class TimeStampInterceptor extends EmptyInterceptor {
     private static final Logger logger = Logger.getLogger(String.valueOf(TimeStampInterceptor.class));
+
+    public TimeStampInterceptor() {
+        logger.setLevel(Level.WARNING);
+    }
 
 
     /**
@@ -65,9 +70,9 @@ public class TimeStampInterceptor extends EmptyInterceptor {
                                 Object[] previousState, String[] propertyNames, Type[] types) {
 
         logger.info("UPDATE operation");
-        logger.info("onFlushDirty: Detected dirty object " + entity + " with id " + id);
+        // logger.info("onFlushDirty: Detected dirty object " + entity + " with id " + id);
         final int length = currentState.length;
-        logger.info("onFlushDirty: Object Details are as below: ");
+        //logger.info("onFlushDirty: Object Details are as below: ");
 //        for (int i = 0; i < length; i++) {
 //            logger.info("onFlushDirty: propertyName : " + propertyNames[i]
 //                    + " ,type :  " + types[i]

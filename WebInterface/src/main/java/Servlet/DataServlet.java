@@ -145,6 +145,7 @@ public class DataServlet extends HttpServlet {
             HttpSession session = request.getSession(true);
 
             //todo sorting must be stored in session
+
             List<String> columnsFromSession = (List<String>) session.getAttribute("selectedColumnsFromTableMap");
             this.logger.info("There are " + columnsFromSession.size() + " columns selected, the first column is " +
                     columnsFromSession.get(0));

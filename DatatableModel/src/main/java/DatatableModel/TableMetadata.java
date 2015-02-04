@@ -47,7 +47,7 @@ public class TableMetadata {
             it.remove(); // avoids a ConcurrentModificationException
         }
         htmlTableHeaders += "</tr>\n</thead>\n";
-        System.out.println(htmlTableHeaders);
+
 
         return htmlTableHeaders;
     }
@@ -68,7 +68,7 @@ public class TableMetadata {
 
         }
         htmlTableHeaders += "</tr>\n</thead>\n";
-        System.out.println(htmlTableHeaders);
+
 
         return htmlTableHeaders;
     }
@@ -93,7 +93,7 @@ public class TableMetadata {
         }
 
         dataTablesMDataProp += " ] ";
-        System.out.println(dataTablesMDataProp);
+
 
         return dataTablesMDataProp;
     }
@@ -116,7 +116,7 @@ public class TableMetadata {
         }
 
         dataTablesMDataProp += " ] ";
-        System.out.println(dataTablesMDataProp);
+
 
         return dataTablesMDataProp;
     }
@@ -178,7 +178,7 @@ public class TableMetadata {
 
 
         emptyTableRows += "</tr></tfoot>\n";
-        System.out.println(emptyTableRows);
+
 
         return emptyTableRows;
     }
@@ -199,7 +199,7 @@ public class TableMetadata {
 
 
         emptyTableRows += "</tr></tfoot>\n";
-        System.out.println(emptyTableRows);
+
 
         return emptyTableRows;
     }
@@ -218,7 +218,7 @@ public class TableMetadata {
         }
 
         emptyTableRows += "</tr>\n";
-        System.out.println(emptyTableRows);
+
 
         return emptyTableRows;
     }
@@ -236,7 +236,7 @@ public class TableMetadata {
         }
 
         emptyTableRows += "</tr>\n";
-        System.out.println(emptyTableRows);
+
 
         return emptyTableRows;
     }
