@@ -195,17 +195,30 @@ public class ServletController implements Serializable {
     }
 
     public String dataTablesMDataProp() {
-        this.logger.info("Servlet controller DATA PROP");
+        this.logger.info("Servlet DATA PROP");
 
         String tableName = this.getCurrentTableName();
-        String tableMetaString = null;
+        if (tableName == null) {
+            this.logger.info("There is no table available");
 
-        try {
 
-            tableMetaString = TableMetadata.getDataTablesMDataProp(this.getSelectedColumnsFromWebInterfaceViaSession());
-        } catch (SQLException e) {
-            e.printStackTrace();
+        } else {
+            String tableMetaString = null;
+
+            try {
+
+                List<String> selectedColumnsSessionData = this.getSelectedColumnsFromWebInterfaceViaSession();
+                if (selectedColumnsSessionData != null || selectedColumnsSessionData.size() >= 1) {
+                    tableMetaString = TableMetadata.getDataTablesMDataProp(selectedColumnsSessionData);
+                }
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            return tableMetaString;
+            
         }
-        return tableMetaString;
+
+        return null;
     }
 }

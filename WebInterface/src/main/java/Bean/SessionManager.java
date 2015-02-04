@@ -254,19 +254,18 @@ public class SessionManager {
             String selectedDB = dbTools.getDatabaseCatalogFromDatabaseConnection().get(0);
             this.logger.info("Database retrieved: " + selectedDB);
             List<String> tableNames = dbTools.getAvailableTablesFromDatabase(selectedDB);
+            if (tableNames.size() >= 1) {
+                currentTableName = tableNames.get(0);
+                List<String> initializeSelectedColumns = dbTools.getColumnsFromDatabaseAsList(currentTableName);
+                SessionManager sm = new SessionManager();
+                sm.storeSelectedColumnsFromTableMap(initializeSelectedColumns);
+            }
 
 
-            currentTableName = tableNames.get(0);
-            
-            
         }
 
 
-        List<String> initializeSelectedColumns = dbTools.getColumnsFromDatabaseAsList(currentTableName);
-        SessionManager sm = new SessionManager();
 
-
-        sm.storeSelectedColumnsFromTableMap(initializeSelectedColumns);
 
 
     }
@@ -295,6 +294,7 @@ public class SessionManager {
     }
 
     public Map<Integer, String> getColumnNamesFromSessionAsMap() {
+
         List<String> selectedColumnsList = this.getSelectedColumnsFromTableSessionAsList();
         Map<Integer, String> selectedColumnsMap = new HashMap<>();
         for (int i = 0; i < selectedColumnsList.size(); i++) {

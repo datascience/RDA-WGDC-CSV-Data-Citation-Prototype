@@ -216,19 +216,17 @@ public class DatabaseTableNameBean implements Serializable {
      * @param event
      */
     public void handleChangeTableName(ValueChangeEvent event) {
-        this.logger.info(event.getComponent().toString() + " " + event.toString());
-
-        String selectedTable = event.getNewValue().toString();
-        if (selectedTable != null) {
-            this.logger.info("selected table name CHANGED  = " + selectedTable);
-
+        String selectedTable = null;
+        if (event == null) {
+            DatabaseTools dbTools = new DatabaseTools();
+            selectedTable = dbTools.getFirstTableFromDatabase(this.getDatabaseName());
 
         } else {
-            DatabaseTools dbTools = new DatabaseTools();
-            dbTools.getFirstTableFromDatabase(this.getDatabaseName());
-
-
+            selectedTable = event.getNewValue().toString();
+            
+            
         }
+
         SessionManager sm = new SessionManager();
         sm.storeSessionData("currentTableName", selectedTable);
 

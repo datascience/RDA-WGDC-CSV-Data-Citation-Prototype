@@ -544,13 +544,13 @@ public class QueryStoreAPI {
         Criteria criteria = this.session.createCriteria(Query.class, "query");
         criteria.add(Restrictions.like("query.queryHash", query.getQueryHash()));
         criteria.add(Restrictions.not(Restrictions.like("query.queryId", query.getQueryId())));
-        query = (Query) criteria.uniqueResult();
+        sameQuery = (Query) criteria.uniqueResult();
         this.session.getTransaction().commit();
         this.session.close();
 
         this.generateQueryString(query);
 
-        if (query != null) {
+        if (sameQuery != null) {
             this.logger.severe("There was a identical query. This could be a new version!");
             return 1;
         } else {
