@@ -118,6 +118,7 @@ function AjaxUpdateDataFailed(result) {
 <h:body id="dt_data_table">
     <ui:debug/>
 
+
     <!-- BEGIN: Hidden Form for Init-->
     <h:form id="remoteCommandForm">
         <p:remoteCommand name="onLoadTable" actionListener="#{databaseTableNameBean.onLoadTable}" autoRun="true"/>
@@ -188,10 +189,9 @@ function AjaxUpdateDataFailed(result) {
             </table>
             <div id="buttonPlaceholder"></div>
         </div>
+        <!-- end table div -->
 
-    <p></p>
-
-    <div id="MenuButtonsDiv">
+        <div id="MenuButtonsDiv">
 
             <h:form>
                 <p:commandButton value="Initialize query store" action="#{queryStoreController.initializeQueryStore}"
@@ -203,7 +203,9 @@ function AjaxUpdateDataFailed(result) {
 
             </h:form>
 
+        </div>
+        <!-- end buttons -->
     </div>
-    </div>
+    <!-- end container -->
 </h:body>
 </html>

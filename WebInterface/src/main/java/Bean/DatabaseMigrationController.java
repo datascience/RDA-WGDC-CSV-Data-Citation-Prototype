@@ -38,6 +38,9 @@ public class DatabaseMigrationController implements Serializable {
     }
 
 
+    /*
+    * Read the current primary keys from session
+    * * * */
     private List<String> getPrimaryKeyListFromSession() {
         System.out.println("Store primary key list in session");
 

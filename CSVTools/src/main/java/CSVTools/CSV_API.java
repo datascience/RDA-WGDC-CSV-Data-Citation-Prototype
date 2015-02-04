@@ -362,6 +362,7 @@ public class CSV_API {
             throws IOException {
         CsvListReader reader = new CsvListReader(new FileReader(fileName),
                 CsvPreference.STANDARD_PREFERENCE);
+        this.logger.info("Analyzing columns...");
 
 
         // String[] header = reader.getHeader(true);
@@ -369,6 +370,7 @@ public class CSV_API {
         List<String> rowAsTokens;
         List<String> header = new ArrayList<String>(reader.read());
         header = this.replaceSpaceWithDash(header);
+
         header = this.replaceReservedKeyWords(header);
 
         int columnCount = header.size();
@@ -435,8 +437,9 @@ public class CSV_API {
         List<String> reservedKeyWords = new ArrayList<String>();
 
         reservedKeyWords.add("release");
+
         for (String currentHeader : header) {
-            if (reservedKeyWords.contains(currentHeader.toLowerCase())) {
+            if (reservedKeyWords.contains(currentHeader.toLowerCase().trim())) {
                 this.logger.info("Reserved keyword found");
                 int index = header.indexOf(currentHeader);
                 // replace the header with backticks
