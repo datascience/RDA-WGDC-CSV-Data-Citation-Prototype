@@ -190,7 +190,7 @@ public class DatabaseTableNameBean implements Serializable {
         sm.setCurrentTableNameFromSession(this.tableName);
 
         List<String> selectedColumnsSessionData = sm.getColumnNamesForSelectedColumnsCheckBoxesFromDB();
-        sm.storeSelectedColumnsFromTableMap(selectedColumnsSessionData);
+
 
         if (selectedColumnsSessionData == null) {
             this.logger.info("The session was not yet set. ");

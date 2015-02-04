@@ -306,9 +306,12 @@ public class SessionManager {
         return availableColumnsList;
     }
 
+    /*Create a sorted list of columns
+    * * */
     public Map<Integer, String> getColumnNamesFromSessionAsMap() {
 
         List<String> selectedColumnsList = this.getSelectedColumnsFromTableSessionAsList();
+
         Map<Integer, String> selectedColumnsMap = new HashMap<>();
         for (int i = 0; i < selectedColumnsList.size(); i++) {
             selectedColumnsMap.put(i, selectedColumnsList.get(i));
