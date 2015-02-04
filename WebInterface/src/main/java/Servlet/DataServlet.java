@@ -145,23 +145,25 @@ public class DataServlet extends HttpServlet {
             HttpSession session = request.getSession(true);
 
             //todo sorting must be stored in session
+            if (this.columnSequenceMap == null) {
+                List<String> columnsFromSession = (List<String>) session.getAttribute("selectedColumnsFromTableMap");
+                this.logger.info("There are " + columnsFromSession.size() + " columns selected, the first column is " +
+                        columnsFromSession.get(0));
 
-            List<String> columnsFromSession = (List<String>) session.getAttribute("selectedColumnsFromTableMap");
-            this.logger.info("There are " + columnsFromSession.size() + " columns selected, the first column is " +
-                    columnsFromSession.get(0));
-            
-       
 
-            
-            
+                //todo remove unselected
+                Map<Integer, String> selectedColumnsSequenceMap = this.removeUnselectedColumnsFromQuery(this
+                        .columnSequenceMap, columnsFromSession);
 
-            //todo remove unselected
-            Map<Integer, String> selectedColumnsSequenceMap = this.removeUnselectedColumnsFromQuery(this
-                    .columnSequenceMap, columnsFromSession);
 
+                this.columnSequenceMap = selectedColumnsSequenceMap;
+
+
+            }
             SessionManager sm = new SessionManager();
-            sm.updateSortingOfSelectedColumnsInSession(selectedColumnsSequenceMap);
-            
+            sm.updateSortingOfSelectedColumnsInSession(this.columnSequenceMap);
+
+
             
 
 
