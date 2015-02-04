@@ -1876,12 +1876,6 @@
       <option name="number" value="Default" />
       <updated>1407135258553</updated>
     </task>
-    <task id="LOCAL-00153" summary="authentication works">
-      <created>1421846905914</created>
-      <option name="number" value="00153" />
-      <option name="project" value="LOCAL" />
-      <updated>1421846905914</updated>
-    </task>
     <task id="LOCAL-00154" summary="authentication works">
       <created>1421847317044</created>
       <option name="number" value="00154" />
@@ -2170,7 +2164,13 @@
       <option name="project" value="LOCAL" />
       <updated>1423047387977</updated>
     </task>
-    <option name="localTasksCounter" value="202" />
+    <task id="LOCAL-00202" summary="escaping">
+      <created>1423047639241</created>
+      <option name="number" value="00202" />
+      <option name="project" value="LOCAL" />
+      <updated>1423047639241</updated>
+    </task>
+    <option name="localTasksCounter" value="203" />
     <servers />
   </component>
   <component name="TodoView" selected-index="0">
@@ -2214,7 +2214,7 @@
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.22683705" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25825346" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25825346" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Statistic" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32800853" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.20766774" sideWeight="0.5" order="6" side_tool="true" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.28753993" sideWeight="0.6911608" order="2" side_tool="false" content_ui="tabs" />
