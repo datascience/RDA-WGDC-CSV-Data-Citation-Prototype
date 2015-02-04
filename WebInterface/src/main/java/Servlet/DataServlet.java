@@ -143,7 +143,12 @@ public class DataServlet extends HttpServlet {
             this.logger.info("Sequence map size is " + this.columnSequenceMap.size());
 
             HttpSession session = request.getSession(true);
+
+            //todo sorting must be stored in session
             List<String> columnsFromSession = (List<String>) session.getAttribute("selectedColumnsFromTableMap");
+            this.logger.info("There are " + columnsFromSession.size() + " columns selected, the first column is " +
+                    columnsFromSession.get(0));
+            
        
 
             
@@ -152,6 +157,11 @@ public class DataServlet extends HttpServlet {
             //todo remove unselected
             Map<Integer, String> selectedColumnsSequenceMap = this.removeUnselectedColumnsFromQuery(this
                     .columnSequenceMap, columnsFromSession);
+
+            SessionManager sm = new SessionManager();
+            sm.updateSortingOfSelectedColumnsInSession(selectedColumnsSequenceMap);
+            
+            
 
 
             DatabaseTools dbTools = new DatabaseTools();

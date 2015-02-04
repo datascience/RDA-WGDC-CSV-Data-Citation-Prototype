@@ -24,10 +24,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.logging.Logger;
 
 /**
@@ -279,6 +276,20 @@ public class SessionManager {
 
 
 
+
+
+    }
+
+    public void updateSortingOfSelectedColumnsInSession(Map<Integer, String> sortedColumns) {
+        List<String> sortedColumnList = new LinkedList<>();
+
+        for (Map.Entry<Integer, String> entry : sortedColumns.entrySet()) {
+            this.logger.info("Column Sequence : " + entry.getKey() + " has Name  " + entry.getValue().toString());
+            sortedColumnList.add(entry.getValue());
+
+        }
+
+        this.storeSelectedColumnsFromTableMap(sortedColumnList);
 
 
     }
