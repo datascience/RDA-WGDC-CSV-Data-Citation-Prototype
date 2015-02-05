@@ -547,7 +547,8 @@ public class QueryStoreAPI {
         this.session.getTransaction().commit();
         this.session.close();
 
-        this.generateQueryString(query);
+        String querString = this.generateQueryString(query);
+        query.setQuery_text(querString);
         this.persistQuery(query);
 
 
