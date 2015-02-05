@@ -73,7 +73,7 @@ public class Query implements Serializable, TimeStamped {
     private String queryDescription;
     private String datasourcePID;
     private String queryHash;
-    Map<Integer, String> selectedColumns;
+    Map<Integer, String> selectedColumns = null;
 
     @ElementCollection
     public Map<Integer, String> getSelectedColumns() {
@@ -81,7 +81,15 @@ public class Query implements Serializable, TimeStamped {
     }
 
     public void setSelectedColumns(Map<Integer, String> selectedColumns) {
-        this.selectedColumns = selectedColumns;
+        this.logger.info("Setting the selected columns.");
+        if (selectedColumns != null) {
+            for (Map.Entry<Integer, String> entry : selectedColumns.entrySet()) {
+                this.logger.info("SET COL. : Selected columns Key: " + entry.getKey() + "  Value: " + entry.getValue()
+                        .toString());
+            }
+            this.selectedColumns = selectedColumns;
+        }
+
     }
 
     
@@ -131,6 +139,7 @@ public class Query implements Serializable, TimeStamped {
 
     public Query() {
         this.logger = Logger.getLogger(this.getClass().getName());
+
 
     }
 

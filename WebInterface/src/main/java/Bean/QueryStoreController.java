@@ -65,6 +65,7 @@ public class QueryStoreController implements Serializable {
 
     private Logger logger;
     private QueryStoreAPI queryStoreAPI;
+    private SessionManager sm = null;
 
     public QueryStoreAPI getQueryStoreAPI() {
         if (this.queryStoreAPI == null) {
@@ -83,6 +84,7 @@ public class QueryStoreController implements Serializable {
         this.logger = Logger.getLogger(this.getClass().getName());
         this.queryStoreAPI = new QueryStoreAPI();
         this.pidAPI = new PersistentIdentifierAPI();
+        this.sm = new SessionManager();
 
 
     }
@@ -129,9 +131,7 @@ public class QueryStoreController implements Serializable {
     public void initializeQueryStore() {
 
 
-
-        SessionManager sm = new SessionManager();
-        User user = sm.getLogedInUserObject();
+        User user = this.sm.getLogedInUserObject();
 
 
         int prefix = user.getOrganizational_id();
@@ -173,17 +173,9 @@ public class QueryStoreController implements Serializable {
     public void finalizeDataSet() {
         this.logger.info("finalize ");
         Query query = this.getQuery();
-        SessionManager sm = new SessionManager();
 
-        Map<Integer, String> selectedColumnsMap = sm.getColumnNamesFromSessionAsMap();
 
-        for (Map.Entry<Integer, String> entry : selectedColumnsMap.entrySet()) {
-            this.logger.info("Finalize: Selected columns Key: " + entry.getKey() + "  Value: " + entry.getValue()
-                    .toString());
-        }
-
-        
-        query.setSelectedColumns(selectedColumnsMap);
+        query.setSelectedColumns(this.sm.getColumnNamesFromDataTablesSession());
         this.queryStoreAPI.persistQuery(query);
         
         

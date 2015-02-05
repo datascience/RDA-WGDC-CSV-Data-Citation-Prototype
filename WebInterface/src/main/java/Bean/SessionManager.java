@@ -38,7 +38,12 @@ import java.util.logging.Logger;
 @SessionScoped
 public class SessionManager {
     private Logger logger;
-    private Map<String, Object> sessionMap;
+
+    public void setSessionMap(Map<String, Object> sessionMap) {
+        this.sessionMap = sessionMap;
+    }
+
+    private Map<String, Object> sessionMap = null;
     
 
 
@@ -48,11 +53,10 @@ public class SessionManager {
     }
 
     public void printSessionVariables() {
-        this.sessionMap = this.getSessionMap();
-        this.logger.info("Stored session variables (keys)");
 
-        if (sessionMap != null) {
-            for (Map.Entry<String, Object> entry : sessionMap.entrySet()) {
+
+        if (this.getSessionMap() != null) {
+            for (Map.Entry<String, Object> entry : this.sessionMap.entrySet()) {
                 this.logger.info(entry.getKey());
             }
         }
@@ -90,6 +94,8 @@ public class SessionManager {
             // schreiben
 
             session.put("selectedColumnsFromTableMap", columnList);
+
+
             this.logger.info("Wrote the key selectedColumnsFromTableMap  a list of size " + columnList.size());
 
         }
@@ -114,18 +120,16 @@ public class SessionManager {
         }
 
 
-
-
-        if (selectedColumnsSessionData != null && selectedColumnsSessionData.size() >= 1) {
-            this.logger.info("There are " + selectedColumnsSessionData.size() + " selected columns");
+//        if (selectedColumnsSessionData != null && selectedColumnsSessionData.size() >= 1) {
+        //          this.logger.info("There are " + selectedColumnsSessionData.size() + " selected columns");
 
             return selectedColumnsSessionData;
-        } else {
-            this.logger.info("There was no session data available. Setting default column");
-            this.initializeSelectedColumns();
-            return selectedColumnsSessionData;
+        //    } else {
+        //      this.logger.info("There was no session data available. Setting default column");
+        //    this.initializeSelectedColumns();
+        //  return selectedColumnsSessionData;
 
-        }
+        //}
 
 
     }
@@ -330,6 +334,9 @@ public class SessionManager {
 
     /*Create a sorted list of columns
     * * */
+
+
+    //@todo holt falschen wert
     public Map<Integer, String> getColumnNamesFromSessionAsMap() {
 
         List<String> selectedColumnsList = this.getSelectedColumnsFromTableSessionAsList();
@@ -340,6 +347,14 @@ public class SessionManager {
         }
 
         return selectedColumnsMap;
+
+    }
+
+
+    public Map<Integer, String> getColumnNamesFromDataTablesSession() {
+
+
+        return (Map<Integer, String>) this.getSessionMap().get("selectedColumnsFromDataTables");
 
     }
 

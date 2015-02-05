@@ -140,7 +140,8 @@ public class DataServlet extends HttpServlet {
             String sortingDirection = this.getSortingDirection(param, request);
 
             this.columnSequenceMap = this.getColumnSequenceFromRequest(param, request);
-            this.logger.info("Sequence map size is " + this.columnSequenceMap.size());
+            this.logger.info("Sequence map size is " + this.columnSequenceMap.size() + "and its first element is " +
+                    this.columnSequenceMap.get(0));
 
             HttpSession session = request.getSession(true);
 
@@ -160,8 +161,12 @@ public class DataServlet extends HttpServlet {
 
 
             }
-            SessionManager sm = new SessionManager();
-            sm.updateSortingOfSelectedColumnsInSession(this.columnSequenceMap);
+//            SessionManager sm = new SessionManager();
+            //           sm.updateSortingOfSelectedColumnsInSession(this.columnSequenceMap);
+
+            session.setAttribute("selectedColumnsFromDataTables", this.columnSequenceMap);
+            
+            
 
 
             
