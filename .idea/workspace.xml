@@ -4,9 +4,41 @@
     <option name="SCOPE_TYPE" value="4" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fe0bbad9-08dd-49cf-9f33-eb5e1947ea1f" name="Default" comment="session fix">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/QueryStore/additional_configuration/CreateSchemaAndUser.sql" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/QueryStore/src/main/java/QueryStore/QueryStoreAPI.java" afterPath="$PROJECT_DIR$/QueryStore/src/main/java/QueryStore/QueryStoreAPI.java" />
+    <list default="true" id="fe0bbad9-08dd-49cf-9f33-eb5e1947ea1f" name="Default" comment="sql string">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/GitHub-Subtree.txt" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/additional_configuration/GitHub-Subtree.txt" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/at/stefanproell/TomcatAuthentication/GroupDetails.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/at/stefanproell/PersistentIdentifierMockup/HibernateUtilPersistentIdentification.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/at/stefanproell/TomcatAuthentication/UserAPI.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/at/stefanproell/TomcatAuthentication/UserDetails.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/at/stefanproell/TomcatAuthentication/UserTest.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/resources/hibernate.persistentidentification.cfg.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/resources/pid.db.properties" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/resources/pid.initial_data.sql" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/at/stefanproell/Examples/ExamplesAPI.java" afterPath="$PROJECT_DIR$/src/main/java/at/stefanproell/Examples/ExamplesAPI.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/JavaDoc/at/stefanproell/PersistentIdentifierMockup/Helpers.html" afterPath="$PROJECT_DIR$/JavaDoc/at/stefanproell/PersistentIdentifierMockup/Helpers.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/JavaDoc/at/stefanproell/PersistentIdentifierMockup/HibernateSchemaGeneratorPID.html" afterPath="$PROJECT_DIR$/JavaDoc/at/stefanproell/PersistentIdentifierMockup/HibernateSchemaGeneratorPID.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/JavaDoc/at/stefanproell/PersistentIdentifierMockup/HibernateUtil.html" afterPath="$PROJECT_DIR$/JavaDoc/at/stefanproell/PersistentIdentifierMockup/HibernateUtil.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/at/stefanproell/Examples/MinimalTest.java" afterPath="$PROJECT_DIR$/src/main/java/at/stefanproell/Examples/MinimalTest.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/at/stefanproell/PersistentIdentifierMockup/Organization.java" afterPath="$PROJECT_DIR$/src/main/java/at/stefanproell/PersistentIdentifierMockup/Organization.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/PersistentIdentification.iml" afterPath="$PROJECT_DIR$/PersistentIdentification.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/at/stefanproell/PersistentIdentifierMockup/PersistentIdentifierAPI.java" afterPath="$PROJECT_DIR$/src/main/java/at/stefanproell/PersistentIdentifierMockup/PersistentIdentifierAPI.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/at/stefanproell/PersistentIdentifierMockup/PersistentIdentifierAlpha.java" afterPath="$PROJECT_DIR$/src/main/java/at/stefanproell/PersistentIdentifierMockup/PersistentIdentifierAlpha.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/at/stefanproell/PersistentIdentifierMockup/PersistentIdentifierAlphaNumeric.java" afterPath="$PROJECT_DIR$/src/main/java/at/stefanproell/PersistentIdentifierMockup/PersistentIdentifierAlphaNumeric.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/at/stefanproell/PersistentIdentifierMockup/PersistentIdentifierNumeric.java" afterPath="$PROJECT_DIR$/src/main/java/at/stefanproell/PersistentIdentifierMockup/PersistentIdentifierNumeric.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/at/stefanproell/PersistentIdentifierMockup/PersistentIdentifierSubcomponent.java" afterPath="$PROJECT_DIR$/src/main/java/at/stefanproell/PersistentIdentifierMockup/PersistentIdentifierSubcomponent.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/JavaDoc/allclasses-frame.html" afterPath="$PROJECT_DIR$/JavaDoc/allclasses-frame.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/JavaDoc/allclasses-noframe.html" afterPath="$PROJECT_DIR$/JavaDoc/allclasses-noframe.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/additional_configuration/drop_create_schema.sql" afterPath="$PROJECT_DIR$/additional_configuration/drop_create_schema.sql" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/JavaDoc/index-files/index-10.html" afterPath="$PROJECT_DIR$/JavaDoc/index-files/index-10.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/JavaDoc/index-files/index-4.html" afterPath="$PROJECT_DIR$/JavaDoc/index-files/index-4.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/JavaDoc/index-files/index-5.html" afterPath="$PROJECT_DIR$/JavaDoc/index-files/index-5.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/JavaDoc/index-files/index-9.html" afterPath="$PROJECT_DIR$/JavaDoc/index-files/index-9.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/JavaDoc/overview-tree.html" afterPath="$PROJECT_DIR$/JavaDoc/overview-tree.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/JavaDoc/at/stefanproell/PersistentIdentifierMockup/package-frame.html" afterPath="$PROJECT_DIR$/JavaDoc/at/stefanproell/PersistentIdentifierMockup/package-frame.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/JavaDoc/at/stefanproell/PersistentIdentifierMockup/package-summary.html" afterPath="$PROJECT_DIR$/JavaDoc/at/stefanproell/PersistentIdentifierMockup/package-summary.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/JavaDoc/at/stefanproell/PersistentIdentifierMockup/package-tree.html" afterPath="$PROJECT_DIR$/JavaDoc/at/stefanproell/PersistentIdentifierMockup/package-tree.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pom.xml" afterPath="$PROJECT_DIR$/pom.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="SCAPE-QueryStore.iws" />
@@ -130,8 +162,8 @@
       <file leaf-file-name="QueryStoreAPI.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/QueryStore/src/main/java/QueryStore/QueryStoreAPI.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.54626334" vertical-offset="7748" max-vertical-offset="8760">
-              <caret line="578" column="23" selection-start-line="578" selection-start-column="23" selection-end-line="578" selection-end-column="23" />
+            <state vertical-scroll-proportion="0.91992885" vertical-offset="7988" max-vertical-offset="8775">
+              <caret line="608" column="0" selection-start-line="608" selection-start-column="0" selection-end-line="608" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -1854,18 +1886,6 @@
       <option name="number" value="Default" />
       <updated>1407135258553</updated>
     </task>
-    <task id="LOCAL-00165" summary="maven deployment">
-      <created>1422353583495</created>
-      <option name="number" value="00165" />
-      <option name="project" value="LOCAL" />
-      <updated>1422353583496</updated>
-    </task>
-    <task id="LOCAL-00166" summary="hikari eingebaut">
-      <created>1422360646839</created>
-      <option name="number" value="00166" />
-      <option name="project" value="LOCAL" />
-      <updated>1422360646839</updated>
-    </task>
     <task id="LOCAL-00167" summary="hikari eingebaut">
       <created>1422363617845</created>
       <option name="number" value="00167" />
@@ -2148,7 +2168,19 @@
       <option name="project" value="LOCAL" />
       <updated>1423148320989</updated>
     </task>
-    <option name="localTasksCounter" value="214" />
+    <task id="LOCAL-00214" summary="sql string">
+      <created>1423149371124</created>
+      <option name="number" value="00214" />
+      <option name="project" value="LOCAL" />
+      <updated>1423149371124</updated>
+    </task>
+    <task id="LOCAL-00215" summary="sql string">
+      <created>1423150308673</created>
+      <option name="number" value="00215" />
+      <option name="project" value="LOCAL" />
+      <updated>1423150308673</updated>
+    </task>
+    <option name="localTasksCounter" value="216" />
     <servers />
   </component>
   <component name="TodoView" selected-index="0">
@@ -2173,19 +2205,19 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-2" y="0" width="1924" height="1057" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3290735" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Problems" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33619764" sideWeight="0.5" order="14" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.33727175" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.33727175" sideWeight="0.61764705" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3265306" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32223415" sideWeight="0.7976773" order="3" side_tool="false" content_ui="tabs" x="2076" y="187" width="1858" height="742" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4227902" sideWeight="0.3088392" order="8" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.33727175" sideWeight="0.38235295" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.23109691" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32800853" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32800853" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
@@ -2249,7 +2281,6 @@
     <option name="myTodoPanelSettings">
       <TodoPanelSettings />
     </option>
-    <MESSAGE value="moving methods" />
     <MESSAGE value="page reload solved" />
     <MESSAGE value="pid problem" />
     <MESSAGE value="sorting and filtering" />
@@ -2274,7 +2305,8 @@
     <MESSAGE value="query issue" />
     <MESSAGE value="changing session map" />
     <MESSAGE value="session fix" />
-    <option name="LAST_COMMIT_MESSAGE" value="session fix" />
+    <MESSAGE value="sql string" />
+    <option name="LAST_COMMIT_MESSAGE" value="sql string" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
   <component name="XDebuggerManager">
@@ -2340,6 +2372,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="598">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -2404,6 +2437,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-17.5" vertical-offset="180" max-vertical-offset="885">
           <caret line="40" column="70" selection-start-line="40" selection-start-column="70" selection-end-line="40" selection-end-column="70" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -2722,8 +2756,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/QueryStore/src/main/java/QueryStore/QueryStoreAPI.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.54626334" vertical-offset="7748" max-vertical-offset="8760">
-          <caret line="578" column="23" selection-start-line="578" selection-start-column="23" selection-end-line="578" selection-end-column="23" />
+        <state vertical-scroll-proportion="0.91992885" vertical-offset="7988" max-vertical-offset="8775">
+          <caret line="608" column="0" selection-start-line="608" selection-start-column="0" selection-end-line="608" selection-end-column="0" />
           <folding />
         </state>
       </provider>

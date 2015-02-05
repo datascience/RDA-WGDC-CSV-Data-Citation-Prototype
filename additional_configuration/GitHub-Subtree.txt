@@ -1,0 +1,19 @@
+# needs to be done every time again...
+# get the repository and integrate a new subtree called PID-Subtree
+
+git remote add PID-Subtree https://github.com/stefanproell/PersistentIdentificationService.git
+git subtree add --prefix=PersistentIdentification/ PID-Subtree master
+git pull origin master
+git push origin master
+
+# make changes in the parent
+
+cd PersistentIdentification/
+touch GitHub-Subtree.txt
+git add .
+git status
+commit -m "changed persistent id from parent"
+git push origin master
+
+# push changes to subtree repository
+git subtree push --prefix=PersistentIdentification/ PID-Subtree master

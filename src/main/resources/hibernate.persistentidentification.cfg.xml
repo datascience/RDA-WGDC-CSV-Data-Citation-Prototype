@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory>
+        <!-- IMPORTANT: the username and password is defined in the property file pid.db.properties and loaded in the HibernateUtil.java class -->
+
+        <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
+        <property name="hibernate.dialect">org.hibernate.dialect.MySQL5InnoDBDialect</property>
+        <property name="show_sql">true</property>
+        <!--  drop the tables every time: create-drop -->
+        <!--  use auto or update or create-drop -->
+        <property name="hibernate.hbm2ddl.auto">create-drop</property>
+
+        <property name="hibernate.current_session_context_class">thread</property>
+        <property name="format_sql">false</property>
+        <property name="use_sql_comments">false</property>
+
+        <property name="hibernate.connection.autocommit">false</property>
+        <property name="hibernate.hbm2ddl.import_files">pid.initial_data.sql</property>
+
+
+        <property name="hibernate.jdbc.batch_size">20</property>
+
+        <mapping
+                class="at.stefanproell.PersistentIdentifierMockup.PersistentIdentifier"/>
+        <mapping
+                class="at.stefanproell.PersistentIdentifierMockup.PersistentIdentifierAlphaNumeric"/>
+        <mapping
+                class="at.stefanproell.PersistentIdentifierMockup.PersistentIdentifierAlpha"/>
+        <mapping
+                class="at.stefanproell.PersistentIdentifierMockup.PersistentIdentifierNumeric"/>
+        <mapping class="at.stefanproell.PersistentIdentifierMockup.Organization"/>
+        <mapping class="at.stefanproell.PersistentIdentifierMockup.TimeStampInterceptor"/>
+        <mapping class="at.stefanproell.PersistentIdentifierMockup.PersistentIdentifierSubcomponent"/>
+        <mapping class="at.stefanproell.TomcatAuthentication.UserDetails"/>
+        <mapping class="at.stefanproell.TomcatAuthentication.GroupDetails"/>
+
+    </session-factory>
+
+
+</hibernate-configuration>
