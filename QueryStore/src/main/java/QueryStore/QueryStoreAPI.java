@@ -548,6 +548,8 @@ public class QueryStoreAPI {
         this.session.close();
 
         this.generateQueryString(query);
+        this.persistQuery(query);
+
 
         if (sameQuery != null) {
             this.logger.severe("There was a identical query. This could be a new version!");
@@ -564,10 +566,25 @@ public class QueryStoreAPI {
     * Generate the string from the persisted query
     * * * */
     public String generateQueryString(Query query) {
+
         Set<Filter> filterSet = query.getFilters();
         Set<Sorting> sortingsSet = query.getSortings();
         String fromString = query.getBaseTable();
-        String sqlString = "SELECT * FROM " + fromString;
+
+        String sqlString = "SELECT ";
+        Map<Integer, String> selectedColumns = query.getSelectedColumns();
+
+        for (Map.Entry<Integer, String> entry : selectedColumns.entrySet()) {
+            String columnName = entry.getValue();
+            sqlString += "`" + columnName + "`,";
+        }
+
+        // remove last comma from string
+        if (sqlString.endsWith(",")) {
+            sqlString = sqlString.substring(0, sqlString.length() - 1);
+        }
+
+        sqlString += " FROM " + fromString;
 
         if (filterSet.size() > 0) {
             String whereString = " WHERE ";
