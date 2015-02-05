@@ -149,19 +149,20 @@ public class QueryStoreController implements Serializable {
         Date creationDate = new Date();
 
 
-        Query query = this.queryStoreAPI.createNewQuery(userName, currentPID);
-        query.setCreatedDate(creationDate);
-        query.setExecution_timestamp(creationDate);
-        query.setDatasourcePID(sm.getCurrentDatabaseNameFromSession() + "." + sm.getCurrentTableNameFromSession());
+        this.query = this.queryStoreAPI.createNewQuery(userName, currentPID);
 
-        query.setBaseTable(sm.getCurrentDatabaseNameFromSession() + "." + sm.getCurrentTableNameFromSession());
+        this.query.setCreatedDate(creationDate);
+        this.query.setExecution_timestamp(creationDate);
+        this.query.setDatasourcePID(sm.getCurrentDatabaseNameFromSession() + "." + sm.getCurrentTableNameFromSession());
+
+        this.query.setBaseTable(sm.getCurrentDatabaseNameFromSession() + "." + sm.getCurrentTableNameFromSession());
 
         //@todo current databasename und table name sind null vom session manager.
-        
-        this.queryStoreAPI.persistQuery(query);
-        this.query = query;
-        
-        this.logger.info("Created query: " + query.getCreatedDate());
+
+        this.queryStoreAPI.persistQuery(this.query);
+
+
+        this.logger.info("Created query: " + this.query.getCreatedDate());
 
 
 

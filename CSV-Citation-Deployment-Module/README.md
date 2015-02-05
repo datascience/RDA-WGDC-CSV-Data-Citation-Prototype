@@ -18,7 +18,10 @@ export CATALINA_OPTS="-XX:+CMSClassUnloadingEnabled"
 
 Remote debugging:
 =================
-export JPDA_OPTS="-agentlib:jdwp=transport=dt_socket, address=localhost:1043, server=y, suspend=n"
 
-Anpassung in  startup.sh:
+add this line to setenv.sh:
+
+export JAVA_OPTS="-Xmx512m -XX:MaxPermSize=256m  -Xdebug -Xrunjdwp:transport=dt_socket,address=8000,server=y,suspend=n"
+
+Create a debug configuration and 
 

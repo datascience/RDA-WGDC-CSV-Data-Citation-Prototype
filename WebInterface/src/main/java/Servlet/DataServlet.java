@@ -182,7 +182,7 @@ public class DataServlet extends HttpServlet {
 
             try {
 
-                CachedRowSet cachedRowSet = dbTools.executeQuery(currentTable, selectedColumnsSequenceMap, 
+                CachedRowSet cachedRowSet = dbTools.executeQuery(currentTable, this.columnSequenceMap,
                         sortingColumnID,
                         sortingDirection, filterMap, showRows, offset);
 

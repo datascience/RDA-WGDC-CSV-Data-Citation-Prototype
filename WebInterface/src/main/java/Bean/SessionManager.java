@@ -24,6 +24,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.xml.crypto.Data;
 import java.util.*;
 import java.util.logging.Logger;
 
@@ -37,6 +38,8 @@ import java.util.logging.Logger;
 @SessionScoped
 public class SessionManager {
     private Logger logger;
+    private Map<String, Object> sessionMap;
+    
 
 
     public SessionManager() {
@@ -45,7 +48,7 @@ public class SessionManager {
     }
 
     public void printSessionVariables() {
-        Map<String, Object> sessionMap = this.getSessionMap();
+        this.sessionMap = this.getSessionMap();
         this.logger.info("Stored session variables (keys)");
 
         if (sessionMap != null) {
@@ -248,7 +251,12 @@ public class SessionManager {
         String currentDatabaseName = (String) sessionMAP.get("currentDatabaseName");
 
         if (currentDatabaseName == null || currentDatabaseName.equals("")) {
-            this.logger.warning("There was no  currentDatabaseName name in the session. ");
+            this.logger.warning("There was no  currentDatabaseName name in the session. Setting default DB");
+            DatabaseTools dbTools = new DatabaseTools();
+            String defaultDatabaseName = dbTools.getDefaultDatabaseNameFromConnection();
+            this.storeSessionData("currentDatabaseName", defaultDatabaseName);
+            currentDatabaseName = defaultDatabaseName;
+            
 
 
         }

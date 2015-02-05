@@ -242,7 +242,6 @@ public class QueryStoreAPI {
         this.session.saveOrUpdate(query);
         this.session.getTransaction().commit();
         this.session.close();
-        
     }
 
     /*Add filter map to the query
