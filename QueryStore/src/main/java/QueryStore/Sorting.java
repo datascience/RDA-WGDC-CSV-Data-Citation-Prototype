@@ -59,7 +59,7 @@ import java.io.Serializable;
 
 public class Sorting implements Serializable {
     private Long sortingId;
-    private Query query;
+    private Query queryObject;
     private String sortingColumn;
     private String direction;
 
@@ -73,26 +73,25 @@ public class Sorting implements Serializable {
     }
 
     /**
-     * @param query
+     * @param queryObject
      * @param sortingColumn
      * @param direction
      */
-    public Sorting(Query query, String sortingColumn, String direction) {
+    public Sorting(Query queryObject, String sortingColumn, String direction) {
         super();
-        this.query = query;
+        this.queryObject = queryObject;
         this.sortingColumn = sortingColumn;
         this.direction = direction;
     }
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "query_id")
-    protected Query getQuery() {
-        return query;
+    @ManyToOne
+    protected Query getQueryObject() {
+        return queryObject;
 
     }
 
-    protected void setQuery(Query query) {
-        this.query = query;
+    protected void setQueryObject(Query queryObject) {
+        this.queryObject = queryObject;
     }
 
     @Column(name = "sortingColumn")

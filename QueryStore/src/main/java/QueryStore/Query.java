@@ -64,8 +64,8 @@ import java.util.logging.Logger;
 @Table(name = "query", uniqueConstraints = {@UniqueConstraint(columnNames = {"PID", "queryHash"})})
 public class Query implements Serializable, TimeStamped {
 
+    Map<Integer, String> selectedColumns = null;
     private Logger logger;
-
     private Long queryId;
     private Date execution_timestamp;
     private String userName;
@@ -73,7 +73,19 @@ public class Query implements Serializable, TimeStamped {
     private String queryDescription;
     private String datasourcePID;
     private String queryHash;
-    Map<Integer, String> selectedColumns = null;
+    private String baseTable;
+    private String query_text;
+    private Date createdDate;
+    private Date lastUpdatedDate;
+    private String resultSetHash;
+    private Set<Filter> filters;
+    private Set<Sorting> sortings;
+
+    public Query() {
+        this.logger = Logger.getLogger(this.getClass().getName());
+
+
+    }
 
     @ElementCollection
     public Map<Integer, String> getSelectedColumns() {
@@ -92,10 +104,6 @@ public class Query implements Serializable, TimeStamped {
 
     }
 
-    
-    
-    
-
     @Column(name = "baseTable")
     public String getBaseTable() {
         return baseTable;
@@ -105,9 +113,6 @@ public class Query implements Serializable, TimeStamped {
         this.baseTable = baseTable;
     }
 
-    private String baseTable;
-    
-
     public String getQuery_text() {
         return query_text;
     }
@@ -116,11 +121,6 @@ public class Query implements Serializable, TimeStamped {
         this.query_text = query_text;
     }
 
-    private String query_text;
-    private Date createdDate;
-    private Date lastUpdatedDate;
-
-
     @Column(name = "resultSetHash", unique = true)
     protected String getResultSetHash() {
         return resultSetHash;
@@ -128,19 +128,6 @@ public class Query implements Serializable, TimeStamped {
 
     protected void setResultSetHash(String resultSetHash) {
         this.resultSetHash = resultSetHash;
-    }
-
-    private String resultSetHash;
-
-
-    private Set<Filter> filters = new LinkedHashSet<Filter>();
-    private Set<Sorting> sortings = new LinkedHashSet<Sorting>();
-
-
-    public Query() {
-        this.logger = Logger.getLogger(this.getClass().getName());
-
-
     }
 
     @Id
@@ -227,7 +214,7 @@ public class Query implements Serializable, TimeStamped {
     }
 
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "query")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "queryObject")
     protected Set<Filter> getFilters() {
         return this.filters;
     }
@@ -240,7 +227,7 @@ public class Query implements Serializable, TimeStamped {
         this.filters = filters;
     }
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "query")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "queryObject")
     protected Set<Sorting> getSortings() {
         return sortings;
     }

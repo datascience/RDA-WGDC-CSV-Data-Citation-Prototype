@@ -105,39 +105,49 @@ public class QueryStoreAPI {
 
         // Iterate over all filters, concatenate their keys and values and normalize the string.
         Set<Filter> filters = query.getFilters();
-        System.out.println("Filter size = " + filters.size());
-        if (filters.size() > 0) {
-            Iterator<Filter> filterIterator = filters.iterator();
-            while (filterIterator.hasNext()) {
-                Filter filter = (Filter) (filterIterator.next());
-                this.logger.info("Filter: " + filter.getFilterName() + " - " + filter.getFilterValue());
+        if (filters != null) {
+            if (filters.size() > 0) {
+                Iterator<Filter> filterIterator = filters.iterator();
+                while (filterIterator.hasNext()) {
+                    Filter filter = (Filter) (filterIterator.next());
+                    this.logger.info("Filter: " + filter.getFilterName() + " - " + filter.getFilterValue());
 
-                allFilters += filter.getFilterName() + filter.getFilterValue();
+                    allFilters += filter.getFilterName() + filter.getFilterValue();
+                }
+
+                allFilters = this.normalizeString(allFilters);
+                this.logger.info("Found " + filters.size() + " filters, which are " + allFilters);
+
             }
+            // append all filters
+            queryDetails += allFilters;
 
-            allFilters = this.normalizeString(allFilters);
-            this.logger.info("Found " + filters.size() + " filters, which are " + allFilters);
-
+        } else {
+            this.logger.info("No filters set");
         }
-        // append all filters
-        queryDetails += allFilters;
+
 
 
         Set<Sorting> sortings = query.getSortings();
-        if (sortings.size() > 0) {
-            Iterator<Sorting> sortingIterator = sortings.iterator();
-            while (sortingIterator.hasNext()) {
-                Sorting sorting = (Sorting) (sortingIterator.next());
-                allSortings += sorting.getSortingColumn() + sorting.getDirection();
+        if (sortings != null) {
+            if (sortings.size() > 0) {
+                Iterator<Sorting> sortingIterator = sortings.iterator();
+                while (sortingIterator.hasNext()) {
+                    Sorting sorting = (Sorting) (sortingIterator.next());
+                    allSortings += sorting.getSortingColumn() + sorting.getDirection();
+                }
+
+                allSortings = this.normalizeString(allSortings);
+                this.logger.info("Found " + sortings.size() + " filters, which are " + allSortings);
+
             }
 
-            allSortings = this.normalizeString(allSortings);
-            this.logger.info("Found " + sortings.size() + " filters, which are " + allSortings);
-
+            // append all sortings
+            queryDetails += allSortings;
+        } else {
+            this.logger.info("No sortings");
         }
 
-        // append all sortings
-        queryDetails += allSortings;
         this.logger.info("Query details String: " + queryDetails);
 
 
@@ -350,6 +360,7 @@ public class QueryStoreAPI {
                 sorting.setSortingSequence(currentSortingSequence + currentSortingCounter);
                 this.logger.info("new sorting persisted");
                 session.save(sorting);
+
             }
 
 
@@ -438,8 +449,12 @@ public class QueryStoreAPI {
      * @return
      */
     private String calculateSHA1(String input) {
-        String hash = DigestUtils.sha1Hex(input);
-        return hash;
+        if (input != null) {
+            String hash = DigestUtils.sha1Hex(input);
+            return hash;
+        } else {
+            return null;
+        }
     }
 
 
@@ -537,22 +552,16 @@ public class QueryStoreAPI {
      * @param query
      */
     public int finalizeQuery(Query query) {
-        this.session = HibernateUtilQueryStore.getSessionFactory().openSession();
-        this.session.beginTransaction();
-        Query sameQuery = null;
-        Criteria criteria = this.session.createCriteria(Query.class, "query");
-        criteria.add(Restrictions.like("query.queryHash", query.getQueryHash()));
-        criteria.add(Restrictions.not(Restrictions.like("query.queryId", query.getQueryId())));
-        sameQuery = (Query) criteria.uniqueResult();
-        this.session.getTransaction().commit();
-        this.session.close();
+
 
         String querString = this.generateQueryString(query);
         query.setQuery_text(querString);
         this.persistQuery(query);
 
+        boolean queryIsUnique = this.checkQueryUniqueness(query);
 
-        if (sameQuery != null) {
+
+        if (queryIsUnique == false) {
             this.logger.severe("There was a identical query. This could be a new version!");
             return 1;
         } else {
@@ -563,6 +572,25 @@ public class QueryStoreAPI {
 
     }
 
+    private boolean checkQueryUniqueness(Query query) {
+        this.session = HibernateUtilQueryStore.getSessionFactory().openSession();
+        this.session.beginTransaction();
+        Query sameQuery = null;
+        Criteria criteria = this.session.createCriteria(Query.class, "query");
+        criteria.add(Restrictions.like("query.queryHash", query.getQueryHash()));
+        criteria.add(Restrictions.not(Restrictions.like("query.queryId", query.getQueryId())));
+        sameQuery = (Query) criteria.uniqueResult();
+        this.session.getTransaction().commit();
+        this.session.close();
+
+        if (sameQuery == null) {
+            return true;
+        } else {
+            return false;
+        }
+
+    }
+
     /*
     * Generate the string from the persisted query
     * * * */
@@ -570,6 +598,7 @@ public class QueryStoreAPI {
 
         Set<Filter> filterSet = query.getFilters();
         Set<Sorting> sortingsSet = query.getSortings();
+
         String fromString = query.getBaseTable();
 
         String sqlString = "SELECT ";

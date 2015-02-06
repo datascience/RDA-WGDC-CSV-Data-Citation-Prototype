@@ -177,18 +177,11 @@ public class QueryStoreController implements Serializable {
 
         query.setSelectedColumns(this.sm.getColumnNamesFromDataTablesSession());
         this.queryStoreAPI.persistQuery(query);
-        
-        
-        
-
-
-        
-        
-        
         this.queryStoreAPI.finalizeQuery(this.query);
     }
 
     public void storeCurrentSelection() {
+        Query query = this.getQuery();
 
         this.logger.info("Store selection");
         String filterMapJSON = this.getJSONFromWebService("?lastFilters=1");
@@ -196,7 +189,8 @@ public class QueryStoreController implements Serializable {
         // this.printMap(filterMap);
 
         // persist the filters
-        this.queryStoreAPI.addFilters(this.query, filterMap);
+        this.queryStoreAPI.addFilters(query, filterMap);
+
         
 
         
@@ -205,7 +199,10 @@ public class QueryStoreController implements Serializable {
         this.printMap(sortingsMap);
 
         // persist the sortings
-        this.queryStoreAPI.addSortings(this.query, sortingsMap);
+        this.queryStoreAPI.addSortings(query, sortingsMap);
+
+        // save
+        this.queryStoreAPI.persistQuery(query);
        
 
 

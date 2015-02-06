@@ -58,7 +58,9 @@ import java.io.Serializable;
 @Table(name = "filter")
 public class Filter implements Serializable {
     private Long filterId;
-    private Query query;
+
+
+    private Query queryObject;
     private String filterName;
     private String filterValue;
     private int filterSequence;
@@ -69,11 +71,11 @@ public class Filter implements Serializable {
     }
 
     public Filter(Query q) {
-        this.query = q;
+        this.queryObject = q;
     }
 
     public Filter(Query q, String filterName, String filterValue) {
-        this.query = q;
+        this.queryObject = q;
         this.filterName = filterName;
         this.filterValue = filterValue;
     }
@@ -90,14 +92,13 @@ public class Filter implements Serializable {
     }
 
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "query_id")
-    protected Query getQuery() {
-        return query;
+    @ManyToOne
+    protected Query getQueryObject() {
+        return queryObject;
     }
 
-    protected void setQuery(Query query) {
-        this.query = query;
+    protected void setQueryObject(Query queryObject) {
+        this.queryObject = queryObject;
     }
 
     @Column(name = "filterName")
