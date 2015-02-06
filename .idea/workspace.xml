@@ -4,7 +4,7 @@
     <option name="SCOPE_TYPE" value="4" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fe0bbad9-08dd-49cf-9f33-eb5e1947ea1f" name="Default" comment="sql string">
+    <list default="true" id="fe0bbad9-08dd-49cf-9f33-eb5e1947ea1f" name="Default" comment="resolving conflicts">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="SCAPE-QueryStore.iws" />
@@ -1860,12 +1860,6 @@
       <option name="number" value="Default" />
       <updated>1407135258553</updated>
     </task>
-    <task id="LOCAL-00171" summary="change events">
-      <created>1422371155096</created>
-      <option name="number" value="00171" />
-      <option name="project" value="LOCAL" />
-      <updated>1422371155096</updated>
-    </task>
     <task id="LOCAL-00172" summary="moving methods">
       <created>1422435008932</created>
       <option name="number" value="00172" />
@@ -2154,7 +2148,13 @@
       <option name="project" value="LOCAL" />
       <updated>1423212008427</updated>
     </task>
-    <option name="localTasksCounter" value="220" />
+    <task id="LOCAL-00220" summary="resolving conflicts">
+      <created>1423212036018</created>
+      <option name="number" value="00220" />
+      <option name="project" value="LOCAL" />
+      <updated>1423212036018</updated>
+    </task>
+    <option name="localTasksCounter" value="221" />
     <servers />
   </component>
   <component name="TodoView" selected-index="0">
@@ -2278,9 +2278,9 @@
     <MESSAGE value="query issue" />
     <MESSAGE value="changing session map" />
     <MESSAGE value="session fix" />
-    <MESSAGE value="resolving conflicts" />
     <MESSAGE value="sql string" />
-    <option name="LAST_COMMIT_MESSAGE" value="sql string" />
+    <MESSAGE value="resolving conflicts" />
+    <option name="LAST_COMMIT_MESSAGE" value="resolving conflicts" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
   <component name="XDebuggerManager">
