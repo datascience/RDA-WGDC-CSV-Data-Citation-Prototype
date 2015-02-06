@@ -91,7 +91,18 @@ public class Query implements Serializable, TimeStamped {
     private String datasourcePID;
     private String queryHash;
     private String baseTable;
-    private String query_text;
+
+
+    @Column(name = "queryString", length = 5000)
+    public String getQueryString() {
+        return queryString;
+    }
+
+    public void setQueryString(String queryString) {
+        this.queryString = queryString;
+    }
+
+    private String queryString;
     private Date createdDate;
     private Date lastUpdatedDate;
     private String resultSetHash;
@@ -136,13 +147,6 @@ public class Query implements Serializable, TimeStamped {
         this.baseTable = baseTable;
     }
 
-    public String getQuery_text() {
-        return query_text;
-    }
-
-    public void setQuery_text(String query_text) {
-        this.query_text = query_text;
-    }
 
     @Column(name = "resultSetHash", unique = true)
     protected String getResultSetHash() {

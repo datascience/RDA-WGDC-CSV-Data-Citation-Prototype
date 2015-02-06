@@ -42,7 +42,6 @@ import org.hibernate.criterion.Restrictions;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.logging.Logger;
 
 /**
@@ -559,7 +558,7 @@ public class QueryStoreAPI {
         this.persistQuery(query);
         
         String querString = this.generateQueryString(query);
-        query.setQuery_text(querString);
+        query.setQueryString(querString);
         this.persistQuery(query);
 
         boolean queryIsUnique = this.checkQueryUniqueness(query);
@@ -596,7 +595,8 @@ public class QueryStoreAPI {
     }
 
     /*
-    * Generate the string from the persisted query
+    * Generate the string from the persisted query.
+    * *
     * * * */
     public String generateQueryString(Query query) {
 
@@ -620,18 +620,50 @@ public class QueryStoreAPI {
 
         sqlString += " FROM " + fromString;
 
+        // inner join 
+
+        sqlString += "  AS outerGroup\n" +
+                "        INNER JOIN\n" +
+                "    (SELECT \n" +
+                "        id, max(LAST_UPDATE) AS mostRecent " +
+                "    FROM\n" +
+                "        stefan_addresses AS innerSELECT " +
+                "    WHERE\n" +
+                "        (innerSELECT.RECORD_STATUS = 'inserted' " +
+                "            OR innerSELECT.RECORD_STATUS = 'updated') " +
+                "    GROUP BY id) innerGroup ON outerGroup.id = innerGroup.id " +
+                "        AND outerGroup.LAST_UPDATE = innerGroup.mostRecent ";
+
         if (filterSet.size() > 0) {
             String whereString = " WHERE ";
+            int filterCounter = 0;
             for (Filter currentFilter : filterSet) {
-                whereString += currentFilter.getFilterName() + "=" + currentFilter.getFilterValue();
+                filterCounter++;
+                if (filterCounter == 1) {
+                    whereString += "UPPER(`outerGroup`.`" + currentFilter.getFilterName() + "`) LIKE UPPER('%" +
+                            currentFilter.getFilterValue() + "%') ";
+                } else {
+                    whereString += "AND UPPER(`outerGroup`.`" + currentFilter.getFilterName() + "`) LIKE UPPER('%" +
+                            currentFilter.getFilterValue() + "%') ";
+
+                }
+                
             }
 
             sqlString += whereString;
         }
         if (sortingsSet.size() > 0) {
             String sortingString = " ORDER BY ";
+            int sortingCounter = 0;
             for (Sorting currentSorting : sortingsSet) {
-                sortingString += currentSorting.getSortingColumn() + "=" + currentSorting.getDirection();
+                sortingCounter++;
+                sortingString += "`outerGroup`.`" + currentSorting.getSortingColumn() + " \"` " + currentSorting
+                        .getDirection();
+                if (sortingCounter > 1) {
+                    sortingString += ", `outerGroup`.`" + currentSorting.getSortingColumn() + " \"` " + currentSorting
+                            .getDirection();
+
+                }
             }
 
             sqlString += sortingString;

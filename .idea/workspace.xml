@@ -5,7 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fe0bbad9-08dd-49cf-9f33-eb5e1947ea1f" name="Default" comment="persistency problem fixed">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Database/src/main/java/Database/DatabaseOperations/DatabaseQueries.java" afterPath="$PROJECT_DIR$/Database/src/main/java/Database/DatabaseOperations/DatabaseQueries.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/QueryStore/src/main/java/QueryStore/Query.java" afterPath="$PROJECT_DIR$/QueryStore/src/main/java/QueryStore/Query.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/QueryStore/src/main/java/QueryStore/QueryStoreAPI.java" afterPath="$PROJECT_DIR$/QueryStore/src/main/java/QueryStore/QueryStoreAPI.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/WebInterface/src/main/java/Bean/QueryStoreController.java" afterPath="$PROJECT_DIR$/WebInterface/src/main/java/Bean/QueryStoreController.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="SCAPE-QueryStore.iws" />
@@ -96,21 +98,34 @@
       <file leaf-file-name="QueryStoreController.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/WebInterface/src/main/java/Bean/QueryStoreController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="2848" max-vertical-offset="4095">
-              <caret line="207" column="0" selection-start-line="207" selection-start-column="0" selection-end-line="207" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="2758" max-vertical-offset="4110">
+              <caret line="201" column="0" selection-start-line="201" selection-start-column="0" selection-end-line="201" selection-end-column="0" />
               <folding>
-                <element signature="e#0#7801#0" expanded="true" />
+                <element signature="e#0#7812#0" expanded="true" />
                 <element signature="imports" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="QueryStoreAPI.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="QueryStoreAPI.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/QueryStore/src/main/java/QueryStore/QueryStoreAPI.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="8351" max-vertical-offset="9255">
-              <caret line="625" column="64" selection-start-line="625" selection-start-column="64" selection-end-line="625" selection-end-column="64" />
+            <state vertical-scroll-proportion="0.33333334" vertical-offset="8319" max-vertical-offset="9750">
+              <caret line="608" column="0" selection-start-line="608" selection-start-column="0" selection-end-line="608" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="README.md" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Database/README.md">
+          <provider editor-type-id="MarkdownPreviewEditor">
+            <state />
+          </provider>
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-13.965517" vertical-offset="0" max-vertical-offset="495">
+              <caret line="27" column="0" selection-start-line="27" selection-start-column="0" selection-end-line="27" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -126,10 +141,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="DatabaseTools.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="DatabaseTools.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Database/src/main/java/Database/DatabaseOperations/DatabaseTools.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-0.49084857" vertical-offset="2515" max-vertical-offset="24720">
+            <state vertical-scroll-proportion="0.0" vertical-offset="2515" max-vertical-offset="24720">
               <caret line="166" column="34" selection-start-line="166" selection-start-column="34" selection-end-line="166" selection-end-column="34" />
               <folding />
             </state>
@@ -139,10 +154,10 @@
       <file leaf-file-name="Query.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/QueryStore/src/main/java/QueryStore/Query.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-15.321428" vertical-offset="666" max-vertical-offset="3345">
-              <caret line="73" column="19" selection-start-line="73" selection-start-column="19" selection-end-line="73" selection-end-column="19" />
+            <state vertical-scroll-proportion="-8.357142" vertical-offset="1191" max-vertical-offset="3495">
+              <caret line="95" column="45" selection-start-line="95" selection-start-column="45" selection-end-line="95" selection-end-column="45" />
               <folding>
-                <element signature="e#0#6932#0" expanded="true" />
+                <element signature="e#0#6995#0" expanded="true" />
                 <element signature="imports" expanded="true" />
                 <element signature="e#2330#2331#0" expanded="true" />
                 <element signature="e#2360#2361#0" expanded="true" />
@@ -152,6 +167,10 @@
                 <element signature="e#2585#2586#0" expanded="true" />
                 <element signature="e#2640#2641#0" expanded="true" />
                 <element signature="e#2680#2681#0" expanded="true" />
+                <element signature="e#3161#3162#0" expanded="true" />
+                <element signature="e#3195#3196#0" expanded="true" />
+                <element signature="e#3249#3250#0" expanded="true" />
+                <element signature="e#3295#3296#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -256,12 +275,12 @@
         <option value="$PROJECT_DIR$/WebInterface/src/main/java/Bean/ServletController.java" />
         <option value="$PROJECT_DIR$/QueryStore/src/main/resources/hibernate.querystore.cfg.xml" />
         <option value="$PROJECT_DIR$/WebInterface/src/main/java/Bean/DatabaseTableNameBean.java" />
-        <option value="$PROJECT_DIR$/WebInterface/src/main/java/Bean/QueryStoreController.java" />
         <option value="$PROJECT_DIR$/QueryStore/src/main/java/QueryStore/Filter.java" />
-        <option value="$PROJECT_DIR$/QueryStore/src/main/java/QueryStore/Query.java" />
         <option value="$PROJECT_DIR$/QueryStore/src/main/java/QueryStore/Sorting.java" />
-        <option value="$PROJECT_DIR$/QueryStore/src/main/java/QueryStore/QueryStoreAPI.java" />
         <option value="$PROJECT_DIR$/Database/src/main/java/Database/DatabaseOperations/DatabaseQueries.java" />
+        <option value="$PROJECT_DIR$/QueryStore/src/main/java/QueryStore/Query.java" />
+        <option value="$PROJECT_DIR$/QueryStore/src/main/java/QueryStore/QueryStoreAPI.java" />
+        <option value="$PROJECT_DIR$/WebInterface/src/main/java/Bean/QueryStoreController.java" />
       </list>
     </option>
   </component>
@@ -1925,12 +1944,6 @@
       <option name="number" value="Default" />
       <updated>1407135258553</updated>
     </task>
-    <task id="LOCAL-00177" summary="pid problem">
-      <created>1422535530106</created>
-      <option name="number" value="00177" />
-      <option name="project" value="LOCAL" />
-      <updated>1422535530106</updated>
-    </task>
     <task id="LOCAL-00178" summary="sorting and filtering">
       <created>1422540697974</created>
       <option name="number" value="00178" />
@@ -2219,7 +2232,13 @@
       <option name="project" value="LOCAL" />
       <updated>1423233921779</updated>
     </task>
-    <option name="localTasksCounter" value="226" />
+    <task id="LOCAL-00226" summary="persistency problem fixed">
+      <created>1423234183765</created>
+      <option name="number" value="00226" />
+      <option name="project" value="LOCAL" />
+      <updated>1423234183765</updated>
+    </task>
+    <option name="localTasksCounter" value="227" />
     <servers />
   </component>
   <component name="TodoView" selected-index="0">
@@ -2253,19 +2272,19 @@
       <window_info id="Problems" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33619764" sideWeight="0.5" order="14" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3351235" sideWeight="0.61764705" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3254565" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3254565" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3716434" sideWeight="0.7973262" order="3" side_tool="false" content_ui="tabs" x="2076" y="187" width="1858" height="742" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3716434" sideWeight="0.7973262" order="3" side_tool="false" content_ui="tabs" x="2076" y="187" width="1858" height="742" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.48231512" sideWeight="0.2026738" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.23109691" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32760474" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3254565" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32837406" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24973261" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24973261" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.22683705" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25721925" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25721925" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.36949515" sideWeight="0.6911608" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Statistic" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32800853" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.20766774" sideWeight="0.5" order="6" side_tool="true" content_ui="tabs" />
@@ -2353,13 +2372,13 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/QueryStore/src/main/java/QueryStore/QueryStoreAPI.java</url>
-          <line>608</line>
+          <url>file://$PROJECT_DIR$/WebInterface/src/main/java/Bean/QueryStoreController.java</url>
+          <line>201</line>
           <properties />
-          <option name="timeStamp" value="30" />
+          <option name="timeStamp" value="31" />
         </line-breakpoint>
       </breakpoints>
-      <option name="time" value="31" />
+      <option name="time" value="32" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -2596,16 +2615,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Database/README.md">
-      <provider editor-type-id="MarkdownPreviewEditor">
-        <state />
-      </provider>
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-13.965517" vertical-offset="0" max-vertical-offset="495">
-          <caret line="27" column="0" selection-start-line="27" selection-start-column="0" selection-end-line="27" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/DatatableModel/src/main/java/DatatableModel/DataTablesParamUtility.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="339" max-vertical-offset="1230">
@@ -2716,44 +2725,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/QueryStore/src/main/java/QueryStore/Query.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-15.321428" vertical-offset="666" max-vertical-offset="3345">
-          <caret line="73" column="19" selection-start-line="73" selection-start-column="19" selection-end-line="73" selection-end-column="19" />
-          <folding>
-            <element signature="e#0#6932#0" expanded="true" />
-            <element signature="imports" expanded="true" />
-            <element signature="e#2330#2331#0" expanded="true" />
-            <element signature="e#2360#2361#0" expanded="true" />
-            <element signature="e#2412#2413#0" expanded="true" />
-            <element signature="e#2450#2451#0" expanded="true" />
-            <element signature="e#2554#2555#0" expanded="true" />
-            <element signature="e#2585#2586#0" expanded="true" />
-            <element signature="e#2640#2641#0" expanded="true" />
-            <element signature="e#2680#2681#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/WebInterface/src/main/java/Bean/QueryStoreController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="2848" max-vertical-offset="4095">
-          <caret line="207" column="0" selection-start-line="207" selection-start-column="0" selection-end-line="207" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#7801#0" expanded="true" />
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/QueryStore/src/main/java/QueryStore/QueryStoreAPI.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="8351" max-vertical-offset="9255">
-          <caret line="625" column="64" selection-start-line="625" selection-start-column="64" selection-end-line="625" selection-end-column="64" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Database/src/main/java/Database/DatabaseOperations/DatabaseQueries.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="1555" max-vertical-offset="4560">
@@ -2764,8 +2735,61 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Database/src/main/java/Database/DatabaseOperations/DatabaseTools.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.49084857" vertical-offset="2515" max-vertical-offset="24720">
+        <state vertical-scroll-proportion="0.0" vertical-offset="2515" max-vertical-offset="24720">
           <caret line="166" column="34" selection-start-line="166" selection-start-column="34" selection-end-line="166" selection-end-column="34" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Database/README.md">
+      <provider editor-type-id="MarkdownPreviewEditor">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-13.965517" vertical-offset="0" max-vertical-offset="495">
+          <caret line="27" column="0" selection-start-line="27" selection-start-column="0" selection-end-line="27" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/QueryStore/src/main/java/QueryStore/Query.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-8.357142" vertical-offset="1191" max-vertical-offset="3495">
+          <caret line="95" column="45" selection-start-line="95" selection-start-column="45" selection-end-line="95" selection-end-column="45" />
+          <folding>
+            <element signature="e#0#6995#0" expanded="true" />
+            <element signature="imports" expanded="true" />
+            <element signature="e#2330#2331#0" expanded="true" />
+            <element signature="e#2360#2361#0" expanded="true" />
+            <element signature="e#2412#2413#0" expanded="true" />
+            <element signature="e#2450#2451#0" expanded="true" />
+            <element signature="e#2554#2555#0" expanded="true" />
+            <element signature="e#2585#2586#0" expanded="true" />
+            <element signature="e#2640#2641#0" expanded="true" />
+            <element signature="e#2680#2681#0" expanded="true" />
+            <element signature="e#3161#3162#0" expanded="true" />
+            <element signature="e#3195#3196#0" expanded="true" />
+            <element signature="e#3249#3250#0" expanded="true" />
+            <element signature="e#3295#3296#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/WebInterface/src/main/java/Bean/QueryStoreController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="2758" max-vertical-offset="4110">
+          <caret line="201" column="0" selection-start-line="201" selection-start-column="0" selection-end-line="201" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#7812#0" expanded="true" />
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/QueryStore/src/main/java/QueryStore/QueryStoreAPI.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.33333334" vertical-offset="8319" max-vertical-offset="9750">
+          <caret line="608" column="0" selection-start-line="608" selection-start-column="0" selection-end-line="608" selection-end-column="0" />
           <folding />
         </state>
       </provider>

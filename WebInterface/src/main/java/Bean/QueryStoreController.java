@@ -198,8 +198,9 @@ public class QueryStoreController implements Serializable {
 
         
         String sortingsMapJSON = this.getJSONFromWebService("?lastSortings=1");
-        Map<String, String> sortingsMap = this.convertJSON2Map(filterMapJSON);
+        Map<String, String> sortingsMap = this.convertJSON2Map(sortingsMapJSON);
         this.printMap(sortingsMap);
+
 
         // persist the sortings
         this.queryStoreAPI.addSortings(query, sortingsMap);
