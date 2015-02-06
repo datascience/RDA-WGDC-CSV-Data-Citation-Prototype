@@ -271,6 +271,8 @@ public class QueryStoreAPI {
                 .add(Projections.max("filterSequence")));
         cr.add(Restrictions.eq("query.queryId", new Long(query.getQueryId())));
         Object unique = (Object) cr.uniqueResult();
+        session.getTransaction().commit();
+        session.close();
 
         if (unique == null) {
             this.logger.warning("No previous filter exists");
@@ -298,7 +300,7 @@ public class QueryStoreAPI {
                 currentFilterCounter++;
                 filter.setFilterSequence(currentFilterSequence + currentFilterCounter);
                 this.logger.info("new Filter persisted");
-                session.save(filter);
+                query.getFilters().add(filter);
             }
 
 
@@ -308,9 +310,9 @@ public class QueryStoreAPI {
         // recalculate query hash
         String newQueryHash = this.calculateQueryHash(query);
         query.setQueryHash(newQueryHash);
-        session.saveOrUpdate(query);
-        session.getTransaction().commit();
-        session.close();
+        this.persistQuery(query);
+
+
         
     }
 
@@ -331,6 +333,8 @@ public class QueryStoreAPI {
                 .add(Projections.max("sortingSequence")));
         cr.add(Restrictions.eq("query.queryId", new Long(query.getQueryId())));
         Object unique = (Object) cr.uniqueResult();
+        session.getTransaction().commit();
+        session.close();
 
         if (unique == null) {
             this.logger.warning("No previous sorting exists");
@@ -359,7 +363,7 @@ public class QueryStoreAPI {
                 currentSortingCounter++;
                 sorting.setSortingSequence(currentSortingSequence + currentSortingCounter);
                 this.logger.info("new sorting persisted");
-                session.save(sorting);
+                query.getSortings().add(sorting);
 
             }
 
@@ -368,9 +372,8 @@ public class QueryStoreAPI {
         // recalculate query hash
         String newQueryHash = this.calculateQueryHash(query);
         query.setQueryHash(newQueryHash);
-        session.saveOrUpdate(query);
-        session.getTransaction().commit();
-        session.close();
+        this.persistQuery(query);
+
 
     }
 
@@ -553,7 +556,8 @@ public class QueryStoreAPI {
      */
     public int finalizeQuery(Query query) {
 
-
+        this.persistQuery(query);
+        
         String querString = this.generateQueryString(query);
         query.setQuery_text(querString);
         this.persistQuery(query);
