@@ -14,6 +14,6 @@
     <orderEntry type="module" module-name="QueryStore" exported="" />
     <orderEntry type="module" module-name="ResultSetVerification" exported="" />
     <orderEntry type="module" module-name="WebInterface" exported="" />
+    <orderEntry type="library" name="Maven: org.hibernate.javax.persistence:hibernate-jpa-2.1-api:1.0.0.Final" level="project" />
   </component>
 </module>
-
