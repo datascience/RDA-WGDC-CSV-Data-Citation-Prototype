@@ -5,40 +5,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fe0bbad9-08dd-49cf-9f33-eb5e1947ea1f" name="Default" comment="sql string">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/GitHub-Subtree.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/additional_configuration/GitHub-Subtree.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/at/stefanproell/TomcatAuthentication/GroupDetails.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/at/stefanproell/PersistentIdentifierMockup/HibernateUtilPersistentIdentification.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/at/stefanproell/TomcatAuthentication/UserAPI.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/at/stefanproell/TomcatAuthentication/UserDetails.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/at/stefanproell/TomcatAuthentication/UserTest.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/resources/hibernate.persistentidentification.cfg.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/resources/pid.db.properties" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/resources/pid.initial_data.sql" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/at/stefanproell/Examples/ExamplesAPI.java" afterPath="$PROJECT_DIR$/src/main/java/at/stefanproell/Examples/ExamplesAPI.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/JavaDoc/at/stefanproell/PersistentIdentifierMockup/Helpers.html" afterPath="$PROJECT_DIR$/JavaDoc/at/stefanproell/PersistentIdentifierMockup/Helpers.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/JavaDoc/at/stefanproell/PersistentIdentifierMockup/HibernateSchemaGeneratorPID.html" afterPath="$PROJECT_DIR$/JavaDoc/at/stefanproell/PersistentIdentifierMockup/HibernateSchemaGeneratorPID.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/JavaDoc/at/stefanproell/PersistentIdentifierMockup/HibernateUtil.html" afterPath="$PROJECT_DIR$/JavaDoc/at/stefanproell/PersistentIdentifierMockup/HibernateUtil.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/at/stefanproell/Examples/MinimalTest.java" afterPath="$PROJECT_DIR$/src/main/java/at/stefanproell/Examples/MinimalTest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/at/stefanproell/PersistentIdentifierMockup/Organization.java" afterPath="$PROJECT_DIR$/src/main/java/at/stefanproell/PersistentIdentifierMockup/Organization.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/PersistentIdentification.iml" afterPath="$PROJECT_DIR$/PersistentIdentification.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/at/stefanproell/PersistentIdentifierMockup/PersistentIdentifierAPI.java" afterPath="$PROJECT_DIR$/src/main/java/at/stefanproell/PersistentIdentifierMockup/PersistentIdentifierAPI.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/at/stefanproell/PersistentIdentifierMockup/PersistentIdentifierAlpha.java" afterPath="$PROJECT_DIR$/src/main/java/at/stefanproell/PersistentIdentifierMockup/PersistentIdentifierAlpha.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/at/stefanproell/PersistentIdentifierMockup/PersistentIdentifierAlphaNumeric.java" afterPath="$PROJECT_DIR$/src/main/java/at/stefanproell/PersistentIdentifierMockup/PersistentIdentifierAlphaNumeric.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/at/stefanproell/PersistentIdentifierMockup/PersistentIdentifierNumeric.java" afterPath="$PROJECT_DIR$/src/main/java/at/stefanproell/PersistentIdentifierMockup/PersistentIdentifierNumeric.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/at/stefanproell/PersistentIdentifierMockup/PersistentIdentifierSubcomponent.java" afterPath="$PROJECT_DIR$/src/main/java/at/stefanproell/PersistentIdentifierMockup/PersistentIdentifierSubcomponent.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/JavaDoc/allclasses-frame.html" afterPath="$PROJECT_DIR$/JavaDoc/allclasses-frame.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/JavaDoc/allclasses-noframe.html" afterPath="$PROJECT_DIR$/JavaDoc/allclasses-noframe.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/additional_configuration/drop_create_schema.sql" afterPath="$PROJECT_DIR$/additional_configuration/drop_create_schema.sql" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/JavaDoc/index-files/index-10.html" afterPath="$PROJECT_DIR$/JavaDoc/index-files/index-10.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/JavaDoc/index-files/index-4.html" afterPath="$PROJECT_DIR$/JavaDoc/index-files/index-4.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/JavaDoc/index-files/index-5.html" afterPath="$PROJECT_DIR$/JavaDoc/index-files/index-5.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/JavaDoc/index-files/index-9.html" afterPath="$PROJECT_DIR$/JavaDoc/index-files/index-9.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/JavaDoc/overview-tree.html" afterPath="$PROJECT_DIR$/JavaDoc/overview-tree.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/JavaDoc/at/stefanproell/PersistentIdentifierMockup/package-frame.html" afterPath="$PROJECT_DIR$/JavaDoc/at/stefanproell/PersistentIdentifierMockup/package-frame.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/JavaDoc/at/stefanproell/PersistentIdentifierMockup/package-summary.html" afterPath="$PROJECT_DIR$/JavaDoc/at/stefanproell/PersistentIdentifierMockup/package-summary.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/JavaDoc/at/stefanproell/PersistentIdentifierMockup/package-tree.html" afterPath="$PROJECT_DIR$/JavaDoc/at/stefanproell/PersistentIdentifierMockup/package-tree.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pom.xml" afterPath="$PROJECT_DIR$/pom.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="SCAPE-QueryStore.iws" />
@@ -117,8 +83,8 @@
         <option name="LOG_MESSAGE" value="" />
       </breakpoint>
     </breakpoint_any>
-    <ui_properties converted="true" />
     <breakpoint_rules converted="true" />
+    <ui_properties converted="true" />
   </component>
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FavoritesManager">
@@ -129,7 +95,7 @@
       <file leaf-file-name="SessionManager.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/WebInterface/src/main/java/Bean/SessionManager.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-9.357142" vertical-offset="4193" max-vertical-offset="5160">
+            <state vertical-scroll-proportion="0.0" vertical-offset="4193" max-vertical-offset="5160">
               <caret line="323" column="0" selection-start-line="323" selection-start-column="0" selection-end-line="329" selection-end-column="9" />
               <folding />
             </state>
@@ -139,7 +105,7 @@
       <file leaf-file-name="QueryStoreController.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/WebInterface/src/main/java/Bean/QueryStoreController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-6.321429" vertical-offset="2418" max-vertical-offset="4095">
+            <state vertical-scroll-proportion="0.0" vertical-offset="2418" max-vertical-offset="4095">
               <caret line="177" column="55" selection-start-line="177" selection-start-column="55" selection-end-line="177" selection-end-column="55" />
               <folding>
                 <element signature="e#0#7714#0" expanded="true" />
@@ -159,11 +125,21 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="QueryStoreAPI.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="QueryStoreAPI.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/QueryStore/src/main/java/QueryStore/QueryStoreAPI.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.91992885" vertical-offset="7988" max-vertical-offset="8775">
-              <caret line="608" column="0" selection-start-line="608" selection-start-column="0" selection-end-line="608" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="8176" max-vertical-offset="8775">
+              <caret line="598" column="48" selection-start-line="598" selection-start-column="48" selection-end-line="598" selection-end-column="48" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="BatchModeMainTest.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/BatchMode/src/test/java/at/stefanproell/BatchModeMainTest.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="598">
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -184,9 +160,7 @@
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0" vertical-offset="1659" max-vertical-offset="5145">
               <caret line="164" column="14" selection-start-line="164" selection-start-column="14" selection-end-line="164" selection-end-column="14" />
-              <folding>
-                <element signature="e#9603#9620#0" expanded="true" />
-              </folding>
+              <folding />
             </state>
           </provider>
         </entry>
@@ -199,7 +173,7 @@
     </FindUsagesManager>
   </component>
   <component name="Git.Settings">
-    <option name="UPDATE_TYPE" value="REBASE" />
+    <option name="UPDATE_TYPE" value="MERGE" />
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
@@ -210,7 +184,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/WebInterface/src/main/java/Views/PredefinedInputTextView.java" />
         <option value="$PROJECT_DIR$/WebInterface/src/main/webapp/dataselection.xhtml" />
         <option value="$PROJECT_DIR$/WebInterface/src/main/webapp/uploadNewCSV.xhtml" />
         <option value="$PROJECT_DIR$/DatatableModel/src/main/java/DatatableModel/TableDataOperations.java" />
@@ -261,6 +234,7 @@
         <option value="$PROJECT_DIR$/WebInterface/src/main/java/Servlet/DataServlet.java" />
         <option value="$PROJECT_DIR$/WebInterface/src/main/java/Bean/QueryStoreController.java" />
         <option value="$PROJECT_DIR$/QueryStore/src/main/java/QueryStore/QueryStoreAPI.java" />
+        <option value="$PROJECT_DIR$/BatchMode/src/test/java/at/stefanproell/BatchModeMainTest.java" />
       </list>
     </option>
   </component>
@@ -598,7 +572,6 @@
     </navigator>
     <panes>
       <pane id="PackagesPane" />
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -1309,6 +1282,7 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -1831,14 +1805,14 @@
       <method />
     </configuration>
     <list size="8">
-      <item index="0" class="java.lang.String" itemvalue="Application.CreateUsersExample" />
-      <item index="1" class="java.lang.String" itemvalue="Application.MinimalTest" />
-      <item index="2" class="java.lang.String" itemvalue="Application.ExamplesAPI" />
-      <item index="3" class="java.lang.String" itemvalue="Application.ExamplesAPI (1)" />
-      <item index="4" class="java.lang.String" itemvalue="Application.ExamplesQueryAPI" />
-      <item index="5" class="java.lang.String" itemvalue="Maven.WebInterface [tomcat7:deploy]" />
-      <item index="6" class="java.lang.String" itemvalue="Maven.InstallDeploy" />
-      <item index="7" class="java.lang.String" itemvalue="Remote.Debug Tomcat" />
+      <item index="0" class="java.lang.String" itemvalue="Maven.WebInterface [tomcat7:deploy]" />
+      <item index="1" class="java.lang.String" itemvalue="Maven.InstallDeploy" />
+      <item index="2" class="java.lang.String" itemvalue="Remote.Debug Tomcat" />
+      <item index="3" class="java.lang.String" itemvalue="Application.CreateUsersExample" />
+      <item index="4" class="java.lang.String" itemvalue="Application.MinimalTest" />
+      <item index="5" class="java.lang.String" itemvalue="Application.ExamplesAPI" />
+      <item index="6" class="java.lang.String" itemvalue="Application.ExamplesAPI (1)" />
+      <item index="7" class="java.lang.String" itemvalue="Application.ExamplesQueryAPI" />
     </list>
     <recent_temporary>
       <list size="5">
@@ -1885,30 +1859,6 @@
       <created>1407135258553</created>
       <option name="number" value="Default" />
       <updated>1407135258553</updated>
-    </task>
-    <task id="LOCAL-00167" summary="hikari eingebaut">
-      <created>1422363617845</created>
-      <option name="number" value="00167" />
-      <option name="project" value="LOCAL" />
-      <updated>1422363617845</updated>
-    </task>
-    <task id="LOCAL-00168" summary="connections cleaned up">
-      <created>1422363988993</created>
-      <option name="number" value="00168" />
-      <option name="project" value="LOCAL" />
-      <updated>1422363988993</updated>
-    </task>
-    <task id="LOCAL-00169" summary="connections cleaned up">
-      <created>1422367738335</created>
-      <option name="number" value="00169" />
-      <option name="project" value="LOCAL" />
-      <updated>1422367738335</updated>
-    </task>
-    <task id="LOCAL-00170" summary="change events">
-      <created>1422370938659</created>
-      <option name="number" value="00170" />
-      <option name="project" value="LOCAL" />
-      <updated>1422370938659</updated>
     </task>
     <task id="LOCAL-00171" summary="change events">
       <created>1422371155096</created>
@@ -2180,7 +2130,31 @@
       <option name="project" value="LOCAL" />
       <updated>1423150308673</updated>
     </task>
-    <option name="localTasksCounter" value="216" />
+    <task id="LOCAL-00216" summary="sql string">
+      <created>1423150488436</created>
+      <option name="number" value="00216" />
+      <option name="project" value="LOCAL" />
+      <updated>1423150488436</updated>
+    </task>
+    <task id="LOCAL-00217" summary="sql string">
+      <created>1423211969175</created>
+      <option name="number" value="00217" />
+      <option name="project" value="LOCAL" />
+      <updated>1423211969176</updated>
+    </task>
+    <task id="LOCAL-00218" summary="resolving conflicts">
+      <created>1423211993976</created>
+      <option name="number" value="00218" />
+      <option name="project" value="LOCAL" />
+      <updated>1423211993976</updated>
+    </task>
+    <task id="LOCAL-00219" summary="sql string">
+      <created>1423212008427</created>
+      <option name="number" value="00219" />
+      <option name="project" value="LOCAL" />
+      <updated>1423212008427</updated>
+    </task>
+    <option name="localTasksCounter" value="220" />
     <servers />
   </component>
   <component name="TodoView" selected-index="0">
@@ -2205,42 +2179,42 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-2" y="0" width="1924" height="1057" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3290735" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Changes" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32867885" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Problems" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33619764" sideWeight="0.5" order="14" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.33727175" sideWeight="0.61764705" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33727175" sideWeight="0.61764705" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3265306" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32223415" sideWeight="0.7976773" order="3" side_tool="false" content_ui="tabs" x="2076" y="187" width="1858" height="742" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.33727175" sideWeight="0.38235295" order="8" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32867885" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.23109691" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32800853" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32800853" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32760474" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32760474" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32837406" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24973261" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.22683705" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25721925" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.28753993" sideWeight="0.6911608" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Statistic" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32800853" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.20766774" sideWeight="0.5" order="6" side_tool="true" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.28753993" sideWeight="0.6911608" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3265306" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32223415" sideWeight="0.7976773" order="3" side_tool="false" content_ui="tabs" x="2076" y="187" width="1858" height="742" />
       <window_info id="JRebel" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="true" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
     <layout-to-restore>
-      <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Statistic" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32800853" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3290735" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Statistic" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32800853" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="Problems" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3365282" sideWeight="0.5" order="14" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4227902" sideWeight="0.3088392" order="8" side_tool="true" content_ui="tabs" />
@@ -2261,8 +2235,8 @@
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.23109691" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32800853" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24866879" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.22683705" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout-to-restore>
   </component>
@@ -2281,7 +2255,6 @@
     <option name="myTodoPanelSettings">
       <TodoPanelSettings />
     </option>
-    <MESSAGE value="page reload solved" />
     <MESSAGE value="pid problem" />
     <MESSAGE value="sorting and filtering" />
     <MESSAGE value="drag and drop reorder client side" />
@@ -2305,6 +2278,7 @@
     <MESSAGE value="query issue" />
     <MESSAGE value="changing session map" />
     <MESSAGE value="session fix" />
+    <MESSAGE value="resolving conflicts" />
     <MESSAGE value="sql string" />
     <option name="LAST_COMMIT_MESSAGE" value="sql string" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
@@ -2328,14 +2302,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/PersistentIdentification/src/main/resources/hibernate.persistentidentification.cfg.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="152" max-vertical-offset="750">
-          <caret line="14" column="59" selection-start-line="14" selection-start-column="48" selection-end-line="14" selection-end-column="59" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Database/src/main/resources/hibernate.userauthentication.cfg.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.6454849" vertical-offset="109" max-vertical-offset="825">
@@ -2359,13 +2325,13 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/README.md">
-      <provider editor-type-id="MarkdownPreviewEditor">
-        <state />
-      </provider>
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2490">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
+      </provider>
+      <provider editor-type-id="MarkdownPreviewEditor">
+        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/WebInterface/src/main/webapp/topmenu.xhtml">
@@ -2387,9 +2353,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="6144" max-vertical-offset="7500">
           <caret line="442" column="59" selection-start-line="442" selection-start-column="59" selection-end-line="442" selection-end-column="59" />
-          <folding>
-            <element signature="e#11369#11377#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -2397,7 +2360,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.71237457" vertical-offset="474" max-vertical-offset="5610">
           <caret line="81" column="41" selection-start-line="81" selection-start-column="41" selection-end-line="81" selection-end-column="41" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2405,7 +2367,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.75250834" vertical-offset="1200" max-vertical-offset="3690">
           <caret line="138" column="43" selection-start-line="138" selection-start-column="43" selection-end-line="138" selection-end-column="43" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2421,7 +2382,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="2745" max-vertical-offset="4500">
           <caret line="307" column="0" selection-start-line="307" selection-start-column="0" selection-end-line="319" selection-end-column="5" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2445,7 +2405,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="640" max-vertical-offset="1230">
           <caret line="112" column="0" selection-start-line="112" selection-start-column="0" selection-end-line="112" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2460,7 +2419,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.15254237" vertical-offset="0" max-vertical-offset="1125">
           <caret line="100" column="13" selection-start-line="100" selection-start-column="13" selection-end-line="100" selection-end-column="13" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2468,41 +2426,23 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="1390" max-vertical-offset="2445">
           <caret line="177" column="12" selection-start-line="177" selection-start-column="12" selection-end-line="177" selection-end-column="12" />
-          <folding>
-            <element signature="e#0#6715#0" expanded="false" />
-            <element signature="imports" expanded="false" />
-            <element signature="e#3329#3330#0" expanded="false" />
-            <element signature="e#3387#3388#0" expanded="false" />
-            <element signature="e#3773#3774#0" expanded="false" />
-            <element signature="e#3831#3832#0" expanded="false" />
-            <element signature="e#4219#4220#0" expanded="false" />
-            <element signature="e#4279#4280#0" expanded="false" />
-            <element signature="e#4682#4683#0" expanded="false" />
-            <element signature="e#4744#4745#0" expanded="false" />
-            <element signature="e#5634#5635#0" expanded="false" />
-            <element signature="e#5690#5691#0" expanded="false" />
-            <element signature="e#5832#5833#0" expanded="false" />
-            <element signature="e#5878#5879#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/CSV-Citation-Deployment-Module/README.md">
-      <provider editor-type-id="MarkdownPreviewEditor">
-        <state />
-      </provider>
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-12.931034" vertical-offset="0" max-vertical-offset="495">
           <caret line="25" column="33" selection-start-line="25" selection-start-column="33" selection-end-line="25" selection-end-column="33" />
-          <folding />
         </state>
+      </provider>
+      <provider editor-type-id="MarkdownPreviewEditor">
+        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/WebInterface/src/main/java/Bean/DatabaseTableNameBean.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.6307947" vertical-offset="1854" max-vertical-offset="3000">
           <caret line="192" column="0" selection-start-line="192" selection-start-column="0" selection-end-line="192" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2510,7 +2450,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.33278146" vertical-offset="8139" max-vertical-offset="10935">
           <caret line="605" column="0" selection-start-line="605" selection-start-column="0" selection-end-line="605" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2518,7 +2457,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.2920354" vertical-offset="0" max-vertical-offset="565">
           <caret line="17" column="18" selection-start-line="17" selection-start-column="18" selection-end-line="17" selection-end-column="18" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2526,7 +2464,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.35326087" vertical-offset="0" max-vertical-offset="552">
           <caret line="23" column="18" selection-start-line="23" selection-start-column="18" selection-end-line="23" selection-end-column="18" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2534,7 +2471,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="3584" max-vertical-offset="7605">
           <caret line="275" column="0" selection-start-line="275" selection-start-column="0" selection-end-line="275" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2542,10 +2478,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-7.84" vertical-offset="2339" max-vertical-offset="3750">
           <caret line="241" column="22" selection-start-line="241" selection-start-column="22" selection-end-line="241" selection-end-column="22" />
-          <folding>
-            <element signature="e#6835#6836#0" expanded="true" />
-            <element signature="e#6873#6874#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -2553,7 +2485,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-7.36" vertical-offset="6416" max-vertical-offset="26565">
           <caret line="592" column="18" selection-start-line="592" selection-start-column="18" selection-end-line="592" selection-end-column="18" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2561,7 +2492,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-7.36" vertical-offset="926" max-vertical-offset="9330">
           <caret line="108" column="18" selection-start-line="108" selection-start-column="18" selection-end-line="108" selection-end-column="18" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2577,7 +2507,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.3322034" vertical-offset="16109" max-vertical-offset="30465">
           <caret line="1144" column="0" selection-start-line="1144" selection-start-column="0" selection-end-line="1144" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2585,7 +2514,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="2289" max-vertical-offset="4545">
           <caret line="190" column="0" selection-start-line="190" selection-start-column="0" selection-end-line="190" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2593,7 +2521,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="23278" max-vertical-offset="24720">
           <caret line="1583" column="0" selection-start-line="1583" selection-start-column="0" selection-end-line="1583" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2601,7 +2528,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-7.88" vertical-offset="1948" max-vertical-offset="19290">
           <caret line="247" column="16" selection-start-line="247" selection-start-column="16" selection-end-line="247" selection-end-column="16" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2609,7 +2535,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-8.4" vertical-offset="0" max-vertical-offset="555">
           <caret line="28" column="22" selection-start-line="28" selection-start-column="22" selection-end-line="28" selection-end-column="22" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2617,7 +2542,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-7.88" vertical-offset="2908" max-vertical-offset="12255">
           <caret line="243" column="16" selection-start-line="243" selection-start-column="16" selection-end-line="243" selection-end-column="16" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2625,7 +2549,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-7.88" vertical-offset="5383" max-vertical-offset="14625">
           <caret line="443" column="23" selection-start-line="443" selection-start-column="23" selection-end-line="443" selection-end-column="23" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2633,7 +2556,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-7.88" vertical-offset="5158" max-vertical-offset="7470">
           <caret line="475" column="27" selection-start-line="475" selection-start-column="27" selection-end-line="475" selection-end-column="27" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2641,7 +2563,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.34715027" vertical-offset="4014" max-vertical-offset="7110">
           <caret line="329" column="20" selection-start-line="329" selection-start-column="20" selection-end-line="329" selection-end-column="20" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2649,7 +2570,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.33333334" vertical-offset="475" max-vertical-offset="1815">
           <caret line="77" column="13" selection-start-line="77" selection-start-column="13" selection-end-line="77" selection-end-column="13" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2657,7 +2577,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="446" max-vertical-offset="1050">
           <caret line="66" column="0" selection-start-line="66" selection-start-column="0" selection-end-line="66" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2665,7 +2584,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-7.52" vertical-offset="172" max-vertical-offset="4455">
           <caret line="50" column="16" selection-start-line="50" selection-start-column="16" selection-end-line="50" selection-end-column="16" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2673,7 +2591,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-8.04" vertical-offset="39" max-vertical-offset="5670">
           <caret line="41" column="22" selection-start-line="41" selection-start-column="22" selection-end-line="41" selection-end-column="22" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2681,7 +2598,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-7.88" vertical-offset="28" max-vertical-offset="795">
           <caret line="32" column="22" selection-start-line="32" selection-start-column="22" selection-end-line="32" selection-end-column="22" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2689,7 +2605,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-8.04" vertical-offset="999" max-vertical-offset="5865">
           <caret line="141" column="16" selection-start-line="141" selection-start-column="16" selection-end-line="141" selection-end-column="16" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2697,7 +2612,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-8.04" vertical-offset="54" max-vertical-offset="4080">
           <caret line="43" column="22" selection-start-line="43" selection-start-column="22" selection-end-line="43" selection-end-column="22" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2705,7 +2619,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-1.2" vertical-offset="0" max-vertical-offset="2865">
           <caret line="5" column="14" selection-start-line="5" selection-start-column="14" selection-end-line="5" selection-end-column="14" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2713,15 +2626,13 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="1659" max-vertical-offset="5145">
           <caret line="164" column="14" selection-start-line="164" selection-start-column="14" selection-end-line="164" selection-end-column="14" />
-          <folding>
-            <element signature="e#9603#9620#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/WebInterface/src/main/java/Bean/SessionManager.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-9.357142" vertical-offset="4193" max-vertical-offset="5160">
+        <state vertical-scroll-proportion="0.0" vertical-offset="4193" max-vertical-offset="5160">
           <caret line="323" column="0" selection-start-line="323" selection-start-column="0" selection-end-line="329" selection-end-column="9" />
           <folding />
         </state>
@@ -2729,7 +2640,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/WebInterface/src/main/java/Bean/QueryStoreController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-6.321429" vertical-offset="2418" max-vertical-offset="4095">
+        <state vertical-scroll-proportion="0.0" vertical-offset="2418" max-vertical-offset="4095">
           <caret line="177" column="55" selection-start-line="177" selection-start-column="55" selection-end-line="177" selection-end-column="55" />
           <folding>
             <element signature="e#0#7714#0" expanded="true" />
@@ -2756,8 +2667,16 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/QueryStore/src/main/java/QueryStore/QueryStoreAPI.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.91992885" vertical-offset="7988" max-vertical-offset="8775">
-          <caret line="608" column="0" selection-start-line="608" selection-start-column="0" selection-end-line="608" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="8176" max-vertical-offset="8775">
+          <caret line="598" column="48" selection-start-line="598" selection-start-column="48" selection-end-line="598" selection-end-column="48" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/BatchMode/src/test/java/at/stefanproell/BatchModeMainTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="598">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
