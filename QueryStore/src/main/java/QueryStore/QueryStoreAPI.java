@@ -657,10 +657,10 @@ public class QueryStoreAPI {
             int sortingCounter = 0;
             for (Sorting currentSorting : sortingsSet) {
                 sortingCounter++;
-                sortingString += "`outerGroup`.`" + currentSorting.getSortingColumn() + " \"` " + currentSorting
+                sortingString += "`outerGroup`.`" + currentSorting.getSortingColumn() + "` " + currentSorting
                         .getDirection();
                 if (sortingCounter > 1) {
-                    sortingString += ", `outerGroup`.`" + currentSorting.getSortingColumn() + " \"` " + currentSorting
+                    sortingString += ", `outerGroup`.`" + currentSorting.getSortingColumn() + "` " + currentSorting
                             .getDirection();
 
                 }
