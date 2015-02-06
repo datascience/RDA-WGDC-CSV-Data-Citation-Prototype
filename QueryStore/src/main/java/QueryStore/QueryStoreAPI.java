@@ -40,6 +40,7 @@ import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.logging.Logger;
@@ -104,7 +105,7 @@ public class QueryStoreAPI {
         queryDetails = query.getDatasourcePID();
 
         // Iterate over all filters, concatenate their keys and values and normalize the string.
-        Set<Filter> filters = query.getFilters();
+        List<Filter> filters = query.getFilters();
         if (filters != null) {
             if (filters.size() > 0) {
                 Iterator<Filter> filterIterator = filters.iterator();
@@ -127,8 +128,7 @@ public class QueryStoreAPI {
         }
 
 
-
-        Set<Sorting> sortings = query.getSortings();
+        List<Sorting> sortings = query.getSortings();
         if (sortings != null) {
             if (sortings.size() > 0) {
                 Iterator<Sorting> sortingIterator = sortings.iterator();
@@ -596,8 +596,8 @@ public class QueryStoreAPI {
     * * * */
     public String generateQueryString(Query query) {
 
-        Set<Filter> filterSet = query.getFilters();
-        Set<Sorting> sortingsSet = query.getSortings();
+        List<Filter> filterSet = query.getFilters();
+        List<Sorting> sortingsSet = query.getSortings();
 
         String fromString = query.getBaseTable();
 

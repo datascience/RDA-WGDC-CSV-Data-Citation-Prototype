@@ -58,9 +58,29 @@ import java.util.logging.Logger;
 
 @Entity
 @Audited
-@Table(name = "query_table", uniqueConstraints = {@UniqueConstraint(columnNames = {"PID", "queryHash"})})
+@Table(name = "query", uniqueConstraints = {@UniqueConstraint(columnNames = {"PID", "queryHash"})})
 public class Query implements Serializable, TimeStamped {
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "query")
+    public List<Filter> getFilters() {
+        return filters;
+    }
+
+    public void setFilters(List<Filter> filters) {
+        this.filters = filters;
+    }
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "query")
+    public List<Sorting> getSortings() {
+        return sortings;
+    }
+
+    public void setSortings(List<Sorting> sortings) {
+        this.sortings = sortings;
+    }
+
+    private List<Filter> filters;
+    private List<Sorting> sortings;
     Map<Integer, String> selectedColumns = null;
     private Logger logger;
     private Long queryId;
@@ -75,14 +95,14 @@ public class Query implements Serializable, TimeStamped {
     private Date createdDate;
     private Date lastUpdatedDate;
     private String resultSetHash;
-    private Set<Filter> filters;
-    private Set<Sorting> sortings;
+
 
     public Query() {
         this.logger = Logger.getLogger(this.getClass().getName());
-        this.filters = new HashSet<>();
-        this.sortings = new HashSet<>();
         this.selectedColumns = new HashMap<>();
+        this.filters = new LinkedList<Filter>();
+        this.sortings = new LinkedList<>();
+        
         
                 
         
@@ -135,7 +155,7 @@ public class Query implements Serializable, TimeStamped {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "query_id")
+    @Column(name = "queryId")
     protected Long getQueryId() {
         return queryId;
     }
@@ -216,28 +236,6 @@ public class Query implements Serializable, TimeStamped {
         this.queryHash = queryHash;
     }
 
-
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "queryObject")
-    protected Set<Filter> getFilters() {
-        return this.filters;
-    }
-
-    protected void setFilters(Set<Filter> filters) {
-        this.filters = filters;
-    }
-
-    protected void setStockDailyRecords(Set<Filter> filters) {
-        this.filters = filters;
-    }
-
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "queryObject")
-    protected Set<Sorting> getSortings() {
-        return sortings;
-    }
-
-    protected void setSortings(Set<Sorting> sortings) {
-        this.sortings = sortings;
-    }
 
 
     @Override

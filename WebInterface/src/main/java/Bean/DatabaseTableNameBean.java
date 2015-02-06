@@ -222,13 +222,19 @@ public class DatabaseTableNameBean implements Serializable {
             selectedTable = dbTools.getFirstTableFromDatabase(this.getDatabaseName());
 
         } else {
-            selectedTable = event.getNewValue().toString();
+            Object selectedObject = event.getNewValue();
+            if (selectedObject != null) {
+                selectedTable = selectedObject.toString();
+
+            }
+            
             
             
         }
-
-        SessionManager sm = new SessionManager();
-        sm.storeSessionData("currentTableName", selectedTable);
+        if (selectedTable != null) {
+            SessionManager sm = new SessionManager();
+            sm.storeSessionData("currentTableName", selectedTable);
+        }
 
 
     }

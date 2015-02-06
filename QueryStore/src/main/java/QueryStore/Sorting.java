@@ -59,7 +59,18 @@ import java.io.Serializable;
 
 public class Sorting implements Serializable {
     private Long sortingId;
-    private Query queryObject;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "queryId")
+    public Query getQuery() {
+        return query;
+    }
+
+    public void setQuery(Query query) {
+        this.query = query;
+    }
+
+    private Query query;
     private String sortingColumn;
     private String direction;
 
@@ -79,20 +90,12 @@ public class Sorting implements Serializable {
      */
     public Sorting(Query queryObject, String sortingColumn, String direction) {
         super();
-        this.queryObject = queryObject;
+        this.query = queryObject;
         this.sortingColumn = sortingColumn;
         this.direction = direction;
     }
 
-    @ManyToOne
-    protected Query getQueryObject() {
-        return queryObject;
 
-    }
-
-    protected void setQueryObject(Query queryObject) {
-        this.queryObject = queryObject;
-    }
 
     @Column(name = "sortingColumn")
     protected String getSortingColumn() {

@@ -208,7 +208,7 @@ public class ServletController implements Serializable {
             try {
 
                 List<String> selectedColumnsSessionData = this.getSelectedColumnsFromWebInterfaceViaSession();
-                if (selectedColumnsSessionData != null || selectedColumnsSessionData.size() >= 1) {
+                if (selectedColumnsSessionData != null && selectedColumnsSessionData.size() >= 1) {
                     tableMetaString = TableMetadata.getDataTablesMDataProp(selectedColumnsSessionData);
                 }
 

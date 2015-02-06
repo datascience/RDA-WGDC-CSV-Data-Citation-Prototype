@@ -1,50 +1,3 @@
-/*
- * Copyright [2014] [Stefan Pröll]
- *
- *    Licensed under the Apache License, Version 2.0 (the "License");
- *    you may not use this file except in compliance with the License.
- *    You may obtain a copy of the License at
- *
- *        http://www.apache.org/licenses/LICENSE-2.0
- *
- *    Unless required by applicable law or agreed to in writing, software
- *    distributed under the License is distributed on an "AS IS" BASIS,
- *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *    See the License for the specific language governing permissions and
- *    limitations under the License.
- */
-
-/*
- * Copyright [2014] [Stefan Pröll]
- *
- *    Licensed under the Apache License, Version 2.0 (the "License");
- *    you may not use this file except in compliance with the License.
- *    You may obtain a copy of the License at
- *
- *        http://www.apache.org/licenses/LICENSE-2.0
- *
- *    Unless required by applicable law or agreed to in writing, software
- *    distributed under the License is distributed on an "AS IS" BASIS,
- *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *    See the License for the specific language governing permissions and
- *    limitations under the License.
- */
-
-/*
- * Copyright [2014] [Stefan Pröll]
- *
- *    Licensed under the Apache License, Version 2.0 (the "License");
- *    you may not use this file except in compliance with the License.
- *    You may obtain a copy of the License at
- *
- *        http://www.apache.org/licenses/LICENSE-2.0
- *
- *    Unless required by applicable law or agreed to in writing, software
- *    distributed under the License is distributed on an "AS IS" BASIS,
- *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *    See the License for the specific language governing permissions and
- *    limitations under the License.
- */
 
 package QueryStore;
 
@@ -59,8 +12,16 @@ import java.io.Serializable;
 public class Filter implements Serializable {
     private Long filterId;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    public Query getQuery() {
+        return query;
+    }
 
-    private Query queryObject;
+    public void setQuery(Query query) {
+        this.query = query;
+    }
+
+    private Query query;
     private String filterName;
     private String filterValue;
     private int filterSequence;
@@ -71,11 +32,11 @@ public class Filter implements Serializable {
     }
 
     public Filter(Query q) {
-        this.queryObject = q;
+        this.query = q;
     }
 
     public Filter(Query q, String filterName, String filterValue) {
-        this.queryObject = q;
+        this.query = q;
         this.filterName = filterName;
         this.filterValue = filterValue;
     }
@@ -92,14 +53,6 @@ public class Filter implements Serializable {
     }
 
 
-    @ManyToOne
-    protected Query getQueryObject() {
-        return queryObject;
-    }
-
-    protected void setQueryObject(Query queryObject) {
-        this.queryObject = queryObject;
-    }
 
     @Column(name = "filterName")
     protected String getFilterName() {

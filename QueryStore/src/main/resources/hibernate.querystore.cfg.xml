@@ -40,9 +40,9 @@
 
         <property name="hibernate.jdbc.batch_size">20</property>
 
-        <mapping class="QueryStore.Query"/>
         <mapping class="QueryStore.Filter"/>
         <mapping class="QueryStore.Sorting"/>
+        <mapping class="QueryStore.Query"/>
         <mapping class="QueryStore.TimeStampInterceptor"/>
 
 

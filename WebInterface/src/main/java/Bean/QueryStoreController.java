@@ -189,7 +189,10 @@ public class QueryStoreController implements Serializable {
         // this.printMap(filterMap);
 
         // persist the filters
-        this.queryStoreAPI.addFilters(query, filterMap);
+        if (filterMap != null) {
+            this.queryStoreAPI.addFilters(query, filterMap);
+        }
+
 
         
 
