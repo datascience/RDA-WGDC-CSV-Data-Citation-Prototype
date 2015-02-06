@@ -52,16 +52,13 @@ import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Date;
-import java.util.LinkedHashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.logging.Logger;
 
 
 @Entity
 @Audited
-@Table(name = "query", uniqueConstraints = {@UniqueConstraint(columnNames = {"PID", "queryHash"})})
+@Table(name = "query_table", uniqueConstraints = {@UniqueConstraint(columnNames = {"PID", "queryHash"})})
 public class Query implements Serializable, TimeStamped {
 
     Map<Integer, String> selectedColumns = null;
@@ -83,6 +80,12 @@ public class Query implements Serializable, TimeStamped {
 
     public Query() {
         this.logger = Logger.getLogger(this.getClass().getName());
+        this.filters = new HashSet<>();
+        this.sortings = new HashSet<>();
+        this.selectedColumns = new HashMap<>();
+        
+                
+        
 
 
     }
