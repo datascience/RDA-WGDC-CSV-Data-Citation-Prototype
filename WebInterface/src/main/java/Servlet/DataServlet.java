@@ -84,6 +84,8 @@ public class DataServlet extends HttpServlet {
         String json = null;
         response.setContentType("application/json");
 
+        JQueryDataTableParamModel param = DataTablesParamUtility.getParam(request);
+        
 
         // get the map of the latest filters
         if (request.getParameter("lastFilters") != null) {
@@ -112,7 +114,7 @@ public class DataServlet extends HttpServlet {
         // the user is filtering
         else {
 
-            JQueryDataTableParamModel param = DataTablesParamUtility.getParam(request);
+
             String currentTable = param.currentTable;
             if (param.currentTable == null || param.currentTable.equals("")) {
                 this.logger.severe("There is a idscrepancy in the parameter and the session! Using session data.");

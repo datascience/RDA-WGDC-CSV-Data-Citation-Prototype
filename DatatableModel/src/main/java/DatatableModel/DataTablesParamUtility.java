@@ -150,7 +150,7 @@ public class DataTablesParamUtility {
         Map<String, String> filterMap = new HashMap<String, String>();
         for (String key : parameterMap.keySet()) {
             currentValue = parameterMap.get(key)[0];
-            // TODO
+            // TODO this does not work currently if the columns are rearranged!
 
             // match all parameters that start with "sSearch_" and end with a digit in order to capture all
             // filterable columns
