@@ -132,6 +132,7 @@ public class DatabaseQueries {
 
                 this.logger.info("NATIVE SQL STRING "
                         + connection.nativeSQL(selectSQL));
+                
                 cachedResultSet.populate(sortedResultSet);
                 stat.close();
                 connection.close();
