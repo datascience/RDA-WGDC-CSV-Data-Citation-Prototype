@@ -15,6 +15,8 @@ import java.util.logging.Logger;
 @Table(name = "query", uniqueConstraints = {@UniqueConstraint(columnNames = {"PID", "queryHash"})})
 public class Query implements Serializable, TimeStamped {
 
+    public String baseSchema;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "query")
     public List<Filter> getFilters() {
         return filters;
@@ -101,6 +103,15 @@ public class Query implements Serializable, TimeStamped {
         this.baseTable = baseTable;
     }
 
+
+    @Column(name = "baseSchema")
+    public String getBaseSchema() {
+        return baseSchema;
+    }
+
+    public void setBaseSchema(String baseSchema) {
+        this.baseSchema = baseSchema;
+    }
 
     @Column(name = "resultSetHash", unique = true)
     protected String getResultSetHash() {

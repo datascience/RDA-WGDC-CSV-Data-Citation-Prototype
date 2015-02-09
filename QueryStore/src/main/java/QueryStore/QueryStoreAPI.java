@@ -33,6 +33,8 @@
 package QueryStore;
 
 
+import Database.DatabaseOperations.DatabaseTools;
+import at.stefanproell.ResultSetVerification.ResultSetVerificationAPI;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
@@ -463,19 +465,56 @@ public class QueryStoreAPI {
      *
      * @param query
      */
-    public void calculateResultSetHash(Query query) {
+    public String calculateResultSetHash(Query query) {
 
         //@Todo Replace this String with a real function
         // Calculates a random string for test purposes.
-        String hash = this.calculateSHA1("THIS IS A DUMMY HASH" + Helpers.getRandomAlpaNumericString(5));
-        query.setResultSetHash(hash);
-        this.logger.info("Result set hash: " + hash);
-        this.session = HibernateUtilQueryStore.getSessionFactory().openSession();
-        this.session.beginTransaction();
-        this.session.saveOrUpdate(query);
-        this.session.getTransaction().commit();
-        this.session.close();
 
+        ResultSetVerificationAPI resultSetVerification = new ResultSetVerificationAPI();
+        String resultSetHash = resultSetVerification.calculateFullHashOfTheQuery(query.getQueryString());
+
+
+        return resultSetHash;
+    }
+
+    /*Check if the result set hash is not already stored
+    * */
+    public boolean persistResultSetHash(Query query, String resultSetHash) {
+        Query resultSetQuery = this.getQueryByResultSetHash(resultSetHash);
+        if (resultSetQuery == null) {
+            session = HibernateUtilQueryStore.getSessionFactory().openSession();
+            query.setResultSetHash(resultSetHash);
+            this.logger.info("Result set hash: " + resultSetHash);
+
+            session.beginTransaction();
+            session.saveOrUpdate(query);
+            session.getTransaction().commit();
+            session.close();
+
+            return true;
+        } else {
+            this.logger.severe("The same resultset hash already exists. The PID of this query is " + resultSetQuery.getPID());
+
+            return false;
+        }
+
+
+    }
+
+    public Query getQueryByResultSetHash(String resultSetHash) {
+        Session session = HibernateUtilQueryStore.getSessionFactory().openSession();
+        session.beginTransaction();
+        // Get the max sequence number for the sortings of query
+        Criteria cr = session.createCriteria(Query.class);
+
+        cr.setProjection(Projections.projectionList()
+                //.add(Projections.groupProperty("query"))
+                .add(Projections.property("queryId")));
+        cr.add(Restrictions.eq("query.resultSetHash", resultSetHash));
+        Query resultSetQuery = (Query) cr.uniqueResult();
+        session.getTransaction().commit();
+        session.close();
+        return resultSetQuery;
     }
 
     /**
@@ -524,6 +563,8 @@ public class QueryStoreAPI {
      * @return
      */
     public String getQueryResultSetHash(Query q) {
+
+
         String resultSetHash = q.getResultSetHash();
         return resultSetHash;
 
@@ -601,8 +642,16 @@ public class QueryStoreAPI {
 
         List<Filter> filterSet = query.getFilters();
         List<Sorting> sortingsSet = query.getSortings();
+        DatabaseTools dbTools = new DatabaseTools();
+
+
 
         String fromString = query.getBaseTable();
+
+        List<String> primaryKeyList = dbTools.getPrimaryKeyFromTable(fromString);
+        this.logger.info("Primary key list size: " + primaryKeyList.size());
+        String primaryKey = primaryKeyList.get(0);
+
 
         String sqlString = "SELECT ";
         Map<Integer, String> selectedColumns = query.getSelectedColumns();
@@ -622,14 +671,14 @@ public class QueryStoreAPI {
         // inner join 
 
         sqlString += "  AS outerGroup INNER JOIN " +
-                "    (SELECT id, max(LAST_UPDATE) AS mostRecent " +
+                "    (SELECT " + primaryKey + ", max(LAST_UPDATE) AS mostRecent " +
                 "    FROM " +
                 query.getBaseTable() +
                 " AS innerSELECT " +
                 "    WHERE " +
                 "        (innerSELECT.RECORD_STATUS = 'inserted' " +
-                "            OR innerSELECT.RECORD_STATUS = 'updated'" + "AND innerSELECT.LAST_UPDATE<=\""
-                + this.convertJavaDateToMySQLTimeStamp(query.getExecution_timestamp()) + "\") GROUP BY id) innerGroup ON outerGroup.id = innerGroup.id " +
+                "            OR innerSELECT.RECORD_STATUS = 'updated'" + " AND innerSELECT.LAST_UPDATE<=\""
+                + this.convertJavaDateToMySQLTimeStamp(query.getExecution_timestamp()) + "\") GROUP BY " + primaryKey + ") innerGroup ON outerGroup." + primaryKey + " = innerGroup." + primaryKey + " " +
                 "        AND outerGroup.LAST_UPDATE = innerGroup.mostRecent ";
 
         if (filterSet.size() > 0) {
@@ -641,7 +690,7 @@ public class QueryStoreAPI {
                     whereString += "UPPER(`outerGroup`.`" + currentFilter.getFilterName() + "`) LIKE UPPER('%" +
                             currentFilter.getFilterValue() + "%') ";
                 } else {
-                    whereString += "AND UPPER(`outerGroup`.`" + currentFilter.getFilterName() + "`) LIKE UPPER('%" +
+                    whereString += " AND UPPER(`outerGroup`.`" + currentFilter.getFilterName() + "`) LIKE UPPER('%" +
                             currentFilter.getFilterValue() + "%') ";
 
                 }
@@ -652,14 +701,12 @@ public class QueryStoreAPI {
         }
         if (sortingsSet.size() > 0) {
             String sortingString = " ORDER BY ";
-            int sortingCounter = 0;
             for (Sorting currentSorting : sortingsSet) {
-                sortingCounter++;
+
                 sortingString += "`outerGroup`.`" + currentSorting.getSortingColumn() + "` " + currentSorting
-                        .getDirection();
-                if (sortingCounter >= 1) {
-                    sortingString += ", `outerGroup`.`" + currentSorting.getSortingColumn() + "` " + currentSorting
-                            .getDirection();
+                        .getDirection() + ",";
+                if (sortingString.endsWith(",")) {
+                    sortingString = sortingString.substring(0, sortingString.length() - 1);
 
                 }
             }

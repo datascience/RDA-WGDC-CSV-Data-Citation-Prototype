@@ -157,7 +157,9 @@ public class QueryStoreController implements Serializable {
         this.query.setExecution_timestamp(creationDate);
         this.query.setDatasourcePID(sm.getCurrentDatabaseNameFromSession() + "." + sm.getCurrentTableNameFromSession());
 
-        this.query.setBaseTable(sm.getCurrentDatabaseNameFromSession() + "." + sm.getCurrentTableNameFromSession());
+        this.query.setBaseTable(sm.getCurrentTableNameFromSession());
+        this.query.setBaseSchema(sm.getCurrentDatabaseNameFromSession());
+
 
         //@todo current databasename und table name sind null vom session manager.
 
@@ -189,8 +191,22 @@ public class QueryStoreController implements Serializable {
         this.queryStoreAPI.updateExecutiontime(this.query);
         this.queryStoreAPI.finalizeQuery(this.query);
 
+
         String pidString = this.queryStoreAPI.getQueryPID(this.query);
         String queryHash = this.queryStoreAPI.getQueryHash(this.query);
+
+        String resultSetHash = this.queryStoreAPI.calculateResultSetHash(this.query);
+        boolean persisted = this.queryStoreAPI.persistResultSetHash(this.query, resultSetHash);
+        if (persisted) {
+            FacesContext.getCurrentInstance().addMessage("queryStoreMessage", new FacesMessage(FacesMessage.SEVERITY_INFO, "ResultSet Hash", "The result set has this hash: " + resultSetHash));
+        } else {
+            Query q = (Query) this.queryStoreAPI.getQueryByResultSetHash(resultSetHash);
+            String existingPID = this.queryStoreAPI.getQueryPID(q);
+            FacesContext.getCurrentInstance().addMessage("queryStoreMessage", new FacesMessage(FacesMessage.SEVERITY_INFO, "ResultSet Hash", "The same hash already exists with PID " + existingPID));
+        }
+
+
+
         FacesContext.getCurrentInstance().addMessage("queryStoreMessage", new FacesMessage(FacesMessage.SEVERITY_INFO, "Finalized query", "The query PID is: " + pidString + " and the query hash is " + queryHash));
         this.logger.info("Completed.");
     }

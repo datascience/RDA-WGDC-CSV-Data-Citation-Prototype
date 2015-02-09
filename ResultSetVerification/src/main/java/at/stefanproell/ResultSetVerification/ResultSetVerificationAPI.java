@@ -404,7 +404,7 @@ public class ResultSetVerificationAPI {
     }
 
     /**
-     * Execute a simple query
+     * Execute the query provided from the querstore.
      *
      * @param sqlString
      * @return
@@ -525,6 +525,13 @@ public class ResultSetVerificationAPI {
 
         this.logger.info("Calculated " + hashCounter + " hash values in " + elapsedTime + " sec");
         this.logger.info("Hash is " + resultSetHash);
+        return resultSetHash;
+
+    }
+
+    public String calculateFullHashOfTheQuery(String sqlQuery) {
+        ResultSet rs = this.executeQuery(sqlQuery);
+        String resultSetHash = this.calculateResultSetHashServerSide(rs);
         return resultSetHash;
 
     }
