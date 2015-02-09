@@ -133,7 +133,7 @@ function AjaxUpdateDataFailed(result) {
             <h:selectOneMenu id="databaseDropDown"
                              valueChangeListener="#{databaseTableNameBean.handleChangeDatabaseName}"
                              required="true" value="#{databaseTableNameBean.databaseName}"
-                             binding="#{databaseNameDropdown}" onchange="submit()">
+                             binding="#{databaseNameDropdown}" onClick="submit()">
                 <f:selectItems value="#{databaseTableNameBean.databaseNames}"/>
                 <p:ajax update="tableDropDown"/>
             </h:selectOneMenu>
@@ -194,16 +194,20 @@ function AjaxUpdateDataFailed(result) {
 
     </div>
     <!-- end container -->
-    <p>Control the Query Store</p>
+    <h2>Control the Query Store</h2>
     <div id="MenuButtonsDiv">
 
-        <h:form>
-            <p:commandButton value="Initialize query store" action="#{queryStoreController.initializeQueryStore}"
-                             onClick="submitTable()"></p:commandButton>
+        <h:form id="queryStoreForm">
+            <p:commandButton id="queryInitButton" value="Initialize query store"
+                             action="#{queryStoreController.initializeQueryStore}"
+                    ></p:commandButton>
             <p:commandButton value="Store current selection"
                              action="#{queryStoreController.storeCurrentSelection}"></p:commandButton>
             <p:commandButton value="Finalize dataset"
                              action="#{queryStoreController.finalizeDataSet}"></p:commandButton>
+
+
+            <p:messages for="queryStoreMessage" showDetail="true" autoUpdate="true" closable="true"></p:messages>
 
         </h:form>
 

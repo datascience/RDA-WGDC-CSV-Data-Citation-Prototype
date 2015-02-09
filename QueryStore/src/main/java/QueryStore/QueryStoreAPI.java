@@ -610,7 +610,7 @@ public class QueryStoreAPI {
 
         for (Map.Entry<Integer, String> entry : selectedColumns.entrySet()) {
             String columnName = entry.getValue();
-            sqlString += "`" + columnName + "`,";
+            sqlString += "`outerGroup`." + columnName + "`,";
         }
 
         // remove last comma from string
@@ -622,13 +622,12 @@ public class QueryStoreAPI {
 
         // inner join 
 
-        sqlString += "  AS outerGroup\n" +
-                "        INNER JOIN\n" +
-                "    (SELECT \n" +
-                "        id, max(LAST_UPDATE) AS mostRecent " +
-                "    FROM\n" +
-                "        stefan_addresses AS innerSELECT " +
-                "    WHERE\n" +
+        sqlString += "  AS outerGroup INNER JOIN " +
+                "    (SELECT id, max(LAST_UPDATE) AS mostRecent " +
+                "    FROM " +
+                query.getBaseTable() +
+                " AS innerSELECT " +
+                "    WHERE " +
                 "        (innerSELECT.RECORD_STATUS = 'inserted' " +
                 "            OR innerSELECT.RECORD_STATUS = 'updated') " +
                 "    GROUP BY id) innerGroup ON outerGroup.id = innerGroup.id " +

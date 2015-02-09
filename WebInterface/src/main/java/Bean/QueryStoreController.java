@@ -42,8 +42,10 @@ import at.stefanproell.PersistentIdentifierMockup.PersistentIdentifierAlphaNumer
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -163,6 +165,11 @@ public class QueryStoreController implements Serializable {
 
 
         this.logger.info("Created query: " + this.query.getCreatedDate());
+        String pidString = this.queryStoreAPI.getQueryPID(this.query);
+
+
+        FacesContext.getCurrentInstance().addMessage("queryStoreMessage", new FacesMessage(FacesMessage.SEVERITY_INFO, "The QueryStore is now initialized", "The generated PID is: " + pidString));
+        this.logger.info("Completed.");
 
 
 

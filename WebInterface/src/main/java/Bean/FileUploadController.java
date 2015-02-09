@@ -382,7 +382,7 @@ public class FileUploadController implements Serializable {
     /**
      * Action button
      */
-    public void setPrimarKeyAction() {
+    public String setPrimarKeyAction() {
 
         this.storePrimaryKeyListInSession(this.getSelectedPrimaryKeyColumns());
 
@@ -396,6 +396,7 @@ public class FileUploadController implements Serializable {
         context.addMessage(
                 "primaryKeyForm:primaryKeyButton", msg
         );
+        return null;
 
 
     }
