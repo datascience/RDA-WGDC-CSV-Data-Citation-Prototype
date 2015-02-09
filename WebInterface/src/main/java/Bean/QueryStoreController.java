@@ -218,7 +218,11 @@ public class QueryStoreController implements Serializable {
 
         // save
         this.queryStoreAPI.persistQuery(query);
-       
+        String queryHash = this.queryStoreAPI.getQueryHash(this.query);
+        FacesContext.getCurrentInstance().addMessage("queryStoreMessage", new FacesMessage(FacesMessage.SEVERITY_INFO, "Stored current selection", "Updated query hash:" + queryHash));
+        this.logger.info("Completed.");
+
+
 
 
     }
