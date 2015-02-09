@@ -112,6 +112,20 @@
         </h:form>
 
         <p:separator/>
+        <p:ajaxStatus style="display:block;margin-bottom:2em;height:48px;">
+            <f:facet name="default">
+                <h:outputText value="Status: StandBy"/>
+            </f:facet>
+
+            <f:facet name="start">
+                <p:graphicImage name="images/ajax-loader.gif"/>
+            </f:facet>
+
+            <f:facet name="complete">
+                <h:outputText value="Status: Completed"/>
+            </f:facet>
+        </p:ajaxStatus>
+
         <h:form id="migrateForm">
             <p:commandButton id="migrateButton" value="Migrate into Database."
                              action="#{databaseMigrationController.migrationController}"

@@ -203,6 +203,11 @@ public class QueryStoreController implements Serializable {
             Query q = (Query) this.queryStoreAPI.getQueryByResultSetHash(resultSetHash);
             String existingPID = this.queryStoreAPI.getQueryPID(q);
             FacesContext.getCurrentInstance().addMessage("queryStoreMessage", new FacesMessage(FacesMessage.SEVERITY_INFO, "ResultSet Hash", "The same hash already exists with PID " + existingPID));
+            if (this.queryStoreAPI.deleteQuery(this.query)) {
+                FacesContext.getCurrentInstance().addMessage("queryStoreMessage", new FacesMessage(FacesMessage.SEVERITY_WARN, "Query deleted", "Deleted this query as an identical one already exists"));
+
+            }
+
         }
 
 

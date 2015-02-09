@@ -198,6 +198,20 @@ function AjaxUpdateDataFailed(result) {
 
     <div class="container">
     <div id="MenuButtonsDiv">
+        <p:ajaxStatus style="display:block;margin-bottom:2em;height:48px;">
+            <f:facet name="default">
+                <h:outputText value="Status: StandBy"/>
+            </f:facet>
+
+            <f:facet name="start">
+                <p:graphicImage name="images/ajax-loader.gif"/>
+            </f:facet>
+
+            <f:facet name="complete">
+                <h:outputText value="Status: Completed"/>
+            </f:facet>
+        </p:ajaxStatus>
+
 
         <h:form id="queryStoreForm">
             <p:commandButton id="queryInitButton" value="Initialize query store"

@@ -501,16 +501,16 @@ public class QueryStoreAPI {
 
     }
 
+    /*Return a query with a given result set hash.
+    * */
     public Query getQueryByResultSetHash(String resultSetHash) {
         Session session = HibernateUtilQueryStore.getSessionFactory().openSession();
         session.beginTransaction();
         // Get the max sequence number for the sortings of query
         Criteria cr = session.createCriteria(Query.class);
 
-        cr.setProjection(Projections.projectionList()
-                //.add(Projections.groupProperty("query"))
-                .add(Projections.property("queryId")));
-        cr.add(Restrictions.eq("query.resultSetHash", resultSetHash));
+
+        cr.add(Restrictions.eq("resultSetHash", resultSetHash));
         Query resultSetQuery = (Query) cr.uniqueResult();
         session.getTransaction().commit();
         session.close();
@@ -526,6 +526,26 @@ public class QueryStoreAPI {
      */
     public String getQueryHash(Query q) {
         return q.getQueryHash();
+
+    }
+
+    /*Delete query by hash.
+    * */
+    public boolean deleteQuery(Query q) {
+        Session session = HibernateUtilQueryStore.getSessionFactory().openSession();
+        session.beginTransaction();
+        session.delete(q);
+        session.getTransaction().commit();
+        session.close();
+
+        if (this.getQueryByResultSetHash(q.getResultSetHash()) == null) {
+            this.logger.info("Query deleted");
+            return true;
+        } else {
+            this.logger.severe("Query NOT deleted");
+            return false;
+        }
+
 
     }
 
@@ -705,10 +725,11 @@ public class QueryStoreAPI {
 
                 sortingString += "`outerGroup`.`" + currentSorting.getSortingColumn() + "` " + currentSorting
                         .getDirection() + ",";
-                if (sortingString.endsWith(",")) {
-                    sortingString = sortingString.substring(0, sortingString.length() - 1);
 
-                }
+            }
+            if (sortingString.endsWith(",")) {
+                sortingString = sortingString.substring(0, sortingString.length() - 1);
+
             }
 
             sqlString += sortingString;
