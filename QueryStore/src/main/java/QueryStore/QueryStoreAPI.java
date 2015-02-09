@@ -488,9 +488,10 @@ public class QueryStoreAPI {
      * @return
      */
     public String getQueryHash(Query q) {
-        return q.getResultSetHash();
+        return q.getQueryHash();
 
     }
+
 
     /**
      * Retrieve the query by specifying its PID

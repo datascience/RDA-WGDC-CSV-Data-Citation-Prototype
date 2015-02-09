@@ -185,6 +185,10 @@ public class QueryStoreController implements Serializable {
         query.setSelectedColumns(this.sm.getColumnNamesFromDataTablesSession());
         this.queryStoreAPI.persistQuery(query);
         this.queryStoreAPI.finalizeQuery(this.query);
+        String pidString = this.queryStoreAPI.getQueryPID(this.query);
+        String queryHash = this.queryStoreAPI.getQueryHash(this.query);
+        FacesContext.getCurrentInstance().addMessage("queryStoreMessage", new FacesMessage(FacesMessage.SEVERITY_INFO, "Finalized query", "The query PID is: " + pidString + " and the query hash is " + queryHash));
+        this.logger.info("Completed.");
     }
 
     public void storeCurrentSelection() {
