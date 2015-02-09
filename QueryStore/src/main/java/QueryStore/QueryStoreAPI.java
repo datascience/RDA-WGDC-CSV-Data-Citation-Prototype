@@ -39,9 +39,7 @@ import org.hibernate.Session;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.logging.Logger;
 
 /**
@@ -556,7 +554,7 @@ public class QueryStoreAPI {
      */
     public int finalizeQuery(Query query) {
 
-        this.persistQuery(query);
+
         
         String querString = this.generateQueryString(query);
         query.setQueryString(querString);
@@ -611,7 +609,7 @@ public class QueryStoreAPI {
 
         for (Map.Entry<Integer, String> entry : selectedColumns.entrySet()) {
             String columnName = entry.getValue();
-            sqlString += "`outerGroup`." + columnName + "`,";
+            sqlString += "`outerGroup`.`" + columnName + "`,";
         }
 
         // remove last comma from string
@@ -630,8 +628,8 @@ public class QueryStoreAPI {
                 " AS innerSELECT " +
                 "    WHERE " +
                 "        (innerSELECT.RECORD_STATUS = 'inserted' " +
-                "            OR innerSELECT.RECORD_STATUS = 'updated') " +
-                "    GROUP BY id) innerGroup ON outerGroup.id = innerGroup.id " +
+                "            OR innerSELECT.RECORD_STATUS = 'updated'" + "AND innerSELECT.LAST_UPDATE<=\""
+                + this.convertJavaDateToMySQLTimeStamp(query.getExecution_timestamp()) + "\") GROUP BY id) innerGroup ON outerGroup.id = innerGroup.id " +
                 "        AND outerGroup.LAST_UPDATE = innerGroup.mostRecent ";
 
         if (filterSet.size() > 0) {
@@ -659,7 +657,7 @@ public class QueryStoreAPI {
                 sortingCounter++;
                 sortingString += "`outerGroup`.`" + currentSorting.getSortingColumn() + "` " + currentSorting
                         .getDirection();
-                if (sortingCounter > 1) {
+                if (sortingCounter >= 1) {
                     sortingString += ", `outerGroup`.`" + currentSorting.getSortingColumn() + "` " + currentSorting
                             .getDirection();
 
@@ -675,6 +673,22 @@ public class QueryStoreAPI {
         return sqlString;
 
 
+    }
+
+    public Date updateExecutiontime(Query query) {
+        Date currentDate = new Date();
+        query.setExecution_timestamp(currentDate);
+        this.logger.info("Updated execition timestamp: " + currentDate);
+        this.persistQuery(query);
+        return currentDate;
+
+    }
+
+    protected java.sql.Timestamp convertJavaDateToMySQLTimeStamp(java.util.Date utilDate) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(utilDate);
+        cal.set(Calendar.MILLISECOND, 0);
+        return new java.sql.Timestamp(utilDate.getTime());
     }
 }
 
