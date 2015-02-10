@@ -1,1 +1,1 @@
-INSERT INTO `CitationUserDB`.`user` VALUES (1,12345,'$2a$12$af6pnVqPuZudWBAN806jPOXLEWeasf.azRUx4d36e6v4QRfggMVGm','carl'),(2,12345,'$2a$12$4USvrCSDRp1xm1I.cgsuwevmuDbFVGEWXcPOSdxWPOhlRQe4bP0a6','stefan'),(3,12345,'$2a$12$3tqCkTJoBh7zdf/qh7sAhuS1xfzAwZFRI/qFsW1xmp1X2.Q1gq2i.','andi');
+INSERT INTO `user` VALUES (1,12345,'$2a$12$hjMjWv7d2Qre8q5GUP7qqeRGJ0lrcHusIzN4yfAWPLNNJPQCEKWXe','carl'),(2,12345,'$2a$12$MpZWasLbPJoVOJ08LQrcYOaCydc2Q7rRqW.umBjezQErmzoD0xFQ.','stefan'),(3,12345,'$2a$12$Op6fLZ6SPFOYVuj9jlWCae.A1T.lkKCHwcsoKCvSLDYJpX/Q1Ic5m','andi');

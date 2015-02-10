@@ -33,9 +33,9 @@ public class CreateUsersExample {
 
     public void run() {
         UserAPI api = new UserAPI();
-        api.addUser("carl", "carl", 12345);
-        api.addUser("stefan", "stefan", 12345);
-        api.addUser("andi", "andi", 12345);
+        api.addUser("carl", "carlCite15", 12345);
+        api.addUser("stefan", "stefanCite15", 12345);
+        api.addUser("andi", "andiCite15", 12345);
 
 
     }

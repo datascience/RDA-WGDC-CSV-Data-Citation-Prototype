@@ -222,6 +222,20 @@ proell@ate:/opt/tomcat7/conf$ sudo cat context.xml
 </Context>
 
 
+#########################################
+
+MySQL
+
+sudo apt-get install mysql-server-5.6
+
+Connect via SSH Tunnel (ate is a shortcut):
+ssh ate -L 3307:127.0.0.1:3306 -N
+
+Then use Workbench
+
+
+
+
 
 
 
