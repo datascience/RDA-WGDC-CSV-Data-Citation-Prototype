@@ -38,29 +38,31 @@
 
                 <p:message for="password"></p:message>
 
-                <p:spacer></p:spacer>
+
 
                 <p:commandButton action="#{loginBean.login}" value="Login" update="loginForm"
                                  ajax="true"></p:commandButton>
+
+
+                <p:ajaxStatus style="display:block;margin-bottom:2em;height:48px;">
+                    <f:facet name="default">
+                        <h:outputText value=""/>
+                    </f:facet>
+
+                    <f:facet name="start">
+                        <p:graphicImage name="images/ajax-loader.gif"/>
+                    </f:facet>
+
+                    <f:facet name="complete">
+                        <h:outputText value="Done"/>
+                    </f:facet>
+                </p:ajaxStatus>
+
 
             </h:panelGrid>
 
 
         </p:panel>
-            <p:ajaxStatus style="display:block;margin-bottom:2em;height:48px;">
-                <f:facet name="default">
-                    <h:outputText value=""/>
-                </f:facet>
-
-                <f:facet name="start">
-                    <p:graphicImage name="images/ajax-loader.gif"/>
-                </f:facet>
-
-                <f:facet name="complete">
-                    <h:outputText value="Done"/>
-                </f:facet>
-            </p:ajaxStatus>
-
     </h:form>
         <div id="dataSecurity">
             <p>

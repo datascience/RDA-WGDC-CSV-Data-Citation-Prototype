@@ -144,21 +144,10 @@
         </h:form>
 
         <p:separator/>
-        <p:ajaxStatus style="display:block;margin-bottom:2em;height:48px;">
-            <f:facet name="default">
-                <h:outputText value="Status: StandBy"/>
-            </f:facet>
 
-            <f:facet name="start">
-                <p:graphicImage name="images/ajax-loader.gif"/>
-            </f:facet>
-
-            <f:facet name="complete">
-                <h:outputText value="Status: Completed"/>
-            </f:facet>
-        </p:ajaxStatus>
 
         <h:form id="migrateForm">
+            <h:panelGrid columns="3" cellpadding="5">
             <p:commandButton id="migrateButton" value="Migrate into Database."
                              action="#{databaseMigrationController.migrationController}"
                              update="migrationMessage"/>
@@ -166,7 +155,22 @@
             <p:message id="migrationMessage" for="migrateForm:migrateButton" showDetail="true" autoUpdate="true"
                        closable="true"
                        globalOnly="false"/>
+                <p:ajaxStatus style="display:block;margin-bottom:2em;height:36;">
+                    <f:facet name="default">
+                        <h:outputText value="Status: StandBy"/>
+                    </f:facet>
+
+                    <f:facet name="start">
+                        <p:graphicImage name="images/ajax-loader.gif"/>
+                    </f:facet>
+
+                    <f:facet name="complete">
+                        <h:outputText value="Status: Completed"/>
+                    </f:facet>
+                </p:ajaxStatus>
+            </h:panelGrid>
         </h:form>
+
 
     </div>
 </h:body>
