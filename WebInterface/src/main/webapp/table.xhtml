@@ -133,7 +133,7 @@ function AjaxUpdateDataFailed(result) {
             <h:selectOneMenu id="databaseDropDown"
                              valueChangeListener="#{databaseTableNameBean.handleChangeDatabaseName}"
                              required="true" value="#{databaseTableNameBean.databaseName}"
-                             binding="#{databaseNameDropdown}" onClick="submit()">
+                             binding="#{databaseNameDropdown}" onClick="databaseTableNameBean.handleChangeDatabaseName">
                 <f:selectItems value="#{databaseTableNameBean.databaseNames}"/>
                 <p:ajax update="tableDropDown"/>
             </h:selectOneMenu>

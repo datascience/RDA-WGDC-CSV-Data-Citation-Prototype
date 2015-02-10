@@ -337,6 +337,9 @@ public class DatabaseTools {
 
             tableName = this.getFirstTableFromStandardSessionDatabase();
             this.logger.info("No table name provided. Must be first call. Using default: " + tableName);
+            if(tableName==null){
+                this.logger.severe("There is not a single table available! Check if it is initialized!");
+            }
 
         }
         Map<String, String> columnMetadataMap = null;
@@ -1591,8 +1594,15 @@ public class DatabaseTools {
     * * * */
     public String getFirstTableFromStandardSessionDatabase() {
         String selectedDB = this.getDatabaseCatalogFromDatabaseConnection().get(0);
+        Object obj = this.getAvailableTablesFromDatabase(selectedDB).get(0);
+        if(obj != null){
+            String tableName = (String) obj;  
+        } else{
+            this.logger.severe("No table found!");
+            tableName = null;
+        }
 
-        String tableName = this.getAvailableTablesFromDatabase(selectedDB).get(0);
+         
 
         return tableName;
     }

@@ -666,7 +666,7 @@ public class QueryStoreAPI {
 
 
 
-        String fromString = query.getBaseTable();
+        String fromString = query.getBaseTable().getBaseTableName();
 
         List<String> primaryKeyList = dbTools.getPrimaryKeyFromTable(fromString);
         this.logger.info("Primary key list size: " + primaryKeyList.size());
@@ -693,7 +693,7 @@ public class QueryStoreAPI {
         sqlString += "  AS outerGroup INNER JOIN " +
                 "    (SELECT " + primaryKey + ", max(LAST_UPDATE) AS mostRecent " +
                 "    FROM " +
-                query.getBaseTable() +
+                query.getBaseTable().getBaseTableName() +
                 " AS innerSELECT " +
                 "    WHERE " +
                 "        (innerSELECT.RECORD_STATUS = 'inserted' " +

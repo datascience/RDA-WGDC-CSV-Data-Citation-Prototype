@@ -97,6 +97,17 @@ public class FileUploadController implements Serializable {
 
     private String dataSetAuthor;
 
+    public String getDataSetDescription() {
+        return dataSetDescription;
+    }
+
+    public void setDataSetDescription(String dataSetDescription) {
+        this.dataSetDescription = dataSetDescription;
+    }
+
+    private String dataSetDescription;
+    
+
     public List<String> getSelectedPrimaryKeyColumns() {
         return selectedPrimaryKeyColumns;
     }
@@ -199,7 +210,7 @@ public class FileUploadController implements Serializable {
         SessionManager sm = new SessionManager();
         String authorName = sm.getLogedInUserName();
         if (this.dataSetAuthor == null) {
-            return authorName + "_";
+            return authorName;
         } else {
             return this.dataSetAuthor;
         }
@@ -251,6 +262,8 @@ public class FileUploadController implements Serializable {
         this.storeSessionData();
         this.updateCSVColumnList();
     }
+
+
 
 
     public void storeFiles(UploadedFile file) {
