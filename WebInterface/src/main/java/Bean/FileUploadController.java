@@ -93,6 +93,10 @@ public class FileUploadController implements Serializable {
     private String tableName;
     private List<String> columns = null;
 
+
+
+    private String dataSetAuthor;
+
     public List<String> getSelectedPrimaryKeyColumns() {
         return selectedPrimaryKeyColumns;
     }
@@ -190,6 +194,22 @@ public class FileUploadController implements Serializable {
 
     }
 
+
+    public String getDataSetAuthor() {
+        SessionManager sm = new SessionManager();
+        String authorName = sm.getLogedInUserName();
+        if (this.dataSetAuthor == null) {
+            return authorName + "_";
+        } else {
+            return this.dataSetAuthor;
+        }
+
+    }
+
+    public void setDataSetAuthor(String dataSetAuthor) {
+        this.dataSetAuthor = dataSetAuthor;
+    }
+    
     public List<String> getFilesListStrings() {
         return filesListStrings;
     }

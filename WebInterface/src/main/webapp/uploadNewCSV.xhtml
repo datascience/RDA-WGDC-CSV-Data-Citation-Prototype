@@ -42,8 +42,8 @@
         <h2>Step 1: The Database Table Definition</h2>
 
         <p>Please select the database which should store your data. Use CITATION_DB in most cases. A tablename must
-            start
-            with an alphabetical letter and may then only consist of alphanummeric characters and underscores.
+            start with an alphabetical letter and may then only consist of alphanummeric characters and underscores. 
+            Alsp provide the name of the data author (creator).
         </p>
         <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" globalOnly="true"/>
         <h:form enctype="multipart/form-data">
@@ -59,6 +59,11 @@
             <p:outputLabel value="Tablename"/>
             <p:inputText required="true" requiredMessage="The table name is required"
                          value="#{fileUploadController.tableName}">
+                <f:ajax event="blur"/>
+            </p:inputText>
+            <p:outputLabel value="Author"/>
+            <p:inputText required="true" requiredMessage="An author is required"
+                         value="#{fileUploadController.dataSetAuthor}">
                 <f:ajax event="blur"/>
             </p:inputText>
 
