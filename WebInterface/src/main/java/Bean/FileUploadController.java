@@ -264,6 +264,7 @@ public class FileUploadController implements Serializable {
         this.storeSessionData();
         this.updateCSVColumnList();
         this.filesList = new HashMap<String,String>();
+        this.filesListStrings=new ArrayList<String>();
     }
 
 
@@ -348,7 +349,7 @@ public class FileUploadController implements Serializable {
 
         DatabaseTools dbtools = new DatabaseTools();
         databaseNames = dbtools.getAvailableDatabases();
-        this.filesList = new HashMap<>();
+        this.filesList = new HashMap<String,String>();
             //databaseNames = new ArrayList<String>();
             //databaseNames.add("Test hard coedd");
 
@@ -363,7 +364,8 @@ public class FileUploadController implements Serializable {
         this.filesList = new HashMap<>();
         this.selectedPrimaryKeyColumns = new ArrayList<String>();
         //   this.handleChangeDatabaseName(null);
-
+        SessionManager sm = new SessionManager();
+        sm.printSessionVariables();
 
     }
 

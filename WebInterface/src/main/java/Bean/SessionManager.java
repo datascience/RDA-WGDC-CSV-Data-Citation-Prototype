@@ -50,9 +50,12 @@ public class SessionManager {
     public SessionManager() {
         this.logger = Logger.getLogger(this.getClass().getName());
 
+
     }
 
     public void printSessionVariables() {
+        this.init();
+        
 
 
         if (this.getSessionMap() != null) {
@@ -140,6 +143,7 @@ public class SessionManager {
         DatabaseTools dbtools = new DatabaseTools();
         String defaultDatabase = dbtools.getDefaultDatabaseNameFromConnection();
         this.storeSessionData("currentDatabaseName", defaultDatabase);
+        this.sessionMap = this.getSessionMap();
 
 
     }
