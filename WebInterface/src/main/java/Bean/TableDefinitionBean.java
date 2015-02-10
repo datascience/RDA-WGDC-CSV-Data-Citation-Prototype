@@ -34,6 +34,9 @@ public class TableDefinitionBean {
     private String databaseName;
     private String description;
     private String author;
+    int organizationalId;
+    
+    
 
     public TableDefinitionBean() {
     }
@@ -68,5 +71,13 @@ public class TableDefinitionBean {
 
     public void setAuthor(String author) {
         this.author = author;
+    }
+
+    public int getOrganizationalId() {
+        return organizationalId;
+    }
+
+    public void setOrganizationalId(int organizationalId) {
+        this.organizationalId = organizationalId;
     }
 }

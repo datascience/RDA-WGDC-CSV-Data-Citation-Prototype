@@ -44,7 +44,7 @@
         <mapping class="QueryStore.Sorting"/>
         <mapping class="QueryStore.Query"/>
         <mapping class="QueryStore.TimeStampInterceptor"/>
-
+        <mapping class="QueryStore.BaseTable"/>
 
     </session-factory>
 

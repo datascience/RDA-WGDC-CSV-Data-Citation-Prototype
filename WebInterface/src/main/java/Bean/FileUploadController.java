@@ -65,6 +65,7 @@
 package Bean;
 
 import CSVTools.CSV_API;
+import Database.Authentication.User;
 import Database.DatabaseOperations.DatabaseTools;
 import org.hibernate.Session;
 import org.primefaces.event.FileUploadEvent;
@@ -266,9 +267,11 @@ public class FileUploadController implements Serializable {
         this.updateCSVColumnList();
         this.filesList = new HashMap<String,String>();
         this.filesListStrings=new ArrayList<String>();
+           
         
         SessionManager sm = new SessionManager();
-        sm.updateTableDefinitionBean(this.dataSetAuthor,this.tableName, this.dataSetDescription);
+        User user = sm.getLogedInUserObject();
+        sm.updateTableDefinitionBean(this.dataSetAuthor, this.tableName, this.dataSetDescription,user.getOrganizational_id());
         
         
     }

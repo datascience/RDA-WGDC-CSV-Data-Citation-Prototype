@@ -240,6 +240,8 @@ public class BatchMode_Main {
             migrationTasks.migrate(batchModefilesListSingleFile, this.batchAPI.getPrimaryKeys());
 
             this.batchAPI.resetPrimaryKeys();
+            
+            
 
 
 

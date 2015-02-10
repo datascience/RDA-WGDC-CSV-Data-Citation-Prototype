@@ -38,6 +38,12 @@ public class BaseTable {
     private String description;
     private String baseSchema;
     private String baseTableName;
+
+    
+
+    private int organizationalId;
+    
+    
     
 
     @Id
@@ -99,5 +105,14 @@ public class BaseTable {
 
     public void setBaseTableName(String baseTableName) {
         this.baseTableName = baseTableName;
+    }
+
+    @Column(name = "organizationalId")
+    public int getOrganizationalId() {
+        return organizationalId;
+    }
+
+    public void setOrganizationalId(int organizationalId) {
+        this.organizationalId = organizationalId;
     }
 }

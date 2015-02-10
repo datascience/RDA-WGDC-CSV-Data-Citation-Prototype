@@ -34,6 +34,7 @@ package QueryStore;
 
 
 import Database.DatabaseOperations.DatabaseTools;
+import at.stefanproell.PersistentIdentifierMockup.PersistentIdentifierAPI;
 import at.stefanproell.ResultSetVerification.ResultSetVerificationAPI;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.hibernate.Criteria;
@@ -757,6 +758,32 @@ public class QueryStoreAPI {
         cal.setTime(utilDate);
         cal.set(Calendar.MILLISECOND, 0);
         return new java.sql.Timestamp(utilDate.getTime());
+    }
+    
+    /* Store the table metadata
+    * * */
+    public void createBaseTableRecord(String author, String baseSchema, String tableName, String description, int 
+            orgId){
+        BaseTable bT = new BaseTable();
+        bT.setAuthor(author);
+        bT.setBaseSchema(baseSchema);
+        bT.setBaseTableName(tableName);
+        bT.setDescription(description);
+        PersistentIdentifierAPI pidApi= new PersistentIdentifierAPI();
+        pidApi.getAlphaNumericPID(orgId,"localhost/dummystring");
+        
+        
+
+        this.session = HibernateUtilQueryStore.getSessionFactory().openSession();
+        this.session.beginTransaction();
+        this.session.saveOrUpdate(bT);
+        this.session.getTransaction().commit();
+        this.session.close();
+        
+        
+        
+        
+        
     }
 }
 
