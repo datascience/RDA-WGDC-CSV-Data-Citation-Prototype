@@ -44,6 +44,7 @@ public class SessionManager {
     }
 
     private Map<String, Object> sessionMap = null;
+    private TableDefinitionBean tableDefinitionBean=null;
     
 
 
@@ -359,6 +360,38 @@ public class SessionManager {
 
 
         return (Map<Integer, String>) this.getSessionMap().get("selectedColumnsFromDataTables");
+
+    }
+
+
+    public TableDefinitionBean getTableDefinitionBean() {
+        Map<String, Object> sessionMAP = this.getSessionMap();
+
+        tableDefinitionBean = (TableDefinitionBean) sessionMAP.get("tableDefinitionBean");
+        if(tableDefinitionBean ==null){
+            tableDefinitionBean = new TableDefinitionBean();
+            
+        }
+        
+        return tableDefinitionBean;
+    }
+
+    public void setTableDefinitionBean(TableDefinitionBean tableDefinitionBean) {
+        this.tableDefinitionBean = tableDefinitionBean;
+        Map<String, Object> sessionMAP = this.getSessionMap();
+        sessionMAP.put("tableDefinitionBean",tableDefinitionBean);
+        
+    }
+
+    public void updateTableDefinitionBean(String dataSetAuthor, String databaseName, String dataSetDescription){
+
+        TableDefinitionBean tB = this.getTableDefinitionBean();
+        tB.setAuthor(dataSetAuthor);
+        tB.setDatabaseName(databaseName);
+        tB.setDescription(dataSetDescription);
+        this.setTableDefinitionBean(tB);
+
+        this.logger.info("Table bean updated: "+tB.getAuthor()+ " " + tB.getDatabaseName()+ " "+ tB.getDescription());
 
     }
 
