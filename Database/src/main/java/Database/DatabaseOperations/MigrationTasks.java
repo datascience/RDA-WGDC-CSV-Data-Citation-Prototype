@@ -68,7 +68,6 @@ public class MigrationTasks {
         while (it.hasNext()) {
             Map.Entry pairs = (Map.Entry) it.next();
 
-            this.logger.info("TableName = " + pairs.getKey().toString() + " Path: " + pairs.getValue().toString());
 
             CSV_API csv;
             csv = new CSV_API();

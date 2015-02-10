@@ -78,6 +78,14 @@
                          value="#{fileUploadController.dataSetDescription}">
                 <f:ajax event="blur"/>
             </p:inputText>
+                
+                
+            <p:outputLabel value="Submit"/>
+            <p:commandButton id="submitTableData" value="Select primary key."
+                                 action="submit()" update="messages">
+
+
+                </p:commandButton>
             </h:panelGrid>
             </h:form>
 
