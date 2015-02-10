@@ -75,6 +75,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
 import javax.faces.event.ValueChangeEvent;
 import java.io.*;
 import java.sql.SQLException;
@@ -193,7 +194,8 @@ public class FileUploadController implements Serializable {
         SessionManager sm = new SessionManager();
         String username = sm.getLogedInUserName();
         if (this.tableName == null) {
-            return username + "_";
+            this.tableName = username + "_";
+            return tableName;
         } else {
             return tableName;
         }
@@ -261,6 +263,7 @@ public class FileUploadController implements Serializable {
         this.storeFiles(file);
         this.storeSessionData();
         this.updateCSVColumnList();
+        this.filesList = new HashMap<String,String>();
     }
 
 
@@ -344,10 +347,22 @@ public class FileUploadController implements Serializable {
 
 
         DatabaseTools dbtools = new DatabaseTools();
-            databaseNames = dbtools.getAvailableDatabases();
+        databaseNames = dbtools.getAvailableDatabases();
+        this.filesList = new HashMap<>();
             //databaseNames = new ArrayList<String>();
             //databaseNames.add("Test hard coedd");
 
+
+
+    }
+
+    /*Load this event when the page is refreshed.
+* * */
+    public void onLoad(ActionEvent event) {
+        this.logger.info("File Upload Controller onLoad-.. " + event.toString());
+        this.filesList = new HashMap<>();
+        this.selectedPrimaryKeyColumns = new ArrayList<String>();
+        //   this.handleChangeDatabaseName(null);
 
 
     }

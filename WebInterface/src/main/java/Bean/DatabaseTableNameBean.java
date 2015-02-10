@@ -184,10 +184,12 @@ public class DatabaseTableNameBean implements Serializable {
             this.logger.info("No session data set. ");
             this.databaseName = this.dbtools.getDatabaseCatalogFromDatabaseConnection().get(0);
             this.tableName = this.dbtools.getAvailableTablesFromDatabase(databaseName).get(0);
-
+            sm.setCurrentTableNameFromSession(this.tableName);
+        }else{
+            sm.setCurrentTableNameFromSession(this.tableName);
         }
 
-        sm.setCurrentTableNameFromSession(this.tableName);
+
 
         List<String> selectedColumnsSessionData = sm.getColumnNamesForSelectedColumnsCheckBoxesFromDB();
 
@@ -205,6 +207,7 @@ public class DatabaseTableNameBean implements Serializable {
 * * */
     public void onLoad(ActionEvent event) {
         this.logger.info("Yay-.. " + event.toString());
+        
         //   this.handleChangeDatabaseName(null);
 
 

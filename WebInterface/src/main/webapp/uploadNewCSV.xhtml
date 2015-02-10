@@ -17,6 +17,7 @@
     <!-- BEGIN: Hidden Form for Init-->
     <h:form>
         <p:remoteCommand name="onLoad" actionListener="#{databaseTableNameBean.onLoad}" autoRun="true"/>
+        <p:remoteCommand name="onLoad" actionListener="#{fileUploadController.onLoad}" autoRun="true"/>
     </h:form>
     <!-- END Hidden form-->
 
@@ -45,10 +46,10 @@
             start with an alphabetical letter and may then only consist of alphanummeric characters and underscores. 
             Alsp provide the name of the data author (creator).
         </p>
-        
 
+        <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" globalOnly="true"/>
         <h:form enctype="multipart/form-data">
-            <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" globalOnly="true"/>
+
             <h:panelGrid columns="2" cellpadding="5">
             <p:outputLabel value="Database schema"/>
             <h:selectOneMenu id="databaseDropDown"
@@ -79,13 +80,7 @@
                 <f:ajax event="blur"/>
             </p:inputText>
                 
-                
-            <p:outputLabel value="Submit"/>
-            <p:commandButton id="submitTableData" value="Select primary key."
-                                 action="submit()" update="messages">
 
-
-                </p:commandButton>
             </h:panelGrid>
             </h:form>
 
