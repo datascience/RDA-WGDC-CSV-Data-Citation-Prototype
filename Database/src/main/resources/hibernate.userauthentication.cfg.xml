@@ -33,6 +33,7 @@
         <!--  use auto or update -->
         <property name="hibernate.hbm2ddl.auto">create</property>
         <property name="hibernate.hbm2ddl.import_files">initial_user_data.sql</property>
+        <property name="hibernate.hbm2ddl.import_files">initial_citation_table.sql</property>
 
         <property name="hibernate.current_session_context_class">thread</property>
         <property name="format_sql">false</property>
