@@ -2,6 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
 
         >
 <h:head>
@@ -44,7 +45,21 @@
 
             </h:panelGrid>
 
+
         </p:panel>
+            <p:ajaxStatus style="display:block;margin-bottom:2em;height:48px;">
+                <f:facet name="default">
+                    <h:outputText value=""/>
+                </f:facet>
+
+                <f:facet name="start">
+                    <p:graphicImage name="images/ajax-loader.gif"/>
+                </f:facet>
+
+                <f:facet name="complete">
+                    <h:outputText value="Done"/>
+                </f:facet>
+            </p:ajaxStatus>
 
     </h:form>
         <div id="dataSecurity">

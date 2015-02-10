@@ -104,7 +104,7 @@ public class UserAPI {
         this.session.close();
 
         if (user != null) {
-            this.logger.info("Password input: " + password + " password DB: " + user.getPassword());
+            //this.logger.info("Password input: " + password + " password DB: " + user.getPassword());
             isPasswordCorrect = BCrypt.checkpw(password, user.getPassword());
 
             if (isPasswordCorrect) {
