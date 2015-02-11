@@ -202,7 +202,7 @@ public class QueryStoreController implements Serializable {
         String pidString = this.queryStoreAPI.getQueryPID(this.query);
         String queryHash = this.queryStoreAPI.getQueryHash(this.query);
 
-        String resultSetHash = this.queryStoreAPI.calculateResultSetHash(this.query);
+        String resultSetHash = this.queryStoreAPI.calculateResultSetHashShort(this.query);
         boolean persisted = this.queryStoreAPI.persistResultSetHash(this.query, resultSetHash);
         if (persisted) {
             FacesContext.getCurrentInstance().addMessage("queryStoreMessage", new FacesMessage(FacesMessage.SEVERITY_INFO, "ResultSet Hash", "The result set has this hash: " + resultSetHash));

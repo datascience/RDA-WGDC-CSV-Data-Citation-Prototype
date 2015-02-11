@@ -33,6 +33,7 @@
 package QueryStore;
 
 
+import CSVTools.CSV_API;
 import Database.DatabaseOperations.DatabaseTools;
 import at.stefanproell.PersistentIdentifierMockup.*;
 import at.stefanproell.ResultSetVerification.ResultSetVerificationAPI;
@@ -466,7 +467,7 @@ public class QueryStoreAPI {
      *
      * @param query
      */
-    public String calculateResultSetHash(Query query) {
+    public String calculateResultSetHashFull(Query query) {
 
         //@Todo Replace this String with a real function
         // Calculates a random string for test purposes.
@@ -477,6 +478,37 @@ public class QueryStoreAPI {
 
         return resultSetHash;
     }
+
+    /**
+     * Calculate the result set hash. This is currently a dummy method. Implement your own hashing scheme here.
+     *
+     * @param query
+     */
+    public String calculateResultSetHashShort(Query query) {
+
+        //@Todo Replace this String with a real function
+        // Calculates a random string for test purposes.
+
+        ResultSetVerificationAPI resultSetVerification = new ResultSetVerificationAPI();
+
+        Map<Integer, String> selectedColumns = query.getSelectedColumns();
+
+        String listOfConcatenatedColumns = "";
+        for (Map.Entry<Integer, String> entry : selectedColumns.entrySet()) {
+            listOfConcatenatedColumns += entry.getValue();
+
+        }
+
+        this.logger.info("The concatenated columns are: " + listOfConcatenatedColumns);
+
+        String resultSetHash = resultSetVerification.calculateShortHashOfTheQuery(query.getQueryString(), listOfConcatenatedColumns);
+
+
+        return resultSetHash;
+    }
+
+
+
 
     /*Check if the result set hash is not already stored
     * */
@@ -716,6 +748,84 @@ public class QueryStoreAPI {
 
                 }
                 
+            }
+
+            sqlString += whereString;
+        }
+        if (sortingsSet.size() > 0) {
+            String sortingString = " ORDER BY ";
+            for (Sorting currentSorting : sortingsSet) {
+
+                sortingString += "`outerGroup`.`" + currentSorting.getSortingColumn() + "` " + currentSorting
+                        .getDirection() + ",";
+
+            }
+            if (sortingString.endsWith(",")) {
+                sortingString = sortingString.substring(0, sortingString.length() - 1);
+
+            }
+
+            sqlString += sortingString;
+        }
+
+
+        this.logger.info(sqlString);
+
+        return sqlString;
+
+
+    }
+
+    /**
+     * only retrieve the internal counter column
+     */
+    public String generateQueryStringForShortHash(Query query) {
+
+        List<Filter> filterSet = query.getFilters();
+        List<Sorting> sortingsSet = query.getSortings();
+        DatabaseTools dbTools = new DatabaseTools();
+
+
+        String fromString = query.getBaseTable().getBaseTableName();
+
+        List<String> primaryKeyList = dbTools.getPrimaryKeyFromTable(fromString);
+        this.logger.info("Primary key list size: " + primaryKeyList.size());
+        String primaryKey = primaryKeyList.get(0);
+
+
+        String sqlString = "SELECT ";
+        sqlString += sqlString = "`outerGroup`.`ID_SYSTEM_SEQUENCE`";
+
+
+        sqlString += " FROM " + fromString;
+
+        // inner join
+
+        sqlString += "  AS outerGroup INNER JOIN " +
+                "    (SELECT " + primaryKey + ", max(LAST_UPDATE) AS mostRecent " +
+                "    FROM " +
+                query.getBaseTable().getBaseTableName() +
+                " AS innerSELECT " +
+                "    WHERE " +
+                "        (innerSELECT.RECORD_STATUS = 'inserted' " +
+                "            OR innerSELECT.RECORD_STATUS = 'updated'" + " AND innerSELECT.LAST_UPDATE<=\""
+                + this.convertJavaDateToMySQLTimeStamp(query.getExecution_timestamp()) + "\") GROUP BY " + primaryKey + ") innerGroup ON outerGroup." + primaryKey + " = innerGroup." + primaryKey + " " +
+                "        AND outerGroup.LAST_UPDATE = innerGroup.mostRecent ";
+
+        if (filterSet.size() > 0) {
+            String whereString = " WHERE ";
+            int filterCounter = 0;
+            for (Filter currentFilter : filterSet) {
+                filterCounter++;
+                if (filterCounter == 1) {
+                    whereString += "UPPER(`outerGroup`.`" + currentFilter.getFilterName() + "`) LIKE UPPER('%" +
+                            currentFilter.getFilterValue() + "%') ";
+                } else {
+                    whereString += " AND UPPER(`outerGroup`.`" + currentFilter.getFilterName() + "`) LIKE UPPER('%" +
+                            currentFilter.getFilterValue() + "%') ";
+
+                }
+
             }
 
             sqlString += whereString;

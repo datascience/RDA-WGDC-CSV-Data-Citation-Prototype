@@ -94,7 +94,7 @@ public class ExamplesQueryAPI {
         queryAPI.addSorting(query, "ColumnC", "ASC");
 
         // dummy hash calculation
-        queryAPI.calculateResultSetHash(query);
+        queryAPI.calculateResultSetHashFull(query);
 
         // get query pid
         String queryPid = queryAPI.getQueryPID(query);

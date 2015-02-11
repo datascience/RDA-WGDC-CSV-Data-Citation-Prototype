@@ -453,95 +453,39 @@ public class ResultSetVerificationAPI {
 
     }
 
-    /**
-     * Iterate over resultset and calculate hash. Supported hash algorithms are MD5, SHA-1 and SHA-256
-     *
-     * @param rs
-     * @param hashAlgorithm
-     * @return
-     */
-    public String calculateResultSetHashClientSide(ResultSet rs, String hashAlgorithm) {
-        String resultSetHash = "";
-        String currentHash = "";
-        String previousKey = "";
-        String compositeHash = "";
-        CachedRowSet cached = null;
-        int hashCounter = 0;
 
-        long startTime = System.currentTimeMillis();
-        //int hashCounter =0;
+    /*Calculate the full hash
 
-
-        try {
-            cached = new CachedRowSetImpl();
-            cached.populate(rs);
-            cached.setFetchSize(1000);
-            ResultSetMetaData rsmd = rs.getMetaData();
-            int columnsNumber = rsmd.getColumnCount();
-            this.logger.info("There are " + columnsNumber + " columns in the result set");
-            String newResultSetHash = null;
-            long meanTimeStart = System.currentTimeMillis();
-            while (cached.next()) {
-                hashCounter++;
-                if (hashCounter % 1000 == 0) {
-                    long meanTimeStop = System.currentTimeMillis();
-
-                    this.logger.warning("Calculated " + hashCounter + " hashes so far. This batch took " + (double) (
-                            (meanTimeStop - meanTimeStart) / 1000) + " seconds");
-
-                    meanTimeStart = System.currentTimeMillis();
-                }
-                for (int i = 1; i < columnsNumber; i++) {
-                    currentHash += cached.getString(i);
-                }
-
-
-                if (cached.isFirst()) {
-
-                    resultSetHash = this.calculateHashFromString(currentHash);
-
-                } else {
-
-                    compositeHash = (resultSetHash + currentHash);
-                    newResultSetHash = this.calculateHashFromString(compositeHash);
-                    //this.logger.info("[resultSetHash] "+resultSetHash + "[currentHash] " + currentHash +" ->
-                    // [newResultSetHash]" + newResultSetHash );
-                    resultSetHash = newResultSetHash;
-
-
-                }
-                System.gc();
-            }
-
-        } catch (SQLException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-
-        long endTime = System.currentTimeMillis();
-        long totalTime = endTime - startTime;
-        double elapsedTime = (double) (totalTime / 1000);
-
-
-        this.logger.info("Calculated " + hashCounter + " hash values in " + elapsedTime + " sec");
-        this.logger.info("Hash is " + resultSetHash);
-        return resultSetHash;
-
-    }
-
+    * */
     public String calculateFullHashOfTheQuery(String sqlQuery) {
         ResultSet rs = this.executeQuery(sqlQuery);
-        String resultSetHash = this.calculateResultSetHashServerSide(rs);
+        String resultSetHash = this.calculateResultSetHashFull(rs);
         return resultSetHash;
 
     }
+
+    /*
+    * Only calculate the the shorter hashing version
+    *
+    * */
+    public String calculateShortHashOfTheQuery(String sqlQuery, String concatenatedColumns) {
+        ResultSet rs = this.executeQuery(sqlQuery);
+
+        //@todo here weiter
+
+
+        String resultSetHash = this.calculateResultSetHashShort(rs, concatenatedColumns);
+        return resultSetHash;
+
+    }
+
 
     /**
      * Calculate hash on DB
      *
      * @return
      */
-    public String calculateResultSetHashServerSide(ResultSet rs) {
+    public String calculateResultSetHashFull(ResultSet rs) {
 
 
 
@@ -619,6 +563,82 @@ public class ResultSetVerificationAPI {
             this.logger.info("Calculated " + hashCounter + " hash values in " + elapsedTime + " sec");
             this.logger.info("Hash is " + resultSetHash);
             return resultSetHash;
+
+    }
+
+    /*
+     concat selected columns and append sequence if ids. calculate hash thereof
+    *
+    * */
+    public String calculateResultSetHashShort(ResultSet rs, String concatenatedColumns) {
+
+        //@todo hashing
+
+
+        this.logger.info("Resulset row count: " + this.getResultSetRowCount(rs));
+
+
+        String resultSetHash = concatenatedColumns;
+        String concatenatedIdentifiers = "";
+
+
+        String currentHash = "";
+        String previousKey = "";
+        String compositeHash = "";
+        int hashCounter = 0;
+
+        long startTime = System.currentTimeMillis();
+        //int hashCounter =0;
+
+
+        try {
+
+            ResultSetMetaData rsmd = rs.getMetaData();
+            int columnsNumber = rsmd.getColumnCount();
+            this.logger.info("There are " + columnsNumber + " columns in the result set");
+
+            long meanTimeStart = System.currentTimeMillis();
+
+            // rs.setFetchSize(1000);
+
+
+            while (rs.next()) {
+                hashCounter++;
+                if (hashCounter % 1000 == 0) {
+                    long meanTimeStop = System.currentTimeMillis();
+
+                    this.logger.warning("Calculated " + hashCounter + " hashes so far. This batch took " +
+                            (double) (
+                                    (meanTimeStop - meanTimeStart) / 1000) + " seconds");
+
+                    meanTimeStart = System.currentTimeMillis();
+                }
+
+
+                concatenatedIdentifiers += rs.getString(1);
+                //this.logger.info("At row " + hashCounter +" the hash currently has the length of: " + concatenatedIdentifiers.length());
+
+                System.gc();
+            }
+
+            resultSetHash += concatenatedIdentifiers;
+            this.logger.info("The hash has the length of: " + concatenatedIdentifiers.length());
+            resultSetHash = this.calculateHashFromString(resultSetHash);
+
+
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+        long endTime = System.currentTimeMillis();
+        long totalTime = endTime - startTime;
+        double elapsedTime = (double) (totalTime / 1000);
+
+
+        this.logger.info("Calculated " + hashCounter + " hash values in " + elapsedTime + " sec");
+        this.logger.info("Hash is " + resultSetHash);
+        return resultSetHash;
 
     }
 
@@ -835,7 +855,7 @@ public class ResultSetVerificationAPI {
 
         } else {
             ResultSet rs = this.getCompleteResultSetFromTableWithAllColumns(tableName);
-            return this.calculateResultSetHashServerSide(rs);
+            return this.calculateResultSetHashFull(rs);
         }
 
 
