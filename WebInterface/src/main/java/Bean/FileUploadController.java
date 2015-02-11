@@ -106,7 +106,7 @@ public class FileUploadController implements Serializable {
     private List<String> CSVcolumnNames;
     private String currentSessionType = "";
     private String databaseName;
-    private String tableNameInput;
+
 
     public FileUploadController() {
         this.logger = Logger.getLogger(this.getClass().getName());
@@ -205,27 +205,27 @@ public class FileUploadController implements Serializable {
     public void handleFileUpload(FileUploadEvent event) {
         System.out.println("Upload event...");
         UploadedFile file = event.getFile();
+        SessionManager sm = new SessionManager();
+        String tableName = sm.getTableDefinitionBean().getTableName();
 
 
         this.filesListStrings.add(file.getFileName());
 
 
         FacesMessage msg = new FacesMessage("Succesful", event.getFile().getFileName() + " is uploaded. Textfield: "
-                + this.tableNameInput);
+                + tableName);
         FacesContext.getCurrentInstance().addMessage(null, msg);
 
 
-        System.out.println("added to files list " + filesList + " with Summary field " + this.tableNameInput);
+        System.out.println("added to files list " + filesList + " with Summary field " + tableName);
 
         this.storeFiles(file);
-        this.storeSessionData();
         this.updateCSVColumnList();
+
+        // reset lists
         this.filesList = new HashMap<String,String>();
         this.filesListStrings=new ArrayList<String>();
            
-        
-        SessionManager sm = new SessionManager();
-        User user = sm.getLogedInUserObject();
 
         
         
@@ -241,9 +241,11 @@ public class FileUploadController implements Serializable {
 
         String path = FacesContext.getCurrentInstance().getExternalContext()
                 .getRealPath("/");
+        SessionManager sm = new SessionManager();
+        String tableName = sm.getTableDefinitionBean().getTableName();
 
 
-        String name = this.tableNameInput + "_" + fmt.format(new Date())
+        String name = tableName + "_" + fmt.format(new Date())
                 + file.getFileName().substring(
                 file.getFileName().lastIndexOf('.')) + ".csv";
 
@@ -266,28 +268,11 @@ public class FileUploadController implements Serializable {
 
         }
 
-        this.filesList.put(this.tableNameInput, fileToStore.getAbsolutePath());
+        this.filesList.put(tableName, fileToStore.getAbsolutePath());
 
 
     }
 
-    private void storeSessionData() {
-        System.out.println("Session data function");
-
-        // schreiben
-        Map<String, Object> session = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
-        session.put("fileListHashMap", this.filesList);
-        this.logger.info("Writing file list to session...");
-        // schreiben
-
-
-
-
-        // lesen
-        Map<String, Object> sessionMAP = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
-        HashMap<String, String> filesList = (HashMap<String, String>) sessionMAP.get("fileListHashMap");
-
-    }
 
     private void storePrimaryKeyListInSession(List<String> selectedPrimaryKeyColumns) {
         System.out.println("Store primary key list in session");
@@ -327,22 +312,6 @@ public class FileUploadController implements Serializable {
         sm.printSessionVariables();
 
     }
-
-    /**
-     * React on change
-     *
-     * @param event
-     */
-    public void handleChangeTableName(ValueChangeEvent event) {
-        this.logger.info(event.getComponent().toString() + " " + event.toString());
-
-        String selectedTable = event.getNewValue().toString();
-        this.logger.info("Changed Table Name = " + selectedTable);
-
-
-    }
-
-
 
     public void updateCSVColumnList() {
 

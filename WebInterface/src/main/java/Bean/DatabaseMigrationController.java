@@ -135,6 +135,7 @@ public class DatabaseMigrationController implements Serializable {
                 (primaryKeys));
 
         boolean migrationSuccess = false;
+
         migrationSuccess = migrationTasks.migrate(this.getFileListFromSession(), primaryKeys);
         
         
