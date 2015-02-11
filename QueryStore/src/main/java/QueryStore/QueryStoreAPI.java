@@ -798,9 +798,20 @@ public class QueryStoreAPI {
         BaseTable baseTable = null;
         this.session = HibernateUtilPersistentIdentification.getSessionFactory().openSession();
         this.session.beginTransaction();
-        Criteria criteria = this.session.createCriteria(BaseTable.class, "baseT");
-        criteria.add(Restrictions.eq("baseT.base_table_pid", pid));
-        baseTable = (BaseTable) criteria.uniqueResult();
+        // Criteria criteria = this.session.createCriteria(BaseTable.class, "baseT");
+        // criteria.add(Restrictions.like("baseTablePID", pid));
+        // baseTable = (BaseTable) criteria.uniqueResult();
+
+        //@todo geht nicht
+
+        String hql = "from BaseTable where BaseTable.base_table_pid = :uniquePID";
+        baseTable = (BaseTable) this.session.createQuery(hql)
+                .setString("uniquePID", pid)
+                .uniqueResult();
+
+
+
+
         this.session.getTransaction().commit();
         this.session.close();
 

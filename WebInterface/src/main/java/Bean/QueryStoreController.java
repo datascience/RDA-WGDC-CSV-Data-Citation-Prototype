@@ -162,6 +162,7 @@ public class QueryStoreController implements Serializable {
 
 
         BaseTable baseTable = this.queryStoreAPI.getBaseTableByPID(baseTablePid);
+
         this.query.setBaseTable(baseTable);
         
 
