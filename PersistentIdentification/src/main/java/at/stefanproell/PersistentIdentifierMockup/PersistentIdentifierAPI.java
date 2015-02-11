@@ -106,24 +106,6 @@ public class PersistentIdentifierAPI {
         return pid;
     }
 
-    /**
-     * Get an alphanumeric identifier
-     *
-     * @param org
-     * @param URIString
-     * @return
-     */
-    
-    //@todo add integer method for all identifier types
-    public PersistentIdentifierAlphaNumeric getAlphaNumericPID(int prefix, String URIString) {
-        
-        Organization org = this.getOrganizationObjectByPrefix(prefix);
-        PersistentIdentifierAlphaNumeric pid = new PersistentIdentifierAlphaNumeric();
-        pid = (PersistentIdentifierAlphaNumeric) this.persistNewIdentifier(pid, org, URIString);
-
-
-        return pid;
-    }
 
     /**
      * Get an numeric identifier

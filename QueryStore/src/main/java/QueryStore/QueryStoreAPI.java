@@ -34,7 +34,10 @@ package QueryStore;
 
 
 import Database.DatabaseOperations.DatabaseTools;
+import at.stefanproell.PersistentIdentifierMockup.Organization;
 import at.stefanproell.PersistentIdentifierMockup.PersistentIdentifierAPI;
+import at.stefanproell.PersistentIdentifierMockup.PersistentIdentifierAlpha;
+import at.stefanproell.PersistentIdentifierMockup.PersistentIdentifierAlphaNumeric;
 import at.stefanproell.ResultSetVerification.ResultSetVerificationAPI;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.hibernate.Criteria;
@@ -762,21 +765,22 @@ public class QueryStoreAPI {
     
     /* Store the table metadata
     * * */
-    public void createBaseTableRecord(String author, String baseSchema, String tableName, String description, int 
-            orgId){
-        BaseTable bT = new BaseTable();
-        bT.setAuthor(author);
-        bT.setBaseSchema(baseSchema);
-        bT.setBaseTableName(tableName);
-        bT.setDescription(description);
+    public void createBaseTableRecord(String author, String baseSchema, String tableName, String description, int
+            prefix) {
         PersistentIdentifierAPI pidApi= new PersistentIdentifierAPI();
-        pidApi.getAlphaNumericPID(orgId,"localhost/dummystring");
-        
-        
+        Organization org = pidApi.getOrganizationObjectByPrefix(prefix);
+
+        PersistentIdentifierAlphaNumeric pid = pidApi.getAlphaNumericPID(org, "localhost/dummystring");
 
         this.session = HibernateUtilQueryStore.getSessionFactory().openSession();
         this.session.beginTransaction();
-        this.session.saveOrUpdate(bT);
+        BaseTable baseTable = new BaseTable();
+        baseTable.setBaseTableName(tableName);
+        baseTable.setBaseTablePID(pid.getFQNidentifier());
+        baseTable.setAuthor(author);
+        baseTable.setBaseSchema(baseSchema);
+        baseTable.setDescription(description);
+        this.session.saveOrUpdate(baseTable);
         this.session.getTransaction().commit();
         this.session.close();
         

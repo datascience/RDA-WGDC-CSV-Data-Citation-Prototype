@@ -16,28 +16,9 @@ import java.util.logging.Logger;
 public class Query implements Serializable, TimeStamped {
 
 
-
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "query")
-    public List<Filter> getFilters() {
-        return filters;
-    }
-
-    public void setFilters(List<Filter> filters) {
-        this.filters = filters;
-    }
-
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "query")
-    public List<Sorting> getSortings() {
-        return sortings;
-    }
-
-    public void setSortings(List<Sorting> sortings) {
-        this.sortings = sortings;
-    }
-
+    Map<Integer, String> selectedColumns = null;
     private List<Filter> filters;
     private List<Sorting> sortings;
-    Map<Integer, String> selectedColumns = null;
     private Logger logger;
     private Long queryId;
     private Date execution_timestamp;
@@ -47,7 +28,31 @@ public class Query implements Serializable, TimeStamped {
     private String datasourcePID;
     private String queryHash;
     private BaseTable baseTable;
+    private String queryString;
+    private Date createdDate;
+    private Date lastUpdatedDate;
+    private String resultSetHash;
 
+
+
+    public Query() {
+        this.logger = Logger.getLogger(this.getClass().getName());
+        this.selectedColumns = new HashMap<>();
+        this.filters = new LinkedList<Filter>();
+        this.sortings = new LinkedList<>();
+
+
+    }
+
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    public BaseTable getBaseTable() {
+        return baseTable;
+    }
+
+    public void setBaseTable(BaseTable baseTable) {
+        this.baseTable = baseTable;
+    }
 
     @Column(name = "queryString", length = 5000)
     public String getQueryString() {
@@ -56,25 +61,6 @@ public class Query implements Serializable, TimeStamped {
 
     public void setQueryString(String queryString) {
         this.queryString = queryString;
-    }
-
-    private String queryString;
-    private Date createdDate;
-    private Date lastUpdatedDate;
-    private String resultSetHash;
-
-
-    public Query() {
-        this.logger = Logger.getLogger(this.getClass().getName());
-        this.selectedColumns = new HashMap<>();
-        this.filters = new LinkedList<Filter>();
-        this.sortings = new LinkedList<>();
-        
-        
-                
-        
-
-
     }
 
     @ElementCollection
@@ -94,14 +80,7 @@ public class Query implements Serializable, TimeStamped {
 
     }
 
-    @Column(name = "baseTable")
-    public BaseTable getBaseTable() {
-        return baseTable;
-    }
 
-    public void setBaseTable(BaseTable baseTable) {
-        this.baseTable = baseTable;
-    }
 
 
 
@@ -179,6 +158,25 @@ public class Query implements Serializable, TimeStamped {
 
     public void setDatasourcePID(String datasourcePID) {
         this.datasourcePID = datasourcePID;
+    }
+
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "query")
+    public List<Filter> getFilters() {
+        return filters;
+    }
+
+    public void setFilters(List<Filter> filters) {
+        this.filters = filters;
+    }
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "query")
+    public List<Sorting> getSortings() {
+        return sortings;
+    }
+
+    public void setSortings(List<Sorting> sortings) {
+        this.sortings = sortings;
     }
 
 

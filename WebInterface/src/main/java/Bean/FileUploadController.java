@@ -92,12 +92,35 @@ import java.util.logging.Logger;
 @SessionScoped
 public class FileUploadController implements Serializable {
     private Logger logger;
-    private String tableName;
+    private String tableNameInput;
     private List<String> columns = null;
 
 
 
     private String dataSetAuthor;
+    private String dataSetDescription;
+    private List<String> selectedPrimaryKeyColumns = null;
+    private HashMap<String, String> filesList;
+    private List<String> filesListStrings;
+    private List<String> databaseNames;
+    private String CSVcolumnName;
+    private List<String> CSVcolumnNames;
+    private String currentSessionType = "";
+    private String databaseName;
+
+    public FileUploadController() {
+        this.logger = Logger.getLogger(this.getClass().getName());
+        this.filesList = new HashMap<String, String>();
+        this.filesListStrings = new ArrayList<String>();
+        SessionManager sm = new SessionManager();
+        this.currentSessionType = sm.getUploadTypeFromSession();
+        this.columns = new ArrayList<String>() {
+        };
+
+        this.columns.add("Use insert sequence number");
+
+
+    }
 
     public String getDataSetDescription() {
         return dataSetDescription;
@@ -107,9 +130,6 @@ public class FileUploadController implements Serializable {
         this.dataSetDescription = dataSetDescription;
     }
 
-    private String dataSetDescription;
-    
-
     public List<String> getSelectedPrimaryKeyColumns() {
         return selectedPrimaryKeyColumns;
     }
@@ -118,10 +138,6 @@ public class FileUploadController implements Serializable {
         this.logger.info("Set primary key check boxes. Size is " + selectedPrimaryKeyColumns.size());
         this.selectedPrimaryKeyColumns = selectedPrimaryKeyColumns;
     }
-
-    private List<String> selectedPrimaryKeyColumns = null;
-    
-    
 
     public String getCSVcolumnName() {
         return CSVcolumnName;
@@ -155,15 +171,6 @@ public class FileUploadController implements Serializable {
         this.currentSessionType = currentSessionType;
     }
 
-    private HashMap<String, String> filesList;
-    private List<String> filesListStrings;
-    private List<String> databaseNames;
-
-    private String CSVcolumnName;
-    private List<String> CSVcolumnNames;
-    private String currentSessionType = "";
-
-
     public String getDatabaseName() {
         return databaseName;
     }
@@ -172,39 +179,24 @@ public class FileUploadController implements Serializable {
         this.databaseName = databaseName;
     }
 
-    private String databaseName;
-
-    public FileUploadController() {
-        this.logger = Logger.getLogger(this.getClass().getName());
-        this.filesList = new HashMap<String, String>();
-        this.filesListStrings = new ArrayList<String>();
-        SessionManager sm = new SessionManager();
-        this.currentSessionType = sm.getUploadTypeFromSession();
-        this.columns = new ArrayList<String>() {
-        };
-
-        this.columns.add("Use insert sequence number");
-
-
-    }
-
     /*
     *If there is no table name, return the user name prefix as a suggestion for the form.
      *  *  * */
-    public String getTableName() {
+    public String getTableNameInput() {
         SessionManager sm = new SessionManager();
         String username = sm.getLogedInUserName();
-        if (this.tableName == null) {
-            this.tableName = username + "_";
-            return tableName;
+        if (this.tableNameInput == null) {
+            this.logger.warning("TableName Input was Null");
+            this.tableNameInput = username + "_";
+            return this.tableNameInput;
         } else {
-            return tableName;
+            return this.tableNameInput;
         }
 
     }
 
-    public void setTableName(String tableName) {
-        this.tableName = tableName;
+    public void setTableNameInput(String tableName) {
+        this.tableNameInput = tableName;
 
     }
 
@@ -256,11 +248,11 @@ public class FileUploadController implements Serializable {
 
 
         FacesMessage msg = new FacesMessage("Succesful", event.getFile().getFileName() + " is uploaded. Textfield: "
-                + tableName);
+                + this.tableNameInput);
         FacesContext.getCurrentInstance().addMessage(null, msg);
 
 
-        System.out.println("added to files list " + filesList + " with Summary field " + tableName);
+        System.out.println("added to files list " + filesList + " with Summary field " + this.tableNameInput);
 
         this.storeFiles(file);
         this.storeSessionData();
@@ -271,7 +263,7 @@ public class FileUploadController implements Serializable {
         
         SessionManager sm = new SessionManager();
         User user = sm.getLogedInUserObject();
-        sm.updateTableDefinitionBean(this.dataSetAuthor, this.tableName, this.dataSetDescription,user.getOrganizational_id());
+        sm.updateTableDefinitionBean(this.dataSetAuthor, this.databaseName, this.tableNameInput, this.dataSetDescription, user.getOrganizational_id());
         
         
     }
@@ -288,7 +280,7 @@ public class FileUploadController implements Serializable {
                 .getRealPath("/");
 
 
-        String name = this.tableName + "_" + fmt.format(new Date())
+        String name = this.tableNameInput + "_" + fmt.format(new Date())
                 + file.getFileName().substring(
                 file.getFileName().lastIndexOf('.')) + ".csv";
 
@@ -311,7 +303,7 @@ public class FileUploadController implements Serializable {
 
         }
 
-        this.filesList.put(this.tableName, fileToStore.getAbsolutePath());
+        this.filesList.put(this.tableNameInput, fileToStore.getAbsolutePath());
 
 
     }
@@ -326,12 +318,6 @@ public class FileUploadController implements Serializable {
         // schreiben
 
 
-        // @todo review this, there is a problem with the table because the uploda uses a input text field and one
-        // time it uses a drop down.
-        if (this.tableName != null) {
-            this.logger.info("current table name was set to null... using session data.");
-            session.put("currentTableName", this.tableName);
-        }
 
 
         // lesen

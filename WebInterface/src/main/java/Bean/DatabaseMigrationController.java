@@ -146,8 +146,8 @@ public class DatabaseMigrationController implements Serializable {
         TableDefinitionBean tD = sm.getTableDefinitionBean();
         QueryStoreAPI qApi = new QueryStoreAPI();
         qApi.createBaseTableRecord(tD.getAuthor(),tD.getDatabaseName(),tD.getTableName(),tD.getDescription(),tD.getOrganizationalId());
-        
-        
+
+
         this.displayMigrationMessage();
         
         

@@ -62,7 +62,7 @@
 
             <p:outputLabel value="Tablename"/>
             <p:inputText required="true" requiredMessage="The table name is required"
-                         value="#{fileUploadController.tableName}">
+                         value="#{fileUploadController.tableNameInput}">
                 <f:ajax event="blur"/>
             </p:inputText>
 
@@ -79,6 +79,7 @@
                          value="#{fileUploadController.dataSetDescription}">
                 <f:ajax event="blur"/>
             </p:inputText>
+                <h:commandButton value="Submit" action="fileUploadController"/>
                 
 
             </h:panelGrid>

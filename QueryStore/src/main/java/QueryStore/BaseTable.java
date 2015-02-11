@@ -20,6 +20,8 @@ import at.stefanproell.PersistentIdentifierMockup.PersistentIdentifier;
 import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
+import java.io.Serializable;
+import java.util.List;
 
 /**
  * CSV-DataCitation
@@ -29,34 +31,40 @@ import javax.persistence.*;
 
 @Entity
 @Audited
-@Table(name = "filter")
-public class BaseTable {
-    private int baseID;
-    
-    private PersistentIdentifier baseTablePID;
+@Table(name = "base_table")
+public class BaseTable implements Serializable {
+
+
+    private String baseTablePID;
     private String author;
     private String description;
     private String baseSchema;
     private String baseTableName;
-
-    
-
+    private long baseTableId;
     private int organizationalId;
-    
-    
-    
+    private List<Query> queryList;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "baseTableId", nullable = true)
+    public List<Query> getQuery() {
+        return queryList;
+    }
+
+    public void setQuery(List<Query> list) {
+        this.queryList = list;
+    }
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "base_id", unique = true, nullable = false)
-    public int getBaseID() {
-        return baseID;
+    @Column(name = "base_table_id", unique = true, nullable = false)
+    public long getBaseTableId() {
+        return baseTableId;
     }
 
-    public void setBaseID(int baseID) {
-        this.baseID = baseID;
+    public void setBaseTableId(long baseTableId) {
+        this.baseTableId = baseTableId;
     }
-
 
     @Column(name = "baseSchema")
     public String getBaseSchema() {
@@ -71,12 +79,12 @@ public class BaseTable {
     public BaseTable() {
     }
 
-    @Column(name = "base_table_pid", unique = true, nullable = false)
-    public PersistentIdentifier getBaseTablePID() {
+    @Column(name = "base_table_pid")
+    public String getBaseTablePID() {
         return baseTablePID;
     }
 
-    public void setBaseTablePID(PersistentIdentifier baseTablePID) {
+    public void setBaseTablePID(String baseTablePID) {
         this.baseTablePID = baseTablePID;
     }
 

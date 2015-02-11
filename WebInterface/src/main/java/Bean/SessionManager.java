@@ -383,14 +383,15 @@ public class SessionManager {
         
     }
 
-    public void updateTableDefinitionBean(String dataSetAuthor, String databaseName, String dataSetDescription, int 
+    public void updateTableDefinitionBean(String dataSetAuthor, String databaseName, String tableName, String dataSetDescription, int
             orgId){
 
-        TableDefinitionBean tB = this.getTableDefinitionBean();
+        TableDefinitionBean tB = new TableDefinitionBean();
         tB.setAuthor(dataSetAuthor);
         tB.setDatabaseName(databaseName);
         tB.setDescription(dataSetDescription);
         tB.setOrganizationalId(orgId);
+        tB.setTableName(tableName);
         this.setTableDefinitionBean(tB);
 
         this.logger.info("Table bean updated: "+tB.getAuthor()+ " " + tB.getDatabaseName()+ " "+ tB.getDescription());
