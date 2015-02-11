@@ -796,24 +796,24 @@ public class QueryStoreAPI {
 
     public BaseTable getBaseTableByPID(String pid) {
         BaseTable baseTable = null;
-        this.session = HibernateUtilPersistentIdentification.getSessionFactory().openSession();
-        this.session.beginTransaction();
+        //  this.session = HibernateUtilPersistentIdentification.getSessionFactory().openSession();
+        // this.session.beginTransaction();
         // Criteria criteria = this.session.createCriteria(BaseTable.class, "baseT");
         // criteria.add(Restrictions.like("baseTablePID", pid));
         // baseTable = (BaseTable) criteria.uniqueResult();
 
-        //@todo geht nicht
-
-        String hql = "from BaseTable where BaseTable.base_table_pid = :uniquePID";
-        baseTable = (BaseTable) this.session.createQuery(hql)
-                .setString("uniquePID", pid)
-                .uniqueResult();
+        this.session = HibernateUtilQueryStore.getSessionFactory().openSession();
+        this.session.beginTransaction();
+        // Get the max sequence number for the sortings of query
+        Criteria cr = this.session.createCriteria(BaseTable.class);
 
 
-
+        cr.add(Restrictions.eq("baseTablePID", pid));
+        baseTable = (BaseTable) cr.uniqueResult();
 
         this.session.getTransaction().commit();
         this.session.close();
+
 
         if (baseTable != null) {
             this.logger.info("Base Table found " + pid);
