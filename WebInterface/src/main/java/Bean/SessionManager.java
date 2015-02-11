@@ -67,23 +67,6 @@ public class SessionManager {
 
     }
 
-    /**
-     * Store details in session
-     */
-    public void storeSessionData(String key, String value) {
-        System.out.println("Writing data into session: Key " + key + "  Value:  " + value);
-
-        if (FacesContext.getCurrentInstance() != null) {
-            Map<String, Object> session = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
-
-            // schreiben
-
-            session.put(key, value);
-
-        }
-
-
-    }
 
     /**
      * Store details in session
@@ -134,7 +117,11 @@ public class SessionManager {
         this.logger.info("Initializign Session Manager");
         DatabaseTools dbtools = new DatabaseTools();
         String defaultDatabase = dbtools.getDefaultDatabaseNameFromConnection();
-        this.storeSessionData("currentDatabaseName", defaultDatabase);
+        TableDefinitionBean tableBean = this.getTableDefinitionBean();
+        tableBean.setDatabaseName(defaultDatabase);
+        this.updateTableDefinitionBean(tableBean);
+
+
         this.sessionMap = this.getSessionMap();
 
 
@@ -335,6 +322,7 @@ public class SessionManager {
 
         tableDefinitionBean = (TableDefinitionBean) sessionMAP.get("tableDefinitionBean");
         if(tableDefinitionBean ==null){
+            this.logger.info("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
             tableDefinitionBean = new TableDefinitionBean();
             
         }

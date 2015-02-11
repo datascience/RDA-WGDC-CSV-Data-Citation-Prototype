@@ -764,6 +764,8 @@ public class QueryStoreAPI {
     * * */
     public String createBaseTableRecord(String author, String baseSchema, String tableName, String description, int
             prefix) {
+
+
         PersistentIdentifierAPI pidApi= new PersistentIdentifierAPI();
         Organization org = pidApi.getOrganizationObjectByPrefix(prefix);
 
@@ -775,7 +777,7 @@ public class QueryStoreAPI {
         baseTable.setBaseTableName(tableName);
         baseTable.setBaseTablePID(pid.getFQNidentifier());
         baseTable.setAuthor(author);
-        baseTable.setBaseSchema(baseSchema);
+        baseTable.setBaseDatabase(baseSchema);
         baseTable.setDescription(description);
         this.session.saveOrUpdate(baseTable);
         this.session.getTransaction().commit();

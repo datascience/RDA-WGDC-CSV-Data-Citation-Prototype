@@ -49,11 +49,9 @@ public class DatabaseTableNameBean implements Serializable {
     }
 
     public String getDatabaseName() {
-        if (this.databaseName == null) {
-            DatabaseTools dbtools = new DatabaseTools();
-            this.databaseName = dbtools.getDefaultDatabaseNameFromConnection();
-
-        }
+        SessionManager sm = new SessionManager();
+        TableDefinitionBean tableBean = sm.getTableDefinitionBean();
+        this.databaseName = tableBean.getDatabaseName();
         return this.databaseName;
     }
 
@@ -109,8 +107,20 @@ public class DatabaseTableNameBean implements Serializable {
             this.databaseName = this.databaseNames.get(0);
 
             this.tableNames = this.dbtools.getAvailableTablesFromDatabase(databaseNames.get(0));
+
+
             tableBean.setDatabaseName(this.databaseName);
-            tableBean.setTableName(this.tableNames.get(0));
+
+
+            if (this.tableNames == null || this.tableNames.size() == 0) {
+                this.logger.warning("There are no tables there yet!");
+                this.tableName = "No tables Available";
+            } else {
+                this.tableName = this.tableNames.get(0);
+
+            }
+
+            tableBean.setTableName(this.tableName);
             sm.updateTableDefinitionBean(tableBean);
 
         }
@@ -147,23 +157,20 @@ public class DatabaseTableNameBean implements Serializable {
         if (event != null) {
             this.logger.info("Event: " + event.getComponent().toString() + " " + event.toString());
             selectedDB = event.getNewValue().toString();
-
-        } else {
-
-            selectedDB = sm.getCurrentDatabaseNameFromSession();
-            this.logger.info("Event was null. Try reading session. Database is now: " + selectedDB);
-            sm.storeSessionData("currentDatabaseName", selectedDB);
+            TableDefinitionBean tableBean = sm.getTableDefinitionBean();
+            tableBean.setDatabaseName(selectedDB);
+            this.tableNames = this.dbtools.getAvailableTablesFromDatabase(selectedDB);
+            this.tableName = this.tableNames.get(0);
+            tableBean.setTableName(this.tableName);
+            sm.updateTableDefinitionBean(tableBean);
 
 
         }
 
-
-
-
         /*
         * If there is no database selected, get the session database and chose the first available table for this
         * * database
-        * * * */
+        * *
         if (selectedDB == null || selectedDB.equals("")) {
             selectedDB = this.dbtools.getDatabaseCatalogFromDatabaseConnection().get(0);
             this.logger.info("Database retrieved: " + selectedDB);
@@ -183,6 +190,8 @@ public class DatabaseTableNameBean implements Serializable {
 
 
         }
+
+        */
 
         this.handleChangeTableName(null);
 
@@ -264,7 +273,8 @@ public class DatabaseTableNameBean implements Serializable {
         }
         if (selectedTable != null) {
             SessionManager sm = new SessionManager();
-            sm.storeSessionData("currentTableName", selectedTable);
+            TableDefinitionBean tableBean = sm.getTableDefinitionBean();
+            tableBean.setTableName(selectedTable);
         }
 
 

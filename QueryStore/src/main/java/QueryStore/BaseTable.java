@@ -16,7 +16,6 @@
 
 package QueryStore;
 
-import at.stefanproell.PersistentIdentifierMockup.PersistentIdentifier;
 import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
@@ -38,7 +37,7 @@ public class BaseTable implements Serializable {
     private String baseTablePID;
     private String author;
     private String description;
-    private String baseSchema;
+    private String baseDatabase;
     private String baseTableName;
     private long baseTableId;
     private int organizationalId;
@@ -66,13 +65,13 @@ public class BaseTable implements Serializable {
         this.baseTableId = baseTableId;
     }
 
-    @Column(name = "baseSchema")
-    public String getBaseSchema() {
-        return baseSchema;
+    @Column(name = "baseDatabase")
+    public String getBaseDatabase() {
+        return baseDatabase;
     }
 
-    public void setBaseSchema(String baseSchema) {
-        this.baseSchema = baseSchema;
+    public void setBaseDatabase(String baseDatabase) {
+        this.baseDatabase = baseDatabase;
     }
     
 

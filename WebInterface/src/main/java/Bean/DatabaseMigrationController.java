@@ -141,8 +141,13 @@ public class DatabaseMigrationController implements Serializable {
         this.setSuccessStatus(migrationSuccess);
 
         SessionManager sm = new SessionManager();
-        TableDefinitionBean tableDefinitionBean = sm.getTableDefinitionBean();
+
         QueryStoreAPI qApi = new QueryStoreAPI();
+
+
+        TableDefinitionBean tableDefinitionBean = sm.getTableDefinitionBean();
+        tableDefinitionBean.setOrganizationalId(sm.getLogedInUserObject().getOrganizational_id());
+
 
         String baseTablePIDstring = qApi.createBaseTableRecord(tableDefinitionBean.getAuthor(), tableDefinitionBean.getDatabaseName(), tableDefinitionBean.getTableName(), tableDefinitionBean.getDescription(), tableDefinitionBean.getOrganizationalId());
         tableDefinitionBean.setBaseTablePID(baseTablePIDstring);

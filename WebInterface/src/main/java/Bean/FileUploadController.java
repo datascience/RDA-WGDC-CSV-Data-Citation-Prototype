@@ -263,7 +263,8 @@ public class FileUploadController implements Serializable {
         
         SessionManager sm = new SessionManager();
         User user = sm.getLogedInUserObject();
-        sm.updateTableDefinitionBean(this.dataSetAuthor, this.databaseName, this.tableNameInput, this.dataSetDescription, user.getOrganizational_id());
+
+//        sm.updateTableDefinitionBean(this.dataSetAuthor, this.databaseName, this.tableNameInput, this.dataSetDescription, user.getOrganizational_id());
         
         
     }

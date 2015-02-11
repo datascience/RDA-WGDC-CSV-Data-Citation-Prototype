@@ -41,6 +41,7 @@ public class TableDefinitionBean {
     
 
     public TableDefinitionBean() {
+
     }
 
     public String getTableName() {
