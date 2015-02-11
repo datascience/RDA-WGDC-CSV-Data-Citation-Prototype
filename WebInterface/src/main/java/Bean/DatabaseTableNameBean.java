@@ -42,6 +42,11 @@ public class DatabaseTableNameBean implements Serializable {
 
     private Session session = null;
     private Logger logger;
+    private String databaseName;
+    private List<String> databaseNames;
+    private String tableName;
+    private List<String> tableNames;
+    private DatabaseTools dbtools;
 
     public DatabaseTableNameBean() {
         this.logger = Logger.getLogger(this.getClass().getName());
@@ -88,13 +93,6 @@ public class DatabaseTableNameBean implements Serializable {
         this.tableNames = tableNames;
     }
 
-    private String databaseName;
-    private List<String> databaseNames;
-    private String tableName;
-    private List<String> tableNames;
-
-    private DatabaseTools dbtools;
-
     @PostConstruct
     public void init() {
         SessionManager sm = new SessionManager();
@@ -125,12 +123,17 @@ public class DatabaseTableNameBean implements Serializable {
 
         }
 
+        if (tableBean.getDatabaseName().equals("") || tableBean.getDatabaseName() == null) {
+            dbtools = new DatabaseTools();
+            // this only returns the database schema specified in the connection profile.
+            this.databaseNames = dbtools.getDatabaseCatalogFromDatabaseConnection();
+            this.databaseName = this.databaseNames.get(0);
+
+        }
+
 
         this.tableName = tableBean.getTableName();
         this.databaseName = tableBean.getDatabaseName();
-
-
-
 
 
         if (this.tableName == null) {
@@ -140,10 +143,8 @@ public class DatabaseTableNameBean implements Serializable {
 
 
         }
-        
-        
 
-        
+
     }
 
     /**
@@ -196,8 +197,6 @@ public class DatabaseTableNameBean implements Serializable {
         this.handleChangeTableName(null);
 
 
-
-
     }
 
     /*Load this event when the table page is refreshed.
@@ -210,7 +209,6 @@ public class DatabaseTableNameBean implements Serializable {
         Map<String, Object> sessionMAP = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
 
 
-
         if (this.getTableName() == null) {
 
             this.logger.info("No session data set. ");
@@ -218,10 +216,9 @@ public class DatabaseTableNameBean implements Serializable {
             this.tableName = this.dbtools.getAvailableTablesFromDatabase(databaseName).get(0);
             sm.setCurrentTableNameFromSession(this.tableName);
 
-        }else{
+        } else {
             sm.setCurrentTableNameFromSession(this.tableName);
         }
-
 
 
         List<String> selectedColumnsSessionData = sm.getColumnNamesForSelectedColumnsCheckBoxesFromDB();
@@ -240,7 +237,7 @@ public class DatabaseTableNameBean implements Serializable {
 * * */
     public void onLoad(ActionEvent event) {
         this.logger.info("Yay-.. " + event.toString());
-        
+
         //   this.handleChangeDatabaseName(null);
 
 
@@ -267,9 +264,8 @@ public class DatabaseTableNameBean implements Serializable {
                 selectedTable = selectedObject.toString();
 
             }
-            
-            
-            
+
+
         }
         if (selectedTable != null) {
             SessionManager sm = new SessionManager();

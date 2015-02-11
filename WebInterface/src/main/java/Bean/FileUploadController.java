@@ -92,13 +92,12 @@ import java.util.logging.Logger;
 @SessionScoped
 public class FileUploadController implements Serializable {
     private Logger logger;
-    private String tableNameInput;
+
     private List<String> columns = null;
 
 
 
-    private String dataSetAuthor;
-    private String dataSetDescription;
+
     private List<String> selectedPrimaryKeyColumns = null;
     private HashMap<String, String> filesList;
     private List<String> filesListStrings;
@@ -107,6 +106,7 @@ public class FileUploadController implements Serializable {
     private List<String> CSVcolumnNames;
     private String currentSessionType = "";
     private String databaseName;
+    private String tableNameInput;
 
     public FileUploadController() {
         this.logger = Logger.getLogger(this.getClass().getName());
@@ -122,13 +122,7 @@ public class FileUploadController implements Serializable {
 
     }
 
-    public String getDataSetDescription() {
-        return dataSetDescription;
-    }
 
-    public void setDataSetDescription(String dataSetDescription) {
-        this.dataSetDescription = dataSetDescription;
-    }
 
     public List<String> getSelectedPrimaryKeyColumns() {
         return selectedPrimaryKeyColumns;
@@ -182,40 +176,9 @@ public class FileUploadController implements Serializable {
     /*
     *If there is no table name, return the user name prefix as a suggestion for the form.
      *  *  * */
-    public String getTableNameInput() {
-        SessionManager sm = new SessionManager();
-        String username = sm.getLogedInUserName();
-        if (this.tableNameInput == null) {
-            this.logger.warning("TableName Input was Null");
-            this.tableNameInput = username + "_";
-            return this.tableNameInput;
-        } else {
-            return this.tableNameInput;
-        }
-
-    }
-
-    public void setTableNameInput(String tableName) {
-        this.tableNameInput = tableName;
-
-    }
 
 
-    public String getDataSetAuthor() {
-        SessionManager sm = new SessionManager();
-        String authorName = sm.getLogedInUserName();
-        if (this.dataSetAuthor == null) {
-            this.dataSetAuthor= authorName;
-            return this.dataSetAuthor;
-        } else {
-            return this.dataSetAuthor;
-        }
 
-    }
-
-    public void setDataSetAuthor(String dataSetAuthor) {
-        this.dataSetAuthor = dataSetAuthor;
-    }
     
     public List<String> getFilesListStrings() {
         return filesListStrings;
@@ -264,7 +227,6 @@ public class FileUploadController implements Serializable {
         SessionManager sm = new SessionManager();
         User user = sm.getLogedInUserObject();
 
-//        sm.updateTableDefinitionBean(this.dataSetAuthor, this.databaseName, this.tableNameInput, this.dataSetDescription, user.getOrganizational_id());
         
         
     }
@@ -447,9 +409,6 @@ public class FileUploadController implements Serializable {
 
 
     }
-    
-    
 
 
-    
 }

@@ -18,7 +18,7 @@ package Bean;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import javax.inject.Singleton;
+import java.io.Serializable;
 
 /**
  * CSV-DataCitation
@@ -28,8 +28,8 @@ import javax.inject.Singleton;
 
 @ManagedBean(name = "tableDefinitionBean")
 @SessionScoped
-@Singleton
-public class TableDefinitionBean {
+
+public class TableDefinitionBean implements Serializable {
     private String tableName;
     private String databaseName;
     private String description;

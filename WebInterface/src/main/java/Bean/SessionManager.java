@@ -38,14 +38,8 @@ import java.util.logging.Logger;
 @SessionScoped
 public class SessionManager {
     private Logger logger;
-
-    public void setSessionMap(Map<String, Object> sessionMap) {
-        this.sessionMap = sessionMap;
-    }
-
     private Map<String, Object> sessionMap = null;
-    private TableDefinitionBean tableDefinitionBean=null;
-
+    private TableDefinitionBean tableDefinitionBean = null;
 
     public SessionManager() {
         this.logger = Logger.getLogger(this.getClass().getName());
@@ -55,7 +49,6 @@ public class SessionManager {
 
     public void printSessionVariables() {
         this.init();
-        
 
 
         if (this.getSessionMap() != null) {
@@ -66,7 +59,6 @@ public class SessionManager {
 
 
     }
-
 
     /**
      * Store details in session
@@ -89,7 +81,6 @@ public class SessionManager {
 
     }
 
-
     /*
     * Get the selected columns from the session
     * * * */
@@ -106,8 +97,7 @@ public class SessionManager {
         }
 
 
-            return selectedColumnsSessionData;
-
+        return selectedColumnsSessionData;
 
 
     }
@@ -127,7 +117,6 @@ public class SessionManager {
 
     }
 
-
     /*
     * Get session data
     * * * */
@@ -145,10 +134,14 @@ public class SessionManager {
 
     }
 
+    public void setSessionMap(Map<String, Object> sessionMap) {
+        this.sessionMap = sessionMap;
+    }
+
     /*
     * Get the user object from the session
     * * * */
-    protected User getLogedInUserObject() {
+    public User getLogedInUserObject() {
         // Get the loginBean from session attribute
         Map<String, Object> sessionMAP = this.getSessionMap();
 
@@ -163,7 +156,7 @@ public class SessionManager {
     /*
  * Get the user object from the session
  * * * */
-    protected String getLogedInUserName() {
+    public String getLogedInUserName() {
         // Get the loginBean from session attribute
         Map<String, Object> sessionMAP = this.getSessionMap();
 
@@ -245,9 +238,6 @@ public class SessionManager {
         }
 
 
-
-
-
     }
 
     /*The user may have rearranged the columns in the interface
@@ -321,24 +311,24 @@ public class SessionManager {
         Map<String, Object> sessionMAP = this.getSessionMap();
 
         tableDefinitionBean = (TableDefinitionBean) sessionMAP.get("tableDefinitionBean");
-        if(tableDefinitionBean ==null){
+        if (tableDefinitionBean == null) {
             this.logger.info("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
             tableDefinitionBean = new TableDefinitionBean();
-            
+
         }
-        
+
         return tableDefinitionBean;
     }
 
     public void setTableDefinitionBean(TableDefinitionBean tableDefinitionBean) {
         this.tableDefinitionBean = tableDefinitionBean;
         Map<String, Object> sessionMAP = this.getSessionMap();
-        sessionMAP.put("tableDefinitionBean",tableDefinitionBean);
-        
+        sessionMAP.put("tableDefinitionBean", tableDefinitionBean);
+
     }
 
     public void updateTableDefinitionBean(String dataSetAuthor, String databaseName, String tableName, String dataSetDescription, int
-            orgId){
+            orgId) {
 
         TableDefinitionBean tB = new TableDefinitionBean();
         tB.setAuthor(dataSetAuthor);
@@ -348,11 +338,13 @@ public class SessionManager {
         tB.setTableName(tableName);
         this.setTableDefinitionBean(tB);
 
-        this.logger.info("Table bean updated: "+tB.getAuthor()+ " " + tB.getDatabaseName()+ " "+ tB.getDescription());
+        this.logger.info("Table bean updated: " + tB.getAuthor() + " " + tB.getDatabaseName() + " " + tB.getDescription());
 
     }
 
     public void updateTableDefinitionBean(TableDefinitionBean updatedTableBean) {
+        this.logger.info("Table bean updated: " + updatedTableBean.getAuthor() + " "
+                + updatedTableBean.getDatabaseName() + " " + updatedTableBean.getTableName() + " " + updatedTableBean.getDescription());
 
         this.setTableDefinitionBean(updatedTableBean);
 

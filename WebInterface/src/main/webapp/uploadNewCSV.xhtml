@@ -48,39 +48,45 @@
         </p>
 
         <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" globalOnly="true"/>
-        <h:form enctype="multipart/form-data">
+        <h:form id="tableDataForm" enctype="multipart/form-data">
 
             <h:panelGrid columns="2" cellpadding="5">
             <p:outputLabel value="Database schema"/>
             <h:selectOneMenu id="databaseDropDown"
-                             valueChangeListener="#{databaseTableNameBean.handleChangeDatabaseName}"
-                             required="true" value="#{databaseTableNameBean.databaseName}"
+                             valueChangeListener="#{tableDefinitionController.handleChangeDatabaseName}"
+                             required="true" value="#{tableDefinitionController.databaseName}"
                              binding="#{databaseNameDropdown}">
-                <f:selectItems value="#{databaseTableNameBean.databaseNames}"/>
+                <f:selectItems value="#{tableDefinitionController.databaseNames}"/>
                 <p:ajax update="databaseDropDown"/>
             </h:selectOneMenu>
 
             <p:outputLabel value="Tablename"/>
             <p:inputText required="true" requiredMessage="The table name is required"
-                         value="#{fileUploadController.tableNameInput}">
+                         value="#{tableDefinitionController.tableNameInput}">
                 <f:ajax event="blur"/>
             </p:inputText>
 
 
             <p:outputLabel value="Author"/>
             <p:inputText required="true" requiredMessage="An author is required"
-                         value="#{fileUploadController.dataSetAuthor}">
+                         value="#{tableDefinitionController.dataSetAuthor}">
                 <f:ajax event="blur"/>
             </p:inputText>
 
 
             <p:outputLabel value="Description"/>
             <p:inputText required="true" requiredMessage="A description is required"
-                         value="#{fileUploadController.dataSetDescription}">
+                         value="#{tableDefinitionController.dataSetDescription}">
                 <f:ajax event="blur"/>
             </p:inputText>
-                <h:commandButton value="Submit" action="fileUploadController"/>
-                
+
+
+                <p:commandButton id="tableDefinitionButton" value="Set data."
+                                 action="#{tableDefinitionController.setTableDefinitionFormdata}"
+                                 update="tableDataForm">
+
+
+                </p:commandButton>
 
             </h:panelGrid>
             </h:form>

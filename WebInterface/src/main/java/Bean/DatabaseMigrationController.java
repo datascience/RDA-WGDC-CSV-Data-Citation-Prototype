@@ -146,6 +146,7 @@ public class DatabaseMigrationController implements Serializable {
 
 
         TableDefinitionBean tableDefinitionBean = sm.getTableDefinitionBean();
+
         tableDefinitionBean.setOrganizationalId(sm.getLogedInUserObject().getOrganizational_id());
 
 
