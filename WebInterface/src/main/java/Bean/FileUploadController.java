@@ -222,9 +222,20 @@ public class FileUploadController implements Serializable {
         this.storeFiles(file);
         this.updateCSVColumnList();
 
-        // reset lists
-        this.filesList = new HashMap<String,String>();
-        this.filesListStrings=new ArrayList<String>();
+
+        //
+        // schreiben
+        Map<String, Object> session = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
+        session.put("fileListHashMap", this.filesList);
+        this.logger.info("Writing file list to session...");
+
+
+        //
+
+
+
+
+
            
 
         

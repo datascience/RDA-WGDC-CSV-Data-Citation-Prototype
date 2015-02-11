@@ -134,6 +134,12 @@ public class SessionManager {
 
     }
 
+    public void storeFileListInSession(HashMap<String, String> fileList) {
+        Map<String, Object> sessionMAP = this.getSessionMap();
+        sessionMap.put("fileListHashMap", fileList);
+
+    }
+
     public void setSessionMap(Map<String, Object> sessionMap) {
         this.sessionMap = sessionMap;
     }

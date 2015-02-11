@@ -95,6 +95,7 @@ public class DatabaseTableNameBean implements Serializable {
 
     @PostConstruct
     public void init() {
+
         SessionManager sm = new SessionManager();
         TableDefinitionBean tableBean = sm.getTableDefinitionBean();
         if (tableBean == null || tableBean.getTableName() == null) {
