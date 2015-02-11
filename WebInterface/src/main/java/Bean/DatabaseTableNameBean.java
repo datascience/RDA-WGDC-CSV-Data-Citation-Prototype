@@ -113,20 +113,13 @@ public class DatabaseTableNameBean implements Serializable {
         this.logger.info("Initializing DatabaseTableNameBean");
         SessionManager sm = new SessionManager();
         TableDefinitionBean tableBean = sm.getTableDefinitionBean();
+        dbtools = new DatabaseTools();
+        this.databaseNames = dbtools.getDatabaseCatalogFromDatabaseConnection();
+        this.databaseName = this.databaseNames.get(0);
+        tableBean.setDatabaseName(this.databaseName);
 
-
-        if (tableBean.getTableName() == null || tableBean.getTableName().equals("")) {
-
-            this.logger.warning("There was no Tablename set in the Bean");
-
-            dbtools = new DatabaseTools();
-            // this only returns the database schema specified in the connection profile.
-            this.databaseNames = dbtools.getDatabaseCatalogFromDatabaseConnection();
-            this.databaseName = this.databaseNames.get(0);
+        if (this.dbtools.getAvailableTablesFromDatabase(this.databaseName).size() > 0) {
             this.tableNames = this.dbtools.getAvailableTablesFromDatabase(databaseNames.get(0));
-
-            tableBean.setDatabaseName(this.databaseName);
-
 
             if (this.tableNames == null || this.tableNames.size() == 0) {
                 this.logger.warning("There are no tables there yet!");
@@ -140,13 +133,7 @@ public class DatabaseTableNameBean implements Serializable {
 
             }
 
-
-
         }
-
-
-
-
 
     }
 
@@ -158,8 +145,8 @@ public class DatabaseTableNameBean implements Serializable {
     public void handleChangeDatabaseName(ValueChangeEvent event) {
         String selectedDB = null;
         SessionManager sm = new SessionManager();
-        if (event != null) {
-            this.logger.info("Event: " + event.getComponent().toString() + " " + event.toString());
+
+        this.logger.info("Event: " + event.getComponent().toString() + " " + event.toString());
             selectedDB = event.getNewValue().toString();
             TableDefinitionBean tableBean = sm.getTableDefinitionBean();
             tableBean.setDatabaseName(selectedDB);
@@ -170,33 +157,6 @@ public class DatabaseTableNameBean implements Serializable {
             sm.storeSessionData("currentDatabaseName", selectedDB);
             sm.storeSessionData("currentTableName", this.tableName);
 
-        }
-
-        /*
-        * If there is no database selected, get the session database and chose the first available table for this
-        * * database
-        * *
-        if (selectedDB == null || selectedDB.equals("")) {
-            selectedDB = this.dbtools.getDatabaseCatalogFromDatabaseConnection().get(0);
-            this.logger.info("Database retrieved: " + selectedDB);
-            this.tableNames = this.dbtools.getAvailableTablesFromDatabase(selectedDB);
-
-
-            this.tableName = this.tableNames.get(0);
-            this.logger.info("Databasename was null and is now: " + selectedDB);
-
-            sm.storeSessionData("currentDatabaseName", selectedDB);
-            sm.storeSessionData("currentTableName", this.tableName);
-
-
-        } else {
-            this.logger.info("Databasename was set and it was:  " + selectedDB);
-            this.tableNames = this.dbtools.getAvailableTablesFromDatabase(selectedDB);
-
-
-        }
-
-        */
 
         this.handleChangeTableName(null);
 
