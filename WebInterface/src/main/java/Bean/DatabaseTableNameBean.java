@@ -222,7 +222,11 @@ public class DatabaseTableNameBean implements Serializable {
         String selectedTable = null;
         if (event == null) {
             DatabaseTools dbTools = new DatabaseTools();
-            selectedTable = dbTools.getFirstTableFromDatabase(this.getDatabaseName());
+            String dataBaseName = this.getDatabaseName();
+            if (dataBaseName != null) {
+                selectedTable = dbTools.getFirstTableFromDatabase(dataBaseName);
+            }
+
 
         } else {
             Object selectedObject = event.getNewValue();
