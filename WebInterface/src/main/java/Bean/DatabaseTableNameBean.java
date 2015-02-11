@@ -89,23 +89,29 @@ public class DatabaseTableNameBean implements Serializable {
 
     @PostConstruct
     public void init() {
-
-
-        dbtools = new DatabaseTools();
-            // this only returns the database schema specified in the connection profile.
-        this.databaseNames = dbtools.getDatabaseCatalogFromDatabaseConnection();
-        //this.databaseName = this.databaseNames.get(0);
-        this.tableNames = this.dbtools.getAvailableTablesFromDatabase(databaseNames.get(0));
         SessionManager sm = new SessionManager();
-        this.tableName = sm.getCurrentTableNameFromSession();
+        TableDefinitionBean tableBean = sm.getTableDefinitionBean();
+        if (tableBean == null || tableBean.getTableName() == null) {
+            this.logger.warning("There was no Table Bean set. User directly wants to view data");
+            dbtools = new DatabaseTools();
+            // this only returns the database schema specified in the connection profile.
+            this.databaseNames = dbtools.getDatabaseCatalogFromDatabaseConnection();
+            //this.databaseName = this.databaseNames.get(0);
+            this.tableNames = this.dbtools.getAvailableTablesFromDatabase(databaseNames.get(0));
+
+        } else {
+            this.tableName = tableBean.getTableName();
+
+        }
+
+
+
+
         if (this.tableName == null) {
-            this.logger.info("Table name in init method null. using first from db");
-            // check if there actually is a table in the database
-            if (this.tableNames == null) {
-                this.logger.severe("There are no tables yet!");
-                this.tableName = this.tableNames.get(0);
-            }
-            
+            this.logger.info("There are not tables in the database");
+        } else {
+            sm.setCurrentTableNameFromSession(this.tableName);
+
         }
         
         
