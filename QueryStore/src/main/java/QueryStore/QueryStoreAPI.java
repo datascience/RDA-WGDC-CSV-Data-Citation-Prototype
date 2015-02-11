@@ -779,9 +779,12 @@ public class QueryStoreAPI {
         baseTable.setAuthor(author);
         baseTable.setBaseDatabase(baseSchema);
         baseTable.setDescription(description);
+        baseTable.setOrganizationalId(prefix);
         this.session.saveOrUpdate(baseTable);
         this.session.getTransaction().commit();
         this.session.close();
+
+        this.logger.info("Base table persisted");
 
         return baseTable.getBaseTablePID();
         
