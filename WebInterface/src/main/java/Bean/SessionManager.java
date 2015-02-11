@@ -124,16 +124,8 @@ public class SessionManager {
         }
 
 
-//        if (selectedColumnsSessionData != null && selectedColumnsSessionData.size() >= 1) {
-        //          this.logger.info("There are " + selectedColumnsSessionData.size() + " selected columns");
-
             return selectedColumnsSessionData;
-        //    } else {
-        //      this.logger.info("There was no session data available. Setting default column");
-        //    this.initializeSelectedColumns();
-        //  return selectedColumnsSessionData;
 
-        //}
 
 
     }
@@ -221,31 +213,19 @@ public class SessionManager {
      * Get the session tablename
      */
     public String getCurrentTableNameFromSession() {
+        TableDefinitionBean tableBean = this.getTableDefinitionBean();
 
-        // lesen
-        Map<String, Object> sessionMAP = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
-//        Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
-        String currentTableName = (String) sessionMAP.get("currentTableName");
-
-        if (currentTableName == null || currentTableName.equals("")) {
-            this.logger.warning("There was no current table name in the session. ");
-
-
-        }
-        return currentTableName;
+        return tableBean.getTableName();
     }
 
     /**
      * Get the session tablename
      */
     public void setCurrentTableNameFromSession(String currentTableName) {
+        TableDefinitionBean tableBean = this.getTableDefinitionBean();
+        tableBean.setTableName(currentTableName);
+        this.setTableDefinitionBean(tableBean);
 
-
-        ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
-        Map<String, Object> sessionMap = externalContext.getSessionMap();
-        sessionMap.put("currentTableName", currentTableName);
-
-        this.logger.warning("The table name is stored in the session  " + currentTableName);
 
     }
 
@@ -254,23 +234,10 @@ public class SessionManager {
      */
     public String getCurrentDatabaseNameFromSession() {
 
-        // lesen
-        Map<String, Object> sessionMAP = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
-//        Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
-        String currentDatabaseName = (String) sessionMAP.get("currentDatabaseName");
-
-        if (currentDatabaseName == null || currentDatabaseName.equals("")) {
-            this.logger.warning("There was no  currentDatabaseName name in the session. Setting default DB");
-            DatabaseTools dbTools = new DatabaseTools();
-            String defaultDatabaseName = dbTools.getDefaultDatabaseNameFromConnection();
-            this.storeSessionData("currentDatabaseName", defaultDatabaseName);
-            currentDatabaseName = defaultDatabaseName;
-            
-
-
-        }
-        return currentDatabaseName;
+        TableDefinitionBean tableBean = this.getTableDefinitionBean();
+        return tableBean.getDatabaseName();
     }
+
 
     public void initializeSelectedColumns() {
         String currentTableName = this.getCurrentTableNameFromSession();
