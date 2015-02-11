@@ -320,6 +320,7 @@ public class SessionManager {
         if (tableDefinitionBean == null) {
             this.logger.info("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
             tableDefinitionBean = new TableDefinitionBean();
+            this.setTableDefinitionBean(tableDefinitionBean);
 
         }
 
@@ -353,6 +354,24 @@ public class SessionManager {
                 + updatedTableBean.getDatabaseName() + " " + updatedTableBean.getTableName() + " " + updatedTableBean.getDescription());
 
         this.setTableDefinitionBean(updatedTableBean);
+
+    }
+
+    /**
+     * Store details in session
+     */
+    public void storeSessionData(String key, String value) {
+        System.out.println("Writing data into session: Key " + key + "  Value:  " + value);
+
+        if (FacesContext.getCurrentInstance() != null) {
+            Map<String, Object> session = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
+
+            // schreiben
+
+            session.put(key, value);
+
+        }
+
 
     }
 

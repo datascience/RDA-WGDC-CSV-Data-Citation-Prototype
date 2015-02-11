@@ -157,8 +157,13 @@ public class ServletController implements Serializable {
 
     public String getCurrentTableName() {
 
-        Map<String, Object> sessionMAP = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
-        String tableName = (String) sessionMAP.get("currentTableName");
+        //@todo check if that works
+
+        //Map<String, Object> sessionMAP = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
+        //String tableName = (String) sessionMAP.get("currentTableName");
+        SessionManager sm = new SessionManager();
+        TableDefinitionBean tableBean = sm.getTableDefinitionBean();
+        String tableName = tableBean.getTableName();
         return tableName;
     }
 

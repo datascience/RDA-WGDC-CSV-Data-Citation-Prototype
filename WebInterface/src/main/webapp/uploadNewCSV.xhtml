@@ -158,7 +158,8 @@
             <p:commandButton id="migrateButton" value="Migrate into Database."
                              action="#{databaseMigrationController.migrationController}"
                              update="migrationMessage"/>
-            <p:commandButton action="table.xhtml?faces-redirect=true" value="View existing data"/>
+
+                <p:commandButton action="table.xhtml?faces-redirect=true" value="View existing data"/>
             <p:message id="migrationMessage" for="migrateForm:migrateButton" showDetail="true" autoUpdate="true"
                        closable="true"
                        globalOnly="false"/>

@@ -24,10 +24,13 @@ import org.hibernate.Session;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.ValueChangeEvent;
+import javax.servlet.http.HttpServletRequest;
 import javax.xml.crypto.Data;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
@@ -93,20 +96,34 @@ public class DatabaseTableNameBean implements Serializable {
         this.tableNames = tableNames;
     }
 
+
+    /*Refresh the originating page
+* * */
+    protected void redirectToErrorPage() {
+        ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+        try {
+            ec.redirect("/error.xhtml");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     @PostConstruct
     public void init() {
-
+        this.logger.info("Initializing DatabaseTableNameBean");
         SessionManager sm = new SessionManager();
         TableDefinitionBean tableBean = sm.getTableDefinitionBean();
-        if (tableBean == null || tableBean.getTableName() == null) {
-            this.logger.warning("There was no Table Bean set. User directly wants to view data");
+
+
+        if (tableBean.getTableName() == null || tableBean.getTableName().equals("")) {
+
+            this.logger.warning("There was no Tablename set in the Bean");
+
             dbtools = new DatabaseTools();
             // this only returns the database schema specified in the connection profile.
             this.databaseNames = dbtools.getDatabaseCatalogFromDatabaseConnection();
             this.databaseName = this.databaseNames.get(0);
-
             this.tableNames = this.dbtools.getAvailableTablesFromDatabase(databaseNames.get(0));
-
 
             tableBean.setDatabaseName(this.databaseName);
 
@@ -114,36 +131,21 @@ public class DatabaseTableNameBean implements Serializable {
             if (this.tableNames == null || this.tableNames.size() == 0) {
                 this.logger.warning("There are no tables there yet!");
                 this.tableName = "No tables Available";
+                this.redirectToErrorPage();
+
             } else {
                 this.tableName = this.tableNames.get(0);
+                tableBean.setTableName(this.tableName);
+                sm.updateTableDefinitionBean(tableBean);
 
             }
 
-            tableBean.setTableName(this.tableName);
-            sm.updateTableDefinitionBean(tableBean);
-
-        }
-
-        if (tableBean.getDatabaseName().equals("") || tableBean.getDatabaseName() == null) {
-            dbtools = new DatabaseTools();
-            // this only returns the database schema specified in the connection profile.
-            this.databaseNames = dbtools.getDatabaseCatalogFromDatabaseConnection();
-            this.databaseName = this.databaseNames.get(0);
-
-        }
-
-
-        this.tableName = tableBean.getTableName();
-        this.databaseName = tableBean.getDatabaseName();
-
-
-        if (this.tableName == null) {
-            this.logger.info("There are not tables in the database");
-        } else {
-            sm.setCurrentTableNameFromSession(this.tableName);
 
 
         }
+
+
+
 
 
     }
@@ -165,7 +167,8 @@ public class DatabaseTableNameBean implements Serializable {
             this.tableName = this.tableNames.get(0);
             tableBean.setTableName(this.tableName);
             sm.updateTableDefinitionBean(tableBean);
-
+            sm.storeSessionData("currentDatabaseName", selectedDB);
+            sm.storeSessionData("currentTableName", this.tableName);
 
         }
 
@@ -206,6 +209,10 @@ public class DatabaseTableNameBean implements Serializable {
 
         this.logger.info("Page load event: .. " + event.toString());
         SessionManager sm = new SessionManager();
+        TableDefinitionBean tableBean = sm.getTableDefinitionBean();
+        this.tableName = tableBean.getTableName();
+        this.databaseName = tableBean.getDatabaseName();
+
 
         Map<String, Object> sessionMAP = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
 
