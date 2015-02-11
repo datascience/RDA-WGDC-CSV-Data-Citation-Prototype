@@ -13,6 +13,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -159,9 +160,7 @@ public class DatabaseMigrationController implements Serializable {
 
 
         this.displayMigrationMessage();
-        
-        
-        
+
 
     }
 

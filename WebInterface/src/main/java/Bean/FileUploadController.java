@@ -131,6 +131,7 @@ public class FileUploadController implements Serializable {
     public void setSelectedPrimaryKeyColumns(List<String> selectedPrimaryKeyColumns) {
         this.logger.info("Set primary key check boxes. Size is " + selectedPrimaryKeyColumns.size());
         this.selectedPrimaryKeyColumns = selectedPrimaryKeyColumns;
+
     }
 
     public String getCSVcolumnName() {
@@ -229,17 +230,10 @@ public class FileUploadController implements Serializable {
         session.put("fileListHashMap", this.filesList);
         this.logger.info("Writing file list to session...");
 
-
-        //
-
-
+        //reset
+        this.filesList = new HashMap<String, String>();
 
 
-
-           
-
-        
-        
     }
     
 
@@ -305,7 +299,10 @@ public class FileUploadController implements Serializable {
         DatabaseTools dbtools = new DatabaseTools();
         databaseNames = dbtools.getAvailableDatabases();
         this.filesList = new HashMap<String,String>();
-            //databaseNames = new ArrayList<String>();
+        // reset
+        this.selectedPrimaryKeyColumns = new ArrayList<>();
+
+        //databaseNames = new ArrayList<String>();
             //databaseNames.add("Test hard coedd");
 
 
@@ -333,8 +330,8 @@ public class FileUploadController implements Serializable {
 
         String path = "";
         CSV_API csvAPI = new CSV_API();
-        Map<String, Object> sessionMAP = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
-        HashMap<String, String> filesList = (HashMap<String, String>) sessionMAP.get("fileListHashMap");
+
+
         List pathList = new ArrayList(this.filesList.values());
 
         for (int i = 0; i < pathList.size(); i++) {
