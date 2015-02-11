@@ -45,7 +45,6 @@ public class SessionManager {
 
     private Map<String, Object> sessionMap = null;
     private TableDefinitionBean tableDefinitionBean=null;
-    
 
 
     public SessionManager() {

@@ -121,9 +121,6 @@ public class DatabaseMigrationController implements Serializable {
         this.currentDatabaseName = currentDatabaseName;
     }
 
-    /**
-     * @TODO needs to be rewritten!!
-     */
 
     /*
     * Method called from the Web interface with no parameters

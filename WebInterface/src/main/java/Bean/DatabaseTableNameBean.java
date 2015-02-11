@@ -49,11 +49,21 @@ public class DatabaseTableNameBean implements Serializable {
     }
 
     public String getDatabaseName() {
+        if (this.databaseName == null) {
+            DatabaseTools dbtools = new DatabaseTools();
+            this.databaseName = dbtools.getDefaultDatabaseNameFromConnection();
+
+        }
         return this.databaseName;
     }
 
     public void setDatabaseName(String databaseName) {
         this.databaseName = databaseName;
+        SessionManager sm = new SessionManager();
+        TableDefinitionBean tableBean = sm.getTableDefinitionBean();
+        tableBean.setDatabaseName(this.databaseName);
+        sm.updateTableDefinitionBean(tableBean);
+
     }
 
     public List<String> getDatabaseNames() {
@@ -96,13 +106,19 @@ public class DatabaseTableNameBean implements Serializable {
             dbtools = new DatabaseTools();
             // this only returns the database schema specified in the connection profile.
             this.databaseNames = dbtools.getDatabaseCatalogFromDatabaseConnection();
-            //this.databaseName = this.databaseNames.get(0);
-            this.tableNames = this.dbtools.getAvailableTablesFromDatabase(databaseNames.get(0));
+            this.databaseName = this.databaseNames.get(0);
 
-        } else {
-            this.tableName = tableBean.getTableName();
+            this.tableNames = this.dbtools.getAvailableTablesFromDatabase(databaseNames.get(0));
+            tableBean.setDatabaseName(this.databaseName);
+            tableBean.setTableName(this.tableNames.get(0));
+            sm.updateTableDefinitionBean(tableBean);
 
         }
+
+
+        this.tableName = tableBean.getTableName();
+        this.databaseName = tableBean.getDatabaseName();
+
 
 
 
@@ -111,6 +127,7 @@ public class DatabaseTableNameBean implements Serializable {
             this.logger.info("There are not tables in the database");
         } else {
             sm.setCurrentTableNameFromSession(this.tableName);
+
 
         }
         
@@ -191,6 +208,7 @@ public class DatabaseTableNameBean implements Serializable {
             this.databaseName = this.dbtools.getDatabaseCatalogFromDatabaseConnection().get(0);
             this.tableName = this.dbtools.getAvailableTablesFromDatabase(databaseName).get(0);
             sm.setCurrentTableNameFromSession(this.tableName);
+
         }else{
             sm.setCurrentTableNameFromSession(this.tableName);
         }
