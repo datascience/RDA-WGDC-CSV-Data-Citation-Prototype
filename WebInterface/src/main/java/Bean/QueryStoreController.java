@@ -34,6 +34,7 @@ package Bean;
 
 
 import Database.Authentication.User;
+import QueryStore.BaseTable;
 import QueryStore.Query;
 import QueryStore.QueryStoreAPI;
 import at.stefanproell.PersistentIdentifierMockup.Organization;
@@ -67,7 +68,7 @@ public class QueryStoreController implements Serializable {
 
     private Logger logger;
     private QueryStoreAPI queryStoreAPI;
-    private SessionManager sm = null;
+
 
     public QueryStoreAPI getQueryStoreAPI() {
         if (this.queryStoreAPI == null) {
@@ -86,7 +87,7 @@ public class QueryStoreController implements Serializable {
         this.logger = Logger.getLogger(this.getClass().getName());
         this.queryStoreAPI = new QueryStoreAPI();
         this.pidAPI = new PersistentIdentifierAPI();
-        this.sm = new SessionManager();
+
 
 
     }
@@ -132,8 +133,8 @@ public class QueryStoreController implements Serializable {
     * * */
     public void initializeQueryStore() {
 
-
-        User user = this.sm.getLogedInUserObject();
+        SessionManager sm = new SessionManager();
+        User user = sm.getLogedInUserObject();
 
 
         int prefix = user.getOrganizational_id();
@@ -156,10 +157,8 @@ public class QueryStoreController implements Serializable {
         this.query.setCreatedDate(creationDate);
         this.query.setExecution_timestamp(creationDate);
         this.query.setDatasourcePID(sm.getCurrentDatabaseNameFromSession() + "." + sm.getCurrentTableNameFromSession());
-
-        this.query.getBaseTable().setBaseTableName(sm.getCurrentTableNameFromSession());
-        this.query.getBaseTable().setBaseSchema(sm.getCurrentDatabaseNameFromSession());
-        
+        BaseTable baseTable = this.queryStoreAPI.getBaseTableByPID(sm.getTableDefinitionBean().getBaseTablePID());
+        this.query.setBaseTable(baseTable);
         
 
 
@@ -184,11 +183,12 @@ public class QueryStoreController implements Serializable {
     /* Finalize the query.
     * */
     public void finalizeDataSet() {
+        SessionManager sm = new SessionManager();
         this.logger.info("finalize ");
         Query query = this.getQuery();
 
 
-        query.setSelectedColumns(this.sm.getColumnNamesFromDataTablesSession());
+        query.setSelectedColumns(sm.getColumnNamesFromDataTablesSession());
 
         this.queryStoreAPI.updateExecutiontime(this.query);
         this.queryStoreAPI.finalizeQuery(this.query);

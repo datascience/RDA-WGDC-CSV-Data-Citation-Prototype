@@ -214,8 +214,8 @@ public class SessionManager {
      */
     public String getCurrentTableNameFromSession() {
         TableDefinitionBean tableBean = this.getTableDefinitionBean();
-
-        return tableBean.getTableName();
+        String tableName = tableBean.getTableName();
+        return tableName;
     }
 
     /**
@@ -362,6 +362,12 @@ public class SessionManager {
         this.setTableDefinitionBean(tB);
 
         this.logger.info("Table bean updated: "+tB.getAuthor()+ " " + tB.getDatabaseName()+ " "+ tB.getDescription());
+
+    }
+
+    public void updateTableDefinitionBean(TableDefinitionBean updatedTableBean) {
+
+        this.setTableDefinitionBean(updatedTableBean);
 
     }
 

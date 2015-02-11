@@ -34,10 +34,7 @@ package QueryStore;
 
 
 import Database.DatabaseOperations.DatabaseTools;
-import at.stefanproell.PersistentIdentifierMockup.Organization;
-import at.stefanproell.PersistentIdentifierMockup.PersistentIdentifierAPI;
-import at.stefanproell.PersistentIdentifierMockup.PersistentIdentifierAlpha;
-import at.stefanproell.PersistentIdentifierMockup.PersistentIdentifierAlphaNumeric;
+import at.stefanproell.PersistentIdentifierMockup.*;
 import at.stefanproell.ResultSetVerification.ResultSetVerificationAPI;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.hibernate.Criteria;
@@ -765,7 +762,7 @@ public class QueryStoreAPI {
     
     /* Store the table metadata
     * * */
-    public void createBaseTableRecord(String author, String baseSchema, String tableName, String description, int
+    public String createBaseTableRecord(String author, String baseSchema, String tableName, String description, int
             prefix) {
         PersistentIdentifierAPI pidApi= new PersistentIdentifierAPI();
         Organization org = pidApi.getOrganizationObjectByPrefix(prefix);
@@ -783,11 +780,34 @@ public class QueryStoreAPI {
         this.session.saveOrUpdate(baseTable);
         this.session.getTransaction().commit();
         this.session.close();
+
+        return baseTable.getBaseTablePID();
         
         
         
         
         
+    }
+
+    public BaseTable getBaseTableByPID(String pid) {
+        BaseTable baseTable = null;
+        this.session = HibernateUtilPersistentIdentification.getSessionFactory().openSession();
+        this.session.beginTransaction();
+        Criteria criteria = this.session.createCriteria(BaseTable.class, "baseT");
+        criteria.add(Restrictions.eq("baseT.base_table_pid", pid));
+        baseTable = (BaseTable) criteria.uniqueResult();
+        this.session.getTransaction().commit();
+        this.session.close();
+
+        if (baseTable != null) {
+            this.logger.info("Base Table found " + pid);
+            return baseTable;
+        } else {
+            this.logger.severe("BaseTable NOT found " + pid);
+            return null;
+        }
+
+
     }
 }
 

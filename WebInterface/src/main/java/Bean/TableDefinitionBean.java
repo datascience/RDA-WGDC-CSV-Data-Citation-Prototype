@@ -34,6 +34,8 @@ public class TableDefinitionBean {
     private String databaseName;
     private String description;
     private String author;
+    private String baseTablePID;
+
     int organizationalId;
     
     
@@ -79,5 +81,13 @@ public class TableDefinitionBean {
 
     public void setOrganizationalId(int organizationalId) {
         this.organizationalId = organizationalId;
+    }
+
+    public String getBaseTablePID() {
+        return baseTablePID;
+    }
+
+    public void setBaseTablePID(String baseTablePID) {
+        this.baseTablePID = baseTablePID;
     }
 }

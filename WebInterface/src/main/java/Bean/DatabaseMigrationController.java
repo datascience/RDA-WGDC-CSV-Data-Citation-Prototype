@@ -4,6 +4,7 @@ package Bean;
 
 import Database.Helpers.StringHelpers;
 import Database.DatabaseOperations.MigrationTasks;
+import QueryStore.BaseTable;
 import QueryStore.QueryStoreAPI;
 
 
@@ -143,9 +144,14 @@ public class DatabaseMigrationController implements Serializable {
         this.setSuccessStatus(migrationSuccess);
 
         SessionManager sm = new SessionManager();
-        TableDefinitionBean tD = sm.getTableDefinitionBean();
+        TableDefinitionBean tableDefinitionBean = sm.getTableDefinitionBean();
         QueryStoreAPI qApi = new QueryStoreAPI();
-        qApi.createBaseTableRecord(tD.getAuthor(),tD.getDatabaseName(),tD.getTableName(),tD.getDescription(),tD.getOrganizationalId());
+
+        String baseTablePIDstring = qApi.createBaseTableRecord(tableDefinitionBean.getAuthor(), tableDefinitionBean.getDatabaseName(), tableDefinitionBean.getTableName(), tableDefinitionBean.getDescription(), tableDefinitionBean.getOrganizationalId());
+        tableDefinitionBean.setBaseTablePID(baseTablePIDstring);
+
+        sm.updateTableDefinitionBean(tableDefinitionBean);
+
 
 
         this.displayMigrationMessage();
