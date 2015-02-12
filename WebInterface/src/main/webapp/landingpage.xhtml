@@ -36,25 +36,43 @@
 
 
         <h1>Landing Pages</h1>
-
         <h:form id="landingForm">
-
-            <h:outputText value="Superset"/>
-            <p:selectOneMenu value="#{landingPageBean.selectedBaseTable}">
-                <f:selectItems value="#{landingPageBean.availableBaseTables}"/>
-
-                <p:ajax update="subsetId" listener="#{landingPageBean.handleDropDownChangeBaseTables}"/>
-            </p:selectOneMenu>
-
-            <h:outputText value="Subset"/>
-            <p:selectOneMenu value="#{landingPageBean.selectedSubset}" id="subsetId">
-                <f:selectItems value="#{landingPageBean.availableSubsets}"/>
-                <p:ajax update="subsetId" listener="#{landingPageBean.handleDropDownChangeSubsets}"/>
-            </p:selectOneMenu>
+            <p:panel header="Select a Superset and its subset" style="width: 800px;">
+                <h:panelGrid columns="2" cellpadding="10">
 
 
+                    <h:outputText value="Superset"/>
+                    <p:selectOneMenu value="#{landingPageBean.selectedBaseTable}">
+                        <f:selectItems value="#{landingPageBean.availableBaseTables}"/>
+
+                        <p:ajax update="subsetId" listener="#{landingPageBean.handleDropDownChangeBaseTables}"/>
+                    </p:selectOneMenu>
+
+                    <h:outputText value="Subset"/>
+                    <p:selectOneMenu value="#{landingPageBean.selectedSubset}" id="subsetId">
+                        <f:selectItems value="#{landingPageBean.availableSubsets}"/>
+                        <p:ajax update=":metadataForm" listener="#{landingPageBean.handleDropDownChangeSubsets}"/>
+                    </p:selectOneMenu>
+
+
+                </h:panelGrid>
+
+            </p:panel>
         </h:form>
 
+        <h:form id="metadataForm">
+            <p:panel header="Landing Pages - Dataset Metadata" style="width: 800px;">
+                <h:panelGrid columns="2" cellpadding="10">
+
+
+                    <h:outputText value="Dataset PID"/>
+                    <h:outputText value="#{landingPageBean.metaPid}"/>
+
+
+                </h:panelGrid>
+
+            </p:panel>
+        </h:form>
 
     </div>
 </h:body>

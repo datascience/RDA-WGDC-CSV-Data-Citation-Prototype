@@ -17,6 +17,7 @@
 package Bean;
 
 import Database.DatabaseOperations.DatabaseTools;
+import QueryStore.Query;
 import QueryStore.QueryStoreAPI;
 
 import javax.annotation.PostConstruct;
@@ -42,6 +43,8 @@ public class LandingPageBean implements Serializable {
 
     private List<SelectItem> availableBaseTables; // +getter (no setter necessary)
     private List<SelectItem> availableSubsets;
+
+    private String metaPid = "";
 
 
 
@@ -72,6 +75,7 @@ public class LandingPageBean implements Serializable {
     public void handleDropDownChangeSubsets() {
         //based on the number provided, change "regions" attribute.
         this.logger.info("change subsets. Subset is is now " + this.selectedSubset);
+        this.updateMetadataFields();
 
 
     }
@@ -137,11 +141,29 @@ public class LandingPageBean implements Serializable {
 
     }
 
+    private void updateMetadataFields() {
+        QueryStoreAPI queryAPI = new QueryStoreAPI();
+        Query query = queryAPI.getQueryByPID(this.selectedSubset);
+        if (query != null) {
+            this.metaPid = query.getQueryHash();
+        }
+
+
+    }
+
     public List<SelectItem> getAvailableSubsets() {
         return availableSubsets;
     }
 
     public void setAvailableSubsets(List<SelectItem> availableSubsets) {
         this.availableSubsets = availableSubsets;
+    }
+
+    public String getMetaPid() {
+        return metaPid;
+    }
+
+    public void setMetaPid(String metaPid) {
+        this.metaPid = metaPid;
     }
 }
