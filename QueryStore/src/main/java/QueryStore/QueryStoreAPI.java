@@ -914,11 +914,10 @@ public class QueryStoreAPI {
 
         this.session = HibernateUtilQueryStore.getSessionFactory().openSession();
         this.session.beginTransaction();
-        // Get the max sequence number for the sortings of query
+
+        this.logger.info("Searching for base Table Pid: " + pid);
         Criteria cr = this.session.createCriteria(BaseTable.class);
-
-
-        cr.add(Restrictions.eq("baseTablePID", pid));
+        cr.add(Restrictions.like("baseTablePID", new String(pid)));
         baseTable = (BaseTable) cr.uniqueResult();
 
         this.session.getTransaction().commit();
@@ -939,7 +938,7 @@ public class QueryStoreAPI {
     /*
    * Get base table by PID
    * **/
-    public BaseTable getBaseTableByTableName(String databaseName, String tableName) {
+    public BaseTable getBaseTableByDatabaseAndTableName(String databaseName, String tableName) {
         BaseTable baseTable = null;
         this.logger.info("Looking for base table: " + tableName + " in database " + databaseName);
 
@@ -952,6 +951,34 @@ public class QueryStoreAPI {
 
         cr.add(Restrictions.eq("baseTableName", tableName));
         cr.add(Restrictions.eq("baseDatabase", databaseName));
+        baseTable = (BaseTable) cr.uniqueResult();
+
+        this.session.getTransaction().commit();
+        this.session.close();
+
+
+        if (baseTable != null) {
+            this.logger.info("Base Table found " + baseTable.getBaseTablePID());
+            return baseTable;
+        } else {
+            this.logger.severe("BaseTable NOT found");
+            return null;
+        }
+
+
+    }
+
+    public BaseTable getBaseTableByTableNameOnly(String tableName) {
+        BaseTable baseTable = null;
+
+
+        this.session = HibernateUtilQueryStore.getSessionFactory().openSession();
+        this.session.beginTransaction();
+        // Get the max sequence number for the sortings of query
+        Criteria cr = this.session.createCriteria(BaseTable.class);
+
+
+        cr.add(Restrictions.eq("baseTableName", tableName));
         baseTable = (BaseTable) cr.uniqueResult();
 
         this.session.getTransaction().commit();

@@ -20,6 +20,7 @@ import Database.DatabaseOperations.DatabaseTools;
 import QueryStore.BaseTable;
 import QueryStore.Query;
 import QueryStore.QueryStoreAPI;
+import org.apache.commons.lang3.StringUtils;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -55,7 +56,6 @@ public class LandingPageBean implements Serializable {
     private String metaParentAuthor;
     private String metaAuthor;
     private String metaSuggestedCitationString;
-
 
     public LandingPageBean() {
         this.logger = Logger.getLogger(this.getClass().getName());
@@ -95,6 +95,7 @@ public class LandingPageBean implements Serializable {
 
     public void setSelectedBaseTable(String selectedBaseTable) {
         this.logger.info("Selected Basetable " + selectedBaseTable);
+
         this.selectedBaseTable = selectedBaseTable;
     }
 
@@ -140,6 +141,7 @@ public class LandingPageBean implements Serializable {
 
         for (Map.Entry<String, String> entry : availableSubsetsMap.entrySet()) {
             String pid = entry.getKey();
+
             String execDateString = entry.getValue();
             availableSubsets.add(new SelectItem(pid, pid + " ( " + execDateString + " )"));
         }
@@ -153,11 +155,13 @@ public class LandingPageBean implements Serializable {
     private void updateMetadataFields() {
         QueryStoreAPI queryAPI = new QueryStoreAPI();
         Query query = queryAPI.getQueryByPID(this.selectedSubset);
-        BaseTable baseTable = queryAPI.getBaseTableByPID(this.selectedBaseTable);
+        BaseTable baseTable = queryAPI.getBaseTableByTableNameOnly(this.selectedBaseTable);
 
-        if (query != null && baseTable != null) {
+
+        if (query != null) {
+            this.logger.info("Setting metadata fields");
             this.metaPid = query.getPID();
-            this.metaParentPid = query.getDatasourcePID();
+            this.metaParentPid = baseTable.getBaseTablePID();
             this.metaExecutionDate = query.getExecution_timestamp().toString();
             this.metaResultSetHash = query.getResultSetHash();
             this.metaQueryHash = query.getQueryHash();
@@ -278,5 +282,12 @@ public class LandingPageBean implements Serializable {
 
     public void setMetaSuggestedCitationString(String metaSuggestedCitationString) {
         this.metaSuggestedCitationString = metaSuggestedCitationString;
+    }
+
+    public int countChar(String text) {
+
+        int rows = (int) (text.length() / 60);
+
+        return rows;
     }
 }

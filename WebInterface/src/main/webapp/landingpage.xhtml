@@ -54,6 +54,9 @@
                         <p:ajax update=":metadataForm" listener="#{landingPageBean.handleDropDownChangeSubsets}"/>
                     </p:selectOneMenu>
 
+                    <p:commandButton id="updateButton" action="#{landingPageBean.handleDropDownChangeSubsets}"
+                                     value="Update existing data" update=":metadataForm"></p:commandButton>
+
 
                 </h:panelGrid>
 
@@ -82,8 +85,16 @@
                     <h:outputText value="Description"/>
                     <h:outputText value="#{landingPageBean.metaDescription}"/>
                     <h:outputText value="SQL string"/>
-                    <h:outputText value="#{landingPageBean.metaSQLString}"/>
-                    <h:outputText value="Description"/>
+                    <p:inputTextarea
+                            value="#{landingPageBean.metaSQLString}"
+                            styleClass="no-border" readonly="true"
+                            style="width: 80%;height: 100%;"
+                            rows="#{landingPageBean.countChar(landingPageBean.metaSQLString)+2}"/>
+
+
+                    <p:spacer></p:spacer>
+                    <p:separator/>
+                    <h:outputText value="Suggested citation text:"/>
                     <h:outputText value="#{landingPageBean.metaSuggestedCitationString}"/>
 
                 </h:panelGrid>

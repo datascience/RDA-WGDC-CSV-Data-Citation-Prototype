@@ -161,7 +161,7 @@ public class QueryStoreController implements Serializable {
         TableDefinitionBean tableDefinitionBean = sm.getTableDefinitionBean();
 
         if (tableDefinitionBean.getBaseTablePID() == null) {
-            BaseTable baseTable = this.queryStoreAPI.getBaseTableByTableName(sm.getCurrentDatabaseNameFromSession(), sm.getCurrentTableNameFromSession());
+            BaseTable baseTable = this.queryStoreAPI.getBaseTableByDatabaseAndTableName(sm.getCurrentDatabaseNameFromSession(), sm.getCurrentTableNameFromSession());
             tableDefinitionBean.setBaseTablePID(baseTable.getBaseTablePID());
             sm.updateTableDefinitionBean(tableDefinitionBean);
         }
