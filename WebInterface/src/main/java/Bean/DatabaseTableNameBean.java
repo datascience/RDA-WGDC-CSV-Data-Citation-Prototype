@@ -239,7 +239,10 @@ public class DatabaseTableNameBean implements Serializable {
             SessionManager sm = new SessionManager();
             TableDefinitionBean tableBean = sm.getTableDefinitionBean();
             tableBean.setTableName(selectedTable);
+            sm.updateTableDefinitionBean(tableBean);
         }
+
+        this.logger.info("Table changed... is now" + selectedTable);
 
 
     }

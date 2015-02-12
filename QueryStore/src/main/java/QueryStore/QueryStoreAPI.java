@@ -889,7 +889,7 @@ public class QueryStoreAPI {
         baseTable.setBaseDatabase(baseSchema);
         baseTable.setDescription(description);
         baseTable.setOrganizationalId(prefix);
-        this.session.saveOrUpdate(baseTable);
+        this.session.save(baseTable);
         this.session.getTransaction().commit();
         this.session.close();
 
@@ -903,13 +903,12 @@ public class QueryStoreAPI {
         
     }
 
+    /*
+    * Get base table by PID
+    * **/
     public BaseTable getBaseTableByPID(String pid) {
         BaseTable baseTable = null;
-        //  this.session = HibernateUtilPersistentIdentification.getSessionFactory().openSession();
-        // this.session.beginTransaction();
-        // Criteria criteria = this.session.createCriteria(BaseTable.class, "baseT");
-        // criteria.add(Restrictions.like("baseTablePID", pid));
-        // baseTable = (BaseTable) criteria.uniqueResult();
+
 
         this.session = HibernateUtilQueryStore.getSessionFactory().openSession();
         this.session.beginTransaction();
@@ -929,6 +928,39 @@ public class QueryStoreAPI {
             return baseTable;
         } else {
             this.logger.severe("BaseTable NOT found " + pid);
+            return null;
+        }
+
+
+    }
+
+    /*
+   * Get base table by PID
+   * **/
+    public BaseTable getBaseTableByTableName(String databaseName, String tableName) {
+        BaseTable baseTable = null;
+        this.logger.info("Looking for base table: " + tableName + " in database " + databaseName);
+
+
+        this.session = HibernateUtilQueryStore.getSessionFactory().openSession();
+        this.session.beginTransaction();
+        // Get the max sequence number for the sortings of query
+        Criteria cr = this.session.createCriteria(BaseTable.class);
+
+
+        cr.add(Restrictions.eq("baseTableName", tableName));
+        cr.add(Restrictions.eq("baseDatabase", databaseName));
+        baseTable = (BaseTable) cr.uniqueResult();
+
+        this.session.getTransaction().commit();
+        this.session.close();
+
+
+        if (baseTable != null) {
+            this.logger.info("Base Table found " + baseTable.getBaseTablePID());
+            return baseTable;
+        } else {
+            this.logger.severe("BaseTable NOT found");
             return null;
         }
 

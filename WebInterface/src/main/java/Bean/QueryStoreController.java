@@ -158,6 +158,14 @@ public class QueryStoreController implements Serializable {
         this.query.setExecution_timestamp(creationDate);
         this.query.setDatasourcePID(sm.getCurrentDatabaseNameFromSession() + "." + sm.getCurrentTableNameFromSession());
 
+        TableDefinitionBean tableDefinitionBean = sm.getTableDefinitionBean();
+
+        if (tableDefinitionBean.getBaseTablePID() == null) {
+            BaseTable baseTable = this.queryStoreAPI.getBaseTableByTableName(sm.getCurrentDatabaseNameFromSession(), sm.getCurrentTableNameFromSession());
+            tableDefinitionBean.setBaseTablePID(baseTable.getBaseTablePID());
+            sm.updateTableDefinitionBean(tableDefinitionBean);
+        }
+
         String baseTablePid = sm.getTableDefinitionBean().getBaseTablePID();
 
 
