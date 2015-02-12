@@ -27,7 +27,9 @@ public class Query implements Serializable, TimeStamped {
     private String queryDescription;
     private String datasourcePID;
     private String queryHash;
+
     private BaseTable baseTable;
+
     private String queryString;
     private Date createdDate;
     private Date lastUpdatedDate;
@@ -45,7 +47,7 @@ public class Query implements Serializable, TimeStamped {
     }
 
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     public BaseTable getBaseTable() {
         return baseTable;
     }
@@ -79,10 +81,6 @@ public class Query implements Serializable, TimeStamped {
         }
 
     }
-
-
-
-
 
 
     @Column(name = "resultSetHash", unique = true)

@@ -42,6 +42,7 @@ public class TableDefinitionBean implements Serializable {
 
     public TableDefinitionBean() {
 
+
     }
 
     public String getTableName() {

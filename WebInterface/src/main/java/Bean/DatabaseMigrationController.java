@@ -165,6 +165,7 @@ public class DatabaseMigrationController implements Serializable {
     }
 
     private void displayMigrationMessage() {
+        SessionManager sm = new SessionManager();
 
 
         String msgText = "";
@@ -173,7 +174,7 @@ public class DatabaseMigrationController implements Serializable {
 
         if (this.getSuccessStatus()) {
             msgText = "You successfully imported the data into the system! Click on View existing data to proceed or " +
-                    "upload a new file.";
+                    "upload a new file. The data you uploaded has the PID: " + sm.getTableDefinitionBean().getBaseTablePID();
         } else {
             msgText = "There was an error during uploading. Please consult the logs!";
         }
@@ -185,7 +186,20 @@ public class DatabaseMigrationController implements Serializable {
 
 
     }
-    
+
+    private void displayMessage(String msgText) {
+
+
+        FacesContext context = FacesContext.getCurrentInstance();
+
+        this.logger.info("Displaying message  " + msgText);
+
+        FacesMessage msg = new FacesMessage(msgText);
+        context.addMessage("migrateForm:migrateButton", msg);
+
+    }
+
+
 
 
 

@@ -41,6 +41,8 @@ public class LandingPageBean implements Serializable {
     private String selectedSubset;
 
     private List<SelectItem> availableBaseTables; // +getter (no setter necessary)
+    private List<SelectItem> availableSubsets;
+
 
 
     public LandingPageBean() {
@@ -53,6 +55,8 @@ public class LandingPageBean implements Serializable {
     public void init() {
         this.logger.info("Initializing DatabaseTableNameBean");
         this.availableBaseTables = this.retrieveBaseTablesFromDatabase();
+        this.selectedBaseTable = this.availableBaseTables.get(0).getValue().toString();
+        this.availableSubsets = this.retrieveSubsetsFromDatabase(this.selectedBaseTable);
 
 
     }
@@ -68,6 +72,7 @@ public class LandingPageBean implements Serializable {
     }
 
     public void setSelectedBaseTable(String selectedBaseTable) {
+        this.logger.info("Selected Basetable " + selectedBaseTable);
         this.selectedBaseTable = selectedBaseTable;
     }
 
@@ -85,6 +90,7 @@ public class LandingPageBean implements Serializable {
     }
 
     public void setSelectedSubset(String selectedSubset) {
+        this.logger.info("Selected Subset:  " + selectedSubset);
         this.selectedSubset = selectedSubset;
     }
 
@@ -96,11 +102,28 @@ public class LandingPageBean implements Serializable {
         for (Map.Entry<String, String> entry : availableBaseTablesMap.entrySet()) {
             String baseTableName = entry.getKey();
             String baseTablePid = entry.getValue();
-            availableBaseTables.add(new SelectItem(baseTableName, baseTablePid));
+            availableBaseTables.add(new SelectItem(baseTableName, baseTablePid + "( " + baseTableName + " )"));
         }
 
         this.logger.info("Found " + availableBaseTables.size() + " base tables");
         return availableBaseTables;
+
+
+    }
+
+    private List<SelectItem> retrieveSubsetsFromDatabase(String baseTableName) {
+        QueryStoreAPI queryAPI = new QueryStoreAPI();
+        Map<String, String> availableSubsetsMap = queryAPI.getAvailableSubsetsFromBase(baseTableName);
+        List<SelectItem> availableSubsets = new ArrayList<SelectItem>();
+
+        for (Map.Entry<String, String> entry : availableSubsetsMap.entrySet()) {
+            String pid = entry.getKey();
+            String execDateString = entry.getValue();
+            availableSubsets.add(new SelectItem(pid, pid + " ( " + execDateString + " )"));
+        }
+
+        this.logger.info("Found " + availableSubsets.size() + " base tables");
+        return availableSubsets;
 
 
     }

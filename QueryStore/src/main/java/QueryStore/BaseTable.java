@@ -121,4 +121,6 @@ public class BaseTable implements Serializable {
     public void setOrganizationalId(int organizationalId) {
         this.organizationalId = organizationalId;
     }
+
+
 }

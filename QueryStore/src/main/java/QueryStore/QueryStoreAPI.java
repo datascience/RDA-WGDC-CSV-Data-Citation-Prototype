@@ -890,7 +890,7 @@ public class QueryStoreAPI {
         baseTable.setBaseDatabase(baseSchema);
         baseTable.setDescription(description);
         baseTable.setOrganizationalId(prefix);
-        this.session.save(baseTable);
+        this.session.saveOrUpdate(baseTable);
         this.session.getTransaction().commit();
         this.session.close();
 
@@ -984,6 +984,11 @@ public class QueryStoreAPI {
         cr.setProjection(proList);
         List baseTableObjects = cr.list();
 
+
+        this.session.getTransaction().commit();
+        this.session.close();
+
+
         Map<String, String> availableBaseTables = new HashMap<String, String>();
 
         for (Iterator it = baseTableObjects.iterator(); it.hasNext(); ) {
@@ -999,6 +1004,58 @@ public class QueryStoreAPI {
 
 
     }
+
+    /*
+    * Query the database for all base tables
+    * */
+    public Map<String, String> getAvailableSubsetsFromBase(String baseTableName) {
+        BaseTable baseTable = null;
+        Map<String, String> availableSubsets = new HashMap<String, String>();
+
+        this.session = HibernateUtilQueryStore.getSessionFactory().openSession();
+        this.session.beginTransaction();
+        // Get the max sequence number for the sortings of query
+        Criteria cr = this.session.createCriteria(BaseTable.class);
+        cr.add(Restrictions.eq("baseTableName", baseTableName));
+        ProjectionList proList = Projections.projectionList();
+        proList.add(Projections.property("baseTableId"));
+
+        cr.setProjection(proList);
+        long baseTableId = (Long) cr.uniqueResult();
+
+        if (baseTableId <= 0) {
+            this.logger.warning("Base table NOT found: " + baseTableName);
+
+        } else {
+
+
+            // get all queries with the given base table
+
+            Criteria criteria = this.session.createCriteria(Query.class, "query");
+            criteria.add(Restrictions.eq("query.baseTable", baseTableId));
+            List<Query> queryList = criteria.list();
+
+            this.session.getTransaction().commit();
+            this.session.close();
+
+
+            for (Query query : queryList) {
+                availableSubsets.put(query.getPID(), query.getExecution_timestamp().toString());
+            }
+
+            this.logger.info("Found " + availableSubsets.size() + " subsets");
+
+
+        }
+
+
+        return availableSubsets;
+
+
+    }
+
+
+
 }
 
 
