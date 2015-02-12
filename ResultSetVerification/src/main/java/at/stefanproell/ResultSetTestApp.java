@@ -44,23 +44,8 @@ public class ResultSetTestApp {
     public static void main(String[] args) {
         System.out.println("Hello World!");
         ResultSetVerificationAPI api = new ResultSetVerificationAPI();
-        api.calculateCRCofTable("MSD100k");
-        api.getPrimaryKeyFromTable("MSD100k");
-        api.hasAppendedHashColumn("MSD100k");
-
-/*
-        ResultSet testSet = api.executeQuery("SELECT MSD100k.ID_SYSTEM_SEQUENCE, MSD100k.title, " +
-                "MSD100k.artist_name   FROM `CITATION_DB`" +
-                ".`MSD100k` WHERE " +
-                "ID_SYSTEM_SEQUENCE < 500");
-        api.calculateResultSetHashClientSide(testSet, "SHA-1");
-
-*/
 
 
-        api.calculateHashFromCompleteTableServerSide("MSD10k", true);
-
-        //api.calculateHashFromCompleteTableServerSide("MSD10k", false);
         System.exit(0);
 
     }

@@ -33,7 +33,6 @@
 package QueryStore;
 
 
-import CSVTools.CSV_API;
 import Database.DatabaseOperations.DatabaseTools;
 import at.stefanproell.PersistentIdentifierMockup.*;
 import at.stefanproell.ResultSetVerification.ResultSetVerificationAPI;
@@ -501,7 +500,7 @@ public class QueryStoreAPI {
 
         this.logger.info("The concatenated columns are: " + listOfConcatenatedColumns);
 
-        String resultSetHash = resultSetVerification.calculateShortHashOfTheQuery(this.generateQueryStringForShortHash(query), listOfConcatenatedColumns);
+        String resultSetHash = resultSetVerification.calculateQuickHashOfTheQuery(this.generateQueryStringForShortHash(query), listOfConcatenatedColumns);
 
 
         return resultSetHash;
