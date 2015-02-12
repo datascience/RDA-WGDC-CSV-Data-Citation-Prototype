@@ -143,7 +143,8 @@ public class Query implements Serializable, TimeStamped {
     }
 
 
-    protected void setQueryDescription(String queryDescription) {
+    public void setQueryDescription(String queryDescription) {
+        this.logger.info("The query description is: " + queryDescription);
         this.queryDescription = queryDescription;
     }
 

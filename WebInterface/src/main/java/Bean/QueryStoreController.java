@@ -69,6 +69,19 @@ public class QueryStoreController implements Serializable {
     private Logger logger;
     private QueryStoreAPI queryStoreAPI;
 
+    public String getDataSetDescription() {
+
+        return dataSetDescription;
+    }
+
+    public void setDataSetDescription(String dataSetDescription) {
+        this.dataSetDescription = dataSetDescription;
+    }
+
+    private String dataSetDescription;
+
+
+
 
     public QueryStoreAPI getQueryStoreAPI() {
         if (this.queryStoreAPI == null) {
@@ -198,10 +211,11 @@ public class QueryStoreController implements Serializable {
     public void finalizeDataSet() {
         SessionManager sm = new SessionManager();
         this.logger.info("finalize ");
-        Query query = this.getQuery();
+        this.query = this.getQuery();
 
 
-        query.setSelectedColumns(sm.getColumnNamesFromDataTablesSession());
+        this.query.setSelectedColumns(sm.getColumnNamesFromDataTablesSession());
+        this.query.setQueryDescription(this.dataSetDescription);
 
         this.queryStoreAPI.updateExecutiontime(this.query);
         this.queryStoreAPI.finalizeQuery(this.query);

@@ -199,6 +199,11 @@ function AjaxUpdateDataFailed(result) {
     <div class="container">
     <div id="MenuButtonsDiv">
         <h:panelGrid columns="4" cellpadding="5">
+            <p:outputLabel value="Provide a dataset description: "/>
+            <p:inputText required="true" requiredMessage="A description is required"
+                         value="#{queryStoreController.dataSetDescription}">
+                <f:ajax event="blur"/>
+            </p:inputText>
 
 
 
