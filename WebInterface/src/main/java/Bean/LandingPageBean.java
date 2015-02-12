@@ -62,9 +62,18 @@ public class LandingPageBean implements Serializable {
     }
 
 
-    public void handleDropDownChange() {
+    public void handleDropDownChangeBaseTables() {
         //based on the number provided, change "regions" attribute.
         this.logger.info("change listener. Base table is now " + this.selectedBaseTable);
+        this.availableSubsets = this.retrieveSubsetsFromDatabase(this.selectedBaseTable);
+
+    }
+
+    public void handleDropDownChangeSubsets() {
+        //based on the number provided, change "regions" attribute.
+        this.logger.info("change subsets. Subset is is now " + this.selectedSubset);
+
+
     }
 
     public String getSelectedBaseTable() {
@@ -128,5 +137,11 @@ public class LandingPageBean implements Serializable {
 
     }
 
+    public List<SelectItem> getAvailableSubsets() {
+        return availableSubsets;
+    }
 
+    public void setAvailableSubsets(List<SelectItem> availableSubsets) {
+        this.availableSubsets = availableSubsets;
+    }
 }

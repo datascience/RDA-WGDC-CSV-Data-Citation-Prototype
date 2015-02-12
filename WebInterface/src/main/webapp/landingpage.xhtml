@@ -43,12 +43,13 @@
             <p:selectOneMenu value="#{landingPageBean.selectedBaseTable}">
                 <f:selectItems value="#{landingPageBean.availableBaseTables}"/>
 
-                <p:ajax update="subsetId" listener="#{landingPageBean.handleDropDownChange}"/>
+                <p:ajax update="subsetId" listener="#{landingPageBean.handleDropDownChangeBaseTables}"/>
             </p:selectOneMenu>
 
             <h:outputText value="Subset"/>
             <p:selectOneMenu value="#{landingPageBean.selectedSubset}" id="subsetId">
-                <f:selectItems value="#{landingPageBean.availableBaseTables}"/>
+                <f:selectItems value="#{landingPageBean.availableSubsets}"/>
+                <p:ajax update="subsetId" listener="#{landingPageBean.handleDropDownChangeSubsets}"/>
             </p:selectOneMenu>
 
 

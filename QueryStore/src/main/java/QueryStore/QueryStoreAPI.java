@@ -1034,7 +1034,7 @@ public class QueryStoreAPI {
             // get all queries with the given base table
 
 
-            this.logger.info("Base table id i: " + baseTable);
+            this.logger.info("Base table id : " + baseTable.getBaseTableId());
 
             Criteria criteria = this.session.createCriteria(Query.class, "q");
             criteria.add(Restrictions.eq("q.baseTable", baseTable));
@@ -1047,12 +1047,12 @@ public class QueryStoreAPI {
             this.session.getTransaction().commit();
             this.session.close();
 
-/*
-            for (Object queryObj : queryList) {
+
+            for (Object queryObj : list) {
                 Query query = (Query) queryObj;
                 availableSubsets.put(query.getPID(), query.getExecution_timestamp().toString());
             }
-            */
+
 
             this.logger.info("Found " + availableSubsets.size() + " subsets");
 
