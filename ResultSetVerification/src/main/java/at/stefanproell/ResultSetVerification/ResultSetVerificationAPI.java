@@ -417,6 +417,9 @@ public class ResultSetVerificationAPI {
         ResultSet rs = null;
         try {
             preparedStatement = connection.prepareStatement(sqlString);
+            preparedStatement.setFetchSize(10000);
+
+
             rs = preparedStatement.executeQuery();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -432,6 +435,43 @@ public class ResultSetVerificationAPI {
             this.logger.info("Resulset row count: " + this.getResultSetRowCount(rs));
 
             return rs;
+
+        }
+
+    }
+
+    public List<Integer> getSortedSequenceListFromQuery(String sqlString) {
+        this.logger.info("Trying to execute: " + sqlString);
+        List<Integer> sortedIntegerList = new LinkedList<Integer>();
+
+        Connection connection = this.getConnection();
+        PreparedStatement preparedStatement = null;
+        ResultSet rs = null;
+        try {
+            preparedStatement = connection.prepareStatement(sqlString);
+            preparedStatement.setFetchSize(10000);
+            rs = preparedStatement.executeQuery();
+
+
+            while (rs.next()) {
+                int seq = rs.getInt("ID_SYSTEM_SEQUENCE");
+                sortedIntegerList.add(seq);
+            }
+
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+
+
+            return sortedIntegerList;
 
         }
 
@@ -469,12 +509,15 @@ public class ResultSetVerificationAPI {
     *
     * */
     public String calculateShortHashOfTheQuery(String sqlQuery, String concatenatedColumns) {
-        ResultSet rs = this.executeQuery(sqlQuery);
+        this.logger.info("SQL String for Hashing: " + sqlQuery);
+
+        //ResultSet rs = this.executeQuery(sqlQuery);
+        List<Integer> sortedSequenceList = this.getSortedSequenceListFromQuery(sqlQuery);
 
         //@todo here weiter
 
 
-        String resultSetHash = this.calculateResultSetHashShort(rs, concatenatedColumns);
+        String resultSetHash = this.calculateResultSetHashFromSortedSequenceList(sortedSequenceList, concatenatedColumns);
         return resultSetHash;
 
     }
@@ -599,7 +642,7 @@ public class ResultSetVerificationAPI {
 
             long meanTimeStart = System.currentTimeMillis();
 
-            // rs.setFetchSize(1000);
+            rs.setFetchSize(10000);
 
 
             while (rs.next()) {
@@ -641,6 +684,42 @@ public class ResultSetVerificationAPI {
         return resultSetHash;
 
     }
+
+
+    public String calculateResultSetHashFromSortedSequenceList(List<Integer> sortedSequenceList, String concatenatedColumns) {
+
+        //@todo hashing
+
+
+        String resultSetHash = concatenatedColumns;
+        String concatenatedIdentifiers = "";
+        int hashCounter = 0;
+        int rowCount = sortedSequenceList.size();
+
+        long startTime = System.currentTimeMillis();
+        //int hashCounter =0;
+
+        for (int i = 0; i < rowCount; i++) {
+            concatenatedIdentifiers += sortedSequenceList.get(i);
+
+        }
+
+        resultSetHash += concatenatedIdentifiers;
+        this.logger.info("The hash has the length of: " + concatenatedIdentifiers.length());
+        resultSetHash = this.calculateHashFromString(resultSetHash);
+
+
+        long endTime = System.currentTimeMillis();
+        long totalTime = endTime - startTime;
+        double elapsedTime = (double) (totalTime / 1000);
+
+
+        this.logger.info("Calculated " + hashCounter + " hash values in " + elapsedTime + " sec");
+        this.logger.info("Hash is " + resultSetHash);
+        return resultSetHash;
+
+    }
+
 
     /**
      * Calculate hash of a result set wich already contains concatenated rows

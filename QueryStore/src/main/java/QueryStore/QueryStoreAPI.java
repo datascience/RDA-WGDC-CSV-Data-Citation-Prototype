@@ -501,7 +501,7 @@ public class QueryStoreAPI {
 
         this.logger.info("The concatenated columns are: " + listOfConcatenatedColumns);
 
-        String resultSetHash = resultSetVerification.calculateShortHashOfTheQuery(query.getQueryString(), listOfConcatenatedColumns);
+        String resultSetHash = resultSetVerification.calculateShortHashOfTheQuery(this.generateQueryStringForShortHash(query), listOfConcatenatedColumns);
 
 
         return resultSetHash;
