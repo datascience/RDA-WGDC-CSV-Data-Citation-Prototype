@@ -51,34 +51,36 @@
         <h:form id="tableDataForm" enctype="multipart/form-data">
 
             <h:panelGrid columns="2" cellpadding="5">
-            <p:outputLabel value="Database schema"/>
-            <h:selectOneMenu id="databaseDropDown"
-                             valueChangeListener="#{tableDefinitionController.handleChangeDatabaseName}"
-                             required="true" value="#{tableDefinitionController.databaseName}"
-                             binding="#{databaseNameDropdown}">
-                <f:selectItems value="#{tableDefinitionController.databaseNames}"/>
-                <p:ajax update="databaseDropDown"/>
-            </h:selectOneMenu>
+                <p:spacer></p:spacer>
+                <p:messages id="msgs"/>
+                <p:outputLabel value="Database schema"/>
+                <h:selectOneMenu id="databaseDropDown"
+                                 valueChangeListener="#{tableDefinitionController.handleChangeDatabaseName}"
+                                 required="true" value="#{tableDefinitionController.databaseName}"
+                                 binding="#{databaseNameDropdown}">
+                    <f:selectItems value="#{tableDefinitionController.databaseNames}"/>
+                    <p:ajax update="databaseDropDown"/>
+                </h:selectOneMenu>
 
-            <p:outputLabel value="Tablename"/>
-            <p:inputText required="true" requiredMessage="The table name is required"
-                         value="#{tableDefinitionController.tableNameInput}">
-                <f:ajax event="blur"/>
-            </p:inputText>
-
-
-            <p:outputLabel value="Author"/>
-            <p:inputText required="true" requiredMessage="An author is required"
-                         value="#{tableDefinitionController.dataSetAuthor}">
-                <f:ajax event="blur"/>
-            </p:inputText>
+                <p:outputLabel value="Tablename"/>
+                <p:inputText required="true" requiredMessage="The table name is required"
+                             value="#{tableDefinitionController.tableNameInput}">
+                    <f:ajax event="blur"/>
+                </p:inputText>
 
 
-            <p:outputLabel value="Description"/>
-            <p:inputText required="true" requiredMessage="A description is required"
-                         value="#{tableDefinitionController.dataSetDescription}">
-                <f:ajax event="blur"/>
-            </p:inputText>
+                <p:outputLabel value="Author"/>
+                <p:inputText required="true" requiredMessage="An author is required"
+                             value="#{tableDefinitionController.dataSetAuthor}">
+                    <f:ajax event="blur"/>
+                </p:inputText>
+
+
+                <p:outputLabel value="Description"/>
+                <p:inputText required="true" requiredMessage="A description is required"
+                             value="#{tableDefinitionController.dataSetDescription}">
+                    <f:ajax event="blur"/>
+                </p:inputText>
 
 
                 <p:commandButton id="tableDefinitionButton" value="Set data."
@@ -105,7 +107,7 @@
 
             <p:fileUpload fileUploadListener="#{fileUploadController.handleFileUpload}"
                           mode="advanced" update=":primaryKeyForm:primaryKeyMultiCheckbox,messagesUpload, dt" auto="true"
-                          sizeLimit="100000000"
+                          sizeLimit="300000000"
                           allowTypes="/(\.|\/)(csv|txt)$/"/>
             <p:dataTable id="dt" var="filename" value="#{fileUploadController.filesListStrings}">
                 <p:column>
@@ -137,9 +139,11 @@
 
 
             <h:selectManyCheckbox id="primaryKeyMultiCheckbox"
-                                  value="#{fileUploadController.selectedPrimaryKeyColumns}">
+                                  value="#{fileUploadController.selectedPrimaryKeyColumns}" required="true"
+                                  requiredMessage="At least one column needs to be checked">
                 <f:selectItems value="#{fileUploadController.columnsValue}"/>
             </h:selectManyCheckbox>
+            <h:message for="primaryKeyMultiCheckbox"/>
             <p:commandButton id="primaryKeyButton" value="Select primary key."
                              action="#{fileUploadController.setPrimarKeyAction}" update="primaryKeyMessage">
 
@@ -155,6 +159,7 @@
 
         <h:form id="migrateForm">
             <h:panelGrid columns="3" cellpadding="5">
+
             <p:commandButton id="migrateButton" value="Migrate into Database."
                              action="#{databaseMigrationController.migrationController}"
                              update="migrationMessage"/>
