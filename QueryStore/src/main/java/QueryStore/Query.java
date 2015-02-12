@@ -47,9 +47,9 @@ public class Query implements Serializable, TimeStamped {
     }
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "baseTableId")
+    @JoinColumn(name = "base_table_id")
     public BaseTable getBaseTable() {
-        return baseTable;
+        return this.baseTable;
     }
 
     public void setBaseTable(BaseTable baseTable) {

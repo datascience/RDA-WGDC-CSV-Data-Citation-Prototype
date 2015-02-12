@@ -16,8 +16,14 @@
 
 package Examples;
 
+import QueryStore.HibernateUtilQueryStore;
+import QueryStore.Query;
 import QueryStore.QueryStoreAPI;
+import org.hibernate.Criteria;
+import org.hibernate.Session;
+import org.hibernate.criterion.Restrictions;
 
+import java.util.List;
 import java.util.logging.Logger;
 
 /**
@@ -40,9 +46,20 @@ public class BaseTableTest {
 
     private void run() {
         QueryStoreAPI queryAPI = new QueryStoreAPI();
-        String pid = queryAPI.createBaseTableRecord("Stefan Pröll", "test_database", "test_datatable", "this is a description", 12345);
-        System.out.println("The pid is " + pid);
-        queryAPI.getBaseTableByPID(pid);
+
+        Session session = HibernateUtilQueryStore.getSessionFactory().openSession();
+        session.beginTransaction();
+        // get all queries with the given base table
+
+
+        Criteria criteria = session.createCriteria(Query.class, "q");
+        criteria.add(Restrictions.eq("q.baseTableId", new Long(1)));
+        List queryList = criteria.list();
+
+
+        session.getTransaction().commit();
+
+        session.close();
 
 
     }

@@ -39,6 +39,7 @@ import at.stefanproell.ResultSetVerification.ResultSetVerificationAPI;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.ProjectionList;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
@@ -1017,31 +1018,41 @@ public class QueryStoreAPI {
         // Get the max sequence number for the sortings of query
         Criteria cr = this.session.createCriteria(BaseTable.class);
         cr.add(Restrictions.eq("baseTableName", baseTableName));
-        ProjectionList proList = Projections.projectionList();
-        proList.add(Projections.property("baseTableId"));
 
-        cr.setProjection(proList);
-        long baseTableId = (Long) cr.uniqueResult();
+        baseTable = (BaseTable) cr.uniqueResult();
 
-        if (baseTableId <= 0) {
+        this.session.getTransaction().commit();
+        this.session.close();
+
+        if (baseTable == null) {
             this.logger.warning("Base table NOT found: " + baseTableName);
 
         } else {
 
-
+            this.session = HibernateUtilQueryStore.getSessionFactory().openSession();
+            this.session.beginTransaction();
             // get all queries with the given base table
 
-            Criteria criteria = this.session.createCriteria(Query.class, "query");
-            criteria.add(Restrictions.eq("query.baseTable", baseTableId));
-            List<Query> queryList = criteria.list();
+
+            this.logger.info("Base table id i: " + baseTable);
+
+            Criteria criteria = this.session.createCriteria(Query.class, "q");
+            criteria.add(Restrictions.eq("q.baseTable", baseTable));
+            List<Object[]> list = (List<Object[]>) criteria.list();
+
+
+
+
 
             this.session.getTransaction().commit();
             this.session.close();
 
-
-            for (Query query : queryList) {
+/*
+            for (Object queryObj : queryList) {
+                Query query = (Query) queryObj;
                 availableSubsets.put(query.getPID(), query.getExecution_timestamp().toString());
             }
+            */
 
             this.logger.info("Found " + availableSubsets.size() + " subsets");
 

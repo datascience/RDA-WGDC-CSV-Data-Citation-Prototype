@@ -30,7 +30,7 @@ import java.util.List;
 
 @Entity
 @Audited
-@Table(name = "baseTable")
+@Table(name = "base_table")
 public class BaseTable implements Serializable {
 
 
@@ -39,9 +39,11 @@ public class BaseTable implements Serializable {
     private String description;
     private String baseDatabase;
     private String baseTableName;
-    private long baseTableId;
+
+    private Integer baseTableId;
     private int organizationalId;
     private List<Query> queryList;
+
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "baseTable")
     public List<Query> getQuery() {
@@ -53,14 +55,15 @@ public class BaseTable implements Serializable {
     }
 
 
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "baseTableId", unique = true, nullable = false)
-    public long getBaseTableId() {
-        return baseTableId;
+    @Column(name = "base_table_id", unique = true, nullable = false)
+    public Integer getBaseTableId() {
+        return this.baseTableId;
     }
 
-    public void setBaseTableId(long baseTableId) {
+    public void setBaseTableId(int baseTableId) {
         this.baseTableId = baseTableId;
     }
 
