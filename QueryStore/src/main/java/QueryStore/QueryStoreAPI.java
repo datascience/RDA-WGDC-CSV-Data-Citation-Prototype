@@ -39,6 +39,7 @@ import at.stefanproell.ResultSetVerification.ResultSetVerificationAPI;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
+import org.hibernate.criterion.ProjectionList;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 
@@ -963,6 +964,38 @@ public class QueryStoreAPI {
             this.logger.severe("BaseTable NOT found");
             return null;
         }
+
+
+    }
+
+    /*
+    * Query the database for all base tables
+    * */
+    public Map<String, String> getAvailableBaseTables() {
+
+        this.session = HibernateUtilQueryStore.getSessionFactory().openSession();
+        this.session.beginTransaction();
+        // Get the max sequence number for the sortings of query
+        Criteria cr = this.session.createCriteria(BaseTable.class);
+
+        ProjectionList proList = Projections.projectionList();
+        proList.add(Projections.property("baseTableName"));
+        proList.add(Projections.property("baseTablePID"));
+        cr.setProjection(proList);
+        List baseTableObjects = cr.list();
+
+        Map<String, String> availableBaseTables = new HashMap<String, String>();
+
+        for (Iterator it = baseTableObjects.iterator(); it.hasNext(); ) {
+            Object[] row = (Object[]) it.next();
+
+            for (int i = 0; i < row.length; i++) {
+                availableBaseTables.put(row[0].toString(), row[1].toString());
+            }
+
+        }
+
+        return availableBaseTables;
 
 
     }

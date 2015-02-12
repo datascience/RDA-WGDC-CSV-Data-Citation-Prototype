@@ -24,6 +24,7 @@
 <h:head></h:head>
 
 <h:body>
+    <div id="containerId" class="container">
 
     <!-- BEGIN user management -->
     <div>
@@ -33,8 +34,25 @@
     </div>
     <!-- END user management -->
 
-    <div>
+
         <h1>Landing Pages</h1>
+
+        <h:form id="landingForm">
+
+            <h:outputText value="Superset"/>
+            <p:selectOneMenu value="#{landingPageBean.selectedBaseTable}">
+                <f:selectItems value="#{landingPageBean.availableBaseTables}"/>
+
+                <p:ajax update="subsetId" listener="#{landingPageBean.handleDropDownChange}"/>
+            </p:selectOneMenu>
+
+            <h:outputText value="Subset"/>
+            <p:selectOneMenu value="#{landingPageBean.selectedSubset}" id="subsetId">
+                <f:selectItems value="#{landingPageBean.availableBaseTables}"/>
+            </p:selectOneMenu>
+
+
+        </h:form>
 
 
     </div>
