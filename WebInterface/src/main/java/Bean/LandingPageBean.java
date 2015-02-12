@@ -17,6 +17,7 @@
 package Bean;
 
 import Database.DatabaseOperations.DatabaseTools;
+import QueryStore.BaseTable;
 import QueryStore.Query;
 import QueryStore.QueryStoreAPI;
 
@@ -25,9 +26,9 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.model.SelectItem;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 import java.util.logging.Logger;
 
 /**
@@ -44,8 +45,16 @@ public class LandingPageBean implements Serializable {
     private List<SelectItem> availableBaseTables; // +getter (no setter necessary)
     private List<SelectItem> availableSubsets;
 
-    private String metaPid = "";
-
+    private String metaPid;
+    private String metaParentPid;
+    private String metaExecutionDate;
+    private String metaResultSetHash;
+    private String metaQueryHash;
+    private String metaDescription;
+    private String metaSQLString;
+    private String metaParentAuthor;
+    private String metaAuthor;
+    private String metaSuggestedCitationString;
 
 
     public LandingPageBean() {
@@ -144,12 +153,44 @@ public class LandingPageBean implements Serializable {
     private void updateMetadataFields() {
         QueryStoreAPI queryAPI = new QueryStoreAPI();
         Query query = queryAPI.getQueryByPID(this.selectedSubset);
-        if (query != null) {
-            this.metaPid = query.getQueryHash();
+        BaseTable baseTable = queryAPI.getBaseTableByPID(this.selectedBaseTable);
+
+        if (query != null && baseTable != null) {
+            this.metaPid = query.getPID();
+            this.metaParentPid = query.getDatasourcePID();
+            this.metaExecutionDate = query.getExecution_timestamp().toString();
+            this.metaResultSetHash = query.getResultSetHash();
+            this.metaQueryHash = query.getQueryHash();
+            this.metaDescription = query.getQueryDescription();
+            this.metaSQLString = query.getQueryString();
+            this.metaParentAuthor = baseTable.getAuthor();
+            this.metaAuthor = query.getUserName();
+            this.metaSuggestedCitationString = this.metaAuthor +
+                    " (" + this.getYearFromDate(query.getExecution_timestamp()) + ") \"" +
+                    this.metaDescription + "\" derived from " + this.metaParentAuthor + " (" +
+                    this.metaParentPid + ") executed at " + this.metaExecutionDate.toString();
+
+
+        } else {
+            this.logger.severe("basetable or subset does not exist");
         }
 
 
     }
+
+    private String getYearFromDate(Date execDate) {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date date = null;
+        try {
+            date = format.parse(execDate.toString());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        SimpleDateFormat df = new SimpleDateFormat("yyyy");
+        String year = df.format(date);
+        return year;
+    }
+
 
     public List<SelectItem> getAvailableSubsets() {
         return availableSubsets;
@@ -165,5 +206,77 @@ public class LandingPageBean implements Serializable {
 
     public void setMetaPid(String metaPid) {
         this.metaPid = metaPid;
+    }
+
+    public String getMetaParentPid() {
+        return metaParentPid;
+    }
+
+    public void setMetaParentPid(String metaParentPid) {
+        this.metaParentPid = metaParentPid;
+    }
+
+    public String getMetaExecutionDate() {
+        return metaExecutionDate;
+    }
+
+    public void setMetaExecutionDate(String metaExecutionDate) {
+        this.metaExecutionDate = metaExecutionDate;
+    }
+
+    public String getMetaResultSetHash() {
+        return metaResultSetHash;
+    }
+
+    public void setMetaResultSetHash(String metaResultSetHash) {
+        this.metaResultSetHash = metaResultSetHash;
+    }
+
+    public String getMetaQueryHash() {
+        return metaQueryHash;
+    }
+
+    public void setMetaQueryHash(String metaQueryHash) {
+        this.metaQueryHash = metaQueryHash;
+    }
+
+    public String getMetaDescription() {
+        return metaDescription;
+    }
+
+    public void setMetaDescription(String metaDescription) {
+        this.metaDescription = metaDescription;
+    }
+
+    public String getMetaSQLString() {
+        return metaSQLString;
+    }
+
+    public void setMetaSQLString(String metaSQLString) {
+        this.metaSQLString = metaSQLString;
+    }
+
+    public String getMetaParentAuthor() {
+        return metaParentAuthor;
+    }
+
+    public void setMetaParentAuthor(String metaParentAuthor) {
+        this.metaParentAuthor = metaParentAuthor;
+    }
+
+    public String getMetaAuthor() {
+        return metaAuthor;
+    }
+
+    public void setMetaAuthor(String metaAuthor) {
+        this.metaAuthor = metaAuthor;
+    }
+
+    public String getMetaSuggestedCitationString() {
+        return metaSuggestedCitationString;
+    }
+
+    public void setMetaSuggestedCitationString(String metaSuggestedCitationString) {
+        this.metaSuggestedCitationString = metaSuggestedCitationString;
     }
 }

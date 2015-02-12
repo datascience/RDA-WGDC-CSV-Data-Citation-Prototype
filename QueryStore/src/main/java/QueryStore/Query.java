@@ -84,7 +84,7 @@ public class Query implements Serializable, TimeStamped {
 
 
     @Column(name = "resultSetHash", unique = true)
-    protected String getResultSetHash() {
+    public String getResultSetHash() {
         return resultSetHash;
     }
 
@@ -105,7 +105,7 @@ public class Query implements Serializable, TimeStamped {
     }
 
 
-    protected Date getExecution_timestamp() {
+    public Date getExecution_timestamp() {
         return execution_timestamp;
     }
 
@@ -127,7 +127,7 @@ public class Query implements Serializable, TimeStamped {
 
 
     @Column(name = "PID", unique = true, nullable = false)
-    protected String getPID() {
+    public String getPID() {
         return PID;
     }
 
@@ -138,7 +138,7 @@ public class Query implements Serializable, TimeStamped {
 
 
     @Column(name = "query_description", unique = false, nullable = true)
-    protected String getQueryDescription() {
+    public String getQueryDescription() {
         return queryDescription;
     }
 
@@ -149,7 +149,7 @@ public class Query implements Serializable, TimeStamped {
 
 
     @Column(name = "data_source", unique = false, nullable = true)
-    protected String getDatasourcePID() {
+    public String getDatasourcePID() {
         return datasourcePID;
     }
 
@@ -217,5 +217,7 @@ public class Query implements Serializable, TimeStamped {
         this.lastUpdatedDate = lastUpdatedDate;
 
     }
+
+
 }
 
