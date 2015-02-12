@@ -198,16 +198,11 @@ function AjaxUpdateDataFailed(result) {
 
     <div class="container">
     <div id="MenuButtonsDiv">
-        <h:panelGrid columns="4" cellpadding="5">
-            <p:outputLabel value="Provide a dataset description: "/>
-            <p:inputText required="true" requiredMessage="A description is required"
-                         value="#{queryStoreController.dataSetDescription}">
-                <f:ajax event="blur"/>
-            </p:inputText>
+        <h:panelGrid columns="5" cellpadding="5">
 
 
+            <h:form id="queryStoreForm">
 
-        <h:form id="queryStoreForm">
             <p:ajaxStatus style="display:block;margin-bottom:2em;height:36px;">
                 <f:facet name="default">
                     <h:outputText value="Status: StandBy"/>
@@ -221,7 +216,11 @@ function AjaxUpdateDataFailed(result) {
                     <h:outputText value="Status: Completed"/>
                 </f:facet>
             </p:ajaxStatus>
-
+                <p:outputLabel value="Provide a dataset description: "/>
+                <p:inputText required="true" requiredMessage="A description is required"
+                             value="#{queryStoreController.dataSetDescription}">
+                    <f:ajax event="blur"/>
+                </p:inputText>
 
             <p:messages for="queryStoreMessage" showDetail="true" autoUpdate="true" closable="true"></p:messages>
 

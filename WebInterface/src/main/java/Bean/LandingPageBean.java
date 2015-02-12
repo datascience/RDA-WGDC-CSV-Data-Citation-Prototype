@@ -171,8 +171,8 @@ public class LandingPageBean implements Serializable {
             this.metaAuthor = query.getUserName();
             this.metaSuggestedCitationString = this.metaAuthor +
                     " (" + this.getYearFromDate(query.getExecution_timestamp()) + ") \"" +
-                    this.metaDescription + "\" derived from " + this.metaParentAuthor + " (" +
-                    this.metaParentPid + ") executed at " + this.metaExecutionDate.toString();
+                    this.metaDescription + "\". [ark:" + this.metaPid + "]. Data derived from " + this.metaParentAuthor + " [ark:" +
+                    this.metaParentPid + "]) executed at " + this.metaExecutionDate.toString();
 
 
         } else {
