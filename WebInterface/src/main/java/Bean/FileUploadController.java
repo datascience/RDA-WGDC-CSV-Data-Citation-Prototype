@@ -377,8 +377,7 @@ public class FileUploadController implements Serializable {
 
         FacesMessage msg = new FacesMessage("You selected " + this.getSelectedPrimaryKeyColumns().size() + " colums " +
                 "as a " +
-                "compund primary key", "Please ensure that the primary key (bei it a single column or a compound key)" +
-                " must be unique within the complete file.");
+                "compund primary key", "Primary key is set. Please ensure that the primary key is unique within the complete file.");
         context.addMessage(
                 "primaryKeyForm:primaryKeyButton", msg
         );
