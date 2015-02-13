@@ -21,7 +21,15 @@
       xmlns:ui="http://java.sun.com/jsf/facelets"
         >
 
-<h:head></h:head>
+<h:head>
+
+    <style type="text/css">
+        .column1{width: 200px;height:auto}
+        .column2{width: 500px;height:auto}
+
+    </style>
+
+</h:head>
 
 <h:body>
     <div id="containerId" class="container">
@@ -65,8 +73,7 @@
 
         <h:form id="metadataForm">
             <p:panel header="Landing Pages - Dataset Metadata" style="width: 800px;">
-                <h:panelGrid columns="2" cellpadding="10">
-
+                <h:panelGrid columns="2" cellpadding="10" columnClasses="column1,column2" style="width: 100%">
 
                     <h:outputText value="Dataset PID"/>
                     <h:outputText value="#{landingPageBean.metaPid}"/>
