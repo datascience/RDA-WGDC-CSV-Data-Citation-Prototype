@@ -41,6 +41,8 @@ public class TableDefinitionController implements Serializable {
     private String tableNameInput;
     private String databaseName;
     private List<String> databaseNames;
+    private String dataSetTitle;
+
 
 
     public TableDefinitionController() {
@@ -143,6 +145,7 @@ public class TableDefinitionController implements Serializable {
         tDBean.setTableName(tableNameInput);
         tDBean.setDatabaseName(databaseName);
         tDBean.setDescription(dataSetDescription);
+        tDBean.setDataSetTitle(dataSetTitle);
         sm.updateTableDefinitionBean(tDBean);
     }
 
@@ -159,5 +162,13 @@ public class TableDefinitionController implements Serializable {
 
         }
 
+    }
+
+    public String getDataSetTitle() {
+        return dataSetTitle;
+    }
+
+    public void setDataSetTitle(String dataSetTitle) {
+        this.dataSetTitle = dataSetTitle;
     }
 }

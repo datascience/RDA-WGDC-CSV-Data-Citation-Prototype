@@ -39,6 +39,7 @@ public class BaseTable implements Serializable {
     private String description;
     private String baseDatabase;
     private String baseTableName;
+    private String dataSetTitle;
 
     private Integer baseTableId;
     private int organizationalId;
@@ -125,5 +126,12 @@ public class BaseTable implements Serializable {
         this.organizationalId = organizationalId;
     }
 
+    @Column(name = "dataSetTitle")
+    public String getDataSetTitle() {
+        return dataSetTitle;
+    }
 
+    public void setDataSetTitle(String dataSetTitle) {
+        this.dataSetTitle = dataSetTitle;
+    }
 }

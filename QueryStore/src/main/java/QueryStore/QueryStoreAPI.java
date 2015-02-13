@@ -873,7 +873,7 @@ public class QueryStoreAPI {
     
     /* Store the table metadata
     * * */
-    public String createBaseTableRecord(String author, String baseSchema, String tableName, String description, int
+    public String createBaseTableRecord(String author, String baseSchema, String tableName, String title, String description, int
             prefix) {
 
 
@@ -891,6 +891,7 @@ public class QueryStoreAPI {
         baseTable.setBaseDatabase(baseSchema);
         baseTable.setDescription(description);
         baseTable.setOrganizationalId(prefix);
+        baseTable.setDataSetTitle(title);
         this.session.saveOrUpdate(baseTable);
         this.session.getTransaction().commit();
         this.session.close();

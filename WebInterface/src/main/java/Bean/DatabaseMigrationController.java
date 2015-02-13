@@ -152,7 +152,7 @@ public class DatabaseMigrationController implements Serializable {
         tableDefinitionBean.setOrganizationalId(sm.getLogedInUserObject().getOrganizational_id());
 
 
-        String baseTablePIDstring = qApi.createBaseTableRecord(tableDefinitionBean.getAuthor(), tableDefinitionBean.getDatabaseName(), tableDefinitionBean.getTableName(), tableDefinitionBean.getDescription(), tableDefinitionBean.getOrganizationalId());
+        String baseTablePIDstring = qApi.createBaseTableRecord(tableDefinitionBean.getAuthor(), tableDefinitionBean.getDatabaseName(), tableDefinitionBean.getTableName(), tableDefinitionBean.getDataSetTitle(), tableDefinitionBean.getDescription(), tableDefinitionBean.getOrganizationalId());
         tableDefinitionBean.setBaseTablePID(baseTablePIDstring);
 
         sm.updateTableDefinitionBean(tableDefinitionBean);

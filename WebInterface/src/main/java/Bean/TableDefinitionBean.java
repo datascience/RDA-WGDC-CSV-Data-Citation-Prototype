@@ -35,6 +35,8 @@ public class TableDefinitionBean implements Serializable {
     private String description;
     private String author;
     private String baseTablePID;
+    private String dataSetTitle;
+
 
     int organizationalId;
     
@@ -91,5 +93,13 @@ public class TableDefinitionBean implements Serializable {
 
     public void setBaseTablePID(String baseTablePID) {
         this.baseTablePID = baseTablePID;
+    }
+
+    public String getDataSetTitle() {
+        return dataSetTitle;
+    }
+
+    public void setDataSetTitle(String dataSetTitle) {
+        this.dataSetTitle = dataSetTitle;
     }
 }

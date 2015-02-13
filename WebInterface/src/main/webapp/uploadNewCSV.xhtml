@@ -75,6 +75,12 @@
                     <f:ajax event="blur"/>
                 </p:inputText>
 
+                <p:outputLabel value="Dataset title"/>
+                <p:inputText required="true" requiredMessage="A title is required"
+                             value="#{tableDefinitionController.dataSetTitle}">
+                    <f:ajax event="blur"/>
+                </p:inputText>
+
 
                 <p:outputLabel value="Description"/>
                 <p:inputText required="true" requiredMessage="A description is required"
