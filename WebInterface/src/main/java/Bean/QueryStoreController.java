@@ -72,6 +72,13 @@ public class QueryStoreController implements Serializable {
     private QueryStoreAPI queryStoreAPI;
     private String subSetTitle;
 
+    public void reset() {
+        this.logger.info("Reset fields");
+        this.dataSetDescription = "";
+        this.subSetTitle = "";
+
+    }
+
 
     public String getDataSetDescription() {
 
@@ -147,7 +154,7 @@ public class QueryStoreController implements Serializable {
 
     /* Finalize the query.
     * */
-    public void finalizeDataSet() {
+    public void createSubset() {
 
         // init
 
@@ -289,6 +296,7 @@ public class QueryStoreController implements Serializable {
 
         FacesContext.getCurrentInstance().addMessage("queryStoreMessage", new FacesMessage(FacesMessage.SEVERITY_INFO, "Subset stored", "Find details at <a href=\"" + landingPageURI + "\">Landing page</a>"));
         this.logger.info("Completed.");
+        this.reset();
     }
 
 

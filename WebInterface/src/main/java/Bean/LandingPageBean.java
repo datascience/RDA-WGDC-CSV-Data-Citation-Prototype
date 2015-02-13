@@ -66,7 +66,7 @@ public class LandingPageBean implements Serializable {
 
 
     private String requestPID;
-
+    private Date metaParentUploadTimestamp;
 
 
     public LandingPageBean() {
@@ -316,6 +316,14 @@ public class LandingPageBean implements Serializable {
         return rows;
     }
 
+    public Date getMetaParentUploadTimestamp() {
+        return metaParentUploadTimestamp;
+    }
+
+    public void setMetaParentUploadTimestamp(Date metaParentUploadTimestamp) {
+        this.metaParentUploadTimestamp = metaParentUploadTimestamp;
+    }
+
     public String getMetaTitle() {
         return metaTitle;
     }
@@ -385,12 +393,23 @@ public class LandingPageBean implements Serializable {
             this.metaAuthor = "";
             this.metaTitle = "";
             this.metaParentTitle = baseTable.getDataSetTitle();
-            this.metaSuggestedCitationString = this.metaParentAuthor + " (" + this.getYearFromDate(baseTable.getUploadDate()) + "): \"" + this.getMetaParentTitle() + "\", PID [ark:" + this.metaParentPid + "]";
+            this.metaParentUploadTimestamp = baseTable.getUploadDate();
+
+            this.metaSuggestedCitationString = this.metaParentAuthor + " (" + this.getYearFromDate(this.metaParentUploadTimestamp) + "): \"" + this.getMetaParentTitle() + "\", PID [ark:" + this.metaParentPid + "]";
 
 
         } else {
             this.logger.severe("basetable or subset does not exist");
         }
+
+
+    }
+
+    public void loadData() {
+        this.logger.info("Loading data");
+        this.availableBaseTables = this.retrieveBaseTablesFromDatabase();
+        this.selectedBaseTable = this.availableBaseTables.get(0).getValue().toString();
+        this.availableSubsets = this.retrieveSubsetsFromDatabase(this.selectedBaseTable);
 
 
     }

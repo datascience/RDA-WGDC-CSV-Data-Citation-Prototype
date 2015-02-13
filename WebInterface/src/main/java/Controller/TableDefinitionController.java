@@ -22,8 +22,10 @@ import Database.Authentication.User;
 import Database.DatabaseOperations.DatabaseTools;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
 import java.io.Serializable;
 import java.util.List;
@@ -147,6 +149,10 @@ public class TableDefinitionController implements Serializable {
         tDBean.setDescription(dataSetDescription);
         tDBean.setDataSetTitle(dataSetTitle);
         sm.updateTableDefinitionBean(tDBean);
+
+        FacesMessage msg = new FacesMessage("Succesful", "Data stored");
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+
     }
 
     public void handleChangeDatabaseName(ValueChangeEvent event) {

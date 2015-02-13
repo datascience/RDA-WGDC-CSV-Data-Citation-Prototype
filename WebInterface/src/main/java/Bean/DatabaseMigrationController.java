@@ -193,8 +193,7 @@ public class DatabaseMigrationController implements Serializable {
             newURL += "?requestPID=" + sm.getTableDefinitionBean().getBaseTablePID();
 
 
-            msgText = "You successfully imported the data into the system! Click on View existing data to proceed or " +
-                    "upload a new file. The data you uploaded has the PID: <a href=\"" + newURL + "\">Landing page</a>";
+            msgText = "You successfully imported the data into the system! Click on View existing data to proceed or on the landing page link: <a href=\"" + newURL + "\">Landing page</a>";
         } else {
             msgText = "There was an error during uploading. Please consult the logs!";
         }

@@ -24,8 +24,8 @@
 <h:head>
 
     <style type="text/css">
-        .column1{width: 200px;height:auto}
-        .column2{width: 500px;height:auto}
+        .column1{width: 20%;height:auto}
+        .column2{width: 75%;height:auto}
 
     </style>
 
@@ -47,10 +47,13 @@
             <f:viewAction action="#{landingPageBean.initPidRequest}"/>
         </f:metadata>
 
+        <h:form id="remoteCommandForm">
+            <p:remoteCommand name="loadPage" actionListener="#{landingPageBean.loadData}" autoRun="true"/>
+        </h:form>
 
         <h1>Landing Pages</h1>
         <h:form id="landingForm">
-            <p:panel header="Select a Superset and its subset" style="width: 800px;">
+            <p:panel header="Select a Superset and its subset" style="width: 1024;">
                 <h:panelGrid columns="2" cellpadding="10">
 
 
@@ -77,15 +80,17 @@
         </h:form>
 
         <h:form id="metadataForm">
-            <p:panel header="Landing Pages - Dataset Metadata" style="width: 800px;">
+            <p:panel header="Landing Pages - Dataset Metadata" style="width: 1024px;">
                 <h:panelGrid columns="2" cellpadding="10" columnClasses="column1,column2" style="width: 100%">
 
                     <h:outputText value="Dataset PID"/>
                     <h:outputText value="#{landingPageBean.metaPid}"/>
                     <h:outputText value="Dataset author"/>
                     <h:outputText value="#{landingPageBean.metaAuthor}"/>
-                    <h:outputText value="Database"/>
+                    <h:outputText value="Database PID"/>
                     <h:outputText value="#{landingPageBean.metaParentPid}"/>
+                    <h:outputText value="Database upload timestamp"/>
+                    <h:outputText value="#{landingPageBean.metaParentUploadTimestamp}"/>
                     <h:outputText value="Parent data author"/>
                     <h:outputText value="#{landingPageBean.metaParentAuthor}"/>
                     <h:outputText value="Execution timestamp"/>
@@ -98,7 +103,7 @@
 
                     <p:inputTextarea
                             value="#{landingPageBean.metaDescription}"
-                            styleClass="no-border" readonly="true">
+                            styleClass="no-border" readonly="true" style="width:80%">
 
                     </p:inputTextarea>
 
@@ -106,7 +111,7 @@
                     <h:outputText value="SQL string"/>
                     <p:inputTextarea
                             value="#{landingPageBean.metaSQLString}"
-                            styleClass="no-border" readonly="true"
+                            styleClass="no-border" readonly="true" style="width:80%"
 
                             rows="#{landingPageBean.countChar(landingPageBean.metaSQLString)+2}"/>
 

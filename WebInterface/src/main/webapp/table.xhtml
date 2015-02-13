@@ -123,6 +123,9 @@ function AjaxUpdateDataFailed(result) {
     <!-- BEGIN: Hidden Form for Init-->
     <h:form id="remoteCommandForm">
         <p:remoteCommand name="onLoadTable" actionListener="#{databaseTableNameBean.onLoadTable}" autoRun="true"/>
+        <p:remoteCommand name="onLoadTableReset" actionListener="#{queryStoreController.reset}" autoRun="true"/>
+
+
     </h:form>
     <!-- END Hidden form-->
 
@@ -222,7 +225,7 @@ function AjaxUpdateDataFailed(result) {
 
 
                         <p:commandButton value="Create subset"
-                                         action="#{queryStoreController.finalizeDataSet}"></p:commandButton>
+                                         action="#{queryStoreController.createSubset}"></p:commandButton>
 
                         <p:messages id="msgs"/>
 
