@@ -102,7 +102,7 @@ public class BaseTable implements Serializable {
         this.author = author;
     }
 
-    @Column(name = "description", nullable = false)
+    @Column(name = "description", nullable = false, length = 5000)
     public String getDescription() {
         return description;
     }

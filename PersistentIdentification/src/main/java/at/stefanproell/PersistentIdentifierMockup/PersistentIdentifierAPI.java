@@ -440,6 +440,26 @@ public class PersistentIdentifierAPI {
 
     }
 
+    public PersistentIdentifier getPIDObjectFromPIDString(String fqnPID) {
+        PersistentIdentifier pid = null;
+
+
+        this.session = HibernateUtilPersistentIdentification.getSessionFactory().openSession();
+        this.session.beginTransaction();
+
+        Criteria criteria = this.session.createCriteria(PersistentIdentifier.class, "pid");
+        criteria.createAlias("pid.organization", "o");
+        criteria.add(Restrictions.eq("pid.fqn_identifier", fqnPID));
+        pid = (PersistentIdentifier) criteria.uniqueResult();
+
+
+        this.session.getTransaction().commit();
+        this.session.close();
+
+        return pid;
+
+    }
+
 
     /**
      * List all identifiers of a given organization and return list of these identifiers

@@ -184,8 +184,17 @@ public class DatabaseMigrationController implements Serializable {
         FacesContext context = FacesContext.getCurrentInstance();
 
         if (this.getSuccessStatus()) {
+
+            HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+            String url = request.getRequestURL().toString();
+
+
+            String newURL = url.replace("uploadNewCSV", "landingpage");
+            newURL += "?requestPID=" + sm.getTableDefinitionBean().getBaseTablePID();
+
+
             msgText = "You successfully imported the data into the system! Click on View existing data to proceed or " +
-                    "upload a new file. The data you uploaded has the PID: ark:" + sm.getTableDefinitionBean().getBaseTablePID();
+                    "upload a new file. The data you uploaded has the PID: <a href=\"" + newURL + "\">Landing page</a>";
         } else {
             msgText = "There was an error during uploading. Please consult the logs!";
         }

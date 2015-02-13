@@ -38,6 +38,7 @@ import QueryStore.BaseTable;
 import QueryStore.Query;
 import QueryStore.QueryStoreAPI;
 import at.stefanproell.PersistentIdentifierMockup.Organization;
+import at.stefanproell.PersistentIdentifierMockup.PersistentIdentifier;
 import at.stefanproell.PersistentIdentifierMockup.PersistentIdentifierAPI;
 import at.stefanproell.PersistentIdentifierMockup.PersistentIdentifierAlphaNumeric;
 import com.google.gson.Gson;
@@ -262,13 +263,18 @@ public class QueryStoreController implements Serializable {
         String resultSetHash = this.queryStoreAPI.calculateResultSetHashShort(this.query);
 
 
+        String landingPageURI = "";
 
         boolean persisted = this.queryStoreAPI.persistResultSetHash(this.query, resultSetHash);
         if (persisted) {
             FacesContext.getCurrentInstance().addMessage("queryStoreMessage", new FacesMessage(FacesMessage.SEVERITY_INFO, "ResultSet Hash", "The result set has this hash: " + resultSetHash));
+            landingPageURI = pid.getURI();
         } else {
             Query q = (Query) this.queryStoreAPI.getQueryByResultSetHash(resultSetHash);
             String existingPID = this.queryStoreAPI.getQueryPID(q);
+            PersistentIdentifier pidOld = this.pidAPI.getPIDObjectFromPIDString(existingPID);
+            landingPageURI = pidOld.getURI();
+
             FacesContext.getCurrentInstance().addMessage("queryStoreMessage", new FacesMessage(FacesMessage.SEVERITY_INFO, "ResultSet Hash", "The same hash already exists with PID " + existingPID));
             if (this.queryStoreAPI.deleteQuery(this.query)) {
                 FacesContext.getCurrentInstance().addMessage("queryStoreMessage", new FacesMessage(FacesMessage.SEVERITY_WARN, "Query deleted", "Deleted this query as an identical one already exists"));
@@ -279,8 +285,6 @@ public class QueryStoreController implements Serializable {
 
 
         this.pidAPI.updateURI(pid.getIdentifier(), newURL + this.query.getPID());
-
-        String landingPageURI = pid.getURI();
 
 
         FacesContext.getCurrentInstance().addMessage("queryStoreMessage", new FacesMessage(FacesMessage.SEVERITY_INFO, "Subset stored", "Find details at <a href=\"" + landingPageURI + "\">Landing page</a>"));

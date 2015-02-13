@@ -379,7 +379,7 @@ public class LandingPageBean implements Serializable {
             this.metaExecutionDate = "";
             this.metaResultSetHash = "";
             this.metaQueryHash = "";
-            this.metaDescription = "";
+            this.metaDescription = baseTable.getDescription();
             this.metaSQLString = "";
             this.metaParentAuthor = baseTable.getAuthor();
             this.metaAuthor = "";

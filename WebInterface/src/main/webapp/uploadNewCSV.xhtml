@@ -9,7 +9,11 @@
     <title>CSV Data Upload</title>
     <link type="text/css" rel="stylesheet" href="css/csv-citation-custom.css"/>
 
+    <style type="text/css">
+        .column1{width: 200px;height:auto}
+        .column2{width: 500px;height:auto}
 
+    </style>
 </h:head>
 
 <h:body>
@@ -49,8 +53,8 @@
 
         <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" globalOnly="true"/>
         <h:form id="tableDataForm" enctype="multipart/form-data">
-
-            <h:panelGrid columns="2" cellpadding="5">
+            <p:panel header="Dataset Metadata" style="width: 800px;">
+                <h:panelGrid columns="2" cellpadding="5" columnClasses="column1,column2" style="width: 100%">
                 <p:spacer></p:spacer>
                 <p:messages id="msgs"/>
                 <p:outputLabel value="Database schema"/>
@@ -83,13 +87,14 @@
 
 
                 <p:outputLabel value="Description"/>
-                <p:inputText required="true" requiredMessage="A description is required"
-                             value="#{tableDefinitionController.dataSetDescription}">
-                    <f:ajax event="blur"/>
-                </p:inputText>
+                    <p:inputTextarea
+                            value="#{tableDefinitionController.dataSetDescription}"
+                            styleClass="no-border" readonly="false"
+                            style="width: 80%;height: 100%;"
+                            rows="10"/>
 
 
-                <p:commandButton id="tableDefinitionButton" value="Set data."
+                    <p:commandButton id="tableDefinitionButton" value="Set data."
                                  action="#{tableDefinitionController.setTableDefinitionFormdata}"
                                  update="tableDataForm">
 
@@ -97,6 +102,7 @@
                 </p:commandButton>
 
             </h:panelGrid>
+            </p:panel>
             </h:form>
 
             <h2>Step 2: Upload the data</h2>
@@ -192,7 +198,7 @@
 
             <p:message id="migrationMessage" for="migrateForm:migrateButton" showDetail="true" autoUpdate="true"
                        closable="true"
-                       globalOnly="false"/>
+                       globalOnly="false" escape="false"/>
         </h:form>
 
 

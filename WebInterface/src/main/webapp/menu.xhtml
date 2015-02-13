@@ -5,7 +5,15 @@
       xmlns:ui="http://java.sun.com/jsf/facelets"
         >
 
-<h:head></h:head>
+<h:head>
+
+    <style type="text/css">
+        .column1{width: 40%;height:auto}
+        .column2{width: 58%;height:auto}
+
+    </style>
+
+</h:head>
 
 <h:body>
 
@@ -23,7 +31,7 @@
         <h:form id="loginForm" class="inner">
             <p:panel header="CSV Data Citation Main Menu" style="width: 800px;">
 
-            <h:panelGrid id="mainMenuPanel" columns="2">
+                <h:panelGrid id="mainMenuPanel" columns="2" columnClasses="column1,column2" style="width: 100%">
 
                 <p:commandButton id="uploadButton" action="uploadNewCSV.xhtml?faces-redirect=true"
                                  value="Upload new data"></p:commandButton>
@@ -41,10 +49,16 @@
                 <p:commandButton id="viewButton" action="table.xhtml?faces-redirect=true"
                                  value="Create a subset"></p:commandButton>
                 <h:outputText value="View data and create citable subsets."/>
+                    <p:spacer></p:spacer>
+                    <p:message for="viewButton"></p:message>
 
                 <p:commandButton id="landingPageButton" action="landingpage.xhtml?faces-redirect=true"
                                  value="View metadata"></p:commandButton>
+
                 <h:outputText value="View metadata of the subsets."/>
+
+                    <p:spacer></p:spacer>
+                    <p:message for="landingPageButton"></p:message>
 
 
             </h:panelGrid>
