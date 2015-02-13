@@ -42,6 +42,11 @@
     </div>
     <!-- END user management -->
 
+        <f:metadata>
+            <f:viewParam name="requestPID" value="#{landingPageBean.requestPID}"/>
+            <f:viewAction action="#{landingPageBean.initPidRequest}"/>
+        </f:metadata>
+
 
         <h1>Landing Pages</h1>
         <h:form id="landingForm">

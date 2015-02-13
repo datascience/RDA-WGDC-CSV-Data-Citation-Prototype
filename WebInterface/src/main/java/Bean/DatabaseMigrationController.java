@@ -12,6 +12,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpServletRequest;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -151,8 +152,18 @@ public class DatabaseMigrationController implements Serializable {
 
         tableDefinitionBean.setOrganizationalId(sm.getLogedInUserObject().getOrganizational_id());
 
+        HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        String url = request.getRequestURL().toString();
 
-        String baseTablePIDstring = qApi.createBaseTableRecord(tableDefinitionBean.getAuthor(), tableDefinitionBean.getDatabaseName(), tableDefinitionBean.getTableName(), tableDefinitionBean.getDataSetTitle(), tableDefinitionBean.getDescription(), tableDefinitionBean.getOrganizationalId());
+        url.replace("uploadNewCSV", "landingpage");
+        url += "?requestPID=";
+        this.logger.info("url was: " + request.getRequestURL().toString());
+
+        String newURL = url.replace("uploadNewCSV", "landingpage");
+        this.logger.info("new url is: " + newURL);
+
+
+        String baseTablePIDstring = qApi.createBaseTableRecord(tableDefinitionBean.getAuthor(), tableDefinitionBean.getDatabaseName(), tableDefinitionBean.getTableName(), tableDefinitionBean.getDataSetTitle(), tableDefinitionBean.getDescription(), tableDefinitionBean.getOrganizationalId(), newURL);
         tableDefinitionBean.setBaseTablePID(baseTablePIDstring);
 
         sm.updateTableDefinitionBean(tableDefinitionBean);

@@ -20,6 +20,7 @@ import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -44,6 +45,8 @@ public class BaseTable implements Serializable {
     private Integer baseTableId;
     private int organizationalId;
     private List<Query> queryList;
+
+    private Date uploadDate;
 
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "baseTable")
@@ -133,5 +136,14 @@ public class BaseTable implements Serializable {
 
     public void setDataSetTitle(String dataSetTitle) {
         this.dataSetTitle = dataSetTitle;
+    }
+
+    @Column(name = "uploadDate")
+    public Date getUploadDate() {
+        return uploadDate;
+    }
+
+    public void setUploadDate(Date uploadDate) {
+        this.uploadDate = uploadDate;
     }
 }

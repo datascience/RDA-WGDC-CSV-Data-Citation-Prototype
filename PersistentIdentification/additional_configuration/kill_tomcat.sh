@@ -1,4 +1,4 @@
-TOMCAT="/home/stefan/Development/apache/"
+TOMCAT="/home/stefan/Development/apache"
 
 $TOMCAT/bin/shutdown.sh
 sleep 2

@@ -77,7 +77,7 @@ public class PersistentIdentifierAPI {
 
         pid.setOrganization(org);
         pid.generateIdentifierString();
-        pid.setURI(URIString);
+        pid.setURI(URIString + "/" + pid.getIdentifier());
         pid.setFQNidentifier(pid.getOrganization().getOrganization_prefix() + "/" + pid.getIdentifier());
         this.session.save(pid);
         this.session.getTransaction().commit();
@@ -590,10 +590,12 @@ public class PersistentIdentifierAPI {
         PersistentIdentifier pid = (PersistentIdentifier) query.list().get(0);
         pid.setURI(newURI);
         session.update(pid);
+
+
         this.session.getTransaction().commit();
         this.session.flush();
         this.session.close();
-        this.logger.info("Update PID ");
+        this.logger.info("Update PID URL: " + pid.getURI());
 
     }
 

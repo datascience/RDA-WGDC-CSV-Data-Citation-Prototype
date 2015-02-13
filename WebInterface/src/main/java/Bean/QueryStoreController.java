@@ -47,6 +47,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpServletRequest;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -162,8 +163,18 @@ public class QueryStoreController implements Serializable {
                 .getOrganization_name());
 
         //@todo real landing page
+
+        HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        String url = request.getRequestURL().toString();
+
+
+        String newURL = url.replace("table", "landingpage");
+        newURL += "?requestPID=" + prefix;
+
+
+
         PersistentIdentifierAlphaNumeric pid = this.pidAPI.getAlphaNumericPID(org,
-                "http://localhost:8080/landingpages/XXX");
+                newURL);
 
         String userName = user.getUsername();
         String currentPID = pid.getFQNidentifier();
@@ -201,8 +212,6 @@ public class QueryStoreController implements Serializable {
         String pidString = this.queryStoreAPI.getQueryPID(this.query);
 
 
-        FacesContext.getCurrentInstance().addMessage("queryStoreMessage", new FacesMessage(FacesMessage.SEVERITY_INFO, "The QueryStore is now initialized", "The generated PID is: " + pidString));
-        this.logger.info("Completed.");
 
         ///// Store filter
 
@@ -228,8 +237,6 @@ public class QueryStoreController implements Serializable {
         // save
         this.queryStoreAPI.persistQuery(query);
         String queryHash = this.queryStoreAPI.getQueryHash(this.query);
-        FacesContext.getCurrentInstance().addMessage("queryStoreMessage", new FacesMessage(FacesMessage.SEVERITY_INFO, "Stored current selection", "Updated query hash:" + queryHash));
-        this.logger.info("Completed.");
 
 
         //////////////// finalize
@@ -255,6 +262,7 @@ public class QueryStoreController implements Serializable {
         String resultSetHash = this.queryStoreAPI.calculateResultSetHashShort(this.query);
 
 
+
         boolean persisted = this.queryStoreAPI.persistResultSetHash(this.query, resultSetHash);
         if (persisted) {
             FacesContext.getCurrentInstance().addMessage("queryStoreMessage", new FacesMessage(FacesMessage.SEVERITY_INFO, "ResultSet Hash", "The result set has this hash: " + resultSetHash));
@@ -270,8 +278,12 @@ public class QueryStoreController implements Serializable {
         }
 
 
+        this.pidAPI.updateURI(pid.getIdentifier(), newURL + this.query.getPID());
 
-        FacesContext.getCurrentInstance().addMessage("queryStoreMessage", new FacesMessage(FacesMessage.SEVERITY_INFO, "Finalized query", "The query PID is: " + pidString + " and the query hash is " + queryHash));
+        String landingPageURI = pid.getURI();
+
+
+        FacesContext.getCurrentInstance().addMessage("queryStoreMessage", new FacesMessage(FacesMessage.SEVERITY_INFO, "Subset stored", "Find details at <a href=\"" + landingPageURI + "\">Landing page</a>"));
         this.logger.info("Completed.");
     }
 

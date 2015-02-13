@@ -603,6 +603,8 @@ public class QueryStoreAPI {
 
         if (query == null) {
             this.logger.severe("No query found with the pid " + pid);
+        } else {
+            this.logger.info("Found query with pid: " + pid);
         }
 
         return query;
@@ -874,24 +876,36 @@ public class QueryStoreAPI {
     /* Store the table metadata
     * * */
     public String createBaseTableRecord(String author, String baseSchema, String tableName, String title, String description, int
-            prefix) {
+            prefix, String pidURL) {
 
 
         PersistentIdentifierAPI pidApi= new PersistentIdentifierAPI();
         Organization org = pidApi.getOrganizationObjectByPrefix(prefix);
 
-        PersistentIdentifierAlphaNumeric pid = pidApi.getAlphaNumericPID(org, "localhost/dummystring");
+
+        PersistentIdentifierAlphaNumeric pid = pidApi.getAlphaNumericPID(org, pidURL);
+
+
 
         this.session = HibernateUtilQueryStore.getSessionFactory().openSession();
         this.session.beginTransaction();
+
+
         BaseTable baseTable = new BaseTable();
         baseTable.setBaseTableName(tableName);
         baseTable.setBaseTablePID(pid.getFQNidentifier());
+
+        String newURL = pidURL + baseTable.getBaseTablePID();
+        this.logger.info("The new url is: " + newURL);
+        pidApi.updateURI(pid.getIdentifier(), newURL);
+
+
         baseTable.setAuthor(author);
         baseTable.setBaseDatabase(baseSchema);
         baseTable.setDescription(description);
         baseTable.setOrganizationalId(prefix);
         baseTable.setDataSetTitle(title);
+        baseTable.setUploadDate(new Date());
         this.session.saveOrUpdate(baseTable);
         this.session.getTransaction().commit();
         this.session.close();

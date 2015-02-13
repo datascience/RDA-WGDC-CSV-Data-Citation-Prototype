@@ -163,12 +163,11 @@
         <p:separator/>
 
 
+
         <h:form id="migrateForm">
+
             <h:panelGrid columns="2" cellpadding="5">
-                <p:message id="migrationMessage" for="migrateForm:migrateButton" showDetail="true" autoUpdate="true"
-                           closable="true"
-                           globalOnly="false"/>
-                <p:spacer></p:spacer>
+
 
             <p:commandButton id="migrateButton" value="Migrate into Database."
                              action="#{databaseMigrationController.migrationController}"
@@ -190,6 +189,10 @@
                     </f:facet>
                 </p:ajaxStatus>
             </h:panelGrid>
+
+            <p:message id="migrationMessage" for="migrateForm:migrateButton" showDetail="true" autoUpdate="true"
+                       closable="true"
+                       globalOnly="false"/>
         </h:form>
 
 

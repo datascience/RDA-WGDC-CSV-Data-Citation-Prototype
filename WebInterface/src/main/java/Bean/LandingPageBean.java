@@ -21,11 +21,16 @@ import QueryStore.BaseTable;
 import QueryStore.Query;
 import QueryStore.QueryStoreAPI;
 import org.apache.commons.lang3.StringUtils;
+import org.hibernate.Session;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
+import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -60,6 +65,10 @@ public class LandingPageBean implements Serializable {
     private String metaParentTitle;
 
 
+    private String requestPID;
+
+
+
     public LandingPageBean() {
         this.logger = Logger.getLogger(this.getClass().getName());
         this.logger.info("Database Name Bean");
@@ -87,7 +96,10 @@ public class LandingPageBean implements Serializable {
     public void handleDropDownChangeSubsets() {
         //based on the number provided, change "regions" attribute.
         this.logger.info("change subsets. Subset is is now " + this.selectedSubset);
-        this.updateMetadataFields();
+        QueryStoreAPI queryAPI = new QueryStoreAPI();
+        Query query = queryAPI.getQueryByPID(this.selectedSubset);
+        BaseTable baseTable = queryAPI.getBaseTableByTableNameOnly(this.selectedBaseTable);
+        this.updateMetadataFields(query, baseTable);
 
 
     }
@@ -155,10 +167,7 @@ public class LandingPageBean implements Serializable {
 
     }
 
-    private void updateMetadataFields() {
-        QueryStoreAPI queryAPI = new QueryStoreAPI();
-        Query query = queryAPI.getQueryByPID(this.selectedSubset);
-        BaseTable baseTable = queryAPI.getBaseTableByTableNameOnly(this.selectedBaseTable);
+    private void updateMetadataFields(Query query, BaseTable baseTable) {
 
 
         if (query != null) {
@@ -182,9 +191,20 @@ public class LandingPageBean implements Serializable {
 
         } else {
             this.logger.severe("basetable or subset does not exist");
+            if (query == null) {
+                this.logger.info("This was not a query pid. Checking base tables");
+
+                if (baseTable == null) {
+                    this.logger.severe("Not a valid Pid!");
+                } else {
+                    this.logger.info("Base table found!");
+                    this.updateBaseTableFields(baseTable);
+
+                }
+            }
+
+
         }
-
-
     }
 
     private String getYearFromDate(Date execDate) {
@@ -310,5 +330,68 @@ public class LandingPageBean implements Serializable {
 
     public void setMetaParentTitle(String metaParentTitle) {
         this.metaParentTitle = metaParentTitle;
+    }
+
+    public String getRequestPID() {
+        return requestPID;
+    }
+
+    public void setRequestPID(String requestPID) {
+
+        this.requestPID = requestPID;
+    }
+
+    public void initPidRequest() {
+
+
+        if (requestPID != null) {
+            this.logger.info("Set request: " + requestPID);
+            QueryStoreAPI queryAPI = new QueryStoreAPI();
+
+            Query query = queryAPI.getQueryByPID(requestPID);
+
+            if (query == null) {
+                this.logger.info("This was not a query pid. Checking base tables");
+                BaseTable baseTable = queryAPI.getBaseTableByPID(requestPID);
+                if (baseTable == null) {
+                    this.logger.severe("Not a valid Pid!");
+                } else {
+                    this.logger.info("Base table found!");
+                    this.updateBaseTableFields(baseTable);
+
+                }
+
+
+            } else {
+                BaseTable baseTable = query.getBaseTable();
+                this.updateMetadataFields(query, baseTable);
+            }
+
+
+        }
+    }
+
+    private void updateBaseTableFields(BaseTable baseTable) {
+        if (baseTable != null) {
+            this.logger.info("Setting metadata fields");
+            this.metaPid = "";
+            this.metaParentPid = baseTable.getBaseTablePID();
+            this.metaExecutionDate = "";
+            this.metaResultSetHash = "";
+            this.metaQueryHash = "";
+            this.metaDescription = "";
+            this.metaSQLString = "";
+            this.metaParentAuthor = baseTable.getAuthor();
+            this.metaAuthor = "";
+            this.metaTitle = "";
+            this.metaParentTitle = baseTable.getDataSetTitle();
+            this.metaSuggestedCitationString = this.metaParentAuthor + " (" + this.getYearFromDate(baseTable.getUploadDate()) + "): \"" + this.getMetaParentTitle() + "\", PID [ark:" + this.metaParentPid + "]";
+
+
+        } else {
+            this.logger.severe("basetable or subset does not exist");
+        }
+
+
     }
 }
