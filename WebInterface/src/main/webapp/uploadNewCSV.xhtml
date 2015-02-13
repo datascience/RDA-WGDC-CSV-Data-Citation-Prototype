@@ -164,16 +164,18 @@
 
 
         <h:form id="migrateForm">
-            <h:panelGrid columns="3" cellpadding="5">
+            <h:panelGrid columns="2" cellpadding="5">
+                <p:message id="migrationMessage" for="migrateForm:migrateButton" showDetail="true" autoUpdate="true"
+                           closable="true"
+                           globalOnly="false"/>
+                <p:spacer></p:spacer>
 
             <p:commandButton id="migrateButton" value="Migrate into Database."
                              action="#{databaseMigrationController.migrationController}"
                              update="migrationMessage"/>
 
                 <p:commandButton action="table.xhtml?faces-redirect=true" value="View existing data"/>
-            <p:message id="migrationMessage" for="migrateForm:migrateButton" showDetail="true" autoUpdate="true"
-                       closable="true"
-                       globalOnly="false"/>
+
                 <p:ajaxStatus style="display:block;margin-bottom:2em;height:36;">
                     <f:facet name="default">
                         <h:outputText value=""/>

@@ -196,8 +196,20 @@ public class DataServlet extends HttpServlet {
 //                this.logger.warning("Cached size ->> " + cachedRowSet.size());
 
                 param.iTotalRecords = dbTools.getRowCount(currentTable);
-                param.iTotalDisplayRecords = param.iTotalRecords;//cachedRowSet.size();// value will be set when code
+                param.iTotalDisplayRecords = cachedRowSet.size();// value will be set when code
                 // filters
+
+                int size = 0;
+                if (cachedRowSet != null) {
+                    cachedRowSet.beforeFirst();
+                    cachedRowSet.last();
+                    size = cachedRowSet.getRow();
+                    cachedRowSet.beforeFirst();
+                }
+
+                session.setAttribute("currentRowCount", size);
+                this.logger.info("ResultSet Size is: " + size);
+
 
                 // Before filtering
 

@@ -27,6 +27,10 @@ public class Query implements Serializable, TimeStamped {
     private String queryDescription;
     private String datasourcePID;
     private String queryHash;
+    private String subSetTitle;
+    private int resultSetRowCount;
+
+
 
     private BaseTable baseTable;
 
@@ -197,6 +201,7 @@ public class Query implements Serializable, TimeStamped {
 
 
 
+
     @Override
     public Date getCreatedDate() {
         return this.createdDate;
@@ -219,6 +224,22 @@ public class Query implements Serializable, TimeStamped {
 
     }
 
+    @Column(name = "subSetTitle", unique = false)
+    public String getSubSetTitle() {
+        return subSetTitle;
+    }
 
+    public void setSubSetTitle(String subSetTitle) {
+        this.subSetTitle = subSetTitle;
+    }
+
+    @Column(name = "rowCount", unique = false)
+    public int getResultSetRowCount() {
+        return resultSetRowCount;
+    }
+
+    public void setResultSetRowCount(int resultSetRowCount) {
+        this.resultSetRowCount = resultSetRowCount;
+    }
 }
 

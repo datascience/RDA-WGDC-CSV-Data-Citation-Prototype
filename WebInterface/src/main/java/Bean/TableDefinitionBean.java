@@ -36,6 +36,8 @@ public class TableDefinitionBean implements Serializable {
     private String author;
     private String baseTablePID;
     private String dataSetTitle;
+    private int rowCount;
+
 
 
     int organizationalId;
@@ -101,5 +103,13 @@ public class TableDefinitionBean implements Serializable {
 
     public void setDataSetTitle(String dataSetTitle) {
         this.dataSetTitle = dataSetTitle;
+    }
+
+    public int getRowCount() {
+        return rowCount;
+    }
+
+    public void setRowCount(int rowCount) {
+        this.rowCount = rowCount;
     }
 }

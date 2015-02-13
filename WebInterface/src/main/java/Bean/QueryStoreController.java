@@ -68,6 +68,8 @@ public class QueryStoreController implements Serializable {
 
     private Logger logger;
     private QueryStoreAPI queryStoreAPI;
+    private String subSetTitle;
+
 
     public String getDataSetDescription() {
 
@@ -107,9 +109,7 @@ public class QueryStoreController implements Serializable {
     
     
     public Query getQuery() {
-        if (this.query == null) {
-            this.initializeQueryStore();
-        }
+
         return query;
     }
 
@@ -142,9 +142,14 @@ public class QueryStoreController implements Serializable {
     private Map<String, String> filterMap;
 
 
-    /* Initialize the query
-    * * */
-    public void initializeQueryStore() {
+
+    /* Finalize the query.
+    * */
+    public void finalizeDataSet() {
+
+        // init
+
+
 
         SessionManager sm = new SessionManager();
         User user = sm.getLogedInUserObject();
@@ -185,7 +190,6 @@ public class QueryStoreController implements Serializable {
         BaseTable baseTable = this.queryStoreAPI.getBaseTableByPID(baseTablePid);
 
         this.query.setBaseTable(baseTable);
-        
 
 
         //@todo current databasename und table name sind null vom session manager.
@@ -200,29 +204,52 @@ public class QueryStoreController implements Serializable {
         FacesContext.getCurrentInstance().addMessage("queryStoreMessage", new FacesMessage(FacesMessage.SEVERITY_INFO, "The QueryStore is now initialized", "The generated PID is: " + pidString));
         this.logger.info("Completed.");
 
+        ///// Store filter
+
+        this.logger.info("Store selection");
+        String filterMapJSON = this.getJSONFromWebService("?lastFilters=1");
+        Map<String, String> filterMap = this.convertJSON2Map(filterMapJSON);
+        // this.printMap(filterMap);
+
+        // persist the filters
+        if (filterMap != null) {
+            this.queryStoreAPI.addFilters(query, filterMap);
+        }
 
 
+        String sortingsMapJSON = this.getJSONFromWebService("?lastSortings=1");
+        Map<String, String> sortingsMap = this.convertJSON2Map(sortingsMapJSON);
+        this.printMap(sortingsMap);
 
 
-    }
+        // persist the sortings
+        this.queryStoreAPI.addSortings(query, sortingsMap);
 
-    /* Finalize the query.
-    * */
-    public void finalizeDataSet() {
-        SessionManager sm = new SessionManager();
+        // save
+        this.queryStoreAPI.persistQuery(query);
+        String queryHash = this.queryStoreAPI.getQueryHash(this.query);
+        FacesContext.getCurrentInstance().addMessage("queryStoreMessage", new FacesMessage(FacesMessage.SEVERITY_INFO, "Stored current selection", "Updated query hash:" + queryHash));
+        this.logger.info("Completed.");
+
+
+        //////////////// finalize
+
+
         this.logger.info("finalize ");
         this.query = this.getQuery();
 
 
         this.query.setSelectedColumns(sm.getColumnNamesFromDataTablesSession());
         this.query.setQueryDescription(this.dataSetDescription);
+        this.query.setSubSetTitle(this.subSetTitle);
+        this.query.setResultSetRowCount(sm.getRowCount());
+
 
         this.queryStoreAPI.updateExecutiontime(this.query);
         this.queryStoreAPI.finalizeQuery(this.query);
 
 
-        String pidString = this.queryStoreAPI.getQueryPID(this.query);
-        String queryHash = this.queryStoreAPI.getQueryHash(this.query);
+        queryHash = this.queryStoreAPI.getQueryHash(this.query);
 
 
         String resultSetHash = this.queryStoreAPI.calculateResultSetHashShort(this.query);
@@ -248,43 +275,7 @@ public class QueryStoreController implements Serializable {
         this.logger.info("Completed.");
     }
 
-    /*Store the current selection and update query hash.
-    * */
-    public void storeCurrentSelection() {
-        Query query = this.getQuery();
 
-        this.logger.info("Store selection");
-        String filterMapJSON = this.getJSONFromWebService("?lastFilters=1");
-        Map<String, String> filterMap = this.convertJSON2Map(filterMapJSON);
-        // this.printMap(filterMap);
-
-        // persist the filters
-        if (filterMap != null) {
-            this.queryStoreAPI.addFilters(query, filterMap);
-        }
-
-
-        
-
-        
-        String sortingsMapJSON = this.getJSONFromWebService("?lastSortings=1");
-        Map<String, String> sortingsMap = this.convertJSON2Map(sortingsMapJSON);
-        this.printMap(sortingsMap);
-
-
-        // persist the sortings
-        this.queryStoreAPI.addSortings(query, sortingsMap);
-
-        // save
-        this.queryStoreAPI.persistQuery(query);
-        String queryHash = this.queryStoreAPI.getQueryHash(this.query);
-        FacesContext.getCurrentInstance().addMessage("queryStoreMessage", new FacesMessage(FacesMessage.SEVERITY_INFO, "Stored current selection", "Updated query hash:" + queryHash));
-        this.logger.info("Completed.");
-
-
-
-
-    }
 
 
     private void printMap(Map<String, String> map) {
@@ -344,4 +335,11 @@ public class QueryStoreController implements Serializable {
 
     }
 
+    public String getSubSetTitle() {
+        return subSetTitle;
+    }
+
+    public void setSubSetTitle(String subSetTitle) {
+        this.subSetTitle = subSetTitle;
+    }
 }

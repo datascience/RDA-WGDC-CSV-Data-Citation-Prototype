@@ -174,7 +174,7 @@ public class DatabaseMigrationController implements Serializable {
 
         if (this.getSuccessStatus()) {
             msgText = "You successfully imported the data into the system! Click on View existing data to proceed or " +
-                    "upload a new file. The data you uploaded has the PID: " + sm.getTableDefinitionBean().getBaseTablePID();
+                    "upload a new file. The data you uploaded has the PID: ark:" + sm.getTableDefinitionBean().getBaseTablePID();
         } else {
             msgText = "There was an error during uploading. Please consult the logs!";
         }

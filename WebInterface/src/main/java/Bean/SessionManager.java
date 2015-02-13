@@ -40,6 +40,8 @@ public class SessionManager {
     private Logger logger;
     private Map<String, Object> sessionMap = null;
     private TableDefinitionBean tableDefinitionBean = null;
+    private int rowCount;
+
 
     public SessionManager() {
         this.logger = Logger.getLogger(this.getClass().getName());
@@ -134,14 +136,14 @@ public class SessionManager {
 
     }
 
+    public void setSessionMap(Map<String, Object> sessionMap) {
+        this.sessionMap = sessionMap;
+    }
+
     public void storeFileListInSession(HashMap<String, String> fileList) {
         Map<String, Object> sessionMAP = this.getSessionMap();
         sessionMap.put("fileListHashMap", fileList);
 
-    }
-
-    public void setSessionMap(Map<String, Object> sessionMap) {
-        this.sessionMap = sessionMap;
     }
 
     /*
@@ -375,6 +377,25 @@ public class SessionManager {
 
     }
 
+    public int getRowCount() {
+        TableDefinitionBean tableBean = this.getTableDefinitionBean();
+        Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
+        String rowCountString = params.get("currentRowCount");
+        int rowCount = 0;
+        if (rowCountString != null) {
+            rowCount = Integer.parseInt(rowCountString);
+        }
+
+        this.rowCount = rowCount;
+        this.logger.info("Row count set: " + rowCount);
+        tableBean.setRowCount(rowCount);
+
+        return rowCount;
+    }
+
+    public void setRowCount(int rowCount) {
+
+    }
 }
 
 

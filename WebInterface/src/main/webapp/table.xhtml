@@ -192,18 +192,44 @@ function AjaxUpdateDataFailed(result) {
         </div>
         <!-- end table div -->
 
+        <p><br></br></p>
 
-    </div>
+
     <!-- end container -->
 
-    <div class="container">
         <div id="MenuButtonsDiv">
 
-
+            <p:messages for="queryStoreMessage" showDetail="true" autoUpdate="true"
+                        closable="true"></p:messages>
             <h:form id="queryStoreForm">
-                <p:panel header="Control the Query Store" style="width: 800px;">
+
+                <p:panel header="Create a new subset" style="width: 800px;">
                     <h:panelGrid columns="2" cellpadding="10">
 
+
+                        <p:outputLabel value="Provide a title for the subset: "/>
+                        <p:inputText required="true" requiredMessage="A title is required"
+                                     value="#{queryStoreController.subSetTitle}">
+                            <f:ajax event="blur"/>
+                        </p:inputText>
+
+                        <p:outputLabel value="Provide a dataset description: "/>
+                        <p:inputText required="true" requiredMessage="A description is required"
+                                     value="#{queryStoreController.dataSetDescription}">
+                            <f:ajax event="blur"/>
+                        </p:inputText>
+                        <p:spacer></p:spacer>
+
+
+
+                        <p:commandButton id="queryInitButton" value="Initialize query store"
+                                         action="#{queryStoreController.initializeQueryStore}"
+                                ></p:commandButton>
+                        <p:commandButton value="Store current selection"
+                                         action="#{queryStoreController.storeCurrentSelection}"></p:commandButton>
+
+                        <p:commandButton value="Create subset"
+                                         action="#{queryStoreController.finalizeDataSet}"></p:commandButton>
 
                         <p:messages id="msgs"/>
 
@@ -214,25 +240,6 @@ function AjaxUpdateDataFailed(result) {
                             </f:facet>
 
                         </p:ajaxStatus>
-
-                        <p:outputLabel value="Provide a dataset description: "/>
-                        <p:inputText required="true" requiredMessage="A description is required"
-                                     value="#{queryStoreController.dataSetDescription}">
-                            <f:ajax event="blur"/>
-                        </p:inputText>
-                        <p:spacer></p:spacer>
-
-                        <p:messages for="queryStoreMessage" showDetail="true" autoUpdate="true"
-                                    closable="true"></p:messages>
-
-                        <p:commandButton id="queryInitButton" value="Initialize query store"
-                                         action="#{queryStoreController.initializeQueryStore}"
-                                ></p:commandButton>
-                        <p:commandButton value="Store current selection"
-                                         action="#{queryStoreController.storeCurrentSelection}"></p:commandButton>
-
-                        <p:commandButton value="Finalize dataset"
-                                         action="#{queryStoreController.finalizeDataSet}"></p:commandButton>
                     </h:panelGrid>
                 </p:panel>
             </h:form>
