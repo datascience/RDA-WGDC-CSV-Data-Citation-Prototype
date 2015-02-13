@@ -95,12 +95,19 @@
                     <h:outputText value="Query hash"/>
                     <h:outputText value="#{landingPageBean.metaQueryHash}"/>
                     <h:outputText value="Description"/>
-                    <h:outputText value="#{landingPageBean.metaDescription}"/>
+
+                    <p:inputTextarea
+                            value="#{landingPageBean.metaDescription}"
+                            styleClass="no-border" readonly="true">
+
+                    </p:inputTextarea>
+
+
                     <h:outputText value="SQL string"/>
                     <p:inputTextarea
                             value="#{landingPageBean.metaSQLString}"
                             styleClass="no-border" readonly="true"
-                            style="width: 80%;height: 100%;"
+
                             rows="#{landingPageBean.countChar(landingPageBean.metaSQLString)+2}"/>
 
 
