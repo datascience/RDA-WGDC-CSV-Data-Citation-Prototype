@@ -33,10 +33,11 @@ public class ExampleUserApp {
 
     public void run() {
         UserAPI api = new UserAPI();
-        api.addUser("carl", "secret", 12345);
-        api.addUser("stefan", "secret", 12345);
-        api.authenticateUser("carl", "secret");
-        api.authenticateUser("carl", "banana");
+        api.addUser("stefan", "Stefan", "Pröll", "stefan15", 12345);
+        api.addUser("andreas", "Andreas", "Rauber", "andreas15", 12345);
+
+
+
 
         api.checkIfUserExists("carl");
 

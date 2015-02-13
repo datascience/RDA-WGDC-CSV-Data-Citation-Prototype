@@ -33,9 +33,34 @@ public class CreateUsersExample {
 
     public void run() {
         UserAPI api = new UserAPI();
-        api.addUser("carl", "carlCite15", 12345);
-        api.addUser("stefan", "stefanCite15", 12345);
-        api.addUser("andi", "andiCite15", 12345);
+        api.addUser("stefan", "Stefan", "Proell", "stefan15", 12345);
+        api.addUser("andreas", "Andreas", "Rauber", "andreas15", 12345);
+        api.addUser("natalie", "Natalie", "Harrower", "natalie15", 12345);
+        api.addUser("kathrin", "Kathrin", "Beck", "katrin15", 12345);
+        api.addUser("catherine", "Catherine", "Jones", "catherine15", 12345);
+        api.addUser("martti", "Martti", "Louhivouri", "martti15", 12345);
+        api.addUser("odile", "Odile", "Francoise", "odile15", 12345);
+        api.addUser("dimitris", "Dimitris", "Gavrilis", "dimitris15", 12345);
+        api.addUser("thomas", "thomas", "thomas", "thomas15", 12345);
+        api.addUser("pavel", "Pavel", "Stranak", "pavel15", 12345);
+        api.addUser("fabrizio", "fabrizio", "fabrizio", "fabrizio15", 12345);
+        api.addUser("pilar", "Pilar", "Callau", "pilar15", 12345);
+        api.addUser("mark", "mark", "mark", "mark15", 12345);
+        api.addUser("patrice", "Patrice", "Ajai-Ajagbe", "patrice15", 12345);
+
+        api.addUser("user1", "firstname1", "lastname1", "user15", 12345);
+        api.addUser("user2", "firstname2", "lastname2", "user15", 12345);
+        api.addUser("user3", "firstname3", "lastname3", "user15", 12345);
+        api.addUser("user4", "firstname4", "lastname4", "user15", 12345);
+        api.addUser("user5", "firstname5", "lastname5", "user15", 12345);
+        api.addUser("user6", "firstname6", "lastname6", "user15", 12345);
+        api.addUser("user7", "firstname7", "lastname7", "user15", 12345);
+        api.addUser("user8", "firstname8", "lastname8", "user15", 12345);
+        api.addUser("user9", "firstname9", "lastname9", "user15", 12345);
+        api.addUser("user10", "firstname10", "lastname10", "user15", 12345);
+
+        System.out.println("Done");
+
 
 
     }

@@ -49,15 +49,20 @@ public class User implements Serializable {
     private String username;
     private String password;
     private Long user_id;
-
     private int organizational_id;
+
+    private String firstName;
+    private String lastName;
+
 
 
     /*
     * Create a new user
     *  */
-    public User(String username, String password, int organizational_id) {
+    public User(String username, String firstname, String lastname, String password, int organizational_id) {
         this.username = username;
+        this.firstName = firstname;
+        this.lastName = lastname;
         this.password = this.hashPassword(password);
         this.organizational_id = organizational_id;
     }
@@ -108,9 +113,27 @@ public class User implements Serializable {
         this.user_id = user_id;
     }
 
+    @Column(name = "first_name", unique = false, nullable = false)
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    @Column(name = "last_name", unique = false, nullable = false)
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
     /*
-    * Hash the password
-    * * * */
+        * Hash the password
+        * * * */
     private String hashPassword(String input) {
 
         // gensalt's log_rounds parameter determines the complexity the work factor is 2**log_rounds, and the default
