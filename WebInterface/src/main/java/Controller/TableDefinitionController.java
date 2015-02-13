@@ -18,6 +18,7 @@ package Controller;
 
 import Bean.SessionManager;
 import Bean.TableDefinitionBean;
+import Database.Authentication.User;
 import Database.DatabaseOperations.DatabaseTools;
 
 import javax.annotation.PostConstruct;
@@ -48,7 +49,12 @@ public class TableDefinitionController implements Serializable {
 
     public String getTableNameInput() {
         SessionManager sm = new SessionManager();
-        String username = sm.getLogedInUserName();
+        User user = sm.getLogedInUserObject();
+
+        String username = user.getUsername();
+        String firstname = user.getFirstName();
+        String lastname = user.getLastName();
+
         if (this.tableNameInput == null) {
             this.logger.warning("TableName Input was Null");
             this.tableNameInput = username + "_";
@@ -67,9 +73,14 @@ public class TableDefinitionController implements Serializable {
 
     public String getDataSetAuthor() {
         SessionManager sm = new SessionManager();
-        String authorName = sm.getLogedInUserName();
+        User user = sm.getLogedInUserObject();
+
+
+        String firstname = user.getFirstName();
+        String lastname = user.getLastName();
+
         if (this.dataSetAuthor == null) {
-            this.dataSetAuthor = authorName;
+            this.dataSetAuthor = firstname + " " + lastname;
             return this.dataSetAuthor;
         } else {
             return this.dataSetAuthor;
