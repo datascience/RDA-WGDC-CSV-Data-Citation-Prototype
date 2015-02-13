@@ -56,6 +56,9 @@ public class LandingPageBean implements Serializable {
     private String metaParentAuthor;
     private String metaAuthor;
     private String metaSuggestedCitationString;
+    private String metaTitle;
+    private String metaParentTitle;
+
 
     public LandingPageBean() {
         this.logger = Logger.getLogger(this.getClass().getName());
@@ -169,10 +172,12 @@ public class LandingPageBean implements Serializable {
             this.metaSQLString = query.getQueryString();
             this.metaParentAuthor = baseTable.getAuthor();
             this.metaAuthor = query.getUserName();
+            this.metaTitle = query.getSubSetTitle();
+            this.metaParentTitle = baseTable.getDataSetTitle();
             this.metaSuggestedCitationString = this.metaAuthor +
                     " (" + this.getYearFromDate(query.getExecution_timestamp()) + ") \"" +
-                    this.metaDescription + "\". [ark:" + this.metaPid + "]. Data derived from " + this.metaParentAuthor + " [ark:" +
-                    this.metaParentPid + "]) executed at " + this.metaExecutionDate.toString();
+                    this.metaTitle + "\" created at " + this.metaExecutionDate.toString() + ", PID [ark:" + this.metaPid + "]. Subset of "
+                    + this.metaParentAuthor + ": \"" + this.getMetaParentTitle() + "\", PID [ark:" + this.metaParentPid + "]";
 
 
         } else {
@@ -289,5 +294,21 @@ public class LandingPageBean implements Serializable {
         int rows = (int) (text.length() / 60);
 
         return rows;
+    }
+
+    public String getMetaTitle() {
+        return metaTitle;
+    }
+
+    public void setMetaTitle(String metaTitle) {
+        this.metaTitle = metaTitle;
+    }
+
+    public String getMetaParentTitle() {
+        return metaParentTitle;
+    }
+
+    public void setMetaParentTitle(String metaParentTitle) {
+        this.metaParentTitle = metaParentTitle;
     }
 }

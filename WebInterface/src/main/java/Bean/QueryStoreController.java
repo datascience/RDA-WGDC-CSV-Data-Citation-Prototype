@@ -170,7 +170,7 @@ public class QueryStoreController implements Serializable {
         Date creationDate = new Date();
 
 
-        this.query = this.queryStoreAPI.createNewQuery(userName, currentPID);
+        this.query = this.queryStoreAPI.createNewQuery(user.getFirstName() + " " + user.getLastName(), currentPID);
 
         this.query.setCreatedDate(creationDate);
         this.query.setExecution_timestamp(creationDate);
