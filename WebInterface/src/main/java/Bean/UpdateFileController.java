@@ -38,9 +38,9 @@ import java.util.logging.Logger;
 @SessionScoped
 public class UpdateFileController {
 
+    private static final boolean calulateHashColumn = false;
     private HashMap<String, String> filesList;
     private Logger logger;
-    private static final boolean calulateHashColumn = false;
     private List<String> primaryKeys;
     private boolean successStatus = false;
     private boolean headerRow = false;
@@ -59,6 +59,9 @@ public class UpdateFileController {
 
     }
 
+    public static boolean isCalulateHashColumn() {
+        return calulateHashColumn;
+    }
 
     /**
      * Called from Web interface
@@ -102,7 +105,6 @@ public class UpdateFileController {
         return (HashMap<String, String>) sessionMAP.get("fileListHashMap");
     }
 
-
     private void updateDataInExistingTableController(HashMap inputFileMap, String tableName, String
             databaseName, boolean
                                                              hasHeaders, boolean calulateHashColumn) {
@@ -110,6 +112,7 @@ public class UpdateFileController {
         MigrationTasks migrationTasks = new MigrationTasks();
         migrationTasks.updateDataInExistingTable(inputFileMap, tableName, hasHeaders,
                 calulateHashColumn);
+
 
     }
 
@@ -130,10 +133,6 @@ public class UpdateFileController {
 
     public void setLogger(Logger logger) {
         this.logger = logger;
-    }
-
-    public static boolean isCalulateHashColumn() {
-        return calulateHashColumn;
     }
 
     public List<String> getPrimaryKeys() {
@@ -162,6 +161,10 @@ public class UpdateFileController {
 
     }
 
+    public void setCurrentDatabaseName(String currentDatabaseName) {
+        this.currentDatabaseName = currentDatabaseName;
+    }
+
     private String getCurrentTableName() {
         SessionManager sm = new SessionManager();
         TableDefinitionBean tableBean = sm.getTableDefinitionBean();
@@ -169,6 +172,10 @@ public class UpdateFileController {
 
         return this.currentTableName;
 
+    }
+
+    public void setCurrentTableName(String currentTableName) {
+        this.currentTableName = currentTableName;
     }
 
     private void displayMessage(String msgText) {
@@ -187,7 +194,6 @@ public class UpdateFileController {
         FacesContext.getCurrentInstance().addMessage("messages", new FacesMessage(details));
 
     }
-
 
     public List<String> getFilesListStrings() {
         return filesListStrings;
@@ -304,14 +310,6 @@ public class UpdateFileController {
 
     public void setHeaderRow(boolean headerRow) {
         this.headerRow = headerRow;
-    }
-
-    public void setCurrentTableName(String currentTableName) {
-        this.currentTableName = currentTableName;
-    }
-
-    public void setCurrentDatabaseName(String currentDatabaseName) {
-        this.currentDatabaseName = currentDatabaseName;
     }
 
     public boolean isNewDataOnly() {

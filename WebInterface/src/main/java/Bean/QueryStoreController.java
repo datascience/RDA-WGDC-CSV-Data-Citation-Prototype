@@ -198,7 +198,7 @@ public class QueryStoreController implements Serializable {
         TableDefinitionBean tableDefinitionBean = sm.getTableDefinitionBean();
 
         if (tableDefinitionBean.getBaseTablePID() == null) {
-            BaseTable baseTable = this.queryStoreAPI.getBaseTableByDatabaseAndTableName(sm.getCurrentDatabaseNameFromSession(), sm.getCurrentTableNameFromSession());
+            BaseTable baseTable = this.queryStoreAPI.getBaseTableByDatabaseAndTableName(tableDefinitionBean.getDatabaseName(), tableDefinitionBean.getTableName());
             tableDefinitionBean.setBaseTablePID(baseTable.getBaseTablePID());
             sm.updateTableDefinitionBean(tableDefinitionBean);
         }
@@ -278,11 +278,27 @@ public class QueryStoreController implements Serializable {
             landingPageURI = pid.getURI();
         } else {
             Query q = (Query) this.queryStoreAPI.getQueryByResultSetHash(resultSetHash);
+
             String existingPID = this.queryStoreAPI.getQueryPID(q);
+
+            this.logger.info("Existing PID!! " + existingPID);
+
             PersistentIdentifier pidOld = this.pidAPI.getPIDObjectFromPIDString(existingPID);
+
+
             landingPageURI = pidOld.getURI();
 
+            if (this.queryStoreAPI.checkIfBaseTableWasUpdatedMeanwhile(q, baseTable)) {
+                PersistentIdentifierAlphaNumeric pidNew = this.pidAPI.getAlphaNumericPID(this.pidAPI.getOrganizationObjectByPrefix(user.getOrganizational_id()), landingPageURI);
+                query.setPID(pidNew.getIdentifier());
+                this.queryStoreAPI.persistQuery(query);
+
+
+            }
+
             FacesContext.getCurrentInstance().addMessage("queryStoreMessage", new FacesMessage(FacesMessage.SEVERITY_INFO, "ResultSet Hash", "The same hash already exists with PID " + existingPID));
+
+
             if (this.queryStoreAPI.deleteQuery(this.query)) {
                 FacesContext.getCurrentInstance().addMessage("queryStoreMessage", new FacesMessage(FacesMessage.SEVERITY_WARN, "Query deleted", "Deleted this query as an identical one already exists"));
 

@@ -905,7 +905,11 @@ public class QueryStoreAPI {
         baseTable.setDescription(description);
         baseTable.setOrganizationalId(prefix);
         baseTable.setDataSetTitle(title);
-        baseTable.setUploadDate(new Date());
+        Date currentDate = new Date();
+
+        baseTable.setUploadDate(currentDate);
+        baseTable.setLastUpdate(currentDate);
+
         this.session.saveOrUpdate(baseTable);
         this.session.getTransaction().commit();
         this.session.close();
@@ -1006,6 +1010,42 @@ public class QueryStoreAPI {
         } else {
             this.logger.severe("BaseTable NOT found");
             return null;
+        }
+
+
+    }
+
+    /*
+    * Update the the last update date field of the base table in order to detect changed data
+    * */
+    public void updateBaseTableLastUpdateDate(String tableName) {
+        BaseTable baseTable = this.getBaseTableByTableNameOnly(tableName);
+
+        if (baseTable != null) {
+
+            this.session = HibernateUtilQueryStore.getSessionFactory().openSession();
+            this.session.beginTransaction();
+
+            baseTable.setLastUpdate(new Date());
+
+            this.session.saveOrUpdate(baseTable);
+            this.session.getTransaction().commit();
+            this.session.close();
+        }
+
+
+    }
+
+    /*
+    * The base table can be updated. When the base table was updated after a query was executed, this method returns true.
+    * */
+    public boolean checkIfBaseTableWasUpdatedMeanwhile(Query query, BaseTable baseTable) {
+        if (query.getExecution_timestamp().before(baseTable.getLastUpdate())) {
+            this.logger.info("The base table record is newer than the query");
+            return true;
+
+        } else {
+            return false;
         }
 
 

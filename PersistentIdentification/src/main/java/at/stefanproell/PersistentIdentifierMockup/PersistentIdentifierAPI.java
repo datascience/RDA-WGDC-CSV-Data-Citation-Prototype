@@ -448,8 +448,7 @@ public class PersistentIdentifierAPI {
         this.session.beginTransaction();
 
         Criteria criteria = this.session.createCriteria(PersistentIdentifier.class, "pid");
-        criteria.createAlias("pid.organization", "o");
-        criteria.add(Restrictions.eq("pid.fqn_identifier", fqnPID));
+        criteria.add(Restrictions.eq("pid.FQNidentifier", fqnPID));
         pid = (PersistentIdentifier) criteria.uniqueResult();
 
 

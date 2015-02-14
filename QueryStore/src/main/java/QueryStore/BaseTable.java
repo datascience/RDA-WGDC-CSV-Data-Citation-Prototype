@@ -47,6 +47,7 @@ public class BaseTable implements Serializable {
     private List<Query> queryList;
 
     private Date uploadDate;
+    private Date lastUpdate;
 
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "baseTable")
@@ -145,5 +146,14 @@ public class BaseTable implements Serializable {
 
     public void setUploadDate(Date uploadDate) {
         this.uploadDate = uploadDate;
+    }
+
+    @Column(name = "lastUpdate")
+    public Date getLastUpdate() {
+        return lastUpdate;
+    }
+
+    public void setLastUpdate(Date lastUpdate) {
+        this.lastUpdate = lastUpdate;
     }
 }
