@@ -2,8 +2,8 @@
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:p="http://primefaces.org/ui"
       xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns="http://www.w3.org/1999/xhtml">
-
+      xmlns="http://www.w3.org/1999/xhtml"
+        >
 
 <h:head>
     <title>CSV Data Upload</title>
@@ -107,14 +107,37 @@
 
             <h2>Step 2: Upload the data</h2>
 
-            <p>Select one file from your hard disk. It will be uploaded to the systems and analyzed. The system
-                currently
-                only supports a single file per upload.
-                <br></br>
-            
-            </p>
-            
-            <h:form>
+        <p>Select one file from your hard disk. It will be uploaded to the systems and analyzed. The system currently
+            only supports a single file per upload.</p>
+
+        <h3>Sample datasets</h3>
+
+        <p>
+            <f:view contentType="text/html">
+                You can download one of the following sample datasets from the links below.<br></br>
+                <ul>
+                    <li><a target="_blank" href="http://www.datacitation.eu/downloads/addresses.csv">Addresses (1k)</a>Testdataset
+                    </li>
+                    <li><a target="_blank" href="http://www.datacitation.eu/downloads/factbook.csv">World Factbook</a>
+                        Adapted from this <a
+                                href="http://perso.telecom-paristech.fr/~eagan/class/as2013/inf229/labs/datasets">source</a>
+                    </li>
+                    <li><a target="_blank" href="http://www.datacitation.eu/downloads/WHO.csv">WHO Health DataSet</a>
+                        Adapted from this <a href="http://www.exploredata.net/Downloads/WHO-Data-Set">source</a></li>
+                    <li><a target="_blank" href="http://www.datacitation.eu/downloads/msd1k.csv">MSD 1k subset</a></li>
+                    <li><a target="_blank" href="http://www.datacitation.eu/downloads/msd10k.csv">MSD 10k subset</a>
+                    </li>
+                    <li><a target="_blank" href="http://www.datacitation.eu/downloads/msd100k.csv">MSD 100k subset</a>
+                    </li>
+                </ul>
+
+            </f:view>
+
+
+        </p>
+
+
+        <h:form>
 
 
             <p:fileUpload fileUploadListener="#{fileUploadController.handleFileUpload}"
