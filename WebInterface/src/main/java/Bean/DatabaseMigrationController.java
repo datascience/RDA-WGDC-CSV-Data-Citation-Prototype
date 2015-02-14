@@ -13,6 +13,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
+import java.awt.event.ActionEvent;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -34,6 +35,7 @@ public class DatabaseMigrationController implements Serializable {
     private static final boolean calulateHashColumn = false;
     private List<String> primaryKeys;
     private boolean successStatus = false;
+
     public List<String> getPrimaryKey() {
         this.primaryKeys = this.getPrimaryKeyListFromSession();
 
@@ -206,6 +208,32 @@ public class DatabaseMigrationController implements Serializable {
 
     }
 
+    public void checkBoxListener() {
+        FacesContext context = FacesContext.getCurrentInstance();
+        String msgText = "";
+
+
+        if (this.isNewDataOnly()) {
+            msgText = "New data only";
+
+
+            FacesMessage msg = new FacesMessage(msgText);
+            context.addMessage("uploadCommandForm:messages", msg);
+
+
+        }
+
+/*
+        FacesContext context = FacesContext.getCurrentInstance();
+        String msgText="";
+
+        FacesMessage msg = new FacesMessage(msgText);
+        context.addMessage("migrateForm:migrateButton", msg);
+
+        */
+    }
+
+
     private void displayMessage(String msgText) {
 
 
@@ -241,51 +269,6 @@ public class DatabaseMigrationController implements Serializable {
 
 
 
-    /**
-     * Called from Web interface
-     */
-    public void updateTableData() {
-        this.logger.info("Update button clicked");
-        this.logger.info("Currently the selected table is " + this.getCurrentTableName());
-        if (this.isNewDataOnly) {
-            this.logger.info("Only new data will be inserted");
-            this.displayMessage("Insert new data", "Only new data will be inserted");
-
-            this.insertNewCSVDataToExistingTableController(this.getFileListFromSession(), this.getCurrentTableName(),
-                    this
-                            .getCurrentDatabaseName(), this.isHeaderRow(), calulateHashColumn);
-
-        } else {
-            this.logger.info("Existing rows will be updated");
-            this.displayMessage("Update existing data", "Performing updates");
-            this.updateDataInExistingTableController(this.getFileListFromSession(), this.getCurrentTableName(),
-                    this
-                            .getCurrentDatabaseName(), this.isHeaderRow(), calulateHashColumn);
-
-
-        }
-    }
-
-    private void updateDataInExistingTableController(HashMap inputFileMap, String tableName, String
-            databaseName, boolean
-                                                             hasHeaders, boolean calulateHashColumn) {
-
-        MigrationTasks migrationTasks = new MigrationTasks();
-        migrationTasks.updateDataInExistingTable(inputFileMap, tableName, hasHeaders,
-                calulateHashColumn);
-
-    }
-
-    private void insertNewCSVDataToExistingTableController(HashMap inputFileMap, String tableName, String
-            databaseName, boolean
-            hasHeaders, boolean calulateHashColumn) {
-
-        MigrationTasks migrationTasks = new MigrationTasks();
-        migrationTasks.insertNewCSVDataToExistingTable(inputFileMap, tableName, hasHeaders,
-                calulateHashColumn);
-
-
-    }
 
     private void displayMessage(String text, String details) {
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(details));

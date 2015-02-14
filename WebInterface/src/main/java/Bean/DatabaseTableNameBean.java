@@ -240,6 +240,7 @@ public class DatabaseTableNameBean implements Serializable {
             TableDefinitionBean tableBean = sm.getTableDefinitionBean();
             tableBean.setTableName(selectedTable);
             sm.updateTableDefinitionBean(tableBean);
+            this.logger.info("Updated table definition bean: " + selectedTable);
         }
 
         this.logger.info("Table changed... is now" + selectedTable);

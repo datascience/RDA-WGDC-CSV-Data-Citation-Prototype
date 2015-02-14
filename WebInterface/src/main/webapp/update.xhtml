@@ -33,8 +33,10 @@
 
     <h1>Upload a new CSV data file</h1>
 
-    <p>Select the table that will be updated. Please not that your CSV file needs to be in the formatv as it was during
-        the first upload. </p>
+    <h2>Step 1: Select the database and the table containing the data you want to update.</h2>
+
+    <p>Select the table that will be updated. Please note that your CSV file needs to be in the very same format as it
+        was during the first upload. </p>
     <h:form enctype="multipart/form-data">
         <h:selectOneMenu id="databaseDropDown" valueChangeListener="#{databaseTableNameBean.handleChangeDatabaseName}"
                          required="true" value="#{databaseTableNameBean.databaseName}"
@@ -49,11 +51,11 @@
             <p:ajax update="@this"/>
         </h:selectOneMenu>
 
-        <p:fileUpload fileUploadListener="#{fileUploadController.handleFileUpload}"
+        <p:fileUpload fileUploadListener="#{updateFileController.handleFileUpload}"
                       mode="advanced" update="messages, dt" auto="true"
                       sizeLimit="100000000"
                       allowTypes="/(\.|\/)(csv|txt)$/"/>
-        <p:dataTable id="dt" var="filename" value="#{fileUploadController.filesListStrings}">
+        <p:dataTable id="dt" var="filename" value="#{updateFileController.filesListStrings}">
             <p:column>
                 #{filename}
             </p:column>
@@ -61,6 +63,11 @@
         <p:growl id="messages" showDetail="true"/>
         <f:attribute name="uploadSessionType" value="newCSV"/>
     </h:form>
+    <br></br>
+
+    <h2>Step 2: Choose the updated file.</h2>
+
+    <p>You can either upload the file with the changes included or you can provide a file only containing new data.</p>
 
     <h:form id="uploadCommandForm">
         <p:row>
@@ -75,8 +82,8 @@
                 <p:outputLabel value="CSV file contains only new data"/>
                 </p:column>
                 <p:column>
-                    <p:selectBooleanCheckbox id="newDataCheckBox" value="#{databaseMigrationController.newDataOnly}">
-                    <p:ajax update="messages" listener="#{databaseMigrationController.addMessage}"/>
+                    <p:selectBooleanCheckbox id="newDataCheckBox" value="#{updateFileController.newDataOnly}">
+                        <p:ajax update="messages" listener="#{updateFileController.checkBoxListener}"/>
                 </p:selectBooleanCheckbox>
                 </p:column>
             </p:row>
@@ -86,21 +93,21 @@
                     <p:outputLabel value="CSV file has a header"/>
                 </p:column>
                 <p:column>
-                    <p:selectBooleanCheckbox id="headerCheckBox" value="#{databaseMigrationController.headerRow}">
-                        <p:ajax update="messages" listener="#{databaseMigrationController.addMessage}"/>
+                    <p:selectBooleanCheckbox id="headerCheckBox" value="#{updateFileController.headerRow}">
+                        <p:ajax update="messages" listener="#{updateFileController.checkBoxListener}"/>
                     </p:selectBooleanCheckbox>
                 </p:column>
             </p:row>
             <p:row>
                 <p:column colspan="2">
                 <p:commandButton value="Update table." action
-                            ="#{databaseMigrationController.updateTableData}">
+                        ="#{updateFileController.updateTableData}">
                     </p:commandButton>
                 </p:column>
             </p:row>
             <p:row>
                 <p:column colspan="2">
-                <p:commandButton value="View uploaded data" action="#{databaseMigrationController.viewTable}"/>
+                    <p:commandButton value="View uploaded data" action="#{updateFileController.viewTable}"/>
                 </p:column>
 
             </p:row>

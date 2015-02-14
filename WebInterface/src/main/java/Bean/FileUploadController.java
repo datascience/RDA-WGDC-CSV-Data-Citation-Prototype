@@ -232,6 +232,8 @@ public class FileUploadController implements Serializable {
 
         //reset
         this.filesList = new HashMap<String, String>();
+        this.filesListStrings = new ArrayList<String>();
+
 
 
     }
