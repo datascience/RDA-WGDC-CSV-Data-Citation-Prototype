@@ -1522,6 +1522,131 @@ public class DatabaseTools {
     }
 
     /*
+* Needed for updates. If a record existed or is newly inserted, mark it as existing
+* */
+    public boolean markRecordAsChecked(Map<String, String> columnsMap, String tableName,
+                                       List<String> csvRow) {
+        Connection connection = null;
+        ResultSet maxSequenceResult = null;
+        Statement setCheckedColumn = null;
+        int existsInteger = 0;
+        try {
+            connection = this.getConnection();
+
+
+            setCheckedColumn = connection.createStatement();
+            String checkSQL = "UPDATE " + connection.getCatalog() + "." + tableName + " SET recordChecked=1 " + this
+                    .recordExistsWhereClause
+                            (columnsMap,
+                                    csvRow);
+
+            this.logger.info("CHECK " + checkSQL);
+
+            setCheckedColumn.executeQuery(checkSQL);
+
+            this.logger.info("Set the column for the record");
+
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (connection != null) {
+                    connection.close();
+                }
+                if (setCheckedColumn != null) {
+                    setCheckedColumn.close();
+                }
+                if (maxSequenceResult != null) {
+                    maxSequenceResult.close();
+
+
+                }
+            } catch (SQLException sqlee) {
+                sqlee.printStackTrace();
+            }
+        }
+
+
+        if (existsInteger == 1) {
+            this.logger.info("The record exists via FULL compare");
+            return true;
+        } else {
+            this.logger.info("The record does NOT exist via FULL compare.");
+            return false;
+        }
+
+
+    }
+
+
+    /*
+    * When a user uploads a CSV file which has deleted records, the system needs to tick off which records have been considered so far. This method adds this column
+    * */
+    public void addCheckColumnToTable(String tableName) {
+
+        Statement stat = null;
+        Connection connection = null;
+        try {
+            connection = this.getConnection();
+
+            stat = connection.createStatement();
+            String sql = "ALTER TABLE " + tableName + " ADD recordChecked tinyint(1) DEFAULT NULL";
+            this.logger.info(sql);
+            stat.execute(sql);
+            stat.close();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (connection != null) {
+                    connection.close();
+                }
+                if (stat != null) {
+                    stat.close();
+                }
+            } catch (SQLException sqlee) {
+                sqlee.printStackTrace();
+            }
+        }
+
+
+    }
+
+    /*
+* When a user uploads a CSV file which has deleted records, the system needs to tick off which records have been considered so far. This method removes this column
+* */
+    public void dropCheckColumnToTable(String tableName) {
+
+        Statement stat = null;
+        Connection connection = null;
+        try {
+            connection = this.getConnection();
+
+            stat = connection.createStatement();
+            stat.execute("ALTER TABLE " + tableName + " DROP recordChecked");
+            stat.close();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (connection != null) {
+                    connection.close();
+                }
+                if (stat != null) {
+                    stat.close();
+                }
+            } catch (SQLException sqlee) {
+                sqlee.printStackTrace();
+            }
+        }
+
+
+    }
+
+    /*
     * Create the WHERE clause for a full compare
     * */
     private String recordExistsWhereClause(Map<String, String> columnsMap, List<String> csvRow) {

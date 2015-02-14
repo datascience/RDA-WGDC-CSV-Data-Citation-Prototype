@@ -177,7 +177,8 @@
 
 
             <h:selectManyCheckbox id="primaryKeyMultiCheckbox"
-                                  value="#{fileUploadController.selectedPrimaryKeyColumns}" required="true"
+                                  value="#{fileUploadController.selectedPrimaryKeyColumns}" layout="pageDirection"
+                                  required="true"
                                   requiredMessage="At least one column needs to be checked">
                 <f:selectItems value="#{fileUploadController.columnsValue}"/>
             </h:selectManyCheckbox>

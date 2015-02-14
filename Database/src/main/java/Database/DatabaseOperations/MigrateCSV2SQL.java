@@ -575,7 +575,7 @@ public class MigrateCSV2SQL {
 
 
     /**
-     * Update existing data in a table. Checks if each record exists.
+     * Update existing data in a table. Checks if each record exists. Creates a new column to tick of records and mark those not ticket off later.
      *
      * @param columnsMap
      * @param path
@@ -706,12 +706,14 @@ public class MigrateCSV2SQL {
 
                 // the primary key can be used
                 if (primaryKeyCanBeDetected) {
+
                     recordExists = this.dbtools.checkIfRecordExistsInTableByPrimaryKey(tableName, primaryKeyTableString,
                             csvRow.get(primaryKeyCSVColumnInt));
 
 
                     // if the record exists, set the status to updated, reuse insert date and sequence number
                     if (recordExists) {
+
 
                         // Check if the existing record is different.
                         boolean recordIsTheSame = this.dbtools.checkIfRecordExistsInTableByFullCompare(columnsMap,

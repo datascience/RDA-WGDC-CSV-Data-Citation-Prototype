@@ -247,93 +247,6 @@ public class MigrationTasks {
             try {
                 DatabaseTools dbt = new DatabaseTools();
 
-                Map<String, String> columnsMap = (dbt.getColumnNamesFromTableWithoutMetadataColumns(this
-                        .currentTableName));
-
-
-                // read CSV file
-
-                MigrateCSV2SQL migrate = new MigrateCSV2SQL();
-
-                // get primary keys
-
-                List<String> primaryKeyList = dbt.getPrimaryKeyFromTable(this.currentTableName);
-
-                // Import CSV Data
-                //@todo move primary key as a new attribute into the column list
-
-                migrate.updateDataInExistingDB(columnsMap, primaryKeyList, currentPath,
-                        this.currentTableName, true,
-                        calulateHashColumn);
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-            try {
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-
-            it.remove(); // avoids a ConcurrentModificationException
-
-        }
-
-
-    }
-
-    /**
-     *
-     * */
-    public void findDeletedCSVRowsAndMarkAsDeletedInDB(HashMap inputFileMap, String sessionTableName, boolean
-            hasHeaders, boolean calulateHashColumn) {
-
-        System.out.println("DELETED records ");
-
-        if (sessionTableName != null) {
-            this.setCurrentTableName(sessionTableName);
-        }
-
-        // retrieve file names
-        this.filesList = inputFileMap;
-        if (this.filesList == null) {
-            this.logger.severe("File list was NULL");
-        } else {
-            this.logger.info("Filelist is okay. Number of files " + this.filesList.size());
-            HashMap<String, String> testMap = this.filesList;
-            for (Map.Entry<String, String> entry : testMap.entrySet()) {
-                this.logger.info("File list loop: Key = " + entry.getKey() + ", Value = " + entry.getValue());
-            }
-        }
-
-
-        Iterator it = this.filesList.entrySet().iterator();
-        while (it.hasNext()) {
-            Map.Entry pairs = (Map.Entry) it.next();
-            // When uploading data for an existing table, the table name is not provided by the user but is selected
-            // from the drop down menu. is is provided in the session variable
-            this.logger.info("TableName = " + this.getCurrentTableName() + " Path: " + pairs.getValue().toString());
-
-            CSV_API csv;
-            csv = new CSV_API();
-            String currentPath = pairs.getValue().toString();
-
-
-            // there are headers
-            if (hasHeaders) {
-                // Read headers
-                this.logger.info("There are headers");
-                String[] headers = csv.getArrayOfHeadersCSV(currentPath);
-
-            } else {
-                this.logger.info("There are no headers");
-            }
-
-
-            try {
-                DatabaseTools dbt = new DatabaseTools();
 
                 Map<String, String> columnsMap = (dbt.getColumnNamesFromTableWithoutMetadataColumns(this
                         .currentTableName));
@@ -353,6 +266,9 @@ public class MigrationTasks {
                 migrate.updateDataInExistingDB(columnsMap, primaryKeyList, currentPath,
                         this.currentTableName, true,
                         calulateHashColumn);
+
+                // drop the checkColumn
+                //dbt.dropCheckColumnToTable(sessionTableName);
 
             } catch (Exception e) {
                 e.printStackTrace();
