@@ -84,6 +84,7 @@ public class UpdateFileController {
 
 
         }
+
     }
 
     /**
@@ -183,7 +184,7 @@ public class UpdateFileController {
     }
 
     private void displayMessage(String text, String details) {
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(details));
+        FacesContext.getCurrentInstance().addMessage("messages", new FacesMessage(details));
 
     }
 

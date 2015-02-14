@@ -178,6 +178,7 @@ public class CSV_API {
         for (int i = 0; i < headers.size(); i++) {
             headersWithNoSpaces.set(i, headers.get(i).replaceAll("^\\s+", "").replace(" ", "_"));
             headersWithNoSpaces.set(i, headers.get(i).replace("(", "_").replace(")", "_"));
+            headersWithNoSpaces.set(i, headers.get(i).replace("/", "_").replace("\\", "_"));
         }
         return headersWithNoSpaces;
 
