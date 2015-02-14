@@ -278,6 +278,7 @@ public class QueryStoreController implements Serializable {
             landingPageURI = pid.getURI();
         } else {
             Query q = (Query) this.queryStoreAPI.getQueryByResultSetHash(resultSetHash);
+            FacesContext.getCurrentInstance().addMessage("queryStoreMessage", new FacesMessage(FacesMessage.SEVERITY_INFO, "ResultSet Hash", "The same hash already exists"));
 
             String existingPID = this.queryStoreAPI.getQueryPID(q);
 
@@ -292,17 +293,11 @@ public class QueryStoreController implements Serializable {
                 PersistentIdentifierAlphaNumeric pidNew = this.pidAPI.getAlphaNumericPID(this.pidAPI.getOrganizationObjectByPrefix(user.getOrganizational_id()), landingPageURI);
                 query.setPID(pidNew.getIdentifier());
                 this.queryStoreAPI.persistQuery(query);
+                FacesContext.getCurrentInstance().addMessage("queryStoreMessage", new FacesMessage(FacesMessage.SEVERITY_WARN, "New identifier!", "The same query hash already existed. As the base data changed meanwhile, your subset gets a mew identifier."));
 
 
             }
 
-            FacesContext.getCurrentInstance().addMessage("queryStoreMessage", new FacesMessage(FacesMessage.SEVERITY_INFO, "ResultSet Hash", "The same hash already exists with PID " + existingPID));
-
-
-            if (this.queryStoreAPI.deleteQuery(this.query)) {
-                FacesContext.getCurrentInstance().addMessage("queryStoreMessage", new FacesMessage(FacesMessage.SEVERITY_WARN, "Query deleted", "Deleted this query as an identical one already exists"));
-
-            }
 
         }
 
