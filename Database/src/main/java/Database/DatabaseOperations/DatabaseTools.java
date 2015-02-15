@@ -1540,7 +1540,7 @@ public class DatabaseTools {
             preparedStatement.setInt(1, system_id);
             preparedStatement.setInt(2, 1);
 
-            this.logger.info(insertSQL);
+            this.logger.info("Marking Sequence Number: " + system_id + " SQL: " + insertSQL);
 
 
             int result = preparedStatement.executeUpdate();
@@ -1712,9 +1712,10 @@ public class DatabaseTools {
     private String recordExistsWhereClause(Map<String, String> columnsMap, List<String> csvRow) {
         int columnCounter = -1;
 
-        StringBuilder sb = new StringBuilder();
+        String whereString = "";
+
         String currentCheck = " WHERE ";
-        sb.append(currentCheck);
+        whereString += currentCheck;
 
         for (Map.Entry<String, String> entry : columnsMap.entrySet()) {
 
@@ -1725,24 +1726,25 @@ public class DatabaseTools {
             String csvRowValue = csvRow.get(columnCounter);
 
 
-            sb.append(columnNameInDB);
+            whereString += columnNameInDB;
 
             if (csvRowValue == null || csvRowValue.equals("null")) {
-                sb.append(" is null ");
-                sb.append(" AND ");
+                whereString += (" is null ");
+                whereString += (" AND ");
             } else {
-                sb.append("= \"" + csvRowValue + "\"");
-                sb.append(" AND ");
+                whereString += ("= \"" + csvRowValue + "\"");
+                whereString += (" AND ");
             }
 
 
         }
-        if (sb.toString().endsWith(" AND ")) {
+        if (whereString.endsWith(" AND ")) {
             this.logger.info("The WHERE string ends with AND ");
-            sb.setLength(sb.length() - " AND ".length());
+            whereString = whereString.substring(0, whereString.length() - " AND ".length());
+
 
         }
-        String whereClause = sb.toString();
+        String whereClause = whereString;
         this.logger.info("This is the WHERE string: " + whereClause);
         return whereClause;
 

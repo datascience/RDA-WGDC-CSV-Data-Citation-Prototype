@@ -711,7 +711,7 @@ public class MigrateCSV2SQL {
                     recordExists = this.dbtools.checkIfRecordExistsInTableByPrimaryKey(tableName, primaryKeyTableString,
                             csvRow.get(primaryKeyCSVColumnInt));
 
-                    this.dbtools.markRecordAsChecked(currentSequenceNumber, tableName);
+
 
 
                     // if the record exists, set the status to updated, reuse insert date and sequence number
@@ -744,6 +744,8 @@ public class MigrateCSV2SQL {
 
                     }
 
+                    this.dbtools.markRecordAsChecked(currentSequenceNumber, tableName);
+
 
                 }
 
@@ -755,7 +757,7 @@ public class MigrateCSV2SQL {
 
 
                     recordExists = this.dbtools.checkIfRecordExistsInTableByFullCompare(columnsMap, tableName, csvRow);
-                    this.dbtools.markRecordAsChecked(currentSequenceNumber, tableName);
+
 
                     if (recordExists) {
 
@@ -776,6 +778,7 @@ public class MigrateCSV2SQL {
 
                     }
 
+                    this.dbtools.markRecordAsChecked(currentSequenceNumber, tableName);
 
                 }
                 /*
