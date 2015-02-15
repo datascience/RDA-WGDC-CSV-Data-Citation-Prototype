@@ -727,6 +727,7 @@ public class MigrateCSV2SQL {
                                     primaryKeyTableString, csvRow.get(primaryKeyCSVColumnInt));
                             insertDateFromRecord = recordMetadata.getINSERT_DATE();
                             currentSequenceNumber = recordMetadata.getID_SYSTEM_SEQUENCE();
+                            this.dbtools.markRecordAsChecked(currentSequenceNumber, tableName);
                         }
 
 
@@ -737,6 +738,7 @@ public class MigrateCSV2SQL {
                         currentSequenceNumber = currentMaxSequenceNumber++;
                         updatedOrNewString = "inserted";
                         recordNeedsUpdate = true;
+                        this.dbtools.markRecordAsChecked(currentSequenceNumber, tableName);
                     }
 
 
@@ -759,10 +761,12 @@ public class MigrateCSV2SQL {
 
                         this.logger.info("The record exists, need to write UPDATED to sequence number: " +
                                 currentMaxSequenceNumber);
+                        this.dbtools.markRecordAsChecked(currentSequenceNumber, tableName);
                     } else {
                         // get the latest sequence number from the DB.
                         currentSequenceNumber = currentMaxSequenceNumber++;
                         updatedOrNewString = "inserted";
+                        this.dbtools.markRecordAsChecked(currentSequenceNumber, tableName);
                     }
 
 
@@ -839,9 +843,6 @@ public class MigrateCSV2SQL {
 
                     int statuscode = preparedStatement.executeUpdate();
 
-                    this.dbtools.markRecordAsChecked(currentSequenceNumber, tableName);
-
-
 
                     if (rowCount % 1000 == 0) {
                         connection.commit();
@@ -853,6 +854,8 @@ public class MigrateCSV2SQL {
                     System.out.println("Inserted " + rowCount + " rows in " + (totalTime / 1000) + " sec");
 
                 }
+
+
             }
 
 

@@ -1631,7 +1631,7 @@ public class DatabaseTools {
 
 
             stat = connection.createStatement();
-            String sql = "CREATE TABLE " + tempTableName + " ( `id` int(11) NOT NULL PRIMARY KEY, `recordChecked` tinyint(1) DEFAULT NULL)";
+            String sql = "CREATE TABLE " + tempTableName + " ( `id` int(11) NOT NULL, `recordChecked` tinyint(1) DEFAULT NULL)";
             this.logger.info(sql);
             stat.execute(sql);
             stat.close();

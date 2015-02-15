@@ -273,6 +273,8 @@ public class MigrationTasks {
                         calulateHashColumn);
 
 
+                dbTools.findAllRecordsWhichNeedToBeDeleted(this.currentTableName, tempTableName);
+
                 // drop the checkColumn
                 //dbt.dropCheckColumnToTable(sessionTableName);
 
