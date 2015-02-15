@@ -273,10 +273,14 @@ public class MigrationTasks {
                         calulateHashColumn);
 
 
-                dbTools.findAllRecordsWhichNeedToBeDeleted(this.currentTableName, tempTableName);
+                List<Integer> recordsToDelete = dbTools.findAllRecordsWhichNeedToBeDeleted(this.currentTableName, tempTableName);
+                dbTools.deleteMarkedRecords(recordsToDelete, this.currentTableName);
+
+                dbTools.dropCheckTable(this.currentTableName);
+
 
                 // drop the checkColumn
-                //dbt.dropCheckColumnToTable(sessionTableName);
+                //dbt.dropCheckTable(sessionTableName);
 
             } catch (Exception e) {
                 e.printStackTrace();

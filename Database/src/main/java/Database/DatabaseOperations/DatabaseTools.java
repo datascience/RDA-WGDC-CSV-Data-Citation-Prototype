@@ -1576,7 +1576,7 @@ public class DatabaseTools {
 
         Connection connection = null;
         PreparedStatement preparedStatement = null;
-        ArrayList<Integer> arrayList = new ArrayList<Integer>();
+        ArrayList<Integer> listOfRowsToDelete = new ArrayList<Integer>();
 
 
         int existsInteger = 0;
@@ -1593,11 +1593,13 @@ public class DatabaseTools {
             ResultSet rs = preparedStatement.executeQuery();
 
             while (rs.next()) {
-                arrayList.add(rs.getInt(1));
+                int rowToDelete = rs.getInt(1);
+                listOfRowsToDelete.add(rowToDelete);
+
             }
 
 
-            this.logger.info("Colums count: " + rs.getFetchSize());
+            this.logger.info("Colums count: " + listOfRowsToDelete.size());
 
             connection.close();
         } catch (SQLException e) {
@@ -1616,9 +1618,43 @@ public class DatabaseTools {
             }
         }
 
-        return arrayList;
+        return listOfRowsToDelete;
     }
 
+
+    public void deleteMarkedRecords(List<Integer> listOfRecordsToDelete, String tableName) {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        int existsInteger = 0;
+        try {
+            connection = this.getConnection();
+
+            for (int recordId : listOfRecordsToDelete) {
+                String deleteRecord = "UPDATE " + tableName + " SET RECORD_STATUS='deleted' WHERE ID_SYSTEM_SEQUENCE=?";
+                preparedStatement = connection.prepareStatement(deleteRecord);
+                preparedStatement.setInt(1, recordId);
+                preparedStatement.executeUpdate();
+
+            }
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (connection != null) {
+                    connection.close();
+                }
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+
+            } catch (SQLException sqlee) {
+                sqlee.printStackTrace();
+            }
+        }
+
+
+    }
 
     /*
     * When a user uploads a CSV file which has deleted records, the system needs to tick off which records have been considered so far. This method adds this column
@@ -1677,7 +1713,7 @@ public class DatabaseTools {
     /*
 * When a user uploads a CSV file which has deleted records, the system needs to tick off which records have been considered so far. This method removes this column
 * */
-    public void dropCheckColumnToTable(String tableName) {
+    public void dropCheckTable(String tableName) {
 
         Statement stat = null;
         Connection connection = null;
@@ -1685,7 +1721,7 @@ public class DatabaseTools {
             connection = this.getConnection();
 
             stat = connection.createStatement();
-            stat.execute("ALTER TABLE " + tableName + " DROP recordChecked");
+            stat.execute("DROP TABLE " + tableName + "_temp");
             stat.close();
 
         } catch (SQLException e) {
