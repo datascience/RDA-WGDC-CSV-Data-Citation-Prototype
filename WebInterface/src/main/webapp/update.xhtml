@@ -100,19 +100,23 @@
             </p:row>
             <p:row>
                 <p:column colspan="2">
-                <p:commandButton value="Update table." action
+                    <p:commandButton id="updateButton" value="Update table." action
                         ="#{updateFileController.updateTableData}">
                     </p:commandButton>
                 </p:column>
             </p:row>
             <p:row>
                 <p:column colspan="2">
-                    <p:commandButton value="View uploaded data" action="#{updateFileController.viewTable}"/>
+                    <p:commandButton action="table.xhtml?faces-redirect=true" value="View existing data"/>
                 </p:column>
 
             </p:row>
 
         </p:panelGrid>
+        <p:message id="updateMessage" for="uploadCommandForm:updateButton" showDetail="true" autoUpdate="true"
+                   closable="true"
+                   globalOnly="false" escape="false"/>
+
     </h:form>
 
 
