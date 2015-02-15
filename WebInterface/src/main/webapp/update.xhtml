@@ -116,6 +116,15 @@
         <p:message id="updateMessage" for="uploadCommandForm:updateButton" showDetail="true" autoUpdate="true"
                    closable="true"
                    globalOnly="false" escape="false"/>
+        <p:messages id="msgs"/>
+
+        <p:ajaxStatus style="display:block;margin-bottom:2em;height:36px;">
+
+            <f:facet name="start">
+                <p:graphicImage name="images/ajax-loader.gif"/>
+            </f:facet>
+
+        </p:ajaxStatus>
 
     </h:form>
 

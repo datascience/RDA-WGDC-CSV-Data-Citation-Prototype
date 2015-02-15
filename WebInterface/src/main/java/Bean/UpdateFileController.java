@@ -85,6 +85,11 @@ public class UpdateFileController {
                     this
                             .getCurrentDatabaseName(), this.isHeaderRow(), calulateHashColumn);
 
+            FacesContext context = FacesContext.getCurrentInstance();
+
+
+            FacesMessage msg = new FacesMessage("uploadCommandForm:messages", "Update done");
+
 
         }
 

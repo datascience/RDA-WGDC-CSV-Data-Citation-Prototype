@@ -350,11 +350,6 @@ public class LandingPageBean implements Serializable {
     }
 
     public void initPidRequest() {
-        this.availableBaseTables = this.retrieveBaseTablesFromDatabase();
-        String newBaseTable = this.availableBaseTables.get(0).getLabel();
-        if (newBaseTable != null) {
-            this.availableSubsets = this.retrieveSubsetsFromDatabase(newBaseTable);
-        }
 
 
         ;
