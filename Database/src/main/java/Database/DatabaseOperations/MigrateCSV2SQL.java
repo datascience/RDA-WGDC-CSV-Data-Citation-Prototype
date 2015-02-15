@@ -723,17 +723,21 @@ public class MigrateCSV2SQL {
                         boolean recordIsTheSame = this.dbtools.checkIfRecordExistsInTableByFullCompare(columnsMap,
                                 tableName, csvRow);
 
+                        RecordMetadata recordMetadata = this.dbtools.getMetadataFromRecord(tableName,
+                                primaryKeyTableString, csvRow.get(primaryKeyCSVColumnInt));
+
                         if (recordIsTheSame == false) {
                             recordNeedsUpdate = true;
                             updatedOrNewString = "updated";
-                            RecordMetadata recordMetadata = this.dbtools.getMetadataFromRecord(tableName,
-                                    primaryKeyTableString, csvRow.get(primaryKeyCSVColumnInt));
+
                             insertDateFromRecord = recordMetadata.getINSERT_DATE();
                             currentSequenceNumber = recordMetadata.getID_SYSTEM_SEQUENCE();
 
+                        } else {
+                            this.logger.info("Record did not change");
+                            currentSequenceNumber = recordMetadata.getID_SYSTEM_SEQUENCE();
+
                         }
-
-
                     }
                     // The record does not exist. Create a new one
                     else {
@@ -773,7 +777,7 @@ public class MigrateCSV2SQL {
 
                     } else {
                         // get the latest sequence number from the DB.
-                        currentSequenceNumber = currentMaxSequenceNumber++;
+                        currentSequenceNumber = currentMaxSequenceNumber + 1;
                         updatedOrNewString = "inserted";
 
                     }
