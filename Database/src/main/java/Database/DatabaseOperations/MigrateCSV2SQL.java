@@ -839,6 +839,9 @@ public class MigrateCSV2SQL {
 
                     int statuscode = preparedStatement.executeUpdate();
 
+                    this.dbtools.markRecordAsChecked(currentSequenceNumber, tableName);
+
+
 
                     if (rowCount % 1000 == 0) {
                         connection.commit();
@@ -865,5 +868,10 @@ public class MigrateCSV2SQL {
             reader.close();
 
         }
+    }
+
+    public void setMarkedRecordAsDeleted(String tableName, String tempTableName) {
+
+
     }
 }

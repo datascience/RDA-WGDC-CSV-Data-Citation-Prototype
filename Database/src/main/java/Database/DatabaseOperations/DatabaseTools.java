@@ -1524,25 +1524,27 @@ public class DatabaseTools {
     /*
 * Needed for updates. If a record existed or is newly inserted, mark it as existing
 * */
-    public boolean markRecordAsChecked(Map<String, String> columnsMap, String tableName,
-                                       List<String> csvRow) {
+    public void markRecordAsChecked(int system_id, String tableName) {
         Connection connection = null;
-        ResultSet maxSequenceResult = null;
-        Statement setCheckedColumn = null;
+        PreparedStatement preparedStatement = null;
+
+
         int existsInteger = 0;
         try {
             connection = this.getConnection();
 
+            String insertSQL = "INSERT INTO " + tableName + "_temp VALUES (?,?)";
+            preparedStatement = connection.prepareStatement(insertSQL);
+            preparedStatement.setInt(1, system_id);
+            preparedStatement.setInt(2, 1);
 
-            setCheckedColumn = connection.createStatement();
-            String checkSQL = "UPDATE " + connection.getCatalog() + "." + tableName + " SET recordChecked=1 " + this
-                    .recordExistsWhereClause
-                            (columnsMap,
-                                    csvRow);
+            this.logger.info(insertSQL);
 
-            this.logger.info("CHECK " + checkSQL);
 
-            setCheckedColumn.executeQuery(checkSQL);
+            int result = preparedStatement.executeUpdate();
+
+
+
 
             this.logger.info("Set the column for the record");
 
@@ -1554,44 +1556,82 @@ public class DatabaseTools {
                 if (connection != null) {
                     connection.close();
                 }
-                if (setCheckedColumn != null) {
-                    setCheckedColumn.close();
+                if (preparedStatement != null) {
+                    preparedStatement.close();
                 }
-                if (maxSequenceResult != null) {
-                    maxSequenceResult.close();
 
-
-                }
             } catch (SQLException sqlee) {
                 sqlee.printStackTrace();
             }
         }
 
 
-        if (existsInteger == 1) {
-            this.logger.info("The record exists via FULL compare");
-            return true;
-        } else {
-            this.logger.info("The record does NOT exist via FULL compare.");
-            return false;
+
+
+    }
+
+    public List<Integer> findAllRecordsWhichNeedToBeDeleted(String tableName, String tempTableName) {
+
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ArrayList<Integer> arrayList = new ArrayList<Integer>();
+
+
+        int existsInteger = 0;
+        try {
+            connection = this.getConnection();
+
+            String leftJoin = "SELECT orig.ID_SYSTEM_SEQUENCE FROM " + tableName + " AS orig" + " LEFT JOIN " + tempTableName + " AS temp ON orig.ID_SYSTEM_SEQUENCE=temp.id WHERE recordChecked IS NULL ORDER BY ID_SYSTEM_SEQUENCE";
+            preparedStatement = connection.prepareStatement(leftJoin);
+
+
+            this.logger.info(leftJoin);
+
+
+            ResultSet rs = preparedStatement.executeQuery();
+
+            while (rs.next()) {
+                arrayList.add(rs.getInt(1));
+            }
+
+
+            this.logger.info("Colums count: " + rs.getFetchSize());
+
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (connection != null) {
+                    connection.close();
+                }
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+
+            } catch (SQLException sqlee) {
+                sqlee.printStackTrace();
+            }
         }
 
-
+        return arrayList;
     }
 
 
     /*
     * When a user uploads a CSV file which has deleted records, the system needs to tick off which records have been considered so far. This method adds this column
     * */
-    public void addCheckColumnToTable(String tableName) {
+    public String createTemporaryCheckTable(String tableName) {
 
         Statement stat = null;
         Connection connection = null;
+        String tempTableName = tableName + "_temp";
         try {
             connection = this.getConnection();
 
+
             stat = connection.createStatement();
-            String sql = "ALTER TABLE " + tableName + " ADD recordChecked tinyint(1) DEFAULT NULL";
+            String sql = "CREATE TABLE " + tempTableName + " ( `id` int(11) NOT NULL PRIMARY KEY, `recordChecked` tinyint(1) DEFAULT NULL)";
             this.logger.info(sql);
             stat.execute(sql);
             stat.close();
@@ -1611,6 +1651,7 @@ public class DatabaseTools {
             }
         }
 
+        return tempTableName;
 
     }
 

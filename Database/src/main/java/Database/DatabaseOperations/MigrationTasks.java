@@ -249,8 +249,8 @@ public class MigrationTasks {
             try {
                 DatabaseTools dbTools = new DatabaseTools();
 
-                // add the check column
-                //   dbTools.addCheckColumnToTable(this.currentTableName);
+                // create temp check table
+                String tempTableName = dbTools.createTemporaryCheckTable(this.currentTableName);
 
 
                 Map<String, String> columnsMap = (dbTools.getColumnNamesFromTableWithoutMetadataColumns(this
@@ -271,6 +271,7 @@ public class MigrationTasks {
                 migrate.updateDataInExistingDB(columnsMap, primaryKeyList, currentPath,
                         this.currentTableName, true,
                         calulateHashColumn);
+
 
                 // drop the checkColumn
                 //dbt.dropCheckColumnToTable(sessionTableName);
