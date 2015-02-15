@@ -1485,8 +1485,10 @@ public class DatabaseTools {
             ;
             maxSequenceResult = checkRecordExistance.executeQuery(checkSQL);
             existsInteger = -1;
+
             if (maxSequenceResult.next()) {
                 existsInteger = maxSequenceResult.getInt("recordDoesExist");
+
             }
             connection.close();
         } catch (SQLException e) {
@@ -1623,18 +1625,38 @@ public class DatabaseTools {
     * */
     public String createTemporaryCheckTable(String tableName) {
 
-        Statement stat = null;
+
         Connection connection = null;
         String tempTableName = tableName + "_temp";
+
         try {
             connection = this.getConnection();
 
 
-            stat = connection.createStatement();
-            String sql = "CREATE TABLE " + tempTableName + " ( `id` int(11) NOT NULL, `recordChecked` tinyint(1) DEFAULT NULL)";
-            this.logger.info(sql);
-            stat.execute(sql);
-            stat.close();
+            DatabaseMetaData dbm = connection.getMetaData();
+            // check if temptable " table is there
+            ResultSet tables = dbm.getTables(null, null, tempTableName, null);
+            if (tables.next()) {
+                Statement dropStatement = null;
+                dropStatement = connection.createStatement();
+                String drop = "DROP TABLE " + tempTableName + " IF EXISTS";
+                this.logger.info(drop);
+                dropStatement.execute(drop);
+                connection.commit();
+                dropStatement.close();
+
+            }
+
+            connection = this.getConnection();
+            Statement createStat = connection.createStatement();
+
+
+            createStat = connection.createStatement();
+            String createSQL = "CREATE TABLE " + tempTableName + " ( `id` int(11) NOT NULL, `recordChecked` tinyint(1) DEFAULT NULL)";
+            this.logger.info(createSQL);
+            createStat.execute(createSQL);
+            createStat.close();
+
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -1642,9 +1664,6 @@ public class DatabaseTools {
             try {
                 if (connection != null) {
                     connection.close();
-                }
-                if (stat != null) {
-                    stat.close();
                 }
             } catch (SQLException sqlee) {
                 sqlee.printStackTrace();
@@ -1704,11 +1723,18 @@ public class DatabaseTools {
             String columnNameInDB = entry.getKey();
             String columnType = entry.getValue();
             String csvRowValue = csvRow.get(columnCounter);
-            this.logger.info("Compare -------------- : " + columnNameInDB + " " + columnType + " " + csvRowValue);
+
 
             sb.append(columnNameInDB);
-            sb.append("= \"" + csvRowValue + "\"");
-            sb.append(" AND ");
+
+            if (csvRowValue == null || csvRowValue.equals("null")) {
+                sb.append(" is null ");
+                sb.append(" AND ");
+            } else {
+                sb.append("= \"" + csvRowValue + "\"");
+                sb.append(" AND ");
+            }
+
 
         }
         if (sb.toString().endsWith(" AND ")) {

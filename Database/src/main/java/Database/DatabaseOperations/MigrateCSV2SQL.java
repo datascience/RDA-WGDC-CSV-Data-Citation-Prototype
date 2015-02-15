@@ -711,9 +711,12 @@ public class MigrateCSV2SQL {
                     recordExists = this.dbtools.checkIfRecordExistsInTableByPrimaryKey(tableName, primaryKeyTableString,
                             csvRow.get(primaryKeyCSVColumnInt));
 
+                    this.dbtools.markRecordAsChecked(currentSequenceNumber, tableName);
+
 
                     // if the record exists, set the status to updated, reuse insert date and sequence number
                     if (recordExists) {
+
 
 
                         // Check if the existing record is different.
@@ -727,7 +730,7 @@ public class MigrateCSV2SQL {
                                     primaryKeyTableString, csvRow.get(primaryKeyCSVColumnInt));
                             insertDateFromRecord = recordMetadata.getINSERT_DATE();
                             currentSequenceNumber = recordMetadata.getID_SYSTEM_SEQUENCE();
-                            this.dbtools.markRecordAsChecked(currentSequenceNumber, tableName);
+
                         }
 
 
@@ -738,7 +741,7 @@ public class MigrateCSV2SQL {
                         currentSequenceNumber = currentMaxSequenceNumber++;
                         updatedOrNewString = "inserted";
                         recordNeedsUpdate = true;
-                        this.dbtools.markRecordAsChecked(currentSequenceNumber, tableName);
+
                     }
 
 
@@ -750,8 +753,12 @@ public class MigrateCSV2SQL {
 
                 else {
 
+
                     recordExists = this.dbtools.checkIfRecordExistsInTableByFullCompare(columnsMap, tableName, csvRow);
+                    this.dbtools.markRecordAsChecked(currentSequenceNumber, tableName);
+
                     if (recordExists) {
+
 
                         updatedOrNewString = "updated";
                         RecordMetadata recordMetadata = this.dbtools.getMetadataFromRecordWithFullData(columnsMap,
@@ -761,12 +768,12 @@ public class MigrateCSV2SQL {
 
                         this.logger.info("The record exists, need to write UPDATED to sequence number: " +
                                 currentMaxSequenceNumber);
-                        this.dbtools.markRecordAsChecked(currentSequenceNumber, tableName);
+
                     } else {
                         // get the latest sequence number from the DB.
                         currentSequenceNumber = currentMaxSequenceNumber++;
                         updatedOrNewString = "inserted";
-                        this.dbtools.markRecordAsChecked(currentSequenceNumber, tableName);
+
                     }
 
 
