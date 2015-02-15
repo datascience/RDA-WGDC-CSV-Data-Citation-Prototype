@@ -592,6 +592,7 @@ public class MigrateCSV2SQL {
 
         Connection connection = this.getConnection();
 
+
         // This variable indicates whether the CSV file contains the primary key of the table or if only a
         // automaticly generated SYSTEM_ID is available.
         boolean primaryKeyCanBeDetected = false;
@@ -804,6 +805,7 @@ public class MigrateCSV2SQL {
 
 
                         }
+
                         // insert the hash
                         else if (columnCount == (numberOfColumns + 4) & calculateHashKeyColumn) {
 
@@ -826,6 +828,7 @@ public class MigrateCSV2SQL {
 
                         }
 
+
                         // if there is a hash column, then the last record state field has is at position +5
                         else if (columnCount == (numberOfColumns + 5) & calculateHashKeyColumn) {
                             preparedStatement.setString(columnCount, updatedOrNewString);
@@ -833,6 +836,7 @@ public class MigrateCSV2SQL {
                     }
 
                     this.logger.info("prepared statement before exec: " + preparedStatement.toString());
+
                     int statuscode = preparedStatement.executeUpdate();
 
 

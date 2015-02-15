@@ -1651,6 +1651,7 @@ public class DatabaseTools {
     * */
     private String recordExistsWhereClause(Map<String, String> columnsMap, List<String> csvRow) {
         int columnCounter = -1;
+
         StringBuilder sb = new StringBuilder();
         String currentCheck = " WHERE ";
         sb.append(currentCheck);

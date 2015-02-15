@@ -202,7 +202,9 @@ public class MigrationTasks {
     public void updateDataInExistingTable(HashMap inputFileMap, String sessionTableName, boolean
             hasHeaders, boolean calulateHashColumn) {
 
-        System.out.println("UPDATING data in an existing table ");
+        this.logger.info("UPDATING data in an existing table ");
+
+
 
         if (sessionTableName != null) {
             this.setCurrentTableName(sessionTableName);
@@ -245,10 +247,13 @@ public class MigrationTasks {
 
 
             try {
-                DatabaseTools dbt = new DatabaseTools();
+                DatabaseTools dbTools = new DatabaseTools();
+
+                // add the check column
+                //   dbTools.addCheckColumnToTable(this.currentTableName);
 
 
-                Map<String, String> columnsMap = (dbt.getColumnNamesFromTableWithoutMetadataColumns(this
+                Map<String, String> columnsMap = (dbTools.getColumnNamesFromTableWithoutMetadataColumns(this
                         .currentTableName));
 
 
@@ -258,7 +263,7 @@ public class MigrationTasks {
 
                 // get primary keys
 
-                List<String> primaryKeyList = dbt.getPrimaryKeyFromTable(this.currentTableName);
+                List<String> primaryKeyList = dbTools.getPrimaryKeyFromTable(this.currentTableName);
 
                 // Import CSV Data
                 //@todo move primary key as a new attribute into the column list
