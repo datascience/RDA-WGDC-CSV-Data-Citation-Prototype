@@ -134,9 +134,14 @@
                 <configuration>
                     <path>/pid</path>
                     <update>true</update>
+                    <!--
                     <url>http://localhost:8080/manager/text</url>
                     <username>admin</username>
                     <password>admin</password>
+                    -->
+                    <url>http://ate.ifs.tuwien.ac.at:8080/manager/text</url>
+                    <username>tcadm1</username>
+                    <password>tcadmate15</password>
                 </configuration>
 
             </plugin>

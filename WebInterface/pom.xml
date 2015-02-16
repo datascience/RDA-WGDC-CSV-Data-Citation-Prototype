@@ -19,6 +19,23 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <custom.deploy.HostName>ate.ifs.tuwien.ac.at</custom.deploy.HostName>
+        <custom.deploy.UserName>tcadm1</custom.deploy.UserName>
+        <custom.deploy.Password>tcadmate15</custom.deploy.Password>
+        
+        
+        
+        
+        <!-- <custom.deploy.HostName>localhost</custom.deploy.HostName>
+                <custom.deploy.UserName>admin</custom.deploy.UserName>
+        <custom.deploy.Password>admin</custom.deploy.Password>
+
+
+         
+         -->
+
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
     </properties>
 
     <dependencies>
@@ -175,9 +192,11 @@
                 <configuration>
                     <path>/cite</path>
                     <update>true</update>
-                    <url>http://localhost:8080/manager/text</url>
-                    <username>admin</username>
-                    <password>admin</password>
+
+                    <url>http://${custom.deploy.HostName}:8080/manager/text</url>
+                    <username>${custom.deploy.UserName}</username>
+                    <password>${custom.deploy.Password}</password>
+
                 </configuration>
 
             </plugin>
