@@ -12,7 +12,7 @@
         <property name="show_sql">true</property>
         <!--  drop the tables every time: create-drop -->
         <!--  use auto or update or create-drop -->
-        <property name="hibernate.hbm2ddl.auto">create-drop</property>
+        <property name="hibernate.hbm2ddl.auto">validate</property>
 
         <property name="hibernate.current_session_context_class">thread</property>
         <property name="format_sql">false</property>
