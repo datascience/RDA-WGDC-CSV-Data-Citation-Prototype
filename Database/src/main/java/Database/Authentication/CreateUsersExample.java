@@ -59,6 +59,12 @@ public class CreateUsersExample {
         api.addUser("user9", "firstname9", "lastname9", "user15", 12345);
         api.addUser("user10", "firstname10", "lastname10", "user15", 12345);
 
+        api.addUser("artur", "Artur", "Kulmukhametov", "artur15", 12345);
+        api.addUser("kresimir", "Kresimir", "Duretec", "kresimir15", 12345);
+        api.addUser("thomas", "Thomas", "Lidy", "thomas15", 12345);
+        api.addUser("david", "David", "Wang", "david15", 12345);
+        
+
         System.out.println("Done");
 
 

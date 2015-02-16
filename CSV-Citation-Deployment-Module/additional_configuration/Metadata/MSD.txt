@@ -1,0 +1,4 @@
+
+- Creator: Thierry Bertin-Mahieux, Daniel P.W. Ellis, Brian Whitman, and Paul Lamere
+- Title: The Million Song Dataset (MSD)
+- Description: The Million Song Dataset (ISMIR 2011) is a freely-available collection of audio features and metadata for a million contemporary popular music tracks. The core of the dataset is the feature analysis and metadata for one million songs, provided by The Echo Nest <http://the.echonest.com/>. The dataset does not include any audio, only the derived features. Homepage: http://labrosa.ee.columbia.edu/millionsong/

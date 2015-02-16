@@ -12,14 +12,15 @@
         <property name="show_sql">true</property>
         <!--  drop the tables every time: create-drop -->
         <!--  use auto or update or create-drop -->
-        <property name="hibernate.hbm2ddl.auto">create-drop</property>
-
+        <property name="hibernate.hbm2ddl.auto">validate</property>
+        <!-- <property name="hibernate.hbm2ddl.import_files">pid.initial_data.sql</property> -->
+        
         <property name="hibernate.current_session_context_class">thread</property>
         <property name="format_sql">false</property>
         <property name="use_sql_comments">false</property>
 
         <property name="hibernate.connection.autocommit">false</property>
-        <property name="hibernate.hbm2ddl.import_files">pid.initial_data.sql</property>
+        
 
 
         <property name="hibernate.jdbc.batch_size">20</property>
