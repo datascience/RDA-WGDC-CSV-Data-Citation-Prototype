@@ -142,6 +142,8 @@ public class HikariConnectionPool {
 
         config.addDataSourceProperty("minimumPoolSize", "20");
         config.addDataSourceProperty("maximumPoolSize", "250");
+        config.addDataSourceProperty("connectionTimeout", "60000");
+
 
         ds = new HikariDataSource(config);
 
