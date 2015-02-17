@@ -121,7 +121,36 @@
                     <h:outputText value="Suggested citation text:"/>
                     <h:outputText value="#{landingPageBean.metaSuggestedCitationString}"/>
 
+
+                    <h:form>
+                        <h:outputText value="Download subset as CSV file"/>
+                        <p:commandButton value="Download" ajax="false"
+                                         onclick="PrimeFaces.monitorDownload(start, stop);"
+                                         icon="ui-icon-arrowthick-1-s">
+                            <p:fileDownload value="#{downloadController.file}"/>
+                        </p:commandButton>
+                    </h:form>
+
+                    <p:dialog modal="true" widgetVar="statusDialog" header="Status" draggable="false" closable="false"
+                              resizable="false">
+                        <p:graphicImage name="images/ajaxloadingbar.gif"/>
+                    </p:dialog>
+
+
+                    <script type="text/javascript">
+                    function start() {
+                        PF('statusDialog').show();
+                    }
+
+                    function stop() {
+                        PF('statusDialog').hide();
+                    }
+
+                    </script>
+
+
                 </h:panelGrid>
+
 
             </p:panel>
         </h:form>
