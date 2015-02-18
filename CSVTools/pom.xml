@@ -53,7 +53,12 @@
             <artifactId>super-csv</artifactId>
             <version>2.2.0</version>
         </dependency>
-
+        <!-- open CSV -->
+        <dependency>
+            <groupId>net.sf.opencsv</groupId>
+            <artifactId>opencsv</artifactId>
+            <version>2.3</version>
+        </dependency>
 
     </dependencies>
     <build>

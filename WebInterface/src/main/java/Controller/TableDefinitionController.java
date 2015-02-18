@@ -150,7 +150,7 @@ public class TableDefinitionController implements Serializable {
         tDBean.setDataSetTitle(dataSetTitle);
         sm.updateTableDefinitionBean(tDBean);
 
-        FacesMessage msg = new FacesMessage("Succesful", "Data stored");
+        FacesMessage msg = new FacesMessage("Data stored", "Successfully");
         FacesContext.getCurrentInstance().addMessage(null, msg);
 
     }

@@ -100,6 +100,9 @@ public class LandingPageBean implements Serializable {
         Query query = queryAPI.getQueryByPID(this.selectedSubset);
         BaseTable baseTable = queryAPI.getBaseTableByTableNameOnly(this.selectedBaseTable);
         this.updateMetadataFields(query, baseTable);
+        SessionManager sm = new SessionManager();
+        sm.setLandingPageSelectedSubset(this.selectedSubset);
+        sm.setLandingPageSelectedParent(this.selectedBaseTable);
 
 
     }
@@ -381,6 +384,8 @@ public class LandingPageBean implements Serializable {
             } else {
                 BaseTable baseTable = query.getBaseTable();
                 this.updateMetadataFields(query, baseTable);
+                SessionManager sm = new SessionManager();
+                sm.setLandingPageSelectedSubset(requestPID);
             }
 
 

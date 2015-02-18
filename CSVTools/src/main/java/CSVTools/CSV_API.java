@@ -1,15 +1,20 @@
 package CSVTools;
 
 
+import au.com.bytecode.opencsv.CSVWriter;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.supercsv.io.CsvListReader;
 import org.supercsv.io.CsvListWriter;
 import org.supercsv.io.ICsvListReader;
 import org.supercsv.prefs.CsvPreference;
 
+import javax.sql.rowset.CachedRowSet;
 import java.io.*;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
 import java.util.*;
 import java.util.logging.Logger;
 
@@ -500,6 +505,37 @@ public class CSV_API {
         }
 
         return columns;
+    }
+
+    public void writeResultSetIntoCSVFile(CachedRowSet resultSet, String path) {
+
+
+
+        PrintWriter csvWriter = null;
+        try {
+            csvWriter = new PrintWriter(new File(path));
+
+            ResultSetMetaData meta = resultSet.getMetaData();
+            int numberOfColumns = meta.getColumnCount();
+            String dataHeaders = "\"" + meta.getColumnName(1) + "\"";
+            for (int i = 2; i < numberOfColumns + 1; i++) {
+                dataHeaders += ",\"" + meta.getColumnName(i) + "\"";
+            }
+            csvWriter.println(dataHeaders);
+            resultSet.beforeFirst();
+            while (resultSet.next()) {
+                String row = "\"" + resultSet.getString(1) + "\"";
+                for (int i = 2; i < numberOfColumns + 1; i++) {
+                    row += ",\"" + resultSet.getString(i) + "\"";
+                }
+                csvWriter.println(row);
+            }
+            csvWriter.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
 }

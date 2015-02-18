@@ -1051,6 +1051,7 @@ public class QueryStoreAPI {
 
     }
 
+
     /*
     * Query the database for all base tables
     * */
@@ -1146,6 +1147,60 @@ public class QueryStoreAPI {
 
 
     }
+
+    /*
+* Method returns all rows from one table for specific date based om query
+* */
+    public String getParentUnfilteredStringFromQuery(BaseTable baseTable, Date queryDate) {
+
+
+        DatabaseTools dbTools = new DatabaseTools();
+
+
+        String baseTableName = baseTable.getBaseTableName();
+
+        List<String> primaryKeyList = dbTools.getPrimaryKeyFromTable(baseTableName);
+        this.logger.info("Primary key list size: " + primaryKeyList.size());
+        String primaryKey = primaryKeyList.get(0);
+
+        Map<String, String> columnsMap = dbTools.getColumnNamesFromTableWithoutMetadataColumns(baseTableName);
+
+
+        String sqlString = "SELECT ";
+
+
+        for (Map.Entry<String, String> entry : columnsMap.entrySet()) {
+            String columnName = entry.getKey();
+            sqlString += "`outerGroup`.`" + columnName + "`,";
+        }
+
+        // remove last comma from string
+        if (sqlString.endsWith(",")) {
+            sqlString = sqlString.substring(0, sqlString.length() - 1);
+        }
+
+        sqlString += " FROM " + baseTableName;
+
+        // inner join
+
+        sqlString += "  AS outerGroup INNER JOIN " +
+                "    (SELECT " + primaryKey + ", max(LAST_UPDATE) AS mostRecent " +
+                "    FROM " +
+                baseTable.getBaseTableName() +
+                " AS innerSELECT " +
+                "    WHERE " +
+                "        (innerSELECT.RECORD_STATUS = 'inserted' " +
+                "            OR innerSELECT.RECORD_STATUS = 'updated'" + " AND innerSELECT.LAST_UPDATE<=\""
+                + this.convertJavaDateToMySQLTimeStamp(queryDate) + "\") GROUP BY " + primaryKey + ") innerGroup ON outerGroup." + primaryKey + " = innerGroup." + primaryKey + " " +
+                "        AND outerGroup.LAST_UPDATE = innerGroup.mostRecent ORDER BY outerGroup.ID_SYSTEM_SEQUENCE";
+
+
+        this.logger.info(sqlString);
+
+        return sqlString;
+
+    }
+
 
 
 

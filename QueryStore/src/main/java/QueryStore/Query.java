@@ -75,12 +75,9 @@ public class Query implements Serializable, TimeStamped {
     }
 
     public void setSelectedColumns(Map<Integer, String> selectedColumns) {
-        this.logger.info("Setting the selected columns.");
+
         if (selectedColumns != null) {
-            for (Map.Entry<Integer, String> entry : selectedColumns.entrySet()) {
-                this.logger.info("SET COL. : Selected columns Key: " + entry.getKey() + "  Value: " + entry.getValue()
-                        .toString());
-            }
+
             this.selectedColumns = selectedColumns;
         }
 
