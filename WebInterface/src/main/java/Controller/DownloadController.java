@@ -17,8 +17,7 @@
 package Controller;
 
 
-import java.io.InputStream;
-import java.io.Serializable;
+import java.io.*;
 import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
 import javax.servlet.ServletContext;
@@ -32,7 +31,16 @@ public class DownloadController implements Serializable {
     private StreamedContent file;
 
     public DownloadController() {
-        InputStream stream = ((ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext()).getResourceAsStream("images/optimus.jpg");
+        
+        //InputStream stream = ((ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext()).getResourceAsStream("images/optimus.jpg");
+        
+        InputStream stream = null;
+        try {
+            stream = new FileInputStream(new File("/tmp/test.csv"));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
         file = new DefaultStreamedContent(stream, "image/jpg", "downloaded_optimus.jpg");
     }
 

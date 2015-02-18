@@ -121,23 +121,16 @@
                     <h:outputText value="Suggested citation text:"/>
                     <h:outputText value="#{landingPageBean.metaSuggestedCitationString}"/>
 
+                       
 
-                    <h:form>
-                        <h:outputText value="Download subset as CSV file"/>
-                        <p:commandButton value="Download" ajax="false"
-                                         onclick="PrimeFaces.monitorDownload(start, stop);"
-                                         icon="ui-icon-arrowthick-1-s">
-                            <p:fileDownload value="#{downloadController.file}"/>
-                        </p:commandButton>
-                    </h:form>
-
-                    <p:dialog modal="true" widgetVar="statusDialog" header="Status" draggable="false" closable="false"
-                              resizable="false">
-                        <p:graphicImage name="images/ajaxloadingbar.gif"/>
-                    </p:dialog>
+                </h:panelGrid>
 
 
-                    <script type="text/javascript">
+            </p:panel>
+       </h:form>
+
+
+        <script type="text/javascript">
                     function start() {
                         PF('statusDialog').show();
                     }
@@ -146,14 +139,50 @@
                         PF('statusDialog').hide();
                     }
 
-                    </script>
+        </script>
 
 
-                </h:panelGrid>
+
+        <p:dialog modal="true" widgetVar="statusDialog" header="Status" draggable="false" closable="false"
+                  resizable="false">
+            <p:graphicImage name="images/ajaxloadingbar.gif"/>
+
+        </p:dialog>
+
+        <h:form>
+            <p:panel header="Download area" style="width: 1024px;">
+            <h:panelGrid  columns="2" cellpadding="10" columnClasses="column1,column2" style="width: 100%">
 
 
-            </p:panel>
+
+           
+                <h:outputText value="Download CSV file"/>
+                <p:commandButton value="Download" ajax="false"
+                                 onclick="PrimeFaces.monitorDownload(start, stop);"
+                                 icon="ui-icon-arrowthick-1-s">
+                    <p:fileDownload value="#{downloadController.file}"/>
+                </p:commandButton>
+                <h:outputText value="Download Diff CSV file"/>
+                <p:commandButton value="Download" ajax="false"
+                                 onclick="PrimeFaces.monitorDownload(start, stop);"
+                                 icon="ui-icon-arrowthick-1-s">
+                    <p:fileDownload value="#{downloadController.file}"/>
+                </p:commandButton>
+                <h:outputText value="Download Parent"/>
+                <p:commandButton value="Download" ajax="false"
+                                 onclick="PrimeFaces.monitorDownload(start, stop);"
+                                 icon="ui-icon-arrowthick-1-s">
+                    <p:fileDownload value="#{downloadController.file}"/>
+                </p:commandButton>
+                
+            </h:panelGrid>
+        </p:panel>
         </h:form>
+
+
+    
+
+
 
     </div>
 </h:body>
