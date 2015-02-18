@@ -18,14 +18,14 @@ package Controller;
 
 
 import java.io.*;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Logger;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.context.FacesContext;
 import javax.sql.rowset.CachedRowSet;
 
 import Bean.SessionManager;
-import Bean.TableDefinitionBean;
 import CSVTools.CSV_API;
 import Database.DatabaseOperations.DatabaseTools;
 import Database.DatabaseOperations.ResultSetMetadata;
@@ -40,6 +40,7 @@ public class DownloadController implements Serializable {
     private final Logger logger;
     private StreamedContent downloadCSVFile;
     private String csvFilePath;
+    private StreamedContent downloadParentCSVFile;
 
     public DownloadController() {
         this.logger = Logger.getLogger(this.getClass().getName());
@@ -53,27 +54,65 @@ public class DownloadController implements Serializable {
 
         InputStream stream = null;
         String fileName = this.getCsvFilePath();
-        try {
-            stream = new FileInputStream(new File(fileName));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
+
+        if (fileName != null) {
+            try {
+                stream = new FileInputStream(new File(fileName));
+                downloadCSVFile = new DefaultStreamedContent(stream, "text/csv", fileName);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+
+
+            return downloadCSVFile;
+        } else {
+            this.displayMessage("There was an error!", "Did you select a subset?");
+            return null;
+
         }
 
-        downloadCSVFile = new DefaultStreamedContent(stream, "text/csv", fileName);
-        return downloadCSVFile;
     }
 
-    public String subsetCSVAction() {
+    public void subsetCSVAction() {
         this.logger.info("CSV Subset Action");
         SessionManager sm = new SessionManager();
         String subsetPID = sm.getLandingPageSelectedSubset();
         this.logger.info("Retrieving data for: " + subsetPID);
-        String filename = "";
+
 
         QueryStoreAPI queryAPI = new QueryStoreAPI();
         Query query = queryAPI.getQueryByPID(subsetPID);
 
+        this.writeCSVFileFromReexecutedQuery(query);
 
+    }
+
+    public void parentCSVAction() {
+        this.logger.info("CSV Subset Action");
+        SessionManager sm = new SessionManager();
+        String parentPID = sm.getLandingPageSelectedParent();
+        this.logger.info("Retrieving data for: " + parentPID);
+
+
+//        this.writeCSVFileFromReexecutedQuery(query);
+
+    }
+
+
+
+    public String getCsvFilePath() {
+        return csvFilePath;
+    }
+
+    public void setCsvFilePath(String csvFilePath) {
+        this.csvFilePath = csvFilePath;
+    }
+
+    private String writeCSVFileFromReexecutedQuery(Query query) {
+
+
+        String filename = null;
+        SessionManager sm = new SessionManager();
         if (query != null) {
             DatabaseTools dbTools = new DatabaseTools();
             String reExecuteSQLString = query.getQueryString();
@@ -96,21 +135,33 @@ public class DownloadController implements Serializable {
             CSV_API csvAPI = new CSV_API();
             String baseDatabase = query.getBaseTable().getBaseDatabase();
             String baseTableName = query.getBaseTable().getBaseTableName();
-            filename = baseDatabase + "_" + baseTableName + "_" + subsetPID.replace("/", "-") + ".csv";
+            filename = baseDatabase + "_" + baseTableName + "_" + query.getPID().replace("/", "-") + ".csv";
 
             csvAPI.writeResultSetIntoCSVFile(resultSet, filename);
 
+            this.setCsvFilePath(filename);
+
 
         }
-        this.setCsvFilePath(filename);
         return filename;
     }
 
-    public String getCsvFilePath() {
-        return csvFilePath;
+    public StreamedContent getDownloadParentCSVFile() {
+
+        return downloadParentCSVFile;
     }
 
-    public void setCsvFilePath(String csvFilePath) {
-        this.csvFilePath = csvFilePath;
+    public void setDownloadParentCSVFile(StreamedContent downloadParentCSVFile) {
+        this.downloadParentCSVFile = downloadParentCSVFile;
+    }
+
+    public void diffSetAction() {
+        this.displayMessage("Differential CSV", "Not yet implemented ;-)");
+
+    }
+
+    private void displayMessage(String titleString, String message) {
+        FacesMessage msg = new FacesMessage(titleString, message);
+        FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 }

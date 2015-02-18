@@ -142,7 +142,7 @@
         </script>
 
 
-
+        <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" globalOnly="true"/>
         <p:dialog modal="true" widgetVar="statusDialog" header="Status" draggable="false" closable="false"
                   resizable="false">
             <p:graphicImage name="ajaxloadingbar.gif"/>
@@ -165,16 +165,15 @@
                 </p:commandButton>
 
                 <h:outputText value="Download Diff CSV file"/>
-                <p:commandButton value="Download" ajax="false"
-                                 onclick="PrimeFaces.monitorDownload(start, stop);"
-                                 icon="ui-icon-arrowthick-1-s">
-                    <p:fileDownload value="#{downloadController.file}"/>
+                <p:commandButton value="Download" actionListener="#{downloadController.diffSetAction}">
+
                 </p:commandButton>
                 <h:outputText value="Download Parent"/>
                 <p:commandButton value="Download" ajax="false"
                                  onclick="PrimeFaces.monitorDownload(start, stop);"
+                                 actionListener="#{downloadController.parentCSVAction}"
                                  icon="ui-icon-arrowthick-1-s">
-                    <p:fileDownload value="#{downloadController.file}"/>
+                    <p:fileDownload value="#{downloadController.downloadParentCSVFile}"/>
                 </p:commandButton>
                 
             </h:panelGrid>

@@ -102,6 +102,7 @@ public class LandingPageBean implements Serializable {
         this.updateMetadataFields(query, baseTable);
         SessionManager sm = new SessionManager();
         sm.setLandingPageSelectedSubset(this.selectedSubset);
+        sm.setLandingPageSelectedParent(this.selectedBaseTable);
 
 
     }

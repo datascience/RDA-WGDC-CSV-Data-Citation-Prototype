@@ -42,6 +42,7 @@ public class SessionManager {
     private TableDefinitionBean tableDefinitionBean = null;
     private int rowCount;
     private String landingPageSelectedSubset;
+    private String landingPageSelectedParent;
 
 
 
@@ -406,6 +407,19 @@ public class SessionManager {
     public void setLandingPageSelectedSubset(String landingPageSelectedSubset) {
         Map<String, Object> sessionMAP = this.getSessionMap();
         sessionMAP.put("landingPageSelectedSubset", landingPageSelectedSubset);
+        this.landingPageSelectedSubset = landingPageSelectedSubset;
+    }
+
+    public String getLandingPageSelectedParent() {
+        Map<String, Object> sessionMAP = this.getSessionMap();
+
+        String landingPageSelectedSubset = (String) sessionMAP.get("landingPageSelectedParent");
+        return landingPageSelectedSubset;
+    }
+
+    public void setLandingPageSelectedParent(String landingPageSelectedParent) {
+        Map<String, Object> sessionMAP = this.getSessionMap();
+        sessionMAP.put("landingPageSelectedParent", landingPageSelectedParent);
         this.landingPageSelectedSubset = landingPageSelectedSubset;
     }
 }
