@@ -41,6 +41,7 @@ public class DownloadController implements Serializable {
     private final Logger logger;
     private StreamedContent downloadCSVFile;
     private String csvFilePath;
+    private String parentCSVPath;
     private StreamedContent downloadParentCSVFile;
 
     public DownloadController() {
@@ -96,7 +97,7 @@ public class DownloadController implements Serializable {
         this.logger.info("Retrieving data for: " + parentPID);
         String selectedSubset = sm.getLandingPageSelectedSubset();
         QueryStoreAPI queryStoreAPI = new QueryStoreAPI();
-        BaseTable baseTable = queryStoreAPI.getBaseTableByPID(parentPID);
+        BaseTable baseTable = queryStoreAPI.getBaseTableByTableNameOnly(parentPID);
 
         DatabaseTools dbTools = new DatabaseTools();
 
@@ -129,7 +130,7 @@ public class DownloadController implements Serializable {
 
         csvAPI.writeResultSetIntoCSVFile(cachedRowset, filename);
 
-        this.setCsvFilePath(filename);
+        this.setParentCSVPath(filename);
 
     }
 
@@ -183,7 +184,28 @@ public class DownloadController implements Serializable {
 
     public StreamedContent getDownloadParentCSVFile() {
 
-        return downloadParentCSVFile;
+        //InputStream stream = ((ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext()).getResourceAsStream("images/optimus.jpg");
+
+        InputStream stream = null;
+        String fileName = this.getParentCSVPath();
+
+        if (fileName != null) {
+            try {
+                stream = new FileInputStream(new File(fileName));
+                downloadCSVFile = new DefaultStreamedContent(stream, "text/csv", fileName);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+
+
+            return downloadCSVFile;
+        } else {
+            this.displayMessage("There was an error!", "Did you select a subset?");
+            return null;
+
+        }
+
+
     }
 
     public void setDownloadParentCSVFile(StreamedContent downloadParentCSVFile) {
@@ -198,5 +220,13 @@ public class DownloadController implements Serializable {
     private void displayMessage(String titleString, String message) {
         FacesMessage msg = new FacesMessage(titleString, message);
         FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
+
+    public String getParentCSVPath() {
+        return parentCSVPath;
+    }
+
+    public void setParentCSVPath(String parentCSVPath) {
+        this.parentCSVPath = parentCSVPath;
     }
 }

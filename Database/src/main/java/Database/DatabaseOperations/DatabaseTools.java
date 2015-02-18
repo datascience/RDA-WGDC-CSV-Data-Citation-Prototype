@@ -1917,6 +1917,7 @@ public class DatabaseTools {
             stat = connection.createStatement();
 
             sortedResultSet = stat.executeQuery(queryString);
+
             cachedResultSet = new CachedRowSetImpl();
             cachedResultSet.populate(sortedResultSet);
 

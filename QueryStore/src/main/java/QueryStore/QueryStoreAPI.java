@@ -1192,7 +1192,7 @@ public class QueryStoreAPI {
                 "        (innerSELECT.RECORD_STATUS = 'inserted' " +
                 "            OR innerSELECT.RECORD_STATUS = 'updated'" + " AND innerSELECT.LAST_UPDATE<=\""
                 + this.convertJavaDateToMySQLTimeStamp(queryDate) + "\") GROUP BY " + primaryKey + ") innerGroup ON outerGroup." + primaryKey + " = innerGroup." + primaryKey + " " +
-                "        AND outerGroup.LAST_UPDATE = innerGroup.mostRecent ORDER BY outerGroup.SYSTEM_SEQUENCE_NUMBER";
+                "        AND outerGroup.LAST_UPDATE = innerGroup.mostRecent ORDER BY outerGroup.ID_SYSTEM_SEQUENCE";
 
 
         this.logger.info(sqlString);

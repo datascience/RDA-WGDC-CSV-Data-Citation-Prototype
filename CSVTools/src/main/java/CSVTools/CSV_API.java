@@ -508,26 +508,7 @@ public class CSV_API {
     }
 
     public void writeResultSetIntoCSVFile(CachedRowSet resultSet, String path) {
-        /*
-        try {
-            resultSet.beforeFirst();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
 
-        try {
-            CSVWriter csvWriter = new CSVWriter(new FileWriter(path), '\t');
-            this.logger.info(" CSV API size: "+ resultSet.size());
-            csvWriter.writeAll(resultSet, true);
-            this.logger.info("Wrote CSV file to : " + path
-            );
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-    */
 
 
         PrintWriter csvWriter = null;
