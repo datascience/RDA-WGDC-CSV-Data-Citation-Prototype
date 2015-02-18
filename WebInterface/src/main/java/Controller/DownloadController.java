@@ -39,6 +39,7 @@ public class DownloadController implements Serializable {
 
     private final Logger logger;
     private StreamedContent downloadCSVFile;
+    private String csvFilePath;
 
     public DownloadController() {
         this.logger = Logger.getLogger(this.getClass().getName());
@@ -51,21 +52,23 @@ public class DownloadController implements Serializable {
         //InputStream stream = ((ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext()).getResourceAsStream("images/optimus.jpg");
 
         InputStream stream = null;
+        String fileName = this.getCsvFilePath();
         try {
-            stream = new FileInputStream(new File("/tmp/test.csv"));
+            stream = new FileInputStream(new File(fileName));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
 
-        downloadCSVFile = new DefaultStreamedContent(stream, "image/jpg", "downloaded_optimus.jpg");
+        downloadCSVFile = new DefaultStreamedContent(stream, "text/csv", fileName);
         return downloadCSVFile;
     }
 
-    public void subsetCSVAction() {
+    public String subsetCSVAction() {
         this.logger.info("CSV Subset Action");
         SessionManager sm = new SessionManager();
         String subsetPID = sm.getLandingPageSelectedSubset();
         this.logger.info("Retrieving data for: " + subsetPID);
+        String filename = "";
 
         QueryStoreAPI queryAPI = new QueryStoreAPI();
         Query query = queryAPI.getQueryByPID(subsetPID);
@@ -93,10 +96,21 @@ public class DownloadController implements Serializable {
             CSV_API csvAPI = new CSV_API();
             String baseDatabase = query.getBaseTable().getBaseDatabase();
             String baseTableName = query.getBaseTable().getBaseTableName();
-            String filename = baseDatabase + "_" + baseTableName + "_" + subsetPID.replace("/", "-") + ".csv";
+            filename = baseDatabase + "_" + baseTableName + "_" + subsetPID.replace("/", "-") + ".csv";
 
             csvAPI.writeResultSetIntoCSVFile(resultSet, filename);
+
+
         }
+        this.setCsvFilePath(filename);
+        return filename;
     }
 
+    public String getCsvFilePath() {
+        return csvFilePath;
+    }
+
+    public void setCsvFilePath(String csvFilePath) {
+        this.csvFilePath = csvFilePath;
+    }
 }
