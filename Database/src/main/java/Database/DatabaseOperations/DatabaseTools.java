@@ -1902,11 +1902,11 @@ public class DatabaseTools {
     }
 
 
-    public ResultSet reExecuteQuery(String queryString) {
+    public CachedRowSet reExecuteQuery(String queryString) {
         Statement stat = null;
         Connection connection = null;
         ResultSet sortedResultSet = null;
-
+        CachedRowSet cachedResultSet = null;
         try {
             connection = this.getConnection();
 
@@ -1914,6 +1914,9 @@ public class DatabaseTools {
             stat = connection.createStatement();
 
             sortedResultSet = stat.executeQuery(queryString);
+            cachedResultSet = new CachedRowSetImpl();
+            cachedResultSet.populate(sortedResultSet);
+
 
 
             this.resultSetMetadata.setRowCount(this.getResultSetRowCount(sortedResultSet));
@@ -1937,7 +1940,8 @@ public class DatabaseTools {
             }
         }
 
-        return sortedResultSet;
+
+        return cachedResultSet;
 
 
     }

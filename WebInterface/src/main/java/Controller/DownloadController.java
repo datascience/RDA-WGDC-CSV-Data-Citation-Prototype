@@ -19,11 +19,14 @@ package Controller;
 
 import java.io.*;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.logging.Logger;
 import javax.faces.bean.ManagedBean;
+import javax.sql.rowset.CachedRowSet;
 
 import Bean.SessionManager;
 import Bean.TableDefinitionBean;
+import CSVTools.CSV_API;
 import Database.DatabaseOperations.DatabaseTools;
 import Database.DatabaseOperations.ResultSetMetadata;
 import QueryStore.Query;
@@ -69,15 +72,28 @@ public class DownloadController implements Serializable {
 
         if (query != null) {
             DatabaseTools dbTools = new DatabaseTools();
+            String reExecuteSQLString = query.getQueryString();
+            CachedRowSet resultSet = dbTools.reExecuteQuery(reExecuteSQLString);
 
-            ResultSet resultSet = dbTools.reExecuteQuery(query.getQueryString());
+            try {
+
+                while (resultSet.next()) {
+                    this.logger.info(resultSet.getString(1));
+
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
             ResultSetMetadata rsMetaData = dbTools.getResultSetMetadata();
 
+            this.logger.info("Re-executing: " + reExecuteSQLString);
             this.logger.info("Retrieved " + rsMetaData.getRowCount() + " row from reexecuted dataset.");
+
+            CSV_API csvAPI = new CSV_API();
+            String filename = subsetPID.replace("/", "-") + ".csv";
+
+            csvAPI.writeResultSetIntoCSVFile(resultSet, filename);
         }
-
-
-
-
     }
+
 }
