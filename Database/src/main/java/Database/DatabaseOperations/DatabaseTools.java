@@ -26,6 +26,8 @@ public class DatabaseTools {
     private String tableName;
     private Logger logger;
     private HikariConnectionPool pool;
+    private ResultSetMetadata resultSetMetadata;
+
 
 
     /**
@@ -37,6 +39,8 @@ public class DatabaseTools {
      */
     public DatabaseTools() {
         this.logger = Logger.getLogger(this.getClass().getName());
+        this.resultSetMetadata = new ResultSetMetadata();
+
 
 
     }
@@ -1898,4 +1902,65 @@ public class DatabaseTools {
     }
 
 
+    public ResultSet reExecuteQuery(String queryString) {
+        Statement stat = null;
+        Connection connection = null;
+        ResultSet sortedResultSet = null;
+
+        try {
+            connection = this.getConnection();
+
+
+            stat = connection.createStatement();
+
+            sortedResultSet = stat.executeQuery(queryString);
+
+
+            this.resultSetMetadata.setRowCount(this.getResultSetRowCount(sortedResultSet));
+
+
+            stat.close();
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+
+        } finally {
+            try {
+                if (connection != null) {
+                    connection.close();
+                }
+                if (stat != null) {
+                    stat.close();
+                }
+            } catch (SQLException sqlee) {
+                sqlee.printStackTrace();
+            }
+        }
+
+        return sortedResultSet;
+
+
+    }
+
+
+    private int getResultSetRowCount(ResultSet rs) {
+        int size = 0;
+        try {
+            rs.last();
+            size = rs.getRow();
+            rs.beforeFirst();
+        } catch (Exception ex) {
+            return 0;
+        }
+        return size;
+
+    }
+
+    public ResultSetMetadata getResultSetMetadata() {
+        return resultSetMetadata;
+    }
+
+    public void setResultSetMetadata(ResultSetMetadata resultSetMetadata) {
+        this.resultSetMetadata = resultSetMetadata;
+    }
 }

@@ -18,11 +18,16 @@ package Controller;
 
 
 import java.io.*;
+import java.sql.ResultSet;
 import java.util.logging.Logger;
 import javax.faces.bean.ManagedBean;
 
 import Bean.SessionManager;
 import Bean.TableDefinitionBean;
+import Database.DatabaseOperations.DatabaseTools;
+import Database.DatabaseOperations.ResultSetMetadata;
+import QueryStore.Query;
+import QueryStore.QueryStoreAPI;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 
@@ -58,6 +63,20 @@ public class DownloadController implements Serializable {
         SessionManager sm = new SessionManager();
         String subsetPID = sm.getLandingPageSelectedSubset();
         this.logger.info("Retrieving data for: " + subsetPID);
+
+        QueryStoreAPI queryAPI = new QueryStoreAPI();
+        Query query = queryAPI.getQueryByPID(subsetPID);
+
+        if (query != null) {
+            DatabaseTools dbTools = new DatabaseTools();
+
+            ResultSet resultSet = dbTools.reExecuteQuery(query.getQueryString());
+            ResultSetMetadata rsMetaData = dbTools.getResultSetMetadata();
+
+            this.logger.info("Retrieved " + rsMetaData.getRowCount() + " row from reexecuted dataset.");
+        }
+
+
 
 
     }
