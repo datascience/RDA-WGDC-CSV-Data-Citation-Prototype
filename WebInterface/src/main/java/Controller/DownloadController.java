@@ -70,6 +70,7 @@ public class DownloadController implements Serializable {
         QueryStoreAPI queryAPI = new QueryStoreAPI();
         Query query = queryAPI.getQueryByPID(subsetPID);
 
+
         if (query != null) {
             DatabaseTools dbTools = new DatabaseTools();
             String reExecuteSQLString = query.getQueryString();
@@ -90,7 +91,9 @@ public class DownloadController implements Serializable {
             this.logger.info("Retrieved " + rsMetaData.getRowCount() + " row from reexecuted dataset.");
 
             CSV_API csvAPI = new CSV_API();
-            String filename = subsetPID.replace("/", "-") + ".csv";
+            String baseDatabase = query.getBaseTable().getBaseDatabase();
+            String baseTableName = query.getBaseTable().getBaseTableName();
+            String filename = baseDatabase + "_" + baseTableName + "_" + subsetPID.replace("/", "-") + ".csv";
 
             csvAPI.writeResultSetIntoCSVFile(resultSet, filename);
         }
