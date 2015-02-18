@@ -1902,6 +1902,9 @@ public class DatabaseTools {
     }
 
 
+    /*
+    * Re-Execute a query
+    * */
     public CachedRowSet reExecuteQuery(String queryString) {
         Statement stat = null;
         Connection connection = null;

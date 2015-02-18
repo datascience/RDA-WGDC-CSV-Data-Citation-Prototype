@@ -29,6 +29,7 @@ import Bean.SessionManager;
 import CSVTools.CSV_API;
 import Database.DatabaseOperations.DatabaseTools;
 import Database.DatabaseOperations.ResultSetMetadata;
+import QueryStore.BaseTable;
 import QueryStore.Query;
 import QueryStore.QueryStoreAPI;
 import org.primefaces.model.DefaultStreamedContent;
@@ -83,7 +84,7 @@ public class DownloadController implements Serializable {
         QueryStoreAPI queryAPI = new QueryStoreAPI();
         Query query = queryAPI.getQueryByPID(subsetPID);
 
-        this.writeCSVFileFromReexecutedQuery(query);
+        this.getResultSetFromQuery(query);
 
     }
 
@@ -91,10 +92,25 @@ public class DownloadController implements Serializable {
         this.logger.info("CSV Subset Action");
         SessionManager sm = new SessionManager();
         String parentPID = sm.getLandingPageSelectedParent();
+
         this.logger.info("Retrieving data for: " + parentPID);
+        String selectedSubset = sm.getLandingPageSelectedSubset();
+        QueryStoreAPI queryStoreAPI = new QueryStoreAPI();
+        BaseTable baseTable = queryStoreAPI.getBaseTableByPID(parentPID);
+
+        DatabaseTools dbTools = new DatabaseTools();
+
+        if (selectedSubset != null) {
+
+            Query query = queryStoreAPI.getQueryByPID(selectedSubset);
+            String baseTableQueryString = queryStoreAPI.getParentUnfilteredStringFromQuery(baseTable, query.getExecution_timestamp());
+            CachedRowSet resultSet = dbTools.reExecuteQuery(baseTableQueryString);
+
+            this.getResultSetFromQuery(resultSet);
+        }
 
 
-//        this.writeCSVFileFromReexecutedQuery(query);
+//        this.getResultSetFromQuery(query);
 
     }
 
@@ -108,7 +124,7 @@ public class DownloadController implements Serializable {
         this.csvFilePath = csvFilePath;
     }
 
-    private String writeCSVFileFromReexecutedQuery(Query query) {
+    private String getResultSetFromQuery(Query query) {
 
 
         String filename = null;
