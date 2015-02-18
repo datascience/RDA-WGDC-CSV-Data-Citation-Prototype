@@ -106,11 +106,30 @@ public class DownloadController implements Serializable {
             String baseTableQueryString = queryStoreAPI.getParentUnfilteredStringFromQuery(baseTable, query.getExecution_timestamp());
             CachedRowSet resultSet = dbTools.reExecuteQuery(baseTableQueryString);
 
-            this.getResultSetFromQuery(resultSet);
+            this.writeParentCSV(resultSet, query.getExecution_timestamp().toString());
         }
 
 
 //        this.getResultSetFromQuery(query);
+
+    }
+
+    private void writeParentCSV(CachedRowSet cachedRowset, String baseTableName) {
+
+        DatabaseTools dbTools = new DatabaseTools();
+
+        ResultSetMetadata rsMetaData = dbTools.getResultSetMetadata();
+
+
+        this.logger.info("Retrieved " + rsMetaData.getRowCount() + " row from reexecuted dataset.");
+
+        CSV_API csvAPI = new CSV_API();
+
+        String filename = baseTableName + ".csv";
+
+        csvAPI.writeResultSetIntoCSVFile(cachedRowset, filename);
+
+        this.setCsvFilePath(filename);
 
     }
 
