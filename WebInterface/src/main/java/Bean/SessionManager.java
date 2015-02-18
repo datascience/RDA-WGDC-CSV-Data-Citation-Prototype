@@ -41,6 +41,8 @@ public class SessionManager {
     private Map<String, Object> sessionMap = null;
     private TableDefinitionBean tableDefinitionBean = null;
     private int rowCount;
+    private String landingPageSelectedSubset;
+
 
 
     public SessionManager() {
@@ -336,6 +338,7 @@ public class SessionManager {
 
     }
 
+
     public void updateTableDefinitionBean(String dataSetAuthor, String databaseName, String tableName, String dataSetDescription, int
             orgId) {
 
@@ -393,8 +396,17 @@ public class SessionManager {
         return rowCount;
     }
 
-    public void setRowCount(int rowCount) {
+    public String getLandingPageSelectedSubset() {
+        Map<String, Object> sessionMAP = this.getSessionMap();
 
+        String landingPageSelectedSubset = (String) sessionMAP.get("landingPageSelectedSubset");
+        return landingPageSelectedSubset;
+    }
+
+    public void setLandingPageSelectedSubset(String landingPageSelectedSubset) {
+        Map<String, Object> sessionMAP = this.getSessionMap();
+        sessionMAP.put("landingPageSelectedSubset", landingPageSelectedSubset);
+        this.landingPageSelectedSubset = landingPageSelectedSubset;
     }
 }
 

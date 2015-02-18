@@ -18,22 +18,30 @@ package Controller;
 
 
 import java.io.*;
+import java.util.logging.Logger;
 import javax.faces.bean.ManagedBean;
-import javax.faces.context.FacesContext;
-import javax.servlet.ServletContext;
 
+import Bean.SessionManager;
+import Bean.TableDefinitionBean;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 
 @ManagedBean
 public class DownloadController implements Serializable {
 
-    private StreamedContent file;
+    private final Logger logger;
+    private StreamedContent downloadCSVFile;
 
     public DownloadController() {
-        
+        this.logger = Logger.getLogger(this.getClass().getName());
+        this.logger.info("Download Controller");
+
+    }
+
+    public StreamedContent getDownloadCSVFile() {
+
         //InputStream stream = ((ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext()).getResourceAsStream("images/optimus.jpg");
-        
+
         InputStream stream = null;
         try {
             stream = new FileInputStream(new File("/tmp/test.csv"));
@@ -41,10 +49,16 @@ public class DownloadController implements Serializable {
             e.printStackTrace();
         }
 
-        file = new DefaultStreamedContent(stream, "image/jpg", "downloaded_optimus.jpg");
+        downloadCSVFile = new DefaultStreamedContent(stream, "image/jpg", "downloaded_optimus.jpg");
+        return downloadCSVFile;
     }
 
-    public StreamedContent getFile() {
-        return file;
+    public void subsetCSVAction() {
+        this.logger.info("CSV Subset Action");
+        SessionManager sm = new SessionManager();
+        String subsetPID = sm.getLandingPageSelectedSubset();
+        this.logger.info("Retrieving data for: " + subsetPID);
+
+
     }
 }

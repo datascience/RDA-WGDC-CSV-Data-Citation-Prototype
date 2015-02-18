@@ -158,10 +158,12 @@
            
                 <h:outputText value="Download CSV file"/>
                 <p:commandButton value="Download" ajax="false"
-                                 onclick="PrimeFaces.monitorDownload(start, stop);"
+                                 onclick="PrimeFaces.monitorDownload(start, stop)"
+                                 actionListener="#{downloadController.subsetCSVAction}"
                                  icon="ui-icon-arrowthick-1-s">
-                    <p:fileDownload value="#{downloadController.file}"/>
+                    <p:fileDownload value="#{downloadController.downloadCSVFile}"/>
                 </p:commandButton>
+
                 <h:outputText value="Download Diff CSV file"/>
                 <p:commandButton value="Download" ajax="false"
                                  onclick="PrimeFaces.monitorDownload(start, stop);"
