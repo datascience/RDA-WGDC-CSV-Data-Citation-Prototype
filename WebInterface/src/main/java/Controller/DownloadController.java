@@ -158,8 +158,11 @@ public class DownloadController implements Serializable {
         SessionManager sm = new SessionManager();
         if (query != null) {
             DatabaseTools dbTools = new DatabaseTools();
-            String reExecuteSQLString = query.getQueryString();
-            CachedRowSet resultSet = dbTools.reExecuteQuery(reExecuteSQLString);
+            QueryStoreAPI queryAPI = new QueryStoreAPI();
+            String currentReExecutionString = queryAPI.generateQueryString(query);
+
+
+            CachedRowSet resultSet = dbTools.reExecuteQuery(currentReExecutionString);
 
             try {
 
@@ -172,7 +175,7 @@ public class DownloadController implements Serializable {
             }
             ResultSetMetadata rsMetaData = dbTools.getResultSetMetadata();
 
-            this.logger.info("Re-executing: " + reExecuteSQLString);
+            this.logger.info("Re-executing: " + currentReExecutionString);
             this.logger.info("Retrieved " + rsMetaData.getRowCount() + " row from reexecuted dataset.");
 
             CSV_API csvAPI = new CSV_API();
@@ -218,6 +221,13 @@ public class DownloadController implements Serializable {
     }
 
     public void diffSetAction() {
+
+
+        if (this.downloadCSVFile == null) {
+
+            this.subsetCSVAction();
+        }
+
         this.displayMessage("Differential CSV", "Not yet implemented ;-)");
 
     }
@@ -245,10 +255,12 @@ public class DownloadController implements Serializable {
         QueryStoreAPI queryAPI = new QueryStoreAPI();
         Query query = queryAPI.getQueryByPID(subsetPID);
         Query latestQuery = query;
-        latestQuery.setExecution_timestamp(new Date());
+        Date currentDate = new Date();
+        latestQuery.setExecution_timestamp(currentDate);
 
         String downloadFileName =
                 this.getDownloadFileName(latestQuery);
+
         this.setLatestCSVPath(downloadFileName);
 
     }
