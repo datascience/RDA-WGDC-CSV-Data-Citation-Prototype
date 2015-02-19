@@ -109,6 +109,8 @@ public class FileUploadController implements Serializable {
 
 
     public FileUploadController() {
+
+        this.reset();
         this.logger = Logger.getLogger(this.getClass().getName());
         this.filesList = new HashMap<String, String>();
         this.filesListStrings = new ArrayList<String>();
@@ -120,6 +122,12 @@ public class FileUploadController implements Serializable {
         this.columns.add("Use insert sequence number");
 
 
+    }
+
+    private void reset() {
+        //reset
+        this.filesList = new HashMap<String, String>();
+        this.filesListStrings = new ArrayList<String>();
     }
 
 
@@ -230,9 +238,7 @@ public class FileUploadController implements Serializable {
         session.put("fileListHashMap", this.filesList);
         this.logger.info("Writing file list to session...");
 
-        //reset
-        this.filesList = new HashMap<String, String>();
-        this.filesListStrings = new ArrayList<String>();
+
 
 
 
@@ -315,7 +321,7 @@ public class FileUploadController implements Serializable {
 * * */
     public void onLoad(ActionEvent event) {
         this.logger.info("File Upload Controller onLoad-.. " + event.toString());
-        this.filesList = new HashMap<>();
+        this.reset();
         this.selectedPrimaryKeyColumns = new ArrayList<String>();
         //   this.handleChangeDatabaseName(null);
         SessionManager sm = new SessionManager();
