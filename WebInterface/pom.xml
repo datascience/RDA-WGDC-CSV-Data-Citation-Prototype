@@ -21,19 +21,6 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <!--
-                    <custom.deploy.HostName>ate.ifs.tuwien.ac.at</custom.deploy.HostName>
-                    <custom.deploy.UserName>tcadm1</custom.deploy.UserName>
-                    <custom.deploy.Password>tcadmate15</custom.deploy.Password>
-
-        -->
-
-        <custom.deploy.HostName>localhost</custom.deploy.HostName>
-        <custom.deploy.UserName>admin</custom.deploy.UserName>
-        <custom.deploy.Password>admin</custom.deploy.Password>
-
-
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
     </properties>
 
@@ -171,43 +158,86 @@
 
     </dependencies>
 
-    <build>
-        <finalName>${project.artifactId}</finalName>
 
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.1</version>
-                <configuration>
-                    <source>1.7</source>
-                    <target>1.7</target>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.tomcat.maven</groupId>
-                <artifactId>tomcat7-maven-plugin</artifactId>
-                <version>2.0</version>
-                <configuration>
-                    <path>/cite</path>
-                    <update>true</update>
+    <profiles>
+        <profile>
+            <id>localServer</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-compiler-plugin</artifactId>
+                        <version>3.1</version>
+                        <configuration>
+                            <source>1.7</source>
+                            <target>1.7</target>
+                        </configuration>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.tomcat.maven</groupId>
+                        <artifactId>tomcat7-maven-plugin</artifactId>
+                        <version>2.0</version>
+                        <configuration>
+                            <path>/cite</path>
+                            <update>true</update>
 
-                    <url>http://${custom.deploy.HostName}:8080/manager/text</url>
-                    <username>${custom.deploy.UserName}</username>
-                    <password>${custom.deploy.Password}</password>
+                            <url>http://localhost:8080/manager/text</url>
+                            <username>admin</username>
+                            <password>admin</password>
 
-                </configuration>
+                        </configuration>
 
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-war-plugin</artifactId>
-                <version>2.4</version>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-war-plugin</artifactId>
+                        <version>2.4</version>
 
-            </plugin>
+                    </plugin>
 
 
-        </plugins>
+                </plugins>
+            </build>
+        </profile>
 
-    </build>
+        <profile>
+            <id>ateServer</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-compiler-plugin</artifactId>
+                        <version>3.1</version>
+                        <configuration>
+                            <source>1.7</source>
+                            <target>1.7</target>
+                        </configuration>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.tomcat.maven</groupId>
+                        <artifactId>tomcat7-maven-plugin</artifactId>
+                        <version>2.0</version>
+                        <configuration>
+                            <path>/cite</path>
+                            <update>true</update>
+
+                            <url>http://ate.ifs.tuwien.ac.at:8080/manager/text</url>
+                            <username>tcadm1</username>
+                            <password>tcadmate15</password>
+
+                        </configuration>
+
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-war-plugin</artifactId>
+                        <version>2.4</version>
+
+                    </plugin>
+
+
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>
