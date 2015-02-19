@@ -20,17 +20,17 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <!--
+
         <custom.deploy.HostName>ate.ifs.tuwien.ac.at</custom.deploy.HostName>
         <custom.deploy.UserName>tcadm1</custom.deploy.UserName>
         <custom.deploy.Password>tcadmate15</custom.deploy.Password>
+
+        <!--
+
+                <custom.deploy.HostName>localhost</custom.deploy.HostName>
+                        <custom.deploy.UserName>admin</custom.deploy.UserName>
+                <custom.deploy.Password>admin</custom.deploy.Password>
         -->
-
-
-        <custom.deploy.HostName>localhost</custom.deploy.HostName>
-                <custom.deploy.UserName>admin</custom.deploy.UserName>
-        <custom.deploy.Password>admin</custom.deploy.Password>
-
 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 

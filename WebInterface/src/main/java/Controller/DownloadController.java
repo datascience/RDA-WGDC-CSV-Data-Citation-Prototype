@@ -126,7 +126,7 @@ public class DownloadController implements Serializable {
 
         CSV_API csvAPI = new CSV_API();
 
-        String filename = baseTableName + ".csv";
+        String filename = "/tmp/CSV-Files" + baseTableName + ".csv";
 
         csvAPI.writeResultSetIntoCSVFile(cachedRowset, filename);
 
@@ -171,7 +171,7 @@ public class DownloadController implements Serializable {
             CSV_API csvAPI = new CSV_API();
             String baseDatabase = query.getBaseTable().getBaseDatabase();
             String baseTableName = query.getBaseTable().getBaseTableName();
-            filename = baseDatabase + "_" + baseTableName + "_" + query.getPID().replace("/", "-") + ".csv";
+            filename = "/tmp/CSV-Files/" + baseDatabase + "_" + baseTableName + "_" + query.getPID().replace("/", "-") + ".csv";
 
             csvAPI.writeResultSetIntoCSVFile(resultSet, filename);
 
