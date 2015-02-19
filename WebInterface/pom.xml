@@ -10,6 +10,7 @@
     <name>WebInterface</name>
     <url>http://maven.apache.org</url>
 
+
     <parent>
         <artifactId>CSV-Citation-Deployment-Module</artifactId>
         <groupId>at.stefanproell</groupId>
@@ -21,11 +22,11 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <!--
-            <custom.deploy.HostName>ate.ifs.tuwien.ac.at</custom.deploy.HostName>
-            <custom.deploy.UserName>tcadm1</custom.deploy.UserName>
-            <custom.deploy.Password>tcadmate15</custom.deploy.Password>
-        -->
+                    <custom.deploy.HostName>ate.ifs.tuwien.ac.at</custom.deploy.HostName>
+                    <custom.deploy.UserName>tcadm1</custom.deploy.UserName>
+                    <custom.deploy.Password>tcadmate15</custom.deploy.Password>
 
+        -->
 
         <custom.deploy.HostName>localhost</custom.deploy.HostName>
         <custom.deploy.UserName>admin</custom.deploy.UserName>
