@@ -41,12 +41,15 @@ public class CreateUsersExample {
         api.addUser("martti", "Martti", "Louhivouri", "martti15", 12345);
         api.addUser("odile", "Odile", "Francoise", "odile15", 12345);
         api.addUser("dimitris", "Dimitris", "Gavrilis", "dimitris15", 12345);
-        api.addUser("thomas", "thomas", "thomas", "thomas15", 12345);
+        api.addUser("thomas", "Thomas", "thomas", "thomas15", 12345);
         api.addUser("pavel", "Pavel", "Stranak", "pavel15", 12345);
         api.addUser("fabrizio", "fabrizio", "fabrizio", "fabrizio15", 12345);
         api.addUser("pilar", "Pilar", "Callau", "pilar15", 12345);
-        api.addUser("mark", "mark", "mark", "mark15", 12345);
+        api.addUser("mark", "Mark", "Pearsson", "mark15", 12345);
         api.addUser("patrice", "Patrice", "Ajai-Ajagbe", "patrice15", 12345);
+        api.addUser("larry", "Larry", "Lannom", "larry15", 12345);
+        api.addUser("brian", "Brian", "Hole", "brian15", 12345);
+        api.addUser("tobias", "Tobias", "Weigel", "tobias15", 12345);
 
         api.addUser("user1", "firstname1", "lastname1", "user15", 12345);
         api.addUser("user2", "firstname2", "lastname2", "user15", 12345);
