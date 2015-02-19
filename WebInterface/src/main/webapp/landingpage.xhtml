@@ -154,9 +154,7 @@
             <h:panelGrid  columns="2" cellpadding="10" columnClasses="column1,column2" style="width: 100%">
 
 
-
-           
-                <h:outputText value="Download CSV file"/>
+                <h:outputText value="Download CSV Subset"/>
                 <p:commandButton value="Download" ajax="false"
                                  onclick="PrimeFaces.monitorDownload(start, stop)"
                                  actionListener="#{downloadController.subsetCSVAction}"
@@ -169,8 +167,13 @@
 
                 </p:commandButton>
 
+                <h:outputText value="Download Latest Subset"/>
+                <p:commandButton value="Download" actionListener="#{downloadController.latestSetAction}">
 
-                <h:outputText value="Download Parent"/>
+                </p:commandButton>
+
+
+                <h:outputText value="Download Full DB"/>
                 <p:commandButton value="Download" ajax="false"
                                  onclick="PrimeFaces.monitorDownload(start, stop);"
                                  actionListener="#{downloadController.parentCSVAction}"

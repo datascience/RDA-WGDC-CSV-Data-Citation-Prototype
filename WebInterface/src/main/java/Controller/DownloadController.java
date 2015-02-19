@@ -19,6 +19,7 @@ package Controller;
 
 import java.io.*;
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.logging.Logger;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -43,10 +44,15 @@ public class DownloadController implements Serializable {
     private String csvFilePath;
     private String parentCSVPath;
     private StreamedContent downloadParentCSVFile;
+    private String latestCSVPath;
+    private StreamedContent downloadLatestCSVFile;
+    private final String DIRECTORY = "/tmp/CSV-Files/";
 
     public DownloadController() {
         this.logger = Logger.getLogger(this.getClass().getName());
         this.logger.info("Download Controller");
+        this.createCSVDirectory();
+
 
     }
 
@@ -84,8 +90,10 @@ public class DownloadController implements Serializable {
 
         QueryStoreAPI queryAPI = new QueryStoreAPI();
         Query query = queryAPI.getQueryByPID(subsetPID);
+        String downloadFileName = this.getDownloadFileName(query);
 
-        this.getResultSetFromQuery(query);
+        this.setCsvFilePath(downloadFileName);
+
 
     }
 
@@ -111,7 +119,7 @@ public class DownloadController implements Serializable {
         }
 
 
-//        this.getResultSetFromQuery(query);
+//        this.getDownloadFileName(query);
 
     }
 
@@ -126,14 +134,13 @@ public class DownloadController implements Serializable {
 
         CSV_API csvAPI = new CSV_API();
 
-        String filename = "/tmp/CSV-Files" + baseTableName + ".csv";
+        String filename = DIRECTORY + baseTableName + ".csv";
 
         csvAPI.writeResultSetIntoCSVFile(cachedRowset, filename);
 
         this.setParentCSVPath(filename);
 
     }
-
 
 
     public String getCsvFilePath() {
@@ -144,7 +151,7 @@ public class DownloadController implements Serializable {
         this.csvFilePath = csvFilePath;
     }
 
-    private String getResultSetFromQuery(Query query) {
+    private String getDownloadFileName(Query query) {
 
 
         String filename = null;
@@ -171,11 +178,9 @@ public class DownloadController implements Serializable {
             CSV_API csvAPI = new CSV_API();
             String baseDatabase = query.getBaseTable().getBaseDatabase();
             String baseTableName = query.getBaseTable().getBaseTableName();
-            filename = "/tmp/CSV-Files/" + baseDatabase + "_" + baseTableName + "_" + query.getPID().replace("/", "-") + ".csv";
+            filename = DIRECTORY + baseDatabase + "_" + baseTableName + "_" + query.getPID().replace("/", "-") + ".csv";
 
             csvAPI.writeResultSetIntoCSVFile(resultSet, filename);
-
-            this.setCsvFilePath(filename);
 
 
         }
@@ -229,4 +234,91 @@ public class DownloadController implements Serializable {
     public void setParentCSVPath(String parentCSVPath) {
         this.parentCSVPath = parentCSVPath;
     }
+
+    public void latestSetAction() {
+        this.logger.info("CSV Subset Action");
+        SessionManager sm = new SessionManager();
+        String subsetPID = sm.getLandingPageSelectedSubset();
+        this.logger.info("Retrieving data for: " + subsetPID);
+
+
+        QueryStoreAPI queryAPI = new QueryStoreAPI();
+        Query query = queryAPI.getQueryByPID(subsetPID);
+        Query latestQuery = query;
+        latestQuery.setExecution_timestamp(new Date());
+
+        String downloadFileName =
+                this.getDownloadFileName(latestQuery);
+        this.setLatestCSVPath(downloadFileName);
+
+    }
+
+    public StreamedContent getDownloadLatestCSVFile() {
+        InputStream stream = null;
+        String fileName = this.getLatestCSVPath();
+
+        if (fileName != null) {
+            try {
+                stream = new FileInputStream(new File(fileName));
+                downloadLatestCSVFile = new DefaultStreamedContent(stream, "text/csv", fileName);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+
+
+            return downloadLatestCSVFile;
+        } else {
+            this.displayMessage("There was an error!", "Did you select a subset?");
+            return null;
+
+        }
+
+
+    }
+
+    public void setDownloadLatestCSVFile(StreamedContent downloadLatestCSVFile) {
+        this.downloadLatestCSVFile = downloadLatestCSVFile;
+    }
+
+    public String getLatestCSVPath() {
+        return latestCSVPath;
+    }
+
+    public void setLatestCSVPath(String latestCSVPath) {
+        this.latestCSVPath = latestCSVPath;
+    }
+
+
+    private void createCSVDirectory() {
+        File file = new File(DIRECTORY);
+
+        boolean b = false;
+
+/*
+* exists() method tests whether the file or directory denoted by this
+* abstract pathname exists or not accordingly it will return TRUE /
+* FALSE.
+*/
+
+        if (!file.exists()) {
+/*
+* mkdirs() method creates the directory mentioned by this abstract
+* pathname including any necessary but nonexistent parent
+* directories.
+*
+* Accordingly it will return TRUE or FALSE if directory created
+* successfully or not. If this operation fails it may have
+* succeeded in creating some of the necessary parent directories.
+*/
+            b = file.mkdirs();
+        }
+        if (b)
+            System.out.println("Directory successfully created");
+        else
+            System.out.println("Failed to create directory");
+    }
 }
+
+
+
+
