@@ -1,15 +1,15 @@
 <component name="libraryTable">
   <library name="Maven: at.stefanproell:Database:1.0-SNAPSHOT">
     <CLASSES>
-      <root url="jar://$MAVEN_REPOSITORY$/at/stefanproell/Database/1.0-SNAPSHOT/Database-1.0-SNAPSHOT.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Database/pom.xml!/" />
     </CLASSES>
     <JAVADOC>
       <root url="jar://$PROJECT_DIR$/WebInterface/Database-1.0-SNAPSHOT-javadoc.jar!/" />
-      <root url="jar://$MAVEN_REPOSITORY$/at/stefanproell/Database/1.0-SNAPSHOT/Database-1.0-SNAPSHOT-javadoc.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Database/Database-1.0-SNAPSHOT-javadoc.jar!/" />
     </JAVADOC>
     <SOURCES>
       <root url="jar://$PROJECT_DIR$/WebInterface/Database-1.0-SNAPSHOT-sources.jar!/" />
-      <root url="jar://$MAVEN_REPOSITORY$/at/stefanproell/Database/1.0-SNAPSHOT/Database-1.0-SNAPSHOT-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Database/Database-1.0-SNAPSHOT-sources.jar!/" />
     </SOURCES>
   </library>
 </component>
