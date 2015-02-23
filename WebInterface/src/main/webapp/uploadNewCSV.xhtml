@@ -72,16 +72,6 @@
             <p:panel header="Dataset Metadata" style="width: 800px;">
                 <h:panelGrid columns="2" cellpadding="5" columnClasses="column1,column2" style="width: 100%">
 
-
-                <p:outputLabel value="Database schema"/>
-                <h:selectOneMenu id="databaseDropDown"
-                                 valueChangeListener="#{tableDefinitionController.handleChangeDatabaseName}"
-                                 required="true" value="#{tableDefinitionController.databaseName}"
-                                 binding="#{databaseNameDropdown}">
-                    <f:selectItems value="#{tableDefinitionController.databaseNames}"/>
-                    <p:ajax update="databaseDropDown"/>
-                </h:selectOneMenu>
-
                 <p:outputLabel value="Tablename"/>
                 <p:inputText required="true" requiredMessage="The table name is required"
                              value="#{tableDefinitionController.tableNameInput}">

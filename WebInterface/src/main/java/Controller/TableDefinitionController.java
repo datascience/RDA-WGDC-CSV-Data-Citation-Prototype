@@ -57,8 +57,8 @@ public class TableDefinitionController implements Serializable {
     private String dataSetDescription;
     private Logger logger;
     private String tableNameInput;
-    private String databaseName;
-    private List<String> databaseNames;
+ //   private String databaseName;
+ //   private List<String> databaseNames;
     private String dataSetTitle;
 
 
@@ -120,6 +120,7 @@ public class TableDefinitionController implements Serializable {
         this.dataSetDescription = dataSetDescription;
     }
 
+    /*
     public String getDatabaseName() {
         return databaseName;
     }
@@ -135,6 +136,8 @@ public class TableDefinitionController implements Serializable {
     public void setDatabaseNames(List<String> databaseNames) {
         this.databaseNames = databaseNames;
     }
+    
+    */
 
     @PostConstruct
     public void init() {
@@ -144,10 +147,13 @@ public class TableDefinitionController implements Serializable {
         SessionManager sm = new SessionManager();
         TableDefinitionBean tableBean = sm.getTableDefinitionBean();
         DatabaseTools dbtools = new DatabaseTools();
-        this.databaseNames = dbtools.getDatabaseCatalogFromDatabaseConnection();
-        this.databaseName = this.databaseNames.get(0);
+        //this.databaseNames = dbtools.getDatabaseCatalogFromDatabaseConnection();
+        //this.databaseName = this.databaseNames.get(0);
 
-        tableBean.setDatabaseName(this.databaseName);
+
+        List<String> databaseNames=dbtools.getDatabaseCatalogFromDatabaseConnection();
+        String databaseName = databaseNames.get(0);
+        tableBean.setDatabaseName(databaseName);
 
         sm.updateTableDefinitionBean(tableBean);
 
@@ -161,6 +167,10 @@ public class TableDefinitionController implements Serializable {
 
         tDBean.setOrganizationalId(sm.getLogedInUserObject().getOrganizational_id());
         tDBean.setTableName(tableNameInput);
+        DatabaseTools dbtools = new DatabaseTools();
+        List<String> databaseNames=dbtools.getDatabaseCatalogFromDatabaseConnection();
+        String databaseName = databaseNames.get(0);
+        tDBean.setDatabaseName(databaseName);
         tDBean.setDatabaseName(databaseName);
         tDBean.setDescription(dataSetDescription);
         tDBean.setDataSetTitle(dataSetTitle);
@@ -171,6 +181,7 @@ public class TableDefinitionController implements Serializable {
 
     }
 
+    /*
     public void handleChangeDatabaseName(ValueChangeEvent event) {
         String selectedDB = null;
         SessionManager sm = new SessionManager();
@@ -185,6 +196,8 @@ public class TableDefinitionController implements Serializable {
         }
 
     }
+    
+    */
 
     public String getDataSetTitle() {
         return dataSetTitle;
