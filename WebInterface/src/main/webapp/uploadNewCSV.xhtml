@@ -67,54 +67,87 @@
             Alsp provide the name of the data author (creator).
         </p>
 
-        <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" globalOnly="true"/>
-        <h:form id="tableDataForm" enctype="multipart/form-data">
-            <p:panel header="Dataset Metadata" style="width: 800px;">
-                <h:panelGrid columns="2" cellpadding="5" columnClasses="column1,column2" style="width: 100%">
 
-                <p:outputLabel value="Tablename"/>
-                <p:inputText required="true" requiredMessage="The table name is required"
-                             value="#{tableDefinitionController.tableNameInput}">
-                    <f:ajax event="blur"/>
-                </p:inputText>
-
-
-                <p:outputLabel value="Author"/>
-                <p:inputText required="true" requiredMessage="An author is required"
-                             value="#{tableDefinitionController.dataSetAuthor}">
-                    <f:ajax event="blur"/>
-                </p:inputText>
-
-                <p:outputLabel value="Dataset title"/>
-                <p:inputText required="true" requiredMessage="A title is required"
-                             value="#{tableDefinitionController.dataSetTitle}">
-                    <f:ajax event="blur"/>
-                </p:inputText>
-
-
-                <p:outputLabel value="Description"/>
-                    <p:inputTextarea
-                            value="#{tableDefinitionController.dataSetDescription}"
-                            styleClass="no-border" readonly="false"
-                            style="width: 80%;height: 100%;"
-                            rows="10"/>
-
-
-                    <p:commandButton id="tableDefinitionButton" value="Set data."
-                                 action="#{tableDefinitionController.setTableDefinitionFormdata}"
-                                 update="tableDataForm">
-
-
-                </p:commandButton>
-
-            </h:panelGrid>
-            </p:panel>
-            </h:form>
 
             <h2>Step 2: Upload the data</h2>
 
         <p>Select one file from your hard disk. It will be uploaded to the systems and analyzed. The system currently
             only supports a single file per upload.</p>
+
+        <h:form>
+
+            <p:panel header="Dataset Metadata" style="width: 800px;">
+                <h:panelGrid columns="2" cellpadding="5" columnClasses="column1,column2" style="width: 100%">
+
+                    <p:outputLabel for="tableNameInput" value="Tablename"/>
+                    <p:inputText id="tableNameInput" required="true" requiredMessage="The table name is required"
+                                 value="#{tableDefinitionController.tableNameInput}"/>
+                    <p:message for="tableNameInput" />
+                    <h:outputText value="#{validationView.text}" />
+
+
+
+
+                    <p:outputLabel for="authorInput" value="Author"/>
+                    <p:inputText id="authorInput" required="true" requiredMessage="An author is required"
+                                 value="#{tableDefinitionController.dataSetAuthor}"/>
+                    <p:message for="authorInput" />
+                    <h:outputText value="#{validationView.text}" />
+
+
+                    <p:outputLabel for="datasetInput" value="Dataset title"/>
+                    <p:inputText id="datasetInput" required="true" requiredMessage="A title is required"
+                                 value="#{tableDefinitionController.dataSetTitle}"/>
+                    <p:message for="datasetInput" />
+                    <h:outputText value="#{validationView.text}" />
+
+
+
+                    <p:outputLabel for="descriptionInput" value="Description"/>
+                    <p:inputTextarea
+                            id="descriptionInput"
+                            value="#{tableDefinitionController.dataSetDescription}"
+                            styleClass="no-border" readonly="false"
+                            style="width: 80%;height: 100%;"
+                            rows="10"
+                            required="true"
+                            requiredMessage="A title is required"
+                            />
+                    <p:message for="descriptionInput" />
+                    <h:outputText value="#{validationView.text}" />
+
+
+
+
+                </h:panelGrid>
+            </p:panel>
+
+
+            <p:fileUpload fileUploadListener="#{fileUploadController.handleFileUpload}"
+                          mode="advanced" update=":primaryKeyForm:primaryKeyMultiCheckbox,messagesUpload, dt" auto="true"
+                          sizeLimit="300000000"
+                          allowTypes="/(\.|\/)(csv|txt)$/"/>
+            <p:dataTable id="dt" var="filename" value="#{fileUploadController.filesListStrings}">
+                <p:column>
+                    #{filename}
+                </p:column>
+
+            </p:dataTable>
+
+
+            <p:commandButton id="tableDefinitionButton" value="Set data."
+                             action="#{tableDefinitionController.setTableDefinitionFormdata}"
+                          >
+
+
+            </p:commandButton>
+
+
+            <p:growl id="messagesUpload" showDetail="true"/>
+            <f:attribute name="uploadSessionType" value="newCSV"/>
+
+
+       </h:form>
 
         <h3>Sample datasets</h3>
 
@@ -144,30 +177,6 @@
 
 
         </p>
-
-
-        <h:form>
-
-
-            <p:fileUpload fileUploadListener="#{fileUploadController.handleFileUpload}"
-                          mode="advanced" update=":primaryKeyForm:primaryKeyMultiCheckbox,messagesUpload, dt" auto="true"
-                          sizeLimit="300000000"
-                          allowTypes="/(\.|\/)(csv|txt)$/"/>
-            <p:dataTable id="dt" var="filename" value="#{fileUploadController.filesListStrings}">
-                <p:column>
-                    #{filename}
-                </p:column>
-
-            </p:dataTable>
-
-
-
-
-            <p:growl id="messagesUpload" showDetail="true"/>
-            <f:attribute name="uploadSessionType" value="newCSV"/>
-
-
-       </h:form>
         
         <p:separator/>
         <h2>Step 3: Choose the Primary Key</h2>
