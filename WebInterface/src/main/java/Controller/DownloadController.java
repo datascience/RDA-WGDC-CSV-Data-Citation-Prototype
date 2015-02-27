@@ -30,6 +30,22 @@
  *    limitations under the License.
  */
 
+/*
+ * Copyright [2015] [Stefan Pröll]
+ *
+ *    Licensed under the Apache License, Version 2.0 (the "License");
+ *    you may not use this file except in compliance with the License.
+ *    You may obtain a copy of the License at
+ *
+ *        http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *    Unless required by applicable law or agreed to in writing, software
+ *    distributed under the License is distributed on an "AS IS" BASIS,
+ *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *    See the License for the specific language governing permissions and
+ *    limitations under the License.
+ */
+
 package Controller;
 
 
@@ -62,12 +78,13 @@ public class DownloadController implements Serializable {
     private StreamedContent downloadParentCSVFile;
     private String latestCSVPath;
     private StreamedContent downloadLatestCSVFile;
-    private final String DIRECTORY = "/tmp/CSV-Files/";
+
 
     public DownloadController() {
         this.logger = Logger.getLogger(this.getClass().getName());
         this.logger.info("Download Controller");
-        this.createCSVDirectory();
+        CSV_API csvApi = new CSV_API();
+        csvApi.createCSVDirectory();
 
 
     }
@@ -150,7 +167,7 @@ public class DownloadController implements Serializable {
 
         CSV_API csvAPI = new CSV_API();
 
-        String filename = DIRECTORY + baseTableName + ".csv";
+        String filename = csvAPI.getDIRECTORY() + baseTableName + ".csv";
 
         csvAPI.writeResultSetIntoCSVFile(cachedRowset, filename);
 
@@ -197,7 +214,9 @@ public class DownloadController implements Serializable {
             CSV_API csvAPI = new CSV_API();
             String baseDatabase = query.getBaseTable().getBaseDatabase();
             String baseTableName = query.getBaseTable().getBaseTableName();
-            filename = DIRECTORY + baseDatabase + "_" + baseTableName + "_" + query.getPID().replace("/", "-") + ".csv";
+            
+            filename = csvAPI.getDIRECTORY()+ baseDatabase + "_" + baseTableName + "_" + query.getPID().replace("/", "-") + ".csv";
+            
 
             csvAPI.writeResultSetIntoCSVFile(resultSet, filename);
 
@@ -317,34 +336,7 @@ public class DownloadController implements Serializable {
     }
 
 
-    private void createCSVDirectory() {
-        File file = new File(DIRECTORY);
 
-        boolean b = false;
-
-/*
-* exists() method tests whether the file or directory denoted by this
-* abstract pathname exists or not accordingly it will return TRUE /
-* FALSE.
-*/
-
-        if (!file.exists()) {
-/*
-* mkdirs() method creates the directory mentioned by this abstract
-* pathname including any necessary but nonexistent parent
-* directories.
-*
-* Accordingly it will return TRUE or FALSE if directory created
-* successfully or not. If this operation fails it may have
-* succeeded in creating some of the necessary parent directories.
-*/
-            b = file.mkdirs();
-        }
-        if (b)
-            System.out.println("Directory successfully created");
-        else
-            System.out.println("Failed to create directory");
-    }
 }
 
 

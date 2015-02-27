@@ -46,6 +46,22 @@
   ~    limitations under the License.
   -->
 
+<!--
+  ~ Copyright [2015] [Stefan Pröll]
+  ~
+  ~    Licensed under the Apache License, Version 2.0 (the "License");
+  ~    you may not use this file except in compliance with the License.
+  ~    You may obtain a copy of the License at
+  ~
+  ~        http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~    Unless required by applicable law or agreed to in writing, software
+  ~    distributed under the License is distributed on an "AS IS" BASIS,
+  ~    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~    See the License for the specific language governing permissions and
+  ~    limitations under the License.
+  -->
+
 <html xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:p="http://primefaces.org/ui"
@@ -113,20 +129,20 @@
                     
                     <p:outputLabel for="tableNameInput" value="Tablename"/>
                     <p:inputText id="tableNameInput" required="true" requiredMessage="The table name is required"
-                                 value="#{tableDefinitionController.tableNameInput}"/>
+                                 value="#{fileUploadController.tableNameInput}"/>
                     <p:message for="tableNameInput" />
                     <h:outputText value="#{validationView.text}" />
 
                     <p:outputLabel for="authorInput" value="Author"/>
                     <p:inputText id="authorInput" required="true" requiredMessage="An author is required"
-                                 value="#{tableDefinitionController.dataSetAuthor}"/>
+                                 value="#{fileUploadController.dataSetAuthor}"/>
                     <p:message for="authorInput" />
                     <h:outputText value="#{validationView.text}" />
 
 
                     <p:outputLabel for="datasetInput" value="Dataset title"/>
                     <p:inputText id="datasetInput" required="true" requiredMessage="A title is required"
-                                 value="#{tableDefinitionController.dataSetTitle}"/>
+                                 value="#{fileUploadController.dataSetTitle}"/>
                     <p:message for="datasetInput" />
                     <h:outputText value="#{validationView.text}" />
 
@@ -135,7 +151,7 @@
                     <p:outputLabel for="descriptionInput" value="Description"/>
                     <p:inputTextarea
                             id="descriptionInput"
-                            value="#{tableDefinitionController.dataSetDescription}"
+                            value="#{fileUploadController.dataSetDescription}"
                             styleClass="no-border" readonly="false"
                             style="width: 80%;height: 100%;"
                             rows="10"
@@ -148,15 +164,28 @@
 
                         <p:outputLabel for="fileUpload" value="File upload"/>
                         <p:fileUpload id="fileUpload" fileUploadListener="#{fileUploadController.handleFileUpload}"
-                                      mode="simple" update=":primaryKeyForm:primaryKeyMultiCheckbox,messagesUpload, dt" auto="true"
+                                      mode="advanced"
+                                      update=":primaryKeyForm:primaryKeyMultiCheckbox,messagesUpload,dataTable"
+                                      auto="true"
                                       sizeLimit="300000000"
                                       allowTypes="/(\.|\/)(csv|txt)$/"/>
 
-                    
+                    <p:dataTable id="dataTable" var="filename" value="#{fileUploadController.filesListStrings}">
+                        <p:column>
+                           <p:outputLabel for="dataTable" value="Uploaded file"/>
+                            
+                        </p:column>
+                        <p:column>#{filename}</p:column>
+                        
+                    </p:dataTable>
 
-            <p:row>
+
+
+
+
+                    <p:row>
                 <p:column colspan="2">
-                    <p:commandButton id="tableDefinitionButton" value="submit" action="#{tableDefinitionController.setTableDefinitionFormdata}" />
+                    <p:commandButton id="tableDefinitionButton" value="submit" action="#{fileUploadController.finalizeFileUpload}" />
                 </p:column>
             </p:row>
             
