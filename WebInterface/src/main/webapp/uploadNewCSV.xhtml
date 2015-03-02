@@ -110,6 +110,22 @@
   ~    limitations under the License.
   -->
 
+<!--
+  ~ Copyright [2015] [Stefan Pröll]
+  ~
+  ~    Licensed under the Apache License, Version 2.0 (the "License");
+  ~    you may not use this file except in compliance with the License.
+  ~    You may obtain a copy of the License at
+  ~
+  ~        http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~    Unless required by applicable law or agreed to in writing, software
+  ~    distributed under the License is distributed on an "AS IS" BASIS,
+  ~    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~    See the License for the specific language governing permissions and
+  ~    limitations under the License.
+  -->
+
 <html xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:p="http://primefaces.org/ui"
@@ -137,6 +153,14 @@
         <p:remoteCommand name="onLoad" actionListener="#{fileUploadController.onLoad}" autoRun="true"/>
     </h:form>
     <!-- END Hidden form-->
+
+    <script type="text/javascript">
+
+    function predefineTableName(){
+        alert("yay");
+    }
+
+</script>
 
 
     <div class="container">
@@ -176,7 +200,21 @@
                 <p:messages autoUpdate="true"/>
                 <h:panelGrid columns="5" cellpadding="5" columnClasses="column1,column2,column3,column3,column3"
                              style="width: 100%">
-                
+
+
+                    <p:outputLabel for="datasetInput" value="Dataset title"/>
+                    <p:inputText id="datasetInput" required="true" requiredMessage="A title is required"
+                                 value="#{fileUploadController.dataSetTitle}"
+                                 title="Give a title for the dataset. It will appear in citations." 
+                                 oncomplete="predefineTableName()">
+                            <p:ajax event="keyup" listener="#{fileUploadController.updateTableNameInput}"        
+                                    update="tableNameInput" />
+                    </p:inputText>
+                    
+                    <p:tooltip id="datasetInputTipp" for="datasetInput" showEvent="focus" hideEvent="blur" />
+                    <p:message for="datasetInput" />
+                    <h:outputText value="#{validationView.text}" />
+                    
                     
                     <p:outputLabel for="tableNameInput" value="Tablename"/>
                     <p:inputText id="tableNameInput" required="true" requiredMessage="The table name is required"
@@ -194,16 +232,6 @@
                     <p:message for="authorInput" />
                     <p:tooltip id="authorInputTipp" for="authorInput" showEvent="focus" hideEvent="blur" />
                     <h:outputText value="#{validationView.text}" />
-
-
-                    <p:outputLabel for="datasetInput" value="Dataset title"/>
-                    <p:inputText id="datasetInput" required="true" requiredMessage="A title is required"
-                                 value="#{fileUploadController.dataSetTitle}" 
-                                 title="Give a title for the dataset. It will appear in citations."/>
-                    <p:tooltip id="datasetInputTipp" for="datasetInput" showEvent="focus" hideEvent="blur" />
-                    <p:message for="datasetInput" />
-                    <h:outputText value="#{validationView.text}" />
-
 
 
                     <p:outputLabel for="descriptionInput" value="Description"/>
@@ -296,7 +324,9 @@
             primary key, you can select the insert sequence number as unique key.</p>
         <!-- primary column -->
 
+        <p:messages autoUpdate="true" globalOnly="false"/>
         <h:form id="primaryKeyForm">
+            
             <p:outputLabel value="Primary key"/>
 
 
@@ -330,7 +360,6 @@
                              action="#{databaseMigrationController.migrationController}"
                              update="migrationMessage"/>
 
-                <p:commandButton action="table.xhtml?faces-redirect=true" value="View existing data"/>
 
                 <p:ajaxStatus style="display:block;margin-bottom:2em;height:36;">
                     <f:facet name="default">
