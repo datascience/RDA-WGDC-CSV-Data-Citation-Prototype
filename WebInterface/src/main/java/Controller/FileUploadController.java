@@ -31,6 +31,22 @@
  */
 
 /*
+ * Copyright [2015] [Stefan Pröll]
+ *
+ *    Licensed under the Apache License, Version 2.0 (the "License");
+ *    you may not use this file except in compliance with the License.
+ *    You may obtain a copy of the License at
+ *
+ *        http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *    Unless required by applicable law or agreed to in writing, software
+ *    distributed under the License is distributed on an "AS IS" BASIS,
+ *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *    See the License for the specific language governing permissions and
+ *    limitations under the License.
+ */
+
+/*
  * Copyright [2014] [Stefan Pröll]
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
@@ -101,7 +117,7 @@ import Bean.TableDefinitionBean;
 import CSVTools.CSV_API;
 import Database.Authentication.User;
 import Database.DatabaseOperations.DatabaseTools;
-import org.apache.commons.io.FilenameUtils;
+import org.primefaces.context.RequestContext;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
 
@@ -111,11 +127,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.Serializable;
-import java.nio.file.Files;
+import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.logging.Logger;
@@ -151,10 +163,10 @@ public class FileUploadController implements Serializable {
     //   private List<String> databaseNames;
     private String dataSetTitle;
     
-    // the uploaded file form the event
-    private UploadedFile uploadedFile;
+    private File uploadedCSVFile;
 
-    
+
+
 
 
     public FileUploadController() {
@@ -255,58 +267,46 @@ public class FileUploadController implements Serializable {
     }
 
     /**
-     * Handle the file upload 
+     * Handle the file upload and store the file into the temp directory
      *
      * @param event
      */
     public void handleFileUpload(FileUploadEvent event) {
         System.out.println("Upload event...");
-        this.uploadedFile = event.getFile();
+        UploadedFile uploadedFile  = event.getFile();
+        if(uploadedFile!=null){
+            System.out.println("Store event...");
+            SimpleDateFormat fmt = new SimpleDateFormat("yyyyMMddHHmmss");
+
+
+            SessionManager sm = new SessionManager();
+            String fileName = uploadedFile.getFileName()+fmt.format(new Date())+".csv";
+
+            try {
+                File upload =  storeCSVFile(fileName, event.getFile().getInputstream());
+                this.setUploadedCSVFile(upload);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+
+
+        }
 
         
-     
+
+
+        
+
+
+
 
     }
     
 
 
-
-
-    public File storeFiles(UploadedFile uploadedFile) {
-        File fileToStore = null;
-        System.out.println("Store event...");
-        SimpleDateFormat fmt = new SimpleDateFormat("yyyyMMddHHmmss");
-
-        String path = FacesContext.getCurrentInstance().getExternalContext()
-                .getRealPath("/");
-        SessionManager sm = new SessionManager();
-        String tableName = sm.getTableDefinitionBean().getTableName();
-
-
-        String name = tableName + "_" + fmt.format(new Date())
-                + uploadedFile.getFileName().substring(
-                uploadedFile.getFileName().lastIndexOf('.')) + ".csv";
-
-        
-        try {
-            InputStream input = null;
-            input = uploadedFile.getInputstream();
-            CSV_API csvApi = new CSV_API();
-            File folder = new File(csvApi.getDIRECTORY());
-            String filename = name;
-            String extension ="csv";
-            fileToStore = File.createTempFile(filename + "-", "." + extension, folder);
-            Files.copy(input, fileToStore.toPath());
-            
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return fileToStore;
-    }
-
-
-    private void storePrimaryKeyListInSession(List<String> selectedPrimaryKeyColumns) {
+   private void storePrimaryKeyListInSession(List<String> selectedPrimaryKeyColumns) {
         System.out.println("Store primary key list in session");
 
         // schreiben
@@ -499,13 +499,15 @@ public class FileUploadController implements Serializable {
 
 
         String tableName = sm.getTableDefinitionBean().getTableName();
-        File storedFile = this.storeFiles(this.uploadedFile);
 
 
-        this.filesListStrings.add(storedFile.getName());
-        this.filesList.put(tableName, storedFile.getAbsolutePath());
 
-        this.updateCSVColumnList();
+         this.filesListStrings.add(this.getUploadedCSVFile().getName());
+         this.filesList.put(tableName, this.getUploadedCSVFile().getAbsolutePath());
+
+         this.updateCSVColumnList();
+
+        RequestContext.getCurrentInstance().update("foo:bar");
 
 
         //
@@ -520,23 +522,7 @@ public class FileUploadController implements Serializable {
 
     }
 
-    /*
-    public void handleChangeDatabaseName(ValueChangeEvent event) {
-        String selectedDB = null;
-        SessionManager sm = new SessionManager();
-        if (event != null) {
-            this.logger.info("Event: " + event.getComponent().toString() + " " + event.toString());
-            selectedDB = event.getNewValue().toString();
-            TableDefinitionBean tableBean = sm.getTableDefinitionBean();
-            tableBean.setDatabaseName(selectedDB);
-            sm.updateTableDefinitionBean(tableBean);
 
-
-        }
-
-    }
-    
-    */
 
     public String getDataSetTitle() {
         return dataSetTitle;
@@ -546,11 +532,46 @@ public class FileUploadController implements Serializable {
         this.dataSetTitle = dataSetTitle;
     }
 
-    public UploadedFile getUploadedFile() {
-        return uploadedFile;
+
+    /*
+    * Store the file on disk
+    * * * */
+    public File storeCSVFile(String fileName, InputStream in) {
+
+        // write the inputStream to a FileOutputStream
+        CSV_API csvApi = new CSV_API();
+        String outputPath= csvApi.getDIRECTORY()+ fileName;
+        try {
+
+
+            OutputStream out = new FileOutputStream(new File(outputPath));
+
+            int read = 0;
+            byte[] bytes = new byte[1024];
+
+            while ((read = in.read(bytes)) != -1) {
+                out.write(bytes, 0, read);
+            }
+
+            in.close();
+            out.flush();
+            
+            
+            out.close();
+
+            System.out.println("New file created!");
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+        
+        return new File(outputPath);
     }
 
-    public void setUploadedFile(UploadedFile uploadedFile) {
-        this.uploadedFile = uploadedFile;
+    public File getUploadedCSVFile() {
+        return uploadedCSVFile;
+    }
+
+    public void setUploadedCSVFile(File uploadedCSVFile) {
+        this.uploadedCSVFile = uploadedCSVFile;
     }
 }
