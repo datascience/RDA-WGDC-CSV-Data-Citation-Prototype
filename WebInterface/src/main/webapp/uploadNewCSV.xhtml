@@ -78,6 +78,22 @@
   ~    limitations under the License.
   -->
 
+<!--
+  ~ Copyright [2015] [Stefan Pröll]
+  ~
+  ~    Licensed under the Apache License, Version 2.0 (the "License");
+  ~    you may not use this file except in compliance with the License.
+  ~    You may obtain a copy of the License at
+  ~
+  ~        http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~    Unless required by applicable law or agreed to in writing, software
+  ~    distributed under the License is distributed on an "AS IS" BASIS,
+  ~    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~    See the License for the specific language governing permissions and
+  ~    limitations under the License.
+  -->
+
 <html xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:p="http://primefaces.org/ui"
@@ -92,6 +108,7 @@
     <style type="text/css">
         .column1{width: 200px;height:auto}
         .column2{width: 500px;height:auto}
+        .column3{width: 20px;height:auto}
 
     </style>
 </h:head>
@@ -140,25 +157,34 @@
 
         <h:form id="fileUploadForm" enctype="multipart/form-data">
             <p:panel header="Dataset Metadata" style="width: 800px;">
-                <h:panelGrid columns="2" cellpadding="5" columnClasses="column1,column2" style="width: 100%">
+                <p:messages autoUpdate="true"/>
+                <h:panelGrid columns="5" cellpadding="5" columnClasses="column1,column2,column3,column3,column3"
+                             style="width: 100%">
                 
                     
                     <p:outputLabel for="tableNameInput" value="Tablename"/>
                     <p:inputText id="tableNameInput" required="true" requiredMessage="The table name is required"
-                                 value="#{fileUploadController.tableNameInput}"/>
+                                 value="#{fileUploadController.tableNameInput}" 
+                                 title="This specifies the name of the table in the database which stores the records of the CSV file"/>
+                    <p:tooltip id="tableNameInputTipp" for="tableNameInput" showEvent="focus" hideEvent="blur" />
                     <p:message for="tableNameInput" />
                     <h:outputText value="#{validationView.text}" />
 
+
                     <p:outputLabel for="authorInput" value="Author"/>
                     <p:inputText id="authorInput" required="true" requiredMessage="An author is required"
-                                 value="#{fileUploadController.dataSetAuthor}"/>
+                                 value="#{fileUploadController.dataSetAuthor}" 
+                                 title="Provide the name of the author of the dataset you upload here."/>
                     <p:message for="authorInput" />
+                    <p:tooltip id="authorInputTipp" for="authorInput" showEvent="focus" hideEvent="blur" />
                     <h:outputText value="#{validationView.text}" />
 
 
                     <p:outputLabel for="datasetInput" value="Dataset title"/>
                     <p:inputText id="datasetInput" required="true" requiredMessage="A title is required"
-                                 value="#{fileUploadController.dataSetTitle}"/>
+                                 value="#{fileUploadController.dataSetTitle}" 
+                                 title="Give a title for the dataset. It will appear in citations."/>
+                    <p:tooltip id="datasetInputTipp" for="datasetInput" showEvent="focus" hideEvent="blur" />
                     <p:message for="datasetInput" />
                     <h:outputText value="#{validationView.text}" />
 
@@ -172,13 +198,15 @@
                             style="width: 80%;height: 100%;"
                             rows="10"
                             required="true"
-                            requiredMessage="A title is required"
-                            />
+                            requiredMessage="A description is required"
+                            title="Upload a CSV file here."/>
+
+                    <p:tooltip id="descriptionInputTipp" for="descriptionInput" showEvent="focus" hideEvent="blur" />
                     <p:message for="descriptionInput" />
                     <h:outputText value="#{validationView.text}" />
 
 
-                        <p:outputLabel for="fileUpload" value="File upload"/>
+                        <p:outputLabel for="fileUpload" value="Upload a CSV file"/>
                         <p:fileUpload id="fileUpload" 
                                       value="#{fileUploadController.uploadedFile}"
                                       fileUploadListener="#{fileUploadController.handleFileUpload}"
@@ -186,14 +214,22 @@
                                       update=":primaryKeyForm:primaryKeyMultiCheckbox,messagesUpload"
                                       auto="true"
                                       sizeLimit="300000000"
-                                      allowTypes="/(\.|\/)(csv|txt)$/" ajax="true"/>
+                                      allowTypes="/(\.|\/)(csv|txt)$/" ajax="true"
+                                      required="true"
+                                      requiredMessage="You need to upload a file"
+                                />
+                    <p:tooltip id="fileUploadTipp" for="fileUpload" showEvent="focus" hideEvent="blur" />
+                    <p:message for="fileUpload" />
+                    <h:outputText value="#{validationView.text}" />
 
 
 
 
 
-                    <p:outputLabel for="tableDefinitionButton" value="Submit"/>
-                    <p:commandButton id="tableDefinitionButton" value="submit" action="#{fileUploadController.finalizeFileUpload}" update=":primaryKeyForm:primaryKeyMultiCheckbox,messagesUpload"/>
+
+                    <p:outputLabel for="tableDefinitionButton" value="Store file"/>
+                    <p:commandButton id="tableDefinitionButton" value="Analyze"
+                                     action="#{fileUploadController.finalizeFileUpload}" update=":primaryKeyForm:primaryKeyMultiCheckbox,messagesUpload"/>
 
 
 
