@@ -126,6 +126,22 @@
   ~    limitations under the License.
   -->
 
+<!--
+  ~ Copyright [2015] [Stefan Pröll]
+  ~
+  ~    Licensed under the Apache License, Version 2.0 (the "License");
+  ~    you may not use this file except in compliance with the License.
+  ~    You may obtain a copy of the License at
+  ~
+  ~        http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~    Unless required by applicable law or agreed to in writing, software
+  ~    distributed under the License is distributed on an "AS IS" BASIS,
+  ~    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~    See the License for the specific language governing permissions and
+  ~    limitations under the License.
+  -->
+
 <html xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:p="http://primefaces.org/ui"
@@ -324,8 +340,9 @@
             primary key, you can select the insert sequence number as unique key.</p>
         <!-- primary column -->
 
-        <p:messages autoUpdate="true" globalOnly="false"/>
+        <p:messages autoUpdate="true" globalOnly="false" escape="false"/>
         <h:form id="primaryKeyForm">
+            <p:growl id="msg" />
             
             <p:outputLabel value="Primary key"/>
 
@@ -335,16 +352,11 @@
                                   required="true"
                                   requiredMessage="At least one column needs to be checked">
                 <f:selectItems value="#{fileUploadController.columnsValue}"/>
+                <p:ajax update="msg" />
+                
             </h:selectManyCheckbox>
             <h:message for="primaryKeyMultiCheckbox"/>
-            <p:commandButton id="primaryKeyButton" value="Select primary key."
-                             action="#{fileUploadController.setPrimarKeyAction}" update="primaryKeyMessage">
 
-
-            </p:commandButton>
-            <p:message id="primaryKeyMessage" for="primaryKeyForm:primaryKeyButton" showDetail="true" autoUpdate="true"
-                       closable="true"
-                       globalOnly="false"/>
         </h:form>
 
         <p:separator/>
