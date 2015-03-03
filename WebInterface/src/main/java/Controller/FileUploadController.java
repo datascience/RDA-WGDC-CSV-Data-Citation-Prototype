@@ -79,6 +79,22 @@
  */
 
 /*
+ * Copyright [2015] [Stefan Pröll]
+ *
+ *    Licensed under the Apache License, Version 2.0 (the "License");
+ *    you may not use this file except in compliance with the License.
+ *    You may obtain a copy of the License at
+ *
+ *        http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *    Unless required by applicable law or agreed to in writing, software
+ *    distributed under the License is distributed on an "AS IS" BASIS,
+ *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *    See the License for the specific language governing permissions and
+ *    limitations under the License.
+ */
+
+/*
  * Copyright [2014] [Stefan Pröll]
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
@@ -163,6 +179,8 @@ import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by stefan on 17.06.14.
@@ -467,7 +485,7 @@ public class FileUploadController implements Serializable {
 
         if (this.tableNameInput == null) {
             this.logger.warning("TableName Input was Null");
-            this.tableNameInput = username + "_";
+            this.tableNameInput = "csv_"+username + "_";
             return this.tableNameInput;
         } else {
             return this.tableNameInput;
@@ -607,11 +625,81 @@ public class FileUploadController implements Serializable {
         this.uploadedCSVFile = uploadedCSVFile;
     }
 
+    /*
+    * As the user types in a dataset name, this method is called via Ajax and prefedines the table name.
+    * Removes stop words and replaces blanks with strings
+    * * * */
     public void updateTableNameInput(){
+        String currentDatasetTitle = this.dataSetTitle.toLowerCase();
+       
+      
+       // set the string
+        this.tableNameInput = this.simplifyTableName(currentDatasetTitle);
+        // validate it
+        this.tableNameInput = this.validateTableNameInput();
+
+
+    }
+    
+    private String simplifyTableName(String currentDatasetTitle){
+
         SessionManager sm = new SessionManager();
         User user = sm.getLogedInUserObject();
-        this.tableNameInput = "csv_"+user.getUsername()+"_"+this.dataSetTitle.replaceAll(" ", "_").toLowerCase();
+        Pattern p = Pattern.compile("\\b(I|is|this|its|a|the|an|it)\\b\\s?");
+        Matcher m = p.matcher(currentDatasetTitle);
+        String simplifiedString = m.replaceAll("").replaceAll(" ", "_").toLowerCase();
+
+        return simplifiedString;
+
+    }
+    
+    private void sendMessageToInteface(String targetId, String text, String details){
+        FacesContext context = FacesContext.getCurrentInstance();
 
 
+        FacesMessage msg = new FacesMessage(text, details);
+        context.addMessage(
+                targetId, msg
+        );
+        
+    }
+    
+    public String validateTableNameInput(){
+        this.logger.info("Validating...");
+        SessionManager sm = new SessionManager();
+        User user = sm.getLogedInUserObject();
+        
+        String prefix = "csv_"+user.getUsername()+"_";
+        
+        String simplifiedString = this.getTableNameInput();
+        
+        simplifiedString = this.simplifyTableName(simplifiedString);
+        
+        // validate if the table name starts with csv_username
+        if(simplifiedString.startsWith(prefix)== false){
+            simplifiedString = prefix+simplifiedString;
+          
+        }
+        
+        // remove the last dash 
+        if(simplifiedString.endsWith("_")){
+            simplifiedString = simplifiedString.substring(0,simplifiedString.length()-1);
+        }
+        
+        int currentLength = simplifiedString.length();
+        this.logger.info("Tablename length: " + currentLength);
+        // MySQL has a hard limit for table names of 64 characters
+        if(currentLength>=64){
+            this.sendMessageToInteface("fileUploadForm:fileUploadMessage", "Table name is too long. Truncating table " +
+                            "name to 64 characters",
+                    "Cutting off everything after character 64");
+            simplifiedString = simplifiedString.substring(0,64);
+
+        }
+        
+        this.tableNameInput = simplifiedString;
+        return this.tableNameInput;
+        
+        
     }
 }
