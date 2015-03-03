@@ -63,6 +63,22 @@
  *    limitations under the License.
  */
 
+/*
+ * Copyright [2015] [Stefan Pröll]
+ *
+ *    Licensed under the Apache License, Version 2.0 (the "License");
+ *    you may not use this file except in compliance with the License.
+ *    You may obtain a copy of the License at
+ *
+ *        http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *    Unless required by applicable law or agreed to in writing, software
+ *    distributed under the License is distributed on an "AS IS" BASIS,
+ *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *    See the License for the specific language governing permissions and
+ *    limitations under the License.
+ */
+
 package Controller;
 
 
@@ -231,11 +247,11 @@ public class DatabaseMigrationController implements Serializable {
         HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
         String url = request.getRequestURL().toString();
 
-        url.replace("uploadNewCSV", "landingpage");
+        url.replace("uploadNewCSV", "dataset-landingpage");
         url += "?requestPID=";
         this.logger.info("url was: " + request.getRequestURL().toString());
 
-        String newURL = url.replace("uploadNewCSV", "landingpage");
+        String newURL = url.replace("uploadNewCSV", "dataset-landingpage");
         this.logger.info("new url is: " + newURL);
 
 
@@ -270,11 +286,11 @@ public class DatabaseMigrationController implements Serializable {
             String url = request.getRequestURL().toString();
 
 
-            String newURL = url.replace("uploadNewCSV", "landingpage");
+            String newURL = url.replace("uploadNewCSV", "dataset-landingpage");
             newURL += "?requestPID=" + sm.getTableDefinitionBean().getBaseTablePID();
 
 
-            msgText = "You successfully imported the data into the system! Click on View existing data to proceed or on the landing page link: <a href=\"" + newURL + "\">Landing page</a>";
+            msgText = "You successfully imported the data into the system! Click on the landing page link: <a href=\"" + newURL + "\">Landing page</a>";
         } else {
             msgText = "There was an error during uploading. Please consult the logs!";
         }

@@ -30,12 +30,29 @@
  *    limitations under the License.
  */
 
+/*
+ * Copyright [2015] [Stefan Pröll]
+ *
+ *    Licensed under the Apache License, Version 2.0 (the "License");
+ *    you may not use this file except in compliance with the License.
+ *    You may obtain a copy of the License at
+ *
+ *        http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *    Unless required by applicable law or agreed to in writing, software
+ *    distributed under the License is distributed on an "AS IS" BASIS,
+ *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *    See the License for the specific language governing permissions and
+ *    limitations under the License.
+ */
+
 package Bean;
 
 import Database.DatabaseOperations.DatabaseTools;
 import QueryStore.BaseTable;
 import QueryStore.Query;
 import QueryStore.QueryStoreAPI;
+import at.stefanproell.PersistentIdentifierMockup.PersistentIdentifierAPI;
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.Session;
 
@@ -79,6 +96,9 @@ public class LandingPageBean implements Serializable {
     private String metaSuggestedCitationString;
     private String metaTitle;
     private String metaParentTitle;
+    private String metaParentURL;
+    private String metaSubsetURL;
+    
 
 
     private String requestPID;
@@ -190,9 +210,14 @@ public class LandingPageBean implements Serializable {
 
 
         if (query != null) {
+            PersistentIdentifierAPI pidApi = new PersistentIdentifierAPI();
+            
             this.logger.info("Setting metadata fields");
             this.metaPid = query.getPID();
+            this.metaSubsetURL = pidApi.getPIDObjectFromPIDString(this.metaPid).getURI();
             this.metaParentPid = baseTable.getBaseTablePID();
+            
+            this.metaParentURL = pidApi.getPIDObjectFromPIDString(this.metaParentPid).getURI();
             this.metaExecutionDate = query.getExecution_timestamp().toString();
             this.metaResultSetHash = query.getResultSetHash();
             this.metaQueryHash = query.getQueryHash();
@@ -370,13 +395,6 @@ public class LandingPageBean implements Serializable {
 
     public void initPidRequest() {
 
-
-        ;
-
-
-
-
-
         if (requestPID != null) {
 
 
@@ -410,9 +428,13 @@ public class LandingPageBean implements Serializable {
 
     private void updateBaseTableFields(BaseTable baseTable) {
         if (baseTable != null) {
+            PersistentIdentifierAPI pidApi = new PersistentIdentifierAPI();
+            
             this.logger.info("Setting metadata fields");
             this.metaPid = "";
             this.metaParentPid = baseTable.getBaseTablePID();
+
+            this.metaParentURL = pidApi.getPIDObjectFromPIDString(this.metaParentPid).getURI();
             this.metaExecutionDate = "";
             this.metaResultSetHash = "";
             this.metaQueryHash = "";
@@ -441,5 +463,22 @@ public class LandingPageBean implements Serializable {
         this.availableSubsets = this.retrieveSubsetsFromDatabase(this.selectedBaseTable);
 
 
+    }
+
+    public String getMetaParentURL() {
+        this.logger.info("Getting url: " + metaParentURL);
+        return metaParentURL;
+    }
+
+    public void setMetaParentURL(String metaParentURL) {
+        this.metaParentURL = metaParentURL;
+    }
+
+    public String getMetaSubsetURL() {
+        return metaSubsetURL;
+    }
+
+    public void setMetaSubsetURL(String metaSubsetURL) {
+        this.metaSubsetURL = metaSubsetURL;
     }
 }
