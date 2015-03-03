@@ -15,6 +15,22 @@
   -->
 
 <!--
+  ~ Copyright [2015] [Stefan Pröll]
+  ~
+  ~    Licensed under the Apache License, Version 2.0 (the "License");
+  ~    you may not use this file except in compliance with the License.
+  ~    You may obtain a copy of the License at
+  ~
+  ~        http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~    Unless required by applicable law or agreed to in writing, software
+  ~    distributed under the License is distributed on an "AS IS" BASIS,
+  ~    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~    See the License for the specific language governing permissions and
+  ~    limitations under the License.
+  -->
+
+<!--
   ~ Copyright [2014] [Stefan Pröll]
   ~
   ~    Licensed under the Apache License, Version 2.0 (the "License");
@@ -33,32 +49,59 @@
 <html xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns="http://www.w3.org/1999/xhtml">
 
 
 <h:head></h:head>
 
 <h:body>
-    <h1>Resolve a persistent parentIdentifier</h1>
+    <div id="containerId" class="container">
 
-    <p>Provide a name first, then upload the file.</p>
+    <!-- BEGIN user management -->
+    <div>
+        <!-- BEGIN user management -->
+        <ui:include src="/topmenu.xhtml"/>
+        <!-- END user management -->
+    </div>
+    <!-- END user management -->
 
-    <h:form>
+    <f:metadata>
+        <f:viewParam name="requestPID" value="#{landingPageBean.requestPID}"/>
+        <f:viewAction action="#{landingPageBean.initPidRequest}"/>
+    </f:metadata>
 
-        <p:inputText required="true" requiredMessage="The table name is required"
-                     value="#{fileUploadController.columnName}">
-            <f:ajax event="blur"/>
-        </p:inputText>
-
-
-        <p:commandButton value="Migrate into Database."
-                         action="#{databaseMigrationController.migrate}">
-
-
-        </p:commandButton>
-        <p:commandButton value="View uploaded data" action="#{databaseMigrationController.viewTable}"/>
+    <h:form id="remoteCommandForm">
+        <p:remoteCommand name="loadPage" actionListener="#{landingPageBean.loadData}" autoRun="true"/>
     </h:form>
 
+    <h1>Landing Pages</h1>
+    <h:form id="resolverForm">
+        <p:panel header="Select a Superset and its subset" style="width: 1024px;">
+            <h:panelGrid columns="2" cellpadding="10">
 
+
+                <h:outputText value="Superset"/>
+                <p:selectOneMenu value="#{landingPageBean.selectedBaseTable}">
+                    <f:selectItems value="#{landingPageBean.availableBaseTables}"/>
+
+                    <p:ajax update="subsetId" listener="#{landingPageBean.handleDropDownChangeBaseTables}"/>
+                </p:selectOneMenu>
+
+                <h:outputText value="Subset"/>
+                <p:selectOneMenu value="#{landingPageBean.selectedSubset}" id="subsetId">
+                    <f:selectItems value="#{landingPageBean.availableSubsets}"/>
+                    <p:ajax update=":resolverForm" listener="#{landingPageBean.handleDropDownChangeSubsets}"/>
+                </p:selectOneMenu>
+
+                <p:commandButton id="landingButton" action="#{landingPageBean.handleDropDownChangeSubsets}"
+                                 value="Retrieve data" update=":resolverForm"></p:commandButton>
+
+
+            </h:panelGrid>
+
+        </p:panel>
+    </h:form>
+    </div>
 </h:body>
 </html>

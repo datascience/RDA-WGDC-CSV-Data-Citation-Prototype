@@ -14,6 +14,22 @@
   ~    limitations under the License.
   -->
 
+<!--
+  ~ Copyright [2015] [Stefan Pröll]
+  ~
+  ~    Licensed under the Apache License, Version 2.0 (the "License");
+  ~    you may not use this file except in compliance with the License.
+  ~    You may obtain a copy of the License at
+  ~
+  ~        http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~    Unless required by applicable law or agreed to in writing, software
+  ~    distributed under the License is distributed on an "AS IS" BASIS,
+  ~    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~    See the License for the specific language governing permissions and
+  ~    limitations under the License.
+  -->
+
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
@@ -61,19 +77,19 @@
                 <p:spacer></p:spacer>
                 <p:message for="updateButton"></p:message>
 
-                <p:commandButton id="viewButton" action="table.xhtml?faces-redirect=true"
+                <p:commandButton id="createSubsetButton" action="subset.xhtml?faces-redirect=true"
                                  value="Create a subset"></p:commandButton>
                 <h:outputText value="View data and create citable subsets."/>
                     <p:spacer></p:spacer>
-                    <p:message for="viewButton"></p:message>
+                    <p:message for="createSubsetButton"></p:message>
 
-                <p:commandButton id="landingPageButton" action="landingpage.xhtml?faces-redirect=true"
-                                 value="View metadata"></p:commandButton>
+                <p:commandButton id="resolverPageButton" action="resolver.xhtml?faces-redirect=true"
+                                 value="Resolve PIDs"></p:commandButton>
 
                 <h:outputText value="View metadata of the subsets."/>
 
                     <p:spacer></p:spacer>
-                    <p:message for="landingPageButton"></p:message>
+                    <p:message for="resolverPageButton"></p:message>
 
 
             </h:panelGrid>
