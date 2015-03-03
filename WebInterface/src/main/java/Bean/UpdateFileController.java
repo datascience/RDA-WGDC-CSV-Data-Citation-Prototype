@@ -30,8 +30,25 @@
  *    limitations under the License.
  */
 
+/*
+ * Copyright [2015] [Stefan Pröll]
+ *
+ *    Licensed under the Apache License, Version 2.0 (the "License");
+ *    you may not use this file except in compliance with the License.
+ *    You may obtain a copy of the License at
+ *
+ *        http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *    Unless required by applicable law or agreed to in writing, software
+ *    distributed under the License is distributed on an "AS IS" BASIS,
+ *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *    See the License for the specific language governing permissions and
+ *    limitations under the License.
+ */
+
 package Bean;
 
+import CSVTools.CSV_API;
 import Database.DatabaseOperations.MigrationTasks;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
@@ -72,6 +89,9 @@ public class UpdateFileController {
         this.filesList = new HashMap<String, String>();
         this.filesListStrings = new ArrayList<String>();
         SessionManager sm = new SessionManager();
+
+
+        
 
     }
 
@@ -273,6 +293,12 @@ public class UpdateFileController {
 
     public void storeFiles(UploadedFile file) {
         System.out.println("Store event...");
+
+        // check if the upload directory exists or create it
+        CSV_API csvAPI = new CSV_API();
+        csvAPI.createCSVDirectory();
+        
+        
         SimpleDateFormat fmt = new SimpleDateFormat("yyyyMMddHHmmss");
 
         String path = FacesContext.getCurrentInstance().getExternalContext()
