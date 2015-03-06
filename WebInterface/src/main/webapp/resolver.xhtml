@@ -47,6 +47,22 @@
   -->
 
 <!--
+  ~ Copyright [2015] [Stefan Pröll]
+  ~
+  ~    Licensed under the Apache License, Version 2.0 (the "License");
+  ~    you may not use this file except in compliance with the License.
+  ~    You may obtain a copy of the License at
+  ~
+  ~        http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~    Unless required by applicable law or agreed to in writing, software
+  ~    distributed under the License is distributed on an "AS IS" BASIS,
+  ~    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~    See the License for the specific language governing permissions and
+  ~    limitations under the License.
+  -->
+
+<!--
   ~ Copyright [2014] [Stefan Pröll]
   ~
   ~    Licensed under the Apache License, Version 2.0 (the "License");
@@ -118,6 +134,33 @@
 
         </p:panel>
     </h:form>
+
+        <h:form id="resolverFieldForm">
+            <p:panel header="Insert a PID" style="width: 1024px;">
+                <h:panelGrid columns="5" cellpadding="5" columnClasses="column1,column2,column3,column3,column3" >
+
+                    <p:outputLabel for="pidInput" value="PID"/>
+                    <p:inputText id="pidInput" required="true" requiredMessage="A PID is required"
+                                 value="#{resolverBean.requestPID}"
+                                 title="Enter a PID here. It will resolve to the landing page">
+
+                    </p:inputText>
+
+                    <p:tooltip id="pidInputTipp" for="pidInput" showEvent="focus" hideEvent="blur" />
+                    <p:message for="pidInput" />
+                    <h:outputText value="#{validationView.text}" />
+
+                    <p:commandButton id="resolverButton" action="#{resolverBean.resolvePIDfromTextInput}"
+                                     value="Retrieve data"></p:commandButton>
+                    
+                    
+                    
+                    
+
+                </h:panelGrid>
+
+            </p:panel>
+        </h:form>
     </div>
 </h:body>
 </html>
