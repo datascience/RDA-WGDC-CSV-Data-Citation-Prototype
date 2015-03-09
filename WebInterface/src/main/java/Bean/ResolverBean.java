@@ -46,6 +46,22 @@
  *    limitations under the License.
  */
 
+/*
+ * Copyright [2015] [Stefan Pröll]
+ *
+ *    Licensed under the Apache License, Version 2.0 (the "License");
+ *    you may not use this file except in compliance with the License.
+ *    You may obtain a copy of the License at
+ *
+ *        http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *    Unless required by applicable law or agreed to in writing, software
+ *    distributed under the License is distributed on an "AS IS" BASIS,
+ *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *    See the License for the specific language governing permissions and
+ *    limitations under the License.
+ */
+
 package Bean;
 
 import Controller.ResolverController;
@@ -126,17 +142,28 @@ public class ResolverBean implements Serializable{
     }
 
     public void handleDropDownChangeSubsets() {
-        //based on the number provided, change "regions" attribute.
-        this.logger.info("change subsets. Subset is is now " + this.selectedSubset);
         QueryStoreAPI queryAPI = new QueryStoreAPI();
-        
-        Query query = queryAPI.getQueryByPID(this.selectedSubset);
-        
+        this.logger.info("change subsets. Subset is is now " + this.selectedSubset);
+
+        if(this.selectedSubset==null || this.selectedSubset.equals("")){
+            this.logger.info("There was no subset selected");
+            this.resolverController.setSelectedSubset(null);
+
+        } else{
+
+
+            Query query = queryAPI.getQueryByPID(this.selectedSubset);
+
+
+            this.resolverController.setSelectedSubset(query.getPID());
+
+        }
+
         BaseTable baseTable = queryAPI.getBaseTableByTableNameOnly(this.selectedBaseTable);
 
 
         this.resolverController.setSelectedBaseTable(baseTable.getBaseTablePID());
-        this.resolverController.setSelectedSubset(query.getPID());
+
         
         
 
