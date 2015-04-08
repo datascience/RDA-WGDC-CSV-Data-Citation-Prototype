@@ -14,6 +14,22 @@
   ~    limitations under the License.
   -->
 
+<!--
+  ~ Copyright [2015] [Stefan Pröll]
+  ~
+  ~    Licensed under the Apache License, Version 2.0 (the "License");
+  ~    you may not use this file except in compliance with the License.
+  ~    You may obtain a copy of the License at
+  ~
+  ~        http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~    Unless required by applicable law or agreed to in writing, software
+  ~    distributed under the License is distributed on an "AS IS" BASIS,
+  ~    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~    See the License for the specific language governing permissions and
+  ~    limitations under the License.
+  -->
+
 <html xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:p="http://primefaces.org/ui"
@@ -22,6 +38,8 @@
 
 
 <h:head>
+    <link type="text/css" rel="stylesheet" href="css/csv-citation-custom.css"/>
+
     <style>
 
         /*increase padding of checkboxes */
@@ -43,16 +61,27 @@
     <ui:include src="/topmenu.xhtml"/>
     <!-- END user management -->
 
+    <div id="bodydiv" class="paragraphcontainer">
+
     <h1>Update existing data with a new CSV file</h1>
-    You can upload an updated version of the data. Select the database and the appropriate table first.
+    <p>
+    You can upload an updated version of the data. Please consider that you can only update CSV files which have the
+    same structure as the original file had. There are several modes available. In some scenarios, only new data needs
+    to be appended to an existing dataset. In this case new records are inserted and the original data is not changed.
+    In other cases you might need to re-upload a file after you made some corrections. In this case the system needs
+    to detect changed records and update them accordingly.
+    </p>
+    <p>
+    If your CSV file contains headers, please indicate this in the menu below. Otherwise the headers will be inserted
+        as new records.
+    </p>
 
 
-    <h1>Upload a new CSV data file</h1>
-
-    <h2>Step 1: Select the database and the table containing the data you want to update.</h2>
+    <h2>Step 1: Select the changed data</h2>
 
     <p>Select the table that will be updated. Please note that your CSV file needs to be in the very same format as it
-        was during the first upload. </p>
+        was during the first upload. Select the file from your hard drive and submit it.</p>
+
     <h:form enctype="multipart/form-data">
         <h:selectOneMenu id="databaseDropDown" valueChangeListener="#{databaseTableNameBean.handleChangeDatabaseName}"
                          required="true" value="#{databaseTableNameBean.databaseName}"
@@ -81,9 +110,9 @@
     </h:form>
     <br></br>
 
-    <h2>Step 2: Choose the updated file.</h2>
+    <h2>Step 2: Define settings</h2>
 
-    <p>You can either upload the file with the changes included or you can provide a file only containing new data.</p>
+    <p>Please select if you are only inserting new data or if you want to update existing data.</p>
 
     <h:form id="uploadCommandForm">
         <p:row>
@@ -121,12 +150,7 @@
                     </p:commandButton>
                 </p:column>
             </p:row>
-            <p:row>
-                <p:column colspan="2">
-                    <p:commandButton action="table.xhtml?faces-redirect=true" value="View existing data"/>
-                </p:column>
 
-            </p:row>
 
         </p:panelGrid>
         <p:message id="updateMessage" for="uploadCommandForm:updateButton" showDetail="true" autoUpdate="true"
@@ -144,6 +168,6 @@
 
     </h:form>
 
-
+    </div>
 </h:body>
 </html>

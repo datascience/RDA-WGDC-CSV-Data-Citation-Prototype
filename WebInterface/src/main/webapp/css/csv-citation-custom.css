@@ -20,6 +20,13 @@
 /*    margin-right: auto */
 }
 
+.paragraphcontainer {
+    width: 800px; /* pick whatever width you want */
+    display: block;
+    margin-left: 15px;
+/*    margin-right: auto */
+}
+
 .centerText{
 text-align: center;
 }
