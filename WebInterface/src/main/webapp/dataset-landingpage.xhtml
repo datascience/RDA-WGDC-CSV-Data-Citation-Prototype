@@ -216,30 +216,8 @@
             <p:panel header="Download area" style="width: 1024px;">
                 <h:panelGrid columns="3" cellpadding="10" columnClasses="label,button,descr" style="width: 100%">
 
-
-                <h:outputText value="Download CSV Subset"/>
-                <p:commandButton value="Download" ajax="false"
-                                 onclick="PrimeFaces.monitorDownload(start, stop)"
-                                 actionListener="#{downloadController.subsetCSVAction}"
-                                 icon="ui-icon-arrowthick-1-s">
-                    <p:fileDownload value="#{downloadController.downloadCSVFile}"/>
-                </p:commandButton>
-                    <h:outputText value="Download the CSV data of this subset at the execution time of the query"/>
-
-
-
-                <h:outputText value="Download Latest Subset"/>
-
-                    <p:commandButton value="Download" ajax="false"
-                                     onclick="PrimeFaces.monitorDownload(start, stop)"
-                                     actionListener="#{downloadController.latestSetAction}"
-                                     icon="ui-icon-arrowthick-1-s">
-                        <p:fileDownload value="#{downloadController.downloadLatestCSVFile}"/>
-                </p:commandButton>
-                    <h:outputText value="Download the CSV data of this subset at its current state"/>
-
-
                 <h:outputText value="Download Full DB"/>
+
                 <p:commandButton value="Download" ajax="false"
                                  onclick="PrimeFaces.monitorDownload(start, stop);"
                                  actionListener="#{downloadController.parentCSVAction}"
@@ -248,18 +226,6 @@
                 </p:commandButton>
                     <h:outputText value="Download the full database as CSV file"/>
 
-                    <h:outputText value="Download Diff CSV file"/>
-
-
-                    <p:commandButton value="Download" ajax="false"
-                                     onclick="PrimeFaces.monitorDownload(start, stop)"
-                                     actionListener="#{downloadController.diffSetAction}"
-                                     icon="ui-icon-arrowthick-1-s">
-                        <p:fileDownload value="#{downloadController.downloadCSVFile}"/>
-                    </p:commandButton>
-
-                    <h:outputText
-                            value="Download the differences as CSV between the subset at its original execution time and now."/>
                 
             </h:panelGrid>
         </p:panel>

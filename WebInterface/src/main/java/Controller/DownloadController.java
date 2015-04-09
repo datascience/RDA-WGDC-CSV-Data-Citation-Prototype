@@ -139,18 +139,32 @@ public class DownloadController implements Serializable {
         String selectedSubset = sm.getLandingPageSelectedSubset();
         QueryStoreAPI queryStoreAPI = new QueryStoreAPI();
         BaseTable baseTable = queryStoreAPI.getBaseTableByTableNameOnly(parentPID);
+        if(baseTable==null){
+            baseTable = queryStoreAPI.getBaseTableByPID(parentPID);
+        }
 
         DatabaseTools dbTools = new DatabaseTools();
 
+
+        String baseTableQueryString ="";
+        Date datasetDate;
         if (selectedSubset != null) {
 
-            Query query = queryStoreAPI.getQueryByPID(selectedSubset);
-            String baseTableQueryString = queryStoreAPI.getParentUnfilteredStringFromQuery(baseTable, query.getExecution_timestamp());
-            CachedRowSet resultSet = dbTools.reExecuteQuery(baseTableQueryString);
+            Query query    = queryStoreAPI.getQueryByPID(selectedSubset);
+            datasetDate = query.getExecution_timestamp();
 
-            this.writeParentCSV(resultSet, query.getExecution_timestamp().toString());
+            baseTableQueryString = queryStoreAPI.getParentUnfilteredStringFromQuery(baseTable, datasetDate);
+
+        } else{
+            datasetDate =  baseTable.getLastUpdate();
+            baseTableQueryString = queryStoreAPI.getParentUnfilteredStringFromQuery(baseTable, datasetDate);
+
         }
 
+
+        CachedRowSet resultSet = dbTools.reExecuteQuery(baseTableQueryString);
+
+        this.writeParentCSV(resultSet, datasetDate.toString());
 
 //        this.getDownloadFileName(query);
 

@@ -133,9 +133,9 @@ public class ResolverBean implements Serializable{
 
         QueryStoreAPI queryAPI = new QueryStoreAPI();
         BaseTable baseTable = queryAPI.getBaseTableByTableNameOnly(this.selectedBaseTable);
-        
+        String baseTablePID = baseTable.getBaseTablePID();
 
-        this.resolverController.setSelectedBaseTable(baseTable.getBaseTablePID());
+        this.resolverController.setSelectedBaseTable(baseTablePID);
         
         
 

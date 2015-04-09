@@ -416,6 +416,8 @@ public class LandingPageBean implements Serializable {
 
         if (requestPID != null) {
 
+            SessionManager sm = new SessionManager();
+
 
             this.logger.info("Set request: " + requestPID);
             QueryStoreAPI queryAPI = new QueryStoreAPI();
@@ -423,13 +425,14 @@ public class LandingPageBean implements Serializable {
             Query query = queryAPI.getQueryByPID(requestPID);
 
             if (query == null) {
-                this.logger.info("This was not a query pid. Checking base tables");
+                this.logger.info("This was not a subset pid. Checking base tables");
                 BaseTable baseTable = queryAPI.getBaseTableByPID(requestPID);
                 if (baseTable == null) {
                     this.logger.severe("Not a valid Pid!");
                 } else {
                     this.logger.info("Base table found!");
                     this.updateBaseTableFields(baseTable);
+                    sm.setLandingPageSelectedParent(requestPID);
 
                 }
 
@@ -437,7 +440,7 @@ public class LandingPageBean implements Serializable {
             } else {
                 BaseTable baseTable = query.getBaseTable();
                 this.updateMetadataFields(query, baseTable);
-                SessionManager sm = new SessionManager();
+                sm.setLandingPageSelectedParent(baseTable.getBaseTablePID());
                 sm.setLandingPageSelectedSubset(requestPID);
             }
 
