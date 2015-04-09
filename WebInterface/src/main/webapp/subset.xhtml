@@ -1,35 +1,3 @@
-<!--
-  ~ Copyright [2015] [Stefan Pröll]
-  ~
-  ~    Licensed under the Apache License, Version 2.0 (the "License");
-  ~    you may not use this file except in compliance with the License.
-  ~    You may obtain a copy of the License at
-  ~
-  ~        http://www.apache.org/licenses/LICENSE-2.0
-  ~
-  ~    Unless required by applicable law or agreed to in writing, software
-  ~    distributed under the License is distributed on an "AS IS" BASIS,
-  ~    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  ~    See the License for the specific language governing permissions and
-  ~    limitations under the License.
-  -->
-
-<!--
-  ~ Copyright [2015] [Stefan Pröll]
-  ~
-  ~    Licensed under the Apache License, Version 2.0 (the "License");
-  ~    you may not use this file except in compliance with the License.
-  ~    You may obtain a copy of the License at
-  ~
-  ~        http://www.apache.org/licenses/LICENSE-2.0
-  ~
-  ~    Unless required by applicable law or agreed to in writing, software
-  ~    distributed under the License is distributed on an "AS IS" BASIS,
-  ~    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  ~    See the License for the specific language governing permissions and
-  ~    limitations under the License.
-  -->
-
 <html xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:p="http://primefaces.org/ui"
@@ -144,11 +112,14 @@ function AjaxUpdateDataFailed(result) {
 
     </script>
 
+    <link type="text/css" rel="stylesheet" href="css/csv-citation-custom.css"/>
 
 </h:head>
 
 
 <h:body id="dt_data_table">
+
+
     <ui:debug/>
 
 
@@ -161,10 +132,27 @@ function AjaxUpdateDataFailed(result) {
     </h:form>
     <!-- END Hidden form-->
 
-    <div id="containerId" class="container">
+
+
+
         <!-- BEGIN user management -->
         <ui:include src="/topmenu.xhtml"/>
         <!-- END user management -->
+
+        <div id="bodydiv" class="paragraphcontainer">
+            <h1>Create a Subset</h1>
+            <p>
+                Load the data you are interested in and specify the columns that you want to include. Confirm your selection
+                before you start filtering. You can rearrange the columns with drag and drop. Once you have filtered and
+                sorted the data set according to your needs, provide a title and a description for the subset. Confirm your
+                selection.
+
+                Note that you can use the %-sign as a wildcard for filtering! The system is case insensitive.
+            </p>
+        </div>
+
+
+    <div id="containerId">
         <h:form id="selectForm">
             <h:selectOneMenu id="databaseDropDown"
                              valueChangeListener="#{databaseTableNameBean.handleChangeDatabaseName}"
@@ -228,7 +216,7 @@ function AjaxUpdateDataFailed(result) {
         </div>
         <!-- end table div -->
 
-        <p><br></br></p>
+        <p><span style="color:green">Hint</span>Use the % as wildcard, e.g. Mozart%</p>
 
 
     <!-- end container -->
