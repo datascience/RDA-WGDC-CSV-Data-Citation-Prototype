@@ -1,0 +1,3 @@
+The WHO dataset is compiled from different sources and contains health data about countries.
+A compiled set of social, economic, health, and political indicators using data from the World Health Organization and partner organizations.
+http://www.exploredata.net/Downloads/WHO-Data-Set
