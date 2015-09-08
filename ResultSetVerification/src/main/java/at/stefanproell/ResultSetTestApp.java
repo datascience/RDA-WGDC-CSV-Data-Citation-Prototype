@@ -61,6 +61,20 @@ public class ResultSetTestApp {
         System.out.println("Hello World!");
         ResultSetVerificationAPI api = new ResultSetVerificationAPI();
 
+        String input = "SELECT sensor_id, sensor_name,measurement_value FROM sensors WHERE sensor_name LIKE " +
+                "temperature_lab_13";
+
+        String sha1 = api.calculateSHA1HashFromString(input);
+        System.out.println( sha1+ " length: " + sha1.length() );
+        String sha2 = api.calculateSHA256HashFromString(input);
+        System.out.println( sha2+ " length: " + sha2.length() );
+        String sha512 = api.calculateSHA512HashFromString(input);
+        System.out.println(sha512+ " length: " + sha512.length());
+
+        String md5 = api.calculateMD5HashFromString(input);
+        System.out.println( md5+ " length: " + md5.length() );
+
+
 
         System.exit(0);
 

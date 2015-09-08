@@ -78,11 +78,10 @@
                 <configuration>
                     <path>/cite</path>
                     <update>true</update>
-                    <!--
                     <url>http://localhost:8080/manager/text</url>
-                    <username>admin</username>
-                    <password>admin</password>
-                    -->
+                    <username>tcadm1</username>
+                    <password>tcadmate15</password>
+
 
                 </configuration>
 

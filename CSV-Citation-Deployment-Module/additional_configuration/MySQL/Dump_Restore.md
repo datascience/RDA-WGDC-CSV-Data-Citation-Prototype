@@ -10,10 +10,10 @@ Databases
 
 
 
-mysqldump -u root -p CitationUserDB > CitationUserDB.sql
-mysqldump -u root -p PersistentIdentifierDB > PersistentIdentifierDB.sql
-mysqldump -u root -p QueryStoreDB > QueryStoreDB.sql
-mysqldump -u root -p CitationDB > CitationDB.sql
+mysqldump -uquerystoreuser -pquery2014 CitationUserDB > CitationUserDB.sql
+mysqldump -uquerystoreuser -pquery2014 PersistentIdentifierDB > PersistentIdentifierDB.sql
+mysqldump -uquerystoreuser -pquery2014 QueryStoreDB > QueryStoreDB.sql
+mysqldump -uquerystoreuser -pquery2014  CitationDB > CitationDB.sql
 
 echo "USE CitationUserDB;" > CSV-CitationBaseSystem.sql
 cat CitationUserDB.sql >>  CSV-CitationBaseSystem.sql

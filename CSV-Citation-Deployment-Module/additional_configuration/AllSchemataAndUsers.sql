@@ -19,7 +19,13 @@ GRANT ALL PRIVILEGES ON `CitationUserDB`. * TO 'querystoreuser'@'localhost';
 GRANT ALL PRIVILEGES ON `CitationDB`. * TO 'querystoreuser'@'localhost';
 GRANT ALL PRIVILEGES ON `PersistentIdentifierDB`. * TO 'querystoreuser'@'localhost';
 GRANT ALL PRIVILEGES ON `CitationUserDB`. * TO 'querystoreuser'@'localhost';
+GRANT SELECT, LOCK TABLES ON `QueryStoreDB`.* TO 'querystoreuser'@'localhost';
+GRANT SELECT, LOCK TABLES ON `CitationUserDB`.* TO 'querystoreuser'@'localhost';
+GRANT SELECT, LOCK TABLES ON `CitationDB`.* TO 'querystoreuser'@'localhost';
+GRANT SELECT, LOCK TABLES ON `PersistentIdentifierDB`.* TO 'querystoreuser'@'localhost';
+GRANT SELECT, LOCK TABLES ON `CitationUserDB`.* TO 'querystoreuser'@'localhost';
 
 FLUSH PRIVILEGES;
+
 
 
