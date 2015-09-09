@@ -163,7 +163,7 @@ public class SelectColumnsController implements Serializable {
     }
 
 
-    public void reloadPageAndRefresh() {
+    public void loadTable() {
         this.logger.info("Reload and refresh pressed");
         SessionManager sm = new SessionManager();
         String currentTable = sm.getCurrentTableNameFromSession();
@@ -172,8 +172,18 @@ public class SelectColumnsController implements Serializable {
         //@todo is this needed?
         //this.init();
 
+        this.availableColumnsList = null;
+        this.selectedColumnsList = null;
 
-      //  this.refreshPage();
+        this.availableColumnsList = sm.getColumnNamesForSelectedColumnsCheckBoxesFromDB();
+        //@todo
+        this.selectedColumnsList = this.availableColumnsList;
+
+
+        this.logger.info("Initialization count : " + availableColumnsList.size());
+        sm.storeSelectedColumnsFromTableMap(availableColumnsList);
+
+       // this.refreshPage();
 
         this.showSelectDataSet = false;
         this.showColumnsGroup = true;

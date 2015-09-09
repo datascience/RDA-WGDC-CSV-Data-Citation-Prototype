@@ -140,6 +140,7 @@ function AjaxUpdateDataFailed(result) {
     <h:form id="remoteCommandForm">
         <p:remoteCommand name="onLoadTable" actionListener="#{databaseTableNameBean.onLoadTable}" autoRun="true"/>
         <p:remoteCommand name="onLoadTableReset" actionListener="#{queryStoreController.reset}" autoRun="true"/>
+        <p:remoteCommand name="init" actionListener="#{selectColumnsController.init}" autoRun="true"/>
 
 
     </h:form>
@@ -171,7 +172,7 @@ function AjaxUpdateDataFailed(result) {
                 <f:selectItems value="#{databaseTableNameBean.tableNames}"/>
                 <p:ajax update=":selectedColumnsForm"/>
             </h:selectOneMenu>
-            <p:commandButton action="#{selectColumnsController.reloadPageAndRefresh}" value="Load table"/>
+            <p:commandButton action="#{selectColumnsController.loadTable}" value="Load table"/>
                 <h:panelGroup />
             </h:panelGrid>
             </p:panel>
