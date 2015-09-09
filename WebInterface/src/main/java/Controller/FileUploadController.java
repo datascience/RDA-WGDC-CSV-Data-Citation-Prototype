@@ -188,6 +188,7 @@ import org.primefaces.model.UploadedFile;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
@@ -230,6 +231,9 @@ public class FileUploadController implements Serializable {
     private String dataSetTitle;
     
     private File uploadedCSVFile;
+
+    @ManagedProperty(value="#{tableDefinitionController}")
+    private TableDefinitionController tableDefinitionController;
 
 
 
@@ -339,28 +343,80 @@ public class FileUploadController implements Serializable {
      */
     public void handleFileUpload(FileUploadEvent event) {
         System.out.println("Upload event...");
-        UploadedFile uploadedFile  = event.getFile();
-        if(uploadedFile!=null){
-            System.out.println("Store event...");
-            SimpleDateFormat fmt = new SimpleDateFormat("yyyyMMddHHmmss");
+        UploadedFile file = event.getFile();
+        SessionManager sm = new SessionManager();
+        String tableName = sm.getTableDefinitionBean().getTableName();
 
 
-            SessionManager sm = new SessionManager();
-            String fileName = uploadedFile.getFileName()+fmt.format(new Date())+".csv";
+        this.filesListStrings.add(file.getFileName());
 
-            try {
-                File upload =  storeCSVFile(fileName, event.getFile().getInputstream());
-                this.setUploadedCSVFile(upload);
 
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        FacesMessage msg = new FacesMessage("Succesful", event.getFile().getFileName() + " is uploaded. Textfield: "
+                + tableName);
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+
+
+        System.out.println("added to files list " + filesList + " with Summary field " + tableName);
+
+        this.storeFiles(file);
+        this.updateCSVColumnList();
+
+
+        //
+        // schreiben
+        Map<String, Object> session = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
+        session.put("fileListHashMap", this.filesList);
+        this.logger.info("Writing file list to session...");
+
+        // Update forms
+        this.tableDefinitionController.setShowPrimaryKeyForm(true);
+        this.tableDefinitionController.setShowUploadForm(false);
+        RequestContext.getCurrentInstance().update("uploadformOuterGroup");
+        RequestContext.getCurrentInstance().update("primaryKeyOuterGroup");
+
+    }
+
+
+
+
+
+    public void storeFiles(UploadedFile file) {
+        System.out.println("Store event...");
+        SimpleDateFormat fmt = new SimpleDateFormat("yyyyMMddHHmmss");
+
+        String path = FacesContext.getCurrentInstance().getExternalContext()
+                .getRealPath("/");
+        SessionManager sm = new SessionManager();
+        String tableName = sm.getTableDefinitionBean().getTableName();
+
+
+        String name = tableName + "_" + fmt.format(new Date())
+                + file.getFileName().substring(
+                file.getFileName().lastIndexOf('.')) + ".csv";
+
+        File fileToStore = new File(path + "/" + name);
+        System.out.println("Path set to: " + fileToStore.getAbsolutePath());
+
+        InputStream is = null;
+        try {
+            is = file.getInputstream();
+            OutputStream out = new FileOutputStream(fileToStore);
+            byte buf[] = new byte[1024];
+            int len;
+            while ((len = is.read(buf)) > 0)
+                out.write(buf, 0, len);
+            is.close();
+            out.close();
+        } catch (IOException e) {
+            System.out.println("error");
+            e.printStackTrace();
 
 
 
         }
 
-        
+        this.filesList.put(tableName, fileToStore.getAbsolutePath());
+
 
 
         
@@ -371,8 +427,7 @@ public class FileUploadController implements Serializable {
     }
     
 
-
-   protected void storePrimaryKeyListInSession(List<String> selectedPrimaryKeyColumns) {
+    protected void storePrimaryKeyListInSession(List<String> selectedPrimaryKeyColumns) {
         System.out.println("Store primary key list in session");
 
         // schreiben
@@ -422,7 +477,7 @@ public class FileUploadController implements Serializable {
 * * */
     public void onLoad(ActionEvent event) {
         this.logger.info("File Upload Controller onLoad-.. " + event.toString());
-//        this.reset();
+        this.reset();
         this.selectedPrimaryKeyColumns = new ArrayList<String>();
         //   this.handleChangeDatabaseName(null);
         SessionManager sm = new SessionManager();
@@ -505,11 +560,16 @@ public class FileUploadController implements Serializable {
 
         if (this.tableNameInput == null) {
             this.logger.warning("TableName Input was Null");
-            this.tableNameInput = "csv_"+username + "_";
+            this.tableNameInput = "csv_" + username + "_";
             return this.tableNameInput;
         } else {
             return this.tableNameInput;
         }
+    }
+
+    public TableDefinitionController getTableDefinitionController() {
+        return tableDefinitionController;
+
 
     }
 
@@ -684,42 +744,45 @@ public class FileUploadController implements Serializable {
         
     }
     
-    public String validateTableNameInput(){
+    public String validateTableNameInput() {
         this.logger.info("Validating...");
         SessionManager sm = new SessionManager();
         User user = sm.getLogedInUserObject();
-        
-        String prefix = "csv_"+user.getUsername()+"_";
-        
+
+        String prefix = "csv_" + user.getUsername() + "_";
+
         String simplifiedString = this.getTableNameInput();
-        
+
         simplifiedString = this.simplifyTableName(simplifiedString);
-        
+
         // validate if the table name starts with csv_username
-        if(simplifiedString.startsWith(prefix)== false){
-            simplifiedString = prefix+simplifiedString;
-          
+        if (simplifiedString.startsWith(prefix) == false) {
+            simplifiedString = prefix + simplifiedString;
+
         }
-        
+
         // remove the last dash 
-        if(simplifiedString.endsWith("_")){
-            simplifiedString = simplifiedString.substring(0,simplifiedString.length()-1);
+        if (simplifiedString.endsWith("_")) {
+            simplifiedString = simplifiedString.substring(0, simplifiedString.length() - 1);
         }
-        
+
         int currentLength = simplifiedString.length();
         this.logger.info("Tablename length: " + currentLength);
         // MySQL has a hard limit for table names of 64 characters
-        if(currentLength>=64){
+        if (currentLength >= 64) {
             this.sendMessageToInteface("fileUploadForm:fileUploadMessage", "Table name is too long. Truncating table " +
                             "name to 64 characters",
                     "Cutting off everything after character 64");
-            simplifiedString = simplifiedString.substring(0,64);
+            simplifiedString = simplifiedString.substring(0, 64);
 
         }
-        
+
         this.tableNameInput = simplifiedString;
         return this.tableNameInput;
+    }
         
         
+    public void setTableDefinitionController(TableDefinitionController tableDefinitionController) {
+        this.tableDefinitionController = tableDefinitionController;
     }
 }

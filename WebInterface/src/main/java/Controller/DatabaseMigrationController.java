@@ -283,9 +283,9 @@ public class DatabaseMigrationController implements Serializable {
         this.displayMigrationMessage();
         
         // delete the tmp file
-        FileHelpers fH = new FileHelpers();
+   //     FileHelpers fH = new FileHelpers();
         
-        fH.deleteUploadedFile(fUp.getUploadedCSVFile().getAbsolutePath());
+  //      fH.deleteUploadedFile(fUp.getUploadedCSVFile().getAbsolutePath());
 
 
     }

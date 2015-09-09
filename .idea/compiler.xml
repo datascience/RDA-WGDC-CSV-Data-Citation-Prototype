@@ -35,16 +35,16 @@
         <module name="WebInterface" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel target="1.7">
-      <module name="BatchMode" target="1.7" />
-      <module name="CSV-Citation-Deployment-Module" target="1.7" />
-      <module name="CSVTools" target="1.7" />
-      <module name="Database" target="1.7" />
-      <module name="DatatableModel" target="1.7" />
-      <module name="PersistentIdentification" target="1.7" />
-      <module name="QueryStore" target="1.7" />
-      <module name="ResultSetVerification" target="1.7" />
-      <module name="WebInterface" target="1.7" />
+    <bytecodeTargetLevel target="1.8">
+      <module name="BatchMode" target="1.8" />
+      <module name="CSV-Citation-Deployment-Module" target="1.8" />
+      <module name="CSVTools" target="1.8" />
+      <module name="Database" target="1.8" />
+      <module name="DatatableModel" target="1.8" />
+      <module name="PersistentIdentification" target="1.8" />
+      <module name="QueryStore" target="1.8" />
+      <module name="ResultSetVerification" target="1.8" />
+      <module name="WebInterface" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>
