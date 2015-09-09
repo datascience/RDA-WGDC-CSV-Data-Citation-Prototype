@@ -15,6 +15,22 @@
  *    limitations under the License.
  */
 
+/*
+ * Copyright [2015] [Stefan Pröll]
+ *
+ *    Licensed under the Apache License, Version 2.0 (the "License");
+ *    you may not use this file except in compliance with the License.
+ *    You may obtain a copy of the License at
+ *
+ *        http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *    Unless required by applicable law or agreed to in writing, software
+ *    distributed under the License is distributed on an "AS IS" BASIS,
+ *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *    See the License for the specific language governing permissions and
+ *    limitations under the License.
+ */
+
 package Database.DatabaseOperations;
 
 
@@ -138,6 +154,56 @@ public class DatabaseTools {
 
 
     }
+
+
+    /*
+Count the records which are not deleted..
+ */
+    public int getNumberOfActiveRecords(String baseTableMame){
+        String sqlActiveRecords = "SELECT COUNT(DISTINCT ID_SYSTEM_SEQUENCE) AS activeRecords FROM " + baseTableMame + " " +
+                "WHERE  " +
+                "(RECORD_STATUS = 'inserted' OR RECORD_STATUS = 'updated')";
+        this.logger.info("Active records SQL: " + sqlActiveRecords);
+        
+
+        Connection connection = null;
+        ResultSet maxSequenceResult = null;
+        int numberOfActiveStatements = 0;
+        try {
+            connection = this.getConnection();
+
+
+            Statement numberOfActiveRecordsStatement = connection.createStatement();
+
+            maxSequenceResult = numberOfActiveRecordsStatement.executeQuery(sqlActiveRecords);
+
+            if (maxSequenceResult.next()) {
+                numberOfActiveStatements = maxSequenceResult.getInt("activeRecords");
+                this.logger.info("Number of active records: " + numberOfActiveStatements);
+
+            }
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (connection != null) {
+                    connection.close();
+                }
+                if (maxSequenceResult != null) {
+                    maxSequenceResult.close();
+                }
+            } catch (SQLException sqlee) {
+                sqlee.printStackTrace();
+            }
+        }
+        
+        return numberOfActiveStatements;
+
+    }
+    
+    
+    
 
     public CachedRowSet queryDatabase(String tableName, int sortingColumnsID,
                                       String sortingDirection, Map<String, String> filterMap,
