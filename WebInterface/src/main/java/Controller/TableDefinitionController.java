@@ -70,6 +70,7 @@ public class TableDefinitionController implements Serializable {
 
     public TableDefinitionController() {
         this.logger = Logger.getLogger(this.getClass().getName());
+        this.resetForms();
     }
 
     public String getTableNameInput() {
@@ -155,10 +156,20 @@ public class TableDefinitionController implements Serializable {
         tableBean.setDatabaseName(this.databaseName);
 
         sm.updateTableDefinitionBean(tableBean);
+
+        this.resetForms();
+
+
+    }
+
+    private void resetForms(){
         this.showMetadataForm=true;
         this.showUploadForm=false;
         this.showPrimaryKeyForm=false;
 
+        RequestContext.getCurrentInstance().update("metadataOuterGroup");
+        RequestContext.getCurrentInstance().update("uploadformOuterGroup");
+        RequestContext.getCurrentInstance().update("primaryKeyOuterGroup");
     }
 
     public void setTableDefinitionFormdata() {

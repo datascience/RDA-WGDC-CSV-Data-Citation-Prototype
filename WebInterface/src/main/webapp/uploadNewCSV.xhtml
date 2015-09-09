@@ -38,6 +38,7 @@
     <h:form>
         <p:remoteCommand name="onLoad" actionListener="#{databaseTableNameBean.onLoad}" autoRun="true"/>
         <p:remoteCommand name="onLoad" actionListener="#{fileUploadController.onLoad}" autoRun="true"/>
+        <p:remoteCommand name="onLoad" actionListener="#{tableDefinitionController.init}" autoRun="true"/>
     </h:form>
     <!-- END Hidden form-->
 
