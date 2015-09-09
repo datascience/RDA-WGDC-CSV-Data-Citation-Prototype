@@ -139,8 +139,8 @@ function AjaxUpdateDataFailed(result) {
     <!-- BEGIN: Hidden Form for Init-->
     <h:form id="remoteCommandForm">
         <p:remoteCommand name="onLoadTable" actionListener="#{databaseTableNameBean.onLoadTable}" autoRun="true"/>
-        <p:remoteCommand name="onLoadTableReset" actionListener="#{queryStoreController.reset}" autoRun="true"/>
         <p:remoteCommand name="init" actionListener="#{selectColumnsController.init}" autoRun="true"/>
+
 
 
     </h:form>
@@ -214,8 +214,13 @@ function AjaxUpdateDataFailed(result) {
         </h:panelGroup>
 
 
+
+
+
         <h:panelGroup id="tableDataOuterGroup">
         <h:panelGroup id="tableDataGroup"  rendered="#{selectColumnsController.showDataTableGroup}">
+
+
         <div id="table-div">
 
 
@@ -236,6 +241,7 @@ function AjaxUpdateDataFailed(result) {
             <div id="buttonPlaceholder"></div>
         </div>
 
+        </h:panelGroup>
         <!-- end table div -->
 
         <p><br></br></p>
@@ -243,7 +249,7 @@ function AjaxUpdateDataFailed(result) {
 
     <!-- end container -->
 
-        <div id="MenuButtonsDiv">
+
 
             <p:messages for="queryStoreMessage" showDetail="true" autoUpdate="true"
                         closable="true" escape="false"></p:messages>
@@ -268,7 +274,9 @@ function AjaxUpdateDataFailed(result) {
 
 
                         <p:commandButton value="Create subset"
-                                         action="#{queryStoreController.createSubset}"></p:commandButton>
+                                         action="#{queryStoreController.createSubset}">
+                            <f:param name="showDataTableGroup" value="#{selectColumnsController.showDataTableGroup}" />
+                        </p:commandButton>
 
                         <p:messages id="msgs"/>
 
@@ -283,10 +291,11 @@ function AjaxUpdateDataFailed(result) {
                 </p:panel>
             </h:form>
 
-        </div>
+
         <!-- end buttons -->
+
         </h:panelGroup>
-        </h:panelGroup>
+
     </div>
     <!-- end container -->
 </h:body>

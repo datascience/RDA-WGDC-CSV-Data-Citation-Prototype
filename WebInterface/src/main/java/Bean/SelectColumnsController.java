@@ -143,6 +143,7 @@ public class SelectColumnsController implements Serializable {
         RequestContext.getCurrentInstance().update("selectColumnsOuterGroup");
         RequestContext.getCurrentInstance().update("selectDataTableOuterGroup");
 
+
         this.refreshPage();
 
 
