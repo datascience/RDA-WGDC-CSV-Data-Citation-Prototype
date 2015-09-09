@@ -14,10 +14,42 @@
  *    limitations under the License.
  */
 
+/*
+ * Copyright [2015] [Stefan Pröll]
+ *
+ *    Licensed under the Apache License, Version 2.0 (the "License");
+ *    you may not use this file except in compliance with the License.
+ *    You may obtain a copy of the License at
+ *
+ *        http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *    Unless required by applicable law or agreed to in writing, software
+ *    distributed under the License is distributed on an "AS IS" BASIS,
+ *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *    See the License for the specific language governing permissions and
+ *    limitations under the License.
+ */
+
+/*
+ * Copyright [2015] [Stefan Pröll]
+ *
+ *    Licensed under the Apache License, Version 2.0 (the "License");
+ *    you may not use this file except in compliance with the License.
+ *    You may obtain a copy of the License at
+ *
+ *        http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *    Unless required by applicable law or agreed to in writing, software
+ *    distributed under the License is distributed on an "AS IS" BASIS,
+ *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *    See the License for the specific language governing permissions and
+ *    limitations under the License.
+ */
+
 package CSVTools;
 
 
-import au.com.bytecode.opencsv.CSVWriter;
+
 import org.apache.commons.codec.digest.DigestUtils;
 import org.supercsv.io.CsvListReader;
 import org.supercsv.io.CsvListWriter;
@@ -40,6 +72,7 @@ import java.util.logging.Logger;
 public class CSV_API {
     private Logger logger;
     private static MessageDigest crypto;
+    private final String DIRECTORY = "/tmp/CSV-Files/";
 
     public CSV_API() {
         this.logger = Logger.getLogger(this.getClass().getName());
@@ -554,4 +587,38 @@ public class CSV_API {
         }
     }
 
+    public void createCSVDirectory() {
+        File file = new File(DIRECTORY);
+
+        boolean b = false;
+
+/*
+* exists() method tests whether the file or directory denoted by this
+* abstract pathname exists or not accordingly it will return TRUE /
+* FALSE.
+*/
+
+        if (!file.exists()) {
+/*
+* mkdirs() method creates the directory mentioned by this abstract
+* pathname including any necessary but nonexistent parent
+* directories.
+*
+* Accordingly it will return TRUE or FALSE if directory created
+* successfully or not. If this operation fails it may have
+* succeeded in creating some of the necessary parent directories.
+*/
+            b = file.mkdirs();
+        }
+        if (b)
+            System.out.println("Directory successfully created");
+        else
+            System.out.println("Failed to create directory");
+    }
+    
+    
+
+    public String getDIRECTORY() {
+        return DIRECTORY;
+    }
 }

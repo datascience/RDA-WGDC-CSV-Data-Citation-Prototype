@@ -96,6 +96,86 @@ public class ResultSetVerificationAPI {
 
     }
 
+    /**
+     * Calculate SHA1 hash from input
+     *
+     * @param inputString
+     * @return
+     * @throws NoSuchAlgorithmException
+     */
+    public String calculateSHA1HashFromString(String inputString) {
+        try {
+            this.crypto.update(inputString.getBytes("utf8"));
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        String hash = DigestUtils.sha1Hex(this.crypto.digest());
+        return hash;
+
+
+
+    }
+    /**
+     * Calculate SHA1 hash from input
+     *
+     * @param inputString
+     * @return
+     * @throws NoSuchAlgorithmException
+     */
+    public String calculateSHA256HashFromString(String inputString) {
+        try {
+            this.crypto.update(inputString.getBytes("utf8"));
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        String hash = DigestUtils.sha256Hex(this.crypto.digest());
+
+        return hash;
+
+
+
+    }
+
+    /**
+     * Calculate md5 hash from input
+     *
+     * @param inputString
+     * @return
+     * @throws NoSuchAlgorithmException
+     */
+    public String calculateMD5HashFromString(String inputString) {
+        try {
+            this.crypto.update(inputString.getBytes("utf8"));
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        String hash = DigestUtils.md5Hex(this.crypto.digest());
+        return hash;
+
+
+
+    }
+
+    /**
+     * Calculate SHA512 hash from input
+     *
+     * @param inputString
+     * @return
+     * @throws NoSuchAlgorithmException
+     */
+    public String calculateSHA512HashFromString(String inputString) {
+        try {
+            this.crypto.update(inputString.getBytes("utf8"));
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        String hash = DigestUtils.sha512Hex(this.crypto.digest());
+        return hash;
+
+
+
+    }
+
 
     /**
      * Execute the query provided from the querstore.

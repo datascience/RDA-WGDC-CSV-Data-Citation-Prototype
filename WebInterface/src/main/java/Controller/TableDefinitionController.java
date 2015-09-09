@@ -36,6 +36,7 @@ import Bean.SessionManager;
 import Bean.TableDefinitionBean;
 import Database.Authentication.User;
 import Database.DatabaseOperations.DatabaseTools;
+import org.primefaces.context.RequestContext;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -60,11 +61,16 @@ public class TableDefinitionController implements Serializable {
     private String databaseName;
     private List<String> databaseNames;
     private String dataSetTitle;
+    private boolean showMetadataForm;
+    private boolean showUploadForm;
+    private boolean showPrimaryKeyForm;
+
 
 
 
     public TableDefinitionController() {
         this.logger = Logger.getLogger(this.getClass().getName());
+        this.resetForms();
     }
 
     public String getTableNameInput() {
@@ -151,6 +157,19 @@ public class TableDefinitionController implements Serializable {
 
         sm.updateTableDefinitionBean(tableBean);
 
+        this.resetForms();
+
+
+    }
+
+    private void resetForms(){
+        this.showMetadataForm=true;
+        this.showUploadForm=false;
+        this.showPrimaryKeyForm=false;
+
+        RequestContext.getCurrentInstance().update("metadataOuterGroup");
+        RequestContext.getCurrentInstance().update("uploadformOuterGroup");
+        RequestContext.getCurrentInstance().update("primaryKeyOuterGroup");
     }
 
     public void setTableDefinitionFormdata() {
@@ -169,7 +188,16 @@ public class TableDefinitionController implements Serializable {
         FacesMessage msg = new FacesMessage("Data stored", "Successfully");
         FacesContext.getCurrentInstance().addMessage(null, msg);
 
+
+        this.showUploadForm=true;
+        this.showMetadataForm=false;
+        RequestContext.getCurrentInstance().update("uploadformOuterGroup");
+        RequestContext.getCurrentInstance().update("metadataOuterGroup");
+
+
+
     }
+
 
     public void handleChangeDatabaseName(ValueChangeEvent event) {
         String selectedDB = null;
@@ -192,5 +220,29 @@ public class TableDefinitionController implements Serializable {
 
     public void setDataSetTitle(String dataSetTitle) {
         this.dataSetTitle = dataSetTitle;
+    }
+
+    public boolean isShowUploadForm() {
+        return showUploadForm;
+    }
+
+    public void setShowUploadForm(boolean showUploadForm) {
+        this.showUploadForm = showUploadForm;
+    }
+
+    public boolean isShowMetadataForm() {
+        return showMetadataForm;
+    }
+
+    public void setShowMetadataForm(boolean showMetadataForm) {
+        this.showMetadataForm = showMetadataForm;
+    }
+
+    public boolean isShowPrimaryKeyForm() {
+        return showPrimaryKeyForm;
+    }
+
+    public void setShowPrimaryKeyForm(boolean showPrimaryKeyForm) {
+        this.showPrimaryKeyForm = showPrimaryKeyForm;
     }
 }

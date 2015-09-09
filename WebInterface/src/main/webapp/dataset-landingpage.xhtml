@@ -1,0 +1,241 @@
+<!--
+  ~ Copyright [2015] [Stefan Pröll]
+  ~
+  ~    Licensed under the Apache License, Version 2.0 (the "License");
+  ~    you may not use this file except in compliance with the License.
+  ~    You may obtain a copy of the License at
+  ~
+  ~        http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~    Unless required by applicable law or agreed to in writing, software
+  ~    distributed under the License is distributed on an "AS IS" BASIS,
+  ~    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~    See the License for the specific language governing permissions and
+  ~    limitations under the License.
+  -->
+
+<!--
+  ~ Copyright [2015] [Stefan Pröll]
+  ~
+  ~    Licensed under the Apache License, Version 2.0 (the "License");
+  ~    you may not use this file except in compliance with the License.
+  ~    You may obtain a copy of the License at
+  ~
+  ~        http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~    Unless required by applicable law or agreed to in writing, software
+  ~    distributed under the License is distributed on an "AS IS" BASIS,
+  ~    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~    See the License for the specific language governing permissions and
+  ~    limitations under the License.
+  -->
+
+<!--
+  ~ Copyright [2015] [Stefan Pröll]
+  ~
+  ~    Licensed under the Apache License, Version 2.0 (the "License");
+  ~    you may not use this file except in compliance with the License.
+  ~    You may obtain a copy of the License at
+  ~
+  ~        http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~    Unless required by applicable law or agreed to in writing, software
+  ~    distributed under the License is distributed on an "AS IS" BASIS,
+  ~    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~    See the License for the specific language governing permissions and
+  ~    limitations under the License.
+  -->
+
+<!--
+  ~ Copyright [2015] [Stefan Pröll]
+  ~
+  ~    Licensed under the Apache License, Version 2.0 (the "License");
+  ~    you may not use this file except in compliance with the License.
+  ~    You may obtain a copy of the License at
+  ~
+  ~        http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~    Unless required by applicable law or agreed to in writing, software
+  ~    distributed under the License is distributed on an "AS IS" BASIS,
+  ~    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~    See the License for the specific language governing permissions and
+  ~    limitations under the License.
+  -->
+
+<!--
+  ~ Copyright [2015] [Stefan Pröll]
+  ~
+  ~    Licensed under the Apache License, Version 2.0 (the "License");
+  ~    you may not use this file except in compliance with the License.
+  ~    You may obtain a copy of the License at
+  ~
+  ~        http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~    Unless required by applicable law or agreed to in writing, software
+  ~    distributed under the License is distributed on an "AS IS" BASIS,
+  ~    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~    See the License for the specific language governing permissions and
+  ~    limitations under the License.
+  -->
+
+<!--
+  ~ Copyright [2015] [Stefan Pröll]
+  ~
+  ~    Licensed under the Apache License, Version 2.0 (the "License");
+  ~    you may not use this file except in compliance with the License.
+  ~    You may obtain a copy of the License at
+  ~
+  ~        http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~    Unless required by applicable law or agreed to in writing, software
+  ~    distributed under the License is distributed on an "AS IS" BASIS,
+  ~    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~    See the License for the specific language governing permissions and
+  ~    limitations under the License.
+  -->
+
+<!--
+  ~ Copyright [2015] [Stefan Pröll]
+  ~
+  ~    Licensed under the Apache License, Version 2.0 (the "License");
+  ~    you may not use this file except in compliance with the License.
+  ~    You may obtain a copy of the License at
+  ~
+  ~        http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~    Unless required by applicable law or agreed to in writing, software
+  ~    distributed under the License is distributed on an "AS IS" BASIS,
+  ~    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~    See the License for the specific language governing permissions and
+  ~    limitations under the License.
+  -->
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+        >
+
+<h:head>
+
+    <style type="text/css">
+        .column1{width: 20%;height:auto}
+        .column2{width: 75%;height:auto}
+        .label{width: 20%;height:auto}
+        .button{width: 15%;height:auto}
+        .descr{width: 65%;height:auto}
+
+    </style>
+
+</h:head>
+
+<h:body>
+    <div id="containerId" class="container">
+
+    <!-- BEGIN user management -->
+    <div>
+        <!-- BEGIN user management -->
+        <ui:include src="/topmenu.xhtml"/>
+        <!-- END user management -->
+    </div>
+    <!-- END user management -->
+
+        <f:metadata>
+            <f:viewParam name="requestPID" value="#{landingPageBean.requestPID}"/>
+            <f:viewAction action="#{landingPageBean.initPidRequest}"/>
+        </f:metadata>
+
+        <h:form id="remoteCommandForm">
+            <p:remoteCommand name="loadPage" actionListener="#{landingPageBean.loadData}" autoRun="true"/>
+        </h:form>
+
+        <h1>Dataset Landingpage</h1>
+        <h2><a href="#{landingPageBean.metaParentURL}">#{landingPageBean.requestPID}</a></h2>
+
+        <h:form id="metadataForm">
+            <p:panel header="Landing Pages - Dataset Metadata" style="width: 1024px;">
+                <h:panelGrid columns="2" cellpadding="10" columnClasses="column1,column2" style="width: 100%">
+                    <h:outputText value="Dataset Title"/>
+                    <h:outputText value="#{landingPageBean.metaParentTitle}"/>
+                    <h:outputText value="Dataset PID"/>
+                    <h:outputText value="#{landingPageBean.metaParentPid}"/>
+                    <h:outputText value="Dataset upload timestamp"/>
+                    <h:outputText value="#{landingPageBean.metaParentUploadTimestamp}"/>
+                    <h:outputText value="Dataset author"/>
+                    <h:outputText value="#{landingPageBean.metaParentAuthor}"/>
+                    <h:outputText value="Description"/>
+
+                    <p:inputTextarea
+                            value="#{landingPageBean.metaDescription}"
+                            styleClass="no-border" readonly="true" style="width:80%">
+
+                    </p:inputTextarea>
+                    
+                    <h:outputText value="Resolver URL"/>
+                    <h:outputLink value="#{landingPageBean.metaParentURL}">#{landingPageBean.metaParentURL}</h:outputLink>
+
+
+                    <h:outputText value="Number of active records in this dataset"/>
+                    <h:outputText value="#{landingPageBean.metaParentActiveRecords}"></h:outputText>
+
+                    <p:spacer></p:spacer>
+                    <p:separator/>
+                    <h:outputText value="Suggested citation text:"/>
+                    <h:outputText value="#{landingPageBean.metaSuggestedCitationString}"/>
+
+                       
+
+                </h:panelGrid>
+
+
+            </p:panel>
+       </h:form>
+
+
+        <script type="text/javascript">
+                    function start() {
+                        PF('statusDialog').show();
+                    }
+
+                    function stop() {
+                        PF('statusDialog').hide();
+                    }
+
+        </script>
+
+
+        <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" globalOnly="true"/>
+        <p:dialog modal="true" widgetVar="statusDialog" header="Retrieving data" draggable="false" closable="false"
+                  resizable="false">
+            <p:graphicImage name="images/ajaxloadingbar.gif"/>
+
+        </p:dialog>
+
+        <h:form>
+            <p:panel header="Download area" style="width: 1024px;">
+                <h:panelGrid columns="3" cellpadding="10" columnClasses="label,button,descr" style="width: 100%">
+
+                <h:outputText value="Download Full DB"/>
+
+                <p:commandButton value="Download" ajax="false"
+                                 onclick="PrimeFaces.monitorDownload(start, stop);"
+                                 actionListener="#{downloadController.parentCSVAction}"
+                                 icon="ui-icon-arrowthick-1-s">
+                    <p:fileDownload value="#{downloadController.downloadParentCSVFile}"/>
+                </p:commandButton>
+                    <h:outputText value="Download the full database as CSV file"/>
+
+                
+            </h:panelGrid>
+        </p:panel>
+        </h:form>
+
+
+    
+
+
+
+    </div>
+</h:body>
+</html>
