@@ -145,9 +145,15 @@ public class TableDefinitionController implements Serializable {
 
     @PostConstruct
     public void init() {
+        this.dataSetDescription = null;
+        this.dataSetAuthor=null;
+        this.dataSetTitle = null;
+        this.dataSetAuthor=null;
+        this.tableNameInput = null;
+        // prefill
         this.dataSetAuthor = this.getDataSetAuthor();
         this.tableNameInput = this.getTableNameInput();
-        this.dataSetDescription = "";
+
         SessionManager sm = new SessionManager();
         TableDefinitionBean tableBean = sm.getTableDefinitionBean();
         DatabaseTools dbtools = new DatabaseTools();

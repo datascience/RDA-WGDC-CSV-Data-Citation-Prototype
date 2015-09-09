@@ -119,7 +119,7 @@ public class SessionManager {
      * Store details in session
      */
     public void storeSelectedColumnsFromTableMap(List<String> columnList) {
-        this.logger.info("++++++++++++++++++++++++ Store ... First item: " + columnList.get(0));
+
 
         if (FacesContext.getCurrentInstance() != null) {
             Map<String, Object> session = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
