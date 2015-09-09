@@ -81,15 +81,18 @@
 package Bean;
 
 import CSVTools.CSV_API;
+import Controller.TableDefinitionController;
 import Database.Authentication.User;
 import Database.DatabaseOperations.DatabaseTools;
 import org.hibernate.Session;
+import org.primefaces.context.RequestContext;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
@@ -122,6 +125,9 @@ public class FileUploadController implements Serializable {
     private List<String> CSVcolumnNames;
     private String currentSessionType = "";
     private String databaseName;
+
+    @ManagedProperty(value="#{tableDefinitionController}")
+    private TableDefinitionController tableDefinitionController;
 
 
     public FileUploadController() {
@@ -254,9 +260,11 @@ public class FileUploadController implements Serializable {
         session.put("fileListHashMap", this.filesList);
         this.logger.info("Writing file list to session...");
 
-
-
-
+        // Update forms
+        this.tableDefinitionController.setShowPrimaryKeyForm(true);
+        this.tableDefinitionController.setShowUploadForm(false);
+        RequestContext.getCurrentInstance().update("uploadformOuterGroup");
+        RequestContext.getCurrentInstance().update("primaryKeyOuterGroup");
 
     }
     
@@ -410,5 +418,11 @@ public class FileUploadController implements Serializable {
 
     }
 
+    public TableDefinitionController getTableDefinitionController() {
+        return tableDefinitionController;
+    }
 
+    public void setTableDefinitionController(TableDefinitionController tableDefinitionController) {
+        this.tableDefinitionController = tableDefinitionController;
+    }
 }

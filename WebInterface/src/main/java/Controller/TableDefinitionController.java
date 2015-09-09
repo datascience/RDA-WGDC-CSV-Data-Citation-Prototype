@@ -61,7 +61,9 @@ public class TableDefinitionController implements Serializable {
     private String databaseName;
     private List<String> databaseNames;
     private String dataSetTitle;
+    private boolean showMetadataForm;
     private boolean showUploadForm;
+    private boolean showPrimaryKeyForm;
 
 
 
@@ -153,8 +155,9 @@ public class TableDefinitionController implements Serializable {
         tableBean.setDatabaseName(this.databaseName);
 
         sm.updateTableDefinitionBean(tableBean);
-
+        this.showMetadataForm=true;
         this.showUploadForm=false;
+        this.showPrimaryKeyForm=false;
 
     }
 
@@ -174,8 +177,11 @@ public class TableDefinitionController implements Serializable {
         FacesMessage msg = new FacesMessage("Data stored", "Successfully");
         FacesContext.getCurrentInstance().addMessage(null, msg);
 
+
         this.showUploadForm=true;
-        RequestContext.getCurrentInstance().update("uploadformGroup");
+        this.showMetadataForm=false;
+        RequestContext.getCurrentInstance().update("uploadformOuterGroup");
+        RequestContext.getCurrentInstance().update("metadataOuterGroup");
 
 
 
@@ -211,5 +217,21 @@ public class TableDefinitionController implements Serializable {
 
     public void setShowUploadForm(boolean showUploadForm) {
         this.showUploadForm = showUploadForm;
+    }
+
+    public boolean isShowMetadataForm() {
+        return showMetadataForm;
+    }
+
+    public void setShowMetadataForm(boolean showMetadataForm) {
+        this.showMetadataForm = showMetadataForm;
+    }
+
+    public boolean isShowPrimaryKeyForm() {
+        return showPrimaryKeyForm;
+    }
+
+    public void setShowPrimaryKeyForm(boolean showPrimaryKeyForm) {
+        this.showPrimaryKeyForm = showPrimaryKeyForm;
     }
 }

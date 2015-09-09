@@ -50,6 +50,8 @@
 
         <h1>CSV Datafile Upload</h1>
 
+        <h:panelGroup id="metadataOuterGroup">
+            <h:panelGroup id="metadataInnerGroup" rendered="#{tableDefinitionController.showMetadataForm}">
         <p>With this you can upload a CSV file into the system. You need to select a database schema where you want to
             store
             the file and then specify a table name.<br></br> Please only chose table names starting with an alphabetical
@@ -133,9 +135,12 @@
             </h:panelGrid>
             </p:panel>
             </h:form>
+        </h:panelGroup>
+        </h:panelGroup>
 
 
-        <h:panelGroup id="uploadformGroup">
+        <h:panelGroup id="uploadformOuterGroup">
+        <h:panelGroup id="uploadformInnerGroup" rendered="#{tableDefinitionController.showUploadForm}">
 
             <h2>Step 2: Upload the data</h2>
 
@@ -197,10 +202,12 @@
         
         <p:separator/>
     </h:panelGroup>
+        </h:panelGroup>
 
 
 
-
+        <h:panelGroup id="primaryKeyOuterGroup">
+        <h:panelGroup id="primaryKeyInnerGroup" rendered="#{tableDefinitionController.showPrimaryKeyForm}">
         <h2>Step 3: Choose the Primary Key</h2>
 
         <p> Be aware that a primary key and also a combination of key forming a compound primary key must be unique.
@@ -265,7 +272,8 @@
                        globalOnly="false" escape="false"/>
         </h:form>
 
-
+        </h:panelGroup>
+        </h:panelGroup>
     </div>
 </h:body>
 </html>
