@@ -150,6 +150,10 @@ function AjaxUpdateDataFailed(result) {
         <ui:include src="/topmenu.xhtml"/>
         <!-- END user management -->
         <h:form id="selectForm">
+
+                <p:panel header="Select Dataset" style="width: 800px;">
+            <h:panelGrid columns="2" cellpadding="5">
+                <p:outputLabel value="Database schema"/>
             <h:selectOneMenu id="databaseDropDown"
                              valueChangeListener="#{databaseTableNameBean.handleChangeDatabaseName}"
                              required="true" value="#{databaseTableNameBean.databaseName}"
@@ -157,6 +161,7 @@ function AjaxUpdateDataFailed(result) {
                 <f:selectItems value="#{databaseTableNameBean.databaseNames}"/>
                 <p:ajax update="tableDropDown"/>
             </h:selectOneMenu>
+                <p:outputLabel value="Table"/>
             <h:selectOneMenu id="tableDropDown" valueChangeListener="#{databaseTableNameBean.handleChangeTableName}"
                              required="#{not empty param[databaseTableNameBean.databaseNames]}"
                              value="#{databaseTableNameBean.tableName}" onclick="submit()">
@@ -164,7 +169,9 @@ function AjaxUpdateDataFailed(result) {
                 <p:ajax update=":selectedColumnsForm"/>
             </h:selectOneMenu>
             <p:commandButton action="#{selectColumnsController.reloadPageAndRefresh}" value="Load table"/>
-
+                <h:panelGroup />
+            </h:panelGrid>
+            </p:panel>
 
         </h:form>
 
