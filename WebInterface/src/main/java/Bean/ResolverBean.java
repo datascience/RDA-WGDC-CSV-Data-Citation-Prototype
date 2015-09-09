@@ -68,6 +68,7 @@ import Controller.ResolverController;
 import QueryStore.BaseTable;
 import QueryStore.Query;
 import QueryStore.QueryStoreAPI;
+import at.stefanproell.PersistentIdentifierMockup.PersistentIdentifierAPI;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -119,7 +120,15 @@ public class ResolverBean implements Serializable{
     public void init() {
         this.logger.info("Initializing DatabaseTableNameBean");
         this.availableBaseTables = this.retrieveBaseTablesFromDatabase();
-        this.selectedBaseTable = this.availableBaseTables.get(0).getValue().toString();
+        String baseTableName = this.availableBaseTables.get(0).getValue().toString();
+        PersistentIdentifierAPI pidAPI = new PersistentIdentifierAPI();
+        //@todo hier muss PID statt tabellen namen verwendet werden!
+
+        pidAPI.getpo
+
+
+        this.selectedBaseTable = this
+
         this.availableSubsets = this.retrieveSubsetsFromDatabase(this.selectedBaseTable);
 
 
@@ -241,6 +250,7 @@ public class ResolverBean implements Serializable{
         this.logger.info("Loading data");
         this.availableBaseTables = this.retrieveBaseTablesFromDatabase();
         this.selectedBaseTable = this.availableBaseTables.get(0).getValue().toString();
+
         this.availableSubsets = this.retrieveSubsetsFromDatabase(this.selectedBaseTable);
         
         this.resolverController.setSelectedBaseTable(this.selectedBaseTable);
