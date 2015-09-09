@@ -137,6 +137,15 @@ public class DatabaseMigrationController implements Serializable {
     private static final boolean calulateHashColumn = false;
     private List<String> primaryKeys;
     private boolean successStatus = false;
+
+    public TableDefinitionController getTableDefinitionController() {
+        return tableDefinitionController;
+    }
+
+    public void setTableDefinitionController(TableDefinitionController tableDefinitionController) {
+        this.tableDefinitionController = tableDefinitionController;
+    }
+
     @ManagedProperty(value="#{tableDefinitionController}")
     private TableDefinitionController tableDefinitionController;
 
