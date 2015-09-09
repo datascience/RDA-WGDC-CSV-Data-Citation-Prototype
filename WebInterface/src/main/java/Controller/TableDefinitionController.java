@@ -36,6 +36,7 @@ import Bean.SessionManager;
 import Bean.TableDefinitionBean;
 import Database.Authentication.User;
 import Database.DatabaseOperations.DatabaseTools;
+import org.primefaces.context.RequestContext;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -60,6 +61,8 @@ public class TableDefinitionController implements Serializable {
     private String databaseName;
     private List<String> databaseNames;
     private String dataSetTitle;
+    private boolean showUploadForm;
+
 
 
 
@@ -151,6 +154,8 @@ public class TableDefinitionController implements Serializable {
 
         sm.updateTableDefinitionBean(tableBean);
 
+        this.showUploadForm=false;
+
     }
 
     public void setTableDefinitionFormdata() {
@@ -169,7 +174,13 @@ public class TableDefinitionController implements Serializable {
         FacesMessage msg = new FacesMessage("Data stored", "Successfully");
         FacesContext.getCurrentInstance().addMessage(null, msg);
 
+        this.showUploadForm=true;
+        RequestContext.getCurrentInstance().update("uploadformGroup");
+
+
+
     }
+
 
     public void handleChangeDatabaseName(ValueChangeEvent event) {
         String selectedDB = null;
@@ -192,5 +203,13 @@ public class TableDefinitionController implements Serializable {
 
     public void setDataSetTitle(String dataSetTitle) {
         this.dataSetTitle = dataSetTitle;
+    }
+
+    public boolean isShowUploadForm() {
+        return showUploadForm;
+    }
+
+    public void setShowUploadForm(boolean showUploadForm) {
+        this.showUploadForm = showUploadForm;
     }
 }

@@ -67,9 +67,11 @@
             Alsp provide the name of the data author (creator).
         </p>
 
-        <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" globalOnly="true"/>
+
         <h:form id="tableDataForm" enctype="multipart/form-data">
-            <p:panel header="Dataset Metadata" style="width: 800px;">
+            <p:panel header="Dataset Metadata" style="width: 800px;" closable="true" toggleable="true"
+                     widgetVar="metadataPanel">
+                <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" globalOnly="true"/>
                 <h:panelGrid columns="2" cellpadding="5" columnClasses="column1,column2" style="width: 100%">
 
 
@@ -81,40 +83,49 @@
                     <f:selectItems value="#{tableDefinitionController.databaseNames}"/>
                     <p:ajax update="databaseDropDown"/>
                 </h:selectOneMenu>
+                    <h:panelGroup />
+                    <p:message for="databaseDropDown" />
 
                 <p:outputLabel value="Tablename"/>
-                <p:inputText required="true" requiredMessage="The table name is required"
+                <p:inputText id="tableInput" required="true" requiredMessage="The table name is required"
                              value="#{tableDefinitionController.tableNameInput}">
                     <f:ajax event="blur"/>
                 </p:inputText>
+                    <h:panelGroup />
+                    <p:message for="tableInput" />
 
 
                 <p:outputLabel value="Author"/>
-                <p:inputText required="true" requiredMessage="An author is required"
+                <p:inputText id="authorInput" required="true" requiredMessage="An author is required"
                              value="#{tableDefinitionController.dataSetAuthor}">
                     <f:ajax event="blur"/>
                 </p:inputText>
+                    <h:panelGroup />
+                    <p:message for="authorInput" />
 
                 <p:outputLabel value="Dataset title"/>
-                <p:inputText required="true" requiredMessage="A title is required"
+                <p:inputText id="titleInput" required="true" requiredMessage="A title is required"
                              value="#{tableDefinitionController.dataSetTitle}">
                     <f:ajax event="blur"/>
                 </p:inputText>
+                <h:panelGroup />
+                <p:message for="titleInput" />
 
 
                 <p:outputLabel value="Description"/>
-                    <p:inputTextarea
+                    <p:inputTextarea id="descriptionText"
                             value="#{tableDefinitionController.dataSetDescription}"
                             styleClass="no-border" readonly="false"
                             style="width: 80%;height: 100%;"
                             rows="10"
                             required="true" requiredMessage="A title is required"
                             />
+                    <h:panelGroup />
+                    <p:message for="descriptionText" />
 
 
                     <p:commandButton id="tableDefinitionButton" value="Set data."
-                                 action="#{tableDefinitionController.setTableDefinitionFormdata}"
-                                 update="tableDataForm">
+                                 action="#{tableDefinitionController.setTableDefinitionFormdata}" >
 
 
                 </p:commandButton>
@@ -122,6 +133,9 @@
             </h:panelGrid>
             </p:panel>
             </h:form>
+
+
+        <h:panelGroup id="uploadformGroup">
 
             <h2>Step 2: Upload the data</h2>
 
@@ -158,7 +172,7 @@
         </p>
 
 
-        <h:form>
+        <h:form id="uploadform"  rendered="#{tableDefinitionController.showUploadForm}">
 
 
             <p:fileUpload fileUploadListener="#{fileUploadController.handleFileUpload}"
@@ -182,6 +196,11 @@
        </h:form>
         
         <p:separator/>
+    </h:panelGroup>
+
+
+
+
         <h2>Step 3: Choose the Primary Key</h2>
 
         <p> Be aware that a primary key and also a combination of key forming a compound primary key must be unique.
