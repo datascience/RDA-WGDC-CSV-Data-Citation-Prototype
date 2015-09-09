@@ -153,19 +153,7 @@
                 </p:commandButton>
                     <h:outputText value="Download the full database as CSV file"/>
 
-                    <h:outputText value="Download Diff CSV file"/>
 
-
-                    <p:commandButton value="Download" ajax="false"
-                                     onclick="PrimeFaces.monitorDownload(start, stop)"
-                                     actionListener="#{downloadController.diffSetAction}"
-                                     icon="ui-icon-arrowthick-1-s">
-                        <p:fileDownload value="#{downloadController.downloadCSVFile}"/>
-                    </p:commandButton>
-
-                    <h:outputText
-                            value="Download the differences as CSV between the subset at its original execution time and now."/>
-                
             </h:panelGrid>
         </p:panel>
         </h:form>
