@@ -22,17 +22,65 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
-        <module name="BatchMode" />
         <module name="CSV2DB" />
         <module name="CSVModule" />
-        <module name="CSVTools" />
-        <module name="Database" />
-        <module name="DatatableModel" />
-        <module name="PersistentIdentification" />
         <module name="PersistentIdentifier" />
-        <module name="QueryStore" />
+      </profile>
+      <profile default="false" name="Annotation profile for DatatableModel" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="true" />
+        <module name="DatatableModel" />
+      </profile>
+      <profile default="false" name="Annotation profile for ResultSetVerification" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="true" />
         <module name="ResultSetVerification" />
+      </profile>
+      <profile default="false" name="Annotation profile for QueryStore" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="true" />
+        <module name="QueryStore" />
+      </profile>
+      <profile default="false" name="Annotation profile for PersistentIdentification" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="true" />
+        <module name="PersistentIdentification" />
+      </profile>
+      <profile default="false" name="Annotation profile for WebInterface" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="true" />
         <module name="WebInterface" />
+      </profile>
+      <profile default="false" name="Annotation profile for CSVTools" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="true" />
+        <module name="CSVTools" />
+      </profile>
+      <profile default="false" name="Annotation profile for BatchMode" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="true" />
+        <module name="BatchMode" />
+      </profile>
+      <profile default="false" name="Annotation profile for Database" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="true" />
+        <module name="Database" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="1.7">
