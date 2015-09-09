@@ -64,6 +64,7 @@ public class TableDefinitionController implements Serializable {
     private boolean showMetadataForm;
     private boolean showUploadForm;
     private boolean showPrimaryKeyForm;
+    private boolean showMigrateButton;
 
 
 
@@ -166,10 +167,12 @@ public class TableDefinitionController implements Serializable {
         this.showMetadataForm=true;
         this.showUploadForm=false;
         this.showPrimaryKeyForm=false;
+        this.showMigrateButton=false;
 
         RequestContext.getCurrentInstance().update("metadataOuterGroup");
         RequestContext.getCurrentInstance().update("uploadformOuterGroup");
         RequestContext.getCurrentInstance().update("primaryKeyOuterGroup");
+        RequestContext.getCurrentInstance().update("migrateButtonOuterGroup");
     }
 
     public void setTableDefinitionFormdata() {
@@ -244,5 +247,13 @@ public class TableDefinitionController implements Serializable {
 
     public void setShowPrimaryKeyForm(boolean showPrimaryKeyForm) {
         this.showPrimaryKeyForm = showPrimaryKeyForm;
+    }
+
+    public boolean isShowMigrateButton() {
+        return showMigrateButton;
+    }
+
+    public void setShowMigrateButton(boolean showMigrateButton) {
+        this.showMigrateButton = showMigrateButton;
     }
 }

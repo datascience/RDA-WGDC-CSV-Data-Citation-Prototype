@@ -545,6 +545,11 @@ public class FileUploadController implements Serializable {
         context.addMessage(
                 "primaryKeyForm:primaryKeyButton", msg
         );
+
+        // show migrate buttons
+        this.tableDefinitionController.setShowMigrateButton(true);
+        RequestContext.getCurrentInstance().update("migrateButtonOuterGroup");
+
         return null;
 
 

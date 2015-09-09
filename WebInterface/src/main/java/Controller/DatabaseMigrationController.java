@@ -106,10 +106,12 @@ import Database.DatabaseOperations.MigrationTasks;
 import Helpers.FileHelpers;
 import QueryStore.BaseTable;
 import QueryStore.QueryStoreAPI;
+import org.primefaces.context.RequestContext;
 
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
@@ -135,6 +137,9 @@ public class DatabaseMigrationController implements Serializable {
     private static final boolean calulateHashColumn = false;
     private List<String> primaryKeys;
     private boolean successStatus = false;
+    @ManagedProperty(value="#{tableDefinitionController}")
+    private TableDefinitionController tableDefinitionController;
+
 
     public List<String> getPrimaryKey() {
         this.primaryKeys = this.getPrimaryKeyListFromSession();
@@ -230,6 +235,10 @@ public class DatabaseMigrationController implements Serializable {
     * Method called from the Web interface with no parameters
     * */
     public void migrationController() {
+
+        // close the select columns pane
+        this.tableDefinitionController.setShowPrimaryKeyForm(false);
+        RequestContext.getCurrentInstance().update("primaryKeyOuterGroup");
 
         SessionManager sm = new SessionManager();
         FileUploadController fUp = (FileUploadController ) sm.getManagedBean("fileUploadController");

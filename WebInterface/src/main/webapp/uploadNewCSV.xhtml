@@ -87,7 +87,7 @@
                     <p:ajax update="databaseDropDown"/>
                 </h:selectOneMenu>
                     <h:panelGroup />
-                    <p:message for="databaseDropDown" />
+                    <p:message for="databaseDropDown" id="databaseDtopDownmMsg"/>
 
                 <p:outputLabel value="Tablename"/>
                 <p:inputText id="tableInput" required="true" requiredMessage="The table name is required"
@@ -95,7 +95,7 @@
                     <f:ajax event="blur"/>
                 </p:inputText>
                     <h:panelGroup />
-                    <p:message for="tableInput" />
+                    <p:message for="tableInput" id="tableNameMsg" />
 
 
                 <p:outputLabel value="Author"/>
@@ -104,7 +104,7 @@
                     <f:ajax event="blur"/>
                 </p:inputText>
                     <h:panelGroup />
-                    <p:message for="authorInput" />
+                    <p:message for="authorInput" id="authorInputMsg" />
 
                 <p:outputLabel value="Dataset title"/>
                 <p:inputText id="titleInput" required="true" requiredMessage="A title is required"
@@ -112,7 +112,7 @@
                     <f:ajax event="blur"/>
                 </p:inputText>
                 <h:panelGroup />
-                <p:message for="titleInput" />
+                <p:message for="titleInput" id="titleInputMsg"/>
 
 
                 <p:outputLabel value="Description"/>
@@ -121,14 +121,15 @@
                             styleClass="no-border" readonly="false"
                             style="width: 80%;height: 100%;"
                             rows="10"
-                            required="true" requiredMessage="A title is required"
+                            required="true" requiredMessage="A description is required"
                             />
                     <h:panelGroup />
-                    <p:message for="descriptionText" />
+                    <p:message for="descriptionText" id="descriptionMsg"/>
 
 
                     <p:commandButton id="tableDefinitionButton" value="Set data."
-                                 action="#{tableDefinitionController.setTableDefinitionFormdata}" >
+                                 action="#{tableDefinitionController.setTableDefinitionFormdata}"
+                                     update="titleInputMsg authorInputMsg descriptionMsg tableNameMsg databaseDtopDownmMsg">
 
 
                 </p:commandButton>
@@ -218,6 +219,9 @@
         <!-- primary column -->
 
         <h:form id="primaryKeyForm">
+            <p:panel header="Select Columns" style="width: 800px;">
+            <h:panelGrid columns="1" cellpadding="5">
+
             <p:outputLabel value="Primary key"/>
 
 
@@ -227,54 +231,59 @@
                                   requiredMessage="At least one column needs to be checked">
                 <f:selectItems value="#{fileUploadController.columnsValue}"/>
             </h:selectManyCheckbox>
-            <h:message for="primaryKeyMultiCheckbox"/>
+            <p:message for="primaryKeyMultiCheckbox" id="primaryKeyMultiCheckboxMsg"/>
             <p:commandButton id="primaryKeyButton" value="Select primary key."
-                             action="#{fileUploadController.setPrimarKeyAction}" update="primaryKeyMessage">
+                             action="#{fileUploadController.setPrimarKeyAction}" update="primaryKeyMessage primaryKeyMultiCheckboxMsg">
 
 
             </p:commandButton>
             <p:message id="primaryKeyMessage" for="primaryKeyForm:primaryKeyButton" showDetail="true" autoUpdate="true"
                        closable="true"
                        globalOnly="false"/>
-        </h:form>
-
-        <p:separator/>
-
-
-
-        <h:form id="migrateForm">
-
-            <h:panelGrid columns="2" cellpadding="5">
-
-
-            <p:commandButton id="migrateButton" value="Migrate into Database."
-                             action="#{databaseMigrationController.migrationController}"
-                             update="migrationMessage"/>
-
-                <p:commandButton action="table.xhtml?faces-redirect=true" value="View existing data"/>
-
-                <p:ajaxStatus style="display:block;margin-bottom:2em;height:36;">
-                    <f:facet name="default">
-                        <h:outputText value=""/>
-                    </f:facet>
-
-                    <f:facet name="start">
-                        <p:graphicImage name="images/ajax-loader.gif"/>
-                    </f:facet>
-
-                    <f:facet name="complete">
-                        <h:outputText value=""/>
-                    </f:facet>
-                </p:ajaxStatus>
             </h:panelGrid>
-
-            <p:message id="migrationMessage" for="migrateForm:migrateButton" showDetail="true" autoUpdate="true"
-                       closable="true"
-                       globalOnly="false" escape="false"/>
+            </p:panel>
         </h:form>
 
         </h:panelGroup>
         </h:panelGroup>
+
+        <h:panelGroup id="migrateButtonOuterGroup">
+        <h:panelGroup id="migrateButtonInnerGroup" rendered="#{tableDefinitionController.showMigrateButton}">
+        <h:form id="migrateForm">
+            <p:panel header="Migrate data into database" style="width: 800px;">
+                <h:panelGrid columns="2" cellpadding="5">
+
+
+                    <p:commandButton id="migrateButton" value="Migrate into Database."
+                                     action="#{databaseMigrationController.migrationController}"
+                                     update="migrationMessage"/>
+
+
+
+                    <p:ajaxStatus style="display:block;margin-bottom:2em;height:20;">
+                        <f:facet name="default">
+                            <h:outputText value=""/>
+                        </f:facet>
+
+                        <f:facet name="start">
+                            <p:graphicImage name="images/ajax-loader.gif"/>
+                        </f:facet>
+
+                        <f:facet name="complete">
+                            <h:outputText value=""/>
+                        </f:facet>
+                    </p:ajaxStatus>
+
+
+                    <p:message id="migrationMessage" for="migrateForm:migrateButton" showDetail="true" autoUpdate="true"
+                               closable="true"
+                               globalOnly="false" escape="false"/>
+                </h:panelGrid>
+            </p:panel>
+        </h:form>
+        </h:panelGroup>
+        </h:panelGroup>
+
     </div>
 </h:body>
 </html>
