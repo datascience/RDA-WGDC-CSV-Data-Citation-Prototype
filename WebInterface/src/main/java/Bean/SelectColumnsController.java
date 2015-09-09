@@ -32,22 +32,18 @@
 
 package Bean;
 
-import Database.DatabaseOperations.DatabaseTools;
+import org.primefaces.context.RequestContext;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
-import javax.faces.application.ViewHandler;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import javax.faces.component.UIViewRoot;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.logging.Logger;
 
 /**
@@ -64,6 +60,11 @@ public class SelectColumnsController implements Serializable {
 
     private List<String> selectedColumnsList;
     private List<String> availableColumnsList;
+    private boolean showSelectDataSet;
+    private boolean showColumnsGroup;
+    private boolean showDataTableGroup;
+
+
 
 
     public List<String> getSelectedColumnsList() {
@@ -111,6 +112,8 @@ public class SelectColumnsController implements Serializable {
         this.logger.info("Initialization count : " + availableColumnsList.size());
         sm.storeSelectedColumnsFromTableMap(availableColumnsList);
 
+        this.resetForms();
+
 
     }
 
@@ -131,7 +134,19 @@ public class SelectColumnsController implements Serializable {
                 "selectedColumnsForm:selectedColumnsButton", msg
         );
 
+        this.showSelectDataSet = false;
+        this.showColumnsGroup = false;
+        this.showDataTableGroup = true;
+
+
+        RequestContext.getCurrentInstance().update("selectFormOuterGroup");
+        RequestContext.getCurrentInstance().update("selectColumnsOuterGroup");
+        RequestContext.getCurrentInstance().update("selectDataTableOuterGroup");
+
         this.refreshPage();
+
+
+
 
 
     }
@@ -153,11 +168,65 @@ public class SelectColumnsController implements Serializable {
         SessionManager sm = new SessionManager();
         String currentTable = sm.getCurrentTableNameFromSession();
         this.logger.info("Table is now");
-        this.init();
-        this.refreshPage();
+
+        //@todo is this needed?
+        //this.init();
+
+
+      //  this.refreshPage();
+
+        this.showSelectDataSet = false;
+        this.showColumnsGroup = true;
+        this.showDataTableGroup = false;
+
+
+        RequestContext.getCurrentInstance().update("selectFormOuterGroup");
+        RequestContext.getCurrentInstance().update("selectColumnsOuterGroup");
+        RequestContext.getCurrentInstance().update("selectDataTableOuterGroup");
+
+
+
+
 
 
     }
 
+    private void resetForms(){
 
+            this.showSelectDataSet = true;
+            this.showColumnsGroup = false;
+            this.showDataTableGroup = false;
+
+
+            RequestContext.getCurrentInstance().update("selectFormOuterGroup");
+            RequestContext.getCurrentInstance().update("selectColumnsOuterGroup");
+            RequestContext.getCurrentInstance().update("selectDataTableOuterGroup");
+
+
+
+    }
+
+    public boolean isShowSelectDataSet() {
+        return showSelectDataSet;
+    }
+
+    public void setShowSelectDataSet(boolean showSelectDataSet) {
+        this.showSelectDataSet = showSelectDataSet;
+    }
+
+    public boolean isShowColumnsGroup() {
+        return showColumnsGroup;
+    }
+
+    public void setShowColumnsGroup(boolean showColumnsGroup) {
+        this.showColumnsGroup = showColumnsGroup;
+    }
+
+    public boolean isShowDataTableGroup() {
+        return showDataTableGroup;
+    }
+
+    public void setShowDataTableGroup(boolean showDataTableGroup) {
+        this.showDataTableGroup = showDataTableGroup;
+    }
 }
