@@ -261,8 +261,7 @@ function AjaxUpdateDataFailed(result) {
 
 
             <p:spacer height="30"></p:spacer>
-            <p:messages for="queryStoreMessage" showDetail="true" autoUpdate="true"
-                        closable="true" escape="false"></p:messages>
+
             <h:form id="queryStoreForm">
 
                 <p:panel header="Create a new subset" style="width: 1024px;">
@@ -279,7 +278,7 @@ function AjaxUpdateDataFailed(result) {
                                      value="#{queryStoreController.dataSetDescription}">
                             <f:ajax event="blur"/>
                         </p:inputText>
-                        <p:spacer></p:spacer>
+
 
 
                         <p:commandButton value="Create subset"
@@ -287,16 +286,16 @@ function AjaxUpdateDataFailed(result) {
                             <f:param name="showDataTableGroup" value="#{selectColumnsController.showDataTableGroup}" />
                         </p:commandButton>
 
-                        <p:messages id="msgs"/>
-                        <h:panelGrid/>
-
-                        <p:ajaxStatus style="display:block;margin-bottom:2em;height:36px;">
+                        <p:ajaxStatus style="display:block;margin-bottom:2em;height:20px;">
 
                             <f:facet name="start">
                                 <p:graphicImage name="images/ajax-loader.gif"/>
                             </f:facet>
 
                         </p:ajaxStatus>
+
+                        <p:messages for="queryStoreMessage" showDetail="true" autoUpdate="true"
+                                    closable="true" escape="false"></p:messages>
                     </h:panelGrid>
                 </p:panel>
             </h:form>
