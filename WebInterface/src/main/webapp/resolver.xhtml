@@ -37,13 +37,13 @@
                 <p:selectOneMenu value="#{resolverBean.selectedBaseTablePID}">
                     <f:selectItems value="#{resolverBean.availableBaseTables}"/>
 
-                    <p:ajax update="subsetId" listener="#{resolverBean.handleDropDownChangeBaseTables}"/>
+                    <p:ajax update="subsetMenu" listener="#{resolverBean.handleDropDownChangeBaseTables}"/>
                 </p:selectOneMenu>
 
                 <h:outputText value="Subset"/>
-                <p:selectOneMenu value="#{resolverBean.selectedSubset}" id="subsetId">
+                <p:selectOneMenu value="#{resolverBean.selectedSubset}" id="subsetMenu">
                     <f:selectItems value="#{resolverBean.availableSubsets}"/>
-                    <p:ajax update=":resolverForm" listener="#{resolverBean.handleDropDownChangeSubsets}"/>
+                    <p:ajax listener="#{resolverBean.handleDropDownChangeSubsets}"/>
                 </p:selectOneMenu>
 
                 <p:commandButton id="resolverButton" action="#{resolverBean.resolvePID}"

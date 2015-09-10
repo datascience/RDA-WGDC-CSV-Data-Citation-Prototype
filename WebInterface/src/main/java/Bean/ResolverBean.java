@@ -124,13 +124,8 @@ public class ResolverBean implements Serializable{
     public void handleDropDownChangeBaseTables() {
         //based on the number provided, change "regions" attribute.
         this.logger.info("change listener. Base table is now " + this.selectedBaseTablePID);
+        this.resolverController.setSelectedBaseTable(this.selectedBaseTablePID);
         this.availableSubsets = this.retrieveSubsetsFromDatabase();
-
-        QueryStoreAPI queryAPI = new QueryStoreAPI();
-        BaseTable baseTable = queryAPI.getBaseTableByPID(this.selectedBaseTablePID);
-
-
-        this.resolverController.setSelectedBaseTable(baseTable.getBaseTablePID());
         
         
 
@@ -154,9 +149,6 @@ public class ResolverBean implements Serializable{
 
         }
 
-        this.resolverController.setSelectedBaseTable(this.selectedBaseTablePID);
-
-        
         
 
 
@@ -260,7 +252,7 @@ public class ResolverBean implements Serializable{
     }
 
     public List<SelectItem> getAvailableSubsets() {
-        this.selectedBaseTablePID = this.availableBaseTables.get(0).getValue().toString();
+
         this.availableSubsets = this.retrieveSubsetsFromDatabase();
         return availableSubsets;
     }
