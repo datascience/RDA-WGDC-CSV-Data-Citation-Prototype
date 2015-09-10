@@ -50,6 +50,7 @@ package Bean;
 
 import CSVTools.CSV_API;
 import Database.DatabaseOperations.MigrationTasks;
+import org.primefaces.context.RequestContext;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
 
@@ -58,7 +59,6 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import java.io.*;
-import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.logging.Logger;
@@ -83,12 +83,18 @@ public class UpdateFileController {
     private boolean isNewDataOnly = false;
     private ArrayList<String> filesListStrings;
 
+    private boolean showSelectDataForm;
+    private boolean showSettingsForm;
+    private boolean showUploadFileForm;
+
 
     public UpdateFileController() {
         this.logger = Logger.getLogger(this.getClass().getName());
         this.filesList = new HashMap<String, String>();
         this.filesListStrings = new ArrayList<String>();
         SessionManager sm = new SessionManager();
+
+        this.init();
 
 
         
@@ -284,10 +290,27 @@ public class UpdateFileController {
         session.put("fileListHashMap", this.filesList);
         this.logger.info("Writing file list to session...");
 
-        //reset
-        this.filesList = new HashMap<String, String>();
-        this.filesListStrings = new ArrayList<String>();
+        this.showSelectDataForm = false;
+        this.showUploadFileForm = false;
+        this.showSettingsForm = true;
 
+        RequestContext.getCurrentInstance().update("showUploadFileOuterGroup");
+        RequestContext.getCurrentInstance().update("showSelectDataFormOuterGroup");
+        RequestContext.getCurrentInstance().update("showSettingsFormOuterGroup");
+
+
+    }
+
+    public void confirmSelection(){
+
+
+        this.showSelectDataForm = false;
+        this.showUploadFileForm = true;
+        this.showSettingsForm = false;
+
+        RequestContext.getCurrentInstance().update("showUploadFileOuterGroup");
+        RequestContext.getCurrentInstance().update("showSelectDataFormOuterGroup");
+        RequestContext.getCurrentInstance().update("showSettingsFormOuterGroup");
 
     }
 
@@ -351,6 +374,44 @@ public class UpdateFileController {
         }
     }
 
+    private void resetForms(){
+
+        //reset
+        this.filesList = new HashMap<String, String>();
+        this.filesListStrings = new ArrayList<String>();
+
+
+        this.showSelectDataForm = true;
+        this.showSettingsForm = false;
+        this.showUploadFileForm = false;
+
+        RequestContext.getCurrentInstance().update("showSelectDataForm");
+        RequestContext.getCurrentInstance().update("showUploadFileForm");
+        RequestContext.getCurrentInstance().update("showSettingsForm");
+
+    }
+
+    public void init(){
+        this.resetForms();
+
+    }
+
+    public boolean isShowSelectDataForm() {
+        return showSelectDataForm;
+    }
+
+    public void setShowSelectDataForm(boolean showSelectDataForm) {
+        this.showSelectDataForm = showSelectDataForm;
+    }
+
+    public boolean isShowSettingsForm() {
+        return showSettingsForm;
+    }
+
+    public void setShowSettingsForm(boolean showSettingsForm) {
+        this.showSettingsForm = showSettingsForm;
+    }
+
     public boolean isHeaderRow() {
         return headerRow;
     }
@@ -365,5 +426,17 @@ public class UpdateFileController {
 
     public void setNewDataOnly(boolean isNewDataOnly) {
         this.isNewDataOnly = isNewDataOnly;
+    }
+
+    public void setIsNewDataOnly(boolean isNewDataOnly) {
+        this.isNewDataOnly = isNewDataOnly;
+    }
+
+    public boolean isShowUploadFileForm() {
+        return showUploadFileForm;
+    }
+
+    public void setShowUploadFileForm(boolean showUploadFileForm) {
+        this.showUploadFileForm = showUploadFileForm;
     }
 }

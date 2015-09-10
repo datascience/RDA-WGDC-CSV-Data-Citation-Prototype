@@ -1,35 +1,3 @@
-<!--
-  ~ Copyright [2015] [Stefan Pröll]
-  ~
-  ~    Licensed under the Apache License, Version 2.0 (the "License");
-  ~    you may not use this file except in compliance with the License.
-  ~    You may obtain a copy of the License at
-  ~
-  ~        http://www.apache.org/licenses/LICENSE-2.0
-  ~
-  ~    Unless required by applicable law or agreed to in writing, software
-  ~    distributed under the License is distributed on an "AS IS" BASIS,
-  ~    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  ~    See the License for the specific language governing permissions and
-  ~    limitations under the License.
-  -->
-
-<!--
-  ~ Copyright [2015] [Stefan Pröll]
-  ~
-  ~    Licensed under the Apache License, Version 2.0 (the "License");
-  ~    you may not use this file except in compliance with the License.
-  ~    You may obtain a copy of the License at
-  ~
-  ~        http://www.apache.org/licenses/LICENSE-2.0
-  ~
-  ~    Unless required by applicable law or agreed to in writing, software
-  ~    distributed under the License is distributed on an "AS IS" BASIS,
-  ~    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  ~    See the License for the specific language governing permissions and
-  ~    limitations under the License.
-  -->
-
 <html xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:p="http://primefaces.org/ui"
@@ -57,12 +25,20 @@
 </h:head>
 
 <h:body>
+    <!-- BEGIN: Hidden Form for Init-->
+    <h:form id="remoteCommandForm">
+        <p:remoteCommand name="init" actionListener="#{updateFileController.init}" autoRun="true"/>
+    </h:form>
+
+
     <!-- BEGIN user management -->
     <ui:include src="/topmenu.xhtml"/>
     <!-- END user management -->
 
     <div id="bodydiv" class="paragraphcontainer">
 
+        <h:panelGroup id="showSelectDataFormOuterGroup">
+        <h:panelGroup id="showSelectDataFormInnerGroup" rendered="#{updateFileController.showSelectDataForm}">
     <h1>Update existing data with a new CSV file</h1>
     <p>
     You can upload an updated version of the data. Please consider that you can only update CSV files which have the
@@ -83,12 +59,19 @@
         was during the first upload. Select the file from your hard drive and submit it.</p>
 
     <h:form enctype="multipart/form-data">
+        <p:panel header="Select Dataset" style="width: 1024px;">
+        <h:panelGrid columns="3" cellpadding="5">
+
+        <p:outputLabel value="Database schema"/>
         <h:selectOneMenu id="databaseDropDown" valueChangeListener="#{databaseTableNameBean.handleChangeDatabaseName}"
                          required="true" value="#{databaseTableNameBean.databaseName}"
                          binding="#{databaseNameDropdown}">
             <f:selectItems value="#{databaseTableNameBean.databaseNames}"/>
             <p:ajax update="tableDropDown"/>
         </h:selectOneMenu>
+        <p:message for="tableDropDown" id="databaseDropDownMsg" />
+
+            <p:outputLabel value="Table"/>
         <h:selectOneMenu id="tableDropDown" valueChangeListener="#{databaseTableNameBean.handleChangeTableName}"
                          required="#{not empty param[databaseTableNameBean.databaseNames]}"
                          value="#{databaseTableNameBean.tableName}">
@@ -96,33 +79,71 @@
             <p:ajax update="@this"/>
         </h:selectOneMenu>
 
+            <p:message for="tableDropDown" id="tableDropDownMsg" />
+
+            <h:panelGroup />
+            <p:commandButton action="#{updateFileController.confirmSelection}" value="Confirm table"/>
+            <h:panelGroup />
+
+        </h:panelGrid>
+        </p:panel>
+
+    </h:form>
+        </h:panelGroup>
+        </h:panelGroup>
+
+
+
+
+
+        <h:panelGroup id="showUploadFileOuterGroup">
+        <h:panelGroup id="showUploadFileInnerGroup" rendered="#{updateFileController.showUploadFileForm}">
+
+            <h2>Step 2: Upload a new CSV file</h2>
+
+            <p>Please note that your CSV file needs to be in the very same format as it
+                was during the first upload. Select the file from your hard drive and submit it.</p>
+        <h:form>
+            <p:panel header="Upload a new CSV file" style="width: 1024px;">
+            <h:panelGrid columns="1" cellpadding="5">
+
         <p:fileUpload fileUploadListener="#{updateFileController.handleFileUpload}"
                       mode="advanced" update="messages, dt" auto="true"
                       sizeLimit="100000000"
-                      allowTypes="/(\.|\/)(csv|txt)$/"/>
-        <p:dataTable id="dt" var="filename" value="#{updateFileController.filesListStrings}">
+                      allowTypes="/(\.|\/)(csv|txt)$/" />
+        <p:dataTable id="dt" var="filename" value="#{updateFileController.filesListStrings}" emptyMessage="Please upload a file">
             <p:column>
                 #{filename}
             </p:column>
         </p:dataTable>
         <p:growl id="messages" showDetail="true"/>
         <f:attribute name="uploadSessionType" value="newCSV"/>
+            </h:panelGrid>
+            </p:panel>
+
     </h:form>
     <br></br>
+        </h:panelGroup>
+        </h:panelGroup>
 
-    <h2>Step 2: Define settings</h2>
+
+
+        <h:panelGroup id="showSettingsFormOuterGroup">
+        <h:panelGroup id="showSettingsFormInnerGroup" rendered="#{updateFileController.showSettingsForm}">
+
+            <h2>Step 3: Define settings</h2>
 
     <p>Please select if you are only inserting new data or if you want to update existing data.</p>
 
     <h:form id="uploadCommandForm">
+        <p:panel header="Select properties" style="width: 1024px;">
+        <h:panelGrid cellpadding="5">
+
         <p:row>
             <h:message id="messages" for="uploadCommandForm" globalOnly="true"/>
         </p:row>
 
-        <p:panelGrid>
-
-
-            <p:row>
+                <p:row>
                 <p:column>
                 <p:outputLabel value="CSV file contains only new data"/>
                 </p:column>
@@ -131,9 +152,9 @@
                         <p:ajax update="messages" listener="#{updateFileController.checkBoxListener}"/>
                 </p:selectBooleanCheckbox>
                 </p:column>
-            </p:row>
+        </p:row>
 
-            <p:row>
+        <p:row>
                 <p:column>
                     <p:outputLabel value="CSV file has a header"/>
                 </p:column>
@@ -142,7 +163,8 @@
                         <p:ajax update="messages" listener="#{updateFileController.checkBoxListener}"/>
                     </p:selectBooleanCheckbox>
                 </p:column>
-            </p:row>
+        </p:row>
+
             <p:row>
                 <p:column colspan="2">
                     <p:commandButton id="updateButton" value="Update table." action
@@ -150,23 +172,30 @@
                     </p:commandButton>
                 </p:column>
             </p:row>
+            <p:message id="updateMessage" for="uploadCommandForm:updateButton" showDetail="true" autoUpdate="true"
+                       closable="true"
+                       globalOnly="false" escape="false"/>
 
 
-        </p:panelGrid>
-        <p:message id="updateMessage" for="uploadCommandForm:updateButton" showDetail="true" autoUpdate="true"
-                   closable="true"
-                   globalOnly="false" escape="false"/>
-        <p:messages id="msgs"/>
 
-        <p:ajaxStatus style="display:block;margin-bottom:2em;height:36px;">
+            <p:ajaxStatus style="display:block;margin-bottom:2em;height:36px;">
 
-            <f:facet name="start">
-                <p:graphicImage name="images/ajax-loader.gif"/>
-            </f:facet>
+                <f:facet name="start">
+                    <p:graphicImage name="images/ajax-loader.gif"/>
+                </f:facet>
 
-        </p:ajaxStatus>
+            </p:ajaxStatus>
+
+       </h:panelGrid>
+        </p:panel>
 
     </h:form>
+
+
+
+
+        </h:panelGroup>
+        </h:panelGroup>
 
     </div>
 </h:body>
