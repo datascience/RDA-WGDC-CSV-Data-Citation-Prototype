@@ -157,6 +157,11 @@ function AjaxUpdateDataFailed(result) {
         <h:form id="selectForm">
 
                 <p:panel header="Select Dataset" style="width: 1024px;">
+                    <p>Pick the table which contains the data you are interested in. After clicking on
+                        the button
+                        <em>Load table</em>, you will see the list of colummns of this table.</p>
+
+
             <h:panelGrid columns="2" cellpadding="5">
                 <p:outputLabel value="Database schema"/>
             <h:selectOneMenu id="databaseDropDown"
@@ -187,6 +192,7 @@ function AjaxUpdateDataFailed(result) {
         <h:panelGroup id="selectColumnsGroup" rendered="#{selectColumnsController.showColumnsGroup}">
         <h:form id="selectedColumnsForm">
             <p:panel header="Select Columns" style="width: 800px;">
+                <p>Select those columns that you wish to include into your subset.</p>
             <h:panelGrid columns="1" cellpadding="5">
 
             <p:outputLabel value="Selected columns:"/>
