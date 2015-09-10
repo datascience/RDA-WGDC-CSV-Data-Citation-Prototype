@@ -68,7 +68,6 @@ import Controller.ResolverController;
 import QueryStore.BaseTable;
 import QueryStore.Query;
 import QueryStore.QueryStoreAPI;
-import at.stefanproell.PersistentIdentifierMockup.PersistentIdentifierAPI;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -91,11 +90,9 @@ import java.util.logging.Logger;
 public class ResolverBean implements Serializable{
 
     private Logger logger;
-    private String selectedBaseTable; // +getter +setter
+    private String selectedBaseTablePID; // +getter +setter
     private String selectedSubset;
 
-    private String selectedBaseTablePID; // +getter +setter
-    private String selectedSubsetPID;
 
     private List<SelectItem> availableBaseTables; // +getter (no setter necessary)
     private List<SelectItem> availableSubsets;
@@ -126,11 +123,11 @@ public class ResolverBean implements Serializable{
 
     public void handleDropDownChangeBaseTables() {
         //based on the number provided, change "regions" attribute.
-        this.logger.info("change listener. Base table is now " + this.selectedBaseTable);
+        this.logger.info("change listener. Base table is now " + this.selectedBaseTablePID);
         this.availableSubsets = this.retrieveSubsetsFromDatabase();
 
         QueryStoreAPI queryAPI = new QueryStoreAPI();
-        BaseTable baseTable = queryAPI.getBaseTableByPID(this.selectedBaseTable);
+        BaseTable baseTable = queryAPI.getBaseTableByPID(this.selectedBaseTablePID);
 
 
         this.resolverController.setSelectedBaseTable(baseTable.getBaseTablePID());
@@ -157,10 +154,7 @@ public class ResolverBean implements Serializable{
 
         }
 
-        BaseTable baseTable = queryAPI.getBaseTableByTableNameOnly(this.selectedBaseTable);
-
-
-        this.resolverController.setSelectedBaseTable(baseTable.getBaseTablePID());
+        this.resolverController.setSelectedBaseTable(this.selectedBaseTablePID);
 
         
         
@@ -168,14 +162,14 @@ public class ResolverBean implements Serializable{
 
     }
 
-    public String getSelectedBaseTable() {
-        return selectedBaseTable;
+    public String getSelectedBaseTablePID() {
+        return selectedBaseTablePID;
     }
 
-    public void setSelectedBaseTable(String selectedBaseTable) {
-        this.logger.info("Selected Basetable " + selectedBaseTable);
+    public void setSelectedBaseTablePID(String selectedBaseTablePID) {
+        this.logger.info("Selected Basetable " + selectedBaseTablePID);
 
-        this.selectedBaseTable = selectedBaseTable;
+        this.selectedBaseTablePID = selectedBaseTablePID;
     }
 
     public List<SelectItem> getAvailableBaseTables() {
@@ -220,7 +214,7 @@ public class ResolverBean implements Serializable{
 
 
 
-        Map<String, String> availableSubsetsMap = queryAPI.getAvailableSubsetsFromBase(this.selectedBaseTable);
+        Map<String, String> availableSubsetsMap = queryAPI.getAvailableSubsetsFromBase(this.selectedBaseTablePID);
         List<SelectItem> availableSubsets = new ArrayList<SelectItem>();
 
 
@@ -244,10 +238,10 @@ public class ResolverBean implements Serializable{
         this.logger.info("Loading data");
         this.availableSubsets = null;
         this.availableBaseTables = this.retrieveBaseTablesFromDatabase();
-        this.selectedBaseTable = this.availableBaseTables.get(0).getValue().toString();
+        this.selectedBaseTablePID = this.availableBaseTables.get(0).getValue().toString();
         this.availableSubsets = this.retrieveSubsetsFromDatabase();
         
-        this.resolverController.setSelectedBaseTable(this.selectedBaseTable);
+        this.resolverController.setSelectedBaseTable(this.selectedBaseTablePID);
 
 
     }
@@ -266,7 +260,7 @@ public class ResolverBean implements Serializable{
     }
 
     public List<SelectItem> getAvailableSubsets() {
-        this.selectedBaseTable = this.availableBaseTables.get(0).getValue().toString();
+        this.selectedBaseTablePID = this.availableBaseTables.get(0).getValue().toString();
         this.availableSubsets = this.retrieveSubsetsFromDatabase();
         return availableSubsets;
     }

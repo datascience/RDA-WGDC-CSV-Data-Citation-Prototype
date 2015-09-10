@@ -34,7 +34,7 @@
 
 
                 <h:outputText value="Dataset"/>
-                <p:selectOneMenu value="#{resolverBean.selectedBaseTable}">
+                <p:selectOneMenu value="#{resolverBean.selectedBaseTablePID}">
                     <f:selectItems value="#{resolverBean.availableBaseTables}"/>
 
                     <p:ajax update="subsetId" listener="#{resolverBean.handleDropDownChangeBaseTables}"/>
