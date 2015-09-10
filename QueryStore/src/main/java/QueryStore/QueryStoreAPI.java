@@ -1131,7 +1131,7 @@ public class QueryStoreAPI {
     /*
     * Query the database for all base tables
     * */
-    public Map<String, String> getAvailableSubsetsFromBase(String baseTableName) {
+    public Map<String, String> getAvailableSubsetsFromBase(String baseTablePID) {
         BaseTable baseTable = null;
         Map<String, String> availableSubsets = new HashMap<String, String>();
 
@@ -1139,7 +1139,7 @@ public class QueryStoreAPI {
         this.session.beginTransaction();
         // Get the max sequence number for the sortings of query
         Criteria cr = this.session.createCriteria(BaseTable.class);
-        cr.add(Restrictions.eq("baseTableName", baseTableName));
+        cr.add(Restrictions.eq("baseTablePID", baseTablePID));
 
         baseTable = (BaseTable) cr.uniqueResult();
 
@@ -1147,7 +1147,7 @@ public class QueryStoreAPI {
         this.session.close();
 
         if (baseTable == null) {
-            this.logger.warning("Base table NOT found: " + baseTableName);
+            this.logger.warning("Base table NOT found: " + baseTablePID);
 
         } else {
 

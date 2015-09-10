@@ -119,15 +119,7 @@ public class ResolverBean implements Serializable{
     @PostConstruct
     public void init() {
         this.loadData();
-        /*
-        this.logger.info("Initializing DatabaseTableNameBean");
-        this.availableBaseTables = this.retrieveBaseTablesFromDatabase();
-        String baseTableName = this.availableBaseTables.get(0).getLabel().toString();
 
-        this.selectedBaseTable = baseTableName;
-
-        this.availableSubsets = this.retrieveSubsetsFromDatabase(this.selectedBaseTable);
-*/
 
     }
 
@@ -135,13 +127,13 @@ public class ResolverBean implements Serializable{
     public void handleDropDownChangeBaseTables() {
         //based on the number provided, change "regions" attribute.
         this.logger.info("change listener. Base table is now " + this.selectedBaseTable);
-        this.availableSubsets = this.retrieveSubsetsFromDatabase(this.selectedBaseTable);
+        this.availableSubsets = this.retrieveSubsetsFromDatabase();
 
         QueryStoreAPI queryAPI = new QueryStoreAPI();
-        BaseTable baseTable = queryAPI.getBaseTableByTableNameOnly(this.selectedBaseTable);
-        String baseTablePID = baseTable.getBaseTablePID();
+        BaseTable baseTable = queryAPI.getBaseTableByPID(this.selectedBaseTable);
 
-        this.resolverController.setSelectedBaseTable(baseTablePID);
+
+        this.resolverController.setSelectedBaseTable(baseTable.getBaseTablePID());
         
         
 
@@ -188,7 +180,8 @@ public class ResolverBean implements Serializable{
 
     public List<SelectItem> getAvailableBaseTables() {
 
-        return availableBaseTables;
+        this.availableBaseTables = this.retrieveBaseTablesFromDatabase();
+        return this.availableBaseTables;
     }
 
     public void setAvailableBaseTables(List<SelectItem> availableBaseTables) {
@@ -221,9 +214,13 @@ public class ResolverBean implements Serializable{
 
     }
 
-    private List<SelectItem> retrieveSubsetsFromDatabase(String baseTableName) {
+    private List<SelectItem> retrieveSubsetsFromDatabase() {
+
         QueryStoreAPI queryAPI = new QueryStoreAPI();
-        Map<String, String> availableSubsetsMap = queryAPI.getAvailableSubsetsFromBase(baseTableName);
+
+
+
+        Map<String, String> availableSubsetsMap = queryAPI.getAvailableSubsetsFromBase(this.selectedBaseTable);
         List<SelectItem> availableSubsets = new ArrayList<SelectItem>();
 
 
@@ -245,10 +242,10 @@ public class ResolverBean implements Serializable{
 
     public void loadData() {
         this.logger.info("Loading data");
+        this.availableSubsets = null;
         this.availableBaseTables = this.retrieveBaseTablesFromDatabase();
         this.selectedBaseTable = this.availableBaseTables.get(0).getValue().toString();
-
-        this.availableSubsets = this.retrieveSubsetsFromDatabase(this.selectedBaseTable);
+        this.availableSubsets = this.retrieveSubsetsFromDatabase();
         
         this.resolverController.setSelectedBaseTable(this.selectedBaseTable);
 
@@ -269,6 +266,8 @@ public class ResolverBean implements Serializable{
     }
 
     public List<SelectItem> getAvailableSubsets() {
+        this.selectedBaseTable = this.availableBaseTables.get(0).getValue().toString();
+        this.availableSubsets = this.retrieveSubsetsFromDatabase();
         return availableSubsets;
     }
 
