@@ -105,7 +105,8 @@ public class DatabaseTableNameBean implements Serializable {
     }
 
     public List<String> getTableNames() {
-        return tableNames;
+        this.tableNames = dbtools.getAvailableTablesFromDatabase(this.databaseName);
+        return this.tableNames;
     }
 
     public void setTableNames(List<String> tableNames) {
@@ -143,6 +144,7 @@ public class DatabaseTableNameBean implements Serializable {
                 this.redirectToErrorPage();
 
             } else {
+                this.tableNames = dbtools.getAvailableTablesFromDatabase(this.databaseName);
                 this.tableName = this.tableNames.get(0);
                 tableBean.setTableName(this.tableName);
                 sm.updateTableDefinitionBean(tableBean);
@@ -181,53 +183,6 @@ public class DatabaseTableNameBean implements Serializable {
 
     }
 
-    /*Load this event when the table page is refreshed.
-    * * */
-    public void onLoadTable(ActionEvent event) {
-
-        this.logger.info("Page load event: .. " + event.toString());
-        SessionManager sm = new SessionManager();
-        TableDefinitionBean tableBean = sm.getTableDefinitionBean();
-        this.tableName = tableBean.getTableName();
-        this.databaseName = tableBean.getDatabaseName();
-
-
-        Map<String, Object> sessionMAP = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
-
-
-        if (this.getTableName() == null) {
-
-            this.logger.info("No session data set. ");
-            this.databaseName = this.dbtools.getDatabaseCatalogFromDatabaseConnection().get(0);
-            this.tableName = this.dbtools.getAvailableTablesFromDatabase(databaseName).get(0);
-            sm.setCurrentTableNameFromSession(this.tableName);
-
-        } else {
-            sm.setCurrentTableNameFromSession(this.tableName);
-        }
-
-
-        List<String> selectedColumnsSessionData = sm.getColumnNamesForSelectedColumnsCheckBoxesFromDB();
-
-
-        if (selectedColumnsSessionData == null) {
-            this.logger.info("The session was not yet set. ");
-            sm = new SessionManager();
-            sm.initializeSelectedColumns();
-
-        }
-
-    }
-
-    /*Load this event when the page is refreshed.
-* * */
-    public void onLoad(ActionEvent event) {
-        this.logger.info("Yay-.. " + event.toString());
-
-        //   this.handleChangeDatabaseName(null);
-
-
-    }
 
     /**
      * React on change

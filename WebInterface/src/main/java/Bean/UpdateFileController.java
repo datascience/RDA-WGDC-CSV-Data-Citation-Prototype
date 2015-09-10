@@ -54,6 +54,7 @@ import org.primefaces.context.RequestContext;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
 
+import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -86,6 +87,8 @@ public class UpdateFileController {
     private boolean showSelectDataForm;
     private boolean showSettingsForm;
     private boolean showUploadFileForm;
+    private boolean backToMainMenuButton;
+
 
 
     public UpdateFileController() {
@@ -133,7 +136,19 @@ public class UpdateFileController {
             FacesMessage msg = new FacesMessage("uploadCommandForm:messages", "Update done");
 
 
+
         }
+
+
+        this.showSelectDataForm = false;
+        this.showUploadFileForm = false;
+        this.showSettingsForm = false;
+        this.backToMainMenuButton = true;
+
+        RequestContext.getCurrentInstance().update("showUploadFileOuterGroup");
+        RequestContext.getCurrentInstance().update("showSelectDataFormOuterGroup");
+        RequestContext.getCurrentInstance().update("showSettingsFormOuterGroup");
+        RequestContext.getCurrentInstance().update("backToMainMenuButtonOuterGroup");
 
     }
 
@@ -293,10 +308,12 @@ public class UpdateFileController {
         this.showSelectDataForm = false;
         this.showUploadFileForm = false;
         this.showSettingsForm = true;
+        this.backToMainMenuButton = false;
 
         RequestContext.getCurrentInstance().update("showUploadFileOuterGroup");
         RequestContext.getCurrentInstance().update("showSelectDataFormOuterGroup");
         RequestContext.getCurrentInstance().update("showSettingsFormOuterGroup");
+        RequestContext.getCurrentInstance().update("backToMainMenuButtonOuterGroup");
 
 
     }
@@ -307,10 +324,12 @@ public class UpdateFileController {
         this.showSelectDataForm = false;
         this.showUploadFileForm = true;
         this.showSettingsForm = false;
+        this.backToMainMenuButton = false;
 
         RequestContext.getCurrentInstance().update("showUploadFileOuterGroup");
         RequestContext.getCurrentInstance().update("showSelectDataFormOuterGroup");
         RequestContext.getCurrentInstance().update("showSettingsFormOuterGroup");
+        RequestContext.getCurrentInstance().update("backToMainMenuButtonOuterGroup");
 
     }
 
@@ -384,14 +403,18 @@ public class UpdateFileController {
         this.showSelectDataForm = true;
         this.showSettingsForm = false;
         this.showUploadFileForm = false;
+        this.backToMainMenuButton = false;
 
         RequestContext.getCurrentInstance().update("showSelectDataForm");
         RequestContext.getCurrentInstance().update("showUploadFileForm");
         RequestContext.getCurrentInstance().update("showSettingsForm");
+        RequestContext.getCurrentInstance().update("backToMainMenuButtonOuterGroup");
 
     }
 
+    @PostConstruct
     public void init(){
+
         this.resetForms();
 
     }
@@ -438,5 +461,13 @@ public class UpdateFileController {
 
     public void setShowUploadFileForm(boolean showUploadFileForm) {
         this.showUploadFileForm = showUploadFileForm;
+    }
+
+    public boolean isBackToMainMenuButton() {
+        return backToMainMenuButton;
+    }
+
+    public void setBackToMainMenuButton(boolean backToMainMenuButton) {
+        this.backToMainMenuButton = backToMainMenuButton;
     }
 }

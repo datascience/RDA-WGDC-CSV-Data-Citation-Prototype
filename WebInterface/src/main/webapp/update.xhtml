@@ -27,7 +27,9 @@
 <h:body>
     <!-- BEGIN: Hidden Form for Init-->
     <h:form id="remoteCommandForm">
+        <p:remoteCommand name="tableNameOnLoad" actionListener="#{databaseTableNameBean.init}" autoRun="true"/>
         <p:remoteCommand name="init" actionListener="#{updateFileController.init}" autoRun="true"/>
+
     </h:form>
 
 
@@ -76,7 +78,7 @@
                          required="#{not empty param[databaseTableNameBean.databaseNames]}"
                          value="#{databaseTableNameBean.tableName}">
             <f:selectItems value="#{databaseTableNameBean.tableNames}"/>
-            <p:ajax update="@this"/>
+            <p:ajax event="change" update="@this" />
         </h:selectOneMenu>
 
             <p:message for="tableDropDown" id="tableDropDownMsg" />
@@ -104,7 +106,7 @@
             <p>Please note that your CSV file needs to be in the very same format as it
                 was during the first upload. Select the file from your hard drive and submit it.</p>
         <h:form>
-            <p:panel header="Upload a new CSV file" style="width: 1024px;">
+            <p:panel header="Upload a new CSV file" style="width: 800px;">
             <h:panelGrid columns="1" cellpadding="5">
 
         <p:fileUpload fileUploadListener="#{updateFileController.handleFileUpload}"
@@ -136,7 +138,7 @@
     <p>Please select if you are only inserting new data or if you want to update existing data.</p>
 
     <h:form id="uploadCommandForm">
-        <p:panel header="Select properties" style="width: 1024px;">
+        <p:panel header="Select properties" style="width: 800px;">
         <h:panelGrid cellpadding="5">
 
         <p:row>
@@ -196,6 +198,16 @@
 
         </h:panelGroup>
         </h:panelGroup>
+
+        <h:panelGroup id="backToMainMenuButtonOuterGroup">
+            <h:panelGroup id="backToMainMenuButtonInnerGroup" rendered="#{updateFileController.backToMainMenuButton}">
+
+                <h2>Finished</h2>
+                <p>Click here to get back to the <a href="menu.xhtml">start page</a>.</p>
+
+            </h:panelGroup>
+        </h:panelGroup>
+
 
     </div>
 </h:body>

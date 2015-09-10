@@ -249,6 +249,8 @@ public class DatabaseMigrationController implements Serializable {
         this.tableDefinitionController.setShowPrimaryKeyForm(false);
         RequestContext.getCurrentInstance().update("primaryKeyOuterGroup");
 
+
+
         SessionManager sm = new SessionManager();
         FileUploadController fUp = (FileUploadController ) sm.getManagedBean("fileUploadController");
 
