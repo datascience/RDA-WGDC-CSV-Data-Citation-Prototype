@@ -325,7 +325,8 @@ public class QueryStoreController implements Serializable {
                 PersistentIdentifierAlphaNumeric pidNew = this.pidAPI.getAlphaNumericPID(this.pidAPI.getOrganizationObjectByPrefix(user.getOrganizational_id()), landingPageURI);
                 query.setPID(pidNew.getIdentifier());
                 this.queryStoreAPI.persistQuery(query);
-                FacesContext.getCurrentInstance().addMessage("queryStoreMessage", new FacesMessage(FacesMessage.SEVERITY_WARN, "New identifier!", "The same query hash already existed. As the base data changed meanwhile, your subset gets a mew identifier."));
+                FacesContext.getCurrentInstance().addMessage("queryStoreMessage", new FacesMessage(FacesMessage
+                        .SEVERITY_WARN, "New identifier!", "The same query hash already existed. As the base data changed meanwhile, your subset gets a new identifier."));
 
 
             }

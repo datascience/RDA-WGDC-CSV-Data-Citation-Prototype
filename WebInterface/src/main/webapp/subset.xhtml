@@ -65,6 +65,7 @@
 		        "sScrollY": "800px",
 		        "bScrollCollapse": true,
 				"aoColumns":<h:outputText value="#{servletController.mDataString}" escape="false"/>,
+				"bInfo" : false,
                 
 				 "fnServerData": function ( sSource, aoData, fnCallback ) {
 	                    jQuery.ajax( {
@@ -155,7 +156,7 @@ function AjaxUpdateDataFailed(result) {
         <h:panelGroup id="selectFormInnerGroup" rendered="#{selectColumnsController.showSelectDataSet}">
         <h:form id="selectForm">
 
-                <p:panel header="Select Dataset" style="width: 800px;">
+                <p:panel header="Select Dataset" style="width: 1024px;">
             <h:panelGrid columns="2" cellpadding="5">
                 <p:outputLabel value="Database schema"/>
             <h:selectOneMenu id="databaseDropDown"
@@ -214,11 +215,16 @@ function AjaxUpdateDataFailed(result) {
         </h:panelGroup>
 
 
+        <p:spacer height="20"></p:spacer>
+
+
 
 
 
         <h:panelGroup id="tableDataOuterGroup">
         <h:panelGroup id="tableDataGroup"  rendered="#{selectColumnsController.showDataTableGroup}">
+            <p:panel header="Data Selection Interface"
+                     style="float:left;overflow-y: auto;height: auto;max-width:1024px">
 
 
         <div id="table-div">
@@ -240,24 +246,24 @@ function AjaxUpdateDataFailed(result) {
             </table>
             <div id="buttonPlaceholder"></div>
         </div>
-
+    </p:panel>
         </h:panelGroup>
         <!-- end table div -->
 
-        <p><br></br></p>
+
 
 
     <!-- end container -->
 
 
 
+            <p:spacer height="30"></p:spacer>
             <p:messages for="queryStoreMessage" showDetail="true" autoUpdate="true"
                         closable="true" escape="false"></p:messages>
             <h:form id="queryStoreForm">
 
-                <p:panel header="Create a new subset" style="width: 800px;">
+                <p:panel header="Create a new subset" style="width: 1024px;">
                     <h:panelGrid columns="2" cellpadding="10">
-
 
                         <p:outputLabel value="Provide a title for the subset: "/>
                         <p:inputText required="true" requiredMessage="A title is required"
