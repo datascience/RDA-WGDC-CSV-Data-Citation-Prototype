@@ -118,19 +118,16 @@ public class ResolverBean implements Serializable{
 
     @PostConstruct
     public void init() {
+        this.loadData();
+        /*
         this.logger.info("Initializing DatabaseTableNameBean");
         this.availableBaseTables = this.retrieveBaseTablesFromDatabase();
-        String baseTableName = this.availableBaseTables.get(0).getValue().toString();
-        PersistentIdentifierAPI pidAPI = new PersistentIdentifierAPI();
-        //@todo hier muss PID statt tabellen namen verwendet werden!
+        String baseTableName = this.availableBaseTables.get(0).getLabel().toString();
 
-        pidAPI.getpo
-
-
-        this.selectedBaseTable = this
+        this.selectedBaseTable = baseTableName;
 
         this.availableSubsets = this.retrieveSubsetsFromDatabase(this.selectedBaseTable);
-
+*/
 
     }
 
@@ -215,7 +212,7 @@ public class ResolverBean implements Serializable{
         for (Map.Entry<String, String> entry : availableBaseTablesMap.entrySet()) {
             String baseTableName = entry.getKey();
             String baseTablePid = entry.getValue();
-            availableBaseTables.add(new SelectItem(baseTableName, baseTablePid + "( " + baseTableName + " )"));
+            availableBaseTables.add(new SelectItem(baseTablePid, baseTablePid + "( " + baseTableName + " )"));
         }
 
         this.logger.info("Found " + availableBaseTables.size() + " base tables");
