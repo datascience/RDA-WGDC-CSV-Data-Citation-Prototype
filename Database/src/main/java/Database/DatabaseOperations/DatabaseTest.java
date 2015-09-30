@@ -44,14 +44,29 @@ import java.util.Map;
  */
 public class DatabaseTest {
     public static void main(String[] args) throws SQLException {
-        String tableName = "Addressen";
-        String dataBaseName = "CITATION_DB";
+        String tableName = "stefan_init";
+        String dataBaseName = "CitationDB";
 
 
         HikariConnectionPool pool = HikariConnectionPool.getInstance();
 
+
+
         Connection conn = pool.getConnection();
 
+        // test
+        String sql = "SELECT * FROM " + dataBaseName + "." + tableName +
+                " WHERE ID_SYSTEM_SEQUENCE > 0 AND ID_SYSTEM_SEQUENCE < 2";
+
+        Statement stmt = conn.createStatement();
+        ResultSet rse = stmt.executeQuery(sql);
+        ResultSetMetaData rsmd = rse.getMetaData();
+        rsmd.getColumnTypeName(2); // database specific type name
+        System.out.println("name: "+ rsmd.getColumnTypeName(2));
+        System.out.println("type " + rsmd.getColumnType(2));  // returns the SQL type
+
+
+        // ende test
 
         String catalog = null;
         String schemaPattern = tableName;
