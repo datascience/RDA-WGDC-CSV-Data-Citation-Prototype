@@ -31,9 +31,15 @@
         <module name="Evaluation-Module" />
         <module name="PersistentIdentification" />
         <module name="PersistentIdentifier" />
-        <module name="QueryStore" />
         <module name="ResultSetVerification" />
         <module name="WebInterface" />
+      </profile>
+      <profile default="false" name="Annotation profile for QueryStore" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="true" />
+        <module name="QueryStore" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="1.8">
@@ -44,7 +50,7 @@
       <module name="DatatableModel" target="1.5" />
       <module name="Evaluation-Module" target="1.5" />
       <module name="PersistentIdentification" target="1.5" />
-      <module name="QueryStore" target="1.5" />
+      <module name="QueryStore" target="1.7" />
       <module name="ResultSetVerification" target="1.5" />
       <module name="WebInterface" target="1.5" />
     </bytecodeTargetLevel>
