@@ -28,6 +28,7 @@
         <module name="CSVTools" />
         <module name="Database" />
         <module name="DatatableModel" />
+        <module name="Evaluation-Module" />
         <module name="PersistentIdentification" />
         <module name="PersistentIdentifier" />
         <module name="QueryStore" />
@@ -36,15 +37,16 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="1.8">
-      <module name="BatchMode" target="1.7" />
-      <module name="CSV-Citation-Deployment-Module" target="1.7" />
-      <module name="CSVTools" target="1.7" />
-      <module name="Database" target="1.7" />
-      <module name="DatatableModel" target="1.7" />
-      <module name="PersistentIdentification" target="1.7" />
-      <module name="QueryStore" target="1.7" />
-      <module name="ResultSetVerification" target="1.7" />
-      <module name="WebInterface" target="1.7" />
+      <module name="BatchMode" target="1.5" />
+      <module name="CSV-Citation-Deployment-Module" target="1.5" />
+      <module name="CSVTools" target="1.5" />
+      <module name="Database" target="1.5" />
+      <module name="DatatableModel" target="1.5" />
+      <module name="Evaluation-Module" target="1.5" />
+      <module name="PersistentIdentification" target="1.5" />
+      <module name="QueryStore" target="1.5" />
+      <module name="ResultSetVerification" target="1.5" />
+      <module name="WebInterface" target="1.5" />
     </bytecodeTargetLevel>
   </component>
 </project>
