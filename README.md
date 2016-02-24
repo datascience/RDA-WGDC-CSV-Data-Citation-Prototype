@@ -159,3 +159,12 @@ inserted.
 ### Deleting records
 
 The user uploads a file where rows have been deleted.
+
+# SBA Repository Mirror
+
+Procedure described [here](https://help.github.com/articles/duplicating-a-repository/)
+
+## Update the mirror
+
+    git fetch -p origin
+    git push --mirror
