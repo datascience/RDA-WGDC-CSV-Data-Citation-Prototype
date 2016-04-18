@@ -97,7 +97,7 @@ inserted.
 
 The user uploads a file where rows have been deleted.
 
-# How to use this Code
+# How to use this Code?
 
 ## Dislaimer
 
@@ -124,3 +124,31 @@ This project is written in Java and utilises amongst other things the following 
 ## Modules
 
 The code is structured into several modules, each having its own dependencies.
+
+### Batch Modules
+
+Provides a simple interface as alternative to the Web interface.
+
+### CSV-Citation-Deployment-Module
+
+As the name implies, this module serves as a metamodule and allows to deploy the complete project within a Apache Tomcat Servlet container. The module also has subfolders containing the SQL data to initialize the database and create the necessary users and permissions. The script "kill_tomcat.sh" is used to launch the Tomca service (killing it if it was running). The scripts mvn_compile_simple and mvn_compile_server are user for compiling the project and uploading it to the Apache server.
+
+### CSVTools
+
+This module contains helper tools for handling CSV data.
+
+### Database
+
+The database module contains all classes related to database operations. The module consists of three packages:
+
+#### Authentication
+
+The authentication Module handles the user authentication for the Web application. It provides an API for creating new users. Passwords are stored encrypted.
+
+#### DatabaseOperations
+
+The operations module comes with different classes containing functions for storing and retrieving data in the MySQL database. It is the data backend of this tool.
+
+#### Helpers
+
+Simple helper classes, e.g. for String operations.
