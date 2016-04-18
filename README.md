@@ -152,3 +152,27 @@ The operations module comes with different classes containing functions for stor
 #### Helpers
 
 Simple helper classes, e.g. for String operations.
+
+### DatatableModel
+
+This module handles all interactions with the datatable plugin from the Web interface.
+
+### Evaluation Module
+
+This module contains the alternative approach based on Git. It is used for evaluating the database solution in terms of storage demand and query execution time.
+
+### Persistent Identification tools
+
+The PiD module is a standalone PID service, which is used for creating test identifiers, which can be resolved locally.
+
+### Query Store
+
+The query store contains all the queries and their parameters including the metadata of the query execution.
+
+### ResultsetVerification
+
+The result set verification module computes hashes of result sets.
+
+### WebInterface
+
+The web interface module provides a interface for users.

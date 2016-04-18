@@ -26,3 +26,25 @@ export JAVA_OPTS="-Xmx512m -XX:MaxPermSize=256m  -Xdebug -Xrunjdwp:transport=dt_
 
 Create a debug configuration and 
 
+
+Github
+---------
+
+Private code repository (upstream): https://github.com/stefanproell/CSV-DataCitation
+Public code repository: https://github.com/datascience/RDA-WGDC-CSV-Data-Citation-Prototype
+
+Initialise DataScience Repository
+
+1) create new repo
+2) git clone https://github.com/stefanproell/CSV-DataCitation.git CSV-DataCitation-TU
+3) git remote rename origin upstream
+4) cd CSV-DataCitation-TU/
+5) git remote rename origin upstream
+6) git remote add origin https://github.com/datascience/RDA-WGDC-CSV-Data-Citation-Prototype.git
+7) git pull https://github.com/datascience/RDA-WGDC-CSV-Data-Citation-Prototype.git
+8) git commit -am "init push to data science repo"
+9) git push https://github.com/datascience/RDA-WGDC-CSV-Data-Citation-Prototype.git
+
+Publish new changes:
+
+
