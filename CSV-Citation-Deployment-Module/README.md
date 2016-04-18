@@ -46,5 +46,6 @@ Initialise DataScience Repository
 9) git push https://github.com/datascience/RDA-WGDC-CSV-Data-Citation-Prototype.git
 
 Publish new changes:
-
+1) git pull  https://github.com/stefanproell/CSV-DataCitation.git
+2) git push https://github.com/datascience/RDA-WGDC-CSV-Data-Citation-Prototype.git
 
