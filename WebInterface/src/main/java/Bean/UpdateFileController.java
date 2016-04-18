@@ -30,18 +30,36 @@
  *    limitations under the License.
  */
 
+/*
+ * Copyright [2015] [Stefan Pröll]
+ *
+ *    Licensed under the Apache License, Version 2.0 (the "License");
+ *    you may not use this file except in compliance with the License.
+ *    You may obtain a copy of the License at
+ *
+ *        http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *    Unless required by applicable law or agreed to in writing, software
+ *    distributed under the License is distributed on an "AS IS" BASIS,
+ *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *    See the License for the specific language governing permissions and
+ *    limitations under the License.
+ */
+
 package Bean;
 
+import CSVTools.CSV_API;
 import Database.DatabaseOperations.MigrationTasks;
+import org.primefaces.context.RequestContext;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
 
+import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import java.io.*;
-import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.logging.Logger;
@@ -66,12 +84,23 @@ public class UpdateFileController {
     private boolean isNewDataOnly = false;
     private ArrayList<String> filesListStrings;
 
+    private boolean showSelectDataForm;
+    private boolean showSettingsForm;
+    private boolean showUploadFileForm;
+    private boolean backToMainMenuButton;
+
+
 
     public UpdateFileController() {
         this.logger = Logger.getLogger(this.getClass().getName());
         this.filesList = new HashMap<String, String>();
         this.filesListStrings = new ArrayList<String>();
         SessionManager sm = new SessionManager();
+
+        this.init();
+
+
+        
 
     }
 
@@ -107,7 +136,19 @@ public class UpdateFileController {
             FacesMessage msg = new FacesMessage("uploadCommandForm:messages", "Update done");
 
 
+
         }
+
+
+        this.showSelectDataForm = false;
+        this.showUploadFileForm = false;
+        this.showSettingsForm = false;
+        this.backToMainMenuButton = true;
+
+        RequestContext.getCurrentInstance().update("showUploadFileOuterGroup");
+        RequestContext.getCurrentInstance().update("showSelectDataFormOuterGroup");
+        RequestContext.getCurrentInstance().update("showSettingsFormOuterGroup");
+        RequestContext.getCurrentInstance().update("backToMainMenuButtonOuterGroup");
 
     }
 
@@ -264,15 +305,42 @@ public class UpdateFileController {
         session.put("fileListHashMap", this.filesList);
         this.logger.info("Writing file list to session...");
 
-        //reset
-        this.filesList = new HashMap<String, String>();
-        this.filesListStrings = new ArrayList<String>();
+        this.showSelectDataForm = false;
+        this.showUploadFileForm = false;
+        this.showSettingsForm = true;
+        this.backToMainMenuButton = false;
 
+        RequestContext.getCurrentInstance().update("showUploadFileOuterGroup");
+        RequestContext.getCurrentInstance().update("showSelectDataFormOuterGroup");
+        RequestContext.getCurrentInstance().update("showSettingsFormOuterGroup");
+        RequestContext.getCurrentInstance().update("backToMainMenuButtonOuterGroup");
+
+
+    }
+
+    public void confirmSelection(){
+
+
+        this.showSelectDataForm = false;
+        this.showUploadFileForm = true;
+        this.showSettingsForm = false;
+        this.backToMainMenuButton = false;
+
+        RequestContext.getCurrentInstance().update("showUploadFileOuterGroup");
+        RequestContext.getCurrentInstance().update("showSelectDataFormOuterGroup");
+        RequestContext.getCurrentInstance().update("showSettingsFormOuterGroup");
+        RequestContext.getCurrentInstance().update("backToMainMenuButtonOuterGroup");
 
     }
 
     public void storeFiles(UploadedFile file) {
         System.out.println("Store event...");
+
+        // check if the upload directory exists or create it
+        CSV_API csvAPI = new CSV_API();
+        csvAPI.createCSVDirectory();
+        
+        
         SimpleDateFormat fmt = new SimpleDateFormat("yyyyMMddHHmmss");
 
         String path = FacesContext.getCurrentInstance().getExternalContext()
@@ -325,6 +393,48 @@ public class UpdateFileController {
         }
     }
 
+    private void resetForms(){
+
+        //reset
+        this.filesList = new HashMap<String, String>();
+        this.filesListStrings = new ArrayList<String>();
+
+
+        this.showSelectDataForm = true;
+        this.showSettingsForm = false;
+        this.showUploadFileForm = false;
+        this.backToMainMenuButton = false;
+
+        RequestContext.getCurrentInstance().update("showSelectDataForm");
+        RequestContext.getCurrentInstance().update("showUploadFileForm");
+        RequestContext.getCurrentInstance().update("showSettingsForm");
+        RequestContext.getCurrentInstance().update("backToMainMenuButtonOuterGroup");
+
+    }
+
+    @PostConstruct
+    public void init(){
+
+        this.resetForms();
+
+    }
+
+    public boolean isShowSelectDataForm() {
+        return showSelectDataForm;
+    }
+
+    public void setShowSelectDataForm(boolean showSelectDataForm) {
+        this.showSelectDataForm = showSelectDataForm;
+    }
+
+    public boolean isShowSettingsForm() {
+        return showSettingsForm;
+    }
+
+    public void setShowSettingsForm(boolean showSettingsForm) {
+        this.showSettingsForm = showSettingsForm;
+    }
+
     public boolean isHeaderRow() {
         return headerRow;
     }
@@ -339,5 +449,25 @@ public class UpdateFileController {
 
     public void setNewDataOnly(boolean isNewDataOnly) {
         this.isNewDataOnly = isNewDataOnly;
+    }
+
+    public void setIsNewDataOnly(boolean isNewDataOnly) {
+        this.isNewDataOnly = isNewDataOnly;
+    }
+
+    public boolean isShowUploadFileForm() {
+        return showUploadFileForm;
+    }
+
+    public void setShowUploadFileForm(boolean showUploadFileForm) {
+        this.showUploadFileForm = showUploadFileForm;
+    }
+
+    public boolean isBackToMainMenuButton() {
+        return backToMainMenuButton;
+    }
+
+    public void setBackToMainMenuButton(boolean backToMainMenuButton) {
+        this.backToMainMenuButton = backToMainMenuButton;
     }
 }

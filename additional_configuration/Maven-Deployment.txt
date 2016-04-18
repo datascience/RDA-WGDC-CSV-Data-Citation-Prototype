@@ -4,9 +4,10 @@
 # ateServer
 
 mvn clean install  org.apache.tomcat.maven:tomcat7-maven-plugin:2.0:deploy -PlocalServer
-#or
+# or
 mvn clean install  org.apache.tomcat.maven:tomcat7-maven-plugin:2.0:deploy -PateServer
 
 
-#only deploy:
+# only deploy:
 mvn org.apache.tomcat.maven:tomcat7-maven-plugin:2.0:deploy -PateServer
+

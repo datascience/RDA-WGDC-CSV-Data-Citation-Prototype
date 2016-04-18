@@ -15,6 +15,22 @@
  */
 
 /*
+ * Copyright [2015] [Stefan Pröll]
+ *
+ *    Licensed under the Apache License, Version 2.0 (the "License");
+ *    you may not use this file except in compliance with the License.
+ *    You may obtain a copy of the License at
+ *
+ *        http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *    Unless required by applicable law or agreed to in writing, software
+ *    distributed under the License is distributed on an "AS IS" BASIS,
+ *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *    See the License for the specific language governing permissions and
+ *    limitations under the License.
+ */
+
+/*
  * Copyright [2014] [Stefan Pröll]
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
@@ -894,7 +910,8 @@ public class QueryStoreAPI {
     public String createBaseTableRecord(String author, String baseSchema, String tableName, String title, String description, int
             prefix, String pidURL) {
 
-
+ 
+        
         PersistentIdentifierAPI pidApi= new PersistentIdentifierAPI();
         Organization org = pidApi.getOrganizationObjectByPrefix(prefix);
 
@@ -925,6 +942,10 @@ public class QueryStoreAPI {
 
         baseTable.setUploadDate(currentDate);
         baseTable.setLastUpdate(currentDate);
+        
+        DatabaseTools dbTools = new DatabaseTools();
+        int numberOfActiveRecords = dbTools.getNumberOfActiveRecords(tableName);
+        baseTable.setNumberOfActiveRecords(numberOfActiveRecords);
 
         this.session.saveOrUpdate(baseTable);
         this.session.getTransaction().commit();
@@ -939,6 +960,8 @@ public class QueryStoreAPI {
         
         
     }
+    
+
 
     /*
     * Get base table by PID
@@ -1108,7 +1131,7 @@ public class QueryStoreAPI {
     /*
     * Query the database for all base tables
     * */
-    public Map<String, String> getAvailableSubsetsFromBase(String baseTableName) {
+    public Map<String, String> getAvailableSubsetsFromBase(String baseTablePID) {
         BaseTable baseTable = null;
         Map<String, String> availableSubsets = new HashMap<String, String>();
 
@@ -1116,7 +1139,7 @@ public class QueryStoreAPI {
         this.session.beginTransaction();
         // Get the max sequence number for the sortings of query
         Criteria cr = this.session.createCriteria(BaseTable.class);
-        cr.add(Restrictions.eq("baseTableName", baseTableName));
+        cr.add(Restrictions.eq("baseTablePID", baseTablePID));
 
         baseTable = (BaseTable) cr.uniqueResult();
 
@@ -1124,7 +1147,7 @@ public class QueryStoreAPI {
         this.session.close();
 
         if (baseTable == null) {
-            this.logger.warning("Base table NOT found: " + baseTableName);
+            this.logger.warning("Base table NOT found: " + baseTablePID);
 
         } else {
 

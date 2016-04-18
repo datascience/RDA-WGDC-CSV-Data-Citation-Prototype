@@ -30,12 +30,46 @@
  *    limitations under the License.
  */
 
+/*
+ * Copyright [2015] [Stefan Pröll]
+ *
+ *    Licensed under the Apache License, Version 2.0 (the "License");
+ *    you may not use this file except in compliance with the License.
+ *    You may obtain a copy of the License at
+ *
+ *        http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *    Unless required by applicable law or agreed to in writing, software
+ *    distributed under the License is distributed on an "AS IS" BASIS,
+ *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *    See the License for the specific language governing permissions and
+ *    limitations under the License.
+ */
+
+/*
+ * Copyright [2015] [Stefan Pröll]
+ *
+ *    Licensed under the Apache License, Version 2.0 (the "License");
+ *    you may not use this file except in compliance with the License.
+ *    You may obtain a copy of the License at
+ *
+ *        http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *    Unless required by applicable law or agreed to in writing, software
+ *    distributed under the License is distributed on an "AS IS" BASIS,
+ *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *    See the License for the specific language governing permissions and
+ *    limitations under the License.
+ */
+
 package Bean;
 
 import Database.Authentication.User;
 import Database.DatabaseOperations.DatabaseTools;
 
 import javax.annotation.PostConstruct;
+import javax.el.ELContext;
+import javax.faces.FacesException;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.ExternalContext;
@@ -85,7 +119,7 @@ public class SessionManager {
      * Store details in session
      */
     public void storeSelectedColumnsFromTableMap(List<String> columnList) {
-        this.logger.info("++++++++++++++++++++++++ Store ... First item: " + columnList.get(0));
+
 
         if (FacesContext.getCurrentInstance() != null) {
             Map<String, Object> session = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
@@ -199,7 +233,7 @@ public class SessionManager {
      * Get the type of the upload. Available types are: newCSV, updateExistingCSV, appendNewRowsToExistingCSV.
      * The information is stored in the session variable uploadSessionType
      */
-    protected String getUploadTypeFromSession() {
+    public String getUploadTypeFromSession() {
 
         // lesen
 //        Map<String, Object> sessionMAP = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
@@ -437,6 +471,25 @@ public class SessionManager {
         Map<String, Object> sessionMAP = this.getSessionMap();
         sessionMAP.put("landingPageSelectedParent", landingPageSelectedParent);
         this.landingPageSelectedSubset = landingPageSelectedSubset;
+    }
+
+    public Object getManagedBean(final String beanName) {
+        FacesContext fc = FacesContext.getCurrentInstance();
+        Object bean;
+
+        try {
+            ELContext elContext = fc.getELContext();
+            bean = elContext.getELResolver().getValue(elContext, null, beanName);
+        } catch (RuntimeException e) {
+            throw new FacesException(e.getMessage(), e);
+        }
+
+        if (bean == null) {
+            throw new FacesException("Managed bean with name '" + beanName
+                    + "' was not found. Check your faces-config.xml or @ManagedBean annotation.");
+        }
+
+        return bean;
     }
 }
 

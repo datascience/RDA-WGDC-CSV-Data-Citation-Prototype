@@ -29,7 +29,8 @@
         <!--  drop the tables every time: create-drop -->
         <!--  use auto or update or create-drop -->
         <property name="hibernate.hbm2ddl.auto">validate</property>
-        <!-- <property name="hibernate.hbm2ddl.import_files">pid.initial_data.sql</property> -->
+        <!--<property name="hibernate.hbm2ddl.auto">create</property>-->
+        <property name="hibernate.hbm2ddl.import_files">pid.initial_data.sql</property>
         
         <property name="hibernate.current_session_context_class">thread</property>
         <property name="format_sql">false</property>

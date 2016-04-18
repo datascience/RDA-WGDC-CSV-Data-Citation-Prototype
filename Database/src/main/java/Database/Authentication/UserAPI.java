@@ -80,6 +80,24 @@ public class UserAPI {
 
     }
 
+    /**
+     * Print the insert statement
+     * @param username
+     * @param firstname
+     * @param lastname
+     * @param password
+     * @param organizational_id
+     * @return
+     */
+    public String printMySQLInsertString(String username, String firstname, String lastname, String password, int organizational_id) {
+            User user = new User(username, firstname, lastname, password, organizational_id);
+            String INSERT = "INSERT INTO `CitationUserDB`.`user`(`user_id`, `first_name`,`last_name`," +
+                    "`organizational_id`,`password`, `username`)"+" VALUES ("+user.getUser_id() +", "+user.getFirstName()+"," +
+                    ""+user.getLastName()+", "+user.getOrganizational_id()+", "+user.getPassword()+", "+user.getUsername() +");";
+            this.logger.info(INSERT);
+        return INSERT;
+    }
+
     /*
     * Check if the username exists in the database
     * * * */

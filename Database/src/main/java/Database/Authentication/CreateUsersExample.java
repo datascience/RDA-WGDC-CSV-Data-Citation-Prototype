@@ -49,24 +49,8 @@ public class CreateUsersExample {
 
     public void run() {
         UserAPI api = new UserAPI();
-        api.addUser("stefan", "Stefan", "Proell", "stefan15", 12345);
+     /*   api.addUser("stefan", "Stefan", "Proell", "stefan15", 12345);
         api.addUser("andreas", "Andreas", "Rauber", "andreas15", 12345);
-        api.addUser("natalie", "Natalie", "Harrower", "natalie15", 12345);
-        api.addUser("kathrin", "Kathrin", "Beck", "katrin15", 12345);
-        api.addUser("catherine", "Catherine", "Jones", "catherine15", 12345);
-        api.addUser("martti", "Martti", "Louhivouri", "martti15", 12345);
-        api.addUser("odile", "Odile", "Francoise", "odile15", 12345);
-        api.addUser("dimitris", "Dimitris", "Gavrilis", "dimitris15", 12345);
-        api.addUser("thomas", "Thomas", "thomas", "thomas15", 12345);
-        api.addUser("pavel", "Pavel", "Stranak", "pavel15", 12345);
-        api.addUser("fabrizio", "fabrizio", "fabrizio", "fabrizio15", 12345);
-        api.addUser("pilar", "Pilar", "Callau", "pilar15", 12345);
-        api.addUser("mark", "Mark", "Pearsson", "mark15", 12345);
-        api.addUser("patrice", "Patrice", "Ajai-Ajagbe", "patrice15", 12345);
-        api.addUser("larry", "Larry", "Lannom", "larry15", 12345);
-        api.addUser("brian", "Brian", "Hole", "brian15", 12345);
-        api.addUser("tobias", "Tobias", "Weigel", "tobias15", 12345);
-
         api.addUser("user1", "firstname1", "lastname1", "user15", 12345);
         api.addUser("user2", "firstname2", "lastname2", "user15", 12345);
         api.addUser("user3", "firstname3", "lastname3", "user15", 12345);
@@ -77,15 +61,25 @@ public class CreateUsersExample {
         api.addUser("user8", "firstname8", "lastname8", "user15", 12345);
         api.addUser("user9", "firstname9", "lastname9", "user15", 12345);
         api.addUser("user10", "firstname10", "lastname10", "user15", 12345);
-
-        api.addUser("artur", "Artur", "Kulmukhametov", "artur15", 12345);
-        api.addUser("kresimir", "Kresimir", "Duretec", "kresimir15", 12345);
-        api.addUser("thomas", "Thomas", "Lidy", "thomas15", 12345);
-        api.addUser("david", "David", "Wang", "david15", 12345);
-        
-
+*/
+        api.addUser("thomas", "Thomas", "Hodge", "thomas15", 12345);
+        api.addUser("thaer", "Thaer", "Samar", "thaer15", 12345);
+        api.addUser("seamus","Seamus","Ross","seamus15",12345);
+        api.addUser("pauline","Pauline","Oddrun","pauline15",12345);
+        api.addUser("neil","Neil","Fitzgerald","neil15",12345);
+        api.addUser("myriam","Myriam","Traub","myriam15",12345);
+        api.addUser("jonathan","Jonathan","Moest","jonathan15",12345);
+        api.addUser("mohammed","Mohammed","Minout","mohammed15",12345);
+        api.addUser("mijung","Mijung","Lee","mijung15",12345);
+        api.addUser("malgorzata","Malgorzata","Rożniakowska-Kłosińska","malgorzata15",12345);
+        api.addUser("jaroslaw","Jaroslaw","Gryz","jaroslaw15",12345);
+        api.addUser("helene","Helene","de Ribaupierre,","helene15",12345);
+        api.addUser("kim","Kim","Hyunsook","kim15",12345);
+        api.addUser("dariusz","Dariusz","Paradowski","dariusz15",12345);
+        api.addUser("christian","Christian","Jacobs","christian15",12345);
+        api.addUser("brigitte","Brigitte","Mathiak","brigitte15",12345);
+        api.addUser("benoit","Benoît","Pauwels","benoit15",12345);
         System.out.println("Done");
-
 
 
     }
