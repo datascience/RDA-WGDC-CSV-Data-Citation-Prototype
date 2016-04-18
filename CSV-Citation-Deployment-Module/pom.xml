@@ -41,7 +41,6 @@
         <module>../ResultSetVerification</module>
         <module>../WebInterface</module>
         <module>../BatchMode</module>
-
     </modules>
 
     <dependencies>
