@@ -1,10 +1,6 @@
-# QueryStore and Persistent Identification Modules
+# Data Citation for CSV Data
 
-
-This project provides two modules: the QueryStore and the Persistent Identification mockup service. Both components
-have been developed within the [SCAPE project](http://www.scape-project.eu/) in order to facilityte data citation
-capabilities for existing applications. This project provides prototypes for a query store and a identification
-service used by such a service.
+This tool allows researchers to create citable subsets from CSV data. Arbitrary CSV files can be uploaded and a Web interface supports users at selecting specific subsets. The system automatically monitors the subset creation process and assigns a persistent identifier (PID) to the subset. CSV data sets can be updated (records can be added, deleted or modified) and all data is versioned. Thus earlier versions of a specific subset can be retrieved even if the data is evolving.
 
 ## Background: Data Citation
 
