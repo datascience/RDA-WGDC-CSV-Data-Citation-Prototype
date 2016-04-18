@@ -10,7 +10,7 @@ been created is worth preserving. The most common way of creating a subset of a 
 make a selection based on filtering out those records which are not needed and only include data which fulfils a
 given criteria.
 
-## Enter the QueryStore
+## The QueryStore
 
 The generic approach to perform such filter operations is to use either use a query language which allows to describe
 which data to be included and which records should be omitted. SQL is such a general purpose query language. For
@@ -38,16 +38,6 @@ interface input fields and their respective values which have been entered.
 * Detect query duplicates
 * Create timestamps automatically for each insert and update.
 * Full audit log.
-
-You can initialize the QueryStore by using its API. The QueryStore uses Hibernate to persist the data.
-
-```java
-        // Initialize Query Store
-        QueryStoreAPI queryAPI= new QueryStoreAPI();
-```
-The package Examples contains usage samples. Read the JavaDocs for more details.
-
-
 
 ## Persistent Identifaction Service
 
@@ -81,55 +71,6 @@ entities (details below). The following features are currently implemented in th
 * Print details
 * Full audit log
 
-You can initialize the QueryStore by using its API, refer to the examples for getting started. The QueryStore uses
-Hibernate to persist the data. Details below.
-
-```java
-       PersistentIdentifierAPI api = new PersistentIdentifierAPI();
-
-
-              // create a dummy organization and provide a prefix
-              Organization evilOrganization = api.createNewOrganitation("Evil Corp",2345);
-              Organization goodOrganization = api.createNewOrganitation("Good Company",6789);
-              // set the length for alphanumeric identifiers
-              evilOrganization.setAlphanumericPIDlength(20);
-              goodOrganization.setAlphanumericPIDlength(12);
-
-              // create identifiers
-              api.getAlphaNumericPID(evilOrganization, "www.repository.org/collections/datasets/ResearchData.csv");
-              api.getNumericPID(evilOrganization, "www.repository.org/collections/datasets/QuerySet");
-              api.getAlphaPID(evilOrganization, "www.repository.org/documentation/manual.pdf");
-```
-The package Examples contains usage samples. Read the JavaDocs for more details.
-
-
-
-## Initializing the database
-
-In order to use the modules you need to create a database scheme, create a user and add the corresponding permissions
-. This shows an example for MySQL. The permissions are not intended to be used in productive environments.
-
-```sql
-
-DROP DATABASE IF EXISTS `QueryStore`;
-CREATE DATABASE `QueryStore`;
-
-GRANT ALL PRIVILEGES ON QueryStore.* To 'QUERYSTOREUSER'@'localhost' IDENTIFIED BY 'PASSWORD';
-FLUSH PRIVILEGES;
-
-```
-
-After you have set up and tested the database access, you need to enter the username,
-the password and the database into the Hibernate configuration files called hibernate.cfg.xml in thr folder resources
- in each module.
-
-
- ```xml
-<property name="hibernate.connection.username">QUERYSTOREUSER</property>
-<property name="hibernate.connection.password">PASSWORD</property>
-<property name="hibernate.connection.url">jdbc:mysql://localhost:3306/QueryStore</property>
- ```
-
 # CSV Data Citation
 
 Users should be able to upload CSV files which they want to make citable. The CSV files are previously unkown to the
@@ -155,3 +96,31 @@ inserted.
 ### Deleting records
 
 The user uploads a file where rows have been deleted.
+
+# How to use this Code
+
+## Dislaimer
+
+This project is a research prototype. This means that this software is provided "as is", without any warranty of any kind.
+Feedback is welcome, but no support can be given at this point in time.
+
+## Software Stack
+
+This project is written in Java and utilises amongst other things the following technologies:
+
+- Java 1.8
+- Maven 3
+- MySQL 5.6
+- Hibernate 4.3
+- HikariCP
+- Super CSV
+- Apache Tomcat
+- Apache Commons
+- Jersey
+- JSF
+- Primefaces
+- jbcrypt
+
+## Modules
+
+The code is structured into several modules, each having its own dependencies.
