@@ -115,50 +115,9 @@ public class DatabaseTools {
 
     }
 
-    public void importCSVtoDatabase(String csvFileName, String tableName) {
-        this.tableName = tableName;
-        Statement stat = null;
-        Connection connection = null;
-        try {
-            connection = this.getConnection();
-
-            stat = connection.createStatement();
-
-            CSV_API csv;
-            csv = new CSV_API();
-            String headersSQL = null;
-            headersSQL = csv.getHeadersOfCSV(csvFileName);
-
-
-            stat.execute("DROP TABLE IF EXISTS " + this.tableName);
-            String sqlCREATE = "CREATE TABLE " + this.tableName + " " + headersSQL
-                    + "  AS SELECT * FROM CSVREAD( \'" + csvFileName + "\' );";
-            System.out.println(sqlCREATE);
-            stat.execute(sqlCREATE);
-            stat.close();
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (connection != null) {
-                    connection.close();
-                }
-                if (stat != null) {
-                    stat.close();
-                }
-            } catch (SQLException sqlee) {
-                sqlee.printStackTrace();
-            }
-        }
-
-
-    }
-
-
     /*
 Count the records which are not deleted..
- */
+*/
     public int getNumberOfActiveRecords(String baseTableMame){
         String sqlActiveRecords = "SELECT COUNT(DISTINCT ID_SYSTEM_SEQUENCE) AS activeRecords FROM " + baseTableMame + " " +
                 "WHERE  " +
@@ -599,6 +558,7 @@ Count the records which are not deleted..
     }
 
 
+
     /**
      * Create a new database from a CSV file. DROPs database if exists!! Appends
      * a id column for the sequential numbering and a sha1 hash column
@@ -609,6 +569,8 @@ Count the records which are not deleted..
      * @throws SQLException
      * @throws ClassNotFoundException
      */
+
+        /*
     public void createSimpleDBFromCSV(Column[] columnMetadata, String tableName, boolean calculateHashKeyColumn)
             throws ClassNotFoundException {
         Statement stat = null;
@@ -663,6 +625,7 @@ Count the records which are not deleted..
 
 
     }
+    */
 
     public void insertCSVDataIntoDB(String path, String tableName,
                                     boolean hasHeaders, boolean calculateHashKeyColumn) throws IOException {

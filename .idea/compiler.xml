@@ -28,6 +28,7 @@
         <module name="CSVTools" />
         <module name="Database" />
         <module name="DatatableModel" />
+        <module name="DataTypeGuesser" />
         <module name="Evaluation-Module" />
         <module name="PersistentIdentification" />
         <module name="PersistentIdentifier" />
@@ -42,6 +43,7 @@
       <module name="CSVTools" target="1.7" />
       <module name="Database" target="1.7" />
       <module name="DatatableModel" target="1.7" />
+      <module name="DataTypeGuesser" target="1.5" />
       <module name="Evaluation-Module" target="1.5" />
       <module name="PersistentIdentification" target="1.7" />
       <module name="QueryStore" target="1.7" />
