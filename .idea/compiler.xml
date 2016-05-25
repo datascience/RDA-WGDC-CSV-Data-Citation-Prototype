@@ -38,8 +38,8 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="1.8">
-      <module name="BatchMode" target="1.7" />
-      <module name="CSV-Citation-Deployment-Module" target="1.7" />
+      <module name="BatchMode" target="1.5" />
+      <module name="CSV-Citation-Deployment-Module" target="1.5" />
       <module name="CSVTools" target="1.7" />
       <module name="Database" target="1.7" />
       <module name="DatatableModel" target="1.7" />

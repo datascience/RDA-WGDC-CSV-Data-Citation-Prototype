@@ -37,6 +37,18 @@
     <groupId>at.stefanproell</groupId>
     <artifactId>WebInterface</artifactId>
     <version>1.0-SNAPSHOT</version>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.7</source>
+                    <target>1.7</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
     <packaging>war</packaging>
 
     <name>WebInterface</name>
@@ -190,87 +202,4 @@
 
 
     </dependencies>
-
-
-    <profiles>
-        <profile>
-            <id>localServer</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-compiler-plugin</artifactId>
-                        <version>3.1</version>
-                        <configuration>
-                            <source>1.7</source>
-                            <target>1.7</target>
-                        </configuration>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.apache.tomcat.maven</groupId>
-                        <artifactId>tomcat7-maven-plugin</artifactId>
-                        <version>2.0</version>
-                        <configuration>
-                            <path>/cite</path>
-                            <update>true</update>
-
-                            <url>http://localhost:8080/manager/text</url>
-                            <username>tcadm1</username>
-                            <password>tcadmate15</password>
-
-                        </configuration>
-
-                    </plugin>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-war-plugin</artifactId>
-                        <version>2.4</version>
-
-                    </plugin>
-
-
-                </plugins>
-            </build>
-        </profile>
-
-        <profile>
-            <id>ateServer</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-compiler-plugin</artifactId>
-                        <version>3.1</version>
-                        <configuration>
-                            <source>1.7</source>
-                            <target>1.7</target>
-                        </configuration>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.apache.tomcat.maven</groupId>
-                        <artifactId>tomcat7-maven-plugin</artifactId>
-                        <version>2.0</version>
-                        <configuration>
-                            <path>/cite</path>
-                            <update>true</update>
-
-                            <url>http://ate.ifs.tuwien.ac.at:8080/manager/text</url>
-                            <username>tcadm1</username>
-                            <password>tcadmate15</password>
-
-                        </configuration>
-
-                    </plugin>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-war-plugin</artifactId>
-                        <version>2.4</version>
-
-                    </plugin>
-
-
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
 </project>

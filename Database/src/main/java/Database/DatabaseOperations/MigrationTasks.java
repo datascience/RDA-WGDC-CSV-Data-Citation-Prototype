@@ -32,9 +32,15 @@
 
 package Database.DatabaseOperations;
 
+
 import CSVTools.CSV_API;
 import CSVTools.Column;
+import at.stefanproell.API.DataTypeDetectorAPI;
+import at.stefanproell.CSV_Tools.CSV_Analyser;
+import at.stefanproell.DataTypeDetector.DatatypeStatistics;
 
+
+import java.io.File;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -92,12 +98,20 @@ public class MigrationTasks {
             // Read headers
             String[] headers = csv.getArrayOfHeadersCSV(currentPath);
             try {
-                csv.readWithCsvListReaderAsStrings(currentPath);
+                //csv.readWithCsvListReaderAsStrings(currentPath);
                 // get column metadata
                 Column[] meta = csv.analyseColumns(true, currentPath);
 
+
+                DataTypeDetectorAPI dataTypeDetectorAPI = new DataTypeDetectorAPI();
+                CSV_Analyser csvAnalyzer = new CSV_Analyser();
+                Map<Integer, Map<String, Object>> csvMap = csvAnalyzer.readCSV(new File(currentPath));
+                DatatypeStatistics datatypeStatistics = csvAnalyzer.getStatistics();
+
+
+
                 // read CSV file
-                csv.readWithCsvListReaderAsStrings(currentPath);
+                //csv.readWithCsvListReaderAsStrings(currentPath);
                 MigrateCSV2SQL migrate = new MigrateCSV2SQL();
 
 
