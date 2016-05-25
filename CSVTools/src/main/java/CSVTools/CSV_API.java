@@ -49,7 +49,9 @@
 package CSVTools;
 
 
-
+import at.stefanproell.API.DataTypeDetectorAPI;
+import at.stefanproell.CSV_Tools.CSV_Analyser;
+import at.stefanproell.DataTypeDetector.DatatypeStatistics;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.supercsv.io.CsvListReader;
 import org.supercsv.io.CsvListWriter;
@@ -432,19 +434,33 @@ public class CSV_API {
 
         Column[] columnsMetadata = new Column[columnCount];
 
-        for (int i = 0; i < columnCount; i++) {
-            String currentHeader = null;
-            if (hasHeader) {
+        /**
+         * If there os no header, create an artifcial one
+         */
 
-                columnsMetadata[i] = new Column(header.get(i), 0);
 
-            } else {
-                columnsMetadata[i] = new Column(
-                        "Column_" + Integer.toString(i), 0);
+        if (!hasHeader) {
+            for (int i = 0; i < columnCount; i++) {
+                header.add(i, "Column_" + Integer.toString(i));
+            }
 
             }
 
+
+        CSV_Analyser csvAnalyzer = new CSV_Analyser();
+
+        Map<Integer, Map<String, Object>> csvMap = null;
+        try {
+            csvMap = csvAnalyzer.readCSV(new File(fileName), header);
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+        csvAnalyzer.setHeadersArray(header);
+        DatatypeStatistics statistics = csvAnalyzer.analyse(csvMap);
+        statistics.printResults();
+
+
 
         // Read the CSV as List of Maps where each Map represents row data
         List<Map<String, String>> rows = new ArrayList<Map<String, String>>();
@@ -472,6 +488,8 @@ public class CSV_API {
 
 
                 columnsMetadata[i].setMaxContentLength(contentLength);
+                //   columnsMetadata[i].setDataTypeString(dataTypeDetectorAPI.getDataType(currentToken));
+
 
             }
 

@@ -151,6 +151,8 @@ public class Column {
     private int maxContentLength = 0;
     private Logger logger;
     private boolean isPrimaryKey = false;
+    private String dataTypeString;
+
 
     public Column(String name, int contentLength) {
         this.logger = Logger.getLogger(this.getClass().getName());
@@ -200,4 +202,19 @@ public class Column {
 
     }
 
+    public Logger getLogger() {
+        return logger;
+    }
+
+    public void setLogger(Logger logger) {
+        this.logger = logger;
+    }
+
+    public String getDataTypeString() {
+        return dataTypeString;
+    }
+
+    public void setDataTypeString(String dataTypeString) {
+        this.dataTypeString = dataTypeString;
+    }
 }

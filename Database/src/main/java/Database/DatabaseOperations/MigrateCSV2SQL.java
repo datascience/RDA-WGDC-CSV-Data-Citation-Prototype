@@ -100,6 +100,7 @@ package Database.DatabaseOperations;
 import CSVTools.CSV_API;
 import CSVTools.Column;
 import Database.Helpers.StringHelpers;
+import at.stefanproell.DataTypeDetector.DatatypeStatistics;
 import org.supercsv.io.CsvListReader;
 import org.supercsv.io.ICsvListReader;
 import org.supercsv.prefs.CsvPreference;
@@ -149,6 +150,7 @@ public class MigrateCSV2SQL {
                                       boolean calculateHashKeyColumn)
             throws SQLException, ClassNotFoundException {
 
+        //todo ersetze die meta funktion.  
 
         StringHelpers stringHelpers = new StringHelpers();
 

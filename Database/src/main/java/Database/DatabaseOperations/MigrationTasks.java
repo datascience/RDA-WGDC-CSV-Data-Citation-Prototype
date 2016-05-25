@@ -102,14 +102,6 @@ public class MigrationTasks {
                 // get column metadata
                 Column[] meta = csv.analyseColumns(true, currentPath);
 
-
-                DataTypeDetectorAPI dataTypeDetectorAPI = new DataTypeDetectorAPI();
-                CSV_Analyser csvAnalyzer = new CSV_Analyser();
-                Map<Integer, Map<String, Object>> csvMap = csvAnalyzer.readCSV(new File(currentPath));
-                DatatypeStatistics datatypeStatistics = csvAnalyzer.getStatistics();
-
-
-
                 // read CSV file
                 //csv.readWithCsvListReaderAsStrings(currentPath);
                 MigrateCSV2SQL migrate = new MigrateCSV2SQL();
