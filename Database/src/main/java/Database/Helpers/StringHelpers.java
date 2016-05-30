@@ -69,4 +69,19 @@ public class StringHelpers {
 
 
     }
+
+    /**
+     * remove the last comma of a string
+     *
+     * @param input
+     * @return
+     */
+    public static String removeLastComma(String input) {
+        if (input.endsWith(",")) {
+            input = input.substring(0, input.lastIndexOf(","));
+        }
+
+
+        return input;
+    }
 }

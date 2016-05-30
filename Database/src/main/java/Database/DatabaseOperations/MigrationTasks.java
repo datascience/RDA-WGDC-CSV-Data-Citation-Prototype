@@ -127,9 +127,9 @@ public class MigrationTasks {
 
 
                 // Create DB schema
-                migrate.createSimpleDBFromCSV(currentTableName, primaryKey, csvMap, datatypeStatistics);
+                migrate.createSimpleDBFromCSV(currentTableName, primaryKey, datatypeStatistics);
                 // Import CSV Data
-                migrate.insertCSVDataIntoDB(currentPath, currentTableName, true, calulateHashColumn);
+                migrate.insertCSVDataIntoDB(currentTableName, csvMap, headers);
 
                 // add indices
                 migrate.addDatabaseIndicesToMetadataColumns(currentTableName);
