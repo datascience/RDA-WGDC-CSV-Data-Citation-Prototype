@@ -36,6 +36,7 @@ package Bean;
 
 import Database.DatabaseOperations.DatabaseTools;
 import org.hibernate.Session;
+import org.hibernate.type.Type;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -48,6 +49,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.xml.crypto.Data;
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
@@ -218,6 +220,11 @@ public class DatabaseTableNameBean implements Serializable {
 
         this.logger.info("Table changed... is now" + selectedTable);
 
+
+    }
+
+    public void onLoad(ActionEvent event) {
+        this.logger.info("Database Table Name Bean onLoad-.. " + event.toString());
 
     }
 

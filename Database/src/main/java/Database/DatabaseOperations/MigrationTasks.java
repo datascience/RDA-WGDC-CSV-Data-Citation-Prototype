@@ -91,19 +91,37 @@ public class MigrationTasks {
             Map.Entry pairs = (Map.Entry) it.next();
 
 
-            CSV_API csv;
-            csv = new CSV_API();
-            String currentTableName = csv.replaceSpaceWithDash(pairs.getKey().toString());
+            CSV_API csv_api;
+            csv_api = new CSV_API();
+            String currentTableName = csv_api.replaceSpaceWithDash(pairs.getKey().toString());
             String currentPath = pairs.getValue().toString();
+            String[] headers = csv_api.getArrayOfHeadersCSV(currentPath);
+
+
+            /**
+             * NEU
+             */
+
+            CSV_Analyser csv_analyser = new CSV_Analyser();
+            csv_analyser.setHeadersArray(headers);
+
+            Map<Integer, Map<String, Object>> csvMap = csv_analyser.parseCSV(new File(currentPath));
+            DatatypeStatistics datatypeStatistics = csv_analyser.analyse(csvMap, headers);
+            datatypeStatistics.printResults();
+
+
+            /**
+             * ENDE NEU
+             */
             // Read headers
-            String[] headers = csv.getArrayOfHeadersCSV(currentPath);
+
             try {
-                //csv.readWithCsvListReaderAsStrings(currentPath);
+                //csv_api.readWithCsvListReaderAsStrings(currentPath);
                 // get column metadata
-                Column[] meta = csv.analyseColumns(true, currentPath);
+                Column[] meta = csv_api.analyseColumns(true, currentPath);
 
                 // read CSV file
-                //csv.readWithCsvListReaderAsStrings(currentPath);
+                //csv_api.readWithCsvListReaderAsStrings(currentPath);
                 MigrateCSV2SQL migrate = new MigrateCSV2SQL();
 
 

@@ -417,12 +417,13 @@ public class CSV_API {
     // TODO
     public Column[] analyseColumns(boolean hasHeader, String fileName)
             throws IOException {
+
         CsvListReader reader = new CsvListReader(new FileReader(fileName),
                 CsvPreference.STANDARD_PREFERENCE);
         this.logger.info("Analyzing columns...");
 
 
-        // String[] header = reader.getHeader(true);
+        String[] headerStringArray = reader.getHeader(true);
 
         List<String> rowAsTokens;
         List<String> header = new ArrayList<String>(reader.read());
@@ -434,33 +435,19 @@ public class CSV_API {
 
         Column[] columnsMetadata = new Column[columnCount];
 
-        /**
-         * If there os no header, create an artifcial one
-         */
+        for (int i = 0; i < columnCount; i++) {
+            String currentHeader = null;
+            if (hasHeader) {
 
+                columnsMetadata[i] = new Column(header.get(i), 0);
 
-        if (!hasHeader) {
-            for (int i = 0; i < columnCount; i++) {
-                header.add(i, "Column_" + Integer.toString(i));
+            } else {
+                columnsMetadata[i] = new Column(
+                        "Column_" + Integer.toString(i), 0);
+
             }
 
-            }
-
-
-        CSV_Analyser csvAnalyzer = new CSV_Analyser();
-
-        Map<Integer, Map<String, Object>> csvMap = null;
-        try {
-            csvMap = csvAnalyzer.readCSV(new File(fileName), header);
-
-        } catch (Exception e) {
-            e.printStackTrace();
         }
-        csvAnalyzer.setHeadersArray(header);
-        DatatypeStatistics statistics = csvAnalyzer.analyse(csvMap);
-        statistics.printResults();
-
-
 
         // Read the CSV as List of Maps where each Map represents row data
         List<Map<String, String>> rows = new ArrayList<Map<String, String>>();
