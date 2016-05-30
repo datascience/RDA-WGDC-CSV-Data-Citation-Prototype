@@ -423,7 +423,8 @@ public class MigrateCSV2SQL {
 
     public void insertCSVDataIntoDB(String currentTableName, Map<Integer, Map<String, Object>> csvMap, String[] headers) throws SQLException {
 
-        String insertSQL = "INSERT INTO " + currentTableName + " ";
+        Statement stat = null;
+        String insertSQL = null;
         Connection connection = this.getConnection();
         if (connection.getAutoCommit()) {
             //this.logger.info("AUTO COMMIT OFF");
@@ -434,6 +435,7 @@ public class MigrateCSV2SQL {
 
         for (Map.Entry<Integer, Map<String, Object>> entry : csvMap.entrySet()) {
             int currentRow = entry.getKey();
+            insertSQL = "INSERT INTO " + currentTableName + " ";
             String valuesSpecification = "(ID_SYSTEM_SEQUENCE,";
             String valuesString = " VALUES(\"" + currentRow + "\",";
             Map<String, Object> data = entry.getValue();
@@ -454,16 +456,18 @@ public class MigrateCSV2SQL {
             Timestamp currentTimestamp = new Timestamp(Calendar.getInstance().getTime().getTime());
 
             valuesSpecification = StringHelpers.removeLastComma(valuesSpecification) + ",INSERT_DATE,LAST_UPDATE,RECORD_STATUS)";
-            valuesString = StringHelpers.removeLastComma(valuesString) + ",\"" + currentTimestamp + "\",\"" + currentTimestamp + "\"," + "\"inserted\")";
+            valuesString = StringHelpers.removeLastComma(valuesString) + ",\"" + currentTimestamp + "\",\"" + currentTimestamp + "\"," + "\"inserted\");";
             insertSQL += valuesSpecification + valuesString;
             logger.info("SQL INSERT: " + insertSQL);
 
-            long endTime = System.currentTimeMillis();
-            long totalTime = endTime - startTime;
-
-
+            stat = connection.createStatement();
+            stat.execute(insertSQL);
+            connection.commit();
         }
-
+        stat.close();
+        connection.close();
+        long endTime = System.currentTimeMillis();
+        long totalTime = endTime - startTime;
 
 
         /*
@@ -582,8 +586,7 @@ public class MigrateCSV2SQL {
             connection.close();
 
         }*/
-        long endTime = System.currentTimeMillis();
-        //  long totalTime = endTime - startTime;
+
 
     }
 
