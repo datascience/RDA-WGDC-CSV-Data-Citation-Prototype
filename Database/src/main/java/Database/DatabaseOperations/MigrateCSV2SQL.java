@@ -100,6 +100,7 @@ package Database.DatabaseOperations;
 import CSVTools.CSV_API;
 import CSVTools.Column;
 import Database.Helpers.StringHelpers;
+import at.stefanproell.DataTypeDetector.ColumnMetadata;
 import at.stefanproell.DataTypeDetector.DatatypeStatistics;
 import org.supercsv.io.CsvListReader;
 import org.supercsv.io.ICsvListReader;
@@ -200,6 +201,64 @@ public class MigrateCSV2SQL {
         connection.close();
 
     }
+
+    /**
+     * Create a new database from a CSV file. DROPs database if exists!! Appends
+     * a id column for the sequential numbering and a sha1 hash column. Adds a column for the state of the
+     * record: inserted, updated, deleted
+     * <p>
+     * Version 2016 with data type detector
+     */
+    public void createSimpleDBFromCSV(String tableName, List<String> primaryKeyColumns, Map<Integer, Map<String, Object>> csvMap, DatatypeStatistics datatypeStatistics)
+            throws SQLException, ClassNotFoundException {
+
+        //todo ersetze die meta funktion.
+
+        StringHelpers stringHelpers = new StringHelpers();
+
+        Statement stat;
+
+        String createTableString = "CREATE TABLE " + tableName
+                + " ( ID_SYSTEM_SEQUENCE INTEGER NOT NULL";
+
+
+        Map<String, ColumnMetadata> columnMap = datatypeStatistics.getColumnMap();
+        for (Map.Entry<String, ColumnMetadata> column : columnMap.entrySet()) {
+            ColumnMetadata columnMetadata = column.getValue();
+            createTableString += " , " + column.getKey()
+                    + " " + columnMetadata.getMostLiklyDataTypeOfColumn() + "(" + columnMetadata.getRecordLength() + ") ";
+
+        }
+        //@// TODO: 25.05.16 MySQL 5.7 strict mode does not allow zero timestamps any more.
+        createTableString += ", INSERT_DATE TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP, " +
+                "LAST_UPDATE TIMESTAMP ";
+
+        // append record status column
+        createTableString += ", RECORD_STATUS enum('inserted','updated','deleted') NOT NULL DEFAULT 'inserted'";
+
+        String primaryKeysString = stringHelpers.getCommaSeperatedListofPrimaryKeys(primaryKeyColumns);
+        // append primary key
+        createTableString += ",PRIMARY KEY (" + primaryKeysString + ",LAST_UPDATE)";
+        this.logger.info("Primary key is " + primaryKeysString + " and the update column!");
+
+
+        // Finalize SQL String
+
+        createTableString += ");";
+
+        this.logger.info("CREATE String: " + createTableString);
+        Connection connection = this.getConnection();
+        this.logger.info("The current DATABASE is " + connection.getCatalog());
+        stat = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
+                ResultSet.CONCUR_READ_ONLY);
+        stat.execute("DROP TABLE IF EXISTS " + tableName);
+        stat.execute(createTableString);
+
+        stat.close();
+        connection.close();
+
+    }
+
 
     /**
      * Get the connection from the connection pool

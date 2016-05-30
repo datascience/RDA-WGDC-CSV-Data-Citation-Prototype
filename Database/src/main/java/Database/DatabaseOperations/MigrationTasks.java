@@ -106,6 +106,7 @@ public class MigrationTasks {
             csv_analyser.setHeadersArray(headers);
 
             Map<Integer, Map<String, Object>> csvMap = csv_analyser.parseCSV(new File(currentPath));
+
             DatatypeStatistics datatypeStatistics = csv_analyser.analyse(csvMap, headers);
             datatypeStatistics.printResults();
 
@@ -126,7 +127,7 @@ public class MigrationTasks {
 
 
                 // Create DB schema
-                migrate.createSimpleDBFromCSV(meta, currentTableName, primaryKey, calulateHashColumn);
+                migrate.createSimpleDBFromCSV(currentTableName, primaryKey, csvMap, datatypeStatistics);
                 // Import CSV Data
                 migrate.insertCSVDataIntoDB(currentPath, currentTableName, true, calulateHashColumn);
 
