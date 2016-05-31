@@ -86,13 +86,13 @@ public class MigrationTasks {
         //
         Iterator it = this.filesList.entrySet().iterator();
         while (it.hasNext()) {
-            Map.Entry pairs = (Map.Entry) it.next();
+            Map.Entry uploadedCSVFileMap = (Map.Entry) it.next();
 
 
             CsvToolsApi csvToolsApi;
             csvToolsApi = new CsvToolsApi();
-            String currentTableName = csvToolsApi.replaceSpaceWithDash(pairs.getKey().toString());
-            String currentPath = pairs.getValue().toString();
+            String currentTableName = csvToolsApi.replaceSpaceWithDash(uploadedCSVFileMap.getKey().toString());
+            String currentPath = uploadedCSVFileMap.getValue().toString();
             String[] headers = csvToolsApi.getArrayOfHeadersCSV(currentPath);
 
 
@@ -118,7 +118,7 @@ public class MigrationTasks {
                 // Create DB schema
                 migrate.createSimpleDBFromCSV(currentTableName, primaryKey, datatypeStatistics);
                 // Import CSV Data
-                migrate.insertCSVDataIntoDB(currentTableName, csvMap, headers);
+                migrate.insertCSVDataIntoDB(currentTableName, csvMap);
 
                 // add indices
                 migrate.addDatabaseIndicesToMetadataColumns(currentTableName);
@@ -245,22 +245,20 @@ public class MigrationTasks {
         } else {
             this.logger.info("Filelist is okay. Number of files " + this.filesList.size());
             HashMap<String, String> testMap = this.filesList;
-            for (Map.Entry<String, String> entry : testMap.entrySet()) {
-                this.logger.info("File list loop: Key = " + entry.getKey() + ", Value = " + entry.getValue());
-            }
+
         }
 
 
         Iterator it = this.filesList.entrySet().iterator();
         while (it.hasNext()) {
-            Map.Entry pairs = (Map.Entry) it.next();
+            Map.Entry uploadedCSVFileMap = (Map.Entry) it.next();
             // When uploading data for an existing table, the table name is not provided by the user but is selected
             // from the drop down menu. is is provided in the session variable
-            this.logger.info("TableName = " + this.getCurrentTableName() + " Path: " + pairs.getValue().toString());
+            this.logger.info("TableName = " + this.getCurrentTableName() + " Path: " + uploadedCSVFileMap.getValue().toString());
 
             CsvToolsApi csv;
             csv = new CsvToolsApi();
-            String currentPath = pairs.getValue().toString();
+            String currentPath = uploadedCSVFileMap.getValue().toString();
 
 
             // there are headers

@@ -283,148 +283,8 @@ public class MigrateCSV2SQL {
 
     }
 
-    public void insertCSVDataIntoDB(String path, String tableName,
-                                    boolean hasHeaders, boolean calculateHashKeyColumn) throws IOException,
-            SQLException {
 
-        Connection connection = this.getConnection();
-        if (connection.getAutoCommit()) {
-            //this.logger.info("AUTO COMMIT OFF");
-            connection.setAutoCommit(false);
-        }
-
-        PreparedStatement preparedStatement;
-
-        CsvListReader reader = null;
-        int rowCount = 0;
-        try {
-            reader = new CsvListReader(new FileReader(path),
-                    CsvPreference.STANDARD_PREFERENCE);
-        } catch (FileNotFoundException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        long startTime = System.currentTimeMillis();
-        ICsvListReader listReader = null;
-        try {
-            final String[] header = reader.getHeader(hasHeaders);
-
-            // Calculate the number of place holders required by the amount of
-            // columns and add four ? for the sequence, created and updated date and the
-            // hash column. The id is the
-            // first placeholder and then ..., created date, updated date, hash, status)
-
-            // placeholder for sequence number
-            String placeholders = "(?,";
-            for (int i = 0; i < header.length; i++) {
-                placeholders += "?,";
-            }
-
-            // Adjust the amount of placeholders
-            if (calculateHashKeyColumn) {
-                placeholders += "?,";
-
-            }
-
-            // If there is no hash column, then only append the two time stamp cols
-            placeholders += "?,?";
-
-
-            // record status column
-            placeholders += ",?";
-            // finalize place holder
-            placeholders += ")";
-
-            String insertString = "INSERT INTO " + tableName + " VALUES "
-                    + placeholders;
-            preparedStatement = connection.prepareStatement(insertString);
-
-            List<String> row;
-
-
-            while ((row = reader.read()) != null) {
-
-                rowCount++;
-
-                // there are five metadata columns: sequence, inserted, time, updated time, hash,status
-                for (int columnCount = 1; columnCount <= header.length + 5; columnCount++) {
-
-                    // first column contains sequence
-                    if (columnCount == 1) {
-                        preparedStatement.setInt(columnCount, rowCount);
-
-                        // column values (first column is the id)
-                    } else if (columnCount > 1
-                            && columnCount <= (header.length + 1)) {
-
-                        // index starts at 0 and the counter at 1.
-                        preparedStatement.setString(columnCount,
-                                row.get(columnCount - 2));
-
-                        // insert timestamps
-                    } else if (columnCount == (header.length + 2)
-                            || columnCount == (header.length + 3)) {
-
-                        preparedStatement.setDate(columnCount, null);
-
-                        // insert the hash
-                    } else if (columnCount == (header.length + 4) & calculateHashKeyColumn) {
-
-                        String appendedColumns = CsvToolsApi.convertStringListToAppendedString(row);
-
-                        String hash = CsvToolsApi
-                                .calculateSHA1HashFromString(appendedColumns);
-
-                        preparedStatement.setString(columnCount, hash);
-
-                    }
-                    // if there is no hash column, then the last record state field has is at position +4
-                    else if (columnCount == (header.length + 4) & calculateHashKeyColumn == false) {
-                        preparedStatement.setString(columnCount, "inserted");
-
-                    }
-
-                    // if there is a hash column, then the last record state field has is at position +5
-                    else if (columnCount == (header.length + 5) & calculateHashKeyColumn) {
-                        preparedStatement.setString(columnCount, "inserted");
-                    }
-                }
-
-                this.logger.info("prepared statement before exec: " + preparedStatement);
-                int statuscode = preparedStatement.executeUpdate();
-
-
-                if (rowCount % 1000 == 0) {
-                    connection.commit();
-                }
-
-            }
-
-
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (NoSuchAlgorithmException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (SQLIntegrityConstraintViolationException m) {
-            this.logger.severe("duplicate key detected!: " + m.getSQLState() + " " + m.getLocalizedMessage());
-
-        } finally {
-            if (listReader != null) {
-                listReader.close();
-            }
-            connection.setAutoCommit(true);
-            reader.close();
-            connection.close();
-
-        }
-        long endTime = System.currentTimeMillis();
-        long totalTime = endTime - startTime;
-
-    }
-
-    public void insertCSVDataIntoDB(String currentTableName, Map<Integer, Map<String, Object>> csvMap, String[] headers) throws SQLException {
+    public void insertCSVDataIntoDB(String currentTableName, Map<Integer, Map<String, Object>> csvMap) throws SQLException {
 
         Statement stat = null;
         String insertSQL = null;
@@ -481,6 +341,117 @@ public class MigrateCSV2SQL {
         long endTime = System.currentTimeMillis();
         long totalTime = endTime - startTime;
 
+
+
+    }
+
+    /**
+     * Steps:
+     * Step 1: Copy table based on the structure of the existing one as temp table
+     * Step 2: Insert new uploaded file into the temp table
+     * Step 3: Find all records to be inserted
+     * Step 4: Find all records to be updated
+     * Step 5: Find all records to be deleted
+     *
+     * @param currentTableName
+     * @param csvMap
+     * @throws SQLException
+     */
+    public void updateDataInExistingDB(String currentTableName, Map<Integer, Map<String, Object>> csvMap) throws SQLException {
+        // TODO: 31.05.16: write new update nethod
+
+
+        Statement stat = null;
+        String insertSQL = null;
+        Connection connection = this.getConnection();
+        CsvToolsApi csvToolsApi = new CsvToolsApi();
+        if (connection.getAutoCommit()) {
+            //this.logger.info("AUTO COMMIT OFF");
+            connection.setAutoCommit(false);
+        }
+
+        long startTime = System.currentTimeMillis();
+
+        // Step 1
+        String tempTableName = currentTableName + "_temp";
+        String createTempTable = "CREATE TABLE " + tempTableName + " LIKE " + currentTableName;
+        stat = connection.createStatement();
+        stat.execute(createTempTable);
+        connection.commit();
+
+        // Step 2
+        for (Map.Entry<Integer, Map<String, Object>> entry : csvMap.entrySet()) {
+            int currentRow = entry.getKey();
+            insertSQL = "INSERT INTO " + tempTableName + " ";
+            String valuesSpecification = "(ID_SYSTEM_SEQUENCE,";
+            // Insert the System Sequence
+            String valuesString = " VALUES(\"" + currentRow + "\",";
+            Map<String, Object> data = entry.getValue();
+            TreeMap<String, Object> sortedByColumnName = new TreeMap<String, Object>(data);
+
+
+            for (Map.Entry<String, Object> record : sortedByColumnName.entrySet()) {
+
+
+                String columnName = record.getKey();
+                String normalizedColumnName = csvToolsApi.replaceReservedKeyWords(columnName);
+                valuesSpecification += normalizedColumnName + ",";
+                String columnValue;
+                if (record.getValue() != null) {
+                    columnValue = record.getValue().toString();
+                    columnValue = csvToolsApi.escapeQuotes(columnValue);
+                    valuesString += "\"" + columnValue + "\"" + ",";
+                } else {
+                    columnValue = "NULL";
+                    valuesString += columnValue + ",";
+                }
+
+            }
+
+            Timestamp currentTimestamp = new Timestamp(Calendar.getInstance().getTime().getTime());
+
+            valuesSpecification = StringHelpers.removeLastComma(valuesSpecification) + ",INSERT_DATE,LAST_UPDATE,RECORD_STATUS)";
+            valuesString = StringHelpers.removeLastComma(valuesString) + ",\"" + currentTimestamp + "\",\"" + currentTimestamp + "\"," + "\"inserted\");";
+            insertSQL += valuesSpecification + valuesString;
+
+
+            stat = connection.createStatement();
+            stat.execute(insertSQL);
+            connection.commit();
+        }
+
+        // Step 3
+        List<String> primaryKey = dbtools.getPrimaryKeyFromTable(currentTableName);
+        String subselectWherePrimaryKey = " WHERE ";
+        for (String key : primaryKey) {
+            subselectWherePrimaryKey += currentTableName + "." + key + "=" + tempTableName + "." + key + " AND ";
+
+
+        }
+        String newRecodsSQL = "SELECT * FROM " + currentTableName + " WHERE NOT EXISTS ( SELECT 1 FROM " + tempTableName +
+                "" +
+                "" +
+                "" +
+                "ROM SENSORS_LOG s1\n" +
+                "  INNER JOIN SENSORS_LOG s2\n" +
+                "    ON (s2.DATE = s1.DATE AND\n" +
+                "        s2.DATE_MILLIS = s1.DATE_MILLIS AND\n" +
+                "        s2.EIB_ADDRESS = s1.EIB_ADDRESS)\n" +
+                "  WHERE s1.VALUE <> s2.VALUE OR\n" +
+                "        s1.LOG_ID <> s2.LOG_ID OR\n" +
+                "        s1.ORIG_LOG_ID <> s2.ORIG_LOG_ID;";
+
+        TreeMap<String, String> sortedByColumnName = dbtools.getColumnNamesWithoutMetadataSortedAlphabetically(currentTableName);
+        for (Map.Entry<String, String> column : sortedByColumnName.entrySet()) {
+
+
+        }
+
+
+        stat.close();
+        connection.close();
+        long endTime = System.currentTimeMillis();
+        long totalTime = endTime - startTime;
 
 
     }
@@ -750,8 +721,6 @@ public class MigrateCSV2SQL {
         PreparedStatement preparedStatement;
 
 
-        CsvToolsApi csvAPI;
-        csvAPI = new CsvToolsApi();
         CsvListReader reader = null;
         int rowCount = 0;
         try {

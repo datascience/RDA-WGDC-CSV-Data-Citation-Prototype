@@ -436,6 +436,18 @@ Count the records which are not deleted..
 
     }
 
+    /**
+     * Return a sorted map of column names and data types
+     *
+     * @param tableName
+     * @return
+     */
+    public TreeMap<String, String> getColumnNamesWithoutMetadataSortedAlphabetically(String tableName) {
+        Map<String, String> columnNames = this.getColumnNamesFromTableWithoutMetadataColumns(tableName);
+        TreeMap<String, String> sortedByColumnName = new TreeMap<String, String>(columnNames);
+        return sortedByColumnName;
+    }
+
 
     /**
      * Get a map of <ColumnName, ColumnType> but remove the automatically generated metadata columns from the map:
@@ -961,7 +973,7 @@ Count the records which are not deleted..
                         + rs.getString("REMARKS"));
                 */
                 listOfTables.add(tableName);
-                this.logger.info(tableName);
+                //  this.logger.info(tableName);
 
             }
 
@@ -1715,6 +1727,10 @@ Count the records which are not deleted..
 
         try {
             connection = this.getConnection();
+            if (connection.getAutoCommit()) {
+                //this.logger.info("AUTO COMMIT OFF");
+                connection.setAutoCommit(false);
+            }
 
 
             DatabaseMetaData dbm = connection.getMetaData();
@@ -1723,7 +1739,7 @@ Count the records which are not deleted..
             if (tables.next()) {
                 Statement dropStatement = null;
                 dropStatement = connection.createStatement();
-                String drop = "DROP TABLE " + tempTableName + " IF EXISTS";
+                String drop = "DROP TABLE IF EXISTS " + tempTableName + ";";
                 this.logger.info(drop);
                 dropStatement.execute(drop);
                 connection.commit();
@@ -1795,6 +1811,7 @@ Count the records which are not deleted..
     * */
     private String recordExistsWhereClause(Map<String, String> columnsMap, List<String> csvRow) {
         int columnCounter = -1;
+        CsvToolsApi csvToolsApi = new CsvToolsApi();
 
         String whereString = "";
 
@@ -1805,7 +1822,8 @@ Count the records which are not deleted..
 
             columnCounter++;
 
-            String columnNameInDB = entry.getKey();
+            String columnNameInDB = csvToolsApi.replaceReservedKeyWords(entry.getKey());
+
             String columnType = entry.getValue();
             String csvRowValue = csvRow.get(columnCounter);
 
@@ -1816,6 +1834,7 @@ Count the records which are not deleted..
                 whereString += (" is null ");
                 whereString += (" AND ");
             } else {
+                csvRowValue = csvToolsApi.escapeQuotes(csvRowValue);
                 whereString += ("= \"" + csvRowValue + "\"");
                 whereString += (" AND ");
             }
