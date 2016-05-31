@@ -48,7 +48,7 @@
 
 package Bean;
 
-import CSVTools.CSV_API;
+import CSVTools.CsvToolsApi;
 import Database.DatabaseOperations.MigrationTasks;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.FileUploadEvent;
@@ -337,7 +337,7 @@ public class UpdateFileController {
         System.out.println("Store event...");
 
         // check if the upload directory exists or create it
-        CSV_API csvAPI = new CSV_API();
+        CsvToolsApi csvAPI = new CsvToolsApi();
         csvAPI.createCSVDirectory();
         
         

@@ -34,8 +34,7 @@
 package Database.DatabaseOperations;
 
 
-import CSVTools.CSV_API;
-import CSVTools.Column;
+import CSVTools.CsvToolsApi;
 import com.sun.rowset.CachedRowSetImpl;
 import org.supercsv.io.CsvListReader;
 import org.supercsv.io.ICsvListReader;
@@ -644,7 +643,7 @@ Count the records which are not deleted..
                 connection.setAutoCommit(false);
             }
             PreparedStatement preparedStatement;
-            CSV_API csvAPI = new CSV_API();
+            CsvToolsApi csvAPI = new CsvToolsApi();
             reader = null;
             rowCount = 0;
 
@@ -710,9 +709,9 @@ Count the records which are not deleted..
                         // insert the hash
                     } else if (columnCount == (header.length + 4) & calculateHashKeyColumn) {
 
-                        String appendedColumns = CSV_API
+                        String appendedColumns = CsvToolsApi
                                 .convertStringListToAppendedString(row);
-                        String hash = CSV_API
+                        String hash = CsvToolsApi
                                 .calculateSHA1HashFromString(appendedColumns);
 
                         preparedStatement.setString(columnCount, hash);
@@ -1067,7 +1066,7 @@ Count the records which are not deleted..
         String previousKey = "";
         String compositeHash = "";
         CachedRowSet cached = null;
-        CSV_API csvAPI = new CSV_API();
+        CsvToolsApi csvAPI = new CsvToolsApi();
         long startTime = System.currentTimeMillis();
         //int hashCounter =0;
 

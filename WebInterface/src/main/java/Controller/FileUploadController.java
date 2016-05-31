@@ -178,7 +178,7 @@ package Controller;
 
 import Bean.SessionManager;
 import Bean.TableDefinitionBean;
-import CSVTools.CSV_API;
+import CSVTools.CsvToolsApi;
 import Database.Authentication.User;
 import Database.DatabaseOperations.DatabaseTools;
 import org.primefaces.context.RequestContext;
@@ -444,7 +444,7 @@ public class FileUploadController implements Serializable {
         this.logger.info("Initializign databasenames");
 
         // check if the upload directory exists or create it
-        CSV_API csvAPI = new CSV_API();
+        CsvToolsApi csvAPI = new CsvToolsApi();
         csvAPI.createCSVDirectory();
 
 
@@ -493,7 +493,7 @@ public class FileUploadController implements Serializable {
         this.columns.add("ID_SYSTEM_SEQUENCE");
 
         String path = "";
-        CSV_API csvAPI = new CSV_API();
+        CsvToolsApi csvAPI = new CsvToolsApi();
 
 
         List pathList = new ArrayList(this.filesList.values());
@@ -674,7 +674,7 @@ public class FileUploadController implements Serializable {
     public File storeCSVFile(String fileName, InputStream in) {
 
         // write the inputStream to a FileOutputStream
-        CSV_API csvApi = new CSV_API();
+        CsvToolsApi csvApi = new CsvToolsApi();
         String outputPath= csvApi.getDIRECTORY()+ fileName;
         try {
 

@@ -33,9 +33,7 @@
 package Database.DatabaseOperations;
 
 
-import CSVTools.CSV_API;
-import CSVTools.Column;
-import at.stefanproell.API.DataTypeDetectorAPI;
+import CSVTools.CsvToolsApi;
 import at.stefanproell.CSV_Tools.CSV_Analyser;
 import at.stefanproell.DataTypeDetector.DatatypeStatistics;
 
@@ -91,11 +89,11 @@ public class MigrationTasks {
             Map.Entry pairs = (Map.Entry) it.next();
 
 
-            CSV_API csv_api;
-            csv_api = new CSV_API();
-            String currentTableName = csv_api.replaceSpaceWithDash(pairs.getKey().toString());
+            CsvToolsApi csvToolsApi;
+            csvToolsApi = new CsvToolsApi();
+            String currentTableName = csvToolsApi.replaceSpaceWithDash(pairs.getKey().toString());
             String currentPath = pairs.getValue().toString();
-            String[] headers = csv_api.getArrayOfHeadersCSV(currentPath);
+            String[] headers = csvToolsApi.getArrayOfHeadersCSV(currentPath);
 
 
             /**
@@ -111,18 +109,9 @@ public class MigrationTasks {
             datatypeStatistics.printResults();
 
 
-            /**
-             * ENDE NEU
-             */
-            // Read headers
 
             try {
-                //csv_api.readWithCsvListReaderAsStrings(currentPath);
-                // get column metadata
-                Column[] meta = csv_api.analyseColumns(true, currentPath);
 
-                // read CSV file
-                //csv_api.readWithCsvListReaderAsStrings(currentPath);
                 MigrateCSV2SQL migrate = new MigrateCSV2SQL();
 
 
@@ -162,8 +151,6 @@ public class MigrationTasks {
             hasHeaders, boolean calulateHashColumn) {
 
 
-        System.out.println("inserting new data");
-
         if (sessionTableName != null) {
             this.setCurrentTableName(sessionTableName);
         }
@@ -189,8 +176,8 @@ public class MigrationTasks {
             this.logger.info("TableName = " + this.getCurrentTableName() + " Path: " + pairs.getValue().toString());
 
 
-            CSV_API csv;
-            csv = new CSV_API();
+            CsvToolsApi csv;
+            csv = new CsvToolsApi();
 
             // if the table name was not set in a session, read it from the file name
             if (this.currentTableName == null || this.currentTableName.equals("")) {
@@ -271,8 +258,8 @@ public class MigrationTasks {
             // from the drop down menu. is is provided in the session variable
             this.logger.info("TableName = " + this.getCurrentTableName() + " Path: " + pairs.getValue().toString());
 
-            CSV_API csv;
-            csv = new CSV_API();
+            CsvToolsApi csv;
+            csv = new CsvToolsApi();
             String currentPath = pairs.getValue().toString();
 
 

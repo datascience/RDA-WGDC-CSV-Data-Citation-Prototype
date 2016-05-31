@@ -53,6 +53,7 @@ import at.stefanproell.API.DataTypeDetectorAPI;
 import at.stefanproell.CSV_Tools.CSV_Analyser;
 import at.stefanproell.DataTypeDetector.DatatypeStatistics;
 import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.supercsv.io.CsvListReader;
 import org.supercsv.io.CsvListWriter;
 import org.supercsv.io.ICsvListReader;
@@ -71,12 +72,12 @@ import java.util.logging.Logger;
 /**
  * Provides methods and tools for working with CSV files.
  */
-public class CSV_API {
+public class CsvToolsApi {
     private Logger logger;
     private static MessageDigest crypto;
     private final String DIRECTORY = "/tmp/CSV-Files/";
 
-    public CSV_API() {
+    public CsvToolsApi() {
         this.logger = Logger.getLogger(this.getClass().getName());
         try {
             this.crypto = MessageDigest.getInstance("SHA-1");
@@ -159,8 +160,8 @@ public class CSV_API {
             e.printStackTrace();
         }
 
-        this.logger.info("There are " + header.length + " headers");
-        this.printArray(header);
+        //  this.logger.info("There are " + header.length + " headers");
+        //  this.printArray(header);
         return header;
 
     }
@@ -184,7 +185,7 @@ public class CSV_API {
         String[] headerArray = this.getArrayOfHeadersCSV(inFile);
         for (String columnHeader : headerArray) {
             headersList.add(columnHeader);
-            this.logger.info("Added " + columnHeader + " size is now " + headersList.size());
+            //this.logger.info("Added " + columnHeader + " size is now " + headersList.size());
         }
         return headersList;
 
@@ -200,7 +201,7 @@ public class CSV_API {
      */
     private String[] replaceSpaceWithDash(String[] headers) {
         String[] headersWithNoSpaces = headers;
-        System.out.println("replace spaces in " + headers.length + " headers ");
+        //System.out.println("replace spaces in " + headers.length + " headers ");
 
         for (int i = 0; i < headers.length; i++) {
 
@@ -251,6 +252,25 @@ public class CSV_API {
         String noSpaceString = withSpaceCharacter.replaceAll("^\\s+", "").replace(" ", "_");
         noSpaceString = noSpaceString.replace("(", "_").replace(")", "_");
         return noSpaceString;
+
+
+    }
+
+    /**
+     * Escape a string
+     *
+     * @param withQuoteCharacter
+     * @return
+     */
+    public String escapeQuotes(String withQuoteCharacter) {
+        String output = withQuoteCharacter;
+        if (withQuoteCharacter.contains("\"")) {
+            output = StringEscapeUtils.escapeJava(withQuoteCharacter);
+            output = output.replaceAll("'", "''");
+
+        }
+
+        return output;
 
 
     }
@@ -491,7 +511,7 @@ public class CSV_API {
 
     // TODO umschreiben in die db importier funktion
 
-    private List<String> replaceReservedKeyWords(List<String> header) {
+    public List<String> replaceReservedKeyWords(List<String> header) {
 
 
         List<String> reservedKeyWords = new ArrayList<String>();
@@ -508,8 +528,23 @@ public class CSV_API {
         }
         return header;
 
+    }
+
+    public String replaceReservedKeyWords(String input) {
+
+
+        List<String> reservedKeyWords = new ArrayList<String>();
+
+        reservedKeyWords.add("release");
+        reservedKeyWords.add("year");
+        if (reservedKeyWords.contains(input.toLowerCase().trim())) {
+            this.logger.info("Reserved keyword found");
+            input = ("`" + input + "`");
+        }
+        return input;
 
     }
+
 
     /**
      * Get List of all rows

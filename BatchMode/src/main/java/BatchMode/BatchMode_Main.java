@@ -1,7 +1,7 @@
 package BatchMode;
 
 
-import CSVTools.CSV_API;
+import CSVTools.CsvToolsApi;
 import CSVTools.Column;
 import Database.Helpers.StringHelpers;
 import Database.DatabaseOperations.MigrationTasks;
@@ -180,7 +180,7 @@ public class BatchMode_Main {
      * @param
      */
     private void migrateNewFile(HashMap<String, File> filesList) {
-        CSV_API csvAPI = new CSV_API();
+        CsvToolsApi csvAPI = new CsvToolsApi();
 
         String currentFileName = "";
         File currentFile = null;
