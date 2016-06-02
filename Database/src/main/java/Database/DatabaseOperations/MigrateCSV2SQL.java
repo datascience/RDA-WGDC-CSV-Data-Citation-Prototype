@@ -393,8 +393,77 @@ public class MigrateCSV2SQL {
         connection.commit();
 
 
-        /////////////////////////////////////////77
+        /////////////////////////////////////////
 
+        // Neue idee:
+        // map direkt vergleichen und inserten.
+
+        List<String> primaryKey = dbtools.getPrimaryKeyFromTableWithoutLastUpdateOrSystemSequenceColumns(currentTableName);
+        // check if there is a primary key which is not ID_SYSTEM_SEQUENCE or LAST_UPDATE
+        // If there is no other key available, we need to find all records one by one.
+        // If there is a real primary key, then we can use it for checking if a record exists or not.
+        String subselectWherePrimaryKey = "";
+        if (primaryKey.size() != 0) {
+            hasUserDefinedPrimaryKey = true;
+
+
+        } else {
+            hasUserDefinedPrimaryKey = false;
+
+
+        }
+
+        if (hasUserDefinedPrimaryKey) {
+            for (Map.Entry<Integer, Map<String, Object>> entry : csvMap.entrySet()) {
+
+
+                Map<String, Object> data = entry.getValue();
+                TreeMap<String, Object> sortedByColumnName = new TreeMap<String, Object>(data);
+                boolean recordExists = false;
+
+
+                String primaryWhereString = " WHERE ";
+                for (Map.Entry<String, Object> record : sortedByColumnName.entrySet()) {
+                    String columnValue;
+                    String columnName = record.getKey();
+                    String normalizedColumnName = csvToolsApi.replaceReservedKeyWords(columnName);
+                    for (String pKey : primaryKey) {
+                        if (pKey.equals(normalizedColumnName)) {
+                            columnValue = record.getValue().toString();
+                            columnValue = csvToolsApi.escapeQuotes(columnValue);
+                            columnValue = "\"" + columnValue + "\"" + " AND";
+                            primaryWhereString += normalizedColumnName + "=" + columnValue;
+                        }
+                    }
+                }
+                primaryWhereString = StringUtils.removeEndIgnoreCase(primaryWhereString, "AND");
+
+                Statement checkRecordExistance = null;
+                int existsInteger = 0;
+
+
+                checkRecordExistance = connection.createStatement();
+                String checkSQL = "SELECT EXISTS(SELECT 1 FROM " + currentTableName + primaryWhereString + ") AS recordDoesExist;";
+
+                this.logger.info("CHECK SQL: " + checkSQL);
+                ResultSet maxSequenceResult = checkRecordExistance.executeQuery(checkSQL);
+                existsInteger = -1;
+                if (maxSequenceResult.next()) {
+                    existsInteger = maxSequenceResult.getInt("recordDoesExist");
+                }
+
+                if (existsInteger == 1) {
+                    this.logger.info("The record exists");
+                    recordExists = true;
+                } else {
+                    this.logger.info("The record does NOT exist.");
+                    recordExists = false;
+                }
+
+            }
+        }
+
+        /*
 
         ///////////////////////////////////////////7
 
@@ -498,7 +567,7 @@ public class MigrateCSV2SQL {
         batchStatement.addBatch("DROP TABLE IF EXISTS " + tempTableName + ";");
         batchStatement.addBatch("DROP TABLE IF EXISTS " + tempTableNameToBeInserted + ";");
         batchStatement.executeBatch();
-
+*/
         // Close connection
         stat.close();
         connection.close();
