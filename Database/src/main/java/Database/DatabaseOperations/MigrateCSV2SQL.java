@@ -369,7 +369,7 @@ public class MigrateCSV2SQL {
 
 
         Statement stat = null;
-        String insertSQL = null;
+
         // Boolean to check if the primary key is not a standard metadata key.
         boolean hasUserDefinedPrimaryKey = false;
         Map<String, String> columnNamesWithoutMetadataSortedAlphabetically = dbtools.getColumnNamesWithoutMetadataSortedAlphabetically(currentTableName);
@@ -453,15 +453,50 @@ public class MigrateCSV2SQL {
                 }
 
                 if (existsInteger == 1) {
-                    this.logger.info("The record exists");
+                    this.logger.info("The record exists. Do nothing");
                     recordExists = true;
                 } else {
                     this.logger.info("The record does NOT exist.");
                     recordExists = false;
+                    int maxSystemSequence = dbtools.getMaxSequenceNumberFromTable(currentTableName);
+                    String insertSQL = "INSERT INTO " + currentTableName + " (ID_SYSTEM_SEQUENCE,";
+
+                    String columnValuesString = ") VALUES(" + maxSystemSequence + ",";
+                    for (Map.Entry<String, Object> record : sortedByColumnName.entrySet()) {
+                        String columnValue;
+                        String columnName = record.getKey();
+                        String normalizedColumnName = csvToolsApi.replaceReservedKeyWords(columnName);
+                        insertSQL += normalizedColumnName + ",";
+                        if (record.getValue() != null) {
+                            columnValue = record.getValue().toString();
+                        } else {
+                            columnValue = "";
+                        }
+
+                        columnValue = csvToolsApi.escapeQuotes(columnValue);
+                        columnValue = "\"" + columnValue + "\"" + ",";
+                        columnValuesString += columnValue;
+                    }
+
+                    insertSQL = StringUtils.removeEndIgnoreCase(insertSQL, ",");
+                    columnValuesString = StringUtils.removeEndIgnoreCase(columnValuesString, ",");
+
+                    insertSQL += columnValuesString + ");";
+                    logger.info(insertSQL);
+
+                    // TODO: 02.06.16 update existierenden record anhand der geholten system squence id und aktualisiere metadaten 
+                }
+
+
+
+
+
+
+
                 }
 
             }
-        }
+
 
         /*
 
@@ -562,14 +597,17 @@ public class MigrateCSV2SQL {
         }
 
 
+*/
         // Delete Temp Tables
         Statement batchStatement = connection.createStatement();
         batchStatement.addBatch("DROP TABLE IF EXISTS " + tempTableName + ";");
-        batchStatement.addBatch("DROP TABLE IF EXISTS " + tempTableNameToBeInserted + ";");
+        //batchStatement.addBatch("DROP TABLE IF EXISTS " + tempTableNameToBeInserted + ";");
         batchStatement.executeBatch();
-*/
+
+
         // Close connection
         stat.close();
+
         connection.close();
         long endTime = System.currentTimeMillis();
         long totalTime = endTime - startTime;
