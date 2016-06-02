@@ -103,6 +103,7 @@ import Database.Helpers.StringHelpers;
 import at.stefanproell.DataTypeDetector.ColumnMetadata;
 import at.stefanproell.DataTypeDetector.DatatypeStatistics;
 import at.stefanproell.SQL_Tools.CreateTableStatement;
+import org.apache.commons.lang3.StringUtils;
 import org.supercsv.io.CsvListReader;
 import org.supercsv.io.ICsvListReader;
 import org.supercsv.prefs.CsvPreference;
@@ -353,6 +354,12 @@ public class MigrateCSV2SQL {
      * Step 4: Find all records to be updated
      * Step 5: Find all records to be deleted
      *
+     * There are some points to consider.
+     * The system can only detect if a record has been updated, if there exists a primary key which is different than
+     * the SYSTEM_SEQUENCE_ID. The reason is that the updated CSV file does not contain the system sequence number column,
+     * therefore a real primary key is needed which allows to detect updates.
+     *
+     *
      * @param currentTableName
      * @param csvMap
      * @throws SQLException
@@ -363,10 +370,13 @@ public class MigrateCSV2SQL {
 
         Statement stat = null;
         String insertSQL = null;
+        // Boolean to check if the primary key is not a standard metadata key.
+        boolean hasUserDefinedPrimaryKey = false;
+        Map<String, String> columnNamesWithoutMetadataSortedAlphabetically = dbtools.getColumnNamesWithoutMetadataSortedAlphabetically(currentTableName);
+
         Connection connection = this.getConnection();
         CsvToolsApi csvToolsApi = new CsvToolsApi();
         if (connection.getAutoCommit()) {
-            //this.logger.info("AUTO COMMIT OFF");
             connection.setAutoCommit(false);
         }
 
@@ -374,14 +384,26 @@ public class MigrateCSV2SQL {
 
         // Step 1
         String tempTableName = currentTableName + "_temp";
-        String createTempTable = "CREATE TABLE " + tempTableName + " LIKE " + currentTableName;
+        String createTempTable = "DROP TABLE IF EXISTS " + tempTableName + ";";
+        stat = connection.createStatement();
+        stat.execute(createTempTable);
+        createTempTable = "CREATE TABLE " + tempTableName + " LIKE " + currentTableName;
         stat = connection.createStatement();
         stat.execute(createTempTable);
         connection.commit();
 
+
+        /////////////////////////////////////////77
+
+
+        ///////////////////////////////////////////7
+
         // Step 2
+        // Store all the data contained in the newly uploaded file in the temp table.
         for (Map.Entry<Integer, Map<String, Object>> entry : csvMap.entrySet()) {
             int currentRow = entry.getKey();
+
+
             insertSQL = "INSERT INTO " + tempTableName + " ";
             String valuesSpecification = "(ID_SYSTEM_SEQUENCE,";
             // Insert the System Sequence
@@ -421,33 +443,63 @@ public class MigrateCSV2SQL {
         }
 
         // Step 3
-        List<String> primaryKey = dbtools.getPrimaryKeyFromTable(currentTableName);
-        String subselectWherePrimaryKey = " WHERE ";
-        for (String key : primaryKey) {
-            subselectWherePrimaryKey += currentTableName + "." + key + "=" + tempTableName + "." + key + " AND ";
+        // Get the primary key from the table and ignore the system sequence ID.
+        // Query for all records, which are contained in the new table but not in the old table, based on the primary keys
 
+
+        String tempTableNameToBeInserted = tempTableName + "_to_be_inserted";
+        createTempTable = "DROP TABLE IF EXISTS " + tempTableNameToBeInserted + ";";
+        stat = connection.createStatement();
+        stat.execute(createTempTable);
+        connection.commit();
+        createTempTable = "CREATE TABLE " + tempTableNameToBeInserted + " LIKE " + currentTableName;
+        stat = connection.createStatement();
+        stat.execute(createTempTable);
+        connection.commit();
+
+
+        List<String> primaryKey = dbtools.getPrimaryKeyFromTableWithoutLastUpdateOrSystemSequenceColumns(currentTableName);
+        // check if there is a primary key which is not ID_SYSTEM_SEQUENCE or LAST_UPDATE
+        // If there is no other key available, we need to find all records one by one.
+        // If there is a real primary key, then we can use it for checking if a record exists or not.
+        String subselectWherePrimaryKey = "";
+        if (primaryKey.size() != 0) {
+            hasUserDefinedPrimaryKey = true;
+            for (String key : primaryKey) {
+                subselectWherePrimaryKey += currentTableName + "." + key + "=" + tempTableName + "." + key + " AND ";
+            }
+            subselectWherePrimaryKey = StringUtils.removeEndIgnoreCase(subselectWherePrimaryKey, "AND ");
+            String newRecodsSQL = "INSERT INTO " + tempTableNameToBeInserted + " (SELECT * FROM " + tempTableName + " WHERE NOT EXISTS ( SELECT 1 FROM " + currentTableName +
+                    " WHERE " + subselectWherePrimaryKey + "));";
+            stat.execute(newRecodsSQL);
+
+        } else {
+            hasUserDefinedPrimaryKey = false;
+            String allColumnsWhereClause = " ";
+            String listofColumns = "";
+
+            for (Map.Entry<String, String> columnEntry : columnNamesWithoutMetadataSortedAlphabetically.entrySet()) {
+                allColumnsWhereClause += currentTableName + "." + columnEntry.getKey() + "=" + tempTableName + "." + columnEntry.getKey() + " AND ";
+                listofColumns += columnEntry.getKey() + ",";
+            }
+            allColumnsWhereClause = StringUtils.removeEndIgnoreCase(subselectWherePrimaryKey, "AND ");
+            listofColumns = StringUtils.removeEndIgnoreCase(subselectWherePrimaryKey, ",");
+
+
+            String newRecodsSQL = "INSERT INTO " + tempTableNameToBeInserted + " (SELECT * FROM " + tempTableName + " WHERE NOT EXISTS ( SELECT 1 FROM " + currentTableName +
+                    " WHERE " + allColumnsWhereClause + "));";
+            stat.execute(newRecodsSQL);
 
         }
-        String newRecodsSQL = "SELECT * FROM " + currentTableName + " WHERE NOT EXISTS ( SELECT 1 FROM " + tempTableName +
-                "" +
-                "" +
-                "" +
-                "ROM SENSORS_LOG s1\n" +
-                "  INNER JOIN SENSORS_LOG s2\n" +
-                "    ON (s2.DATE = s1.DATE AND\n" +
-                "        s2.DATE_MILLIS = s1.DATE_MILLIS AND\n" +
-                "        s2.EIB_ADDRESS = s1.EIB_ADDRESS)\n" +
-                "  WHERE s1.VALUE <> s2.VALUE OR\n" +
-                "        s1.LOG_ID <> s2.LOG_ID OR\n" +
-                "        s1.ORIG_LOG_ID <> s2.ORIG_LOG_ID;";
-
-        TreeMap<String, String> sortedByColumnName = dbtools.getColumnNamesWithoutMetadataSortedAlphabetically(currentTableName);
-        for (Map.Entry<String, String> column : sortedByColumnName.entrySet()) {
 
 
-        }
+        // Delete Temp Tables
+        Statement batchStatement = connection.createStatement();
+        batchStatement.addBatch("DROP TABLE IF EXISTS " + tempTableName + ";");
+        batchStatement.addBatch("DROP TABLE IF EXISTS " + tempTableNameToBeInserted + ";");
+        batchStatement.executeBatch();
 
-
+        // Close connection
         stat.close();
         connection.close();
         long endTime = System.currentTimeMillis();
@@ -775,7 +827,7 @@ public class MigrateCSV2SQL {
             // get the headers
             String[] header = reader.getHeader(hasHeaders);
             // get the primary key from the database table
-            String primaryKeyTableString = this.dbtools.getPrimaryKeyFromTableWithoutMetadataColumns(tableName).get(0);
+            String primaryKeyTableString = this.dbtools.getPrimaryKeyFromTableWithoutLastUpdateColumns(tableName).get(0);
             // search the corresponding header column
             int primaryKeyCSVColumnInt = -1;
             String primaryKeyCSVColumName = null;
@@ -997,11 +1049,6 @@ public class MigrateCSV2SQL {
             reader.close();
 
         }
-    }
-
-    public void setMarkedRecordAsDeleted(String tableName, String tempTableName) {
-
-
     }
 
 

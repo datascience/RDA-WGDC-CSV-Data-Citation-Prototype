@@ -40,7 +40,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
@@ -124,7 +123,7 @@ public class DatabaseQueries {
 
                 // get primary key from the table
 
-                String primaryKey = dbtools.getPrimaryKeyFromTableWithoutMetadataColumns(tableName).get(0);
+                String primaryKey = dbtools.getPrimaryKeyFromTableWithoutLastUpdateColumns(tableName).get(0);
 
 
                 this.logger.info("Primary key is: " + primaryKey);

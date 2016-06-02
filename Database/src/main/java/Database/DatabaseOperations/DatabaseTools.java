@@ -570,73 +570,6 @@ Count the records which are not deleted..
 
 
 
-    /**
-     * Create a new database from a CSV file. DROPs database if exists!! Appends
-     * a id column for the sequential numbering and a sha1 hash column
-     *
-     * @param columnMetadata
-     * @param tableName
-     * @param calculateHashKeyColumn
-     * @throws SQLException
-     * @throws ClassNotFoundException
-     */
-
-        /*
-    public void createSimpleDBFromCSV(Column[] columnMetadata, String tableName, boolean calculateHashKeyColumn)
-            throws ClassNotFoundException {
-        Statement stat = null;
-        Connection connection = null;
-        String createTableString = "CREATE TABLE " + tableName
-                + " ( ID_SYSTEM_SEQUENCE INTEGER PRIMARY KEY AUTO_INCREMENT";
-
-        for (int i = 0; i < columnMetadata.length; i++) {
-            createTableString += " , " + columnMetadata[i].getColumnName()
-                    + " VARCHAR(" + columnMetadata[i].getMaxContentLength()
-                    + ") ";
-
-        }
-        createTableString += ", INSERT_DATE TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP, " +
-                "LAST_UPDATE TIMESTAMP DEFAULT 0 ";
-
-        // If hash key should be computed during
-        if (calculateHashKeyColumn) {
-            createTableString += ", sha1_hash CHAR(40) NOT NULL ";
-
-        }
-
-        // Finalize SQL String
-
-        createTableString += ");";
-
-        this.logger.info("CREATE String: " + createTableString);
-        try {
-            connection = this.getConnection();
-            stat = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
-                    ResultSet.CONCUR_READ_ONLY);
-            stat.execute("DROP TABLE IF EXISTS " + tableName);
-            stat.execute(createTableString);
-
-            stat.close();
-            connection.close();
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (connection != null) {
-                    connection.close();
-                }
-                if (stat != null) {
-                    stat.close();
-                }
-            } catch (SQLException sqlee) {
-                sqlee.printStackTrace();
-            }
-        }
-
-
-    }
-    */
 
     public void insertCSVDataIntoDB(String path, String tableName,
                                     boolean hasHeaders, boolean calculateHashKeyColumn) throws IOException {
@@ -1218,7 +1151,7 @@ Count the records which are not deleted..
      * @param tableName
      * @return
      */
-    public List<String> getPrimaryKeyFromTableWithoutMetadataColumns(String tableName) {
+    public List<String> getPrimaryKeyFromTableWithoutLastUpdateColumns(String tableName) {
 
         List<String> primaryKeyList = new ArrayList<String>();
 
@@ -1241,6 +1174,59 @@ Count the records which are not deleted..
                     this.logger.info("Found primary key: " + columnName);
                 } else {
                     this.logger.info("Ignored standard key LAST_UPDATE");
+                }
+
+            }
+
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (connection != null) {
+                    connection.close();
+                }
+
+            } catch (SQLException sqlee) {
+                sqlee.printStackTrace();
+            }
+        }
+
+        return primaryKeyList;
+
+
+    }
+
+    /**
+     * Retrieve the primary key from a table by using the metadata of the database without the standard primary key
+     * LAST_UPDATE and
+     *
+     * @param tableName
+     * @return
+     */
+    public List<String> getPrimaryKeyFromTableWithoutLastUpdateOrSystemSequenceColumns(String tableName) {
+
+        List<String> primaryKeyList = new ArrayList<String>();
+
+        String catalog = null;
+        String schema = this.getDataBaseName();
+        DatabaseMetaData databaseMetaData = null;
+        Connection connection = null;
+        ResultSet result = null;
+        try {
+            connection = this.getConnection();
+            databaseMetaData = connection.getMetaData();
+
+            result = databaseMetaData.getPrimaryKeys(
+                    catalog, schema, tableName);
+
+            while (result.next()) {
+                String columnName = result.getString(4);
+                if (columnName.equals("LAST_UPDATE") == false && columnName.equals("ID_SYSTEM_SEQUENCE") == false) {
+                    primaryKeyList.add(columnName);
+                    this.logger.info("Found primary key: " + columnName);
+                } else {
+                    this.logger.info("Ignored standard key LAST_UPDATE or ID_SYSTEM_SEQUENCE");
                 }
 
             }
@@ -2034,4 +2020,6 @@ Count the records which are not deleted..
     public void setResultSetMetadata(ResultSetMetadata resultSetMetadata) {
         this.resultSetMetadata = resultSetMetadata;
     }
+
+
 }

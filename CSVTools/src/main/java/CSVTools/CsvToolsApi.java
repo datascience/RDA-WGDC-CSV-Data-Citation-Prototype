@@ -54,6 +54,7 @@ import at.stefanproell.CSV_Tools.CSV_Analyser;
 import at.stefanproell.DataTypeDetector.DatatypeStatistics;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringEscapeUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.supercsv.io.CsvListReader;
 import org.supercsv.io.CsvListWriter;
 import org.supercsv.io.ICsvListReader;
@@ -661,4 +662,6 @@ public class CsvToolsApi {
     public String getDIRECTORY() {
         return DIRECTORY;
     }
+
+
 }

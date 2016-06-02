@@ -225,7 +225,8 @@ public class MigrationTasks {
 
     /**
      * Update existing records. This creates an update of a record if the primary key is already contained in the
-     * database. If a row from the CSV file is new, a new record is
+     * database. If a row from the CSV file is new, a new record is inserted.
+     *
      */
     public void updateDataInExistingTable(HashMap inputFileMap, String sessionTableName, boolean
             hasHeaders, boolean calulateHashColumn) {
@@ -276,7 +277,7 @@ public class MigrationTasks {
                 DatabaseTools dbTools = new DatabaseTools();
 
                 // create temp check table
-                String tempTableName = dbTools.createTemporaryCheckTable(this.currentTableName);
+                //     String tempTableName = dbTools.createTemporaryCheckTable(this.currentTableName);
 
 
                 Map<String, String> columnsMap = (dbTools.getColumnNamesFromTableWithoutMetadataColumns(this
@@ -294,15 +295,28 @@ public class MigrationTasks {
                 // Import CSV Data
                 //@todo move primary key as a new attribute into the column list
 
-                migrate.updateDataInExistingDB(columnsMap, primaryKeyList, currentPath,
-                        this.currentTableName, true,
-                        calulateHashColumn);
+//                migrate.updateDataInExistingDB(columnsMap, primaryKeyList, currentPath,this.currentTableName, true, calulateHashColumn);
+
+                //// TODO: 01.06.16 update
+                CsvToolsApi csvToolsApi = new CsvToolsApi();
+
+                String[] headers = csvToolsApi.getArrayOfHeadersCSV(currentPath);
 
 
-                List<Integer> recordsToDelete = dbTools.findAllRecordsWhichNeedToBeDeleted(this.currentTableName, tempTableName);
-                dbTools.deleteMarkedRecords(recordsToDelete, this.currentTableName);
+                /**
+                 * NEU
+                 */
 
-                dbTools.dropCheckTable(this.currentTableName);
+                CSV_Analyser csv_analyser = new CSV_Analyser();
+                csv_analyser.setHeadersArray(headers);
+
+                Map<Integer, Map<String, Object>> csvMap = csv_analyser.parseCSV(new File(currentPath));
+                migrate.updateDataInExistingDB(currentTableName, csvMap);
+
+                //      List<Integer> recordsToDelete = dbTools.findAllRecordsWhichNeedToBeDeleted(this.currentTableName, tempTableName);
+                //     dbTools.deleteMarkedRecords(recordsToDelete, this.currentTableName);
+
+                //     dbTools.dropCheckTable(this.currentTableName);
 
 
                 // drop the checkColumn
