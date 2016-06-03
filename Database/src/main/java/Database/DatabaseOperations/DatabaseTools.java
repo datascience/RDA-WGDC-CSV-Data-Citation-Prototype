@@ -450,7 +450,7 @@ Count the records which are not deleted..
 
 
     /**
-     * Get a map of <ColumnName, ColumnType> but remove the automatically generated metadata columns from the map:
+     * Get a map of <ColumnName, ColumnType, ColumnSize> but remove the automatically generated metadata columns from the map:
      * ID_SYSTEM_SEQUENCE, INSERT_DATE, LAST_UPDATE, RECORD_STATUS
      */
     public Map<String, String> getColumnNamesFromTableWithoutMetadataColumns(String tableName) {
@@ -2019,6 +2019,82 @@ Count the records which are not deleted..
 
     public void setResultSetMetadata(ResultSetMetadata resultSetMetadata) {
         this.resultSetMetadata = resultSetMetadata;
+    }
+
+    public TablePojo getTableMetadataPojoFromTable(String tableName) {
+        TablePojo tbPojo = new TablePojo();
+        tbPojo.setTableName(tableName);
+        TreeMap<String, String> columns = getColumnNamesWithoutMetadataSortedAlphabetically(tableName);
+        try {
+            Connection connection = getConnection();
+            for (Map.Entry<String, String> column : columns.entrySet()) {
+                ColumnPojo columnPojo = new ColumnPojo();
+                String columnName = column.getKey();
+                columnPojo.setColumnName(columnName);
+
+
+                DatabaseMetaData metadata = connection.getMetaData();
+
+                ResultSet resultSet = metadata.getColumns(connection.getCatalog(), null, tableName, columnName);
+                while (resultSet.next()) {
+                    String name = resultSet.getString("COLUMN_NAME");
+                    String type = resultSet.getString("TYPE_NAME");
+                    int size = resultSet.getInt("COLUMN_SIZE");
+                    columnPojo.setDataType(type);
+                    columnPojo.setColumnLength(size);
+
+                }
+                tbPojo.getColumnsMap().put(columnName, columnPojo);
+
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return tbPojo;
+
+
+    }
+
+    /**
+     * Check if the length of a column in the database needs to be increased
+     *
+     * @param input
+     * @param tablePojo
+     */
+    public void increaseColumnLength(String input, TablePojo tablePojo) throws SQLException {
+        TreeMap<String, ColumnPojo> columnPojoTreeMap = tablePojo.getColumnsMap();
+        for (Map.Entry<String, ColumnPojo> column : columnPojoTreeMap.entrySet()) {
+            String columnName = column.getKey();
+            ColumnPojo columnPojo = column.getValue();
+
+            if (column.getValue().getDataType().equalsIgnoreCase("VARCHAR") && input.length() > column.getValue().getColumnLength()) {
+                Connection connection = null;
+                try {
+                    connection = getConnection();
+
+                    String alterTable = "ALTER TABLE " +
+                            tablePojo.getTableName() + " MODIFY " + columnName + " VARCHAR(" + columnPojo.getColumnLength() + 1 + ");";
+
+                    Statement statement = connection.createStatement();
+                    statement.executeUpdate(alterTable);
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                } finally {
+
+                    if (connection != null) {
+                        connection.close();
+                    }
+
+                }
+
+
+            }
+
+        }
+
+
     }
 
 
