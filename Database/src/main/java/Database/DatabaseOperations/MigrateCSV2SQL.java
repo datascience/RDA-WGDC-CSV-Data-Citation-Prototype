@@ -98,7 +98,6 @@ package Database.DatabaseOperations;
 
 
 import CSVTools.CsvToolsApi;
-import CSVTools.Column;
 import Database.Helpers.StringHelpers;
 import at.stefanproell.DataTypeDetector.ColumnMetadata;
 import at.stefanproell.DataTypeDetector.DatatypeStatistics;
@@ -138,71 +137,7 @@ public class MigrateCSV2SQL {
     }
 
 
-    /**
-     * Create a new database from a CSV file. DROPs database if exists!! Appends
-     * a id column for the sequential numbering and a sha1 hash column. Adds a column for the state of the
-     * record: inserted, updated, deleted
-     *
-     * @param columnMetadata
-     * @param tableName
-     * @param calculateHashKeyColumn
-     * @throws java.sql.SQLException
-     * @throws ClassNotFoundException
-     */
-    public void createSimpleDBFromCSV(Column[] columnMetadata, String tableName, List<String> primaryKeyColumns,
-                                      boolean calculateHashKeyColumn)
-            throws SQLException, ClassNotFoundException {
 
-        //todo ersetze die meta funktion.  
-
-        StringHelpers stringHelpers = new StringHelpers();
-
-        Statement stat;
-
-        String createTableString = "CREATE TABLE " + tableName
-                + " ( ID_SYSTEM_SEQUENCE INTEGER NOT NULL";
-
-        for (int i = 0; i < columnMetadata.length; i++) {
-            createTableString += " , " + columnMetadata[i].getColumnName()
-                    + " VARCHAR(" + columnMetadata[i].getMaxContentLength()
-                    + ") ";
-
-        }
-        //@// TODO: 25.05.16 MySQL 5.7 strict mode does not allow zero timestamps any more. 
-        createTableString += ", INSERT_DATE TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP, " +
-                "LAST_UPDATE TIMESTAMP ";
-
-        // If hash key should be computed during
-        if (calculateHashKeyColumn) {
-            createTableString += ", SHA1_HASH CHAR(40) NOT NULL ";
-
-        }
-
-        // append record status column
-        createTableString += ", RECORD_STATUS enum('inserted','updated','deleted') NOT NULL DEFAULT 'inserted'";
-
-        String primaryKeysString = stringHelpers.getCommaSeperatedListofPrimaryKeys(primaryKeyColumns);
-        // append primary key
-        createTableString += ",PRIMARY KEY (" + primaryKeysString + ",LAST_UPDATE)";
-        this.logger.info("Primary key is " + primaryKeysString + " and the update column!");
-
-
-        // Finalize SQL String
-
-        createTableString += ");";
-
-        this.logger.info("CREATE String: " + createTableString);
-        Connection connection = this.getConnection();
-        this.logger.info("The current DATABASE is " + connection.getCatalog());
-        stat = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
-                ResultSet.CONCUR_READ_ONLY);
-        stat.execute("DROP TABLE IF EXISTS " + tableName);
-        stat.execute(createTableString);
-
-        stat.close();
-        connection.close();
-
-    }
 
     /**
      * Create a new database from a CSV file. DROPs database if exists!! Appends
@@ -254,12 +189,15 @@ public class MigrateCSV2SQL {
 
         this.logger.info("CREATE String: " + createTableString);
         Connection connection = this.getConnection();
+        if (connection.getAutoCommit()) {
+            connection.setAutoCommit(false);
+        }
         this.logger.info("The current DATABASE is " + connection.getCatalog());
         stat = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
                 ResultSet.CONCUR_READ_ONLY);
         stat.execute("DROP TABLE IF EXISTS " + tableName);
         stat.execute(createTableString);
-
+        connection.commit();
         stat.close();
         connection.close();
 
@@ -377,237 +315,50 @@ public class MigrateCSV2SQL {
         // Neue idee:
         // map direkt vergleichen und inserten.
 
-        List<String> primaryKey = dbtools.getPrimaryKeyFromTableWithoutLastUpdateOrSystemSequenceColumns(currentTableName);
-        // check if there is a primary key which is not ID_SYSTEM_SEQUENCE or LAST_UPDATE
-        // If there is no other key available, we need to find all records one by one.
-        // If there is a real primary key, then we can use it for checking if a record exists or not.
-        String subselectWherePrimaryKey = "";
-        if (primaryKey.size() != 0) {
-            hasUserDefinedPrimaryKey = true;
+        // check if there is a primary key which was defined by the user.
+        hasUserDefinedPrimaryKey = checkIfUserDevinedPrimaryKeyAvailable(currentTableName);
 
-
-        } else {
-            hasUserDefinedPrimaryKey = false;
-
-
-        }
 
         Connection connection = null;
         if (hasUserDefinedPrimaryKey) {
+
+            // Iterate over the CSV Map
             for (Map.Entry<Integer, Map<String, Object>> entry : csvMap.entrySet()) {
 
                 Map<String, Object> data = entry.getValue();
                 TreeMap<String, Object> sortedByColumnName = new TreeMap<String, Object>(data);
                 boolean recordExists = false;
 
-
-                String primaryWhereString = " WHERE ";
-                for (Map.Entry<String, Object> record : sortedByColumnName.entrySet()) {
-                    String columnValue;
-                    String columnName = record.getKey();
-                    String normalizedColumnName = csvToolsApi.replaceReservedKeyWords(columnName);
-                    for (String pKey : primaryKey) {
-                        if (pKey.equals(normalizedColumnName)) {
-                            columnValue = record.getValue().toString();
-                            columnValue = csvToolsApi.escapeQuotes(columnValue);
-                            columnValue = "\"" + columnValue + "\"" + " AND";
-                            primaryWhereString += normalizedColumnName + "=" + columnValue;
-                        }
-                    }
-                }
-                primaryWhereString = StringUtils.removeEndIgnoreCase(primaryWhereString, "AND");
-
-                Statement checkRecordExistanceQuery = null;
-                int existsIdSystemSequenceInteger = 0;
-
-
-                try {
-                    connection = this.getConnection();
-                    if (connection.getAutoCommit()) {
-                        connection.setAutoCommit(false);
-                    }
-
-                    checkRecordExistanceQuery = connection.createStatement();
-
-                    String checkSQL = "SELECT ID_SYSTEM_SEQUENCE AS recordDoesExist FROM " + currentTableName + primaryWhereString + ";";
-
-                    this.logger.info("CHECK SQL: " + checkSQL);
-                    ResultSet maxSequenceResult = checkRecordExistanceQuery.executeQuery(checkSQL);
-                    existsIdSystemSequenceInteger = -1;
-                    if (maxSequenceResult.next()) {
-                        existsIdSystemSequenceInteger = maxSequenceResult.getInt("recordDoesExist");
-                    }
-                    connection.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                } finally {
-
-                    assert connection != null;
-                    try {
-                        connection.close();
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                    }
-
-                }
+                // Check if record exists.
+                int existsIdSystemSequenceInteger = checkIfRecordExists(data, currentTableName);
 
                 // The record exists
                 if (existsIdSystemSequenceInteger > -1) {
                     this.logger.info("The record exists. It has the SYSTEM_SEQUENCE_NUMER: " + existsIdSystemSequenceInteger + " Check if it changed");
                     recordExists = true;
 
-                    // check if it has changed
-                    Statement checkRecordChangedQuery = null;
+                    int changedRecordSequence = checkIfRecordHasChanged(existsIdSystemSequenceInteger, data, currentTableName);
 
-                    try {
-                        connection = this.getConnection();
-                        if (connection.getAutoCommit()) {
-                            connection.setAutoCommit(false);
-                        }
+                    if (changedRecordSequence == -1) {
+                        logger.info("The record has changed. UPDATE Record");
+                        // The record has changed.
+                        // Update the old record
 
-                        checkRecordExistanceQuery = connection.createStatement();
-                        String hasChangedWHEREString = " WHERE ID_SYSTEM_SEQUENCE=" + existsIdSystemSequenceInteger + " AND ";
-                        for (Map.Entry<String, Object> record : sortedByColumnName.entrySet()) {
-                            String columnValue;
-                            String columnName = record.getKey();
-                            String normalizedColumnName = csvToolsApi.replaceReservedKeyWords(columnName);
-
-                            if (record.getValue() != null) {
-                                columnValue = record.getValue().toString();
-                            } else {
-                                columnValue = "";
-                            }
-                            columnValue = csvToolsApi.escapeQuotes(columnValue);
-                            columnValue = "\"" + columnValue + "\"";
-                            hasChangedWHEREString += normalizedColumnName + "=" + columnValue + " AND ";
-                        }
-                        hasChangedWHEREString = StringUtils.removeEndIgnoreCase(hasChangedWHEREString, " AND ");
+                        updateOldRecord(existsIdSystemSequenceInteger, currentTableName);
+                        insertNewRecordVersionOfExistingRecord(existsIdSystemSequenceInteger, data, currentTableName);
 
 
-                        String checkSQL = "SELECT ID_SYSTEM_SEQUENCE AS recordHasNotChanged FROM " + currentTableName + hasChangedWHEREString + ";";
-
-                        this.logger.info("CHECK SQL: " + checkSQL);
-                        ResultSet hasChangedRS = checkRecordExistanceQuery.executeQuery(checkSQL);
-                        connection.commit();
-
-                        int changedRecordSequence = -1;
-                        if (hasChangedRS.next()) {
-                            changedRecordSequence = hasChangedRS.getInt("recordHasNotChanged");
-                        }
-
-                        if (changedRecordSequence == -1) {
-                            logger.info("The record " + changedRecordSequence + "has changed. UPDATE Record");
-                            // The record has changed.
-                            // Update the old record
-
-                            // Get the latest record
-                            String latestRecordSQL = "SELECT ID_SYSTEM_SEQUENCE, INSERT_DATE,MAX(LAST_UPDATE) AS LAST_UPDATE, RECORD_STATUS FROM "
-                                    + currentTableName + "  WHERE ID_SYSTEM_SEQUENCE = " + existsIdSystemSequenceInteger
-                                    + " AND RECORD_STATUS <> \"deleted\" GROUP BY ID_SYSTEM_SEQUENCE, INSERT_DATE,RECORD_STATUS;";
-                            ResultSet latestRecordRS = checkRecordExistanceQuery.executeQuery(latestRecordSQL);
-                            connection.commit();
-                            Timestamp lastUpdateDate = null;
-                            String status;
-                            if (latestRecordRS.next()) {
-
-                                lastUpdateDate = latestRecordRS.getTimestamp("LAST_UPDATE");
-                                status = latestRecordRS.getString("RECORD_STATUS");
-                                String updateOldRecord = "UPDATE " + currentTableName + " SET LAST_UPDATE=NOW(),RECORD_STATUS=\"updated\" WHERE ID_SYSTEM_SEQUENCE=" + existsIdSystemSequenceInteger + " AND LAST_UPDATE=\"" + lastUpdateDate.toString() + "\"";
-                                logger.info("Update String: " + updateOldRecord);
-                                stat = connection.createStatement();
-                                int update = stat.executeUpdate(updateOldRecord);
-                                connection.commit();
-
-
-                            }
-
-
-                        } else {
-                            logger.info("The record has not changed.");
-
-                        }
-                        connection.close();
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                    } finally {
-
-                        assert connection != null;
-                        try {
-                            connection.close();
-                        } catch (SQLException e) {
-                            e.printStackTrace();
-                        }
+                    } else {
+                        insertNewRecord(currentTableName, data);
 
                     }
 
 
-                } else {
-                    this.logger.info("The record does NOT exist.");
-                    recordExists = false;
-                    int maxSystemSequence = dbtools.getMaxSequenceNumberFromTable(currentTableName);
-                    TablePojo tablePojo = dbtools.getTableMetadataPojoFromTable(currentTableName);
-
-                    String insertSQL = "INSERT INTO " + currentTableName + " (ID_SYSTEM_SEQUENCE,";
-
-                    String columnValuesString = ",LAST_UPDATE) VALUES(" + (maxSystemSequence + 1) + ",";
-                    for (Map.Entry<String, Object> record : sortedByColumnName.entrySet()) {
-                        String columnValue;
-                        String columnName = record.getKey();
-                        String normalizedColumnName = csvToolsApi.replaceReservedKeyWords(columnName);
-                        insertSQL += normalizedColumnName + ",";
-                        if (record.getValue() != null) {
-                            columnValue = record.getValue().toString();
-                            try {
-                                dbtools.increaseColumnLength(columnValue, tablePojo);
-                            } catch (SQLException e) {
-                                e.printStackTrace();
-                            }
-                        } else {
-                            columnValue = "";
-                        }
-
-                        columnValue = csvToolsApi.escapeQuotes(columnValue);
-                        columnValue = "\"" + columnValue + "\"" + ",";
-                        columnValuesString += columnValue;
-                    }
-
-                    insertSQL = StringUtils.removeEndIgnoreCase(insertSQL, ",");
-                    columnValuesString = StringUtils.removeEndIgnoreCase(columnValuesString, ",");
-
-                    insertSQL += columnValuesString + ",NOW());";
-                    logger.info(insertSQL);
-                    // insert the new record
-                    try {
-
-                        connection = this.getConnection();
-                        if (connection.getAutoCommit()) {
-                            connection.setAutoCommit(false);
-                        }
-                        stat = connection.createStatement();
-                        stat.executeUpdate(insertSQL);
-                        connection.commit();
-                        connection.close();
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                        logger.severe("Cause: " + insertSQL);
-                    } finally {
-
-                        assert connection != null;
-                        try {
-                            connection.close();
-                        } catch (SQLException e) {
-                            e.printStackTrace();
-                        }
-
-                    }
-
-                    // TODO: 02.06.16 update existierenden record anhand der geholten system squence id und aktualisiere metadaten
                 }
-
 
             }
 
-        }
+
 
 
         /*
@@ -725,14 +476,328 @@ public class MigrateCSV2SQL {
             long totalTime = endTime - startTime;
 */
 
+        }
+    }
+
+    private void insertNewRecordVersionOfExistingRecord(int existsIdSystemSequenceInteger, Map<String, Object> data, String currentTableName) {
+
+        TablePojo tablePojo = dbtools.getTableMetadataPojoFromTable(currentTableName);
+        TreeMap<String, Object> sortedByColumnName = new TreeMap<String, Object>(data);
+        CsvToolsApi csvToolsApi = new CsvToolsApi();
+
+
+        String insertSQL = "INSERT INTO " + currentTableName + " (ID_SYSTEM_SEQUENCE,";
+
+        String columnValuesString = ",LAST_UPDATE,RECORD_STATUS) VALUES(" + (existsIdSystemSequenceInteger) + ",";
+        for (Map.Entry<String, Object> record : sortedByColumnName.entrySet()) {
+            String columnValue;
+            String columnName = record.getKey();
+            String normalizedColumnName = csvToolsApi.replaceReservedKeyWords(columnName);
+            insertSQL += normalizedColumnName + ",";
+            if (record.getValue() != null) {
+                columnValue = record.getValue().toString();
+                try {
+                    dbtools.increaseColumnLength(columnValue, tablePojo);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                columnValue = "";
+            }
+
+            columnValue = csvToolsApi.escapeQuotes(columnValue);
+            columnValue = "\"" + columnValue + "\"" + ",";
+            columnValuesString += columnValue;
+        }
+
+        insertSQL = StringUtils.removeEndIgnoreCase(insertSQL, ",");
+        columnValuesString = StringUtils.removeEndIgnoreCase(columnValuesString, ",");
+
+        insertSQL += columnValuesString + ",NOW(),\"inserted\");";
+        logger.info(insertSQL);
+        // insert the new record
+        Connection connection = null;
+        Statement statement;
+        try {
+
+            connection = this.getConnection();
+            if (connection.getAutoCommit()) {
+                connection.setAutoCommit(false);
+            }
+            statement = connection.createStatement();
+            statement.executeUpdate(insertSQL);
+            connection.commit();
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            logger.severe("Cause: " + insertSQL);
+        } finally {
+
+            assert connection != null;
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+        }
+
+
+    }
+
+    /**
+     * Update the existing record in the database
+     *
+     * @param idSystemSequence
+     * @param currentTableName
+     */
+    private void updateOldRecord(int idSystemSequence, String currentTableName) {
+        Connection connection = this.getConnection();
+
+
+        Statement latestRecordStatement = null;
+        try {
+            if (connection.getAutoCommit()) {
+                connection.setAutoCommit(false);
+            }
+            latestRecordStatement = connection.createStatement();
+
+            String latestRecordSQL = "SELECT ID_SYSTEM_SEQUENCE, INSERT_DATE,MAX(LAST_UPDATE) AS LAST_UPDATE, RECORD_STATUS FROM "
+                    + currentTableName + "  WHERE ID_SYSTEM_SEQUENCE = " + idSystemSequence
+                    + " AND RECORD_STATUS <> \"deleted\" GROUP BY ID_SYSTEM_SEQUENCE, INSERT_DATE,RECORD_STATUS;";
+            ResultSet latestRecordRS = latestRecordStatement.executeQuery(latestRecordSQL);
+
+            connection.commit();
+
+            Timestamp lastUpdateDate = null;
+            String status;
+            if (latestRecordRS.next()) {
+
+                lastUpdateDate = latestRecordRS.getTimestamp("LAST_UPDATE");
+                status = latestRecordRS.getString("RECORD_STATUS");
+                String updateOldRecord = "UPDATE " + currentTableName + " SET LAST_UPDATE=NOW(),RECORD_STATUS=\"updated\" WHERE ID_SYSTEM_SEQUENCE=" + idSystemSequence + " AND LAST_UPDATE=\"" + lastUpdateDate.toString() + "\"";
+                logger.info("Update String: " + updateOldRecord);
+                latestRecordStatement = connection.createStatement();
+                int update = latestRecordStatement.executeUpdate(updateOldRecord);
+                connection.commit();
+
+            }
+
+
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private int checkIfRecordHasChanged(int idSystemSequenceOfExistingRecord, Map<String, Object> data, String currentTableName) {
+        // check if it has changed
+        Statement checkRecordChangedQuery = null;
+        CsvToolsApi csvToolsApi = new CsvToolsApi();
+        TreeMap<String, Object> sortedByColumnName = new TreeMap<String, Object>(data);
+        int changedRecordSequence = -1;
+        Connection connection;
+
+        try {
+            connection = this.getConnection();
+            if (connection.getAutoCommit()) {
+                connection.setAutoCommit(false);
+            }
+
+            Statement checkRecordExistanceQuery = connection.createStatement();
+            String hasChangedWHEREString = " WHERE ID_SYSTEM_SEQUENCE=" + idSystemSequenceOfExistingRecord + " AND ";
+            for (Map.Entry<String, Object> record : sortedByColumnName.entrySet()) {
+                String columnValue;
+                String columnName = record.getKey();
+                String normalizedColumnName = csvToolsApi.replaceReservedKeyWords(columnName);
+
+                if (record.getValue() != null) {
+                    columnValue = record.getValue().toString();
+                } else {
+                    columnValue = "";
+                }
+                columnValue = csvToolsApi.escapeQuotes(columnValue);
+                columnValue = "\"" + columnValue + "\"";
+                hasChangedWHEREString += normalizedColumnName + "=" + columnValue + " AND ";
+            }
+            hasChangedWHEREString = StringUtils.removeEndIgnoreCase(hasChangedWHEREString, " AND ");
+
+
+            String checkSQL = "SELECT ID_SYSTEM_SEQUENCE AS recordHasNotChanged FROM " + currentTableName + hasChangedWHEREString + ";";
+
+            this.logger.info("CHECK SQL: " + checkSQL);
+            ResultSet hasChangedRS = checkRecordExistanceQuery.executeQuery(checkSQL);
+            connection.commit();
+
+
+            if (hasChangedRS.next()) {
+                changedRecordSequence = hasChangedRS.getInt("recordHasNotChanged");
+            }
+
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return changedRecordSequence;
+
+    }
+
+    private boolean checkIfUserDevinedPrimaryKeyAvailable(String currentTableName) {
+        List<String> primaryKey = dbtools.getPrimaryKeyFromTableWithoutLastUpdateOrSystemSequenceColumns(currentTableName);
+        // check if there is a primary key which is not ID_SYSTEM_SEQUENCE or LAST_UPDATE
+        // If there is no other key available, we need to find all records one by one.
+        // If there is a real primary key, then we can use it for checking if a record exists or not.
+        String subselectWherePrimaryKey = "";
+        if (primaryKey.size() != 0) {
+            return true;
+        } else {
+            return false;
+
+
+        }
+    }
+
+    /**
+     * Check if the record exists already in the database and return the system sequence id if exists.
+     * If it does not exist, return -1
+     *
+     * @param data
+     * @param currentTableName
+     * @return
+     */
+    private int checkIfRecordExists(Map<String, Object> data, String currentTableName) {
+
+        TreeMap<String, Object> sortedByColumnName = new TreeMap<String, Object>(data);
+        CsvToolsApi csvToolsApi = new CsvToolsApi();
+        List<String> primaryKey = dbtools.getPrimaryKeyFromTableWithoutLastUpdateOrSystemSequenceColumns(currentTableName);
+
+        String primaryWhereString = " WHERE ";
+        for (Map.Entry<String, Object> record : sortedByColumnName.entrySet()) {
+            String columnValue;
+            String columnName = record.getKey();
+            String normalizedColumnName = csvToolsApi.replaceReservedKeyWords(columnName);
+            for (String pKey : primaryKey) {
+                if (pKey.equals(normalizedColumnName)) {
+                    columnValue = record.getValue().toString();
+                    columnValue = csvToolsApi.escapeQuotes(columnValue);
+                    columnValue = "\"" + columnValue + "\"" + " AND";
+                    primaryWhereString += normalizedColumnName + "=" + columnValue;
+                }
+            }
+        }
+        primaryWhereString = StringUtils.removeEndIgnoreCase(primaryWhereString, "AND");
+
+        Statement checkRecordExistanceQuery = null;
+        int existsIdSystemSequenceInteger = -1;
+
+
+        Connection connection = null;
+        try {
+            connection = this.getConnection();
+            if (connection.getAutoCommit()) {
+                connection.setAutoCommit(false);
+            }
+
+            checkRecordExistanceQuery = connection.createStatement();
+
+            String checkSQL = "SELECT ID_SYSTEM_SEQUENCE AS recordDoesExist FROM " + currentTableName + primaryWhereString + ";";
+
+            this.logger.info("CHECK SQL: " + checkSQL);
+            ResultSet maxSequenceResult = checkRecordExistanceQuery.executeQuery(checkSQL);
+
+            if (maxSequenceResult.next()) {
+                existsIdSystemSequenceInteger = maxSequenceResult.getInt("recordDoesExist");
+            }
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+
+            assert connection != null;
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+        }
+        return existsIdSystemSequenceInteger;
+
     }
 
 
     /**
-     * Get current date time
+     * Insert a new record based on a row of the CSV file
      *
-     * @return
+     * @param currentTableName
+     * @param data
      */
+    private void insertNewRecord(String currentTableName, Map<String, Object> data) {
+
+
+        int maxSystemSequence = dbtools.getMaxSequenceNumberFromTable(currentTableName);
+        TablePojo tablePojo = dbtools.getTableMetadataPojoFromTable(currentTableName);
+        TreeMap<String, Object> sortedByColumnName = new TreeMap<String, Object>(data);
+        CsvToolsApi csvToolsApi = new CsvToolsApi();
+
+
+        String insertSQL = "INSERT INTO " + currentTableName + " (ID_SYSTEM_SEQUENCE,";
+
+        String columnValuesString = ",LAST_UPDATE) VALUES(" + (maxSystemSequence + 1) + ",";
+        for (Map.Entry<String, Object> record : sortedByColumnName.entrySet()) {
+            String columnValue;
+            String columnName = record.getKey();
+            String normalizedColumnName = csvToolsApi.replaceReservedKeyWords(columnName);
+            insertSQL += normalizedColumnName + ",";
+            if (record.getValue() != null) {
+                columnValue = record.getValue().toString();
+                try {
+                    dbtools.increaseColumnLength(columnValue, tablePojo);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                columnValue = "";
+            }
+
+            columnValue = csvToolsApi.escapeQuotes(columnValue);
+            columnValue = "\"" + columnValue + "\"" + ",";
+            columnValuesString += columnValue;
+        }
+
+        insertSQL = StringUtils.removeEndIgnoreCase(insertSQL, ",");
+        columnValuesString = StringUtils.removeEndIgnoreCase(columnValuesString, ",");
+
+        insertSQL += columnValuesString + ",NOW());";
+        logger.info(insertSQL);
+        // insert the new record
+        Connection connection = null;
+        Statement statement;
+        try {
+
+            connection = this.getConnection();
+            if (connection.getAutoCommit()) {
+                connection.setAutoCommit(false);
+            }
+            statement = connection.createStatement();
+            statement.executeUpdate(insertSQL);
+            connection.commit();
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            logger.severe("Cause: " + insertSQL);
+        } finally {
+
+            assert connection != null;
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+        }
+
+    }
 
     public Date getCurrentDatetime() {
         java.util.Date today = new java.util.Date();
@@ -752,6 +817,7 @@ public class MigrateCSV2SQL {
             metadataColumns.add("RECORD_STATUS");
 
             connection = this.getConnection();
+
             PreparedStatement createIndexStmt;
             for (String columnName : metadataColumns) {
                 this.logger.info("Adding index on " + columnName);
