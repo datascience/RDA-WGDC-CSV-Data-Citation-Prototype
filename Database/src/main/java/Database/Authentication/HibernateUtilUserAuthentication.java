@@ -81,7 +81,6 @@
 package Database.Authentication;
 
 
-import org.hibernate.HibernateException;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
@@ -92,25 +91,19 @@ import org.hibernate.service.ServiceRegistry;
  */
 public class HibernateUtilUserAuthentication {
     private static SessionFactory sessionFactory;
-    private static ServiceRegistry serviceRegistry;
-
-    static {
-        try {
-
-            Configuration configuration = new Configuration();
-            configuration.configure("hibernate.userauthentication.cfg.xml");
-
-            serviceRegistry = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties()).build();
-            sessionFactory = configuration.buildSessionFactory(serviceRegistry);
-
-
-        } catch (HibernateException he) {
-            System.err.println("Error creating Session: " + he);
-            throw new ExceptionInInitializerError(he);
-        }
-    }
 
     public static SessionFactory getSessionFactory() {
+        if (sessionFactory == null) {
+            // loads configuration and mappings
+            Configuration configuration = new Configuration().configure("hibernate.userauthentication.cfg.xml");
+            ServiceRegistry serviceRegistry
+                    = new StandardServiceRegistryBuilder()
+                    .applySettings(configuration.getProperties()).build();
+
+            // builds a session factory from the service registry
+            sessionFactory = configuration.buildSessionFactory(serviceRegistry);
+        }
+
         return sessionFactory;
     }
 }

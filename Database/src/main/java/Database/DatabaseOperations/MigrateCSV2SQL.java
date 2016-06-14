@@ -626,6 +626,7 @@ public class MigrateCSV2SQL {
             String checkSQL = "SELECT ID_SYSTEM_SEQUENCE AS recordHasNotChanged FROM " + currentTableName + hasChangedWHEREString + ";";
 
             this.logger.info("CHECK SQL: " + checkSQL);
+
             ResultSet hasChangedRS = checkRecordExistanceQuery.executeQuery(checkSQL);
             connection.commit();
 

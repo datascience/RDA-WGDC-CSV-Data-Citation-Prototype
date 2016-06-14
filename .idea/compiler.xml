@@ -41,7 +41,7 @@
       <module name="BatchMode" target="1.5" />
       <module name="CSV-Citation-Deployment-Module" target="1.5" />
       <module name="CSVTools" target="1.7" />
-      <module name="Database" target="1.7" />
+      <module name="Database" target="1.8" />
       <module name="DatatableModel" target="1.7" />
       <module name="DataTypeGuesser" target="1.5" />
       <module name="Evaluation-Module" target="1.5" />
