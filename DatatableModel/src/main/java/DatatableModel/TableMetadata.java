@@ -17,9 +17,10 @@
 package DatatableModel;
 
 
-
+import Database.Authentication.HibernateUtilUserAuthentication;
 import Database.DatabaseOperations.DatabaseTools;
-import Database.DatabaseOperations.HikariConnectionPool;
+import org.hibernate.Session;
+import org.hibernate.internal.SessionImpl;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -37,7 +38,6 @@ public class TableMetadata {
 
     public TableMetadata() {
         this.logger = Logger.getLogger(this.getClass().getName());
-        HikariConnectionPool pool = HikariConnectionPool.getInstance();
 
         this.dbtools = new DatabaseTools();
         
@@ -279,8 +279,8 @@ public class TableMetadata {
 
         Map<String, String> tableMap = null;
 
-        HikariConnectionPool pool = HikariConnectionPool.getInstance();
-        List<String> listOfTables = this.dbtools.getAvailableTablesFromDatabase(pool.getDataBaseName());
+
+        List<String> listOfTables = this.dbtools.getAvailableTablesFromDatabase(this.getDataBaseName());
         tableMap = new HashMap<String, String>();
         for (String tableName : listOfTables) {
             tableMap.put(tableName, tableName);
@@ -292,7 +292,39 @@ public class TableMetadata {
     }
 
 
+    /*Get database name from current connection
+* * */
+    // TODO: 15.06.16 does that work?
+    public String getDataBaseName() {
 
+
+        Connection connection = this.getConnection();
+        String dataBaseName = null;
+        try {
+            dataBaseName = connection.getCatalog();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        this.logger.info("Get database name from connection. It is" + dataBaseName);
+
+
+        return dataBaseName;
+    }
+
+
+    /**
+     * Get the connection from the connection pool
+     *
+     * @return
+     */
+    private Connection getConnection() {
+        Connection connection = null;
+        Session session = HibernateUtilUserAuthentication.getSessionFactory().openSession();
+        SessionImpl sessionImpl = (SessionImpl) session;
+        connection = sessionImpl.connection();
+        return connection;
+
+    }
 
 
 }

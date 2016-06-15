@@ -32,8 +32,14 @@
 
 package Database.DatabaseOperations;
 
+import Database.Authentication.HibernateUtilUserAuthentication;
 import com.sun.rowset.CachedRowSetImpl;
+import org.hibernate.Session;
+import org.hibernate.engine.jdbc.connections.internal.DatasourceConnectionProviderImpl;
+import org.hibernate.internal.SessionFactoryImpl;
+import org.hibernate.internal.SessionImpl;
 
+import javax.sql.DataSource;
 import javax.sql.rowset.CachedRowSet;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -51,12 +57,11 @@ import java.util.logging.Logger;
 public class DatabaseQueries {
 
     private Logger logger;
-    private HikariConnectionPool pool;
     private DatabaseTools dbtools;
 
     public DatabaseQueries() {
         this.logger = Logger.getLogger(this.getClass().getName());
-        HikariConnectionPool pool = HikariConnectionPool.getInstance();
+
 
         this.dbtools = new DatabaseTools();
 
@@ -321,14 +326,10 @@ public class DatabaseQueries {
      * @return
      */
     private Connection getConnection() {
-        HikariConnectionPool pool = HikariConnectionPool.getInstance();
         Connection connection = null;
-
-        try {
-            connection = pool.getConnection();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        Session session = HibernateUtilUserAuthentication.getSessionFactory().openSession();
+        SessionImpl sessionImpl = (SessionImpl) session;
+        connection = sessionImpl.connection();
         return connection;
 
     }

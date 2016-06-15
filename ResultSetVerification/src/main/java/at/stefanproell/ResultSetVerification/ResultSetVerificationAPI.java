@@ -16,8 +16,10 @@
 
 package at.stefanproell.ResultSetVerification;
 
-import Database.DatabaseOperations.HikariConnectionPool;
+import Database.Authentication.HibernateUtilUserAuthentication;
 import org.apache.commons.codec.digest.DigestUtils;
+import org.hibernate.Session;
+import org.hibernate.internal.SessionImpl;
 
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
@@ -500,25 +502,19 @@ public class ResultSetVerificationAPI {
 
     }
 
-
-
-
-
     /**
      * Get the connection from the connection pool
      *
      * @return
      */
     private Connection getConnection() {
-        HikariConnectionPool pool = HikariConnectionPool.getInstance();
         Connection connection = null;
-
-        try {
-            connection = pool.getConnection();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        Session session = HibernateUtilUserAuthentication.getSessionFactory().openSession();
+        SessionImpl sessionImpl = (SessionImpl) session;
+        connection = sessionImpl.connection();
         return connection;
 
     }
+
+
 }

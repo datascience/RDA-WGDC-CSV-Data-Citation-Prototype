@@ -32,8 +32,10 @@
 
 package at.stefanproell.ResultSetVerification;
 
-import Database.DatabaseOperations.HikariConnectionPool;
+import Database.Authentication.HibernateUtilUserAuthentication;
 import com.sun.rowset.CachedRowSetImpl;
+import org.hibernate.Session;
+import org.hibernate.internal.SessionImpl;
 
 import javax.sql.rowset.CachedRowSet;
 import java.sql.*;
@@ -76,14 +78,10 @@ public class ResultSetHashAlternatives {
      * @return
      */
     private Connection getConnection() {
-        HikariConnectionPool pool = HikariConnectionPool.getInstance();
         Connection connection = null;
-
-        try {
-            connection = pool.getConnection();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        Session session = HibernateUtilUserAuthentication.getSessionFactory().openSession();
+        SessionImpl sessionImpl = (SessionImpl) session;
+        connection = sessionImpl.connection();
         return connection;
 
     }
@@ -544,9 +542,8 @@ public class ResultSetHashAlternatives {
         String primaryKey;
         primaryKeys = new ArrayList<String>();
 
-        HikariConnectionPool pool = HikariConnectionPool.getInstance();
 
-        String currentDatabaseName = pool.getDataBaseName();
+        String currentDatabaseName = this.getDataBaseName();
         String sql = "SHOW KEYS FROM " + currentDatabaseName + "." + tableName + " WHERE Key_name = 'PRIMARY'";
         int numberOfRecords = -1;
         Connection connection = this.getConnection();
@@ -573,6 +570,26 @@ public class ResultSetHashAlternatives {
 
     }
 
+    /*Get database name from current connection
+* * */
+    // TODO: 15.06.16 does that work?
+    public String getDataBaseName() {
+
+
+        Connection connection = this.getConnection();
+        String dataBaseName = null;
+        try {
+            dataBaseName = connection.getCatalog();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        this.logger.info("Get database name from connection. It is" + dataBaseName);
+
+
+        return dataBaseName;
+    }
+
+
     /**
      * Calculate the CRC checksum of a complete table. Return a SH1 hash of the appended CRC string
      *
@@ -583,9 +600,7 @@ public class ResultSetHashAlternatives {
         String appendedChecksum = "";
         String hashedCRC = "";
 
-        HikariConnectionPool pool = HikariConnectionPool.getInstance();
-
-        String currentDatabaseName = pool.getDataBaseName();
+        String currentDatabaseName = this.getDataBaseName();
         List<String> listOfColumns = this.getListOfColumnNames(tableName);
         String sql = "SELECT ";
         String prefix = "sum(crc32(" + currentDatabaseName + "." + tableName + ".";

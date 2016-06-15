@@ -98,11 +98,14 @@ package Database.DatabaseOperations;
 
 
 import CSVTools.CsvToolsApi;
+import Database.Authentication.HibernateUtilUserAuthentication;
 import Database.Helpers.StringHelpers;
 import at.stefanproell.DataTypeDetector.ColumnMetadata;
 import at.stefanproell.DataTypeDetector.DatatypeStatistics;
 import at.stefanproell.SQL_Tools.CreateTableStatement;
 import org.apache.commons.lang3.StringUtils;
+import org.hibernate.Session;
+import org.hibernate.internal.SessionImpl;
 import org.supercsv.io.CsvListReader;
 import org.supercsv.io.ICsvListReader;
 import org.supercsv.prefs.CsvPreference;
@@ -125,8 +128,6 @@ public class MigrateCSV2SQL {
     private Logger logger;
 
     private DatabaseTools dbtools;
-
-    private HikariConnectionPool pool;
 
     public MigrateCSV2SQL() {
         this.logger = Logger.getLogger(this.getClass().getName());
@@ -204,23 +205,7 @@ public class MigrateCSV2SQL {
     }
 
 
-    /**
-     * Get the connection from the connection pool
-     *
-     * @return
-     */
-    private Connection getConnection() {
-        HikariConnectionPool pool = HikariConnectionPool.getInstance();
-        Connection connection = null;
 
-        try {
-            connection = pool.getConnection();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return connection;
-
-    }
 
 
     public void insertCSVDataIntoDB(String currentTableName, Map<Integer, Map<String, Object>> csvMap) throws SQLException {
@@ -1333,6 +1318,20 @@ public class MigrateCSV2SQL {
             reader.close();
 
         }
+    }
+
+    /**
+     * Get the connection from the connection pool
+     *
+     * @return
+     */
+    private Connection getConnection() {
+        Connection connection = null;
+        Session session = HibernateUtilUserAuthentication.getSessionFactory().openSession();
+        SessionImpl sessionImpl = (SessionImpl) session;
+        connection = sessionImpl.connection();
+        return connection;
+
     }
 
 

@@ -35,7 +35,10 @@ package Database.DatabaseOperations;
 
 
 import CSVTools.CsvToolsApi;
+import Database.Authentication.HibernateUtilUserAuthentication;
 import com.sun.rowset.CachedRowSetImpl;
+import org.hibernate.Session;
+import org.hibernate.internal.SessionImpl;
 import org.supercsv.io.CsvListReader;
 import org.supercsv.io.ICsvListReader;
 import org.supercsv.prefs.CsvPreference;
@@ -56,7 +59,7 @@ public class DatabaseTools {
     private String dataBaseName;
     private String tableName;
     private Logger logger;
-    private HikariConnectionPool pool;
+
     private ResultSetMetadata resultSetMetadata;
 
 
@@ -78,11 +81,18 @@ public class DatabaseTools {
 
     /*Get database name from current connection
     * * */
+    // TODO: 15.06.16 does that work?
     public String getDataBaseName() {
 
+
         if (this.dataBaseName == null || this.dataBaseName.equals("")) {
-            HikariConnectionPool pool = HikariConnectionPool.getInstance();
-            this.dataBaseName = pool.getDataBaseName();
+            Connection connection = this.getConnection();
+
+            try {
+                this.dataBaseName = connection.getCatalog();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
             this.logger.info("Get database name from connection. It is" + this.dataBaseName);
 
         }
@@ -98,21 +108,7 @@ public class DatabaseTools {
         return logger;
     }
 
-    /**
-     * Get the connection from the connection pool
-     *
-     * @return
-     */
-    private Connection getConnection() throws SQLException {
-        HikariConnectionPool pool = HikariConnectionPool.getInstance();
-        Connection connection = null;
 
-
-        connection = pool.getConnection();
-
-        return connection;
-
-    }
 
     /*
 Count the records which are not deleted..
@@ -2096,6 +2092,21 @@ Count the records which are not deleted..
 
 
     }
+
+    /**
+     * Get the connection from the connection pool
+     *
+     * @return
+     */
+    private Connection getConnection() {
+        Connection connection = null;
+        Session session = HibernateUtilUserAuthentication.getSessionFactory().openSession();
+        SessionImpl sessionImpl = (SessionImpl) session;
+        connection = sessionImpl.connection();
+        return connection;
+
+    }
+
 
 
 }
