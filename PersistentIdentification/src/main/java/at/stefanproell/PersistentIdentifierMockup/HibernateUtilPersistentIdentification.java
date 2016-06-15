@@ -57,6 +57,17 @@ public class HibernateUtilPersistentIdentification {
             Configuration configuration = new Configuration().setInterceptor(new TimeStampInterceptor());
 
             configuration.addProperties(extraProperties);
+
+            configuration.addAnnotatedClass(at.stefanproell.PersistentIdentifierMockup.PersistentIdentifier.class);
+            configuration.addAnnotatedClass(at.stefanproell.PersistentIdentifierMockup.PersistentIdentifierAlphaNumeric.class);
+            configuration.addAnnotatedClass(at.stefanproell.PersistentIdentifierMockup.PersistentIdentifierAlpha.class);
+            configuration.addAnnotatedClass(at.stefanproell.PersistentIdentifierMockup.PersistentIdentifierNumeric.class);
+            configuration.addAnnotatedClass(at.stefanproell.PersistentIdentifierMockup.Organization.class);
+            configuration.addAnnotatedClass(at.stefanproell.PersistentIdentifierMockup.TimeStampInterceptor.class);
+            configuration.addAnnotatedClass(at.stefanproell.PersistentIdentifierMockup.PersistentIdentifierSubcomponent.class);
+            configuration.addAnnotatedClass(at.stefanproell.TomcatAuthentication.UserDetails.class);
+            configuration.addAnnotatedClass(at.stefanproell.TomcatAuthentication.GroupDetails.class);
+
             configuration.configure("hibernate.persistentidentification.cfg.xml");
 
             serviceRegistry = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties()).build();

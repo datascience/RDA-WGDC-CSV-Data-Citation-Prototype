@@ -74,7 +74,7 @@ public class UserAPI {
             this.session.beginTransaction();
             this.session.save(user);
             this.session.getTransaction().commit();
-            this.session.flush();
+
             this.session.close();
 
             success = this.checkIfUserExists(username);
@@ -110,9 +110,12 @@ public class UserAPI {
         User user = null;
         this.session = HibernateUtilUserAuthentication.getSessionFactory().openSession();
         this.session.beginTransaction();
-        Criteria criteria = this.session.createCriteria(User.class, "user");
-        criteria.add(Restrictions.eq("user.username", username));
-        user = (User) criteria.uniqueResult();
+
+        Query query = session.createQuery("from User where username = :username ");
+        query.setParameter("username", username);
+        user = (User) query.getSingleResult();
+
+
         this.session.getTransaction().commit();
         this.session.close();
 
@@ -171,9 +174,9 @@ public class UserAPI {
         User user = null;
         this.session = HibernateUtilUserAuthentication.getSessionFactory().openSession();
         this.session.beginTransaction();
-        Criteria criteria = this.session.createCriteria(User.class, "user");
-        criteria.add(Restrictions.eq("user.username", username));
-        user = (User) criteria.uniqueResult();
+        Query query = session.createQuery("from User where username = :username ");
+        query.setParameter("username", username);
+        user = (User) query.getSingleResult();
         this.session.getTransaction().commit();
         this.session.close();
 

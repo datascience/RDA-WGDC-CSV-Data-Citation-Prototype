@@ -48,7 +48,7 @@ public class UserAPI {
 
         this.session.save(newUser);
         this.session.getTransaction().commit();
-        this.session.flush();
+
         this.session.close();
 
         return newUser;
@@ -63,7 +63,7 @@ public class UserAPI {
         GroupDetails gp = new GroupDetails("arkuser");
         this.session.save(gp);
         this.session.getTransaction().commit();
-        this.session.flush();
+
         this.session.close();
 
         return gp;
@@ -79,7 +79,7 @@ public class UserAPI {
 
         this.session.update(user);
         this.session.getTransaction().commit();
-        this.session.flush();
+
         this.session.close();
 
         return user;
