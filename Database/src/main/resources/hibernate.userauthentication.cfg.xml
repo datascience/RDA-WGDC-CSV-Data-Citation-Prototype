@@ -6,7 +6,8 @@
 <hibernate-configuration>
 
     <session-factory>
-        <property name="hibernate.hbm2ddl.auto">create</property>
+        <property name="hibernate.hbm2ddl.auto">update</property>
+
 
         <property name="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</property>
         <property name="hibernate.connection.provider_class">
@@ -22,8 +23,6 @@
         <property name="hibernate.hikari.dataSource.prepStmtCacheSqlLimit">2048</property>
         <property name="hibernate.hikari.dataSource.useServerPrepStmts">true</property>
         <property name="hibernate.current_session_context_class">thread</property>
-
-        <mapping class="Database.Authentication.User"/>
 
     </session-factory>
 

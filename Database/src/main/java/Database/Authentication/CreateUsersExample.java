@@ -49,8 +49,9 @@ public class CreateUsersExample {
 
     public void run() {
         UserAPI api = new UserAPI();
-     /*   api.addUser("stefan", "Stefan", "Proell", "stefan15", 12345);
+        api.addUser("stefan", "Stefan", "Proell", "stefan15", 12345);
         api.addUser("andreas", "Andreas", "Rauber", "andreas15", 12345);
+        /*
         api.addUser("user1", "firstname1", "lastname1", "user15", 12345);
         api.addUser("user2", "firstname2", "lastname2", "user15", 12345);
         api.addUser("user3", "firstname3", "lastname3", "user15", 12345);
@@ -61,24 +62,8 @@ public class CreateUsersExample {
         api.addUser("user8", "firstname8", "lastname8", "user15", 12345);
         api.addUser("user9", "firstname9", "lastname9", "user15", 12345);
         api.addUser("user10", "firstname10", "lastname10", "user15", 12345);
-*/
-        api.addUser("thomas", "Thomas", "Hodge", "thomas15", 12345);
-        api.addUser("thaer", "Thaer", "Samar", "thaer15", 12345);
-        api.addUser("seamus","Seamus","Ross","seamus15",12345);
-        api.addUser("pauline","Pauline","Oddrun","pauline15",12345);
-        api.addUser("neil","Neil","Fitzgerald","neil15",12345);
-        api.addUser("myriam","Myriam","Traub","myriam15",12345);
-        api.addUser("jonathan","Jonathan","Moest","jonathan15",12345);
-        api.addUser("mohammed","Mohammed","Minout","mohammed15",12345);
-        api.addUser("mijung","Mijung","Lee","mijung15",12345);
-        api.addUser("malgorzata","Malgorzata","Rożniakowska-Kłosińska","malgorzata15",12345);
-        api.addUser("jaroslaw","Jaroslaw","Gryz","jaroslaw15",12345);
-        api.addUser("helene","Helene","de Ribaupierre,","helene15",12345);
-        api.addUser("kim","Kim","Hyunsook","kim15",12345);
-        api.addUser("dariusz","Dariusz","Paradowski","dariusz15",12345);
-        api.addUser("christian","Christian","Jacobs","christian15",12345);
-        api.addUser("brigitte","Brigitte","Mathiak","brigitte15",12345);
-        api.addUser("benoit","Benoît","Pauwels","benoit15",12345);
+
+        */
         System.out.println("Done");
 
 

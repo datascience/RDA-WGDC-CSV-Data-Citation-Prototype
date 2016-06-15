@@ -29,7 +29,6 @@ import java.util.logging.Logger;
  * Identifier consisting of alpha numeric symbols
  */
 @Entity
-@Table(name = "persistent_identifier")
 @DiscriminatorValue("AN")
 @Audited
 public class PersistentIdentifierAlphaNumeric extends PersistentIdentifier implements Serializable {

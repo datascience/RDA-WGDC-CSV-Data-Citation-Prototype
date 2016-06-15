@@ -48,10 +48,12 @@
             <artifactId>mysql-connector-java</artifactId>
             <version>5.1.39</version>
         </dependency>
+
+        <!-- WARNING !!!!!! Hibernate 5.2.0 has a bug when creating audit tables! This is why we use 5.1.0 here! -->
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-core</artifactId>
-            <version>5.2.0.Final</version>
+            <version>5.1.0.Final</version>
         </dependency>
         <dependency>
             <groupId>com.zaxxer</groupId>
@@ -62,13 +64,13 @@
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-hikaricp</artifactId>
-            <version>5.2.0.Final</version>
+            <version>5.1.0.Final</version>
         </dependency>
 
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-envers</artifactId>
-            <version>5.2.0.Final</version>
+            <version>5.1.0.Final</version>
         </dependency>
 
         <!-- Apache commons -->

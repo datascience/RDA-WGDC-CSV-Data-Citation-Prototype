@@ -188,31 +188,38 @@ public class ResultSetVerificationAPI {
     public ResultSet executeQuery(String sqlString) {
         this.logger.info("Trying to execute: " + sqlString);
 
-        Connection connection = this.getConnection();
-        PreparedStatement preparedStatement = null;
-        ResultSet rs = null;
-        try {
-            preparedStatement = connection.prepareStatement(sqlString);
-            preparedStatement.setFetchSize(10000);
+        if (sqlString != null) {
+            Connection connection = this.getConnection();
+            PreparedStatement preparedStatement = null;
+            ResultSet rs = null;
+            try {
+                preparedStatement = connection.prepareStatement(sqlString);
+                preparedStatement.setFetchSize(10000);
 
 
-            rs = preparedStatement.executeQuery();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            if (connection != null) {
-                try {
-                    connection.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
+                rs = preparedStatement.executeQuery();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+                if (connection != null) {
+                    try {
+                        connection.close();
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
                 }
+
+                this.logger.info("Resulset row count: " + this.getResultSetRowCount(rs));
+
+                return rs;
+
             }
 
-            this.logger.info("Resulset row count: " + this.getResultSetRowCount(rs));
-
-            return rs;
 
         }
+        return null;
+
+
 
     }
 

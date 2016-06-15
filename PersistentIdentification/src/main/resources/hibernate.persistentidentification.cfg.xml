@@ -22,27 +22,25 @@
 <hibernate-configuration>
 
     <session-factory>
-        <!-- IMPORTANT: the username and password is defined in the property file pid.db.properties and loaded in the HibernateUtil.java class -->
 
-        <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
-        <property name="hibernate.dialect">org.hibernate.dialect.MySQL5InnoDBDialect</property>
-        <property name="show_sql">true</property>
-        <!--  drop the tables every time: create-drop -->
-        <!--  use auto or update or create-drop -->
-        <property name="hibernate.hbm2ddl.auto">create</property>
-        <!--<property name="hibernate.hbm2ddl.auto">create</property>-->
-        <property name="hibernate.hbm2ddl.import_files">pid.initial_data.sql</property>
-        
+        <property name="hibernate.hbm2ddl.auto">update</property>
+
+
+        <property name="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</property>
+        <property name="hibernate.connection.provider_class">
+            org.hibernate.hikaricp.internal.HikariCPConnectionProvider
+        </property>
+        <property name="hibernate.hikari.dataSource.url">jdbc:mysql://localhost:3306/PersistentIdentifierDB?useSSL=false
+        </property>
+        <property name="hibernate.hikari.dataSource.user">querystoreuser</property>
+        <property name="hibernate.hikari.dataSource.password">query2014</property>
+        <property name="hibernate.hikari.dataSourceClassName">com.mysql.jdbc.jdbc2.optional.MysqlDataSource</property>
+        <property name="hibernate.hikari.dataSource.cachePrepStmts">true</property>
+        <property name="hibernate.hikari.dataSource.prepStmtCacheSize">250</property>
+        <property name="hibernate.hikari.dataSource.prepStmtCacheSqlLimit">2048</property>
+        <property name="hibernate.hikari.dataSource.useServerPrepStmts">true</property>
         <property name="hibernate.current_session_context_class">thread</property>
-        <property name="format_sql">false</property>
-        <property name="use_sql_comments">false</property>
 
-        <property name="hibernate.connection.autocommit">false</property>
-
-
-
-        <property name="hibernate.jdbc.batch_size">20</property>
-        <property name="hibernate.id.new_generator_mappings">false</property>
 
 
     </session-factory>

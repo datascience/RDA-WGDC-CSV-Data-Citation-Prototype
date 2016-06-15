@@ -48,6 +48,7 @@
 
 package Examples;
 
+import QueryStore.BaseTable;
 import QueryStore.Query;
 import QueryStore.QueryStoreAPI;
 import at.stefanproell.PersistentIdentifierMockup.Organization;
@@ -96,6 +97,7 @@ public class ExamplesQueryAPI {
         QueryStoreAPI queryAPI = new QueryStoreAPI();
         // Create a query
         Query query = queryAPI.createNewQuery("username@repository.org", queryPID);
+        queryAPI.createBaseTableRecord("Authortest", "Database", "DummyBaseTable", "Dummytitle", "DummyDescription", 1234, "abcde");
 
         // some filters
         queryAPI.addFilter(query, "Filter1", "Value1");
@@ -109,7 +111,10 @@ public class ExamplesQueryAPI {
         queryAPI.addSorting(query, "ColumnB", "ASC");
         queryAPI.addSorting(query, "ColumnC", "ASC");
 
+
         // dummy hash calculation
+
+        query.setQueryString("SELECT 1");
         queryAPI.calculateResultSetHashFull(query);
 
         // get query pid

@@ -29,7 +29,6 @@ import java.util.logging.Logger;
  * Identifier consisting of numbers
  */
 @Entity
-@Table(name = "persistent_identifier")
 @DiscriminatorValue("N")
 @Audited
 public class PersistentIdentifierNumeric extends PersistentIdentifier implements Serializable {

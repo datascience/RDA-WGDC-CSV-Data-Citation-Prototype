@@ -65,6 +65,7 @@
 package QueryStore;
 
 
+import Database.Authentication.User;
 import Database.DatabaseOperations.DatabaseTools;
 import at.stefanproell.PersistentIdentifierMockup.*;
 import at.stefanproell.ResultSetVerification.ResultSetVerificationAPI;
