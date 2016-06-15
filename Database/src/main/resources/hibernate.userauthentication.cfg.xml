@@ -8,7 +8,8 @@
     <session-factory>
 
         <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
-        <property name="hibernate.connection.provider_class">com.zaxxer.hikari.hibernate.HikariConnectionProvider
+        <property name="hibernate.connection.provider_class">
+            org.hibernate.hikaricp.internal.HikariCPConnectionProvider
         </property>
         <property name="hibernate.hikari.dataSource.url">jdbc:mysql://localhost:3306/CitationUserDB?useSSL=false
         </property>

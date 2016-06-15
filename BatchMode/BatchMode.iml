@@ -53,6 +53,8 @@
     <orderEntry type="library" name="Maven: javax.inject:javax.inject:1" level="project" />
     <orderEntry type="library" name="Maven: com.zaxxer:HikariCP:2.4.6" level="project" />
     <orderEntry type="library" name="Maven: org.slf4j:slf4j-api:1.7.16" level="project" />
+    <orderEntry type="library" name="Maven: org.hibernate:hibernate-hikaricp:5.2.0.Final" level="project" />
+    <orderEntry type="library" name="Maven: com.zaxxer:HikariCP-java6:2.3.9" level="project" />
     <orderEntry type="library" name="Maven: org.hibernate:hibernate-envers:5.2.0.Final" level="project" />
     <orderEntry type="library" name="Maven: org.mindrot:jbcrypt:0.3m" level="project" />
   </component>

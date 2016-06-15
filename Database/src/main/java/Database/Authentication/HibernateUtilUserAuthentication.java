@@ -96,6 +96,8 @@ public class HibernateUtilUserAuthentication {
         if (sessionFactory == null) {
             // loads configuration and mappings
             Configuration configuration = new Configuration().configure("hibernate.userauthentication.cfg.xml");
+            configuration.addAnnotatedClass(User.class);
+
             ServiceRegistry serviceRegistry
                     = new StandardServiceRegistryBuilder()
                     .applySettings(configuration.getProperties()).build();

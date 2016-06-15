@@ -37,6 +37,11 @@ import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 import org.mindrot.jbcrypt.BCrypt;
 
+import javax.persistence.Query;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
+import java.util.List;
 import java.util.logging.Logger;
 
 /**
@@ -132,9 +137,12 @@ public class UserAPI {
         
         this.session = HibernateUtilUserAuthentication.getSessionFactory().openSession();
         this.session.beginTransaction();
-        Criteria criteria = this.session.createCriteria(User.class, "user");
-        criteria.add(Restrictions.eq("user.username", username));
-        user = (User) criteria.uniqueResult();
+
+        Query query = session.createQuery("from User where username = :username ");
+        query.setParameter("username", username);
+        user = (User) query.getSingleResult();
+
+
         this.session.close();
 
         if (user != null) {

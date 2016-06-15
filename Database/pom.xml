@@ -56,6 +56,13 @@
             <artifactId>HikariCP</artifactId>
             <version>2.4.6</version>
         </dependency>
+        <!-- http://mvnrepository.com/artifact/org.hibernate/hibernate-hikaricp -->
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-hikaricp</artifactId>
+            <version>5.2.0.Final</version>
+        </dependency>
+
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-envers</artifactId>
