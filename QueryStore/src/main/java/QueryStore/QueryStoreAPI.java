@@ -77,11 +77,22 @@ import org.hibernate.annotations.Sort;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 
+import javax.persistence.NoResultException;
 import java.util.*;
 import java.util.logging.Logger;
 
 /**
  * The API for the Query Store Mockup
+ *
+ * Requires this table:
+ *
+ *
+ CREATE TABLE `DummyBaseTable` (
+ `idDummyBaseTable` int(11) NOT NULL,
+ PRIMARY KEY (`idDummyBaseTable`)
+ ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+ *
  */
 public class QueryStoreAPI {
     private Logger logger;
@@ -302,7 +313,12 @@ public class QueryStoreAPI {
 
         javax.persistence.Query queryHibernate = session.createQuery("SELECT max(filter_sequence) from filter where query_queryId = :queryId");
         queryHibernate.setParameter("queryId", query.getQueryId());
-        Filter filterMax = (Filter) queryHibernate.getSingleResult();
+        Filter filterMax = null;
+        try {
+            filterMax = (Filter) queryHibernate.getSingleResult();
+        } catch (NoResultException nre) {
+
+        }
 
         session.getTransaction().commit();
         session.close();
@@ -362,8 +378,13 @@ public class QueryStoreAPI {
 
         javax.persistence.Query queryHibernate = session.createQuery("SELECT max(sorting_sequence) from sorting where query_queryId = :queryId");
         queryHibernate.setParameter("queryId", query.getQueryId());
-        Sorting sortingMax = (Sorting) queryHibernate.getSingleResult();
+        Sorting sortingMax = null;
+        try {
+            sortingMax = (Sorting) queryHibernate.getSingleResult();
 
+        } catch (NoResultException nre) {
+
+        }
 
 
         session.getTransaction().commit();
@@ -422,8 +443,13 @@ public class QueryStoreAPI {
         queryHibernate.setParameter("queryId", query.getQueryId());
         queryHibernate.setParameter("filterName", filter.getFilterName());
         queryHibernate.setParameter("filterValue", filter.getFilterValue());
-        Filter filterRecord = (Filter) queryHibernate.getSingleResult();
+        Filter filterRecord = null;
+        try {
+            filterRecord = (Filter) queryHibernate.getSingleResult();
 
+        } catch (NoResultException nre) {
+
+        }
 
         filterSession.getTransaction().commit();
         filterSession.close();
@@ -449,7 +475,13 @@ public class QueryStoreAPI {
         queryHibernate.setParameter("queryId", query.getQueryId());
         queryHibernate.setParameter("direction", sorting.getDirection());
         queryHibernate.setParameter("sortingColumn", sorting.getSortingColumn());
-        Sorting sortingRecord = (Sorting) queryHibernate.getSingleResult();
+
+        Sorting sortingRecord = null;
+        try {
+            sortingRecord = (Sorting) queryHibernate.getSingleResult();
+        } catch (NoResultException nre) {
+
+        }
 
         sortingSession.getTransaction().commit();
         sortingSession.close();
@@ -563,7 +595,13 @@ public class QueryStoreAPI {
 
         javax.persistence.Query queryHibernate = session.createQuery("from Query where resultSetHash = :resultSetHash");
         queryHibernate.setParameter("resultSetHash", resultSetHash);
-        Query resultSetQuery = (Query) queryHibernate.getSingleResult();
+
+        Query resultSetQuery = null;
+        try {
+            resultSetQuery = (Query) queryHibernate.getSingleResult();
+        } catch (NoResultException nre) {
+
+        }
         session.getTransaction().commit();
         session.close();
         return resultSetQuery;
@@ -613,9 +651,15 @@ public class QueryStoreAPI {
         this.session.beginTransaction();
 
 
-        javax.persistence.Query queryHibernate = session.createQuery("from Query where PID =: PID");
+        javax.persistence.Query queryHibernate = session.createQuery("from Query where PID =:PID");
         queryHibernate.setParameter("PID", pid);
-        Query resultSetQuery = (Query) queryHibernate.getSingleResult();
+        Query resultSetQuery = null;
+
+        try {
+            resultSetQuery = (Query) queryHibernate.getSingleResult();
+        } catch (NoResultException nre) {
+
+        }
 
         this.session.getTransaction().commit();
         this.session.close();
@@ -699,7 +743,11 @@ public class QueryStoreAPI {
         javax.persistence.Query queryHibernate = session.createQuery("from Query where queryId <> :queryId AND queryHash =:queryHash");
         queryHibernate.setParameter("queryId", query.getQueryId());
         queryHibernate.setParameter("queryHash", query.getQueryHash());
+        try {
         sameQuery = (Query) queryHibernate.getSingleResult();
+        } catch (NoResultException nre) {
+
+        }
         this.session.getTransaction().commit();
         this.session.close();
 
@@ -966,7 +1014,11 @@ public class QueryStoreAPI {
 
         javax.persistence.Query queryHibernate = session.createQuery("from BaseTable where baseTablePID =:baseTablePID");
         queryHibernate.setParameter("baseTablePID", new String(pid));
+        try {
         baseTable = (BaseTable) queryHibernate.getSingleResult();
+        } catch (NoResultException nre) {
+
+        }
 
         this.session.getTransaction().commit();
         this.session.close();
@@ -997,8 +1049,11 @@ public class QueryStoreAPI {
         javax.persistence.Query queryHibernate = session.createQuery("from BaseTable where baseTableName=:baseTableName AND baseDatabase = :baseDatabase");
         queryHibernate.setParameter("baseTableName", tableName);
         queryHibernate.setParameter("baseDatabase", databaseName);
+        try {
         baseTable = (BaseTable) queryHibernate.getSingleResult();
+        } catch (NoResultException nre) {
 
+        }
 
         this.session.getTransaction().commit();
         this.session.close();
@@ -1024,7 +1079,13 @@ public class QueryStoreAPI {
 
         javax.persistence.Query queryHibernate = session.createQuery("from BaseTable where baseTableName=:baseTableName");
         queryHibernate.setParameter("baseTableName", tableName);
-        baseTable = (BaseTable) queryHibernate.getSingleResult();
+        try {
+            baseTable = (BaseTable) queryHibernate.getSingleResult();
+        } catch (NoResultException nre) {
+
+        }
+
+
 
 
         this.session.getTransaction().commit();
@@ -1124,8 +1185,11 @@ public class QueryStoreAPI {
 
         javax.persistence.Query queryHibernate = session.createQuery("from BaseTable where baseTablePID =:baseTablePID");
         queryHibernate.setParameter("baseTablePID", baseTablePID);
+        try {
         baseTable = (BaseTable) queryHibernate.getSingleResult();
+        } catch (NoResultException nre) {
 
+        }
         this.session.getTransaction().commit();
         this.session.close();
 

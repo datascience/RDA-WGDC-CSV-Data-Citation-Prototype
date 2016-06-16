@@ -80,7 +80,7 @@ public class ExamplesQueryAPI {
         // Init the API
         PersistentIdentifierAPI pidAPI = new PersistentIdentifierAPI();
         // create a dummy organization and provide a prefix
-        Organization researchOrganization = pidAPI.createNewOrganitation("Research Int.", 3456);
+        Organization researchOrganization = pidAPI.createNewOrganitation("Research Int.", 5678);
         // create test identifiers
         PersistentIdentifierAlphaNumeric pid = pidAPI.getAlphaNumericPID(researchOrganization, "www.repository," +
                 "org/queries/q1");
@@ -99,8 +99,8 @@ public class ExamplesQueryAPI {
         Query query = queryAPI.createNewQuery("username@repository.org", queryPID);
         query.setQueryDescription("Query desc");
 
-        String baseTablePID = queryAPI.createBaseTableRecord("Authortest", "Database", "DummyBaseTable", "Dummytitle", "DummyDescription", 3456, "abcde");
-        BaseTable bt = queryAPI.getBaseTableByTableNameOnly("Database");
+        String baseTablePID = queryAPI.createBaseTableRecord("Authortest", "Database", "DummyBaseTable", "Dummytitle", "DummyDescription", 5678, "abcde");
+        BaseTable bt = queryAPI.getBaseTableByTableNameOnly("DummyBaseTable");
         query.setBaseTable(bt);
         queryAPI.persistQuery(query);
         // some filters
@@ -132,7 +132,6 @@ public class ExamplesQueryAPI {
         String queryHash = queryAPI.getQueryHash(retrievedQuery);
         System.out.println("Query hash: " + queryHash);
 
-        queryAPI.finalizeQuery(retrievedQuery);
 
 
     }

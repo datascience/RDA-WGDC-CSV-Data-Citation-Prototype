@@ -117,7 +117,7 @@ public class UserAPI {
         try {
             user = (User) query.getSingleResult();
         } catch (NoResultException nre) {
-//Ignore this because as per your logic this is ok!
+
         }
 
 

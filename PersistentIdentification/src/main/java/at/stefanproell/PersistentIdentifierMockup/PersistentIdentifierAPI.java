@@ -6,6 +6,7 @@ import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.*;
 
+import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import java.util.*;
 import java.util.logging.Logger;
@@ -758,7 +759,11 @@ public class PersistentIdentifierAPI {
 
         Query query = session.createQuery("from Organization where organization_prefix = :prefix ");
         query.setParameter("prefix", prefix);
+        try {
         org = (Organization) query.getSingleResult();
+        } catch (NoResultException nre) {
+
+        }
 
 
         this.session.getTransaction().commit();
