@@ -70,10 +70,10 @@ import Database.DatabaseOperations.DatabaseTools;
 import at.stefanproell.PersistentIdentifierMockup.*;
 import at.stefanproell.ResultSetVerification.ResultSetVerificationAPI;
 import org.apache.commons.codec.digest.DigestUtils;
+
 import org.hibernate.Criteria;
 import org.hibernate.Session;
-import org.hibernate.criterion.Order;
-import org.hibernate.criterion.ProjectionList;
+import org.hibernate.annotations.Sort;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 
@@ -299,22 +299,20 @@ public class QueryStoreAPI {
         int currentFilterSequence = -1;
         Long qID = query.getQueryId();
         this.logger.info("Query id = " + qID);
-        // Get the max sequence number for the filters of query 
-        Criteria cr = session.createCriteria(Filter.class);
-        cr.setProjection(Projections.projectionList()
-                //.add(Projections.groupProperty("query"))
-                .add(Projections.max("filterSequence")));
-        cr.add(Restrictions.eq("query.queryId", new Long(query.getQueryId())));
-        Object unique = (Object) cr.uniqueResult();
+
+        javax.persistence.Query queryHibernate = session.createQuery("SELECT max(filter_sequence) from filter where query_queryId = :queryId");
+        queryHibernate.setParameter("queryId", query.getQueryId());
+        Filter filterMax = (Filter) queryHibernate.getSingleResult();
+
         session.getTransaction().commit();
         session.close();
 
-        if (unique == null) {
+        if (filterMax == null) {
             this.logger.warning("No previous filter exists");
             currentFilterSequence = 0;
         } else {
             this.logger.info("Filter exists. Setting filter sequence");
-            currentFilterSequence = (Integer) unique;
+            currentFilterSequence = filterMax.getFilterSequence();
 
         }
 
@@ -361,22 +359,22 @@ public class QueryStoreAPI {
         Long qID = query.getQueryId();
         this.logger.info("Query id = " + qID);
 
-        // Get the max sequence number for the sortings of query
-        Criteria cr = session.createCriteria(Sorting.class);
-        cr.setProjection(Projections.projectionList()
-                //.add(Projections.groupProperty("query"))
-                .add(Projections.max("sortingSequence")));
-        cr.add(Restrictions.eq("query.queryId", new Long(query.getQueryId())));
-        Object unique = (Object) cr.uniqueResult();
+
+        javax.persistence.Query queryHibernate = session.createQuery("SELECT max(sorting_sequence) from sorting where query_queryId = :queryId");
+        queryHibernate.setParameter("queryId", query.getQueryId());
+        Sorting sortingMax = (Sorting) queryHibernate.getSingleResult();
+
+
+
         session.getTransaction().commit();
         session.close();
 
-        if (unique == null) {
+        if (sortingMax == null) {
             this.logger.warning("No previous sorting exists");
             currentSortingSequence = 0;
         } else {
             this.logger.info("Sorting exists. Setting sorting sequence");
-            currentSortingSequence = (Integer) unique;
+            currentSortingSequence = sortingMax.getSortingSequence();
 
         }
 
@@ -420,18 +418,13 @@ public class QueryStoreAPI {
 
         Long qID = query.getQueryId();
 
+        javax.persistence.Query queryHibernate = session.createQuery("from filter where query_queryId = :queryId AND filterName=:filterName AND filterValue := filterValuue ");
+        queryHibernate.setParameter("queryId", query.getQueryId());
+        queryHibernate.setParameter("filterName", filter.getFilterName());
+        queryHibernate.setParameter("filterValue", filter.getFilterValue());
+        Filter filterRecord = (Filter) queryHibernate.getSingleResult();
 
-        // Get the max sequence number for the sortings of query
-        Criteria cr = filterSession.createCriteria(Filter.class);
 
-        cr.setProjection(Projections.projectionList()
-                //.add(Projections.groupProperty("query"))
-                .add(Projections.property("filterId")));
-        cr.add(Restrictions.eq("query.queryId", new Long(query.getQueryId())));
-        cr.add(Restrictions.eq("filterName", filter.getFilterName()));
-        cr.add(Restrictions.eq("filterValue", filter.getFilterValue()));
-
-        Object filterRecord = (Object) cr.uniqueResult();
         filterSession.getTransaction().commit();
         filterSession.close();
         if (filterRecord == null) {
@@ -452,21 +445,15 @@ public class QueryStoreAPI {
 
         Long qID = query.getQueryId();
 
+        javax.persistence.Query queryHibernate = session.createQuery("from sorting where query_queryId = :queryId AND SortingColumn=:sortingColumn AND direction := direction ");
+        queryHibernate.setParameter("queryId", query.getQueryId());
+        queryHibernate.setParameter("direction", sorting.getDirection());
+        queryHibernate.setParameter("sortingColumn", sorting.getSortingColumn());
+        Sorting sortingRecord = (Sorting) queryHibernate.getSingleResult();
 
-        // Get the max sequence number for the sortings of query
-        Criteria cr = sortingSession.createCriteria(Sorting.class);
-
-        cr.setProjection(Projections.projectionList()
-                //.add(Projections.groupProperty("query"))
-                .add(Projections.property("sortingId")));
-        cr.add(Restrictions.eq("query.queryId", new Long(query.getQueryId())));
-        cr.add(Restrictions.eq("sortingColumn", sorting.getSortingColumn()));
-        cr.add(Restrictions.eq("direction", sorting.getDirection()));
-
-        Object sortingResult = (Object) cr.uniqueResult();
         sortingSession.getTransaction().commit();
         sortingSession.close();
-        if (sortingResult == null) {
+        if (sortingRecord == null) {
 
             return false;
         } else {
@@ -573,12 +560,10 @@ public class QueryStoreAPI {
     public Query getQueryByResultSetHash(String resultSetHash) {
         Session session = HibernateUtilQueryStore.getSessionFactory().openSession();
         session.beginTransaction();
-        // Get the max sequence number for the sortings of query
-        Criteria cr = session.createCriteria(Query.class);
 
-
-        cr.add(Restrictions.eq("resultSetHash", resultSetHash));
-        Query resultSetQuery = (Query) cr.uniqueResult();
+        javax.persistence.Query queryHibernate = session.createQuery("from Query where resultSetHash = :resultSetHash");
+        queryHibernate.setParameter("resultSetHash", resultSetHash);
+        Query resultSetQuery = (Query) queryHibernate.getSingleResult();
         session.getTransaction().commit();
         session.close();
         return resultSetQuery;
@@ -627,20 +612,21 @@ public class QueryStoreAPI {
         this.session = HibernateUtilQueryStore.getSessionFactory().openSession();
         this.session.beginTransaction();
 
-        Query query = null;
-        Criteria criteria = this.session.createCriteria(Query.class, "query");
-        criteria.add(Restrictions.like("query.PID", pid));
-        query = (Query) criteria.uniqueResult();
+
+        javax.persistence.Query queryHibernate = session.createQuery("from Query where PID =: PID");
+        queryHibernate.setParameter("PID", pid);
+        Query resultSetQuery = (Query) queryHibernate.getSingleResult();
+
         this.session.getTransaction().commit();
         this.session.close();
 
-        if (query == null) {
+        if (resultSetQuery == null) {
             this.logger.severe("No query found with the pid " + pid);
         } else {
             this.logger.info("Found query with pid: " + pid);
         }
 
-        return query;
+        return resultSetQuery;
 
     }
 
@@ -708,10 +694,12 @@ public class QueryStoreAPI {
         this.session = HibernateUtilQueryStore.getSessionFactory().openSession();
         this.session.beginTransaction();
         Query sameQuery = null;
-        Criteria criteria = this.session.createCriteria(Query.class, "query");
-        criteria.add(Restrictions.like("query.queryHash", query.getQueryHash()));
-        criteria.add(Restrictions.not(Restrictions.like("query.queryId", query.getQueryId())));
-        sameQuery = (Query) criteria.uniqueResult();
+
+
+        javax.persistence.Query queryHibernate = session.createQuery("from Query where queryId <> :queryId AND queryHash =:queryHash");
+        queryHibernate.setParameter("queryId", query.getQueryId());
+        queryHibernate.setParameter("queryHash", query.getQueryHash());
+        sameQuery = (Query) queryHibernate.getSingleResult();
         this.session.getTransaction().commit();
         this.session.close();
 
@@ -975,9 +963,10 @@ public class QueryStoreAPI {
         this.session.beginTransaction();
 
         this.logger.info("Searching for base Table Pid: " + pid);
-        Criteria cr = this.session.createCriteria(BaseTable.class);
-        cr.add(Restrictions.like("baseTablePID", new String(pid)));
-        baseTable = (BaseTable) cr.uniqueResult();
+
+        javax.persistence.Query queryHibernate = session.createQuery("from BaseTable where baseTablePID =:baseTablePID");
+        queryHibernate.setParameter("baseTablePID", new String(pid));
+        baseTable = (BaseTable) queryHibernate.getSingleResult();
 
         this.session.getTransaction().commit();
         this.session.close();
@@ -1004,13 +993,12 @@ public class QueryStoreAPI {
 
         this.session = HibernateUtilQueryStore.getSessionFactory().openSession();
         this.session.beginTransaction();
-        // Get the max sequence number for the sortings of query
-        Criteria cr = this.session.createCriteria(BaseTable.class);
 
+        javax.persistence.Query queryHibernate = session.createQuery("from BaseTable where baseTableName=:baseTableName AND baseDatabase = :baseDatabase");
+        queryHibernate.setParameter("baseTableName", tableName);
+        queryHibernate.setParameter("baseDatabase", databaseName);
+        baseTable = (BaseTable) queryHibernate.getSingleResult();
 
-        cr.add(Restrictions.eq("baseTableName", tableName));
-        cr.add(Restrictions.eq("baseDatabase", databaseName));
-        baseTable = (BaseTable) cr.uniqueResult();
 
         this.session.getTransaction().commit();
         this.session.close();
@@ -1033,12 +1021,11 @@ public class QueryStoreAPI {
 
         this.session = HibernateUtilQueryStore.getSessionFactory().openSession();
         this.session.beginTransaction();
-        // Get the max sequence number for the sortings of query
-        Criteria cr = this.session.createCriteria(BaseTable.class);
 
+        javax.persistence.Query queryHibernate = session.createQuery("from BaseTable where baseTableName=:baseTableName");
+        queryHibernate.setParameter("baseTableName", tableName);
+        baseTable = (BaseTable) queryHibernate.getSingleResult();
 
-        cr.add(Restrictions.eq("baseTableName", tableName));
-        baseTable = (BaseTable) cr.uniqueResult();
 
         this.session.getTransaction().commit();
         this.session.close();
@@ -1099,14 +1086,10 @@ public class QueryStoreAPI {
 
         this.session = HibernateUtilQueryStore.getSessionFactory().openSession();
         this.session.beginTransaction();
-        // Get the max sequence number for the sortings of query
-        Criteria cr = this.session.createCriteria(BaseTable.class);
 
-        ProjectionList proList = Projections.projectionList();
-        proList.add(Projections.property("baseTableName"));
-        proList.add(Projections.property("baseTablePID"));
-        cr.setProjection(proList);
-        List baseTableObjects = cr.list();
+        javax.persistence.Query queryHibernate = session.createQuery("from BaseTable");
+
+        List<BaseTable> baseTableObjects = queryHibernate.getResultList();
 
 
         this.session.getTransaction().commit();
@@ -1138,11 +1121,10 @@ public class QueryStoreAPI {
 
         this.session = HibernateUtilQueryStore.getSessionFactory().openSession();
         this.session.beginTransaction();
-        // Get the max sequence number for the sortings of query
-        Criteria cr = this.session.createCriteria(BaseTable.class);
-        cr.add(Restrictions.eq("baseTablePID", baseTablePID));
 
-        baseTable = (BaseTable) cr.uniqueResult();
+        javax.persistence.Query queryHibernate = session.createQuery("from BaseTable where baseTablePID =:baseTablePID");
+        queryHibernate.setParameter("baseTablePID", baseTablePID);
+        baseTable = (BaseTable) queryHibernate.getSingleResult();
 
         this.session.getTransaction().commit();
         this.session.close();
@@ -1159,10 +1141,10 @@ public class QueryStoreAPI {
 
             this.logger.info("Base table id : " + baseTable.getBaseTableId());
 
-            Criteria criteria = this.session.createCriteria(Query.class, "q");
-            criteria.add(Restrictions.eq("q.baseTable", baseTable));
-            List<Object[]> list = (List<Object[]>) criteria.list();
+            queryHibernate = session.createQuery("from Query where base_table_id = :baseTableID");
+            queryHibernate.setParameter("baseTableID", baseTable.getBaseTableId());
 
+            List<Query> list = queryHibernate.getResultList();
 
 
 
@@ -1171,8 +1153,8 @@ public class QueryStoreAPI {
             this.session.close();
 
 
-            for (Object queryObj : list) {
-                Query query = (Query) queryObj;
+            for (Query query : list) {
+
                 availableSubsets.put(query.getPID(), query.getExecution_timestamp().toString());
             }
 
