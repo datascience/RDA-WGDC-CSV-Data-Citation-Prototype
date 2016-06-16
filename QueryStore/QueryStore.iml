@@ -13,7 +13,7 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" scope="TEST" name="Maven: junit:junit:3.8.1" level="project" />
     <orderEntry type="library" name="Maven: mysql:mysql-connector-java:5.1.39" level="project" />
-    <orderEntry type="library" name="Maven: org.hibernate:hibernate-core:5.2.0.Final" level="project" />
+    <orderEntry type="library" name="Maven: org.hibernate:hibernate-core:5.2.1-SNAPSHOT" level="project" />
     <orderEntry type="library" name="Maven: org.jboss.logging:jboss-logging:3.3.0.Final" level="project" />
     <orderEntry type="library" name="Maven: org.hibernate.javax.persistence:hibernate-jpa-2.1-api:1.0.0.Final" level="project" />
     <orderEntry type="library" name="Maven: org.javassist:javassist:3.20.0-GA" level="project" />
@@ -31,7 +31,7 @@
     <orderEntry type="library" name="Maven: javax.inject:javax.inject:1" level="project" />
     <orderEntry type="library" name="Maven: com.zaxxer:HikariCP:2.4.6" level="project" />
     <orderEntry type="library" name="Maven: org.slf4j:slf4j-api:1.7.16" level="project" />
-    <orderEntry type="library" name="Maven: org.hibernate:hibernate-hikaricp:5.2.0.Final" level="project" />
+    <orderEntry type="library" name="Maven: org.hibernate:hibernate-hikaricp:5.2.1-SNAPSHOT" level="project" />
     <orderEntry type="library" name="Maven: com.zaxxer:HikariCP-java6:2.3.9" level="project" />
     <orderEntry type="library" name="Maven: org.hibernate:hibernate-envers:5.2.1-SNAPSHOT" level="project" />
     <orderEntry type="library" name="Maven: org.apache.commons:commons-lang3:3.3.2" level="project" />

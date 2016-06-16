@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: org.hibernate:hibernate-hikaricp:5.2.1-SNAPSHOT">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/hibernate/hibernate-hikaricp/5.2.1-SNAPSHOT/hibernate-hikaricp-5.2.1-20160616.073722-34.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/org/hibernate/hibernate-hikaricp/5.2.1-SNAPSHOT/hibernate-hikaricp-5.2.1-20160616.073722-34-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/hibernate/hibernate-hikaricp/5.2.1-SNAPSHOT/hibernate-hikaricp-5.2.1-20160616.073722-34-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

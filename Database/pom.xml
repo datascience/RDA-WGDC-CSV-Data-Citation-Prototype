@@ -21,6 +21,18 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
+    <repositories>
+        <repository>
+            <id>Hibernate</id>
+            <name>Hibernate Repo</name>
+            <layout>default</layout>
+            <url>https://snapshots.jboss.org/maven2</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+
     <dependencies>
         <dependency>
             <groupId>junit</groupId>
@@ -49,7 +61,7 @@
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-core</artifactId>
-            <version>5.2.0.Final</version>
+            <version>5.2.1-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>com.zaxxer</groupId>
@@ -60,13 +72,13 @@
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-hikaricp</artifactId>
-            <version>5.2.0.Final</version>
+            <version>5.2.1-SNAPSHOT</version>
         </dependency>
 
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-envers</artifactId>
-            <version>5.2.0.Final</version>
+            <version>5.2.1-SNAPSHOT</version>
         </dependency>
 
         <dependency>
@@ -91,8 +103,6 @@
             <artifactId>CSVTools</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
-
-
     </dependencies>
 
     <build>

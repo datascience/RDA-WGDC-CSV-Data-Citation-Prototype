@@ -26,10 +26,7 @@ public class PersistentIdentifierAPI {
      */
     public PersistentIdentifierAPI() {
         this.logger = Logger.getLogger(PersistentIdentifierAPI.class.getName());
-        this.logger.warning("Initialize hibernate session");
-        this.session = HibernateUtilPersistentIdentification.getSessionFactory().openSession();
 
-        this.session.close();
 
 
     }

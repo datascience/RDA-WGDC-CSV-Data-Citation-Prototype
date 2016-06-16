@@ -30,17 +30,6 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
-    <repositories>
-        <repository>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <id>bonecp-repo</id>
-            <name>BoneCP Repository</name>
-            <url>http://jolbox.com/bonecp/downloads/maven</url>
-        </repository>
-    </repositories>
-
 
     <dependencies>
         <dependency>

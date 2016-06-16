@@ -37,6 +37,7 @@ import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 import org.mindrot.jbcrypt.BCrypt;
 
+import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -68,7 +69,7 @@ public class UserAPI {
 
         if (this.checkIfUserExists(username)) {
             this.logger.severe("User already exists in database");
-            return false;
+            return success;
         } else {
             this.session = HibernateUtilUserAuthentication.getSessionFactory().openSession();
             this.session.beginTransaction();
@@ -113,7 +114,12 @@ public class UserAPI {
 
         Query query = session.createQuery("from User where username = :username ");
         query.setParameter("username", username);
-        user = (User) query.getSingleResult();
+        try {
+            user = (User) query.getSingleResult();
+        } catch (NoResultException nre) {
+//Ignore this because as per your logic this is ok!
+        }
+
 
 
         this.session.getTransaction().commit();
