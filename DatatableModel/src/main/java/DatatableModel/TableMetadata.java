@@ -19,6 +19,7 @@ package DatatableModel;
 
 import Database.Authentication.HibernateUtilUserAuthentication;
 import Database.DatabaseOperations.DatabaseTools;
+import Database.DatabaseOperations.HibernateUtilData;
 import org.hibernate.Session;
 import org.hibernate.internal.SessionImpl;
 
@@ -319,7 +320,7 @@ public class TableMetadata {
      */
     private Connection getConnection() {
         Connection connection = null;
-        Session session = HibernateUtilUserAuthentication.getSessionFactory().openSession();
+        Session session = HibernateUtilData.getSessionFactory().openSession();
         SessionImpl sessionImpl = (SessionImpl) session;
         connection = sessionImpl.connection();
         return connection;

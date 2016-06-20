@@ -1327,7 +1327,7 @@ public class MigrateCSV2SQL {
      */
     private Connection getConnection() {
         Connection connection = null;
-        Session session = HibernateUtilUserAuthentication.getSessionFactory().openSession();
+        Session session = HibernateUtilData.getSessionFactory().openSession();
         SessionImpl sessionImpl = (SessionImpl) session;
         connection = sessionImpl.connection();
         return connection;

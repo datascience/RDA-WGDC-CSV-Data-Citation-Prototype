@@ -1159,12 +1159,8 @@ public class QueryStoreAPI {
 
         Map<String, String> availableBaseTables = new HashMap<String, String>();
 
-        for (Iterator it = baseTableObjects.iterator(); it.hasNext(); ) {
-            Object[] row = (Object[]) it.next();
-
-            for (int i = 0; i < row.length; i++) {
-                availableBaseTables.put(row[0].toString(), row[1].toString());
-            }
+        for (BaseTable baseTable : baseTableObjects) {
+            availableBaseTables.put(baseTable.getBaseTableName(), baseTable.getBaseTablePID());
 
         }
 

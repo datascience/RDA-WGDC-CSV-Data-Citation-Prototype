@@ -17,6 +17,7 @@
 package at.stefanproell.ResultSetVerification;
 
 import Database.Authentication.HibernateUtilUserAuthentication;
+import Database.DatabaseOperations.HibernateUtilData;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.hibernate.Session;
 import org.hibernate.internal.SessionImpl;
@@ -516,7 +517,7 @@ public class ResultSetVerificationAPI {
      */
     private Connection getConnection() {
         Connection connection = null;
-        Session session = HibernateUtilUserAuthentication.getSessionFactory().openSession();
+        Session session = HibernateUtilData.getSessionFactory().openSession();
         SessionImpl sessionImpl = (SessionImpl) session;
         connection = sessionImpl.connection();
         return connection;
