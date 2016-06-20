@@ -135,7 +135,7 @@
 
             <h2>Step 3: Define settings</h2>
 
-    <p>Please select if you are only inserting new data or if you want to update existing data.</p>
+            <p>Please indicate if the file which you uploaded has a header.</p>
 
     <h:form id="uploadCommandForm">
         <p:panel header="Select properties" style="width: 800px;">
@@ -143,17 +143,6 @@
 
         <p:row>
             <h:message id="messages" for="uploadCommandForm" globalOnly="true"/>
-        </p:row>
-
-                <p:row>
-                <p:column>
-                <p:outputLabel value="CSV file contains only new data"/>
-                </p:column>
-                <p:column>
-                    <p:selectBooleanCheckbox id="newDataCheckBox" value="#{updateFileController.newDataOnly}">
-                        <p:ajax update="messages" listener="#{updateFileController.checkBoxListener}"/>
-                </p:selectBooleanCheckbox>
-                </p:column>
         </p:row>
 
         <p:row>

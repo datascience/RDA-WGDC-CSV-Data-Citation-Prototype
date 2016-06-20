@@ -100,11 +100,8 @@ package Controller;
 
 import Bean.SessionManager;
 import Bean.TableDefinitionBean;
-import Database.DatabaseOperations.DatabaseTools;
 import Database.Helpers.StringHelpers;
 import Database.DatabaseOperations.MigrationTasks;
-import Helpers.FileHelpers;
-import QueryStore.BaseTable;
 import QueryStore.QueryStoreAPI;
 import org.primefaces.context.RequestContext;
 
@@ -115,9 +112,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
-import java.awt.event.ActionEvent;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -137,6 +132,7 @@ public class DatabaseMigrationController implements Serializable {
     private static final boolean calulateHashColumn = false;
     private List<String> primaryKeys;
     private boolean successStatus = false;
+    private boolean migrationButtonDisabled = false;
 
     public TableDefinitionController getTableDefinitionController() {
         return tableDefinitionController;
@@ -298,6 +294,10 @@ public class DatabaseMigrationController implements Serializable {
 
         sm.updateTableDefinitionBean(tableDefinitionBean);
 
+        this.migrationButtonDisabled = true;
+
+        RequestContext.getCurrentInstance().update("migrateButtonInnerGroup");
+
 
 
         this.displayMigrationMessage();
@@ -432,5 +432,11 @@ public class DatabaseMigrationController implements Serializable {
 
     }
 
+    public boolean isMigrationButtonDisabled() {
+        return migrationButtonDisabled;
+    }
 
+    public void setMigrationButtonDisabled(boolean migrationButtonDisabled) {
+        this.migrationButtonDisabled = migrationButtonDisabled;
+    }
 }

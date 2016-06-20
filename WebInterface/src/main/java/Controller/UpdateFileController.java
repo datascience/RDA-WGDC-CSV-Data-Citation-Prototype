@@ -1,5 +1,5 @@
 /*
- * Copyright [2015] [Stefan Pröll]
+ * Copyright [2016] [Stefan Pröll]
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -46,8 +46,26 @@
  *    limitations under the License.
  */
 
-package Bean;
+/*
+ * Copyright [2015] [Stefan Pröll]
+ *
+ *    Licensed under the Apache License, Version 2.0 (the "License");
+ *    you may not use this file except in compliance with the License.
+ *    You may obtain a copy of the License at
+ *
+ *        http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *    Unless required by applicable law or agreed to in writing, software
+ *    distributed under the License is distributed on an "AS IS" BASIS,
+ *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *    See the License for the specific language governing permissions and
+ *    limitations under the License.
+ */
 
+package Controller;
+
+import Bean.SessionManager;
+import Bean.TableDefinitionBean;
 import CSVTools.CsvToolsApi;
 import Database.DatabaseOperations.MigrationTasks;
 import org.primefaces.context.RequestContext;
@@ -81,7 +99,7 @@ public class UpdateFileController {
 
     private String currentTableName = null;
     private String currentDatabaseName = null;
-    private boolean isNewDataOnly = false;
+
     private ArrayList<String> filesListStrings;
 
     private boolean showSelectDataForm;
@@ -115,15 +133,7 @@ public class UpdateFileController {
         this.logger.info("Update button clicked");
         this.logger.info("Currently the selected table is " + this.getCurrentTableName());
 
-        if (this.isNewDataOnly) {
-            this.logger.info("Only new data will be inserted");
-            this.displayMessage("Insert new data", "Only new data will be inserted");
 
-            this.insertNewCSVDataToExistingTableController(this.getFileListFromSession(), this.getCurrentTableName(),
-                    this
-                            .getCurrentDatabaseName(), this.isHeaderRow(), calulateHashColumn);
-
-        } else {
             this.logger.info("Existing rows will be updated");
             this.displayMessage("Update existing data", "Performing updates");
             this.updateDataInExistingTableController(this.getFileListFromSession(), this.getCurrentTableName(),
@@ -134,10 +144,6 @@ public class UpdateFileController {
 
 
             FacesMessage msg = new FacesMessage("uploadCommandForm:messages", "Update done");
-
-
-
-        }
 
 
         this.showSelectDataForm = false;
@@ -377,21 +383,6 @@ public class UpdateFileController {
 
     }
 
-    public void checkBoxListener() {
-        FacesContext context = FacesContext.getCurrentInstance();
-        String msgText = "";
-
-
-        if (this.isNewDataOnly()) {
-            msgText = "New data only";
-
-
-            FacesMessage msg = new FacesMessage(msgText);
-            context.addMessage("uploadCommandForm:messages", msg);
-
-
-        }
-    }
 
     private void resetForms(){
 
@@ -441,18 +432,6 @@ public class UpdateFileController {
 
     public void setHeaderRow(boolean headerRow) {
         this.headerRow = headerRow;
-    }
-
-    public boolean isNewDataOnly() {
-        return isNewDataOnly;
-    }
-
-    public void setNewDataOnly(boolean isNewDataOnly) {
-        this.isNewDataOnly = isNewDataOnly;
-    }
-
-    public void setIsNewDataOnly(boolean isNewDataOnly) {
-        this.isNewDataOnly = isNewDataOnly;
     }
 
     public boolean isShowUploadFileForm() {
