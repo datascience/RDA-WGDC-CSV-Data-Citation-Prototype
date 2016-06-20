@@ -63,7 +63,6 @@ public class DatabaseTools {
     private ResultSetMetadata resultSetMetadata;
 
 
-
     /**
      * Constructor that connects with the default database schema
      * DATABASE_SCHEMA
@@ -74,7 +73,6 @@ public class DatabaseTools {
     public DatabaseTools() {
         this.logger = Logger.getLogger(this.getClass().getName());
         this.resultSetMetadata = new ResultSetMetadata();
-
 
 
     }
@@ -92,10 +90,17 @@ public class DatabaseTools {
                 this.dataBaseName = connection.getCatalog();
             } catch (SQLException e) {
                 e.printStackTrace();
+            } finally {
+                if (connection != null) {
+                    try {
+                        connection.close();
+                    } catch (Exception e) { /* handle close exception, quite usually ignore */ }
+                }
             }
             this.logger.info("Get database name from connection. It is" + this.dataBaseName);
 
         }
+
 
         return this.dataBaseName;
     }
@@ -109,16 +114,15 @@ public class DatabaseTools {
     }
 
 
-
     /*
 Count the records which are not deleted..
 */
-    public int getNumberOfActiveRecords(String baseTableMame){
+    public int getNumberOfActiveRecords(String baseTableMame) {
         String sqlActiveRecords = "SELECT COUNT(DISTINCT ID_SYSTEM_SEQUENCE) AS activeRecords FROM " + baseTableMame + " " +
                 "WHERE  " +
                 "(RECORD_STATUS = 'inserted' OR RECORD_STATUS = 'updated')";
         this.logger.info("Active records SQL: " + sqlActiveRecords);
-        
+
 
         Connection connection = null;
         ResultSet maxSequenceResult = null;
@@ -151,13 +155,11 @@ Count the records which are not deleted..
                 sqlee.printStackTrace();
             }
         }
-        
+
         return numberOfActiveStatements;
 
     }
-    
-    
-    
+
 
     public CachedRowSet queryDatabase(String tableName, int sortingColumnsID,
                                       String sortingDirection, Map<String, String> filterMap,
@@ -377,7 +379,7 @@ Count the records which are not deleted..
 
             tableName = this.getFirstTableFromStandardSessionDatabase();
             this.logger.info("No table name provided. Must be first call. Using default: " + tableName);
-            if(tableName==null){
+            if (tableName == null) {
                 this.logger.severe("There is not a single table available! Check if it is initialized!");
             }
 
@@ -512,7 +514,7 @@ Count the records which are not deleted..
                 sqlee.printStackTrace();
             }
         }
-        
+
         return columnMetadataMap;
 
     }
@@ -563,8 +565,6 @@ Count the records which are not deleted..
         return columncCount;
 
     }
-
-
 
 
     public void insertCSVDataIntoDB(String path, String tableName,
@@ -1044,7 +1044,7 @@ Count the records which are not deleted..
                     resultSetHash = csvAPI.calculateSHA1HashFromString(currentHash);
                     // this.logger.info("First Hash! Original: " + currentHash + " First new Hash " +  resultSetHash);
                 } else {
-			/*		// Move the cursor to the previous row and read the hash value.
+            /*		// Move the cursor to the previous row and read the hash value.
                     if(cached.previous()){
 						previousKey = cached.getString("sha1_hash");
 						if(cached.next()){
@@ -1355,23 +1355,23 @@ Count the records which are not deleted..
             connection = this.getConnection();
 
 
-        Statement selectLastSequenceNumber = connection.createStatement();
-        String metadataSQL = "SELECT ID_SYSTEM_SEQUENCE, " +
-                "INSERT_DATE, MAX(LAST_UPDATE) AS LAST_UPDATE, RECORD_STATUS " +
-                " FROM " + tableName + " WHERE " + primaryKeyColumn + "='" + primaryKeyValue + "' GROUP BY  " +
-                primaryKeyColumn + ";";
-        this.logger.info("Record metadata SQL: " + metadataSQL);
+            Statement selectLastSequenceNumber = connection.createStatement();
+            String metadataSQL = "SELECT ID_SYSTEM_SEQUENCE, " +
+                    "INSERT_DATE, MAX(LAST_UPDATE) AS LAST_UPDATE, RECORD_STATUS " +
+                    " FROM " + tableName + " WHERE " + primaryKeyColumn + "='" + primaryKeyValue + "' GROUP BY  " +
+                    primaryKeyColumn + ";";
+            this.logger.info("Record metadata SQL: " + metadataSQL);
 
             resultSet = selectLastSequenceNumber.executeQuery(metadataSQL);
 
 
             if (resultSet.next()) {
-            recordMetadata = new RecordMetadata(resultSet.getInt("ID_SYSTEM_SEQUENCE"),
-                    resultSet.getTimestamp("INSERT_DATE"), resultSet.getTimestamp("LAST_UPDATE"),
-                    resultSet.getString("RECORD_STATUS"));
+                recordMetadata = new RecordMetadata(resultSet.getInt("ID_SYSTEM_SEQUENCE"),
+                        resultSet.getTimestamp("INSERT_DATE"), resultSet.getTimestamp("LAST_UPDATE"),
+                        resultSet.getString("RECORD_STATUS"));
 
-        }
-        connection.close();
+            }
+            connection.close();
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -1405,23 +1405,23 @@ Count the records which are not deleted..
 
             selectLastSequenceNumber = connection.createStatement();
             String metadataSQL = "SELECT ID_SYSTEM_SEQUENCE, " +
-                "INSERT_DATE, MAX(LAST_UPDATE) AS LAST_UPDATE, RECORD_STATUS " +
-                " FROM " + connection.getCatalog() + "." + tableName + " " + this
-                .recordExistsWhereClause
-                        (columnsMap,
-                                csvRow) + ";";
-        this.logger.info("Record metadata SQL: " + metadataSQL);
+                    "INSERT_DATE, MAX(LAST_UPDATE) AS LAST_UPDATE, RECORD_STATUS " +
+                    " FROM " + connection.getCatalog() + "." + tableName + " " + this
+                    .recordExistsWhereClause
+                            (columnsMap,
+                                    csvRow) + ";";
+            this.logger.info("Record metadata SQL: " + metadataSQL);
 
             resultSet = selectLastSequenceNumber.executeQuery(metadataSQL);
 
 
             if (resultSet.next()) {
-            recordMetadata = new RecordMetadata(resultSet.getInt("ID_SYSTEM_SEQUENCE"),
-                    resultSet.getTimestamp("INSERT_DATE"), resultSet.getTimestamp("LAST_UPDATE"),
-                    resultSet.getString("RECORD_STATUS"));
+                recordMetadata = new RecordMetadata(resultSet.getInt("ID_SYSTEM_SEQUENCE"),
+                        resultSet.getTimestamp("INSERT_DATE"), resultSet.getTimestamp("LAST_UPDATE"),
+                        resultSet.getString("RECORD_STATUS"));
 
-        }
-        connection.close();
+            }
+            connection.close();
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -1588,8 +1588,6 @@ Count the records which are not deleted..
             int result = preparedStatement.executeUpdate();
 
 
-
-
             this.logger.info("Set the column for the record");
 
             connection.close();
@@ -1608,8 +1606,6 @@ Count the records which are not deleted..
                 sqlee.printStackTrace();
             }
         }
-
-
 
 
     }
@@ -1875,14 +1871,13 @@ Count the records which are not deleted..
     public String getFirstTableFromStandardSessionDatabase() {
         String selectedDB = this.getDatabaseCatalogFromDatabaseConnection().get(0);
         Object obj = this.getAvailableTablesFromDatabase(selectedDB).get(0);
-        if(obj != null){
-            String tableName = (String) obj;  
-        } else{
+        if (obj != null) {
+            String tableName = (String) obj;
+        } else {
             this.logger.severe("No table found!");
             tableName = null;
         }
 
-         
 
         return tableName;
     }
@@ -1967,7 +1962,6 @@ Count the records which are not deleted..
             cachedResultSet.populate(sortedResultSet);
 
 
-
             this.resultSetMetadata.setRowCount(this.getResultSetRowCount(sortedResultSet));
 
 
@@ -2021,8 +2015,9 @@ Count the records which are not deleted..
         TablePojo tbPojo = new TablePojo();
         tbPojo.setTableName(tableName);
         TreeMap<String, String> columns = getColumnNamesWithoutMetadataSortedAlphabetically(tableName);
+        Connection connection = null;
         try {
-            Connection connection = getConnection();
+            connection = getConnection();
             for (Map.Entry<String, String> column : columns.entrySet()) {
                 ColumnPojo columnPojo = new ColumnPojo();
                 String columnName = column.getKey();
@@ -2045,6 +2040,12 @@ Count the records which are not deleted..
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (Exception e) { /* handle close exception, quite usually ignore */ }
+            }
         }
 
         return tbPojo;
@@ -2106,7 +2107,6 @@ Count the records which are not deleted..
         return connection;
 
     }
-
 
 
 }

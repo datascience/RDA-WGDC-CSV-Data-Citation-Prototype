@@ -47,9 +47,8 @@
 
 
         <custom.deploy.HostName>localhost</custom.deploy.HostName>
-                <custom.deploy.UserName>admin</custom.deploy.UserName>
+        <custom.deploy.UserName>admin</custom.deploy.UserName>
         <custom.deploy.Password>admin</custom.deploy.Password>
-
 
 
         <jersey.version>2.13</jersey.version>

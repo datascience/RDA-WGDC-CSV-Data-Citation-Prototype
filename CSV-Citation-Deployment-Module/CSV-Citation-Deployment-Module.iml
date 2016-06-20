@@ -8,7 +8,8 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module" module-name="Database" />
-    <orderEntry type="module" module-name="PersistentIdentification" />
+    <orderEntry type="module" module-name="Database" exported="" />
+    <orderEntry type="module" module-name="PersistentIdentification" exported="" />
+    <orderEntry type="module" module-name="CSV-DataCitation" exported="" />
   </component>
 </module>

@@ -138,8 +138,6 @@ public class MigrateCSV2SQL {
     }
 
 
-
-
     /**
      * Create a new database from a CSV file. DROPs database if exists!! Appends
      * a id column for the sequential numbering and a sha1 hash column. Adds a column for the state of the
@@ -147,8 +145,7 @@ public class MigrateCSV2SQL {
      * <p>
      * Version 2016 with data type detector
      */
-    public void createSimpleDBFromCSV(String tableName, List<String> primaryKeyColumns, DatatypeStatistics datatypeStatistics)
-            throws SQLException, ClassNotFoundException {
+    public void createSimpleDBFromCSV(String tableName, List<String> primaryKeyColumns, DatatypeStatistics datatypeStatistics) {
 
         //todo ersetze die meta funktion.
 
@@ -189,79 +186,99 @@ public class MigrateCSV2SQL {
         createTableString += ");";
 
         this.logger.info("CREATE String: " + createTableString);
-        Connection connection = this.getConnection();
-        if (connection.getAutoCommit()) {
-            connection.setAutoCommit(false);
+        Connection connection = null;
+
+        try {
+            connection = this.getConnection();
+            if (connection.getAutoCommit()) {
+                connection.setAutoCommit(false);
+            }
+            this.logger.info("The current DATABASE is " + connection.getCatalog());
+            stat = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
+                    ResultSet.CONCUR_READ_ONLY);
+            stat.execute("DROP TABLE IF EXISTS " + tableName);
+            stat.execute(createTableString);
+            connection.commit();
+            stat.close();
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (Exception e) { /* handle close exception, quite usually ignore */ }
+            }
         }
-        this.logger.info("The current DATABASE is " + connection.getCatalog());
-        stat = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
-                ResultSet.CONCUR_READ_ONLY);
-        stat.execute("DROP TABLE IF EXISTS " + tableName);
-        stat.execute(createTableString);
-        connection.commit();
-        stat.close();
-        connection.close();
 
     }
-
-
-
 
 
     public void insertCSVDataIntoDB(String currentTableName, Map<Integer, Map<String, Object>> csvMap) throws SQLException {
 
         Statement stat = null;
         String insertSQL = null;
-        Connection connection = this.getConnection();
-        CsvToolsApi csvToolsApi = new CsvToolsApi();
-        if (connection.getAutoCommit()) {
-            //this.logger.info("AUTO COMMIT OFF");
-            connection.setAutoCommit(false);
-        }
-
+        Connection connection = null;
         long startTime = System.currentTimeMillis();
-
-        for (Map.Entry<Integer, Map<String, Object>> entry : csvMap.entrySet()) {
-            int currentRow = entry.getKey();
-            insertSQL = "INSERT INTO " + currentTableName + " ";
-            String valuesSpecification = "(ID_SYSTEM_SEQUENCE,";
-            // Insert the System Sequence
-            String valuesString = " VALUES(\"" + currentRow + "\",";
-            Map<String, Object> data = entry.getValue();
-            TreeMap<String, Object> sortedByColumnName = new TreeMap<String, Object>(data);
-
-
-            for (Map.Entry<String, Object> record : sortedByColumnName.entrySet()) {
-
-
-                String columnName = record.getKey();
-                String normalizedColumnName = csvToolsApi.replaceReservedKeyWords(columnName);
-                valuesSpecification += normalizedColumnName + ",";
-                String columnValue;
-                if (record.getValue() != null) {
-                    columnValue = record.getValue().toString();
-                    columnValue = csvToolsApi.escapeQuotes(columnValue);
-                    valuesString += "\"" + columnValue + "\"" + ",";
-                } else {
-                    columnValue = "NULL";
-                    valuesString += columnValue + ",";
-                }
-
+        try {
+            connection = this.getConnection();
+            CsvToolsApi csvToolsApi = new CsvToolsApi();
+            if (connection.getAutoCommit()) {
+                //this.logger.info("AUTO COMMIT OFF");
+                connection.setAutoCommit(false);
             }
 
-            Timestamp currentTimestamp = new Timestamp(Calendar.getInstance().getTime().getTime());
 
-            valuesSpecification = StringHelpers.removeLastComma(valuesSpecification) + ",INSERT_DATE,LAST_UPDATE,RECORD_STATUS)";
-            valuesString = StringHelpers.removeLastComma(valuesString) + ",\"" + currentTimestamp + "\",\"" + currentTimestamp + "\"," + "\"inserted\");";
-            insertSQL += valuesSpecification + valuesString;
-            logger.info("SQL INSERT: " + insertSQL);
+            for (Map.Entry<Integer, Map<String, Object>> entry : csvMap.entrySet()) {
+                int currentRow = entry.getKey();
+                insertSQL = "INSERT INTO " + currentTableName + " ";
+                String valuesSpecification = "(ID_SYSTEM_SEQUENCE,";
+                // Insert the System Sequence
+                String valuesString = " VALUES(\"" + currentRow + "\",";
+                Map<String, Object> data = entry.getValue();
+                TreeMap<String, Object> sortedByColumnName = new TreeMap<String, Object>(data);
 
-            stat = connection.createStatement();
-            stat.execute(insertSQL);
-            connection.commit();
+
+                for (Map.Entry<String, Object> record : sortedByColumnName.entrySet()) {
+
+
+                    String columnName = record.getKey();
+                    String normalizedColumnName = csvToolsApi.replaceReservedKeyWords(columnName);
+                    valuesSpecification += normalizedColumnName + ",";
+                    String columnValue;
+                    if (record.getValue() != null) {
+                        columnValue = record.getValue().toString();
+                        columnValue = csvToolsApi.escapeQuotes(columnValue);
+                        valuesString += "\"" + columnValue + "\"" + ",";
+                    } else {
+                        columnValue = "NULL";
+                        valuesString += columnValue + ",";
+                    }
+
+                }
+
+                Timestamp currentTimestamp = new Timestamp(Calendar.getInstance().getTime().getTime());
+
+                valuesSpecification = StringHelpers.removeLastComma(valuesSpecification) + ",INSERT_DATE,LAST_UPDATE,RECORD_STATUS)";
+                valuesString = StringHelpers.removeLastComma(valuesString) + ",\"" + currentTimestamp + "\",\"" + currentTimestamp + "\"," + "\"inserted\");";
+                insertSQL += valuesSpecification + valuesString;
+                logger.info("SQL INSERT: " + insertSQL);
+
+                stat = connection.createStatement();
+                stat.execute(insertSQL);
+                connection.commit();
+            }
+            stat.close();
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (Exception e) { /* handle close exception, quite usually ignore */ }
+            }
         }
-        stat.close();
-        connection.close();
         long endTime = System.currentTimeMillis();
         long totalTime = endTime - startTime;
 
@@ -304,7 +321,6 @@ public class MigrateCSV2SQL {
         hasUserDefinedPrimaryKey = checkIfUserDevinedPrimaryKeyAvailable(currentTableName);
 
 
-        Connection connection = null;
         if (hasUserDefinedPrimaryKey) {
 
             // Iterate over the CSV Map
@@ -515,18 +531,13 @@ public class MigrateCSV2SQL {
             connection.close();
         } catch (SQLException e) {
             e.printStackTrace();
-            logger.severe("Cause: " + insertSQL);
         } finally {
-
-            assert connection != null;
-            try {
-                connection.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (Exception e) { /* handle close exception, quite usually ignore */ }
             }
-
         }
-
 
     }
 
@@ -537,11 +548,12 @@ public class MigrateCSV2SQL {
      * @param currentTableName
      */
     private void updateOldRecord(int idSystemSequence, String currentTableName) {
-        Connection connection = this.getConnection();
+        Connection connection = null;
 
 
         Statement latestRecordStatement = null;
         try {
+            connection = this.getConnection();
             if (connection.getAutoCommit()) {
                 connection.setAutoCommit(false);
             }
@@ -572,6 +584,12 @@ public class MigrateCSV2SQL {
             connection.close();
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (Exception e) { /* handle close exception, quite usually ignore */ }
+            }
         }
     }
 
@@ -581,7 +599,7 @@ public class MigrateCSV2SQL {
         CsvToolsApi csvToolsApi = new CsvToolsApi();
         TreeMap<String, Object> sortedByColumnName = new TreeMap<String, Object>(data);
         int changedRecordSequence = -1;
-        Connection connection;
+        Connection connection = null;
 
         try {
             connection = this.getConnection();
@@ -623,6 +641,12 @@ public class MigrateCSV2SQL {
 
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (Exception e) { /* handle close exception, quite usually ignore */ }
+            }
         }
         return changedRecordSequence;
 
@@ -698,14 +722,11 @@ public class MigrateCSV2SQL {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-
-            assert connection != null;
-            try {
-                connection.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (Exception e) { /* handle close exception, quite usually ignore */ }
             }
-
         }
         return existsIdSystemSequenceInteger;
 
@@ -771,16 +792,12 @@ public class MigrateCSV2SQL {
             connection.close();
         } catch (SQLException e) {
             e.printStackTrace();
-            logger.severe("Cause: " + insertSQL);
         } finally {
-
-            assert connection != null;
-            try {
-                connection.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (Exception e) { /* handle close exception, quite usually ignore */ }
             }
-
         }
 
     }
@@ -816,14 +833,11 @@ public class MigrateCSV2SQL {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-
-            assert connection != null;
-            try {
-                connection.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (Exception e) { /* handle close exception, quite usually ignore */ }
             }
-
         }
         long endTime = System.currentTimeMillis();
         long totalTime = endTime - startTime;
@@ -847,18 +861,13 @@ public class MigrateCSV2SQL {
      */
     public void appendingNewCSVDataIntoExistingDB(Map<String, String> columnsMap, String path, String tableName,
                                                   boolean hasHeaders, boolean
-                                                          calculateHashKeyColumn) throws SQLException, IOException {
+                                                          calculateHashKeyColumn) {
         this.logger.info("Appending new records to an existing database");
+        long startTime = System.currentTimeMillis();
 
 
         // get the latest sequence number from the DB.
         int currentMaxSequenceNumber = this.dbtools.getMaxSequenceNumberFromTable(tableName);
-
-        Connection connection = this.getConnection();
-        if (connection.getAutoCommit()) {
-            //this.logger.info("AUTO COMMIT OFF");
-            connection.setAutoCommit(false);
-        }
 
 
         PreparedStatement preparedStatement;
@@ -866,16 +875,21 @@ public class MigrateCSV2SQL {
         csvAPI = new CsvToolsApi();
         CsvListReader reader = null;
         int rowCount = 0;
+        Connection connection = null;
         try {
+
+            connection = this.getConnection();
+            if (connection.getAutoCommit()) {
+                //this.logger.info("AUTO COMMIT OFF");
+                connection.setAutoCommit(false);
+            }
+
             reader = new CsvListReader(new FileReader(path),
                     CsvPreference.STANDARD_PREFERENCE);
-        } catch (FileNotFoundException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        long startTime = System.currentTimeMillis();
-        ICsvListReader listReader = null;
-        try {
+
+
+            ICsvListReader listReader = null;
+
 
             int numberOfColumns = columnsMap.size();
             this.logger.info("Original Table has " + numberOfColumns + " columns (without the metadata)");
@@ -997,14 +1011,14 @@ public class MigrateCSV2SQL {
         } catch (SQLIntegrityConstraintViolationException m) {
             this.logger.severe("duplicate key detected!: " + m.getSQLState() + " " + m.getLocalizedMessage());
 
+        } catch (SQLException e) {
+            e.printStackTrace();
         } finally {
-            if (listReader != null) {
-                listReader.close();
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (Exception e) { /* handle close exception, quite usually ignore */ }
             }
-            connection.setAutoCommit(true);
-            reader.close();
-            connection.close();
-
         }
         long endTime = System.currentTimeMillis();
         long totalTime = endTime - startTime;
