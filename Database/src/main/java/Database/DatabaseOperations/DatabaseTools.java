@@ -1898,9 +1898,9 @@ Count the records which are not deleted..
     public CachedRowSet executeQuery(String tableName, Map<Integer, String> columnSequenceMap, int sortingColumnsID,
                                      String sortingDirection, Map<String, String> filterMap,
                                      int startRow, int offset) {
-        DatabaseQueries dbQuery = new DatabaseQueries();
 
-        CachedRowSet cachedRowSet = dbQuery.queryDatabase(tableName, columnSequenceMap, sortingColumnsID,
+
+        CachedRowSet cachedRowSet = queryDatabaseMostRecent(tableName, columnSequenceMap, sortingColumnsID,
                 sortingDirection, filterMap, startRow, offset);
 
         return cachedRowSet;
@@ -1908,7 +1908,7 @@ Count the records which are not deleted..
 
 
     /*
-    * This method retrieves the first table of the standard database used by the session. it is needed for 
+    * This method retrieves the first table of the standard database used by the session. it is needed for
     * * initializing the web interfacce.
     * * * */
     public String getFirstTableFromStandardSessionDatabase() {
@@ -1937,7 +1937,7 @@ Count the records which are not deleted..
         return tableName;
     }
 
-    /* Get the list fo columns which have been displaxyed in the Web interface and return a string where the columns 
+    /* Get the list fo columns which have been displaxyed in the Web interface and return a string where the columns
     are concatenated in the correct order.
     * * */
     public String createSELECTstringFromColumnMap(Map<Integer, String> columnSequenceMap) {
@@ -2150,6 +2150,193 @@ Count the records which are not deleted..
         return connection;
 
     }
+
+    /**
+     * Creates the INNER JOIN part of the Query which retrieves only the latest record.
+     * Example: SELECT
+     * outerGroup.ID_SYSTEM_SEQUENCE,
+     * outerGroup.id,
+     * outerGroup.first_name,
+     * outerGroup.last_name,
+     * outerGroup.email,
+     * outerGroup.country,
+     * outerGroup.ip_address,
+     * outerGroup.INSERT_DATE,
+     * outerGroup.LAST_UPDATE,
+     * outerGroup.RECORD_STATUS
+     * FROM
+     * stefan_test AS outerGroup
+     * INNER JOIN
+     * (SELECT
+     * id, max(LAST_UPDATE) AS mostRecent
+     * FROM
+     * stefan_test AS innerSelect
+     * WHERE
+     * (innerSELECT.RECORD_STATUS = 'inserted'
+     * OR innerSELECT.RECORD_STATUS = 'updated')
+     * GROUP BY id) innerGroup ON outerGroup.id = innerGroup.id
+     * AND outerGroup.LAST_UPDATE = innerGroup.mostRecent;
+     *
+     * @param primaryKey
+     * @param tableName
+     * @return
+     */
+    private String getMostRecentVersionSQLString(String primaryKey, String tableName) {
+        String innerJoinSQLString = " FROM " + tableName + " AS outerGroup INNER JOIN ( SELECT " + primaryKey + ", " +
+                "max(LAST_UPDATE) AS mostRecent FROM " +
+                tableName + " AS innerSELECT WHERE (innerSELECT.RECORD_STATUS = 'inserted' OR innerSELECT" +
+                ".RECORD_STATUS = 'updated')" +
+                " GROUP BY "
+                + primaryKey
+                + ") innerGroup ON outerGroup." + primaryKey + " = innerGroup." + primaryKey + " AND outerGroup" +
+                ".LAST_UPDATE = innerGroup.mostRecent ";
+        this.logger.info("Rewritten INNER JOIN SQL: " + innerJoinSQLString);
+        return innerJoinSQLString;
+
+    }
+
+    /**
+     * Query the database and retrieve the records. Rewrite Statement for most recent version only
+     *
+     * @param tableName
+     * @param columnSequenceMap
+     * @param sortingColumnsID
+     * @param sortingDirection
+     * @param filterMap
+     * @param startRow
+     * @param offset            @return
+     */
+    public CachedRowSet queryDatabaseMostRecent(String tableName, Map<Integer, String> columnSequenceMap, int sortingColumnsID,
+                                                String sortingDirection, Map<String, String> filterMap,
+                                                int startRow, int offset) {
+        Connection connection = null;
+
+        /*If there was no table name set in the interface, pick the first one from the selected DB
+        * * */
+        if (tableName == null || tableName.equals("")) {
+            this.logger.warning("Get the first table of the database as there was no table selected.");
+            tableName = getAvailableTablesFromDatabase(this.getDataBaseName()).get(0);
+
+
+        }
+        this.logger.warning("TABLE NAME in query : " + tableName);
+
+        ResultSet rs = null;
+        CachedRowSet cachedResultSet = null;
+        String[] tableHeaders = null;
+        Statement stat = null;
+
+        // result set has to be sorted
+
+        if (sortingColumnsID == 0) {
+            this.logger.warning("sorting colum war null!");
+        }
+        if (sortingColumnsID >= 0) {
+            this.logger.warning("sortingColumnsID == " + sortingColumnsID);
+
+            Map<String, String> tableMetadata;
+
+            try {
+
+                cachedResultSet = new CachedRowSetImpl();
+                // get column names
+                tableMetadata = getTableColumnMetadata(tableName);
+                this.logger.warning("Table metadata: " + tableMetadata.size());
+
+                String sortColumn = "outerGroup." + (new ArrayList<String>(
+                        tableMetadata.keySet())).get(sortingColumnsID);
+
+                String whereClause = "";
+                if (this.hasFilters(filterMap)) {
+                    whereClause = this.getWhereString(filterMap);
+                }
+
+                connection = this.getConnection();
+
+                // get primary key from the table
+
+                String primaryKey = getPrimaryKeyFromTableWithoutLastUpdateColumns(tableName).get(0);
+
+
+                this.logger.info("Primary key is: " + primaryKey);
+
+
+                String selectSQL = this.createSELECTstringFromColumnMap(columnSequenceMap);
+
+                selectSQL += this.getMostRecentVersionSQLString(primaryKey, tableName);
+                selectSQL += whereClause + " ORDER BY " + sortColumn + " "
+                        + sortingDirection
+                        + this.getPaginationStringWithLIMIT(startRow, offset);
+
+                this.logger.info("Final SQL String: " + selectSQL);
+                stat = connection.createStatement(
+                        ResultSet.TYPE_SCROLL_INSENSITIVE,
+                        ResultSet.CONCUR_READ_ONLY);
+
+
+                ResultSet sortedResultSet = stat.executeQuery(selectSQL);
+
+
+                this.logger.info("NATIVE SQL STRING "
+                        + connection.nativeSQL(selectSQL));
+
+                cachedResultSet.populate(sortedResultSet);
+                stat.close();
+                connection.close();
+            } catch (SQLException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            } finally {
+                try {
+                    if (connection != null) {
+                        connection.close();
+                    }
+
+                    if (stat != null) {
+                        stat.close();
+                    }
+                } catch (SQLException sqlee) {
+                    sqlee.printStackTrace();
+                }
+            }
+
+        } else {
+            try {
+                connection = this.getConnection();
+
+
+                stat = connection.createStatement(
+                        ResultSet.TYPE_SCROLL_INSENSITIVE,
+                        ResultSet.CONCUR_READ_ONLY);
+
+                // String query = "SELECT * FROM  "+this.tableName;
+
+                // stat = this.getConnection().createStatement();
+                String query = "SELECT * FROM  " + tableName;
+                System.out.println(query);
+                rs = stat.executeQuery(query);
+                cachedResultSet.populate(rs);
+                stat.close();
+                connection.close();
+            } catch (SQLException e) {
+
+                e.printStackTrace();
+            } finally {
+                try {
+                    if (connection != null) {
+                        connection.close();
+                    }
+                    if (stat != null) {
+                        stat.close();
+                    }
+                } catch (SQLException sqlee) {
+                    sqlee.printStackTrace();
+                }
+            }
+        }
+        return cachedResultSet;
+    }
+
 
 
 }
