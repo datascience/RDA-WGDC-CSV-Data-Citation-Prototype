@@ -173,7 +173,8 @@ public class TableDefinitionController implements Serializable {
         this.showMetadataForm=true;
         this.showUploadForm=false;
         this.showPrimaryKeyForm=false;
-        this.showMigrateButton=false;
+        this.showMigrateButton = true;
+
 
         RequestContext.getCurrentInstance().update("metadataOuterGroup");
         RequestContext.getCurrentInstance().update("uploadformOuterGroup");

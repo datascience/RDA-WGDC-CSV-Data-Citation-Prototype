@@ -268,7 +268,7 @@ public class CsvToolsApi {
         if (withQuoteCharacter.contains("\"")) {
             output = StringEscapeUtils.escapeJava(withQuoteCharacter);
             output = output.replaceAll("'", "''");
-            output = "\"" + output + "\"" + ",";
+
 
         }
 

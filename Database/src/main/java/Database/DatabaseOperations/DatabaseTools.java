@@ -37,6 +37,7 @@ package Database.DatabaseOperations;
 import CSVTools.CsvToolsApi;
 import Database.Authentication.HibernateUtilUserAuthentication;
 import com.sun.rowset.CachedRowSetImpl;
+import org.apache.commons.lang3.StringUtils;
 import org.hibernate.Session;
 import org.hibernate.internal.SessionImpl;
 import org.supercsv.io.CsvListReader;
@@ -51,6 +52,8 @@ import java.sql.*;
 import java.util.*;
 import java.util.Date;
 import java.util.logging.Logger;
+
+import static org.hibernate.internal.util.StringHelper.join;
 
 /**
  * Created by stefan on 03.09.14.
@@ -77,9 +80,7 @@ public class DatabaseTools {
 
     }
 
-    /*Get database name from current connection
-    * * */
-    // TODO: 15.06.16 does that work?
+
     public String getDataBaseName() {
 
 
@@ -1610,6 +1611,7 @@ Count the records which are not deleted..
 
     }
 
+    /*
     public List<Integer> findAllRecordsWhichNeedToBeDeleted(String tableName, String tempTableName) {
 
         Connection connection = null;
@@ -1693,6 +1695,47 @@ Count the records which are not deleted..
 
 
     }
+    */
+
+    public void deleteMarkedRecords(List<Integer> listOfRecordsToDelete, String tableName) {
+        Connection connection = null;
+        Statement statement = null;
+        StringBuilder builder = new StringBuilder();
+        for (Integer id : listOfRecordsToDelete) {
+            builder.append(id);
+            builder.append(",");
+        }
+        String excludeIDs = builder.toString();
+        excludeIDs = excludeIDs.length() > 0 ? excludeIDs.substring(0, excludeIDs.length() - 1) : "";
+
+        try {
+            connection = this.getConnection();
+
+
+            String deleteRecord = "UPDATE " + tableName + " SET RECORD_STATUS='deleted', LAST_UPDATE=NOW() WHERE ID_SYSTEM_SEQUENCE NOT IN(" + excludeIDs + ")";
+            statement = connection.createStatement();
+            statement.executeUpdate(deleteRecord);
+
+
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (connection != null) {
+                    connection.close();
+                }
+
+            } catch (SQLException sqlee) {
+                sqlee.printStackTrace();
+            }
+        }
+
+
+    }
+
+
+
 
     /*
     * When a user uploads a CSV file which has deleted records, the system needs to tick off which records have been considered so far. This method adds this column

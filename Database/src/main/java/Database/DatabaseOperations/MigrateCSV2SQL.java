@@ -1,104 +1,7 @@
-/*
- * Copyright [2015] [Stefan Pröll]
- *
- *    Licensed under the Apache License, Version 2.0 (the "License");
- *    you may not use this file except in compliance with the License.
- *    You may obtain a copy of the License at
- *
- *        http://www.apache.org/licenses/LICENSE-2.0
- *
- *    Unless required by applicable law or agreed to in writing, software
- *    distributed under the License is distributed on an "AS IS" BASIS,
- *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *    See the License for the specific language governing permissions and
- *    limitations under the License.
- */
-
-/*
- * Copyright [2014] [Stefan Pröll]
- *
- *    Licensed under the Apache License, Version 2.0 (the "License");
- *    you may not use this file except in compliance with the License.
- *    You may obtain a copy of the License at
- *
- *        http://www.apache.org/licenses/LICENSE-2.0
- *
- *    Unless required by applicable law or agreed to in writing, software
- *    distributed under the License is distributed on an "AS IS" BASIS,
- *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *    See the License for the specific language governing permissions and
- *    limitations under the License.
- */
-
-/*
- * Copyright [2014] [Stefan Pröll]
- *
- *    Licensed under the Apache License, Version 2.0 (the "License");
- *    you may not use this file except in compliance with the License.
- *    You may obtain a copy of the License at
- *
- *        http://www.apache.org/licenses/LICENSE-2.0
- *
- *    Unless required by applicable law or agreed to in writing, software
- *    distributed under the License is distributed on an "AS IS" BASIS,
- *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *    See the License for the specific language governing permissions and
- *    limitations under the License.
- */
-
-/*
- * Copyright [2014] [Stefan Pröll]
- *
- *    Licensed under the Apache License, Version 2.0 (the "License");
- *    you may not use this file except in compliance with the License.
- *    You may obtain a copy of the License at
- *
- *        http://www.apache.org/licenses/LICENSE-2.0
- *
- *    Unless required by applicable law or agreed to in writing, software
- *    distributed under the License is distributed on an "AS IS" BASIS,
- *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *    See the License for the specific language governing permissions and
- *    limitations under the License.
- */
-
-/*
- * Copyright [2014] [Stefan Pröll]
- *
- *    Licensed under the Apache License, Version 2.0 (the "License");
- *    you may not use this file except in compliance with the License.
- *    You may obtain a copy of the License at
- *
- *        http://www.apache.org/licenses/LICENSE-2.0
- *
- *    Unless required by applicable law or agreed to in writing, software
- *    distributed under the License is distributed on an "AS IS" BASIS,
- *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *    See the License for the specific language governing permissions and
- *    limitations under the License.
- */
-
-/*
- * Copyright [2014] [Stefan Pröll]
- *
- *    Licensed under the Apache License, Version 2.0 (the "License");
- *    you may not use this file except in compliance with the License.
- *    You may obtain a copy of the License at
- *
- *        http://www.apache.org/licenses/LICENSE-2.0
- *
- *    Unless required by applicable law or agreed to in writing, software
- *    distributed under the License is distributed on an "AS IS" BASIS,
- *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *    See the License for the specific language governing permissions and
- *    limitations under the License.
- */
-
 package Database.DatabaseOperations;
 
 
 import CSVTools.CsvToolsApi;
-import Database.Authentication.HibernateUtilUserAuthentication;
 import Database.Helpers.StringHelpers;
 import at.stefanproell.DataTypeDetector.ColumnMetadata;
 import at.stefanproell.DataTypeDetector.DatatypeStatistics;
@@ -114,8 +17,6 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
-
-
 import java.sql.*;
 import java.util.*;
 import java.util.Date;
@@ -309,6 +210,11 @@ public class MigrateCSV2SQL {
         Statement stat = null;
         CsvToolsApi csvToolsApi = new CsvToolsApi();
 
+        // We store all IDs which exist in the CSV file
+        List<Integer> validIDs = new ArrayList<Integer>();
+        int existsIdSystemSequenceInteger = -5;
+
+
         // Boolean to check if the primary key is not a standard metadata key.
         boolean hasUserDefinedPrimaryKey = false;
         Map<String, String> columnNamesWithoutMetadataSortedAlphabetically = dbtools.getColumnNamesWithoutMetadataSortedAlphabetically(currentTableName);
@@ -325,18 +231,20 @@ public class MigrateCSV2SQL {
 
             // Iterate over the CSV Map
             for (Map.Entry<Integer, Map<String, Object>> entry : csvMap.entrySet()) {
+                existsIdSystemSequenceInteger = -5;
 
                 Map<String, Object> data = entry.getValue();
                 TreeMap<String, Object> sortedByColumnName = new TreeMap<String, Object>(data);
                 boolean recordExists = false;
 
                 // Check if record exists.
-                int existsIdSystemSequenceInteger = checkIfRecordExists(data, currentTableName);
+                existsIdSystemSequenceInteger = checkIfRecordExists(data, currentTableName);
 
                 // The record exists
                 if (existsIdSystemSequenceInteger > -1) {
                     this.logger.info("The record exists. It has the SYSTEM_SEQUENCE_NUMER: " + existsIdSystemSequenceInteger + " Check if it changed");
                     recordExists = true;
+
 
                     int changedRecordSequence = checkIfRecordHasChanged(existsIdSystemSequenceInteger, data, currentTableName);
 
@@ -349,136 +257,25 @@ public class MigrateCSV2SQL {
                         insertNewRecordVersionOfExistingRecord(existsIdSystemSequenceInteger, data, currentTableName);
 
 
-                    } else {
-                        insertNewRecord(currentTableName, data);
-
                     }
-
-
-                }
-
-            }
-
-
-
-
-        /*
-
-        ///////////////////////////////////////////7
-
-        // Step 2
-        // Store all the data contained in the newly uploaded file in the temp table.
-        for (Map.Entry<Integer, Map<String, Object>> entry : csvMap.entrySet()) {
-            int currentRow = entry.getKey();
-
-
-            insertSQL = "INSERT INTO " + tempTableName + " ";
-            String valuesSpecification = "(ID_SYSTEM_SEQUENCE,";
-            // Insert the System Sequence
-            String valuesString = " VALUES(\"" + currentRow + "\",";
-            Map<String, Object> data = entry.getValue();
-            TreeMap<String, Object> sortedByColumnName = new TreeMap<String, Object>(data);
-
-
-            for (Map.Entry<String, Object> record : sortedByColumnName.entrySet()) {
-
-
-                String columnName = record.getKey();
-                String normalizedColumnName = csvToolsApi.replaceReservedKeyWords(columnName);
-                valuesSpecification += normalizedColumnName + ",";
-                String columnValue;
-                if (record.getValue() != null) {
-                    columnValue = record.getValue().toString();
-                    columnValue = csvToolsApi.escapeQuotes(columnValue);
-                    valuesString += "\"" + columnValue + "\"" + ",";
+                    validIDs.add(existsIdSystemSequenceInteger);
                 } else {
-                    columnValue = "NULL";
-                    valuesString += columnValue + ",";
+                    existsIdSystemSequenceInteger = insertNewRecord(currentTableName, data);
+                    validIDs.add(existsIdSystemSequenceInteger);
+
                 }
 
+
             }
 
-            Timestamp currentTimestamp = new Timestamp(Calendar.getInstance().getTime().getTime());
-
-            valuesSpecification = StringHelpers.removeLastComma(valuesSpecification) + ",INSERT_DATE,LAST_UPDATE,RECORD_STATUS)";
-            valuesString = StringHelpers.removeLastComma(valuesString) + ",\"" + currentTimestamp + "\",\"" + currentTimestamp + "\"," + "\"inserted\");";
-            insertSQL += valuesSpecification + valuesString;
-
-
-            stat = connection.createStatement();
-            stat.execute(insertSQL);
-            connection.commit();
-        }
-
-        // Step 3
-        // Get the primary key from the table and ignore the system sequence ID.
-        // Query for all records, which are contained in the new table but not in the old table, based on the primary keys
-
-
-        String tempTableNameToBeInserted = tempTableName + "_to_be_inserted";
-        createTempTable = "DROP TABLE IF EXISTS " + tempTableNameToBeInserted + ";";
-        stat = connection.createStatement();
-        stat.execute(createTempTable);
-        connection.commit();
-        createTempTable = "CREATE TABLE " + tempTableNameToBeInserted + " LIKE " + currentTableName;
-        stat = connection.createStatement();
-        stat.execute(createTempTable);
-        connection.commit();
-
-
-        List<String> primaryKey = dbtools.getPrimaryKeyFromTableWithoutLastUpdateOrSystemSequenceColumns(currentTableName);
-        // check if there is a primary key which is not ID_SYSTEM_SEQUENCE or LAST_UPDATE
-        // If there is no other key available, we need to find all records one by one.
-        // If there is a real primary key, then we can use it for checking if a record exists or not.
-        String subselectWherePrimaryKey = "";
-        if (primaryKey.size() != 0) {
-            hasUserDefinedPrimaryKey = true;
-            for (String key : primaryKey) {
-                subselectWherePrimaryKey += currentTableName + "." + key + "=" + tempTableName + "." + key + " AND ";
-            }
-            subselectWherePrimaryKey = StringUtils.removeEndIgnoreCase(subselectWherePrimaryKey, "AND ");
-            String newRecodsSQL = "INSERT INTO " + tempTableNameToBeInserted + " (SELECT * FROM " + tempTableName + " WHERE NOT EXISTS ( SELECT 1 FROM " + currentTableName +
-                    " WHERE " + subselectWherePrimaryKey + "));";
-            stat.execute(newRecodsSQL);
-
-        } else {
-            hasUserDefinedPrimaryKey = false;
-            String allColumnsWhereClause = " ";
-            String listofColumns = "";
-
-            for (Map.Entry<String, String> columnEntry : columnNamesWithoutMetadataSortedAlphabetically.entrySet()) {
-                allColumnsWhereClause += currentTableName + "." + columnEntry.getKey() + "=" + tempTableName + "." + columnEntry.getKey() + " AND ";
-                listofColumns += columnEntry.getKey() + ",";
-            }
-            allColumnsWhereClause = StringUtils.removeEndIgnoreCase(subselectWherePrimaryKey, "AND ");
-            listofColumns = StringUtils.removeEndIgnoreCase(subselectWherePrimaryKey, ",");
-
-
-            String newRecodsSQL = "INSERT INTO " + tempTableNameToBeInserted + " (SELECT * FROM " + tempTableName + " WHERE NOT EXISTS ( SELECT 1 FROM " + currentTableName +
-                    " WHERE " + allColumnsWhereClause + "));";
-            stat.execute(newRecodsSQL);
 
         }
 
+        dbtools.deleteMarkedRecords(validIDs, currentTableName);
 
 
-            // Delete Temp Tables
-            Statement batchStatement = connection.createStatement();
-            batchStatement.addBatch("DROP TABLE IF EXISTS " + tempTableName + ";");
-            //batchStatement.addBatch("DROP TABLE IF EXISTS " + tempTableNameToBeInserted + ";");
-            batchStatement.executeBatch();
-
-
-            // Close connection
-            stat.close();
-
-            connection.close();
-            long endTime = System.currentTimeMillis();
-            long totalTime = endTime - startTime;
-*/
-
-        }
     }
+
 
     private void insertNewRecordVersionOfExistingRecord(int existsIdSystemSequenceInteger, Map<String, Object> data, String currentTableName) {
 
@@ -507,7 +304,7 @@ public class MigrateCSV2SQL {
                 columnValue = "\"" + columnValue + "\"" + ",";
 
             } else {
-                columnValue = "NULL,";
+                columnValue = " NULL,";
             }
 
 
@@ -619,12 +416,13 @@ public class MigrateCSV2SQL {
 
                 if (record.getValue() != null) {
                     columnValue = record.getValue().toString();
+                    columnValue = csvToolsApi.escapeQuotes(columnValue);
+                    columnValue = "\"" + columnValue + "\"";
+                    hasChangedWHEREString += normalizedColumnName + "=" + columnValue + " AND ";
                 } else {
-                    columnValue = "";
+                    hasChangedWHEREString += normalizedColumnName + " IS NULL AND ";
                 }
-                columnValue = csvToolsApi.escapeQuotes(columnValue);
-                columnValue = "\"" + columnValue + "\"";
-                hasChangedWHEREString += normalizedColumnName + "=" + columnValue + " AND ";
+
             }
             hasChangedWHEREString = StringUtils.removeEndIgnoreCase(hasChangedWHEREString, " AND ");
 
@@ -684,7 +482,7 @@ public class MigrateCSV2SQL {
         CsvToolsApi csvToolsApi = new CsvToolsApi();
         List<String> primaryKey = dbtools.getPrimaryKeyFromTableWithoutLastUpdateOrSystemSequenceColumns(currentTableName);
 
-        String primaryWhereString = " WHERE ";
+        String primaryWhereString = " WHERE (RECORD_STATUS = \'inserted\' OR RECORD_STATUS = 'updated') AND ";
         for (Map.Entry<String, Object> record : sortedByColumnName.entrySet()) {
             String columnValue;
             String columnName = record.getKey();
@@ -742,18 +540,18 @@ public class MigrateCSV2SQL {
      * @param currentTableName
      * @param data
      */
-    private void insertNewRecord(String currentTableName, Map<String, Object> data) {
+    private int insertNewRecord(String currentTableName, Map<String, Object> data) {
 
 
         int maxSystemSequence = dbtools.getMaxSequenceNumberFromTable(currentTableName);
         TablePojo tablePojo = dbtools.getTableMetadataPojoFromTable(currentTableName);
         TreeMap<String, Object> sortedByColumnName = new TreeMap<String, Object>(data);
         CsvToolsApi csvToolsApi = new CsvToolsApi();
-
+        int newSystemSequenceID = maxSystemSequence + 1;
 
         String insertSQL = "INSERT INTO " + currentTableName + " (ID_SYSTEM_SEQUENCE,";
 
-        String columnValuesString = ",LAST_UPDATE) VALUES(" + (maxSystemSequence + 1) + ",";
+        String columnValuesString = ",LAST_UPDATE) VALUES(" + (newSystemSequenceID) + ",";
         for (Map.Entry<String, Object> record : sortedByColumnName.entrySet()) {
             String columnValue;
             String columnName = record.getKey();
@@ -766,12 +564,13 @@ public class MigrateCSV2SQL {
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
+                columnValue = csvToolsApi.escapeQuotes(columnValue);
+                columnValue = "\"" + columnValue + "\"" + ",";
             } else {
-                columnValue = "";
+                columnValue = "NULL,";
             }
 
-            columnValue = csvToolsApi.escapeQuotes(columnValue);
-            columnValue = "\"" + columnValue + "\"" + ",";
+
             columnValuesString += columnValue;
         }
 
@@ -803,6 +602,7 @@ public class MigrateCSV2SQL {
             }
         }
 
+        return newSystemSequenceID;
     }
 
     public Date getCurrentDatetime() {
@@ -821,6 +621,7 @@ public class MigrateCSV2SQL {
             metadataColumns.add("INSERT_DATE");
             metadataColumns.add("LAST_UPDATE");
             metadataColumns.add("RECORD_STATUS");
+            metadataColumns.add("ID_SYSTEM_SEQUENCE");
 
             connection = this.getConnection();
 
@@ -1029,313 +830,7 @@ public class MigrateCSV2SQL {
     }
 
 
-    /**
-     * Update existing data in a table. Checks if each record exists. Creates a new column to tick of records and mark those not ticket off later.
-     *
-     * @param columnsMap
-     * @param path
-     * @param tableName
-     * @param hasHeaders
-     * @param calculateHashKeyColumn
-     * @throws SQLException
-     * @throws IOException
-     */
-    public void updateDataInExistingDB(Map<String, String> columnsMap, List<String> primaryKeyList, String path,
-                                       String tableName,
-                                       boolean hasHeaders, boolean
-                                               calculateHashKeyColumn) throws SQLException, IOException {
 
-        Connection connection = this.getConnection();
-
-
-        // This variable indicates whether the CSV file contains the primary key of the table or if only a
-        // automaticly generated SYSTEM_ID is available.
-        boolean primaryKeyCanBeDetected = false;
-
-
-        if (connection.getAutoCommit()) {
-            //this.logger.info("AUTO COMMIT OFF");
-            connection.setAutoCommit(false);
-        }
-
-
-        PreparedStatement preparedStatement;
-
-
-        CsvListReader reader = null;
-        int rowCount = 0;
-        try {
-            reader = new CsvListReader(new FileReader(path),
-                    CsvPreference.STANDARD_PREFERENCE);
-        } catch (FileNotFoundException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        long startTime = System.currentTimeMillis();
-        ICsvListReader listReader = null;
-        try {
-
-            int numberOfColumns = columnsMap.size();
-            this.logger.info("Original Table has " + numberOfColumns + " columns (without the metadata)");
-
-
-            // Calculate the number of place holders required by the amount of
-            // columns and add four ? for the sequence, created and updated date and the
-            // hash column. The id is the
-            // first placeholder and then ..., created date, updated date, hash, status)
-
-            // placeholder for sequence number
-            String placeholders = "(?,";
-            for (int i = 0; i < numberOfColumns; i++) {
-                placeholders += "?,";
-            }
-
-            // Adjust the amount of placeholders
-            if (calculateHashKeyColumn) {
-                placeholders += "?,";
-
-            }
-
-            // If there is no hash column, then only append the two time stamp cols
-            placeholders += "?,?";
-
-
-            // record status column
-            placeholders += ",?";
-            // finalize place holder
-            placeholders += ")";
-
-            String insertString = "INSERT INTO " + tableName + " VALUES "
-                    + placeholders;
-            preparedStatement = connection.prepareStatement(insertString);
-
-
-            //this.logger.info("The SQL string is " + insertString);
-
-            List<String> csvRow;
-            // get the headers
-            String[] header = reader.getHeader(hasHeaders);
-            // get the primary key from the database table
-            String primaryKeyTableString = this.dbtools.getPrimaryKeyFromTableWithoutLastUpdateColumns(tableName).get(0);
-            // search the corresponding header column
-            int primaryKeyCSVColumnInt = -1;
-            String primaryKeyCSVColumName = null;
-
-            for (int i = 0; i < header.length; i++) {
-                //  this.logger.info("Comparing " + header[i] + " primary key: " + primaryKeyTableString);
-                if (header[i].equals(primaryKeyTableString)) {
-                    primaryKeyCSVColumnInt = i;
-                    primaryKeyCSVColumName = header[i];
-                    this.logger.info("The column wih the primary key is: " + primaryKeyCSVColumName + " (number " +
-                            primaryKeyCSVColumnInt
-                            + ")");
-
-                }
-            }
-
-            if (primaryKeyCSVColumnInt < 0 || primaryKeyCSVColumName == null) {
-                this.logger.warning("The primary key column can not be detected in the header row of the CSV file. " +
-                        "All fields need to be checked... ");
-                primaryKeyCanBeDetected = false;
-            } else {
-                this.logger.info("Primary key detected");
-                primaryKeyCanBeDetected = true;
-            }
-
-
-            int currentSequenceNumber = -1;
-            String updatedOrNewString = "inserted";
-
-            while ((csvRow = reader.read()) != null) {
-
-                int currentMaxSequenceNumber = this.dbtools.getMaxSequenceNumberFromTable(tableName);
-
-                rowCount++;
-
-                //check if primary key exists:
-                boolean recordExists = false;
-                boolean recordNeedsUpdate = false;
-
-                Timestamp insertDateFromRecord = null;
-
-                // the primary key can be used
-                if (primaryKeyCanBeDetected) {
-
-                    recordExists = this.dbtools.checkIfRecordExistsInTableByPrimaryKey(tableName, primaryKeyTableString,
-                            csvRow.get(primaryKeyCSVColumnInt));
-
-
-                    // if the record exists, set the status to updated, reuse insert date and sequence number
-                    if (recordExists) {
-
-
-                        // Check if the existing record is different.
-                        boolean recordIsTheSame = this.dbtools.checkIfRecordExistsInTableByFullCompare(columnsMap,
-                                tableName, csvRow);
-
-                        RecordMetadata recordMetadata = this.dbtools.getMetadataFromRecord(tableName,
-                                primaryKeyTableString, csvRow.get(primaryKeyCSVColumnInt));
-
-                        if (recordIsTheSame == false) {
-                            recordNeedsUpdate = true;
-                            updatedOrNewString = "updated";
-
-                            insertDateFromRecord = recordMetadata.getINSERT_DATE();
-                            currentSequenceNumber = recordMetadata.getID_SYSTEM_SEQUENCE();
-
-                        } else {
-                            this.logger.info("Record did not change");
-                            currentSequenceNumber = recordMetadata.getID_SYSTEM_SEQUENCE();
-
-                        }
-                    }
-                    // The record does not exist. Create a new one
-                    else {
-                        // get the latest sequence number from the DB.
-                        currentSequenceNumber = currentMaxSequenceNumber++;
-                        updatedOrNewString = "inserted";
-                        recordNeedsUpdate = true;
-
-                    }
-
-                    this.dbtools.markRecordAsChecked(currentSequenceNumber, tableName);
-
-
-                }
-
-                /*
-                *  The primary can't be used directly. A manual check for each row is required.
-                * */
-
-                else {
-
-
-                    recordExists = this.dbtools.checkIfRecordExistsInTableByFullCompare(columnsMap, tableName, csvRow);
-
-
-                    if (recordExists) {
-
-
-                        updatedOrNewString = "updated";
-                        RecordMetadata recordMetadata = this.dbtools.getMetadataFromRecordWithFullData(columnsMap,
-                                tableName, csvRow);
-                        insertDateFromRecord = recordMetadata.getINSERT_DATE();
-                        currentSequenceNumber = recordMetadata.getID_SYSTEM_SEQUENCE();
-
-                        this.logger.info("The record exists, need to write UPDATED to sequence number: " +
-                                currentMaxSequenceNumber);
-
-                    } else {
-                        // get the latest sequence number from the DB.
-                        currentSequenceNumber = currentMaxSequenceNumber + 1;
-                        updatedOrNewString = "inserted";
-
-                    }
-
-                    this.dbtools.markRecordAsChecked(currentSequenceNumber, tableName);
-
-                }
-                /*
-                * Complete the statement if an update is needed
-                * */
-
-                if (recordNeedsUpdate) {
-                    // there are five metadata columns: sequence, inserted, time, updated time, hash,status
-                    for (int columnCount = 1; columnCount <= numberOfColumns + 5; columnCount++) {
-
-                        // first column contains sequence. If the record exists, keep the number, else get a new one
-                        if (columnCount == 1) {
-
-                            preparedStatement.setInt(columnCount, currentSequenceNumber);
-
-                            // column values (first column is the id)
-                        } else if (columnCount > 1
-                                && columnCount <= (numberOfColumns + 1)) {
-
-                            // index starts at 0 and the counter at 1.
-                            preparedStatement.setString(columnCount, csvRow.get(columnCount - 2));
-
-                            // insert timestamps
-                            // if the record exists, only update the updated_timestamp and use the original inserted
-                            // time
-                            // timestamp
-                        } else if (columnCount == (numberOfColumns + 2) && recordExists) {
-                            preparedStatement.setTimestamp(columnCount, insertDateFromRecord);
-                            this.logger.info("The insert date was kept at " + insertDateFromRecord.toString());
-
-                            // The record is new
-                        } else if (columnCount == (numberOfColumns + 2) && !recordExists) {
-                            preparedStatement.setDate(columnCount, null);
-
-                            // update date
-                        } else if (columnCount == (numberOfColumns + 3)) {
-                            preparedStatement.setDate(columnCount, null);
-
-
-                        }
-
-                        // insert the hash
-                        else if (columnCount == (numberOfColumns + 4) & calculateHashKeyColumn) {
-
-                            String appendedColumns = CsvToolsApi.convertStringListToAppendedString(csvRow);
-
-                            String hash = null;
-                            try {
-                                hash = CsvToolsApi
-                                        .calculateSHA1HashFromString(appendedColumns);
-                            } catch (NoSuchAlgorithmException e) {
-                                e.printStackTrace();
-                            }
-
-                            preparedStatement.setString(columnCount, hash);
-
-                        }
-                        // if there is no hash column, then the last record state field has is at position +4
-                        else if (columnCount == (numberOfColumns + 4) & calculateHashKeyColumn == false) {
-                            preparedStatement.setString(columnCount, updatedOrNewString);
-
-                        }
-
-
-                        // if there is a hash column, then the last record state field has is at position +5
-                        else if (columnCount == (numberOfColumns + 5) & calculateHashKeyColumn) {
-                            preparedStatement.setString(columnCount, updatedOrNewString);
-                        }
-                    }
-
-                    this.logger.info("prepared statement before exec: " + preparedStatement.toString());
-
-                    int statuscode = preparedStatement.executeUpdate();
-
-
-                    if (rowCount % 1000 == 0) {
-                        connection.commit();
-                    }
-
-
-                    long endTime = System.currentTimeMillis();
-                    long totalTime = endTime - startTime;
-                    System.out.println("Inserted " + rowCount + " rows in " + (totalTime / 1000) + " sec");
-
-                }
-
-
-            }
-
-
-        } finally {
-            if (listReader != null) {
-                listReader.close();
-            }
-            if (!connection.isClosed()) {
-                connection.setAutoCommit(true);
-
-                connection.close();
-            }
-            reader.close();
-
-        }
-    }
 
     /**
      * Get the connection from the connection pool
