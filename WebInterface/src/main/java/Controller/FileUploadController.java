@@ -181,6 +181,7 @@ import Bean.TableDefinitionBean;
 import CSVTools.CsvToolsApi;
 import Database.Authentication.User;
 import Database.DatabaseOperations.DatabaseTools;
+import at.stefanproell.CSV_Tools.CSV_Analyser;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
@@ -537,27 +538,43 @@ public class FileUploadController implements Serializable {
      * Action button
      */
     public String setPrimarKeyAction() {
+        boolean columnIsUnique = true;
+        CSV_Analyser csvAnalyzer = new CSV_Analyser();
+        SessionManager sm = new SessionManager();
 
         this.storePrimaryKeyListInSession(this.getSelectedPrimaryKeyColumns());
 
         FacesContext context = FacesContext.getCurrentInstance();
 
 
-        FacesMessage msg = new FacesMessage("You selected " + this.getSelectedPrimaryKeyColumns().size() + " colums " +
-                "as a " +
-                "compund primary key", "Primary key is set. Please ensure that the primary key is unique within the complete file.");
-        context.addMessage(
-                "primaryKeyForm:primaryKeyButton", msg
-        );
+        if (this.getSelectedPrimaryKeyColumns().size() == 1) {
+            columnIsUnique = csvAnalyzer.verifyUniquenessOfColumn(this.getSelectedPrimaryKeyColumns().get(0), this.filesList.get(sm.getTableDefinitionBean().getTableName()));
+        }
 
-        // show migrate buttons
-        this.tableDefinitionController.setShowMigrateButton(true);
-        DatabaseMigrationController migration = (DatabaseMigrationController) FacesContext.getCurrentInstance().
-                getExternalContext().getSessionMap().get("databaseMigrationController");
-        migration.setMigrationButtonDisabled(false);
+        if (columnIsUnique) {
+            FacesMessage msg;
+            msg = new FacesMessage("OK", "Primary key is unique");
+            msg.setSeverity(FacesMessage.SEVERITY_INFO);
+            context.addMessage(
+                    "primaryKeyForm:primaryKeyButton", msg
+            );
+            // show migrate buttons
+            this.tableDefinitionController.setShowMigrateButton(true);
+            DatabaseMigrationController migration = (DatabaseMigrationController) FacesContext.getCurrentInstance().
+                    getExternalContext().getSessionMap().get("databaseMigrationController");
+            migration.setMigrationButtonDisabled(false);
 
 
+        } else {
+            FacesMessage msg;
+            msg = new FacesMessage("Error", "Primary key is NOT unique. Select a unique key.");
+            msg.setSeverity(FacesMessage.SEVERITY_ERROR);
+            context.addMessage(
+                    "primaryKeyForm:primaryKeyButton", msg
+            );
+        }
         RequestContext.getCurrentInstance().update("migrateButtonOuterGroup");
+
 
         return null;
 

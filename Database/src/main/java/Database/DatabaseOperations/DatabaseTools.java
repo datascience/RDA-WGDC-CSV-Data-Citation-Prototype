@@ -2337,6 +2337,4 @@ Count the records which are not deleted..
         return cachedResultSet;
     }
 
-
-
 }
