@@ -132,7 +132,7 @@ public class DatabaseMigrationController implements Serializable {
     private static final boolean calulateHashColumn = false;
     private List<String> primaryKeys;
     private boolean successStatus = false;
-    private boolean migrationButtonDisabled = false;
+    private boolean migrationButtonDisabled = true;
 
     public TableDefinitionController getTableDefinitionController() {
         return tableDefinitionController;
@@ -297,7 +297,6 @@ public class DatabaseMigrationController implements Serializable {
         this.migrationButtonDisabled = true;
 
         RequestContext.getCurrentInstance().update("migrateButtonInnerGroup");
-
 
 
         this.displayMigrationMessage();

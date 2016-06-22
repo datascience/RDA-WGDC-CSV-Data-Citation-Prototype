@@ -259,6 +259,8 @@ public class FileUploadController implements Serializable {
         //reset
         this.filesList = new HashMap<String, String>();
         this.filesListStrings = new ArrayList<String>();
+
+
     }
 
 
@@ -371,6 +373,7 @@ public class FileUploadController implements Serializable {
         // Update forms
         this.tableDefinitionController.setShowPrimaryKeyForm(true);
         this.tableDefinitionController.setShowUploadForm(false);
+        this.tableDefinitionController.setShowMigrateButton(true);
         RequestContext.getCurrentInstance().update("uploadformOuterGroup");
         RequestContext.getCurrentInstance().update("primaryKeyOuterGroup");
 
@@ -442,6 +445,7 @@ public class FileUploadController implements Serializable {
     @PostConstruct
     public void init() {
         this.logger.info("Initializign databasenames");
+        this.tableDefinitionController.setShowMigrateButton(false);
 
         // check if the upload directory exists or create it
         CsvToolsApi csvAPI = new CsvToolsApi();
@@ -548,6 +552,11 @@ public class FileUploadController implements Serializable {
 
         // show migrate buttons
         this.tableDefinitionController.setShowMigrateButton(true);
+        DatabaseMigrationController migration = (DatabaseMigrationController) FacesContext.getCurrentInstance().
+                getExternalContext().getSessionMap().get("databaseMigrationController");
+        migration.setMigrationButtonDisabled(false);
+
+
         RequestContext.getCurrentInstance().update("migrateButtonOuterGroup");
 
         return null;
