@@ -84,4 +84,18 @@ public class StringHelpers {
 
         return input;
     }
+
+    /**
+     * Replace empty strings with the NULL value
+     *
+     * @param input
+     * @return
+     */
+    public String replaceEmptyStringWithNULL(String input) {
+        if (input.equalsIgnoreCase("")) {
+            input = "NULL";
+        }
+        return input;
+
+    }
 }

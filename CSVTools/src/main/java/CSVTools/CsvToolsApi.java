@@ -268,6 +268,7 @@ public class CsvToolsApi {
         if (withQuoteCharacter.contains("\"")) {
             output = StringEscapeUtils.escapeJava(withQuoteCharacter);
             output = output.replaceAll("'", "''");
+            output = "\"" + output + "\"" + ",";
 
         }
 
@@ -661,6 +662,14 @@ public class CsvToolsApi {
 
     public String getDIRECTORY() {
         return DIRECTORY;
+    }
+
+
+    public int getamounfOfColumnsFromCsvFile(String fileName) {
+        String[] headers = getArrayOfHeadersCSV(fileName);
+        int csvColumnsAmount = headers.length;
+        return csvColumnsAmount;
+
     }
 
 

@@ -67,7 +67,9 @@ package Controller;
 import Bean.SessionManager;
 import Bean.TableDefinitionBean;
 import CSVTools.CsvToolsApi;
+import Database.DatabaseOperations.DatabaseTools;
 import Database.DatabaseOperations.MigrationTasks;
+import at.stefanproell.CSV_Tools.CSV_Helper;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
@@ -95,7 +97,7 @@ public class UpdateFileController {
     private Logger logger;
     private List<String> primaryKeys;
     private boolean successStatus = false;
-    private boolean headerRow = false;
+    private boolean headerRow = true;
 
     private String currentTableName = null;
     private String currentDatabaseName = null;
@@ -290,36 +292,48 @@ public class UpdateFileController {
         UploadedFile file = event.getFile();
         SessionManager sm = new SessionManager();
         String tableName = sm.getTableDefinitionBean().getTableName();
-
-
-        this.filesListStrings.add(file.getFileName());
-
-
-        FacesMessage msg = new FacesMessage("Succesful", event.getFile().getFileName() + " is uploaded. Textfield: "
-                + tableName);
-        FacesContext.getCurrentInstance().addMessage(null, msg);
-
-
-        System.out.println("added to files list " + filesList + " with Summary field " + tableName);
-
         this.storeFiles(file);
+        String fullPath = this.filesList.get(tableName);
 
 
-        //
-        // schreiben
-        Map<String, Object> session = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
-        session.put("fileListHashMap", this.filesList);
-        this.logger.info("Writing file list to session...");
+        if (this.checkIfCsvFileHasTheSameAmountOfColumnsAsTheDatabaseTable(fullPath, tableName)) {
+            this.filesListStrings.add(file.getFileName());
+            //
+            // schreiben
+            Map<String, Object> session = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
+            session.put("fileListHashMap", this.filesList);
 
-        this.showSelectDataForm = false;
-        this.showUploadFileForm = false;
-        this.showSettingsForm = true;
-        this.backToMainMenuButton = false;
+            FacesMessage msg = new FacesMessage("Succesful", event.getFile().getFileName() + " is uploaded. Textfield: "
+                    + tableName);
+            msg.setSeverity(FacesMessage.SEVERITY_INFO);
+            FacesContext.getCurrentInstance().addMessage(null, msg);
 
-        RequestContext.getCurrentInstance().update("showUploadFileOuterGroup");
-        RequestContext.getCurrentInstance().update("showSelectDataFormOuterGroup");
-        RequestContext.getCurrentInstance().update("showSettingsFormOuterGroup");
-        RequestContext.getCurrentInstance().update("backToMainMenuButtonOuterGroup");
+
+            this.showSelectDataForm = false;
+            this.showUploadFileForm = false;
+            this.showSettingsForm = true;
+            this.backToMainMenuButton = false;
+
+            RequestContext.getCurrentInstance().update("showUploadFileOuterGroup");
+            RequestContext.getCurrentInstance().update("showSelectDataFormOuterGroup");
+            RequestContext.getCurrentInstance().update("showSettingsFormOuterGroup");
+            RequestContext.getCurrentInstance().update("backToMainMenuButtonOuterGroup");
+
+        } else {
+            FacesMessage msg = new FacesMessage("Error", "The file you uploaded has the wrong number of columns!");
+            msg.setSeverity(FacesMessage.SEVERITY_ERROR);
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+            this.showSelectDataForm = false;
+            this.showUploadFileForm = true;
+            this.showSettingsForm = false;
+            this.backToMainMenuButton = false;
+
+            RequestContext.getCurrentInstance().update("showUploadFileOuterGroup");
+            RequestContext.getCurrentInstance().update("showSelectDataFormOuterGroup");
+            RequestContext.getCurrentInstance().update("showSettingsFormOuterGroup");
+            RequestContext.getCurrentInstance().update("backToMainMenuButtonOuterGroup");
+
+        }
 
 
     }
@@ -380,6 +394,28 @@ public class UpdateFileController {
 
         this.filesList.put(tableName, fileToStore.getAbsolutePath());
 
+
+    }
+
+    /**
+     * Check if the file the user uploaded has the same amount of columns as the database file
+     *
+     * @param filename
+     * @param tableName
+     * @return
+     */
+    private boolean checkIfCsvFileHasTheSameAmountOfColumnsAsTheDatabaseTable(String filename, String tableName) {
+        DatabaseTools dbtools = new DatabaseTools();
+        CsvToolsApi csvApi = new CsvToolsApi();
+        int csvColumns = csvApi.getamounfOfColumnsFromCsvFile(filename);
+        int tableColumns = dbtools.getColumnNamesFromTableWithoutMetadataColumns(tableName).size();
+        if (csvColumns == tableColumns) {
+            this.logger.info("CSV fits to the database table");
+            return true;
+        } else {
+            this.logger.severe("CSV does NOT fit to the database table");
+            return false;
+        }
 
     }
 

@@ -502,12 +502,15 @@ public class MigrateCSV2SQL {
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
+
+                columnValue = csvToolsApi.escapeQuotes(columnValue);
+                columnValue = "\"" + columnValue + "\"" + ",";
+
             } else {
-                columnValue = "";
+                columnValue = "NULL,";
             }
 
-            columnValue = csvToolsApi.escapeQuotes(columnValue);
-            columnValue = "\"" + columnValue + "\"" + ",";
+
             columnValuesString += columnValue;
         }
 
