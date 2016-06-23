@@ -1,41 +1,10 @@
-
-/*
- * Copyright [2015] [Stefan Pröll]
- *
- *    Licensed under the Apache License, Version 2.0 (the "License");
- *    you may not use this file except in compliance with the License.
- *    You may obtain a copy of the License at
- *
- *        http://www.apache.org/licenses/LICENSE-2.0
- *
- *    Unless required by applicable law or agreed to in writing, software
- *    distributed under the License is distributed on an "AS IS" BASIS,
- *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *    See the License for the specific language governing permissions and
- *    limitations under the License.
- */
-
-/*
- * Copyright [2015] [Stefan Pröll]
- *
- *    Licensed under the Apache License, Version 2.0 (the "License");
- *    you may not use this file except in compliance with the License.
- *    You may obtain a copy of the License at
- *
- *        http://www.apache.org/licenses/LICENSE-2.0
- *
- *    Unless required by applicable law or agreed to in writing, software
- *    distributed under the License is distributed on an "AS IS" BASIS,
- *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *    See the License for the specific language governing permissions and
- *    limitations under the License.
- */
-
 package Database.DatabaseOperations;
 
 
 import CSVTools.CsvToolsApi;
 import Database.Authentication.HibernateUtilUserAuthentication;
+import au.com.bytecode.opencsv.CSVWriter;
+import com.google.common.base.Joiner;
 import com.sun.rowset.CachedRowSetImpl;
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.Session;
@@ -46,6 +15,7 @@ import org.supercsv.prefs.CsvPreference;
 
 import javax.sql.rowset.CachedRowSet;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.sql.*;
@@ -204,7 +174,7 @@ Count the records which are not deleted..
                 stat = connection.createStatement(
                         ResultSet.TYPE_SCROLL_INSENSITIVE,
                         ResultSet.CONCUR_READ_ONLY);
-                System.out.println("TEEEEEE: " + selectSQL);
+
 
                 ResultSet sortedResultSet = stat.executeQuery(selectSQL);
                 this.logger.info("NATIVE SQL STRING "
@@ -714,7 +684,7 @@ Count the records which are not deleted..
 
     // iterate over the filters and buils WHERE clauses
     // the pagination string has the WHERE keyword
-    private String getWhereString(Map<String, String> filtersMap) {
+    public String getWhereString(Map<String, String> filtersMap) {
         // String whereString = "  AND ";
         // use this string if LIMIT is active
         String whereString = " WHERE ";
@@ -2181,7 +2151,7 @@ Count the records which are not deleted..
      * @param tableName
      * @return
      */
-    private String getMostRecentVersionSQLString(String primaryKey, String tableName) {
+    public String getMostRecentVersionSQLString(String primaryKey, String tableName) {
         String innerJoinSQLString = " FROM " + tableName + " AS outerGroup INNER JOIN ( SELECT " + primaryKey + ", " +
                 "max(LAST_UPDATE) AS mostRecent FROM " +
                 tableName + " AS innerSELECT WHERE (innerSELECT.RECORD_STATUS = 'inserted' OR innerSELECT" +
@@ -2335,6 +2305,322 @@ Count the records which are not deleted..
             }
         }
         return cachedResultSet;
+    }
+
+    /* Needed for the evaluation
+    *
+    * */
+    public int insertSingleRecordIntoTable(String tableName, List<String> newRow) {
+
+        Connection connection = null;
+        int amountOfColumns = newRow.size();
+        int currentTableRowCount = -1;
+        currentTableRowCount = this.getRowCount(tableName);
+        long startTime = 0;
+
+        try {
+            connection = this.getConnection();
+
+
+            if (connection.getAutoCommit()) {
+                //this.logger.info("AUTO COMMIT OFF");
+                connection.setAutoCommit(false);
+            }
+            PreparedStatement preparedStatement;
+
+
+            String placeholders = "(?,";
+            for (int i = 0; i < amountOfColumns; i++) {
+                placeholders += "?,";
+            }
+
+            // If there is no hash column, then only append the two time stamp cols
+            placeholders += "?,?)";
+
+
+            String insertString = "INSERT INTO " + tableName + " VALUES "
+                    + placeholders;
+            preparedStatement = connection.prepareStatement(insertString);
+
+
+            for (int columnCount = 1; columnCount <= amountOfColumns + 4; columnCount++) {
+                // this.logger.info("columns Count : " + columnCount +
+                // " _ header count = " + header.length);
+                // first column contains sequence
+                if (columnCount == 1) {
+                    preparedStatement.setInt(columnCount, currentTableRowCount);
+
+                    // column values (first column is the id)
+                } else if (columnCount > 1
+                        && columnCount <= (amountOfColumns + 1)) {
+
+                    // index starts at 0 and the counter at 1.
+                    preparedStatement.setString(columnCount,
+                            newRow.get(columnCount - 2));
+
+                    // insert timestamps
+                } else if (columnCount == (amountOfColumns + 2)
+                        || columnCount == (amountOfColumns + 3)) {
+
+                    preparedStatement.setDate(columnCount, null);
+
+                    // insert the hash
+                }
+            }
+
+            //this.logger.info("prepared statement before exec: " + preparedStatement.toString());
+            preparedStatement.executeUpdate();
+        } catch (SQLException e1) {
+            e1.printStackTrace();
+        } finally {
+            try {
+                if (connection != null) {
+                    connection.setAutoCommit(true);
+
+                    connection.close();
+                }
+
+            } catch (SQLException sqlee) {
+                sqlee.printStackTrace();
+            }
+
+
+        }
+        return currentTableRowCount;
+    }
+
+    /**
+     * Execute the evaluation
+     *
+     * @param sql
+     */
+    public void executeQueryForEvaluation(String sql) {
+        this.logger.info("Execute: " + sql);
+        Connection connection = null;
+        Statement statement = null;
+        try {
+            connection = this.getConnection();
+            statement = connection.createStatement();
+            statement.execute(sql);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (connection != null) {
+                    connection.close();
+                }
+                if (statement != null) {
+                    statement.close();
+                }
+            } catch (SQLException sqlee) {
+                sqlee.printStackTrace();
+            }
+        }
+
+    }
+
+
+    /**
+     * Select a random date which is between the min ans max of the last update
+     *
+     * @param tableName
+     * @return
+     */
+    public Date getRandomDateBetweenMinAndMax(String tableName) {
+
+        Date randomDate = null;
+        Connection connection = null;
+        Statement statement = null;
+        try {
+            connection = this.getConnection();
+            statement = connection.createStatement();
+            String sql = "SELECT FROM_UNIXTIME( UNIX_TIMESTAMP(	MIN(LAST_UPDATE) )+ FLOOR( 	RAND() * (UNIX_TIMESTAMP" +
+                    "(MAX(LAST_UPDATE)) - UNIX_TIMESTAMP(	MIN(LAST_UPDATE) )+1))) AS randomDate " +
+                    "FROM " + tableName + " WHERE RECORD_STATUS<>\'deleted\';";
+            logger.info(sql);
+            ResultSet resultSet = statement.executeQuery(sql);
+            while (resultSet.next()) {
+                randomDate = resultSet.getDate("randomDate");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (connection != null) {
+                    connection.close();
+                }
+                if (statement != null) {
+                    statement.close();
+                }
+            } catch (SQLException sqlee) {
+                sqlee.printStackTrace();
+            }
+        }
+        this.logger.info("Computing random Date: " + randomDate);
+        return randomDate;
+
+    }
+
+    /**
+     * Retrieves all columns for a table as result set, not including metadata columns
+     *
+     * @return
+     */
+    public CachedRowSet getAllColumnsWithoutMetadataAsResultSet(String tableName) {
+
+        CachedRowSet cachedResultSet = null;
+
+        String columnsSQL = "SELECT " + this.getConcatenatedColumnNamesWithoutMetadata(tableName);
+        String innerSQL = getMostRecentVersionSQLString("ID_SYSTEM_SEQUENCE", tableName);
+        String query = columnsSQL + " " + innerSQL;
+
+
+        java.sql.PreparedStatement stmt;
+        Connection connection = null;
+        ResultSet rs = null;
+        try {
+            cachedResultSet = new CachedRowSetImpl();
+            connection = this.getConnection();
+            stmt = connection.prepareStatement(query);
+            rs = stmt.executeQuery();
+            cachedResultSet.populate(rs);
+
+
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } finally {
+            try {
+                if (connection != null) {
+                    connection.close();
+                }
+
+            } catch (SQLException sqlee) {
+                sqlee.printStackTrace();
+            }
+        }
+        return cachedResultSet;
+
+    }
+
+    /**
+     * return a String of all colunmns which are not a metadata column
+     *
+     * @param tableName
+     * @return
+     */
+    public String getConcatenatedColumnNamesWithoutMetadata(String tableName) {
+        Map<String, String> columns = this.getColumnNamesFromTableWithoutMetadataColumns(tableName);
+        Set<String> colNames = columns.keySet();
+        return Joiner.on(",").join(colNames);
+
+    }
+
+    /**
+     * Export a result set to a CSV file
+     *
+     * @param crs
+     * @param exportCSVPath
+     */
+    public void exportResultSetAsCSV(CachedRowSet crs, String exportCSVPath) {
+        CSVWriter wr = null;
+        try {
+            wr = new CSVWriter(new FileWriter(exportCSVPath), ',');
+            wr.writeAll(crs, true);
+            wr.flush();
+            wr.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    /**
+     * Get a list of columns without metadata columns
+     *
+     * @param tableName
+     * @return
+     */
+    public List<String> getColumnsFromDatabaseAsListWithoutMetadata(String tableName) {
+
+
+        List<String> availableColumnsList = new ArrayList<String>();
+        Map<String, String> availableColumnsMap = this.getTableColumnMetadata(tableName);
+
+        for (Map.Entry<String, String> entry : availableColumnsMap.entrySet()) {
+
+
+            String columnName = entry.getKey();
+            availableColumnsList.add(columnName);
+
+        }
+
+        availableColumnsList.remove("ID_SYSTEM_SEQUENCE");
+        availableColumnsList.remove("INSERT_DATE");
+        availableColumnsList.remove("LAST_UPDATE");
+        availableColumnsList.remove("RECORD_STATUS");
+        availableColumnsList.remove("SHA1_HASH");
+
+
+        return availableColumnsList;
+    }
+
+    /**
+     * Check if a record having the SEQUENCE number
+     *
+     * @param tableName
+     * @param sequenceNumber
+     * @return
+     */
+    public boolean checkIfRecordExistsInTableBySequenceNumber(String tableName, int sequenceNumber) {
+        Connection connection = null;
+        Statement checkRecordExistance = null;
+        int existsInteger = 0;
+        try {
+            connection = this.getConnection();
+
+
+            checkRecordExistance = connection.createStatement();
+            String checkSQL = "SELECT EXISTS ( SELECT 1 FROM " + tableName + " WHERE ID_SYSTEM_SEQUENCE = " +
+                    sequenceNumber + ") AS recordDoesExist;";
+
+            this.logger.info("CHECK SQL: " + checkSQL);
+            ResultSet maxSequenceResult = checkRecordExistance.executeQuery(checkSQL);
+            existsInteger = -1;
+            if (maxSequenceResult.next()) {
+                existsInteger = maxSequenceResult.getInt("recordDoesExist");
+            }
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (connection != null) {
+                    connection.close();
+                }
+                if (checkRecordExistance != null) {
+                    checkRecordExistance.close();
+                }
+            } catch (SQLException sqlee) {
+                sqlee.printStackTrace();
+            }
+        }
+
+
+        if (existsInteger == 1) {
+            this.logger.info("The record exists");
+            return true;
+        } else {
+            this.logger.info("The record does NOT exist.");
+            return false;
+        }
+
+
     }
 
 }

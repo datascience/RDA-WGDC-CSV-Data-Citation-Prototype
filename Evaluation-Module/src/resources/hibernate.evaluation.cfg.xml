@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-configuration SYSTEM
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+
+
+<hibernate-configuration>
+    <session-factory>
+        <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
+
+        <!-- Connection details -->
+        <property name="hibernate.connection.username">querystoreuser</property>
+        <property name="hibernate.connection.password">query2014</property>
+        <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/EvaluationDB</property>
+
+        <property name="hibernate.dialect">org.hibernate.dialect.MySQL5InnoDBDialect</property>
+        <property name="show_sql">true</property>
+        <property name="hibernate.show_sql">true</property>
+        <!--  drop the tables every time: create-drop -->
+        <!--  use auto or update -->
+        <property name="hibernate.hbm2ddl.auto">create-drop</property>
+
+        <property name="hibernate.current_session_context_class">thread</property>
+        <property name="format_sql">false</property>
+        <property name="use_sql_comments">false</property>
+
+        <property name="hibernate.jdbc.batch_size">20</property>
+
+
+        <mapping class="DatabaseBackend.EvaluationRunBean"/>
+        <mapping class="DatabaseBackend.EvaluationRecordBean"/>
+
+    </session-factory>
+</hibernate-configuration>

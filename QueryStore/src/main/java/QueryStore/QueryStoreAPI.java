@@ -65,13 +65,16 @@
 package QueryStore;
 
 
+import Database.Authentication.User;
 import Database.DatabaseOperations.DatabaseTools;
 import at.stefanproell.PersistentIdentifierMockup.Organization;
 import at.stefanproell.PersistentIdentifierMockup.PersistentIdentifierAPI;
 import at.stefanproell.PersistentIdentifierMockup.PersistentIdentifierAlphaNumeric;
 import at.stefanproell.ResultSetVerification.ResultSetVerificationAPI;
 import org.apache.commons.codec.digest.DigestUtils;
+import org.hibernate.Criteria;
 import org.hibernate.Session;
+import org.hibernate.criterion.Restrictions;
 
 import javax.persistence.NoResultException;
 import java.util.*;
@@ -1254,6 +1257,93 @@ public class QueryStoreAPI {
         this.logger.info(sqlString);
 
         return sqlString;
+
+    }
+
+    /*
+* Method provides the query string which returns all rows from a base table of a specific date, including the
+* Sequence Number
+* */
+    public String getParentUnfilteredStringFromQueryIncludingSequenceNumber(BaseTable baseTable, Date queryDate) {
+
+
+        DatabaseTools dbTools = new DatabaseTools();
+
+
+        String baseTableName = baseTable.getBaseTableName();
+
+        List<String> primaryKeyList = dbTools.getPrimaryKeyFromTable(baseTableName);
+        this.logger.info("Primary key list size: " + primaryKeyList.size());
+        String primaryKey = primaryKeyList.get(0);
+
+        Map<String, String> columnsMap = dbTools.getColumnNamesFromTableWithoutMetadataColumns(baseTableName);
+
+
+        String sqlString = "SELECT `outerGroup`.`ID_SYSTEM_SEQUENCE`, ";
+
+
+        for (Map.Entry<String, String> entry : columnsMap.entrySet()) {
+            String columnName = entry.getKey();
+            sqlString += "`outerGroup`.`" + columnName + "`,";
+        }
+
+        // remove last comma from string
+        if (sqlString.endsWith(",")) {
+            sqlString = sqlString.substring(0, sqlString.length() - 1);
+        }
+
+        sqlString += " FROM " + baseTableName;
+
+        // inner join
+
+        sqlString += "  AS outerGroup INNER JOIN " +
+                "    (SELECT " + primaryKey + ", max(LAST_UPDATE) AS mostRecent " +
+                "    FROM " +
+                baseTable.getBaseTableName() +
+                " AS innerSELECT " +
+                "    WHERE " +
+                "        (innerSELECT.RECORD_STATUS = 'inserted' " +
+                "            OR innerSELECT.RECORD_STATUS = 'updated'" + " AND innerSELECT.LAST_UPDATE<=\""
+                + this.convertJavaDateToMySQLTimeStamp(queryDate) + "\") GROUP BY " + primaryKey + ") innerGroup ON outerGroup." + primaryKey + " = innerGroup." + primaryKey + " " +
+                "        AND outerGroup.LAST_UPDATE = innerGroup.mostRecent ORDER BY outerGroup.ID_SYSTEM_SEQUENCE";
+
+
+        this.logger.info(sqlString);
+
+        return sqlString;
+
+    }
+
+    /*
+* Delete base table. Needed for the evaluation
+* **/
+    public void deleteBaseTableByDatabaseAndTableName(String tableName) {
+        BaseTable baseTable = null;
+
+
+        this.session = HibernateUtilQueryStore.getSessionFactory().openSession();
+        this.session.beginTransaction();
+
+        this.session.beginTransaction();
+
+        javax.persistence.Query query = session.createQuery("from Basetable where baseTableName = :tableName ");
+        query.setParameter("tableName", tableName);
+        try {
+            baseTable = (BaseTable) query.getSingleResult();
+        } catch (NoResultException nre) {
+
+        }
+        if (baseTable != null) {
+            this.session.delete(baseTable);
+            this.logger.warning("DELETED BASE TABLE BECAUSE IT EXISTED");
+        }
+
+        this.session.getTransaction().commit();
+        this.session.close();
+
+
+
+
 
     }
 
