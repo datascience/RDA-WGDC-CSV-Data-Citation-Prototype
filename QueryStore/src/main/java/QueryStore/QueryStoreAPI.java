@@ -1324,9 +1324,7 @@ public class QueryStoreAPI {
         this.session = HibernateUtilQueryStore.getSessionFactory().openSession();
         this.session.beginTransaction();
 
-        this.session.beginTransaction();
-
-        javax.persistence.Query query = session.createQuery("from Basetable where baseTableName = :tableName ");
+        javax.persistence.Query query = session.createQuery("from BaseTable where baseTableName = :tableName ");
         query.setParameter("tableName", tableName);
         try {
             baseTable = (BaseTable) query.getSingleResult();

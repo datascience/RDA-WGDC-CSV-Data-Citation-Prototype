@@ -49,6 +49,7 @@
 package TestDataGenerator;
 
 import Helpers.HelpersCSV;
+import at.stefanproell.CSV_Tools.CSV_Helper;
 import org.supercsv.cellprocessor.ift.CellProcessor;
 import org.supercsv.io.CsvMapWriter;
 import org.supercsv.io.ICsvMapWriter;
@@ -71,43 +72,13 @@ public class TestDataGenerator {
     private static final Logger logger =
             Logger.getLogger(TestDataGenerator.class.getName());
 
-    private int numberOfColumns = -1;
-    private int numberOfRecords = -1;
-    private int averageRecordLength = -1;
-    private double variance;
-    private Map<String, String> recordMap;
-    private String fileName;
-    private String[] header;
+
     private HelpersCSV csvHelpers;
 
-    /**
-     * Constructor. Generates test data
-     *
-     * @param fileName
-     * @param amountOfColumns
-     * @param numberOfRecords
-     * @param averageRecordLength
-     * @param variance
-     */
-    public TestDataGenerator(String fileName, int amountOfColumns, int numberOfRecords, int averageRecordLength,
-                             double
-                                     variance) {
-        this.fileName = fileName;
 
+    public TestDataGenerator() {
+        csvHelpers = new HelpersCSV();
 
-        this.header = this.generateGenericHeaders(amountOfColumns);
-        this.numberOfColumns = header.length;
-        this.numberOfRecords = numberOfRecords;
-        this.averageRecordLength = averageRecordLength;
-        this.variance = variance;
-        this.csvHelpers = new HelpersCSV();
-
-
-        try {
-            this.writeWithCsvMapWriter();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
 
@@ -116,24 +87,29 @@ public class TestDataGenerator {
      *
      * @throws Exception
      */
-    private void writeWithCsvMapWriter() throws Exception {
+    public String writeWithCsvMapWriter(String fileName, int amountOfColumns, int numberOfRecords, int averageRecordLength,
+                                        double
+                                                variance) throws Exception {
 
         ICsvMapWriter mapWriter = null;
+        String[] headers = generateGenericHeaders(amountOfColumns);
+
+        Map<String, String> recordMap;
 
         try {
-            mapWriter = new CsvMapWriter(new FileWriter(this.fileName),
+            mapWriter = new CsvMapWriter(new FileWriter(fileName),
                     CsvPreference.STANDARD_PREFERENCE);
 
-            final CellProcessor[] processors = csvHelpers.getProcessors(this.numberOfColumns);
+            final CellProcessor[] processors = csvHelpers.getProcessors(amountOfColumns);
             // write the header
-            mapWriter.writeHeader(header);
+            mapWriter.writeHeader(headers);
 
-            for (int i = 0; i < this.numberOfRecords; i++) {
+            for (int i = 0; i < numberOfRecords; i++) {
                 recordMap = new HashMap<String, String>();
-                for (int j = 0; j < this.numberOfColumns; j++) {
-                    recordMap.put(header[j], HelpersCSV.randomString(this.averageRecordLength, this.variance));
+                for (int j = 0; j < amountOfColumns; j++) {
+                    recordMap.put(headers[j], HelpersCSV.randomString(averageRecordLength, variance));
                 }
-                mapWriter.write(recordMap, header, processors);
+                mapWriter.write(recordMap, headers, processors);
             }
 
 
@@ -142,13 +118,18 @@ public class TestDataGenerator {
                 mapWriter.close();
             }
         }
+        return fileName;
     }
 
 
+    /**
+     * @param amountOfHeaders
+     * @return
+     */
     private String[] generateGenericHeaders(int amountOfHeaders) {
-        String[] newHeaders = header = new String[amountOfHeaders];
+        String[] newHeaders = new String[amountOfHeaders];
         for (int i = 0; i < amountOfHeaders; i++) {
-            this.header[i] = "Column_" + (i + 1);
+            newHeaders[i] = "Column_" + (i + 1);
         }
         return newHeaders;
     }

@@ -64,6 +64,9 @@ public class CSV_Testdata_Writer {
         }
     }
 
+    public CSV_Testdata_Writer() {
+
+    }
     /**
      * An example of reading using CsvMapWriter.
      */
@@ -100,7 +103,7 @@ public class CSV_Testdata_Writer {
         }
     }
 
-    private static CellProcessor[] getProcessors(int amountOfColumns){
+    public static CellProcessor[] getProcessors(int amountOfColumns) {
         CellProcessor[] processors=new CellProcessor[amountOfColumns];
 
         for(int i=0; i< amountOfColumns; i++){
@@ -115,5 +118,22 @@ public class CSV_Testdata_Writer {
         String randomString = RandomStringUtils.randomAlphanumeric(rand);
         logger.log(Level.INFO, "Random String: " + randomString);
         return randomString;
+    }
+
+
+    /**
+     * Generate header array
+     *
+     * @param amountOfColumns
+     * @return
+     */
+    private String[] generadeHeaderArray(int amountOfColumns) {
+        String[] headers = new String[amountOfColumns];
+        for (int i = 0; i < amountOfColumns; i++) {
+            headers[i] = "Column_" + i;
+        }
+        return headers;
+
+
     }
 }

@@ -74,11 +74,15 @@ public class DataPreparation {
     QueryStoreAPI queryStoreAPI;
     PersistentIdentifierAPI pidAPI;
     DatabaseTools dbTools;
+    Organization org;
 
-    public DataPreparation() {
+    public DataPreparation(Organization org) {
         this.queryStoreAPI = new QueryStoreAPI();
         this.pidAPI = new PersistentIdentifierAPI();
         this.dbTools = new DatabaseTools();
+        this.org = org;
+
+
 
     }
 
@@ -123,10 +127,10 @@ public class DataPreparation {
         Organization org;
 
 
-        if (pidAPI.checkOrganizationPrefix(1111) == false) {
-            org = pidAPI.createNewOrganitation("Database SQL Example", 1111);
+        if (pidAPI.checkOrganizationPrefix(this.org.getOrganization_prefix()) == false) {
+            org = pidAPI.createNewOrganitation("Database SQL Example", this.org.getOrganization_prefix());
         } else {
-            org = pidAPI.getOrganizationObjectByPrefix(1111);
+            org = pidAPI.getOrganizationObjectByPrefix(this.org.getOrganization_prefix());
         }
 
         this.queryStoreAPI.deleteBaseTableByDatabaseAndTableName(tableName);

@@ -33,7 +33,7 @@
 package Helpers;
 
 
-import EvaluationRun.EvaluationRecord;
+import EvaluationRun_Old.EvaluationRecord;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.supercsv.cellprocessor.Optional;

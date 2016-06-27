@@ -48,6 +48,9 @@
 
 package DataPreparation;
 
+import at.stefanproell.PersistentIdentifierMockup.Organization;
+import at.stefanproell.PersistentIdentifierMockup.PersistentIdentifierAPI;
+
 /**
  * CSV-DataCitation
  * Created by stefan
@@ -58,8 +61,13 @@ public class DataPreparationMain {
     public static void main(String[] args) {
         String inputCSV = "/home/stefan/Development/workspaceIDEA/CSV-DataCitation/Evaluation-Module/additional_configuration/evaluation.csv";
         String outputCSV = "/tmp/evaluation_output.csv";
+        PersistentIdentifierAPI pidAPI = new PersistentIdentifierAPI();
 
-        DataPreparation prep = new DataPreparation();
+        Organization evaluationOrganization = pidAPI.getOrganizationObjectByPrefix(9999);
+        if (evaluationOrganization == null) {
+            evaluationOrganization = pidAPI.createNewOrganitation("Evaluation Organization", 9999);
+        }
+        DataPreparation prep = new DataPreparation(evaluationOrganization);
         String tableName = prep.uploadNewCSVFile(inputCSV);
         prep.createNewBaseTableRecord(tableName);
 
