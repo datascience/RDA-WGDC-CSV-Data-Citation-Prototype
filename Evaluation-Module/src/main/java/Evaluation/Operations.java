@@ -21,15 +21,17 @@ import at.stefanproell.CSV_Testdata_Generator.CSV_Testdata_Writer;
 import at.stefanproell.CSV_Tools.CSV_Analyser;
 import at.stefanproell.PersistentIdentifierMockup.PersistentIdentifier;
 import org.supercsv.cellprocessor.ift.CellProcessor;
+import org.supercsv.io.CsvMapReader;
 import org.supercsv.io.CsvMapWriter;
+import org.supercsv.io.ICsvMapReader;
 import org.supercsv.io.ICsvMapWriter;
 import org.supercsv.prefs.CsvPreference;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
+import java.util.logging.Logger;
 
 import static Helpers.HelpersCSV.randomString;
 
@@ -37,11 +39,18 @@ import static Helpers.HelpersCSV.randomString;
  * Created by stefan on 27.06.16.
  */
 public class Operations {
+    private final CSV_Testdata_Writer csvDataWriter;
+    private final CSV_Analyser csvAnalyzer;
+    private final Logger logger;
+
     public Operations() {
+        csvAnalyzer = new CSV_Analyser();
+        csvDataWriter = new CSV_Testdata_Writer();
+        logger = Logger.getLogger(Operations.class.getName());
     }
 
     public void randomInsert(PersistentIdentifier pid) {
-        CSV_Testdata_Writer csvWriter = new CSV_Testdata_Writer();
+
 
         CsvToolsApi csvToolsApi = new CsvToolsApi();
         String currentPath = pid.getURI();
@@ -63,7 +72,7 @@ public class Operations {
                     CsvPreference.STANDARD_PREFERENCE);
 
 
-            final CellProcessor[] processors = csvWriter.getProcessors(amountOfColumns);
+            final CellProcessor[] processors = csvDataWriter.getProcessors(amountOfColumns);
             mapWriter.write(newRecord, headers, processors);
 
             // write the header
@@ -89,6 +98,67 @@ public class Operations {
             }
         }
 
+
+    }
+
+    public void randomDelete(PersistentIdentifier pid) {
+        ICsvMapReader mapReader = null;
+        CsvToolsApi csvToolsApi = new CsvToolsApi();
+        String currentPath = pid.getURI();
+
+        String[] headers = csvToolsApi.getArrayOfHeadersCSV(currentPath);
+        int amountOfColumns = headers.length;
+
+
+        ICsvMapWriter mapWriter = null;
+        try {
+
+            // read existing file
+            Map<Integer, Map<String, Object>> csvMap = csvAnalyzer.readCSV(new File(currentPath));
+            int amountOfRecords = csvMap.size();
+
+            Random rand = new Random();
+            int randomRecord = rand.nextInt((amountOfRecords) + 1);
+            final CellProcessor[] processors = csvDataWriter.getProcessors(amountOfColumns);
+
+
+            mapWriter = new CsvMapWriter(new FileWriter(currentPath),
+                    CsvPreference.STANDARD_PREFERENCE);
+            mapWriter.writeHeader(headers);
+
+
+            int counter = 0;
+            for (Map.Entry<Integer, Map<String, Object>> csvRowMap : csvMap.entrySet()) {
+
+                Map<String, Object> csvRow = csvRowMap.getValue();
+                if (randomRecord != counter) {
+                    mapWriter.write(csvRow, headers, processors);
+                } else {
+                    logger.info("Deleting record: " + counter);
+
+                }
+
+                counter++;
+
+
+            }
+
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                mapWriter.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+
+        }
 
     }
 }

@@ -19,7 +19,6 @@ package Evaluation;
 import DataPreparation.DataPreparation;
 import Database.DatabaseOperations.DatabaseTools;
 import Helpers.FileHelper;
-import QueryStore.BaseTable;
 import QueryStore.QueryStoreAPI;
 import TestDataGenerator.TestDataGenerator;
 import at.stefanproell.PersistentIdentifierMockup.Organization;
@@ -135,6 +134,10 @@ public class EvaluationAPI {
         Operations op = new Operations();
         for (PersistentIdentifier pid : listOfCsvFilePersistentIdentifiers) {
             op.randomInsert(pid);
+            op.randomDelete(pid);
+            op.randomDelete(pid);
+            op.randomDelete(pid);
+            op.randomDelete(pid);
         }
 
     }
