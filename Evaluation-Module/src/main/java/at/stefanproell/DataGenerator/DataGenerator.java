@@ -14,15 +14,19 @@
  *    limitations under the License.
  */
 
-package at.stefanproell.CSV_Testdata_Generator;
+package at.stefanproell.DataGenerator;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.supercsv.cellprocessor.Optional;
+import org.supercsv.cellprocessor.constraint.UniqueHashCode;
 import org.supercsv.cellprocessor.ift.CellProcessor;
+import org.supercsv.io.CsvMapReader;
 import org.supercsv.io.CsvMapWriter;
+import org.supercsv.io.ICsvMapReader;
 import org.supercsv.io.ICsvMapWriter;
 import org.supercsv.prefs.CsvPreference;
 
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.*;
 import java.util.logging.Level;
@@ -33,11 +37,11 @@ import java.util.logging.Logger;
  * Created by stefan
  * {MONTH_NAME_FULL} {YEAR}
  */
-public class CSV_Testdata_Writer {
+public class DataGenerator {
 
 
     private static final Logger logger =
-            Logger.getLogger(CSV_Testdata_Writer.class.getName());
+            Logger.getLogger(DataGenerator.class.getName());
 
     private int numberOfColumns=-1;
     private int numberOfRecords=-1;
@@ -48,7 +52,7 @@ public class CSV_Testdata_Writer {
     private String fileName;
     private String[] header;
 
-    public CSV_Testdata_Writer(String fileName, String[] header, int numberOfRecords, int averageRecordLength, double
+    public DataGenerator(String fileName, String[] header, int numberOfRecords, int averageRecordLength, double
             variance ) {
         this.fileName=fileName;
         this.header=header;
@@ -64,7 +68,7 @@ public class CSV_Testdata_Writer {
         }
     }
 
-    public CSV_Testdata_Writer() {
+    public DataGenerator() {
 
     }
     /**
@@ -85,7 +89,9 @@ public class CSV_Testdata_Writer {
                 for(int i = 0; i < this.numberOfRecords;i++){
                     recordMap = new HashMap<String, String>();
                     for(int j = 0; j < this.numberOfColumns;j++) {
-                        recordMap.put(header[j], this.randomString(this.averageRecordLength, this.variance));
+                        String randomString = this.randomString(this.averageRecordLength, this.variance);
+
+                        recordMap.put(header[j], randomString);
                     }
                     mapWriter.write(recordMap, header, processors);
                 }
@@ -103,10 +109,19 @@ public class CSV_Testdata_Writer {
         }
     }
 
+    /**
+     * Get Cell Processors. Verify that the first column is unique
+     *
+     * @param amountOfColumns
+     * @return
+     */
     public static CellProcessor[] getProcessors(int amountOfColumns) {
         CellProcessor[] processors=new CellProcessor[amountOfColumns];
 
-        for(int i=0; i< amountOfColumns; i++){
+        for(int i = 0; i< amountOfColumns; i++) {
+            if (i == 0) {
+                processors[i] = new UniqueHashCode();
+            }
             processors[i]=new Optional();
 
         }
@@ -136,4 +151,5 @@ public class CSV_Testdata_Writer {
 
 
     }
+
 }

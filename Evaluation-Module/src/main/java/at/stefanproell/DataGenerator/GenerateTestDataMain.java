@@ -14,7 +14,7 @@
  *    limitations under the License.
  */
 
-package at.stefanproell.CSV_Testdata_Generator;
+package at.stefanproell.DataGenerator;
 
 /**
  * CSV-DataCitation
@@ -30,7 +30,7 @@ public class GenerateTestDataMain {
         int amountOfRecords = 10;
         String[] headers = {"Column_1","Column_2","Column_3","Column_4","Column_5"};
 
-        CSV_Testdata_Writer csv = new CSV_Testdata_Writer("/tmp/testfile.csv",headers,amountOfRecords,
+        DataGenerator csv = new DataGenerator("/tmp/testfile.csv", headers, amountOfRecords,
                 averageStringLength,variance);
 
 

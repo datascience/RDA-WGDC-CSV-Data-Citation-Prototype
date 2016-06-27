@@ -2,11 +2,9 @@ package Database.DatabaseOperations;
 
 
 import CSVTools.CsvToolsApi;
-import Database.Authentication.HibernateUtilUserAuthentication;
 import au.com.bytecode.opencsv.CSVWriter;
 import com.google.common.base.Joiner;
 import com.sun.rowset.CachedRowSetImpl;
-import org.apache.commons.lang3.StringUtils;
 import org.hibernate.Session;
 import org.hibernate.internal.SessionImpl;
 import org.supercsv.io.CsvListReader;
@@ -22,8 +20,6 @@ import java.sql.*;
 import java.util.*;
 import java.util.Date;
 import java.util.logging.Logger;
-
-import static org.hibernate.internal.util.StringHelper.join;
 
 /**
  * Created by stefan on 03.09.14.
@@ -1705,8 +1701,6 @@ Count the records which are not deleted..
     }
 
 
-
-
     /*
     * When a user uploads a CSV file which has deleted records, the system needs to tick off which records have been considered so far. This method adds this column
     * */
@@ -2622,5 +2616,42 @@ Count the records which are not deleted..
 
 
     }
+
+    /**
+     * Drop the primary key and add a new one
+     *
+     * @param tableName
+     * @param primaryKeyColumn
+     */
+    public void updatePrimaryKey(String tableName, String primaryKeyColumn) {
+        Connection connection = null;
+        Statement statement = null;
+        try {
+            connection = getConnection();
+            statement = connection.createStatement();
+            String alterTable = "ALTER TABLE " +
+                    tableName + " DROP PRIMARY KEY ";
+            statement = connection.createStatement();
+            statement.executeUpdate(alterTable);
+            alterTable = "ALTER TABLE " + tableName + " ADD PRIMARY KEY (" + primaryKeyColumn + ")";
+            statement.executeUpdate(alterTable);
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+
+        }
+
+
+    }
+
 
 }

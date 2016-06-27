@@ -27,6 +27,7 @@ import at.stefanproell.PersistentIdentifierMockup.PersistentIdentifierAPI;
 import org.apache.commons.collections4.list.TreeList;
 
 import java.io.File;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -126,6 +127,9 @@ public class EvaluationAPI {
         //api.uploadCsvFileIntoProrotypeSystem(pid);
         DataPreparation prep = new DataPreparation(this.getEvaluationOrganization());
         String tableName = prep.uploadNewCSVFile(pid.getURI());
+        DatabaseTools dbTools = new DatabaseTools();
+        dbTools.updatePrimaryKey(pid.getIdentifier(), "Column_1");
+
         String baseTablePid = prep.createNewBaseTableRecord(tableName);
         return baseTablePid;
     }
@@ -138,6 +142,8 @@ public class EvaluationAPI {
             op.randomDelete(pid);
             op.randomDelete(pid);
             op.randomDelete(pid);
+
+            op.randomUpdate(pid);
         }
 
     }
