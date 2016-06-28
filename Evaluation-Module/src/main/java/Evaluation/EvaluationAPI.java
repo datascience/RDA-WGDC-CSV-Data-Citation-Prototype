@@ -171,6 +171,7 @@ public class EvaluationAPI {
                 op.executeRandomOperationBasedOnDistribution(pid, complexity, selectProportion, insertProportion, updateProportion, deleteProportion);
                 try {
                     sleep(1001);
+                    // sleep for 1 second and a bit
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
