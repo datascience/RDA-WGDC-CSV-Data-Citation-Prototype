@@ -2633,7 +2633,7 @@ Count the records which are not deleted..
                     tableName + " DROP PRIMARY KEY ";
             statement = connection.createStatement();
             statement.executeUpdate(alterTable);
-            alterTable = "ALTER TABLE " + tableName + " ADD PRIMARY KEY (" + primaryKeyColumn + ")";
+            alterTable = "ALTER TABLE " + tableName + " ADD PRIMARY KEY (" + primaryKeyColumn + ", LAST_UPDATE)";
             statement.executeUpdate(alterTable);
             connection.close();
         } catch (SQLException e) {

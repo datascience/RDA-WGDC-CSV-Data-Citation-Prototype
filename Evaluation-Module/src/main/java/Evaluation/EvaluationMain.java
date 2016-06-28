@@ -31,9 +31,15 @@ public class EvaluationMain {
         int amountOfColumns = 5;
 
         int amountOfCsvFiles = 1;
+        double selectProportion = 0.0;
+        double insertProportion = 0.2;
+        double updateProportion = 0.8;
+        double deleteProportion = 0.0;
+        QueryComplexity complexity = QueryComplexity.EASY;
+        int amountOfOperations = 100;
 
 
-        EvaluationAPI api = new EvaluationAPI(9999, "/tmp/Evaluation");
+        EvaluationAPI api = new EvaluationAPI(9999, "/tmp/Evaluation", "/tmp/Evaluation_Git_Repo", selectProportion, insertProportion, updateProportion, deleteProportion, complexity, amountOfOperations);
         List<PersistentIdentifier> list = api.createCsvFiles(amountOfCsvFiles, amountOfRecords, amountOfColumns, averageStringLength, variance);
         api.uploadListOfCsvFiles(list);
         api.runOperations(list);

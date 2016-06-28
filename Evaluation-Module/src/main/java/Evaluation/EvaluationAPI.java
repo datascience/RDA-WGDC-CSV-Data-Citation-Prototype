@@ -18,6 +18,7 @@ package Evaluation;
 
 import DataPreparation.DataPreparation;
 import Database.DatabaseOperations.DatabaseTools;
+import GitBackend.GitAPI;
 import Helpers.FileHelper;
 import QueryStore.QueryStoreAPI;
 import TestDataGenerator.TestDataGenerator;
@@ -25,18 +26,23 @@ import at.stefanproell.PersistentIdentifierMockup.Organization;
 import at.stefanproell.PersistentIdentifierMockup.PersistentIdentifier;
 import at.stefanproell.PersistentIdentifierMockup.PersistentIdentifierAPI;
 import org.apache.commons.collections4.list.TreeList;
+import org.eclipse.jgit.api.errors.GitAPIException;
 
+import javax.sql.rowset.CachedRowSet;
 import java.io.File;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.logging.Logger;
 
+import static java.lang.Thread.sleep;
 import static org.apache.commons.lang3.StringUtils.appendIfMissing;
 
 /**
  * Created by stefan on 27.06.16.
  */
 public class EvaluationAPI {
+    private final int amountOfOperations;
     private Logger logger;
     private PersistentIdentifierAPI pidAPI;
     private Organization evaluationOrganization;
@@ -47,15 +53,40 @@ public class EvaluationAPI {
     private final String evaulationAuthor = "EvaluationAuthor";
     private final String defaultDbSchema = "EvaluationDB";
     private List<PersistentIdentifier> listOfCsvFilePersistentIdentifiers;
+    private GitAPI gitAPI;
+    private int organizationalPrefix;
+    private String repositoryPath;
+    private double selectProportion;
+    private double insertProportion;
+    private double updateProportion;
+    private double deleteProportion;
+    private QueryComplexity complexity;
 
-    public EvaluationAPI(int organizationalPrefix, String evaluationCsvFolder) {
+    public EvaluationAPI(int organizationalPrefix, String evaluationCsvFolder, String repositoryPath, double selectProportion, double insertProportion,
+                         double updateProportion, double deleteProportion, QueryComplexity complexity, int amountOfOperations) {
+        this.organizationalPrefix = organizationalPrefix;
+        this.evaluationCsvFolder = evaluationCsvFolder;
+        this.repositoryPath = repositoryPath;
+        this.selectProportion = selectProportion;
+        this.insertProportion = insertProportion;
+        this.updateProportion = updateProportion;
+        this.deleteProportion = deleteProportion;
+        this.complexity = complexity;
+        this.amountOfOperations = amountOfOperations;
+
         logger = Logger.getLogger(EvaluationAPI.class.getName());
         pidAPI = new PersistentIdentifierAPI();
         fileHelper = new FileHelper();
         queryStoreAPI = new QueryStoreAPI();
         dbTools = new DatabaseTools();
 
+        initEvaluationSystem();
 
+
+    }
+
+    private void initEvaluationSystem() {
+        gitAPI = new GitAPI();
         evaluationOrganization = pidAPI.getOrganizationObjectByPrefix(organizationalPrefix);
         if (evaluationOrganization == null) {
             evaluationOrganization = pidAPI.createNewOrganitation("Evaluation Organization", organizationalPrefix);
@@ -63,7 +94,6 @@ public class EvaluationAPI {
 
         this.evaluationCsvFolder = appendIfMissing(evaluationCsvFolder, "/");
         fileHelper.createDirectory(new File(evaluationCsvFolder));
-
     }
 
     /**
@@ -110,7 +140,7 @@ public class EvaluationAPI {
 
         String fileName = null;
         // Create a new PID for the
-        PersistentIdentifier pid = pidAPI.getAlphaNumericPID(evaluationOrganization, "dummy");
+        PersistentIdentifier pid = pidAPI.getAlphaPID(evaluationOrganization, "dummy");
         fileName = evaluationCsvFolder + pid.getIdentifier() + ".csv";
         pid.setURI(fileName);
 
@@ -137,15 +167,48 @@ public class EvaluationAPI {
     public void runOperations(List<PersistentIdentifier> listOfCsvFilePersistentIdentifiers) {
         Operations op = new Operations();
         for (PersistentIdentifier pid : listOfCsvFilePersistentIdentifiers) {
-            op.randomInsert(pid);
-            op.randomDelete(pid);
-            op.randomDelete(pid);
-            op.randomDelete(pid);
-            op.randomDelete(pid);
+            for (int i = 0; i < amountOfOperations; i++) {
+                op.executeRandomOperationBasedOnDistribution(pid, complexity, selectProportion, insertProportion, updateProportion, deleteProportion);
+                try {
+                    sleep(1001);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
 
-            op.randomUpdate(pid);
         }
 
+    }
+
+    /**
+     * Initialize new Git repository
+     */
+    public void gitRepositoryInit() {
+
+        try {
+            gitAPI.initRepository(new File(this.getRepositoryPath()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    /**
+     * Export the most recent version of the data to a CSV file
+     */
+    public void exportMostRecentDataVersionsAsCSV(String tableName) {
+        CachedRowSet crs = dbTools.getAllColumnsWithoutMetadataAsResultSet(tableName);
+        dbTools.exportResultSetAsCSV(crs, this.getRepositoryPath() + "/" + this.getRepositoryPath());
+    }
+
+    private void addAndCommit() {
+        try {
+            gitAPI.openRepository(new File(this.getRepositoryPath()));
+            gitAPI.setCommitMessage("This was iteration ");
+            gitAPI.addAndCommit(new File(this.getRepositoryPath() + "/" + this.getRepositoryPath()));
+        } catch (GitAPIException e) {
+            e.printStackTrace();
+        }
     }
 
     public Logger getLogger() {
@@ -210,5 +273,37 @@ public class EvaluationAPI {
 
     public String getDefaultDbSchema() {
         return defaultDbSchema;
+    }
+
+    public List<PersistentIdentifier> getListOfCsvFilePersistentIdentifiers() {
+        return listOfCsvFilePersistentIdentifiers;
+    }
+
+    public void setListOfCsvFilePersistentIdentifiers(List<PersistentIdentifier> listOfCsvFilePersistentIdentifiers) {
+        this.listOfCsvFilePersistentIdentifiers = listOfCsvFilePersistentIdentifiers;
+    }
+
+    public GitAPI getGitAPI() {
+        return gitAPI;
+    }
+
+    public void setGitAPI(GitAPI gitAPI) {
+        this.gitAPI = gitAPI;
+    }
+
+    public int getOrganizationalPrefix() {
+        return organizationalPrefix;
+    }
+
+    public void setOrganizationalPrefix(int organizationalPrefix) {
+        this.organizationalPrefix = organizationalPrefix;
+    }
+
+    public String getRepositoryPath() {
+        return repositoryPath;
+    }
+
+    public void setRepositoryPath(String repositoryPath) {
+        this.repositoryPath = repositoryPath;
     }
 }

@@ -107,7 +107,14 @@ public class TestDataGenerator {
             for (int i = 0; i < numberOfRecords; i++) {
                 recordMap = new HashMap<String, String>();
                 for (int j = 0; j < amountOfColumns; j++) {
-                    recordMap.put(headers[j], HelpersCSV.randomString(averageRecordLength, variance));
+                    String randomString = HelpersCSV.randomString(averageRecordLength, variance);
+
+                    // The first column is used as primary key. It must not contain null values
+                    while ((randomString.equals(null) || randomString.equals("") || randomString.equals("null")) && j == 0) {
+                        randomString = HelpersCSV.randomString(averageRecordLength, variance);
+                        logger.info("Value was null... getting a new one.");
+                    }
+                    recordMap.put(headers[j], randomString);
                 }
                 mapWriter.write(recordMap, headers, processors);
             }

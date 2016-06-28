@@ -204,7 +204,6 @@ public class MigrateCSV2SQL {
      * @throws SQLException
      */
     public void updateDataInExistingDB(String currentTableName, Map<Integer, Map<String, Object>> csvMap) {
-        // TODO: 31.05.16: write new update nethod
 
 
         Statement stat = null;

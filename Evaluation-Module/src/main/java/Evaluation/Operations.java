@@ -17,8 +17,11 @@
 package Evaluation;
 
 import CSVTools.CsvToolsApi;
-import at.stefanproell.DataGenerator.DataGenerator;
+import Database.DatabaseOperations.MigrateCSV2SQL;
+import Database.DatabaseOperations.MigrationTasks;
+import QueryStore.Query;
 import at.stefanproell.CSV_Tools.CSV_Analyser;
+import at.stefanproell.DataGenerator.DataGenerator;
 import at.stefanproell.PersistentIdentifierMockup.PersistentIdentifier;
 import org.supercsv.cellprocessor.ift.CellProcessor;
 import org.supercsv.io.CsvMapWriter;
@@ -26,7 +29,10 @@ import org.supercsv.io.ICsvMapReader;
 import org.supercsv.io.ICsvMapWriter;
 import org.supercsv.prefs.CsvPreference;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -37,15 +43,37 @@ import static Helpers.HelpersCSV.randomString;
 /**
  * Created by stefan on 27.06.16.
  */
+
+
+enum QueryComplexity {
+    EASY, STANDARD, COMPLEX
+}
+
+enum QueryType {SELECT, INSERT, UPDATE, DELETE}
+
+enum EvaluationSystem {SQL, GIT}
+
+
 public class Operations {
     private final DataGenerator csvDataWriter;
     private final CSV_Analyser csvAnalyzer;
     private final Logger logger;
 
+    private double selectProportion;
+    private double insertProportion;
+    private double updateProportion;
+    private double deleteProportion;
+    private QueryComplexity complexity;
+    private QueryType type;
+    private MigrateCSV2SQL migrate;
+    private CSV_Analyser csv_analyser;
+
     public Operations() {
         csvAnalyzer = new CSV_Analyser();
         csvDataWriter = new DataGenerator();
         logger = Logger.getLogger(Operations.class.getName());
+        migrate = new MigrateCSV2SQL();
+        csv_analyser = new CSV_Analyser();
     }
 
     public void randomInsert(PersistentIdentifier pid) {
@@ -191,7 +219,11 @@ public class Operations {
             for (Map.Entry<Integer, Map<String, Object>> csvRowMap : csvMap.entrySet()) {
 
                 Map<String, Object> csvRow = csvRowMap.getValue();
-                String primaryKey = csvRow.get("Column_1").toString();
+                Object columnOne = csvRow.get("Column_1");
+                if (columnOne == null) {
+                    logger.info("Null");
+                }
+                String primaryKey = columnOne.toString();
                 if (randomRecord != counter) {
 
                     mapWriter.write(csvRow, headers, processors);
@@ -207,9 +239,6 @@ public class Operations {
                     }
 
                     mapWriter.write(newRecord, headers, processors);
-
-                    // TODO: 27.06.16 writer fertig
-
 
                 }
 
@@ -234,6 +263,77 @@ public class Operations {
 
 
         }
+
+    }
+
+    public void executeRandomOperationBasedOnDistribution(PersistentIdentifier pid, QueryComplexity complexity, double selectProportion,
+                                                          double insertProportion, double updateProportion, double deleteProportion) {
+        Random generator = new Random();
+
+
+        type = null;
+
+        // random number between 0 and 1
+        double randomNumber = generator.nextDouble();
+
+        /**
+         * The select statement is essential for testing the systems. Here, the used timestamp is the
+         * re-execution timestamp
+         */
+        if (randomNumber <= selectProportion) {
+            type = QueryType.SELECT;
+
+            switch (complexity) {
+                case EASY:
+
+
+                    break;
+                case STANDARD:
+
+                    break;
+                case COMPLEX:
+
+
+                    break;
+            }
+
+        }
+        // INSERT
+        else if (randomNumber > selectProportion && randomNumber <= selectProportion + insertProportion) {
+            type = QueryType.INSERT;
+            this.randomInsert(pid);
+            this.commitChangesToPrototypeSystem(pid);
+
+
+        }
+        // UPDATE
+        //
+        else if (randomNumber > selectProportion + insertProportion &&
+                randomNumber <= selectProportion + insertProportion + updateProportion) {
+            type = QueryType.UPDATE;
+            this.randomUpdate(pid);
+            this.commitChangesToPrototypeSystem(pid);
+
+
+        }
+        // DELETE
+        // The DELETE Statement is actually an update where the marker is set
+        else {
+            type = QueryType.DELETE;
+            this.randomDelete(pid);
+            this.commitChangesToPrototypeSystem(pid);
+
+        }
+    }
+
+    private void commitChangesToPrototypeSystem(PersistentIdentifier pid) {
+
+
+        Map<Integer, Map<String, Object>> csvMap = csv_analyser.parseCSV(new File(pid.getURI()));
+        migrate.updateDataInExistingDB(pid.getIdentifier(), csvMap);
+
+
+
 
     }
 }

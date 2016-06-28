@@ -239,7 +239,7 @@ public class MigrationTasks {
             this.setCurrentTableName(sessionTableName);
         }
 
-        // retrieve file names
+        // retrieve file names (<tableName,path>))
         this.filesList = inputFileMap;
         if (this.filesList == null) {
             this.logger.severe("File list was NULL");
@@ -280,8 +280,7 @@ public class MigrationTasks {
                 //     String tempTableName = dbTools.createTemporaryCheckTable(this.currentTableName);
 
 
-                Map<String, String> columnsMap = (dbTools.getColumnNamesFromTableWithoutMetadataColumns(this
-                        .currentTableName));
+                Map<String, String> columnsMap = (dbTools.getColumnNamesFromTableWithoutMetadataColumns(this.currentTableName));
 
 
                 // read CSV file
@@ -292,12 +291,7 @@ public class MigrationTasks {
 
                 List<String> primaryKeyList = dbTools.getPrimaryKeyFromTable(this.currentTableName);
 
-                // Import CSV Data
-                //@todo move primary key as a new attribute into the column list
 
-//                migrate.updateDataInExistingDB(columnsMap, primaryKeyList, currentPath,this.currentTableName, true, calulateHashColumn);
-
-                //// TODO: 01.06.16 update
                 CsvToolsApi csvToolsApi = new CsvToolsApi();
 
                 String[] headers = csvToolsApi.getArrayOfHeadersCSV(currentPath);
