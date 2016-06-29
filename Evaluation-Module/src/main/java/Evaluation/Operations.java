@@ -17,12 +17,18 @@
 package Evaluation;
 
 import CSVTools.CsvToolsApi;
+import Database.DatabaseOperations.DatabaseTools;
 import Database.DatabaseOperations.MigrateCSV2SQL;
 import Database.DatabaseOperations.MigrationTasks;
+import Helpers.HelpersCSV;
+import QueryStore.BaseTable;
 import QueryStore.Query;
+import QueryStore.QueryStoreAPI;
 import at.stefanproell.CSV_Tools.CSV_Analyser;
 import at.stefanproell.DataGenerator.DataGenerator;
 import at.stefanproell.PersistentIdentifierMockup.PersistentIdentifier;
+import at.stefanproell.PersistentIdentifierMockup.PersistentIdentifierAPI;
+import at.stefanproell.PersistentIdentifierMockup.PersistentIdentifierAlphaNumeric;
 import org.supercsv.cellprocessor.ift.CellProcessor;
 import org.supercsv.io.CsvMapWriter;
 import org.supercsv.io.ICsvMapReader;
@@ -33,9 +39,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 import java.util.logging.Logger;
 
 import static Helpers.HelpersCSV.randomString;
@@ -58,6 +62,8 @@ public class Operations {
     private final DataGenerator csvDataWriter;
     private final CSV_Analyser csvAnalyzer;
     private final Logger logger;
+    private final QueryStoreAPI queryAPI;
+    private final PersistentIdentifierAPI pidAPI;
 
     private double selectProportion;
     private double insertProportion;
@@ -67,6 +73,8 @@ public class Operations {
     private QueryType type;
     private MigrateCSV2SQL migrate;
     private CSV_Analyser csv_analyser;
+    private DatabaseTools dbtools;
+
 
     public Operations() {
         csvAnalyzer = new CSV_Analyser();
@@ -74,6 +82,9 @@ public class Operations {
         logger = Logger.getLogger(Operations.class.getName());
         migrate = new MigrateCSV2SQL();
         csv_analyser = new CSV_Analyser();
+        queryAPI = new QueryStoreAPI();
+        pidAPI = new PersistentIdentifierAPI();
+        dbtools = new DatabaseTools();
     }
 
     public void randomInsert(PersistentIdentifier pid) {
@@ -266,7 +277,7 @@ public class Operations {
 
     }
 
-    public void executeRandomOperationBasedOnDistribution(PersistentIdentifier pid, QueryComplexity complexity, double selectProportion,
+    public void executeRandomOperationBasedOnDistribution(PersistentIdentifier tablePid, QueryComplexity complexity, double selectProportion,
                                                           double insertProportion, double updateProportion, double deleteProportion) {
         Random generator = new Random();
 
@@ -276,6 +287,7 @@ public class Operations {
         // random number between 0 and 1
         double randomNumber = generator.nextDouble();
 
+
         /**
          * The select statement is essential for testing the systems. Here, the used timestamp is the
          * re-execution timestamp
@@ -283,8 +295,65 @@ public class Operations {
         if (randomNumber <= selectProportion) {
             type = QueryType.SELECT;
 
+
+            // Create a query
+            PersistentIdentifier queryPid = pidAPI.getAlphaNumericPID(tablePid.getOrganization(), "dummy");
+            Query query = queryAPI.createNewQuery("evaluation user", queryPid.getIdentifier());
+
+
+            BaseTable bt = queryAPI.getBaseTableByTableNameOnly(tablePid.getIdentifier());
+            query.setBaseTable(bt);
+            query.setQueryDescription("Evaluation query");
+            query.setSubSetTitle("Evaluation Subset");
+            query.setResultSetRowCount(0);
+
+
+            queryAPI.updateExecutiontime(query);
+            queryAPI.finalizeQuery(query);
+/*
+            // some filters
+            queryAPI.addFilter(query, "Filter1", "Value1");
+            queryAPI.addFilter(query, "Filter2", "Value2");
+            queryAPI.addFilter(query, "Filter3", "Value3");
+            queryAPI.addFilter(query, "Filter4", "Value4");
+            queryAPI.addFilter(query, "Filter5", "Value5");
+
+            // some sortings
+            queryAPI.addSorting(query, "ColumnA", "DESC");
+            queryAPI.addSorting(query, "ColumnB", "ASC");
+            queryAPI.addSorting(query, "ColumnC", "ASC");
+
+*/
+
+
             switch (complexity) {
                 case EASY:
+
+                    // Select all columns
+                    HashMap<Integer, String> selectedColumns = new HashMap<Integer, String>();
+                    TreeMap<String, String> allColumns = dbtools.getColumnNamesWithoutMetadataSortedAlphabetically(tablePid.getIdentifier());
+                    int sequence = 0;
+                    for (Map.Entry<String, String> entry : allColumns.entrySet()) {
+                        selectedColumns.put(sequence, entry.getValue());
+                        sequence++;
+                    }
+                    query.setSelectedColumns(selectedColumns);
+
+                    // add one filter
+
+                    String randomFilterString = HelpersCSV.randomString(4, 2) + "%";
+                    queryAPI.addFilter(query, "Column_1", randomFilterString);
+
+                    // set metadata
+                    Date date = new Date();
+                    query.setCreatedDate(date);
+                    query.setExecution_timestamp(date);
+                    query.setDatasourcePID(tablePid.getIdentifier());
+
+                    // persist
+                    queryAPI.persistQuery(query);
+
+
 
 
                     break;
@@ -301,8 +370,8 @@ public class Operations {
         // INSERT
         else if (randomNumber > selectProportion && randomNumber <= selectProportion + insertProportion) {
             type = QueryType.INSERT;
-            this.randomInsert(pid);
-            this.commitChangesToPrototypeSystem(pid);
+            this.randomInsert(tablePid);
+            this.commitChangesToPrototypeSystem(tablePid);
 
 
         }
@@ -311,8 +380,8 @@ public class Operations {
         else if (randomNumber > selectProportion + insertProportion &&
                 randomNumber <= selectProportion + insertProportion + updateProportion) {
             type = QueryType.UPDATE;
-            this.randomUpdate(pid);
-            this.commitChangesToPrototypeSystem(pid);
+            this.randomUpdate(tablePid);
+            this.commitChangesToPrototypeSystem(tablePid);
 
 
         }
@@ -320,8 +389,8 @@ public class Operations {
         // The DELETE Statement is actually an update where the marker is set
         else {
             type = QueryType.DELETE;
-            this.randomDelete(pid);
-            this.commitChangesToPrototypeSystem(pid);
+            this.randomDelete(tablePid);
+            this.commitChangesToPrototypeSystem(tablePid);
 
         }
     }

@@ -31,9 +31,9 @@ public class EvaluationMain {
         int amountOfColumns = 5;
 
         int amountOfCsvFiles = 1;
-        double selectProportion = 0.0;
-        double insertProportion = 0.2;
-        double updateProportion = 0.8;
+        double selectProportion = 0.8;
+        double insertProportion = 0.1;
+        double updateProportion = 0.1;
         double deleteProportion = 0.0;
         QueryComplexity complexity = QueryComplexity.EASY;
         int amountOfOperations = 100;

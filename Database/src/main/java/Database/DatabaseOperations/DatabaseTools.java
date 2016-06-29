@@ -1068,6 +1068,9 @@ Count the records which are not deleted..
         Connection connection = null;
         try {
             connection = this.getConnection();
+            if (connection.getAutoCommit()) {
+                connection.setAutoCommit(false);
+            }
 
             schema = connection.getSchema();
             catalog = connection.getCatalog();
@@ -1075,10 +1078,14 @@ Count the records which are not deleted..
 
             DatabaseMetaData databaseMetaData = null;
 
-            databaseMetaData = this.getConnection().getMetaData();
+            databaseMetaData = connection.getMetaData();
 
             result = databaseMetaData.getPrimaryKeys(
                     catalog, schema, tableName);
+            connection.commit();
+            connection.close();
+
+
 
             while (result.next()) {
                 String columnName = result.getString(4);
@@ -2633,7 +2640,7 @@ Count the records which are not deleted..
                     tableName + " DROP PRIMARY KEY ";
             statement = connection.createStatement();
             statement.executeUpdate(alterTable);
-            alterTable = "ALTER TABLE " + tableName + " ADD PRIMARY KEY (" + primaryKeyColumn + ", LAST_UPDATE)";
+            alterTable = "ALTER TABLE " + tableName + " ADD PRIMARY KEY (" + primaryKeyColumn + ", LAST_UPDATE, RECORD_STATUS)";
             statement.executeUpdate(alterTable);
             connection.close();
         } catch (SQLException e) {

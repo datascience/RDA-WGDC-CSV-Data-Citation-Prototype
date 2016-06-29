@@ -118,8 +118,6 @@ public class QueryStoreAPI {
         query.setQueryHash(this.calculateQueryHash(query));
         this.session.save(query);
         this.session.getTransaction().commit();
-
-
         this.session.close();
         return query;
 
@@ -295,6 +293,7 @@ public class QueryStoreAPI {
         this.session.saveOrUpdate(query);
         this.session.getTransaction().commit();
         this.session.close();
+
     }
 
     /*Add filter map to the query
@@ -725,21 +724,19 @@ public class QueryStoreAPI {
     private boolean checkQueryUniqueness(Query query) {
         this.session = HibernateUtilQueryStore.getSessionFactory().openSession();
         this.session.beginTransaction();
-        Query sameQuery = null;
+
 
 
         javax.persistence.Query queryHibernate = session.createQuery("from Query where queryId <> :queryId AND queryHash =:queryHash");
         queryHibernate.setParameter("queryId", query.getQueryId());
         queryHibernate.setParameter("queryHash", query.getQueryHash());
-        try {
-            sameQuery = (Query) queryHibernate.getSingleResult();
-        } catch (NoResultException nre) {
+        List<Query> queries = queryHibernate.getResultList();
 
-        }
+
         this.session.getTransaction().commit();
         this.session.close();
 
-        if (sameQuery == null) {
+        if (queries == null || queries.size() == 0) {
             return true;
         } else {
             return false;

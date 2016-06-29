@@ -33,6 +33,7 @@ import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
 import static java.lang.Thread.sleep;
@@ -169,12 +170,15 @@ public class EvaluationAPI {
         for (PersistentIdentifier pid : listOfCsvFilePersistentIdentifiers) {
             for (int i = 0; i < amountOfOperations; i++) {
                 op.executeRandomOperationBasedOnDistribution(pid, complexity, selectProportion, insertProportion, updateProportion, deleteProportion);
+                // Sleep for 1 second
                 try {
-                    sleep(1001);
-                    // sleep for 1 second and a bit
+                    logger.info("Going to sleep...");
+                    TimeUnit.MILLISECONDS.sleep(1000);
+                    logger.info("Wakeing up...");
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
+
             }
 
         }
