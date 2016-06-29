@@ -271,7 +271,7 @@ public class EvaluationAPI {
     public void gitRepositoryInit() {
 
         try {
-            gitAPI.initRepository(new File(this.getRepositoryPaTH()));
+            gitAPI.initRepository(this.getRepositoryPaTH());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -290,7 +290,7 @@ public class EvaluationAPI {
         try {
             gitAPI.openRepository(new File(this.getRepositoryPaTH()));
             gitAPI.setCommitMessage("This was iteration " + currentIteration);
-            gitAPI.addAndCommit(new File(this.getRepositoryPaTH() + "/" + this.getExportCsvFileName()));
+            gitAPI.addAndCommit(new File(this.getRepositoryPaTH() + "/" + this.getExportCsvFileName()), "This was iteration " + currentIteration);
         } catch (GitAPIException e) {
             e.printStackTrace();
         }

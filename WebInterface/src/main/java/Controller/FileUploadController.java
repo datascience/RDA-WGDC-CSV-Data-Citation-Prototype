@@ -449,8 +449,9 @@ public class FileUploadController implements Serializable {
         this.tableDefinitionController.setShowMigrateButton(false);
 
         // check if the upload directory exists or create it
-        CsvToolsApi csvAPI = new CsvToolsApi();
-        csvAPI.createCSVDirectory();
+        CsvToolsApi csvApi = new CsvToolsApi();
+        csvApi.setDirectory("/tmp/CSV-Files");
+        csvApi.createCSVDirectory(csvApi.getDirectory());
 
 
         DatabaseTools dbtools = new DatabaseTools();
@@ -701,7 +702,7 @@ public class FileUploadController implements Serializable {
 
         // write the inputStream to a FileOutputStream
         CsvToolsApi csvApi = new CsvToolsApi();
-        String outputPath= csvApi.getDIRECTORY()+ fileName;
+        String outputPath = csvApi.getDirectory() + fileName;
         try {
 
 

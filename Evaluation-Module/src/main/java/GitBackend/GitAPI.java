@@ -77,7 +77,7 @@ public class GitAPI {
 
     private String commitMessage;
 
-    Git git = null;
+    private Git git = null;
 
     public GitAPI() {
 
@@ -353,15 +353,22 @@ public class GitAPI {
      * @param path
      * @throws IOException
      */
-    public void initRepository(File path) throws IOException {
-
+    public void initRepository(String path) throws IOException {
+        File localPath = new File(path);
 
         // create the directory
-        try (Git git = Git.init().setDirectory(path).call()) {
+        try (Git newGit = Git.init().setDirectory(localPath).call()) {
+            this.git = newGit;
             System.out.println("Having repository: " + git.getRepository().getDirectory());
         } catch (GitAPIException e) {
             e.printStackTrace();
         }
+
+        repo = FileRepositoryBuilder.create(new File(localPath.getAbsolutePath(), ".git"));
+
+
+
+
 
     }
 
@@ -395,11 +402,10 @@ public class GitAPI {
     }
 
 
-    public void addAndCommit(File file) throws GitAPIException {
+    public void addAndCommit(File file, String commitMessage) throws GitAPIException {
         // run the add-call
 
 
-        Git git = new Git(repo);
         git.status();
 
         git.add()
@@ -409,7 +415,7 @@ public class GitAPI {
 
         // and then commit the changes
         git.commit()
-                .setMessage(this.getCommitMessage())
+                .setMessage(commitMessage)
                 .call();
 
         File dir = repo.getDirectory();

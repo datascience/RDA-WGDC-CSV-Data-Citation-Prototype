@@ -84,7 +84,8 @@ public class DownloadController implements Serializable {
         this.logger = Logger.getLogger(this.getClass().getName());
         this.logger.info("Download Controller");
         CsvToolsApi csvApi = new CsvToolsApi();
-        csvApi.createCSVDirectory();
+        csvApi.setDirectory("/tmp/CSV-Files");
+        csvApi.createCSVDirectory(csvApi.getDirectory());
 
 
     }
@@ -181,7 +182,7 @@ public class DownloadController implements Serializable {
 
         CsvToolsApi csvAPI = new CsvToolsApi();
 
-        String filename = csvAPI.getDIRECTORY() + baseTableName + ".csv";
+        String filename = csvAPI.getDirectory() + baseTableName + ".csv";
 
         csvAPI.writeResultSetIntoCSVFile(cachedRowset, filename);
 
@@ -228,8 +229,8 @@ public class DownloadController implements Serializable {
             CsvToolsApi csvAPI = new CsvToolsApi();
             String baseDatabase = query.getBaseTable().getBaseDatabase();
             String baseTableName = query.getBaseTable().getBaseTableName();
-            
-            filename = csvAPI.getDIRECTORY()+ baseDatabase + "_" + baseTableName + "_" + query.getPID().replace("/", "-") + ".csv";
+
+            filename = csvAPI.getDirectory() + baseDatabase + "_" + baseTableName + "_" + query.getPID().replace("/", "-") + ".csv";
             
 
             csvAPI.writeResultSetIntoCSVFile(resultSet, filename);

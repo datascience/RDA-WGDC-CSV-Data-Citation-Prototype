@@ -76,9 +76,11 @@ import java.util.logging.Logger;
 public class CsvToolsApi {
     private Logger logger;
     private static MessageDigest crypto;
-    private final String DIRECTORY = "/tmp/CSV-Files/";
+    private String directory;
+
 
     public CsvToolsApi() {
+
         this.logger = Logger.getLogger(this.getClass().getName());
         try {
             this.crypto = MessageDigest.getInstance("SHA-1");
@@ -630,8 +632,8 @@ public class CsvToolsApi {
         }
     }
 
-    public void createCSVDirectory() {
-        File file = new File(DIRECTORY);
+    public void createCSVDirectory(String path) {
+        File file = new File(path);
 
         boolean b = false;
 
@@ -661,11 +663,6 @@ public class CsvToolsApi {
     
     
 
-    public String getDIRECTORY() {
-        return DIRECTORY;
-    }
-
-
     public int getamounfOfColumnsFromCsvFile(String fileName) {
         String[] headers = getArrayOfHeadersCSV(fileName);
         int csvColumnsAmount = headers.length;
@@ -673,5 +670,11 @@ public class CsvToolsApi {
 
     }
 
+    public String getDirectory() {
+        return directory;
+    }
 
+    public void setDirectory(String directory) {
+        this.directory = directory;
+    }
 }

@@ -20,6 +20,8 @@ import CSVTools.CsvToolsApi;
 import Database.DatabaseOperations.DatabaseTools;
 import Database.DatabaseOperations.MigrateCSV2SQL;
 import Database.DatabaseOperations.MigrationTasks;
+import DatabaseBackend.EvaluationRecordBean;
+import GitBackend.GitAPI;
 import Helpers.HelpersCSV;
 import QueryStore.BaseTable;
 import QueryStore.Query;
@@ -29,12 +31,14 @@ import at.stefanproell.DataGenerator.DataGenerator;
 import at.stefanproell.PersistentIdentifierMockup.PersistentIdentifier;
 import at.stefanproell.PersistentIdentifierMockup.PersistentIdentifierAPI;
 import at.stefanproell.PersistentIdentifierMockup.PersistentIdentifierAlphaNumeric;
+import org.eclipse.jgit.api.errors.GitAPIException;
 import org.supercsv.cellprocessor.ift.CellProcessor;
 import org.supercsv.io.CsvMapWriter;
 import org.supercsv.io.ICsvMapReader;
 import org.supercsv.io.ICsvMapWriter;
 import org.supercsv.prefs.CsvPreference;
 
+import javax.sql.rowset.CachedRowSet;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
@@ -74,6 +78,8 @@ public class Operations {
     private MigrateCSV2SQL migrate;
     private CSV_Analyser csv_analyser;
     private DatabaseTools dbtools;
+    private GitAPI gitApi;
+
 
 
     public Operations() {
@@ -85,6 +91,8 @@ public class Operations {
         queryAPI = new QueryStoreAPI();
         pidAPI = new PersistentIdentifierAPI();
         dbtools = new DatabaseTools();
+
+
     }
 
     public void randomInsert(PersistentIdentifier pid) {
@@ -277,9 +285,10 @@ public class Operations {
 
     }
 
-    public void executeRandomOperationBasedOnDistribution(PersistentIdentifier tablePid, QueryComplexity complexity, double selectProportion,
-                                                          double insertProportion, double updateProportion, double deleteProportion) {
+    public EvaluationRecordBean executeRandomOperationBasedOnDistribution(PersistentIdentifier tablePid, String exportPath, GitAPI gitAPI, QueryComplexity complexity, double selectProportion,
+                                                                          double insertProportion, double updateProportion, double deleteProportion) {
         Random generator = new Random();
+        EvaluationRecordBean recordBean = new EvaluationRecordBean();
 
 
         type = null;
@@ -297,7 +306,7 @@ public class Operations {
 
 
             // Create a query
-            PersistentIdentifier queryPid = pidAPI.getAlphaNumericPID(tablePid.getOrganization(), "dummy");
+            PersistentIdentifier queryPid = pidAPI.getAlphaPID(tablePid.getOrganization(), "dummy");
             Query query = queryAPI.createNewQuery("evaluation user", queryPid.getIdentifier());
 
 
@@ -310,21 +319,6 @@ public class Operations {
 
             queryAPI.updateExecutiontime(query);
             queryAPI.finalizeQuery(query);
-/*
-            // some filters
-            queryAPI.addFilter(query, "Filter1", "Value1");
-            queryAPI.addFilter(query, "Filter2", "Value2");
-            queryAPI.addFilter(query, "Filter3", "Value3");
-            queryAPI.addFilter(query, "Filter4", "Value4");
-            queryAPI.addFilter(query, "Filter5", "Value5");
-
-            // some sortings
-            queryAPI.addSorting(query, "ColumnA", "DESC");
-            queryAPI.addSorting(query, "ColumnB", "ASC");
-            queryAPI.addSorting(query, "ColumnC", "ASC");
-
-*/
-
 
             switch (complexity) {
                 case EASY:
@@ -342,22 +336,9 @@ public class Operations {
 
                     // add one filter
 
-                    String randomFilterString = HelpersCSV.randomString(4, 2) + "%";
+                    String randomFilterString = "%" + HelpersCSV.randomString(2, 1) + "%";
                     queryAPI.addFilter(query, "Column_1", randomFilterString);
-
                     queryAPI.persistQuery(query);
-
-                    // set metadata
-                    Date date = new Date();
-                    query.setCreatedDate(date);
-                    query.setExecution_timestamp(date);
-                    query.setDatasourcePID(tablePid.getIdentifier());
-
-                    // persist
-                    queryAPI.finalizeQuery(query);
-
-
-
 
                     break;
                 case STANDARD:
@@ -369,12 +350,34 @@ public class Operations {
                     break;
             }
 
+            // set metadata
+            Date date = new Date();
+            query.setCreatedDate(date);
+            query.setExecution_timestamp(date);
+            query.setDatasourcePID(tablePid.getIdentifier());
+            // persist
+            queryAPI.finalizeQuery(query);
+
+            recordBean.setStartTimestampSQL(new Date());
+            CachedRowSet result = dbtools.reExecuteQuery(query.getQueryString());
+            dbtools.exportResultSetAsCSV(result, exportPath + query.getPID() + "_export.csv");
+            recordBean.setEndTimestampSQL(new Date());
+            recordBean.setSqlQuery(query.getQueryString());
+
+
+
+
         }
         // INSERT
         else if (randomNumber > selectProportion && randomNumber <= selectProportion + insertProportion) {
             type = QueryType.INSERT;
             this.randomInsert(tablePid);
+            recordBean.setStartTimestampSQL(new Date());
             this.commitChangesToPrototypeSystem(tablePid);
+            recordBean.setEndTimestampSQL(new Date());
+            recordBean.setStartTimestampGit(new Date());
+            this.commitChangesToGitSystem(tablePid);
+            recordBean.setEndTimestampGit(new Date());
 
 
         }
@@ -383,8 +386,10 @@ public class Operations {
         else if (randomNumber > selectProportion + insertProportion &&
                 randomNumber <= selectProportion + insertProportion + updateProportion) {
             type = QueryType.UPDATE;
+            recordBean.setStartTimestampSQL(new Date());
             this.randomUpdate(tablePid);
             this.commitChangesToPrototypeSystem(tablePid);
+            recordBean.setEndTimestampSQL(new Date());
 
 
         }
@@ -392,20 +397,37 @@ public class Operations {
         // The DELETE Statement is actually an update where the marker is set
         else {
             type = QueryType.DELETE;
+            recordBean.setStartTimestampSQL(new Date());
             this.randomDelete(tablePid);
             this.commitChangesToPrototypeSystem(tablePid);
+            recordBean.setEndTimestampSQL(new Date());
 
         }
+        recordBean.setQueryType(type.toString());
+        return recordBean;
     }
 
     private void commitChangesToPrototypeSystem(PersistentIdentifier pid) {
-
-
         Map<Integer, Map<String, Object>> csvMap = csv_analyser.parseCSV(new File(pid.getURI()));
         migrate.updateDataInExistingDB(pid.getIdentifier(), csvMap);
+    }
 
 
+    private void commitChangesToGitSystem(PersistentIdentifier pid) {
 
+        try {
 
+            gitApi.addAndCommit(new File(pid.getURI()), "Evaluation commit: " + pid.getIdentifier());
+        } catch (GitAPIException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public GitAPI getGitApi() {
+        return gitApi;
+    }
+
+    public void setGitApi(GitAPI gitApi) {
+        this.gitApi = gitApi;
     }
 }

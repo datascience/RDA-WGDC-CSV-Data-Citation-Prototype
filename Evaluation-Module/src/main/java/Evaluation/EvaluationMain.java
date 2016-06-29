@@ -16,6 +16,7 @@
 
 package Evaluation;
 
+import CSVTools.CsvToolsApi;
 import at.stefanproell.PersistentIdentifierMockup.PersistentIdentifier;
 
 import java.util.List;
@@ -31,15 +32,24 @@ public class EvaluationMain {
         int amountOfColumns = 5;
 
         int amountOfCsvFiles = 1;
-        double selectProportion = 0.8;
-        double insertProportion = 0.1;
+        double selectProportion = 0.3;
+        double insertProportion = 0.6;
         double updateProportion = 0.1;
         double deleteProportion = 0.0;
         QueryComplexity complexity = QueryComplexity.EASY;
         int amountOfOperations = 100;
 
+        String csvFolder = "/tmp/Evaluation";
+        String gitRepoPath = "/tmp/Evaluation_Git_Repo";
+        String exportPath = "/tmp/Results/";
 
-        EvaluationAPI api = new EvaluationAPI(9999, "/tmp/Evaluation", "/tmp/Evaluation_Git_Repo", selectProportion, insertProportion, updateProportion, deleteProportion, complexity, amountOfOperations);
+        CsvToolsApi csvApi = new CsvToolsApi();
+        csvApi.createCSVDirectory(csvFolder);
+
+        csvApi.createCSVDirectory(exportPath);
+
+
+        EvaluationAPI api = new EvaluationAPI(9999, csvFolder, gitRepoPath, exportPath, selectProportion, insertProportion, updateProportion, deleteProportion, complexity, amountOfOperations);
         List<PersistentIdentifier> list = api.createCsvFiles(amountOfCsvFiles, amountOfRecords, amountOfColumns, averageStringLength, variance);
         api.uploadListOfCsvFiles(list);
         api.runOperations(list);

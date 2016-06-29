@@ -18,6 +18,8 @@ package Evaluation;
 
 import DataPreparation.DataPreparation;
 import Database.DatabaseOperations.DatabaseTools;
+import DatabaseBackend.EvaluationRecordBean;
+import DatabaseBackend.EvaluationRunBean;
 import GitBackend.GitAPI;
 import Helpers.FileHelper;
 import QueryStore.QueryStoreAPI;
@@ -27,11 +29,19 @@ import at.stefanproell.PersistentIdentifierMockup.PersistentIdentifier;
 import at.stefanproell.PersistentIdentifierMockup.PersistentIdentifierAPI;
 import org.apache.commons.collections4.list.TreeList;
 import org.eclipse.jgit.api.errors.GitAPIException;
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+import org.hibernate.cfg.Configuration;
+import org.hibernate.service.ServiceRegistry;
 
 import javax.sql.rowset.CachedRowSet;
 import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
@@ -39,11 +49,13 @@ import java.util.logging.Logger;
 import static java.lang.Thread.sleep;
 import static org.apache.commons.lang3.StringUtils.appendIfMissing;
 
+
 /**
  * Created by stefan on 27.06.16.
  */
 public class EvaluationAPI {
-    private final int amountOfOperations;
+
+    private int amountOfOperations;
     private Logger logger;
     private PersistentIdentifierAPI pidAPI;
     private Organization evaluationOrganization;
@@ -57,13 +69,18 @@ public class EvaluationAPI {
     private GitAPI gitAPI;
     private int organizationalPrefix;
     private String repositoryPath;
+    private String exportPath;
     private double selectProportion;
     private double insertProportion;
     private double updateProportion;
     private double deleteProportion;
     private QueryComplexity complexity;
+    private static SessionFactory sessionFactory;
+    private static ServiceRegistry serviceRegistry;
+    private EvaluationRunBean runBean;
 
-    public EvaluationAPI(int organizationalPrefix, String evaluationCsvFolder, String repositoryPath, double selectProportion, double insertProportion,
+
+    public EvaluationAPI(int organizationalPrefix, String evaluationCsvFolder, String repositoryPath, String exportPath, double selectProportion, double insertProportion,
                          double updateProportion, double deleteProportion, QueryComplexity complexity, int amountOfOperations) {
         this.organizationalPrefix = organizationalPrefix;
         this.evaluationCsvFolder = evaluationCsvFolder;
@@ -74,20 +91,39 @@ public class EvaluationAPI {
         this.deleteProportion = deleteProportion;
         this.complexity = complexity;
         this.amountOfOperations = amountOfOperations;
+        this.exportPath = exportPath;
 
         logger = Logger.getLogger(EvaluationAPI.class.getName());
         pidAPI = new PersistentIdentifierAPI();
         fileHelper = new FileHelper();
         queryStoreAPI = new QueryStoreAPI();
         dbTools = new DatabaseTools();
+        runBean = new EvaluationRunBean();
+
+
 
         initEvaluationSystem();
+
+        try {
+            setUpBackend();
+            persistRunBean(runBean);
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
 
     }
 
     private void initEvaluationSystem() {
         gitAPI = new GitAPI();
+        try {
+            gitAPI.initRepository(repositoryPath);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         evaluationOrganization = pidAPI.getOrganizationObjectByPrefix(organizationalPrefix);
         if (evaluationOrganization == null) {
             evaluationOrganization = pidAPI.createNewOrganitation("Evaluation Organization", organizationalPrefix);
@@ -167,9 +203,14 @@ public class EvaluationAPI {
 
     public void runOperations(List<PersistentIdentifier> listOfCsvFilePersistentIdentifiers) {
         Operations op = new Operations();
+        op.setGitApi(gitAPI);
+
+
+
         for (PersistentIdentifier pid : listOfCsvFilePersistentIdentifiers) {
             for (int i = 0; i < amountOfOperations; i++) {
-                op.executeRandomOperationBasedOnDistribution(pid, complexity, selectProportion, insertProportion, updateProportion, deleteProportion);
+
+                EvaluationRecordBean recordBean = op.executeRandomOperationBasedOnDistribution(pid, exportPath, gitAPI, complexity, selectProportion, insertProportion, updateProportion, deleteProportion);
                 // Sleep for 1 second
                 try {
                     logger.info("Going to sleep...");
@@ -178,6 +219,13 @@ public class EvaluationAPI {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
+                recordBean.setEvaluationRunBean(runBean);
+                persistRecordBean(recordBean);
+                runBean.getEvaluationRecordSet().add(recordBean);
+
+
+
+
 
             }
 
@@ -191,7 +239,8 @@ public class EvaluationAPI {
     public void gitRepositoryInit() {
 
         try {
-            gitAPI.initRepository(new File(this.getRepositoryPath()));
+            gitAPI.initRepository(this.getRepositoryPath());
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -206,15 +255,6 @@ public class EvaluationAPI {
         dbTools.exportResultSetAsCSV(crs, this.getRepositoryPath() + "/" + this.getRepositoryPath());
     }
 
-    private void addAndCommit() {
-        try {
-            gitAPI.openRepository(new File(this.getRepositoryPath()));
-            gitAPI.setCommitMessage("This was iteration ");
-            gitAPI.addAndCommit(new File(this.getRepositoryPath() + "/" + this.getRepositoryPath()));
-        } catch (GitAPIException e) {
-            e.printStackTrace();
-        }
-    }
 
     public Logger getLogger() {
         return logger;
@@ -311,4 +351,64 @@ public class EvaluationAPI {
     public void setRepositoryPath(String repositoryPath) {
         this.repositoryPath = repositoryPath;
     }
+
+    /**
+     * Setup the session factory with hibernate native api
+     *
+     * @throws Exception
+     */
+    protected void setUpBackend() throws Exception {
+
+
+        try {
+
+            Configuration configuration = new Configuration();
+            configuration.configure("hibernate.evaluation.cfg.xml");
+
+
+            configuration.addAnnotatedClass(EvaluationRunBean.class);
+            configuration.addAnnotatedClass(EvaluationRecordBean.class);
+
+            serviceRegistry = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties()).build();
+            sessionFactory = configuration.buildSessionFactory(serviceRegistry);
+
+
+        } catch (HibernateException he) {
+            System.err.println("Error creating Session: " + he);
+            throw new ExceptionInInitializerError(he);
+        }
+
+    }
+
+    private void persistRecordBean(EvaluationRecordBean record) {
+        Session session = sessionFactory.openSession();
+        try {
+            session.beginTransaction();
+            session.save(record);
+            session.getTransaction().commit();
+        } catch (RuntimeException e) {
+
+            throw e; // or display error message
+        } finally {
+            session.close();
+        }
+
+    }
+
+    private void persistRunBean(EvaluationRunBean run) {
+        Session session = sessionFactory.openSession();
+        try {
+            session.beginTransaction();
+            session.save(run);
+            session.getTransaction().commit();
+        } catch (RuntimeException e) {
+
+            throw e; // or display error message
+        } finally {
+            session.close();
+        }
+
+    }
+
+
 }

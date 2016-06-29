@@ -357,8 +357,10 @@ public class UpdateFileController {
         System.out.println("Store event...");
 
         // check if the upload directory exists or create it
-        CsvToolsApi csvAPI = new CsvToolsApi();
-        csvAPI.createCSVDirectory();
+        CsvToolsApi csvApi = new CsvToolsApi();
+        csvApi.setDirectory("/tmp/CSV-Files");
+        csvApi.createCSVDirectory(csvApi.getDirectory());
+
         
         
         SimpleDateFormat fmt = new SimpleDateFormat("yyyyMMddHHmmss");
