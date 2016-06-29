@@ -160,6 +160,24 @@ public class EvaluationAPI {
     public void uploadListOfCsvFiles(List<PersistentIdentifier> listOfCsvFilePersistentIdentifiers) {
         for (PersistentIdentifier pid : listOfCsvFilePersistentIdentifiers) {
             this.uploadCsvFileIntoProrotypeSystem(pid);
+            this.uploadCsvFileIntoGitSystem(pid);
+
+            try {
+                logger.info("Going to sleep...");
+                TimeUnit.MILLISECONDS.sleep(1000);
+                logger.info("Wakeing up...");
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+    }
+
+    private void uploadCsvFileIntoGitSystem(PersistentIdentifier pid) {
+        try {
+            gitAPI.addAndCommit(new File(pid.getURI()), "initial commit");
+        } catch (GitAPIException e) {
+            e.printStackTrace();
         }
 
     }

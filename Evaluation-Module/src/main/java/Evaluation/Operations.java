@@ -358,11 +358,21 @@ public class Operations {
             // persist
             queryAPI.finalizeQuery(query);
 
+
+            // Get a random date for the re-execution
+            Date randomDate = dbtools.getRandomDateBetweenMinAndMax(tablePid.getIdentifier());
+            query.setExecution_timestamp(randomDate);
             recordBean.setStartTimestampSQL(new Date());
             CachedRowSet result = dbtools.reExecuteQuery(query.getQueryString());
             dbtools.exportResultSetAsCSV(result, exportPath + query.getPID() + "_export.csv");
             recordBean.setEndTimestampSQL(new Date());
             recordBean.setSqlQuery(query.getQueryString());
+
+            recordBean.setStartTimestampGit(new Date());
+            gitAPI.getMostRecentCommit(randomDate, tablePid.getIdentifier() + ".csv");
+            // TODO: 29.06.16 reexecute
+            recordBean.setEndTimestampGit(new Date());
+
 
 
 
@@ -372,12 +382,8 @@ public class Operations {
         else if (randomNumber > selectProportion && randomNumber <= selectProportion + insertProportion) {
             type = QueryType.INSERT;
             this.randomInsert(tablePid);
-            recordBean.setStartTimestampSQL(new Date());
-            this.commitChangesToPrototypeSystem(tablePid);
-            recordBean.setEndTimestampSQL(new Date());
-            recordBean.setStartTimestampGit(new Date());
-            this.commitChangesToGitSystem(tablePid);
-            recordBean.setEndTimestampGit(new Date());
+            this.commitChanges(recordBean, tablePid);
+
 
 
         }
@@ -386,10 +392,8 @@ public class Operations {
         else if (randomNumber > selectProportion + insertProportion &&
                 randomNumber <= selectProportion + insertProportion + updateProportion) {
             type = QueryType.UPDATE;
-            recordBean.setStartTimestampSQL(new Date());
             this.randomUpdate(tablePid);
-            this.commitChangesToPrototypeSystem(tablePid);
-            recordBean.setEndTimestampSQL(new Date());
+            this.commitChanges(recordBean, tablePid);
 
 
         }
@@ -397,14 +401,24 @@ public class Operations {
         // The DELETE Statement is actually an update where the marker is set
         else {
             type = QueryType.DELETE;
-            recordBean.setStartTimestampSQL(new Date());
+
             this.randomDelete(tablePid);
-            this.commitChangesToPrototypeSystem(tablePid);
-            recordBean.setEndTimestampSQL(new Date());
+            this.commitChanges(recordBean, tablePid);
+
 
         }
         recordBean.setQueryType(type.toString());
         return recordBean;
+    }
+
+    private void commitChanges(EvaluationRecordBean recordBean, PersistentIdentifier tablePid) {
+        recordBean.setStartTimestampSQL(new Date());
+        this.commitChangesToPrototypeSystem(tablePid);
+        recordBean.setEndTimestampSQL(new Date());
+        recordBean.setStartTimestampGit(new Date());
+        this.commitChangesToGitSystem(tablePid);
+        recordBean.setEndTimestampGit(new Date());
+
     }
 
     private void commitChangesToPrototypeSystem(PersistentIdentifier pid) {
