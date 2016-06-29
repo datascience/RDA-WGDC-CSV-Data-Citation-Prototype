@@ -334,15 +334,18 @@ public class Operations {
                     TreeMap<String, String> allColumns = dbtools.getColumnNamesWithoutMetadataSortedAlphabetically(tablePid.getIdentifier());
                     int sequence = 0;
                     for (Map.Entry<String, String> entry : allColumns.entrySet()) {
-                        selectedColumns.put(sequence, entry.getValue());
+                        selectedColumns.put(sequence, entry.getKey());
                         sequence++;
                     }
                     query.setSelectedColumns(selectedColumns);
+
 
                     // add one filter
 
                     String randomFilterString = HelpersCSV.randomString(4, 2) + "%";
                     queryAPI.addFilter(query, "Column_1", randomFilterString);
+
+                    queryAPI.persistQuery(query);
 
                     // set metadata
                     Date date = new Date();
@@ -351,7 +354,7 @@ public class Operations {
                     query.setDatasourcePID(tablePid.getIdentifier());
 
                     // persist
-                    queryAPI.persistQuery(query);
+                    queryAPI.finalizeQuery(query);
 
 
 
