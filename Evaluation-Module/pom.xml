@@ -112,6 +112,13 @@
             <version>5.2.1-SNAPSHOT</version>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/net.sourceforge.csvjdbc/csvjdbc -->
+        <dependency>
+            <groupId>net.sourceforge.csvjdbc</groupId>
+            <artifactId>csvjdbc</artifactId>
+            <version>1.0.29</version>
+        </dependency>
+
 
     </dependencies>
 </project>

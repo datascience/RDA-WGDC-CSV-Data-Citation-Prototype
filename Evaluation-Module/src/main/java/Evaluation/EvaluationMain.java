@@ -41,7 +41,7 @@ public class EvaluationMain {
 
         String csvFolder = "/tmp/Evaluation";
         String gitRepoPath = "/tmp/Evaluation_Git_Repo";
-        String exportPath = "/tmp/Results/";
+        String exportPath = "/tmp/Evaluation_Results/";
 
         CsvToolsApi csvApi = new CsvToolsApi();
         csvApi.createCSVDirectory(csvFolder);

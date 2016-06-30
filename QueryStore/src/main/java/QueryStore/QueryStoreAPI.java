@@ -832,6 +832,74 @@ public class QueryStoreAPI {
 
     }
 
+    public String generateQueryStringForGitEvaluation(Query query) {
+
+        List<Filter> filterSet = query.getFilters();
+        List<Sorting> sortingsSet = query.getSortings();
+        DatabaseTools dbTools = new DatabaseTools();
+
+
+        String fromString = query.getBaseTable().getBaseTableName();
+
+
+        String sqlString = "SELECT ";
+        Map<Integer, String> selectedColumns = query.getSelectedColumns();
+
+        for (Map.Entry<Integer, String> entry : selectedColumns.entrySet()) {
+            String columnName = entry.getValue();
+            sqlString += columnName + "`,";
+        }
+
+        // remove last comma from string
+        if (sqlString.endsWith(",")) {
+            sqlString = sqlString.substring(0, sqlString.length() - 1);
+        }
+
+        sqlString += " FROM " + fromString;
+
+
+        if (filterSet.size() > 0) {
+            String whereString = " WHERE ";
+            int filterCounter = 0;
+            for (Filter currentFilter : filterSet) {
+                filterCounter++;
+                if (filterCounter == 1) {
+                    whereString += "UPPER(" + currentFilter.getFilterName() + "`) LIKE UPPER('%" +
+                            currentFilter.getFilterValue() + "%') ";
+                } else {
+                    whereString += " AND UPPER(" + currentFilter.getFilterName() + "`) LIKE UPPER('%" +
+                            currentFilter.getFilterValue() + "%') ";
+
+                }
+
+            }
+
+            sqlString += whereString;
+        }
+        if (sortingsSet.size() > 0) {
+            String sortingString = " ORDER BY ";
+            for (Sorting currentSorting : sortingsSet) {
+
+                sortingString += currentSorting.getSortingColumn() + "` " + currentSorting
+                        .getDirection() + ",";
+
+            }
+            if (sortingString.endsWith(",")) {
+                sortingString = sortingString.substring(0, sortingString.length() - 1);
+
+            }
+
+            sqlString += sortingString;
+        }
+
+
+        this.logger.info(sqlString);
+
+        return sqlString;
+
+
+    }
+
     /**
      * only retrieve the internal counter column
      */

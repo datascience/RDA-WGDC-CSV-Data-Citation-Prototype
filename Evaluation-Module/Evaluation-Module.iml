@@ -84,5 +84,6 @@
     <orderEntry type="library" name="Maven: org.hibernate:hibernate-hikaricp:5.2.1-SNAPSHOT" level="project" />
     <orderEntry type="library" name="Maven: com.zaxxer:HikariCP-java6:2.3.9" level="project" />
     <orderEntry type="library" name="Maven: org.hibernate:hibernate-envers:5.2.1-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="Maven: net.sourceforge.csvjdbc:csvjdbc:1.0.29" level="project" />
   </component>
 </module>

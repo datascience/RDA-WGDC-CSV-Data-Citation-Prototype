@@ -21,6 +21,7 @@ import Database.DatabaseOperations.DatabaseTools;
 import Database.DatabaseOperations.MigrateCSV2SQL;
 import DatabaseBackend.EvaluationRecordBean;
 import GitBackend.GitAPI;
+import GitBackend.QueryCSV;
 import Helpers.HelpersCSV;
 import QueryStore.BaseTable;
 import QueryStore.Query;
@@ -362,12 +363,16 @@ public class Operations {
             query.setExecution_timestamp(randomDate);
             recordBean.setStartTimestampSQL(new Date());
             CachedRowSet result = dbtools.reExecuteQuery(query.getQueryString());
-            dbtools.exportResultSetAsCSV(result, exportPath + query.getPID() + "_export.csv");
+            dbtools.exportResultSetAsCSV(result, exportPath + query.getPID() + "_export_sql.csv");
             recordBean.setEndTimestampSQL(new Date());
             recordBean.setSqlQuery(query.getQueryString());
 
             recordBean.setStartTimestampGit(new Date());
             RevCommit commit = gitAPI.getMostRecentCommit(randomDate, tablePid.getIdentifier() + ".csv");
+            String fullExportPath = exportPath + query.getPID() + "_export_git.csv";
+            gitAPI.retrieveFileFromCommit(tablePid.getIdentifier() + ".csv", commit, fullExportPath);
+            QueryCSV queryCSV = new QueryCSV(fullExportPath);
+            queryCSV.runQuery(query);
 
             // TODO: 29.06.16 reexecute
             recordBean.setEndTimestampGit(new Date());
