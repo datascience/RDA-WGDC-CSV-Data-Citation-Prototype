@@ -19,7 +19,6 @@ package Evaluation;
 import CSVTools.CsvToolsApi;
 import Database.DatabaseOperations.DatabaseTools;
 import Database.DatabaseOperations.MigrateCSV2SQL;
-import Database.DatabaseOperations.MigrationTasks;
 import DatabaseBackend.EvaluationRecordBean;
 import GitBackend.GitAPI;
 import Helpers.HelpersCSV;
@@ -30,8 +29,8 @@ import at.stefanproell.CSV_Tools.CSV_Analyser;
 import at.stefanproell.DataGenerator.DataGenerator;
 import at.stefanproell.PersistentIdentifierMockup.PersistentIdentifier;
 import at.stefanproell.PersistentIdentifierMockup.PersistentIdentifierAPI;
-import at.stefanproell.PersistentIdentifierMockup.PersistentIdentifierAlphaNumeric;
 import org.eclipse.jgit.api.errors.GitAPIException;
+import org.eclipse.jgit.revwalk.RevCommit;
 import org.supercsv.cellprocessor.ift.CellProcessor;
 import org.supercsv.io.CsvMapWriter;
 import org.supercsv.io.ICsvMapReader;
@@ -79,7 +78,6 @@ public class Operations {
     private CSV_Analyser csv_analyser;
     private DatabaseTools dbtools;
     private GitAPI gitApi;
-
 
 
     public Operations() {
@@ -369,12 +367,10 @@ public class Operations {
             recordBean.setSqlQuery(query.getQueryString());
 
             recordBean.setStartTimestampGit(new Date());
-            gitAPI.getMostRecentCommit(randomDate, tablePid.getIdentifier() + ".csv");
+            RevCommit commit = gitAPI.getMostRecentCommit(randomDate, tablePid.getIdentifier() + ".csv");
+
             // TODO: 29.06.16 reexecute
             recordBean.setEndTimestampGit(new Date());
-
-
-
 
 
         }
@@ -383,7 +379,6 @@ public class Operations {
             type = QueryType.INSERT;
             this.randomInsert(tablePid);
             this.commitChanges(recordBean, tablePid);
-
 
 
         }

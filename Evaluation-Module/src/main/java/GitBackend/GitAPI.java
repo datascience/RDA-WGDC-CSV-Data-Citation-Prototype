@@ -48,10 +48,15 @@
 
 package GitBackend;
 
+import at.stefanproell.PersistentIdentifierMockup.PersistentIdentifier;
 import org.apache.commons.io.FileUtils;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.LogCommand;
 import org.eclipse.jgit.api.errors.*;
+import org.eclipse.jgit.dircache.DirCache;
+import org.eclipse.jgit.errors.AmbiguousObjectException;
+import org.eclipse.jgit.errors.IncorrectObjectTypeException;
+import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -79,13 +84,16 @@ public class GitAPI {
 
     private Git git = null;
 
+    private java.util.logging.Logger logger;
+
     public GitAPI() {
+        logger = java.util.logging.Logger.getLogger(this.getClass().getName());
 
     }
 
     private String localRepositoryPath;
     private String remoteRepositoryPath;
-    private Repository repo;
+    private Repository repository;
 
     public String getLocalRepositoryPath() {
         return localRepositoryPath;
@@ -102,15 +110,6 @@ public class GitAPI {
     public void setRemoteRepositoryPath(String remoteRepositoryPath) {
         this.remoteRepositoryPath = remoteRepositoryPath;
     }
-
-    public Repository getRepo() {
-        return repo;
-    }
-
-    public void setRepo(Repository repo) {
-        this.repo = repo;
-    }
-
 
     private static HashMap getRevisionsByLog(Repository repository, String filePath) {
 
@@ -200,13 +199,66 @@ public class GitAPI {
     * Get all commits of a file before a given date
     * */
     private TreeMap<DateTime, RevCommit> getAllCommitsBefore(Date execDate, String path) {
-        RevWalk walk = new RevWalk(this.repo);
+
+        // this.showLogForFile(this.repository.getDirectory()+path);
+        // this.showLog();
+
+        //RevWalk walk = new RevWalk(git.getRepository());
         TreeMap<DateTime, RevCommit> commitsByDate = new TreeMap<DateTime, RevCommit>();
+
+        try (Git git = new Git(repository)) {
+            Iterable<RevCommit> commits = git.log().all().call();
+            int count = 0;
+            for (RevCommit commit : commits) {
+                System.out.println("LogCommit: " + commit);
+                count++;
+                DateTime commitTime = new DateTime(commit.getCommitterIdent().getWhen());
+                DateTime execTimeDate = new DateTime(execDate);
+                // Only add if the timestamp is before
+                if (commitTime.compareTo(execTimeDate) <= 0) {
+                    commitsByDate.put(commitTime, commit);
+                }
+
+            }
+            System.out.println(count);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (NoHeadException e) {
+            e.printStackTrace();
+        } catch (GitAPIException e) {
+            e.printStackTrace();
+        }
+
+        Iterable<RevCommit> logs = null;
+
         try {
-            walk.markStart(walk.parseCommit(this.repo.resolve(Constants.HEAD)));
+            logs = git.log()
+                    .call();
+            logs = git.log()
+                    // for all log.all()
+                    .addPath(path)
+                    .call();
+            int count = 0;
+            for (RevCommit rev : logs) {
+                //System.out.println("Commit: " + rev /* + ", name: " + rev.getName() + ", id: " + rev.getId().getName() */);
+                count++;
+            }
+            System.out.println("Had " + count + " commits on " + path);
+
+        } catch (GitAPIException e) {
+            e.printStackTrace();
+        }
+
+
+        /*
+
+
+
+        try {
+            walk.markStart(walk.parseCommit(this.repository.resolve(Constants.HEAD)));
 
             walk.sort(RevSort.COMMIT_TIME_DESC);
-            walk.setTreeFilter(PathFilter.create(path));
+         //   walk.setTreeFilter(PathFilter.create(path));
 
             for (RevCommit commit : walk) {
                 if (commit.getCommitterIdent().getWhen().before(execDate)) {
@@ -220,13 +272,14 @@ public class GitAPI {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        */
         return commitsByDate;
     }
 
     public RevCommit getMostRecentCommit(Date execDate, String path) {
         TreeMap<DateTime, RevCommit> allCommits = this.getAllCommitsBefore(execDate, path);
         RevCommit lastCommit = allCommits.lastEntry().getValue();
-        System.out.println("Last entry: " + lastCommit.getName());
+        System.out.println("Last entry: " + lastCommit.getName() + " was at " + new DateTime(lastCommit.getCommitterIdent().getWhen()));
         return lastCommit;
 
     }
@@ -295,8 +348,8 @@ public class GitAPI {
     public void retrieveFileFromCommit(String path, RevCommit commit, String outputPath) {
         TreeWalk treeWalk = null;
         try {
-            treeWalk = TreeWalk.forPath(this.repo, path, commit.getTree());
-            InputStream inputStream = this.repo.open(treeWalk.getObjectId(0), Constants.OBJ_BLOB).openStream();
+            treeWalk = TreeWalk.forPath(this.repository, path, commit.getTree());
+            InputStream inputStream = this.repository.open(treeWalk.getObjectId(0), Constants.OBJ_BLOB).openStream();
 
             this.writeFile(inputStream, outputPath);
             treeWalk.close(); // use release() in JGit < 4.0
@@ -333,17 +386,19 @@ public class GitAPI {
 
     }
 
-    public void openRepository(File path) {
+    public Git openRepository(File path) {
         this.git = null;
         if (this.isDirectory(path)) {
             try {
                 this.git = Git.open(path);
                 Logger.info("Open reposirory " + path.getAbsolutePath());
-                this.repo = this.git.getRepository();
+                this.repository = this.git.getRepository();
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
+
+        return git;
 
     }
 
@@ -355,7 +410,8 @@ public class GitAPI {
      */
     public void initRepository(String path) throws IOException {
         File localPath = new File(path);
-
+        this.openRepository(localPath);
+/*
         // create the directory
         try (Git newGit = Git.init().setDirectory(localPath).call()) {
             this.git = newGit;
@@ -364,9 +420,22 @@ public class GitAPI {
             e.printStackTrace();
         }
 
-        repo = FileRepositoryBuilder.create(new File(localPath.getAbsolutePath(), ".git"));
+        repository = FileRepositoryBuilder.create(new File(localPath.getAbsolutePath(), ".git"));
+        */
+        try {
+            git = Git.init().setDirectory(localPath).call();
+            repository = git.getRepository();
+            logger.info("Init");
 
-
+        } catch (GitAPIException e) {
+            e.printStackTrace();
+        }
+        /*
+        FileRepositoryBuilder repositoryBuilder = new FileRepositoryBuilder();
+        repositoryBuilder.setMustExist( true );
+        repositoryBuilder.setGitDir(localPath);
+        repository = repositoryBuilder.build();
+        */
 
 
 
@@ -408,8 +477,16 @@ public class GitAPI {
 
         git.status();
 
-        git.add()
-                .addFilepattern(file.getName())
+        try {
+            this.copyFileFromURL(new URL("file://" + file.getAbsolutePath()), new File(repository.getWorkTree().getAbsolutePath()), file.getName());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        String pattern = file.getName();
+
+        DirCache index = git.add()
+                .addFilepattern(pattern)
                 .call();
 
 
@@ -418,9 +495,9 @@ public class GitAPI {
                 .setMessage(commitMessage)
                 .call();
 
-        File dir = repo.getDirectory();
-
-        repo.close();
+        //File dir = repository.getDirectory();
+        git.status();
+        repository.close();
 
     }
 
@@ -441,17 +518,17 @@ public class GitAPI {
     }
 
     public File getRepoPath() {
-        File path = this.repo.getDirectory();
+        File path = this.repository.getDirectory();
         Logger.info("Path: " + path.getAbsolutePath());
         return path;
     }
 
     public Repository getRepository() {
-        return repo;
+        return repository;
     }
 
     public void setRepository(Repository repository) {
-        this.repo = repository;
+        this.repository = repository;
     }
 
     public String getCommitMessage() {
@@ -470,5 +547,93 @@ public class GitAPI {
         this.git = git;
     }
 
+    public void showLog() {
+        Iterable<RevCommit> logs = null;
+        try {
+            logs = git.log()
+                    .call();
 
+            int count = 0;
+            for (RevCommit rev : logs) {
+                //System.out.println("Commit: " + rev /* + ", name: " + rev.getName() + ", id: " + rev.getId().getName() */);
+                count++;
+            }
+            System.out.println("Had " + count + " commits overall on current branch");
+
+            logs = git.log()
+                    .add(repository.resolve("HEAD"))
+                    .call();
+            count = 0;
+            for (RevCommit rev : logs) {
+                System.out.println("Commit: " + rev /* + ", name: " + rev.getName() + ", id: " + rev.getId().getName() */);
+                count++;
+            }
+            System.out.println("Had " + count + " commits overall on test-branch");
+
+            logs = git.log()
+                    .all()
+                    .call();
+            count = 0;
+            for (RevCommit rev : logs) {
+                //System.out.println("Commit: " + rev /* + ", name: " + rev.getName() + ", id: " + rev.getId().getName() */);
+                count++;
+            }
+            System.out.println("Had " + count + " commits overall in repository");
+
+            logs = git.log()
+                    // for all log.all()
+                    .addPath("readme.me")
+                    .call();
+            count = 0;
+            for (RevCommit rev : logs) {
+                //System.out.println("Commit: " + rev /* + ", name: " + rev.getName() + ", id: " + rev.getId().getName() */);
+                count++;
+            }
+            System.out.println("Had " + count + " commits on README.md");
+
+            logs = git.log()
+                    // for all log.all()
+                    .addPath("pom.xml")
+                    .call();
+            count = 0;
+            for (RevCommit rev : logs) {
+                //System.out.println("Commit: " + rev /* + ", name: " + rev.getName() + ", id: " + rev.getId().getName() */);
+                count++;
+            }
+            System.out.println("Had " + count + " commits on pom.xml");
+        } catch (GitAPIException e) {
+            e.printStackTrace();
+        } catch (IncorrectObjectTypeException e) {
+            e.printStackTrace();
+        } catch (AmbiguousObjectException e) {
+            e.printStackTrace();
+        } catch (MissingObjectException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void showLogForFile(String path) {
+        Iterable<RevCommit> logs = null;
+        try {
+            logs = git.log()
+                    .call();
+
+            int count = 0;
+            logs = git.log()
+                    // for all log.all()
+                    .addPath(path)
+                    .call();
+            count = 0;
+            for (RevCommit rev : logs) {
+                System.out.println("Commit: " + rev /* + ", name: " + rev.getName() + ", id: " + rev.getId().getName() */);
+                count++;
+            }
+        } catch (NoHeadException e) {
+            e.printStackTrace();
+        } catch (GitAPIException e) {
+            e.printStackTrace();
+        }
+    }
 }

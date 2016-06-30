@@ -2446,7 +2446,7 @@ Count the records which are not deleted..
             logger.info(sql);
             ResultSet resultSet = statement.executeQuery(sql);
             while (resultSet.next()) {
-                randomDate = resultSet.getDate("randomDate");
+                randomDate = resultSet.getTimestamp("randomDate");
             }
 
         } catch (SQLException e) {
