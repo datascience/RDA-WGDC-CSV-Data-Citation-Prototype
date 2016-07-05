@@ -136,7 +136,7 @@ public class TestDataGenerator {
     private String[] generateGenericHeaders(int amountOfHeaders) {
         String[] newHeaders = new String[amountOfHeaders];
         for (int i = 0; i < amountOfHeaders; i++) {
-            newHeaders[i] = "Column_" + (i + 1);
+            newHeaders[i] = "COLUMN_" + (i + 1);
         }
         return newHeaders;
     }

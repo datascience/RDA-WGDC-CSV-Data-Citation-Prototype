@@ -792,11 +792,11 @@ public class QueryStoreAPI {
             for (Filter currentFilter : filterSet) {
                 filterCounter++;
                 if (filterCounter == 1) {
-                    whereString += "`outerGroup`.`" + currentFilter.getFilterName() + "` LIKE '%" +
-                            currentFilter.getFilterValue() + "%' ";
+                    whereString += "UPPER(`outerGroup`.`" + currentFilter.getFilterName() + "`) LIKE UPPER('%" +
+                            currentFilter.getFilterValue() + "%') ORDER BY COLUMN_1 ASC";
                 } else {
-                    whereString += " AND `outerGroup`.`" + currentFilter.getFilterName() + "` LIKE '%" +
-                            currentFilter.getFilterValue() + "%' ";
+                    whereString += " AND UPPER(`outerGroup`.`" + currentFilter.getFilterName() + "`) LIKE UPPER('%" +
+                            currentFilter.getFilterValue() + "%') ORDER BY COLUMN_1 ASC";
 
                 }
 
@@ -804,21 +804,7 @@ public class QueryStoreAPI {
 
             sqlString += whereString;
         }
-        if (sortingsSet.size() > 0) {
-            String sortingString = " ORDER BY ";
-            for (Sorting currentSorting : sortingsSet) {
 
-                sortingString += "`outerGroup`.`" + currentSorting.getSortingColumn() + "` " + currentSorting
-                        .getDirection() + ",";
-
-            }
-            if (sortingString.endsWith(",")) {
-                sortingString = sortingString.substring(0, sortingString.length() - 1);
-
-            }
-
-            sqlString += sortingString;
-        }
 
 
         this.logger.info(sqlString);
@@ -944,8 +930,7 @@ public class QueryStoreAPI {
     public String generateQueryStringForGitEvaluation(Query query) {
 
         List<Filter> filterSet = query.getFilters();
-        List<Sorting> sortingsSet = query.getSortings();
-        DatabaseTools dbTools = new DatabaseTools();
+
 
 
         String fromString = query.getBaseTable().getBaseTableName();
@@ -973,11 +958,11 @@ public class QueryStoreAPI {
             for (Filter currentFilter : filterSet) {
                 filterCounter++;
                 if (filterCounter == 1) {
-                    whereString += "" + currentFilter.getFilterName() + " LIKE '%" +
-                            currentFilter.getFilterValue() + "%' ";
+                    whereString += " UPPER(" + currentFilter.getFilterName() + ") LIKE UPPER('%" +
+                            currentFilter.getFilterValue() + "%')  ORDER BY COLUMN_1 ASC";
                 } else {
-                    whereString += " AND " + currentFilter.getFilterName() + "'%" +
-                            currentFilter.getFilterValue() + "%'";
+                    whereString += " AND " + currentFilter.getFilterName() + "UPPER('%" +
+                            currentFilter.getFilterValue() + "%') ORDER BY COLUMN_1 ASC";
 
                 }
 
@@ -985,22 +970,6 @@ public class QueryStoreAPI {
 
             sqlString += whereString;
         }
-        if (sortingsSet.size() > 0) {
-            String sortingString = " ORDER BY ";
-            for (Sorting currentSorting : sortingsSet) {
-
-                sortingString += currentSorting.getSortingColumn() + "` " + currentSorting
-                        .getDirection() + ",";
-
-            }
-            if (sortingString.endsWith(",")) {
-                sortingString = sortingString.substring(0, sortingString.length() - 1);
-
-            }
-
-            sqlString += sortingString;
-        }
-
 
         this.logger.info(sqlString);
 

@@ -18,17 +18,9 @@ package GitBackend;
 
 import QueryStore.Query;
 import QueryStore.QueryStoreAPI;
-import at.stefanproell.DataGenerator.DataGenerator;
-import org.relique.jdbc.csv.CsvDriver;
-import org.supercsv.cellprocessor.ift.CellProcessor;
-import org.supercsv.io.CsvResultSetWriter;
-import org.supercsv.io.ICsvResultSetWriter;
-import org.supercsv.prefs.CsvPreference;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
-import java.io.PrintStream;
+import com.sun.rowset.CachedRowSetImpl;
+
 import java.sql.*;
 
 /**
@@ -43,62 +35,41 @@ public class QueryCSV {
 
     }
 
-    public void runQuery(Query query, String directoryPath, String fullExportPath) {
+    public CachedRowSetImpl runQuery(Query query, String directoryPath, String fullExportPath) {
         String queryString = queryStoreAPI.generateQueryStringForGitEvaluation(query);
-
+        ResultSet results = null;
+        CachedRowSetImpl crs = null;
 
         try {
             // Load the driver.
-            Class.forName("org.relique.jdbc.csv.CsvDriver");
+            Class.forName("org.xbib.jdbc.csv.CsvDriver");
 
 
-            Connection conn = DriverManager.getConnection("jdbc:relique:csv:" + directoryPath);
+            Connection conn = DriverManager.getConnection("jdbc:xbib:csv:" + directoryPath);
             Statement stmt = conn.createStatement();
 
-            ResultSet results = stmt.executeQuery(queryString);
+            results = stmt.executeQuery(queryString);
 
+            crs = new CachedRowSetImpl();
+            crs.populate(results);
 
-            writeWithResultSetWriter(results, fullExportPath);
 
             // Clean up
             conn.close();
+
 
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         } catch (SQLException e) {
             e.printStackTrace();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
         }
 
+        return crs;
+
 
     }
 
-    /**
-     * An example of writing using CsvResultSetWriter
-     */
-    private static void writeWithResultSetWriter(ResultSet resultSet, String outputPath) throws Exception {
 
-
-        ICsvResultSetWriter resultSetWriter = null;
-        try {
-            resultSetWriter = new CsvResultSetWriter(new FileWriter(outputPath),
-                    CsvPreference.STANDARD_PREFERENCE);
-            ResultSetMetaData rsmd = resultSet.getMetaData();
-
-            int columnsNumber = rsmd.getColumnCount();
-
-            final CellProcessor[] processors = DataGenerator.getProcessors(columnsNumber);
-
-            // writer csv file from ResultSet
-            resultSetWriter.write(resultSet, processors);
-
-        } finally {
-            if (resultSetWriter != null) {
-                resultSetWriter.close();
-            }
-        }
-    }
 }

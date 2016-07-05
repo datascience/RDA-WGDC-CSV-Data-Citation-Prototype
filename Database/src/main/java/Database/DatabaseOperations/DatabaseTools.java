@@ -2008,6 +2008,50 @@ Count the records which are not deleted..
     }
 
 
+    public CachedRowSetImpl reExecuteQueryEvaluation(String queryString) {
+
+        Statement stat = null;
+        Connection connection = null;
+        ResultSet sortedResultSet = null;
+        CachedRowSetImpl crs = null;
+
+        try {
+            connection = this.getConnection();
+            stat = connection.createStatement();
+
+            sortedResultSet = stat.executeQuery(queryString);
+
+            crs = new CachedRowSetImpl();
+            crs.populate(sortedResultSet);
+
+
+            this.resultSetMetadata.setRowCount(this.getResultSetRowCount(sortedResultSet));
+
+
+            stat.close();
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+
+        } finally {
+            try {
+                if (connection != null) {
+                    connection.close();
+                }
+                if (stat != null) {
+                    stat.close();
+                }
+            } catch (SQLException sqlee) {
+                sqlee.printStackTrace();
+            }
+        }
+
+
+        return crs;
+
+
+    }
+
     private int getResultSetRowCount(ResultSet rs) {
         int size = 0;
         try {

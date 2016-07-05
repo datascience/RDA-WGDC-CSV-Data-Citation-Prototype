@@ -22,21 +22,18 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
-        <module name="CSV2DB" />
-        <module name="CSVModule" />
         <module name="CSVTools" />
         <module name="Database" />
         <module name="DatatableModel" />
         <module name="DataTypeGuesser" />
         <module name="Evaluation-Module" />
         <module name="PersistentIdentification" />
-        <module name="PersistentIdentifier" />
         <module name="QueryStore" />
         <module name="ResultSetVerification" />
         <module name="WebInterface" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel target="1.8">
+    <bytecodeTargetLevel>
       <module name="CSV-Citation-Deployment-Module" target="1.8" />
       <module name="CSVTools" target="1.8" />
       <module name="Database" target="1.8" />

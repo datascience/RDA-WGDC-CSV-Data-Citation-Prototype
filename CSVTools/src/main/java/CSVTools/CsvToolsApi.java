@@ -49,13 +49,10 @@
 package CSVTools;
 
 
-import at.stefanproell.API.DataTypeDetectorAPI;
-import at.stefanproell.CSV_Tools.CSV_Analyser;
-import at.stefanproell.DataTypeDetector.DatatypeStatistics;
+
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringEscapeUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.supercsv.io.CsvListReader;
 import org.supercsv.io.CsvListWriter;
 import org.supercsv.io.ICsvListReader;

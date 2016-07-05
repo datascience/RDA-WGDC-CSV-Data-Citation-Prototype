@@ -30,12 +30,11 @@ import at.stefanproell.CSV_Tools.CSV_Analyser;
 import at.stefanproell.DataGenerator.DataGenerator;
 import at.stefanproell.PersistentIdentifierMockup.PersistentIdentifier;
 import at.stefanproell.PersistentIdentifierMockup.PersistentIdentifierAPI;
+import com.sun.rowset.CachedRowSetImpl;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.supercsv.cellprocessor.ift.CellProcessor;
-import org.supercsv.io.CsvMapWriter;
-import org.supercsv.io.ICsvMapReader;
-import org.supercsv.io.ICsvMapWriter;
+import org.supercsv.io.*;
 import org.supercsv.prefs.CsvPreference;
 
 import javax.sql.rowset.CachedRowSet;
@@ -43,6 +42,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.util.*;
 import java.util.logging.Logger;
 
@@ -378,9 +379,15 @@ public class Operations {
             query.setExecution_timestamp(randomDate);
             recordBean.setStartTimestampSQL(new Date());
 
-            CachedRowSet result = dbtools.reExecuteQuery(query.getQueryString());
+            CachedRowSetImpl result = dbtools.reExecuteQueryEvaluation(query.getQueryString());
             String fullExportPathSQL = exportPath + query.getDatasourcePID() + "_export_sql.csv";
-            dbtools.exportResultSetAsCSV(result, fullExportPathSQL);
+            int amountOfColumns = query.getSelectedColumns().size();
+            try {
+                writeWithResultSetWriter(result,amountOfColumns, fullExportPathSQL);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
             recordBean.setEndTimestampSQL(new Date());
             recordBean.setSqlQuery(query.getQueryString());
 
@@ -392,18 +399,25 @@ public class Operations {
             gitAPI.retrieveFileFromCommit(tablePid.getIdentifier() + ".csv", commit, fullExportPathGit);
 
             QueryCSV queryCSV = new QueryCSV();
-            queryCSV.runQuery(query, exportPath, fullExportPathGit);
+            result = queryCSV.runQuery(query, exportPath, fullExportPathGit);
+            try {
+                writeWithResultSetWriter(result, amountOfColumns, fullExportPathGit);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
 
             recordBean.setEndTimestampGit(new Date());
 
 
             try {
-                String gitHash = gitAPI.createSha1(new File(fullExportPathGit)).toString();
-                String sqlHash = gitAPI.createSha1(new File(fullExportPathSQL)).toString();
+                String gitHash = gitAPI.createSha1(new File(fullExportPathGit));
+                String sqlHash = gitAPI.createSha1(new File(fullExportPathSQL));
                 if (gitHash.equals(sqlHash) == false) {
-                    logger.severe("Files not identical!");
 
+                    logger.severe("Files not identical on: "+query.getQueryString());
+                }else{
+                    logger.info("Identical");
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -475,5 +489,31 @@ public class Operations {
 
     public void setGitApi(GitAPI gitApi) {
         this.gitApi = gitApi;
+    }
+
+    /**
+     * An example of writing using CsvResultSetWriter
+     */
+    private static void writeWithResultSetWriter(CachedRowSet resultSet, int amountOfColumns, String outputPath) throws Exception {
+
+
+        ICsvResultSetWriter resultSetWriter = null;
+        try {
+            resultSetWriter = new CsvResultSetWriter(new FileWriter(outputPath),
+                    CsvPreference.STANDARD_PREFERENCE);
+            ResultSetMetaData rsmd = resultSet.getMetaData();
+
+
+
+            final CellProcessor[] processors = DataGenerator.getProcessors(amountOfColumns);
+
+            // writer csv file from ResultSet
+            resultSetWriter.write(resultSet, processors);
+
+        } finally {
+            if (resultSetWriter != null) {
+                resultSetWriter.close();
+            }
+        }
     }
 }

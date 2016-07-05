@@ -146,9 +146,15 @@ public class HelpersCSV {
         return header;
     }
 
+    /**
+     * Creates upper case strings
+     * @param length
+     * @param variance
+     * @return
+     */
     public static String randomString(int length, double variance) {
         int rand = (int) Math.abs(Math.round(length + fRandom.nextGaussian() * variance));
-        String randomString = RandomStringUtils.randomAlphanumeric(rand);
+        String randomString = RandomStringUtils.randomAlphanumeric(rand).toUpperCase();
         return randomString;
     }
 
