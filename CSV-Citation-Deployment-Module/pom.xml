@@ -41,6 +41,7 @@
         <module>../ResultSetVerification</module>
         <module>../WebInterface</module>
         <module>../DataTypeGuesser</module>
+        <module>../Evaluation-Module</module>
     </modules>
 
     <dependencies>

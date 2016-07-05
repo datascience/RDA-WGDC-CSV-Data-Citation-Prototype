@@ -38,7 +38,10 @@ import org.hibernate.service.ServiceRegistry;
 
 import javax.sql.rowset.CachedRowSet;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.security.MessageDigest;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -102,9 +105,20 @@ public class EvaluationAPI {
 
 
 
-        initEvaluationSystem();
+
 
         try {
+
+            // Sleep for 1 second
+            try {
+                logger.info("Going to sleep...");
+                TimeUnit.MILLISECONDS.sleep(1000);
+                logger.info("Wakeing up...");
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            initEvaluationSystem();
             setUpBackend();
             persistRunBean(runBean);
 
@@ -151,6 +165,7 @@ public class EvaluationAPI {
             this.listOfCsvFilePersistentIdentifiers.add(pid);
 
         }
+
 
         return this.listOfCsvFilePersistentIdentifiers;
 
@@ -213,7 +228,7 @@ public class EvaluationAPI {
         DataPreparation prep = new DataPreparation(this.getEvaluationOrganization());
         String tableName = prep.uploadNewCSVFile(pid.getURI());
         DatabaseTools dbTools = new DatabaseTools();
-        dbTools.updatePrimaryKey(pid.getIdentifier(), "Column_1");
+        dbTools.updatePrimaryKey(pid.getIdentifier(), "COLUMN_1");
 
         String baseTablePid = prep.createNewBaseTableRecord(tableName);
         return baseTablePid;

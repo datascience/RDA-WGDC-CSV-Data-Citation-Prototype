@@ -28,7 +28,7 @@ public class GenerateTestDataMain {
         int averageStringLength=5;
         double variance = 2.0;
         int amountOfRecords = 10;
-        String[] headers = {"Column_1","Column_2","Column_3","Column_4","Column_5"};
+        String[] headers = {"COLUMN_1", "COLUMN_2", "COLUMN_3", "COLUMN_4", "COLUMN_5"};
 
         DataGenerator csv = new DataGenerator("/tmp/testfile.csv", headers, amountOfRecords,
                 averageStringLength,variance);

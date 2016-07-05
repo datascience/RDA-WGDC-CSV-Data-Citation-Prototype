@@ -16,8 +16,52 @@
 
 package GitBackend;
 
+import org.relique.jdbc.csv.CsvDriver;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintStream;
+import java.sql.*;
+
 /**
  * Created by stefan on 30.06.16.
  */
 public class QueryCSVTestMain {
+    public static void main(String[] args) {
+        try {
+            // Load the driver.
+            Class.forName("org.relique.jdbc.csv.CsvDriver");
+
+            // Create a connection. The first command line parameter is
+            // the directory containing the .csv files.
+            // A single connection is thread-safe for use by several threads.
+            Connection conn = DriverManager.getConnection("jdbc:relique:csv:" + "/tmp/Evaluation_Results/");
+
+            // Create a Statement object to execute the query with.
+            // A Statement is not thread-safe.
+            Statement stmt = conn.createStatement();
+
+            // Select the ID and NAME columns from sample.csv
+            ResultSet results = stmt.executeQuery("SELECT COLUMN_1 FROM rAuLD7ZfzgqR_export_git WHERE COLUMN_1 LIKE '%7%'");
+
+            // Dump out the results to a CSV file with the same format
+            // using CsvJdbc helper function
+            boolean append = true;
+            PrintStream outputStream = new PrintStream(new File("/tmp/Evaluation_Results/out.csv"));
+            CsvDriver.writeToCsv(results, outputStream, false);
+
+            // Clean up
+            conn.close();
+
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
 }

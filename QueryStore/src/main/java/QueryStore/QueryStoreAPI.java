@@ -721,6 +721,111 @@ public class QueryStoreAPI {
 
     }
 
+    public int finalizeQueryEvaluation(Query query) {
+
+
+        String querString = this.generateQueryStringEvaluation(query);
+        query.setQueryString(querString);
+        this.persistQuery(query);
+
+        boolean queryIsUnique = this.checkQueryUniqueness(query);
+
+
+        if (queryIsUnique == false) {
+            this.logger.severe("There was a identical query. This could be a new version!");
+            return 1;
+        } else {
+            this.logger.info("No version detected. OK");
+            return 0;
+        }
+
+
+    }
+
+    private String generateQueryStringEvaluation(Query query) {
+        List<Filter> filterSet = query.getFilters();
+        List<Sorting> sortingsSet = query.getSortings();
+        DatabaseTools dbTools = new DatabaseTools();
+
+
+        String fromString = query.getBaseTable().getBaseTableName();
+
+        List<String> primaryKeyList = dbTools.getPrimaryKeyFromTable(fromString);
+        String primaryKey = "";
+        if (primaryKeyList.size() == 0) {
+            this.logger.severe("Primary key list size: " + primaryKeyList.size());
+        } else {
+            primaryKey = primaryKeyList.get(0);
+        }
+
+
+        String sqlString = "SELECT ";
+        Map<Integer, String> selectedColumns = query.getSelectedColumns();
+
+        for (Map.Entry<Integer, String> entry : selectedColumns.entrySet()) {
+            String columnName = entry.getValue();
+            sqlString += "`outerGroup`.`" + columnName + "`,";
+        }
+
+        // remove last comma from string
+        if (sqlString.endsWith(",")) {
+            sqlString = sqlString.substring(0, sqlString.length() - 1);
+        }
+
+        sqlString += " FROM " + fromString;
+
+        // inner join
+
+        sqlString += "  AS outerGroup INNER JOIN " +
+                "    (SELECT " + primaryKey + ", max(LAST_UPDATE) AS mostRecent " +
+                "    FROM " +
+                query.getBaseTable().getBaseTableName() +
+                " AS innerSELECT " +
+                " WHERE (innerSELECT.RECORD_STATUS = 'inserted' " +
+                " OR innerSELECT.RECORD_STATUS = 'updated'" + " AND innerSELECT.LAST_UPDATE<=\""
+                + this.convertJavaDateToMySQLTimeStamp(query.getExecution_timestamp()) + "\") GROUP BY " + primaryKey + ") innerGroup ON outerGroup." + primaryKey + " = innerGroup." + primaryKey + " " +
+                " AND outerGroup.LAST_UPDATE = innerGroup.mostRecent ";
+
+        if (filterSet.size() > 0) {
+            String whereString = " WHERE ";
+            int filterCounter = 0;
+            for (Filter currentFilter : filterSet) {
+                filterCounter++;
+                if (filterCounter == 1) {
+                    whereString += "`outerGroup`.`" + currentFilter.getFilterName() + "` LIKE '%" +
+                            currentFilter.getFilterValue() + "%' ";
+                } else {
+                    whereString += " AND `outerGroup`.`" + currentFilter.getFilterName() + "` LIKE '%" +
+                            currentFilter.getFilterValue() + "%' ";
+
+                }
+
+            }
+
+            sqlString += whereString;
+        }
+        if (sortingsSet.size() > 0) {
+            String sortingString = " ORDER BY ";
+            for (Sorting currentSorting : sortingsSet) {
+
+                sortingString += "`outerGroup`.`" + currentSorting.getSortingColumn() + "` " + currentSorting
+                        .getDirection() + ",";
+
+            }
+            if (sortingString.endsWith(",")) {
+                sortingString = sortingString.substring(0, sortingString.length() - 1);
+
+            }
+
+            sqlString += sortingString;
+        }
+
+
+        this.logger.info(sqlString);
+
+        return sqlString;
+    }
+
     private boolean checkQueryUniqueness(Query query) {
         this.session = HibernateUtilQueryStore.getSessionFactory().openSession();
         this.session.beginTransaction();
@@ -758,8 +863,13 @@ public class QueryStoreAPI {
         String fromString = query.getBaseTable().getBaseTableName();
 
         List<String> primaryKeyList = dbTools.getPrimaryKeyFromTable(fromString);
-        this.logger.info("Primary key list size: " + primaryKeyList.size());
-        String primaryKey = primaryKeyList.get(0);
+        String primaryKey = "";
+        if (primaryKeyList.size() == 0) {
+            this.logger.severe("Primary key list size: " + primaryKeyList.size());
+        } else {
+            primaryKey = primaryKeyList.get(0);
+        }
+
 
 
         String sqlString = "SELECT ";
@@ -784,11 +894,10 @@ public class QueryStoreAPI {
                 "    FROM " +
                 query.getBaseTable().getBaseTableName() +
                 " AS innerSELECT " +
-                "    WHERE " +
-                "        (innerSELECT.RECORD_STATUS = 'inserted' " +
-                "            OR innerSELECT.RECORD_STATUS = 'updated'" + " AND innerSELECT.LAST_UPDATE<=\""
+                " WHERE (innerSELECT.RECORD_STATUS = 'inserted' " +
+                " OR innerSELECT.RECORD_STATUS = 'updated'" + " AND innerSELECT.LAST_UPDATE<=\""
                 + this.convertJavaDateToMySQLTimeStamp(query.getExecution_timestamp()) + "\") GROUP BY " + primaryKey + ") innerGroup ON outerGroup." + primaryKey + " = innerGroup." + primaryKey + " " +
-                "        AND outerGroup.LAST_UPDATE = innerGroup.mostRecent ";
+                " AND outerGroup.LAST_UPDATE = innerGroup.mostRecent ";
 
         if (filterSet.size() > 0) {
             String whereString = " WHERE ";
@@ -847,7 +956,7 @@ public class QueryStoreAPI {
 
         for (Map.Entry<Integer, String> entry : selectedColumns.entrySet()) {
             String columnName = entry.getValue();
-            sqlString += columnName + "`,";
+            sqlString += columnName + ",";
         }
 
         // remove last comma from string
@@ -855,7 +964,7 @@ public class QueryStoreAPI {
             sqlString = sqlString.substring(0, sqlString.length() - 1);
         }
 
-        sqlString += " FROM " + fromString;
+        sqlString += " FROM " + fromString + "_export_git";
 
 
         if (filterSet.size() > 0) {
@@ -864,11 +973,11 @@ public class QueryStoreAPI {
             for (Filter currentFilter : filterSet) {
                 filterCounter++;
                 if (filterCounter == 1) {
-                    whereString += "UPPER(" + currentFilter.getFilterName() + "`) LIKE UPPER('%" +
-                            currentFilter.getFilterValue() + "%') ";
+                    whereString += "" + currentFilter.getFilterName() + " LIKE '%" +
+                            currentFilter.getFilterValue() + "%' ";
                 } else {
-                    whereString += " AND UPPER(" + currentFilter.getFilterName() + "`) LIKE UPPER('%" +
-                            currentFilter.getFilterValue() + "%') ";
+                    whereString += " AND " + currentFilter.getFilterName() + "'%" +
+                            currentFilter.getFilterValue() + "%'";
 
                 }
 

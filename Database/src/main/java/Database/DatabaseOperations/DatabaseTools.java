@@ -2531,8 +2531,13 @@ Count the records which are not deleted..
      */
     public void exportResultSetAsCSV(CachedRowSet crs, String exportCSVPath) {
         CSVWriter wr = null;
+        CsvToolsApi csvApi = new CsvToolsApi();
+
+        csvApi.deleteOutputFile(exportCSVPath);
         try {
-            wr = new CSVWriter(new FileWriter(exportCSVPath), ',');
+
+            wr = new CSVWriter(new FileWriter(exportCSVPath), ',', CSVWriter.NO_QUOTE_CHARACTER);
+
             wr.writeAll(crs, true);
             wr.flush();
             wr.close();

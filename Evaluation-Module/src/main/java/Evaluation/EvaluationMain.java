@@ -37,20 +37,24 @@ public class EvaluationMain {
         double updateProportion = 0.1;
         double deleteProportion = 0.0;
         QueryComplexity complexity = QueryComplexity.EASY;
-        int amountOfOperations = 100;
+        int amountOfOperations = 20;
 
         String csvFolder = "/tmp/Evaluation";
         String gitRepoPath = "/tmp/Evaluation_Git_Repo";
         String exportPath = "/tmp/Evaluation_Results/";
 
         CsvToolsApi csvApi = new CsvToolsApi();
-        csvApi.createCSVDirectory(csvFolder);
+        csvApi.deleteCSVDirectory(csvFolder);
+        csvApi.deleteCSVDirectory(gitRepoPath);
+        csvApi.deleteCSVDirectory(exportPath);
 
+        csvApi.createCSVDirectory(csvFolder);
         csvApi.createCSVDirectory(exportPath);
 
 
         EvaluationAPI api = new EvaluationAPI(9999, csvFolder, gitRepoPath, exportPath, selectProportion, insertProportion, updateProportion, deleteProportion, complexity, amountOfOperations);
         List<PersistentIdentifier> list = api.createCsvFiles(amountOfCsvFiles, amountOfRecords, amountOfColumns, averageStringLength, variance);
+
         api.uploadListOfCsvFiles(list);
         api.runOperations(list);
 

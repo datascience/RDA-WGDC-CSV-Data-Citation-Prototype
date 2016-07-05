@@ -53,6 +53,7 @@ import at.stefanproell.API.DataTypeDetectorAPI;
 import at.stefanproell.CSV_Tools.CSV_Analyser;
 import at.stefanproell.DataTypeDetector.DatatypeStatistics;
 import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.supercsv.io.CsvListReader;
@@ -392,7 +393,7 @@ public class CsvToolsApi {
 
     }
 
-    private static void deleteOutputFile(String fileName) {
+    public static void deleteOutputFile(String fileName) {
         File file = new File(fileName);
         if (file.exists()) {
             file.delete(); // you might want to check if delete was successfull
@@ -659,6 +660,15 @@ public class CsvToolsApi {
             System.out.println("Directory successfully created");
         else
             System.out.println("Failed to create directory");
+    }
+
+    public void deleteCSVDirectory(String path) {
+        File file = new File(path);
+        try {
+            FileUtils.deleteDirectory(file);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
     
     

@@ -48,6 +48,7 @@
 
 package GitBackend;
 
+import at.stefanproell.DataGenerator.DataGenerator;
 import at.stefanproell.PersistentIdentifierMockup.PersistentIdentifier;
 import org.apache.commons.io.FileUtils;
 import org.eclipse.jgit.api.Git;
@@ -58,18 +59,30 @@ import org.eclipse.jgit.errors.AmbiguousObjectException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevSort;
+import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.treewalk.filter.PathFilter;
 import org.joda.time.DateTime;
 import org.pmw.tinylog.Logger;
+import org.supercsv.cellprocessor.ift.CellProcessor;
+import org.supercsv.io.CsvResultSetWriter;
+import org.supercsv.io.ICsvResultSetWriter;
+import org.supercsv.prefs.CsvPreference;
 
 import java.io.*;
 import java.net.URL;
+import java.security.MessageDigest;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -94,6 +107,7 @@ public class GitAPI {
     private String localRepositoryPath;
     private String remoteRepositoryPath;
     private Repository repository;
+    private DataGenerator dataGenerator;
 
     public String getLocalRepositoryPath() {
         return localRepositoryPath;
@@ -278,10 +292,81 @@ public class GitAPI {
 
     public RevCommit getMostRecentCommit(Date execDate, String path) {
         TreeMap<DateTime, RevCommit> allCommits = this.getAllCommitsBefore(execDate, path);
-        RevCommit lastCommit = allCommits.lastEntry().getValue();
-        System.out.println("Last entry: " + lastCommit.getName() + " was at " + new DateTime(lastCommit.getCommitterIdent().getWhen()));
-        return lastCommit;
+        if (allCommits.size() == 0) {
+            logger.severe("Error... No commit");
+            return null;
+        } else {
+            RevCommit lastCommit = allCommits.lastEntry().getValue();
+            System.out.println("Last entry: " + lastCommit.getName() + " was at " + new DateTime(lastCommit.getCommitterIdent().getWhen()));
+            return lastCommit;
 
+        }
+
+
+    }
+
+    /*
+    * Get all commits of a file before a given date
+    * */
+    public RevCommit getFirstCommit(String path) {
+
+        // this.showLogForFile(this.repository.getDirectory()+path);
+        // this.showLog();
+
+        //RevWalk walk = new RevWalk(git.getRepository());
+        TreeMap<DateTime, RevCommit> allCommits = new TreeMap<DateTime, RevCommit>();
+
+        try (Git git = new Git(repository)) {
+            Iterable<RevCommit> commits = git.log().all().call();
+            int count = 0;
+            for (RevCommit commit : commits) {
+                System.out.println("LogCommit: " + commit);
+                count++;
+                DateTime commitTime = new DateTime(commit.getCommitterIdent().getWhen());
+                allCommits.put(commitTime, commit);
+
+            }
+            System.out.println(count);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (NoHeadException e) {
+            e.printStackTrace();
+        } catch (GitAPIException e) {
+            e.printStackTrace();
+        }
+        return allCommits.firstEntry().getValue();
+    }
+
+    /*
+    * Get all commits of a file before a given date
+    * */
+    public Date getFirstCommitDate(String path) {
+
+        // this.showLogForFile(this.repository.getDirectory()+path);
+        // this.showLog();
+
+        //RevWalk walk = new RevWalk(git.getRepository());
+        TreeMap<DateTime, RevCommit> allCommits = new TreeMap<DateTime, RevCommit>();
+
+        try (Git git = new Git(repository)) {
+            Iterable<RevCommit> commits = git.log().all().call();
+            int count = 0;
+            for (RevCommit commit : commits) {
+                System.out.println("LogCommit: " + commit);
+                count++;
+                DateTime commitTime = new DateTime(commit.getCommitterIdent().getWhen());
+                allCommits.put(commitTime, commit);
+
+            }
+            System.out.println(count);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (NoHeadException e) {
+            e.printStackTrace();
+        } catch (GitAPIException e) {
+            e.printStackTrace();
+        }
+        return allCommits.firstEntry().getKey().toDate();
     }
 
     /*
@@ -346,17 +431,51 @@ public class GitAPI {
     }
 
     public void retrieveFileFromCommit(String path, RevCommit commit, String outputPath) {
-        TreeWalk treeWalk = null;
-        try {
-            treeWalk = TreeWalk.forPath(this.repository, path, commit.getTree());
-            InputStream inputStream = this.repository.open(treeWalk.getObjectId(0), Constants.OBJ_BLOB).openStream();
 
+        // now we have to get the commit
+        RevWalk revWalk = new RevWalk(repository);
+
+// and using commit's tree find the path
+        RevTree tree = commit.getTree();
+        TreeWalk treeWalk = new TreeWalk(repository);
+        try {
+            treeWalk.addTree(tree);
+            treeWalk.setRecursive(true);
+            treeWalk.setFilter(PathFilter.create(path));
+            if (!treeWalk.next()) {
+                logger.severe("No rev found");
+            }
+            ObjectId objectId = treeWalk.getObjectId(0);
+            ObjectLoader loader = repository.open(objectId);
+            InputStream inputStream = loader.openStream();
             this.writeFile(inputStream, outputPath);
-            treeWalk.close(); // use release() in JGit < 4.0
+            inputStream.close();
 
         } catch (IOException e) {
             e.printStackTrace();
         }
+        /*
+
+
+        if(commit==null){
+            logger.severe("Commit was NULL");
+
+        } else {
+
+
+            TreeWalk treeWalk;
+            try {
+                treeWalk = TreeWalk.forPath(this.repository, this.repository.getWorkTree().getPath()+path, commit.getTree());
+                InputStream inputStream = this.repository.open(treeWalk.getObjectId(0), Constants.OBJ_BLOB).openStream();
+
+                this.writeFile(inputStream, outputPath);
+                treeWalk.close(); // use release() in JGit < 4.0
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        */
 
     }
 
@@ -374,6 +493,8 @@ public class GitAPI {
             while ((read = inputStream.read(bytes)) != -1) {
                 outputStream.write(bytes, 0, read);
             }
+            outputStream.flush();
+            outputStream.close();
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -475,7 +596,7 @@ public class GitAPI {
         // run the add-call
 
 
-        git.status();
+        // git.status();
 
         try {
             this.copyFileFromURL(new URL("file://" + file.getAbsolutePath()), new File(repository.getWorkTree().getAbsolutePath()), file.getName());
@@ -496,7 +617,7 @@ public class GitAPI {
                 .call();
 
         //File dir = repository.getDirectory();
-        git.status();
+        //    git.status();
         repository.close();
 
     }
@@ -636,5 +757,49 @@ public class GitAPI {
             e.printStackTrace();
         }
     }
+
+    public Date getRandomdateBetweentwoDates(Date start, Date end) {
+        DateFormat formatter = new SimpleDateFormat("dd-MMM-yy HH:mm:ss");
+        Calendar cal = Calendar.getInstance();
+
+
+        cal.setTime(start);
+        Long value1 = cal.getTimeInMillis();
+
+        cal.setTime(end);
+        Long value2 = cal.getTimeInMillis();
+
+        long value3 = (long) (value1 + Math.random() * (value2 - value1));
+        cal.setTimeInMillis(value3);
+        return cal.getTime();
+
+    }
+
+    public String createSha1(File file) throws Exception {
+        MessageDigest md = MessageDigest.getInstance("SHA1");
+        FileInputStream fis = new FileInputStream(file);
+        byte[] dataBytes = new byte[1024];
+
+        int nread = 0;
+
+        while ((nread = fis.read(dataBytes)) != -1) {
+            md.update(dataBytes, 0, nread);
+        }
+        ;
+
+        byte[] mdbytes = md.digest();
+
+        //convert the byte to hex format
+        StringBuffer sb = new StringBuffer("");
+        for (int i = 0; i < mdbytes.length; i++) {
+            sb.append(Integer.toString((mdbytes[i] & 0xff) + 0x100, 16).substring(1));
+        }
+
+        return sb.toString();
+
+
+    }
+
+
 
 }

@@ -18,8 +18,17 @@ package GitBackend;
 
 import QueryStore.Query;
 import QueryStore.QueryStoreAPI;
+import at.stefanproell.DataGenerator.DataGenerator;
 import org.relique.jdbc.csv.CsvDriver;
+import org.supercsv.cellprocessor.ift.CellProcessor;
+import org.supercsv.io.CsvResultSetWriter;
+import org.supercsv.io.ICsvResultSetWriter;
+import org.supercsv.prefs.CsvPreference;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.PrintStream;
 import java.sql.*;
 
 /**
@@ -27,14 +36,14 @@ import java.sql.*;
  */
 public class QueryCSV {
     private QueryStoreAPI queryStoreAPI;
-    private String fullPath;
 
-    public QueryCSV(String fullPath) {
+
+    public QueryCSV() {
         queryStoreAPI = new QueryStoreAPI();
-        this.fullPath = fullPath;
+
     }
 
-    public void runQuery(Query query) {
+    public void runQuery(Query query, String directoryPath, String fullExportPath) {
         String queryString = queryStoreAPI.generateQueryStringForGitEvaluation(query);
 
 
@@ -42,22 +51,14 @@ public class QueryCSV {
             // Load the driver.
             Class.forName("org.relique.jdbc.csv.CsvDriver");
 
-            // Create a connection. The first command line parameter is
-            // the directory containing the .csv files.
-            // A single connection is thread-safe for use by several threads.
-            Connection conn = DriverManager.getConnection("jdbc:relique:csv:" + fullPath);
 
-            // Create a Statement object to execute the query with.
-            // A Statement is not thread-safe.
+            Connection conn = DriverManager.getConnection("jdbc:relique:csv:" + directoryPath);
             Statement stmt = conn.createStatement();
 
-            // Select the ID and NAME columns from sample.csv
             ResultSet results = stmt.executeQuery(queryString);
 
-            // Dump out the results to a CSV file with the same format
-            // using CsvJdbc helper function
-            boolean append = true;
-            CsvDriver.writeToCsv(results, System.out, append);
+
+            writeWithResultSetWriter(results, fullExportPath);
 
             // Clean up
             conn.close();
@@ -66,8 +67,38 @@ public class QueryCSV {
             e.printStackTrace();
         } catch (SQLException e) {
             e.printStackTrace();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
 
+    }
+
+    /**
+     * An example of writing using CsvResultSetWriter
+     */
+    private static void writeWithResultSetWriter(ResultSet resultSet, String outputPath) throws Exception {
+
+
+        ICsvResultSetWriter resultSetWriter = null;
+        try {
+            resultSetWriter = new CsvResultSetWriter(new FileWriter(outputPath),
+                    CsvPreference.STANDARD_PREFERENCE);
+            ResultSetMetaData rsmd = resultSet.getMetaData();
+
+            int columnsNumber = rsmd.getColumnCount();
+
+            final CellProcessor[] processors = DataGenerator.getProcessors(columnsNumber);
+
+            // writer csv file from ResultSet
+            resultSetWriter.write(resultSet, processors);
+
+        } finally {
+            if (resultSetWriter != null) {
+                resultSetWriter.close();
+            }
+        }
     }
 }

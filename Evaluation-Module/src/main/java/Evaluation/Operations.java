@@ -79,6 +79,7 @@ public class Operations {
     private CSV_Analyser csv_analyser;
     private DatabaseTools dbtools;
     private GitAPI gitApi;
+    EvaluationAPI evalApi;
 
 
     public Operations() {
@@ -90,6 +91,7 @@ public class Operations {
         queryAPI = new QueryStoreAPI();
         pidAPI = new PersistentIdentifierAPI();
         dbtools = new DatabaseTools();
+
 
 
     }
@@ -237,7 +239,7 @@ public class Operations {
             for (Map.Entry<Integer, Map<String, Object>> csvRowMap : csvMap.entrySet()) {
 
                 Map<String, Object> csvRow = csvRowMap.getValue();
-                Object columnOne = csvRow.get("Column_1");
+                Object columnOne = csvRow.get("COLUMN_1");
                 if (columnOne == null) {
                     logger.info("Null");
                 }
@@ -250,7 +252,7 @@ public class Operations {
                     Map<String, Object> newRecord = new HashMap<String, Object>();
 
                     // we start from 1 as this is the primary key column
-                    newRecord.put("Column_1", primaryKey);
+                    newRecord.put("COLUMN_1", primaryKey);
 
                     for (int i = 1; i < amountOfColumns; i++) {
                         newRecord.put(headers[i], randomString(10, 2));
@@ -335,8 +337,8 @@ public class Operations {
 
                     // add one filter
 
-                    String randomFilterString = "%" + HelpersCSV.randomString(2, 1) + "%";
-                    queryAPI.addFilter(query, "Column_1", randomFilterString);
+                    String randomFilterString = HelpersCSV.randomString(2, 1);
+                    queryAPI.addFilter(query, "COLUMN_1", randomFilterString);
                     queryAPI.persistQuery(query);
 
                     break;
@@ -355,27 +357,57 @@ public class Operations {
             query.setExecution_timestamp(date);
             query.setDatasourcePID(tablePid.getIdentifier());
             // persist
-            queryAPI.finalizeQuery(query);
-
+            queryAPI.finalizeQueryEvaluation(query);
 
             // Get a random date for the re-execution
-            Date randomDate = dbtools.getRandomDateBetweenMinAndMax(tablePid.getIdentifier());
+
+            Date tableCreationDate = tablePid.getCreatedDate();
+            Date gitFirstCommit = gitAPI.getFirstCommitDate(tablePid.getIdentifier() + ".csv");
+
+            Date startDate = null;
+            if (tableCreationDate.after(gitFirstCommit)) {
+                startDate = tableCreationDate;
+            } else {
+                startDate = gitFirstCommit;
+            }
+            Date nowdate = new Date();
+            Date randomDate = gitAPI.getRandomdateBetweentwoDates(startDate, nowdate);
+
+
+
             query.setExecution_timestamp(randomDate);
             recordBean.setStartTimestampSQL(new Date());
+
             CachedRowSet result = dbtools.reExecuteQuery(query.getQueryString());
-            dbtools.exportResultSetAsCSV(result, exportPath + query.getPID() + "_export_sql.csv");
+            String fullExportPathSQL = exportPath + query.getDatasourcePID() + "_export_sql.csv";
+            dbtools.exportResultSetAsCSV(result, fullExportPathSQL);
             recordBean.setEndTimestampSQL(new Date());
             recordBean.setSqlQuery(query.getQueryString());
 
             recordBean.setStartTimestampGit(new Date());
-            RevCommit commit = gitAPI.getMostRecentCommit(randomDate, tablePid.getIdentifier() + ".csv");
-            String fullExportPath = exportPath + query.getPID() + "_export_git.csv";
-            gitAPI.retrieveFileFromCommit(tablePid.getIdentifier() + ".csv", commit, fullExportPath);
-            QueryCSV queryCSV = new QueryCSV(fullExportPath);
-            queryCSV.runQuery(query);
 
-            // TODO: 29.06.16 reexecute
+            RevCommit commit = gitAPI.getMostRecentCommit(randomDate, tablePid.getIdentifier() + ".csv");
+            String fullExportPathGit = exportPath + query.getDatasourcePID() + "_export_git.csv";
+
+            gitAPI.retrieveFileFromCommit(tablePid.getIdentifier() + ".csv", commit, fullExportPathGit);
+
+            QueryCSV queryCSV = new QueryCSV();
+            queryCSV.runQuery(query, exportPath, fullExportPathGit);
+
+
             recordBean.setEndTimestampGit(new Date());
+
+
+            try {
+                String gitHash = gitAPI.createSha1(new File(fullExportPathGit)).toString();
+                String sqlHash = gitAPI.createSha1(new File(fullExportPathSQL)).toString();
+                if (gitHash.equals(sqlHash) == false) {
+                    logger.severe("Files not identical!");
+
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
 
         }
