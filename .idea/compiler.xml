@@ -26,6 +26,7 @@
         <module name="Database" />
         <module name="DatatableModel" />
         <module name="DataTypeGuesser" />
+        <module name="DataTypeGuesser (1)" />
         <module name="Evaluation-Module" />
         <module name="PersistentIdentification" />
         <module name="QueryStore" />
@@ -33,12 +34,14 @@
         <module name="WebInterface" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
+    <bytecodeTargetLevel target="1.8">
       <module name="CSV-Citation-Deployment-Module" target="1.8" />
       <module name="CSVTools" target="1.8" />
       <module name="Database" target="1.8" />
       <module name="DatatableModel" target="1.8" />
       <module name="DataTypeGuesser" target="1.8" />
+      <module name="DataTypeGuesser (1)" target="1.5" />
+      <module name="DataTypeGuesser (2)" target="1.8" />
       <module name="Evaluation-Module" target="1.8" />
       <module name="PersistentIdentification" target="1.8" />
       <module name="QueryStore" target="1.8" />

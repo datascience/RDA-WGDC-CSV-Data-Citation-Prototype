@@ -450,7 +450,7 @@ Count the records which are not deleted..
                 String columnType = meta.getColumnTypeName(i);
 
                 columnMetadataMap.put(columnName, columnType);
-                System.out.println("Key: " + columnName + " Value " + columnType);
+
 
             }
 
@@ -2721,7 +2721,6 @@ Count the records which are not deleted..
         Connection connection = this.getConnection();
         String sql = "SELECT SUM(data_length + index_length) AS 'Size' FROM information_schema.TABLES WHERE table_schema = 'CitationDB'";
         int sizeDB=-1;
-        int sizeIndex=-1;
         try {
             Statement statement = connection.createStatement();
             ResultSet result = statement.executeQuery(sql);
@@ -2730,14 +2729,6 @@ Count the records which are not deleted..
                 sizeDB = result.getInt(1);
             }
 
-
-            String indexSQL="SELECT SUM(stat_value*@@innodb_page_size) FROM mysql.innodb_index_stats where stat_name='size' AND database_name='CitationDB'";
-            statement = connection.createStatement();
-            result = statement.executeQuery(sql);
-
-            if (result.next()) {
-                sizeIndex = result.getInt(1);
-            }
 
 
             statement.close();
@@ -2758,7 +2749,7 @@ Count the records which are not deleted..
         }
 
 
-        return sizeDB+sizeIndex;
+        return sizeDB;
 
 
     }

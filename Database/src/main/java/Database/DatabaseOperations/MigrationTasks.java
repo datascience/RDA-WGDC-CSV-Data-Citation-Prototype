@@ -106,7 +106,7 @@ public class MigrationTasks {
             Map<Integer, Map<String, Object>> csvMap = csv_analyser.parseCSV(new File(currentPath));
 
             DatatypeStatistics datatypeStatistics = csv_analyser.analyse(csvMap, headers);
-            datatypeStatistics.printResults();
+            //datatypeStatistics.printResults();
 
 
 

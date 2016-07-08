@@ -38,18 +38,11 @@ import org.hibernate.service.ServiceRegistry;
 
 import javax.sql.rowset.CachedRowSet;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.security.MessageDigest;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
-import static java.lang.Thread.sleep;
 import static org.apache.commons.lang3.StringUtils.appendIfMissing;
 
 
@@ -239,9 +232,11 @@ public class EvaluationAPI {
         op.setGitApi(gitAPI);
 
 
-
+        int counter =0;
         for (PersistentIdentifier pid : listOfCsvFilePersistentIdentifiers) {
+            counter++;
             for (int i = 0; i < amountOfOperations; i++) {
+                System.out.println("Processing CSV file number: " + counter);
 
                 EvaluationRecordBean recordBean = op.executeRandomOperationBasedOnDistribution(pid, exportPath, gitAPI, complexity, selectProportion, insertProportion, updateProportion, deleteProportion);
                 // Sleep for 1 second

@@ -21,18 +21,6 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
-    <repositories>
-        <repository>
-            <id>Hibernate</id>
-            <name>Hibernate Repo</name>
-            <layout>default</layout>
-            <url>https://snapshots.jboss.org/maven2</url>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </repository>
-    </repositories>
-
     <dependencies>
         <dependency>
             <groupId>junit</groupId>
@@ -52,12 +40,13 @@
             <artifactId>super-csv</artifactId>
             <version>2.2.0</version>
         </dependency>
-
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <version>5.1.39</version>
         </dependency>
+
+        <!-- WARNING !!!!!! Hibernate 5.2.0 has a bug when creating audit tables! This is why we use 5.2.0 here! -->
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-core</artifactId>
@@ -81,6 +70,8 @@
             <version>5.2.1-SNAPSHOT</version>
         </dependency>
 
+
+
         <dependency>
             <groupId>org.mindrot</groupId>
             <artifactId>jbcrypt</artifactId>
@@ -103,6 +94,7 @@
             <artifactId>CSVTools</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
+
     </dependencies>
 
     <build>

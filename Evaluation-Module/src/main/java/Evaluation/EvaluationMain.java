@@ -20,6 +20,10 @@ import CSVTools.CsvToolsApi;
 import at.stefanproell.PersistentIdentifierMockup.PersistentIdentifier;
 
 import java.util.List;
+import java.util.logging.Handler;
+import java.util.logging.Level;
+import java.util.logging.LogManager;
+import java.util.logging.Logger;
 
 /**
  * Created by stefan on 27.06.16.
@@ -27,19 +31,24 @@ import java.util.List;
 public class EvaluationMain {
     public static void main(String[] args) {
 
+        Logger log = LogManager.getLogManager().getLogger("");
+        for (Handler h : log.getHandlers()) {
+            h.setLevel(Level.WARNING);
+        }
+
         // Take care that strings are not too short, because then there will be primary key duplicates!
-        int averageStringLength = 15;
+        int averageStringLength = 20;
         double variance = 5.0;
-        int amountOfRecords = 1000;
+        int amountOfRecords = 10000;
         int amountOfColumns = 50;
 
-        int amountOfCsvFiles = 1;
+        int amountOfCsvFiles = 10;
         double selectProportion = 0.3;
         double insertProportion = 0.5;
         double updateProportion = 0.1;
         double deleteProportion = 0.1;
         QueryComplexity complexity = QueryComplexity.EASY;
-        int amountOfOperations = 20;
+        int amountOfOperations = 60;
 
         String csvFolder = "/tmp/Evaluation";
         String gitRepoPath = "/tmp/Evaluation_Git_Repo";
@@ -55,9 +64,11 @@ public class EvaluationMain {
 
 
         EvaluationAPI api = new EvaluationAPI(9999, csvFolder, gitRepoPath, exportPath, selectProportion, insertProportion, updateProportion, deleteProportion, complexity, amountOfOperations);
+        log.severe("Creating files...");
         List<PersistentIdentifier> list = api.createCsvFiles(amountOfCsvFiles, amountOfRecords, amountOfColumns, averageStringLength, variance);
-
+        log.severe("Importing files...");
         api.uploadListOfCsvFiles(list);
+        log.severe("Run operations on files...");
         api.runOperations(list);
 
 
