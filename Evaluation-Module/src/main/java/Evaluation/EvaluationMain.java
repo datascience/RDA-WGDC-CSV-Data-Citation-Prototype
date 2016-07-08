@@ -26,16 +26,18 @@ import java.util.List;
  */
 public class EvaluationMain {
     public static void main(String[] args) {
-        int averageStringLength = 5;
-        double variance = 2.0;
-        int amountOfRecords = 100;
-        int amountOfColumns = 5;
+
+        // Take care that strings are not too short, because then there will be primary key duplicates!
+        int averageStringLength = 15;
+        double variance = 5.0;
+        int amountOfRecords = 1000;
+        int amountOfColumns = 50;
 
         int amountOfCsvFiles = 1;
         double selectProportion = 0.3;
-        double insertProportion = 0.6;
+        double insertProportion = 0.5;
         double updateProportion = 0.1;
-        double deleteProportion = 0.0;
+        double deleteProportion = 0.1;
         QueryComplexity complexity = QueryComplexity.EASY;
         int amountOfOperations = 20;
 

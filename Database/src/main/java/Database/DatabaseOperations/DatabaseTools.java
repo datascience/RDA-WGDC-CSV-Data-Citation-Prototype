@@ -2691,10 +2691,10 @@ Count the records which are not deleted..
             statement = connection.createStatement();
             String alterTable = "ALTER TABLE " +
                     tableName + " DROP PRIMARY KEY ";
-            statement = connection.createStatement();
             statement.executeUpdate(alterTable);
             alterTable = "ALTER TABLE " + tableName + " ADD PRIMARY KEY (" + primaryKeyColumn + ", LAST_UPDATE, RECORD_STATUS)";
             statement.executeUpdate(alterTable);
+
             connection.close();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -2709,6 +2709,56 @@ Count the records which are not deleted..
             }
 
         }
+
+
+    }
+
+    /**
+     * Get Database and Index Size from DB
+     * @return
+     */
+    public int getDatabaseSizeInBytes(){
+        Connection connection = this.getConnection();
+        String sql = "SELECT SUM(data_length + index_length) AS 'Size' FROM information_schema.TABLES WHERE table_schema = 'CitationDB'";
+        int sizeDB=-1;
+        int sizeIndex=-1;
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet result = statement.executeQuery(sql);
+
+            if (result.next()) {
+                sizeDB = result.getInt(1);
+            }
+
+
+            String indexSQL="SELECT SUM(stat_value*@@innodb_page_size) FROM mysql.innodb_index_stats where stat_name='size' AND database_name='CitationDB'";
+            statement = connection.createStatement();
+            result = statement.executeQuery(sql);
+
+            if (result.next()) {
+                sizeIndex = result.getInt(1);
+            }
+
+
+            statement.close();
+            connection.close();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }finally {
+
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+
+        }
+
+
+        return sizeDB+sizeIndex;
 
 
     }

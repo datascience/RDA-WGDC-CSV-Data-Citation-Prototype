@@ -22,6 +22,7 @@ import Database.DatabaseOperations.MigrateCSV2SQL;
 import DatabaseBackend.EvaluationRecordBean;
 import GitBackend.GitAPI;
 import GitBackend.QueryCSV;
+import Helpers.FileHelper;
 import Helpers.HelpersCSV;
 import QueryStore.BaseTable;
 import QueryStore.Query;
@@ -80,7 +81,8 @@ public class Operations {
     private CSV_Analyser csv_analyser;
     private DatabaseTools dbtools;
     private GitAPI gitApi;
-    EvaluationAPI evalApi;
+    private FileHelper fileHelper;
+
 
 
     public Operations() {
@@ -92,6 +94,9 @@ public class Operations {
         queryAPI = new QueryStoreAPI();
         pidAPI = new PersistentIdentifierAPI();
         dbtools = new DatabaseTools();
+        fileHelper = new FileHelper();
+
+
 
 
 
@@ -377,6 +382,7 @@ public class Operations {
 
 
             query.setExecution_timestamp(randomDate);
+            recordBean.setReExecutionDate(randomDate);
             recordBean.setStartTimestampSQL(new Date());
 
             CachedRowSetImpl result = dbtools.reExecuteQueryEvaluation(query.getQueryString());
@@ -405,7 +411,8 @@ public class Operations {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
+            recordBean.setGitQuery( this.queryAPI.generateQueryStringForGitEvaluation(query));
+            recordBean.setQueryComplexity(complexity.toString());
 
             recordBean.setEndTimestampGit(new Date());
 
@@ -454,6 +461,13 @@ public class Operations {
 
         }
         recordBean.setQueryType(type.toString());
+        int gitSize = fileHelper.getFileFolderSize(gitAPI.getRepoPath());
+        recordBean.setGitFolderSizeInBytes(gitSize);
+        int sqlSize = dbtools.getDatabaseSizeInBytes();
+        recordBean.setSqlDBSizeInBytes(sqlSize);
+
+
+
         return recordBean;
     }
 
