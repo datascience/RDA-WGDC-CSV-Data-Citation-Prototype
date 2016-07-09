@@ -1770,10 +1770,13 @@ Count the records which are not deleted..
 
     }
 
-    /*
-* When a user uploads a CSV file which has deleted records, the system needs to tick off which records have been considered so far. This method removes this column
-* */
-    public void dropCheckTable(String tableName) {
+
+    /**
+     * drop the citation database
+
+     */
+    public void dropAndRecreateCitationDatabase() {
+//        logger.severe("DROPPING Citation Table");
 
         Statement stat = null;
         Connection connection = null;
@@ -1781,9 +1784,18 @@ Count the records which are not deleted..
             connection = this.getConnection();
 
             stat = connection.createStatement();
-            stat.execute("DROP TABLE " + tableName + "_temp");
-            stat.close();
+            stat.executeUpdate("DROP DATABASE IF EXISTS CitationDB");
+            stat.executeUpdate("CREATE DATABASE CitationDB");
 
+            SQLWarning warning = stat.getWarnings();
+            if (warning != null) {
+                while (warning != null){
+                logger.severe(warning.getMessage());
+                warning = warning.getNextWarning();
+            }
+            }
+            stat.close();
+            connection.close();
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {

@@ -70,6 +70,12 @@
             <version>5.2.1-SNAPSHOT</version>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/org.jboss.logging/jboss-logging -->
+        <dependency>
+            <groupId>org.jboss.logging</groupId>
+            <artifactId>jboss-logging</artifactId>
+            <version>3.3.0.Final</version>
+        </dependency>
 
 
         <dependency>
@@ -93,6 +99,11 @@
             <groupId>at.stefanproell</groupId>
             <artifactId>CSVTools</artifactId>
             <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate.javax.persistence</groupId>
+            <artifactId>hibernate-jpa-2.1-api</artifactId>
+            <version>1.0.0.Final</version>
         </dependency>
 
     </dependencies>

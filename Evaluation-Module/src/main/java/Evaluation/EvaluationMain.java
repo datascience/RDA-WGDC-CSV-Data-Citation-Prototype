@@ -17,9 +17,11 @@
 package Evaluation;
 
 import CSVTools.CsvToolsApi;
+import Database.DatabaseOperations.DatabaseTools;
 import at.stefanproell.PersistentIdentifierMockup.PersistentIdentifier;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.LogManager;
@@ -33,14 +35,28 @@ public class EvaluationMain {
 
         Logger log = LogManager.getLogManager().getLogger("");
         for (Handler h : log.getHandlers()) {
-            h.setLevel(Level.WARNING);
+            h.setLevel(Level.INFO);
+        }
+
+        // Drop existing data
+        DatabaseTools dbTools = new DatabaseTools();
+        dbTools.dropAndRecreateCitationDatabase();
+        dbTools = null;
+
+        // Sleep for 1 second
+        try {
+
+            TimeUnit.MILLISECONDS.sleep(1000);
+
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
 
         // Take care that strings are not too short, because then there will be primary key duplicates!
         int averageStringLength = 20;
         double variance = 5.0;
-        int amountOfRecords = 10000;
-        int amountOfColumns = 50;
+        int amountOfRecords = 1000;
+        int amountOfColumns = 10;
 
         int amountOfCsvFiles = 10;
         double selectProportion = 0.3;
@@ -48,7 +64,7 @@ public class EvaluationMain {
         double updateProportion = 0.1;
         double deleteProportion = 0.1;
         QueryComplexity complexity = QueryComplexity.EASY;
-        int amountOfOperations = 60;
+        int amountOfOperations = 20;
 
         String csvFolder = "/tmp/Evaluation";
         String gitRepoPath = "/tmp/Evaluation_Git_Repo";

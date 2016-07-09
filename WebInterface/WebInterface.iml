@@ -26,7 +26,6 @@
     <orderEntry type="library" name="Maven: net.sf.supercsv:super-csv:2.2.0" level="project" />
     <orderEntry type="library" name="Maven: mysql:mysql-connector-java:5.1.39" level="project" />
     <orderEntry type="library" name="Maven: org.hibernate:hibernate-core:5.2.1-SNAPSHOT" level="project" />
-    <orderEntry type="library" name="Maven: org.jboss.logging:jboss-logging:3.3.0.Final" level="project" />
     <orderEntry type="library" name="Maven: org.javassist:javassist:3.20.0-GA" level="project" />
     <orderEntry type="library" name="Maven: antlr:antlr:2.7.7" level="project" />
     <orderEntry type="library" name="Maven: org.apache.geronimo.specs:geronimo-jta_1.1_spec:1.1.1" level="project" />
@@ -43,6 +42,7 @@
     <orderEntry type="library" name="Maven: org.hibernate:hibernate-hikaricp:5.2.1-SNAPSHOT" level="project" />
     <orderEntry type="library" name="Maven: com.zaxxer:HikariCP-java6:2.3.9" level="project" />
     <orderEntry type="library" name="Maven: org.hibernate:hibernate-envers:5.2.1-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="Maven: org.jboss.logging:jboss-logging:3.3.0.Final" level="project" />
     <orderEntry type="library" name="Maven: org.mindrot:jbcrypt:0.3m" level="project" />
     <orderEntry type="library" name="Maven: net.sf.opencsv:opencsv:2.3" level="project" />
     <orderEntry type="module" module-name="DataTypeGuesser" />
@@ -59,6 +59,7 @@
     <orderEntry type="library" name="Maven: backport-util-concurrent:backport-util-concurrent:3.1" level="project" />
     <orderEntry type="library" name="Maven: org.slf4j:slf4j-simple:1.7.19" level="project" />
     <orderEntry type="library" name="Maven: joda-time:joda-time:2.9.3" level="project" />
+    <orderEntry type="library" name="Maven: org.hibernate.javax.persistence:hibernate-jpa-2.1-api:1.0.0.Final" level="project" />
     <orderEntry type="module" module-name="DatatableModel" />
     <orderEntry type="module" module-name="CSVTools" />
     <orderEntry type="library" name="Maven: commons-codec:commons-codec:1.9" level="project" />
@@ -80,7 +81,6 @@
     <orderEntry type="library" name="Maven: org.glassfish.hk2:hk2-locator:2.3.0-b10" level="project" />
     <orderEntry type="library" name="Maven: org.glassfish.jersey.ext:jersey-mvc-jsp:2.3.1" level="project" />
     <orderEntry type="library" name="Maven: org.glassfish.jersey.ext:jersey-mvc:2.3.1" level="project" />
-    <orderEntry type="library" name="Maven: org.hibernate.javax.persistence:hibernate-jpa-2.1-api:1.0.0.Final" level="project" />
     <orderEntry type="module" module-name="QueryStore" />
     <orderEntry type="module" module-name="ResultSetVerification" />
   </component>

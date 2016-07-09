@@ -4,8 +4,8 @@ package Database.Authentication;
 import org.hibernate.envers.Audited;
 import org.mindrot.jbcrypt.BCrypt;
 
-import java.io.Serializable;
 import javax.persistence.*;
+import java.io.Serializable;
 
 /**
  * Created by stefan on 18.06.14.
