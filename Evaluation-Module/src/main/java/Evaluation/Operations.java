@@ -46,6 +46,7 @@ import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
 import static Helpers.HelpersCSV.randomString;
@@ -383,7 +384,10 @@ public class Operations {
 
             query.setExecution_timestamp(randomDate);
             recordBean.setReExecutionDate(randomDate);
-            recordBean.setStartTimestampSQL(new Date());
+
+
+
+            recordBean.setStartTimestampSQL(this.getCurrentTimeStamp());
 
             CachedRowSetImpl result = dbtools.reExecuteQueryEvaluation(query.getQueryString());
             String fullExportPathSQL = exportPath + query.getDatasourcePID() + "_export_sql.csv";
@@ -394,10 +398,11 @@ public class Operations {
                 e.printStackTrace();
             }
 
-            recordBean.setEndTimestampSQL(new Date());
+            recordBean.setEndTimestampSQL(this.getCurrentTimeStamp());
             recordBean.setSqlQuery(query.getQueryString());
 
-            recordBean.setStartTimestampGit(new Date());
+
+            recordBean.setStartTimestampGit(this.getCurrentTimeStamp());
 
             RevCommit commit = gitAPI.getMostRecentCommit(randomDate, tablePid.getIdentifier() + ".csv");
             String fullExportPathGit = exportPath + query.getDatasourcePID() + "_export_git.csv";
@@ -414,7 +419,7 @@ public class Operations {
             recordBean.setGitQuery( this.queryAPI.generateQueryStringForGitEvaluation(query));
             recordBean.setQueryComplexity(complexity.toString());
 
-            recordBean.setEndTimestampGit(new Date());
+            recordBean.setEndTimestampGit(this.getCurrentTimeStamp());
 
 
             try {
@@ -529,5 +534,13 @@ public class Operations {
                 resultSetWriter.close();
             }
         }
+    }
+
+    private java.sql.Timestamp getCurrentTimeStamp(){
+        java.util.Date date = new java.util.Date();
+        java.sql.Timestamp timestamp = new java.sql.Timestamp(date.getTime());
+        return timestamp;
+
+
     }
 }

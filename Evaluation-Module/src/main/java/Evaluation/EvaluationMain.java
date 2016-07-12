@@ -43,25 +43,18 @@ public class EvaluationMain {
         dbTools.dropAndRecreateCitationDatabase();
         dbTools = null;
 
-        // Sleep for 1 second
-        try {
 
-            TimeUnit.MILLISECONDS.sleep(1000);
-
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
 
         // Take care that strings are not too short, because then there will be primary key duplicates!
-        int averageStringLength = 20;
+        int averageStringLength = 50;
         double variance = 5.0;
-        int amountOfRecords = 1000;
+        int amountOfRecords = 10000;
         int amountOfColumns = 10;
 
         int amountOfCsvFiles = 10;
         double selectProportion = 0.3;
         double insertProportion = 0.5;
-        double updateProportion = 0.1;
+        double updateProportion = 0.2;
         double deleteProportion = 0.1;
         QueryComplexity complexity = QueryComplexity.EASY;
         int amountOfOperations = 20;

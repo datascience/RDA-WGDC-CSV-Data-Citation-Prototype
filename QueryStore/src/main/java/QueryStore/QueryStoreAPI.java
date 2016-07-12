@@ -779,7 +779,7 @@ public class QueryStoreAPI {
         sqlString += " AS outerGroup INNER JOIN " +
                 " (SELECT " + primaryKey + ", max(LAST_UPDATE) AS 'mostRecent' FROM " +
                 query.getBaseTable().getBaseTableName() +
-                " AS 'innerSELECT' WHERE (innerSELECT.RECORD_STATUS = 'inserted' " +
+                " AS innerSELECT WHERE (innerSELECT.RECORD_STATUS = 'inserted' " +
                 " OR innerSELECT.RECORD_STATUS = 'updated'" + " AND innerSELECT.LAST_UPDATE<=\""
                 + this.convertJavaDateToMySQLTimeStamp(query.getExecution_timestamp()) + "\") GROUP BY " + primaryKey + ") innerGroup ON outerGroup." + primaryKey + " = innerGroup." + primaryKey + " " +
                 " AND outerGroup.LAST_UPDATE = innerGroup.mostRecent ";

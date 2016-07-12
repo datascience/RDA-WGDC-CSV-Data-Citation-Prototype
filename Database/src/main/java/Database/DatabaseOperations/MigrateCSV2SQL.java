@@ -96,6 +96,8 @@ public class MigrateCSV2SQL {
             this.logger.info("The current DATABASE is " + connection.getCatalog());
             stat = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
                     ResultSet.CONCUR_READ_ONLY);
+            // Required to use the correct database as the evaluation module drops the database
+            stat.execute("USE " +connection.getCatalog() );
             stat.execute("DROP TABLE IF EXISTS " + tableName);
             stat.execute(createTableString);
             connection.commit();

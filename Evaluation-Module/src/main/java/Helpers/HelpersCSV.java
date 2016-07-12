@@ -153,8 +153,12 @@ public class HelpersCSV {
      * @return
      */
     public static String randomString(int length, double variance) {
-        int rand = (int) Math.abs(Math.round(length + fRandom.nextGaussian() * variance));
-        String randomString = RandomStringUtils.randomAlphanumeric(rand).toUpperCase();
+        String randomString="";
+        while(randomString.equals("") || randomString.length()<1){
+            int rand = (int) Math.abs(Math.round(length + fRandom.nextGaussian() * variance));
+            randomString = RandomStringUtils.randomAlphanumeric(rand).toUpperCase();
+        }
+
         return randomString;
     }
 

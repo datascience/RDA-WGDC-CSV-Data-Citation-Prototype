@@ -1785,6 +1785,7 @@ Count the records which are not deleted..
 
             stat = connection.createStatement();
             stat.executeUpdate("DROP DATABASE IF EXISTS CitationDB");
+            stat = connection.createStatement();
             stat.executeUpdate("CREATE DATABASE CitationDB");
 
             SQLWarning warning = stat.getWarnings();
@@ -1796,6 +1797,9 @@ Count the records which are not deleted..
             }
             stat.close();
             connection.close();
+            connection = null;
+            connection = this.getConnection();
+
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -2038,7 +2042,7 @@ Count the records which are not deleted..
 
 
             this.resultSetMetadata.setRowCount(this.getResultSetRowCount(sortedResultSet));
-
+            this.logger.info(queryString);
 
             stat.close();
             connection.close();
@@ -2731,7 +2735,10 @@ Count the records which are not deleted..
      */
     public int getDatabaseSizeInBytes(){
         Connection connection = this.getConnection();
-        String sql = "SELECT SUM(data_length + index_length) AS 'Size' FROM information_schema.TABLES WHERE table_schema = 'CitationDB'";
+        // Old version (no real time)
+        // String sql = "SELECT SUM(data_length + index_length) AS 'Size' FROM information_schema.TABLES WHERE table_schema = 'CitationDB'";
+        // Real time
+        String sql = "SELECT SUM(FILE_SIZE) FROM INFORMATION_SCHEMA.INNODB_SYS_TABLESPACES WHERE NAME LIKE \"CitationDB%\"";
         int sizeDB=-1;
         try {
             Statement statement = connection.createStatement();

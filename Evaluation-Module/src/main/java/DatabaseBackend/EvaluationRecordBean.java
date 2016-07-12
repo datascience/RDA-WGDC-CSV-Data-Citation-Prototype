@@ -65,19 +65,19 @@ public class EvaluationRecordBean implements Serializable {
     private String queryComplexity;
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "startTimestampSQL")
+    @Column(name = "startTimestampSQL",columnDefinition="DATETIME(6) NOT NULL")
     private Date startTimestampSQL;
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "endTimestampSQL")
+    @Column(name = "endTimestampSQL",columnDefinition="DATETIME(6) NOT NULL")
     private Date endTimestampSQL;
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "startTimestampGit")
+    @Column(name = "startTimestampGit",columnDefinition="DATETIME(6) NOT NULL")
     private Date startTimestampGit;
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "endTimestampGit")
+    @Column(name = "endTimestampGit",columnDefinition="DATETIME(6) NOT NULL")
     private Date endTimestampGit;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -85,7 +85,7 @@ public class EvaluationRecordBean implements Serializable {
     private EvaluationRunBean evaluationRunBean;
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "reExecutionDate")
+    @Column(name = "reExecutionDate",columnDefinition="DATETIME(6)")
     private Date reExecutionDate;
 
     @Column(name = "gitFolderSizeInBytes")
