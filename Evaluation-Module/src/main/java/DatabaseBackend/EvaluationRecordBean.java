@@ -51,6 +51,10 @@ public class EvaluationRecordBean implements Serializable {
     @Column(name = "evalRecordId")
     private Integer evalRecordId;
 
+    @Id
+    @Column(name="operationCount", nullable = false)
+    private Integer operationCount;
+
     @Column(name = "sqlQuery", length = 5000)
     private String sqlQuery;
 
@@ -80,6 +84,7 @@ public class EvaluationRecordBean implements Serializable {
     @Column(name = "endTimestampGit",columnDefinition="DATETIME(6) NOT NULL")
     private Date endTimestampGit;
 
+    @Id
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "runID", nullable = false)
     private EvaluationRunBean evaluationRunBean;
@@ -195,9 +200,7 @@ public class EvaluationRecordBean implements Serializable {
         return evaluationRunBean;
     }
 
-    public void setEvaluationRunBean(EvaluationRunBean evaluationRunBean) {
-        this.evaluationRunBean = evaluationRunBean;
-    }
+
 
 
     public int getGitFolderSizeInBytes() {
@@ -214,5 +217,17 @@ public class EvaluationRecordBean implements Serializable {
 
     public void setSqlDBSizeInBytes(int sqlDBSizeInBytes) {
         this.sqlDBSizeInBytes = sqlDBSizeInBytes;
+    }
+
+    public Integer getOperationCount() {
+        return operationCount;
+    }
+
+    public void setOperationCount(Integer operationCount) {
+        this.operationCount = operationCount;
+    }
+
+    public void setEvaluationRunBean(EvaluationRunBean evaluationRunBean) {
+        this.evaluationRunBean = evaluationRunBean;
     }
 }

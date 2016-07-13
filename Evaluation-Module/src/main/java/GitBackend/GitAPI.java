@@ -224,7 +224,7 @@ public class GitAPI {
             Iterable<RevCommit> commits = git.log().all().call();
             int count = 0;
             for (RevCommit commit : commits) {
-                System.out.println("LogCommit: " + commit);
+
                 count++;
                 DateTime commitTime = new DateTime(commit.getCommitterIdent().getWhen());
                 DateTime execTimeDate = new DateTime(execDate);
@@ -234,7 +234,7 @@ public class GitAPI {
                 }
 
             }
-            System.out.println(count);
+
         } catch (IOException e) {
             e.printStackTrace();
         } catch (NoHeadException e) {
@@ -257,7 +257,7 @@ public class GitAPI {
                 //System.out.println("Commit: " + rev /* + ", name: " + rev.getName() + ", id: " + rev.getId().getName() */);
                 count++;
             }
-            System.out.println("Had " + count + " commits on " + path);
+
 
         } catch (GitAPIException e) {
             e.printStackTrace();
@@ -320,13 +320,13 @@ public class GitAPI {
             Iterable<RevCommit> commits = git.log().all().call();
             int count = 0;
             for (RevCommit commit : commits) {
-                System.out.println("LogCommit: " + commit);
+
                 count++;
                 DateTime commitTime = new DateTime(commit.getCommitterIdent().getWhen());
                 allCommits.put(commitTime, commit);
 
             }
-            System.out.println(count);
+
         } catch (IOException e) {
             e.printStackTrace();
         } catch (NoHeadException e) {
@@ -352,13 +352,13 @@ public class GitAPI {
             Iterable<RevCommit> commits = git.log().all().call();
             int count = 0;
             for (RevCommit commit : commits) {
-                System.out.println("LogCommit: " + commit);
+
                 count++;
                 DateTime commitTime = new DateTime(commit.getCommitterIdent().getWhen());
                 allCommits.put(commitTime, commit);
 
             }
-            System.out.println(count);
+
         } catch (IOException e) {
             e.printStackTrace();
         } catch (NoHeadException e) {

@@ -64,6 +64,9 @@ public class FileHelper {
         } else if (dir.isFile()) {
             size += dir.length();
         }
+        if(size<0){
+            System.out.println("Negative size");
+        }
         return size;
     }
 

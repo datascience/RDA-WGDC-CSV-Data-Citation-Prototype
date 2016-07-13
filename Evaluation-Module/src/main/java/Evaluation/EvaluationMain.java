@@ -35,7 +35,7 @@ public class EvaluationMain {
 
         Logger log = LogManager.getLogManager().getLogger("");
         for (Handler h : log.getHandlers()) {
-            h.setLevel(Level.INFO);
+            h.setLevel(Level.SEVERE);
         }
 
         // Drop existing data
@@ -43,21 +43,24 @@ public class EvaluationMain {
         dbTools.dropAndRecreateCitationDatabase();
         dbTools = null;
 
-
+        int amountOfColumns = 5;
+        int amountOfRecords = 1000;
+        int amountOfCsvFiles = 1;
+        int amountOfOperations = 500;
 
         // Take care that strings are not too short, because then there will be primary key duplicates!
-        int averageStringLength = 50;
-        double variance = 5.0;
-        int amountOfRecords = 10000;
-        int amountOfColumns = 10;
+        int averageStringLength = 10;
+        double variance = 2.0;
 
-        int amountOfCsvFiles = 10;
-        double selectProportion = 0.3;
-        double insertProportion = 0.5;
-        double updateProportion = 0.2;
-        double deleteProportion = 0.1;
+
+
+
+        double selectProportion = 0.4;
+        double insertProportion = 0.3;
+        double updateProportion = 0.3;
+        double deleteProportion = 0.0;
         QueryComplexity complexity = QueryComplexity.EASY;
-        int amountOfOperations = 20;
+
 
         String csvFolder = "/tmp/Evaluation";
         String gitRepoPath = "/tmp/Evaluation_Git_Repo";
@@ -79,6 +82,8 @@ public class EvaluationMain {
         api.uploadListOfCsvFiles(list);
         log.severe("Run operations on files...");
         api.runOperations(list);
+        api.setRunBeanStopTime();
+
 
 
         System.exit(0);

@@ -39,6 +39,7 @@ import org.hibernate.service.ServiceRegistry;
 import javax.sql.rowset.CachedRowSet;
 import java.io.File;
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
@@ -95,6 +96,7 @@ public class EvaluationAPI {
         queryStoreAPI = new QueryStoreAPI();
         dbTools = new DatabaseTools();
         runBean = new EvaluationRunBean();
+        runBean.setStartDate(new Date());
 
 
 
@@ -233,12 +235,15 @@ public class EvaluationAPI {
 
 
         int counter =0;
+        int operationCount=0;
         for (PersistentIdentifier pid : listOfCsvFilePersistentIdentifiers) {
             counter++;
             for (int i = 0; i < amountOfOperations; i++) {
                 System.out.println("Processing CSV file number: " + counter);
+                operationCount++;
 
                 EvaluationRecordBean recordBean = op.executeRandomOperationBasedOnDistribution(pid, exportPath, gitAPI, complexity, selectProportion, insertProportion, updateProportion, deleteProportion);
+                recordBean.setOperationCount(operationCount);
                 // Sleep for 1 second
                 try {
                     logger.info("Going to sleep...");
@@ -435,6 +440,12 @@ public class EvaluationAPI {
         } finally {
             session.close();
         }
+
+    }
+
+    public void setRunBeanStopTime(){
+        this.runBean.setEndDateDate(new Date());
+        persistRunBean(runBean);
 
     }
 
