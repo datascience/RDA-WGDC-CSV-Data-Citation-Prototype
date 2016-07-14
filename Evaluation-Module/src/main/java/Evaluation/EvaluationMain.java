@@ -43,10 +43,10 @@ public class EvaluationMain {
         dbTools.dropAndRecreateCitationDatabase();
         dbTools = null;
 
-        int amountOfColumns = 3;
-        int amountOfRecords = 30;
+        int amountOfColumns = 5;
+        int amountOfRecords = 1000;
         int amountOfCsvFiles = 1;
-        int amountOfOperations = 20;
+        int amountOfOperations = 100;
 
         // Take care that strings are not too short, because then there will be primary key duplicates!
         int averageStringLength = 10;
@@ -55,9 +55,9 @@ public class EvaluationMain {
 
 
 
-        double selectProportion = 0.3;
+        double selectProportion = 1.0;
         double insertProportion = 0.0;
-        double updateProportion = 0.7;
+        double updateProportion = 0.0;
         double deleteProportion = 0.0;
         QueryComplexity complexity = QueryComplexity.EASY;
 
