@@ -156,10 +156,6 @@ public class EvaluationAPI {
                                       updateProportion, double deleteProportion) {
         this.tableName = tableName;
 
-        if (evaluationRunBean == null) {
-            this.createNewEvaluationRun();
-        }
-
         for (currentIteration = 0; currentIteration < amountOfQueries; currentIteration++) {
             QueryGenerator qG = new QueryGenerator(tableName, complexity, selectProportion, insertProportion,
                     updateProportion, deleteProportion);
@@ -179,10 +175,7 @@ public class EvaluationAPI {
      * @return
      */
     public EvaluationRunBean getEvaluationRunBean() {
-        if (evaluationRunBean == null) {
-            evaluationRunBean = new EvaluationRunBean();
-        }
-        return evaluationRunBean;
+       return evaluationRunBean;
     }
 
     public void setEvaluationRunBean(EvaluationRunBean evaluationRunBean) {

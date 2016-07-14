@@ -69,13 +69,6 @@ public class EvaluationRunBean implements Serializable {
         this.evaluationRecordSet = new HashSet<EvaluationRecordBean>();
     }
 
-    public EvaluationRunBean(Integer runID, Date startDate, Date endDateDate) {
-        this.runID = runID;
-        this.startDate = startDate;
-        this.endDateDate = endDateDate;
-        this.evaluationRecordSet = new HashSet<EvaluationRecordBean>();
-    }
-
     public Integer getRunID() {
         return runID;
     }
