@@ -276,8 +276,166 @@ public class MigrateCSV2SQL {
 
     }
 
+    /**
+     * Steps:
+     * Step 1: Copy table based on the structure of the existing one as temp table
+     * Step 2: Insert new uploaded file into the temp table
+     * Step 3: Find all records to be inserted
+     * Step 4: Find all records to be updated
+     * Step 5: Find all records to be deleted
+     * <p>
+     * There are some points to consider.
+     * The system can only detect if a record has been updated, if there exists a primary key which is different than
+     * the ID_SYSTEM_SEQUENCE The reason is that the updated CSV file does not contain the system sequence number column,
+     * therefore a real primary key is needed which allows to detect updates.
+     *
+     * @param currentTableName
+     * @param csvMap
+     * @throws SQLException
+     */
+    public void updateDataInExistingDBEvaluation(String currentTableName, Map<Integer, Map<String, Object>> csvMap, Date updateDate) {
 
+
+        Statement stat = null;
+        CsvToolsApi csvToolsApi = new CsvToolsApi();
+
+        // We store all IDs which exist in the CSV file
+        List<Integer> validIDs = new ArrayList<Integer>();
+        int existsIdSystemSequenceInteger = -5;
+
+
+        // Boolean to check if the primary key is not a standard metadata key.
+        boolean hasUserDefinedPrimaryKey = false;
+        Map<String, String> columnNamesWithoutMetadataSortedAlphabetically = dbtools.getColumnNamesWithoutMetadataSortedAlphabetically(currentTableName);
+
+
+        // Neue idee:
+        // map direkt vergleichen und inserten.
+
+        // check if there is a primary key which was defined by the user.
+        hasUserDefinedPrimaryKey = checkIfUserDevinedPrimaryKeyAvailable(currentTableName);
+
+
+        if (hasUserDefinedPrimaryKey) {
+
+            // Iterate over the CSV Map
+            for (Map.Entry<Integer, Map<String, Object>> entry : csvMap.entrySet()) {
+                existsIdSystemSequenceInteger = -5;
+
+                Map<String, Object> data = entry.getValue();
+                TreeMap<String, Object> sortedByColumnName = new TreeMap<String, Object>(data);
+                boolean recordExists = false;
+
+                // Check if record exists.
+                existsIdSystemSequenceInteger = checkIfRecordExists(data, currentTableName);
+
+                // The record exists
+                if (existsIdSystemSequenceInteger > -1) {
+                    this.logger.info("The record exists. It has the SYSTEM_SEQUENCE_NUMER: " + existsIdSystemSequenceInteger + " Check if it changed");
+                    recordExists = true;
+
+
+                    int changedRecordSequence = checkIfRecordHasChanged(existsIdSystemSequenceInteger, data, currentTableName);
+
+                    if (changedRecordSequence == -1) {
+                        logger.info("The record has changed. UPDATE Record");
+                        // The record has changed.
+                        // Update the old record
+
+                        updateOldRecordEvaluation(existsIdSystemSequenceInteger, currentTableName, updateDate);
+                        insertNewRecordVersionOfExistingRecordEvaluation(existsIdSystemSequenceInteger, data, currentTableName);
+
+
+                    }
+                    validIDs.add(existsIdSystemSequenceInteger);
+                } else {
+                    existsIdSystemSequenceInteger = insertNewRecord(currentTableName, data);
+                    validIDs.add(existsIdSystemSequenceInteger);
+
+                }
+
+
+            }
+
+
+        }
+
+        dbtools.deleteMarkedRecords(validIDs, currentTableName);
+
+
+    }
+
+    /**
+     *
+     * @param existsIdSystemSequenceInteger
+     * @param data
+     * @param currentTableName
+     */
     private void insertNewRecordVersionOfExistingRecord(int existsIdSystemSequenceInteger, Map<String, Object> data, String currentTableName) {
+
+        TablePojo tablePojo = dbtools.getTableMetadataPojoFromTable(currentTableName);
+        TreeMap<String, Object> sortedByColumnName = new TreeMap<String, Object>(data);
+        CsvToolsApi csvToolsApi = new CsvToolsApi();
+
+
+        String insertSQL = "INSERT INTO " + currentTableName + " (ID_SYSTEM_SEQUENCE,";
+
+        String columnValuesString = ",LAST_UPDATE,RECORD_STATUS) VALUES(" + (existsIdSystemSequenceInteger) + ",";
+        for (Map.Entry<String, Object> record : sortedByColumnName.entrySet()) {
+            String columnValue;
+            String columnName = record.getKey();
+            String normalizedColumnName = csvToolsApi.replaceReservedKeyWords(columnName);
+            insertSQL += normalizedColumnName + ",";
+            if (record.getValue() != null) {
+                columnValue = record.getValue().toString();
+                try {
+                    dbtools.increaseColumnLength(columnValue, tablePojo);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+
+                columnValue = csvToolsApi.escapeQuotes(columnValue);
+                columnValue = "\"" + columnValue + "\"" + ",";
+
+            } else {
+                columnValue = " NULL,";
+            }
+
+
+            columnValuesString += columnValue;
+        }
+
+        insertSQL = StringUtils.removeEndIgnoreCase(insertSQL, ",");
+        columnValuesString = StringUtils.removeEndIgnoreCase(columnValuesString, ",");
+
+        insertSQL += columnValuesString + ",NOW(),\"inserted\");";
+        logger.info(insertSQL);
+        // insert the new record
+        Connection connection = null;
+        Statement statement;
+        try {
+
+            connection = this.getConnection();
+            if (connection.getAutoCommit()) {
+                connection.setAutoCommit(false);
+            }
+            statement = connection.createStatement();
+            statement.executeUpdate(insertSQL);
+            connection.commit();
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (Exception e) { /* handle close exception, quite usually ignore */ }
+            }
+        }
+
+    }
+
+    private void insertNewRecordVersionOfExistingRecordEvaluation(int existsIdSystemSequenceInteger, Map<String, Object> data, String currentTableName) {
 
         TablePojo tablePojo = dbtools.getTableMetadataPojoFromTable(currentTableName);
         TreeMap<String, Object> sortedByColumnName = new TreeMap<String, Object>(data);
@@ -343,9 +501,9 @@ public class MigrateCSV2SQL {
 
     /**
      * Update the existing record in the database
-     *
-     * @param idSystemSequence
+     *  @param idSystemSequence
      * @param currentTableName
+     *
      */
     private void updateOldRecord(int idSystemSequence, String currentTableName) {
         Connection connection = null;
@@ -373,6 +531,59 @@ public class MigrateCSV2SQL {
                 lastUpdateDate = latestRecordRS.getTimestamp("LAST_UPDATE");
                 status = latestRecordRS.getString("RECORD_STATUS");
                 String updateOldRecord = "UPDATE " + currentTableName + " SET LAST_UPDATE=NOW(),RECORD_STATUS=\"updated\" WHERE ID_SYSTEM_SEQUENCE=" + idSystemSequence + " AND LAST_UPDATE=\"" + lastUpdateDate.toString() + "\"";
+                logger.info("Update String: " + updateOldRecord);
+                latestRecordStatement = connection.createStatement();
+                int update = latestRecordStatement.executeUpdate(updateOldRecord);
+                connection.commit();
+
+            }
+
+
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (Exception e) { /* handle close exception, quite usually ignore */ }
+            }
+        }
+    }
+
+    /**
+     * Update the existing record in the database
+     *  @param idSystemSequence
+     * @param currentTableName
+     *
+     */
+    private void updateOldRecordEvaluation(int idSystemSequence, String currentTableName, Date updateDate) {
+        Connection connection = null;
+
+
+        Statement latestRecordStatement = null;
+        try {
+            connection = this.getConnection();
+            if (connection.getAutoCommit()) {
+                connection.setAutoCommit(false);
+            }
+            latestRecordStatement = connection.createStatement();
+
+            String latestRecordSQL = "SELECT ID_SYSTEM_SEQUENCE, INSERT_DATE,MAX(LAST_UPDATE) AS LAST_UPDATE, RECORD_STATUS FROM "
+                    + currentTableName + "  WHERE ID_SYSTEM_SEQUENCE = " + idSystemSequence
+                    + " AND RECORD_STATUS <> \"deleted\" GROUP BY ID_SYSTEM_SEQUENCE, INSERT_DATE,RECORD_STATUS;";
+            ResultSet latestRecordRS = latestRecordStatement.executeQuery(latestRecordSQL);
+
+            connection.commit();
+
+            Timestamp lastUpdateDate = null;
+            String status;
+            if (latestRecordRS.next()) {
+
+                lastUpdateDate = latestRecordRS.getTimestamp("LAST_UPDATE");
+                java.sql.Timestamp updateDateSQL=new java.sql.Timestamp(updateDate.getTime());
+                status = latestRecordRS.getString("RECORD_STATUS");
+                String updateOldRecord = "UPDATE " + currentTableName + " SET LAST_UPDATE='"+updateDateSQL+"',RECORD_STATUS=\"updated\" WHERE ID_SYSTEM_SEQUENCE=" + idSystemSequence + " AND LAST_UPDATE=\"" + lastUpdateDate.toString() + "\"";
                 logger.info("Update String: " + updateOldRecord);
                 latestRecordStatement = connection.createStatement();
                 int update = latestRecordStatement.executeUpdate(updateOldRecord);
@@ -603,11 +814,6 @@ public class MigrateCSV2SQL {
         }
 
         return newSystemSequenceID;
-    }
-
-    public Date getCurrentDatetime() {
-        java.util.Date today = new java.util.Date();
-        return new Date(today.getTime());
     }
 
 

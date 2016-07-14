@@ -592,7 +592,7 @@ public class GitAPI {
     }
 
 
-    public void addAndCommit(File file, String commitMessage) throws GitAPIException {
+    public java.sql.Timestamp addAndCommit(File file, String commitMessage) throws GitAPIException {
         // run the add-call
 
 
@@ -612,13 +612,16 @@ public class GitAPI {
 
 
         // and then commit the changes
-        git.commit()
+        RevCommit commit = git.commit()
                 .setMessage(commitMessage)
                 .call();
+        java.sql.Timestamp commitTime = new java.sql.Timestamp(commit.getCommitTime());
+
 
         //File dir = repository.getDirectory();
         //    git.status();
         repository.close();
+        return commitTime;
 
     }
 

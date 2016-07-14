@@ -217,7 +217,7 @@ public class Operations {
     }
 
     public void randomUpdate(PersistentIdentifier pid) {
-        ICsvMapReader mapReader = null;
+
         CsvToolsApi csvToolsApi = new CsvToolsApi();
         String currentPath = pid.getURI();
 
@@ -451,6 +451,7 @@ public class Operations {
         else if (randomNumber > selectProportion + insertProportion &&
                 randomNumber <= selectProportion + insertProportion + updateProportion) {
             type = QueryType.UPDATE;
+
             this.randomUpdate(tablePid);
             this.commitChanges(recordBean, tablePid);
 
@@ -478,29 +479,35 @@ public class Operations {
     }
 
     private void commitChanges(EvaluationRecordBean recordBean, PersistentIdentifier tablePid) {
-        recordBean.setStartTimestampSQL(new Date());
-        this.commitChangesToPrototypeSystem(tablePid);
-        recordBean.setEndTimestampSQL(new Date());
+        
+
         recordBean.setStartTimestampGit(new Date());
-        this.commitChangesToGitSystem(tablePid);
+        java.sql.Timestamp updateDate = this.commitChangesToGitSystem(tablePid);
         recordBean.setEndTimestampGit(new Date());
 
+
+        recordBean.setStartTimestampSQL(new Date());
+        this.commitChangesToPrototypeSystem(tablePid,updateDate);
+        recordBean.setEndTimestampSQL(new Date());
+
+
     }
 
-    private void commitChangesToPrototypeSystem(PersistentIdentifier pid) {
+    private void commitChangesToPrototypeSystem(PersistentIdentifier pid, Date updateDate) {
         Map<Integer, Map<String, Object>> csvMap = csv_analyser.parseCSV(new File(pid.getURI()));
-        migrate.updateDataInExistingDB(pid.getIdentifier(), csvMap);
+        migrate.updateDataInExistingDBEvaluation(pid.getIdentifier(), csvMap,updateDate);
     }
 
 
-    private void commitChangesToGitSystem(PersistentIdentifier pid) {
-
+    private java.sql.Timestamp commitChangesToGitSystem(PersistentIdentifier pid) {
+        java.sql.Timestamp commitDate = null;
         try {
 
-            gitApi.addAndCommit(new File(pid.getURI()), "Evaluation commit: " + pid.getIdentifier());
+            commitDate = gitApi.addAndCommit(new File(pid.getURI()), "Evaluation commit: " + pid.getIdentifier());
         } catch (GitAPIException e) {
             e.printStackTrace();
         }
+        return commitDate;
     }
 
     public GitAPI getGitApi() {
