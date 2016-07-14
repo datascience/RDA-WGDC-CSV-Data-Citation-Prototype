@@ -244,14 +244,14 @@ public class EvaluationAPI {
 
                 EvaluationRecordBean recordBean = op.executeRandomOperationBasedOnDistribution(pid, exportPath, gitAPI, complexity, selectProportion, insertProportion, updateProportion, deleteProportion);
                 recordBean.setOperationCount(operationCount);
-                // Sleep for 1 second
+              /*  // Sleep for 1 second
                 try {
                     logger.info("Going to sleep...");
                     TimeUnit.MILLISECONDS.sleep(1000);
                     logger.info("Wakeing up...");
                 } catch (InterruptedException e) {
                     e.printStackTrace();
-                }
+                }*/
                 recordBean.setEvaluationRunBean(runBean);
                 persistRecordBean(recordBean);
                 runBean.getEvaluationRecordSet().add(recordBean);

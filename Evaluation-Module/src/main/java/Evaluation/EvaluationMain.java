@@ -32,7 +32,7 @@ import java.util.logging.Logger;
  */
 public class EvaluationMain {
     public static void main(String[] args) {
-
+        java.util.logging.Logger.getLogger("org.hibernate").setLevel(Level.SEVERE);
         Logger log = LogManager.getLogManager().getLogger("");
         for (Handler h : log.getHandlers()) {
             h.setLevel(Level.SEVERE);
@@ -43,10 +43,10 @@ public class EvaluationMain {
         dbTools.dropAndRecreateCitationDatabase();
         dbTools = null;
 
-        int amountOfColumns = 5;
-        int amountOfRecords = 1000;
+        int amountOfColumns = 3;
+        int amountOfRecords = 100;
         int amountOfCsvFiles = 1;
-        int amountOfOperations = 500;
+        int amountOfOperations = 100;
 
         // Take care that strings are not too short, because then there will be primary key duplicates!
         int averageStringLength = 10;

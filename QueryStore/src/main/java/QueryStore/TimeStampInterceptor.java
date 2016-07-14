@@ -66,7 +66,7 @@ public class TimeStampInterceptor extends EmptyInterceptor {
     private static final Logger logger = Logger.getLogger(String.valueOf(TimeStampInterceptor.class));
 
     public TimeStampInterceptor() {
-        logger.setLevel(Level.WARNING);
+
     }
 
 

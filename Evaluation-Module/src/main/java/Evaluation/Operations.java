@@ -416,7 +416,8 @@ public class Operations {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            recordBean.setGitQuery( this.queryAPI.generateQueryStringForGitEvaluation(query));
+            String gitQuery =  this.queryAPI.generateQueryStringForGitEvaluation(query);
+            recordBean.setGitQuery(gitQuery);
             recordBean.setQueryComplexity(complexity.toString());
 
             recordBean.setEndTimestampGit(this.getCurrentTimeStamp());

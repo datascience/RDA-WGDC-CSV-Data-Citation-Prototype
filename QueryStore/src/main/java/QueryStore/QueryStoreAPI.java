@@ -65,16 +65,13 @@
 package QueryStore;
 
 
-import Database.Authentication.User;
 import Database.DatabaseOperations.DatabaseTools;
 import at.stefanproell.PersistentIdentifierMockup.Organization;
 import at.stefanproell.PersistentIdentifierMockup.PersistentIdentifierAPI;
 import at.stefanproell.PersistentIdentifierMockup.PersistentIdentifierAlphaNumeric;
 import at.stefanproell.ResultSetVerification.ResultSetVerificationAPI;
 import org.apache.commons.codec.digest.DigestUtils;
-import org.hibernate.Criteria;
 import org.hibernate.Session;
-import org.hibernate.criterion.Restrictions;
 
 import javax.persistence.NoResultException;
 import java.util.*;
@@ -742,6 +739,19 @@ public class QueryStoreAPI {
 
     }
 
+    /**
+     * USE CitationDB;
+     * SELECT t1.*
+     * FROM `8ZqkuFspWz1h` AS t1
+     * LEFT OUTER JOIN `8ZqkuFspWz1h` t2
+     * ON t1.COLUMN_1 = t2.COLUMN_1
+     * AND (t1.LAST_UPDATE < t2.LAST_UPDATE
+     * OR (t1.LAST_UPDATE = t2.LAST_UPDATE AND t1.INSERT_DATE < t2.INSERT_DATE))
+     * WHERE t2.COLUMN_1 IS NULL
+     *
+     * @param query
+     * @return
+     */
     private String generateQueryStringEvaluation(Query query) {
         List<Filter> filterSet = query.getFilters();
         List<Sorting> sortingsSet = query.getSortings();
@@ -776,16 +786,11 @@ public class QueryStoreAPI {
 
         // inner join
 
-        sqlString += " AS outerGroup INNER JOIN " +
-                " (SELECT " + primaryKey + ", max(LAST_UPDATE) AS 'mostRecent' FROM " +
-                query.getBaseTable().getBaseTableName() +
-                " AS innerSELECT WHERE (innerSELECT.RECORD_STATUS = 'inserted' " +
-                " OR innerSELECT.RECORD_STATUS = 'updated'" + " AND innerSELECT.LAST_UPDATE<=\""
-                + this.convertJavaDateToMySQLTimeStamp(query.getExecution_timestamp()) + "\") GROUP BY " + primaryKey + ") innerGroup ON outerGroup." + primaryKey + " = innerGroup." + primaryKey + " " +
-                " AND outerGroup.LAST_UPDATE = innerGroup.mostRecent ";
+        sqlString += " AS outerGroup LEFT OUTER JOIN " + fromString + " AS innerGroup ON `outerGroup`.`COLUMN_1` = `innerGroup`.`COLUMN_1`"+
+                " AND (`outerGroup`.`LAST_UPDATE` < `innerGroup`.`LAST_UPDATE` OR (`outerGroup`.`LAST_UPDATE` = `innerGroup`.`LAST_UPDATE` AND `outerGroup`.`INSERT_DATE` < `innerGroup`.`INSERT_DATE`)) ";
 
         if (filterSet.size() > 0) {
-            String whereString = " WHERE ";
+            String whereString = " WHERE `innerGroup`.`COLUMN_1` IS NULL AND ";
             int filterCounter = 0;
             for (Filter currentFilter : filterSet) {
                 filterCounter++;
@@ -804,7 +809,6 @@ public class QueryStoreAPI {
         }
 
 
-
         this.logger.info(sqlString);
 
         return sqlString;
@@ -813,7 +817,6 @@ public class QueryStoreAPI {
     private boolean checkQueryUniqueness(Query query) {
         this.session = HibernateUtilQueryStore.getSessionFactory().openSession();
         this.session.beginTransaction();
-
 
 
         javax.persistence.Query queryHibernate = session.createQuery("from Query where queryId <> :queryId AND queryHash =:queryHash");
@@ -853,7 +856,6 @@ public class QueryStoreAPI {
         } else {
             primaryKey = primaryKeyList.get(0);
         }
-
 
 
         String sqlString = "SELECT ";
@@ -928,7 +930,6 @@ public class QueryStoreAPI {
     public String generateQueryStringForGitEvaluation(Query query) {
 
         List<Filter> filterSet = query.getFilters();
-
 
 
         String fromString = query.getBaseTable().getBaseTableName();
@@ -1479,9 +1480,6 @@ public class QueryStoreAPI {
 
         this.session.getTransaction().commit();
         this.session.close();
-
-
-
 
 
     }

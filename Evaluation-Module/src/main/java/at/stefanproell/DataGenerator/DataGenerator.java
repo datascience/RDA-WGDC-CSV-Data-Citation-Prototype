@@ -131,7 +131,7 @@ public class DataGenerator {
     private String randomString(int length, double variance){
         int rand = (int) Math.round(length + fRandom.nextGaussian() * variance);
         String randomString = RandomStringUtils.randomAlphanumeric(rand);
-        logger.log(Level.INFO, "Random String: " + randomString);
+
         return randomString;
     }
 
