@@ -583,6 +583,12 @@ public class MigrateCSV2SQL {
                 lastUpdateDate = latestRecordRS.getTimestamp("LAST_UPDATE");
                 java.sql.Timestamp updateDateSQL=new java.sql.Timestamp(updateDate.getTime());
                 status = latestRecordRS.getString("RECORD_STATUS");
+
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTime(updateDateSQL);
+                calendar.add(Calendar.MILLISECOND,1);
+                updateDateSQL = new java.sql.Timestamp(calendar.getTimeInMillis());
+
                 String updateOldRecord = "UPDATE " + currentTableName + " SET LAST_UPDATE='"+updateDateSQL+"',RECORD_STATUS=\"updated\" WHERE ID_SYSTEM_SEQUENCE=" + idSystemSequence + " AND LAST_UPDATE=\"" + lastUpdateDate.toString() + "\"";
                 logger.info("Update String: " + updateOldRecord);
                 latestRecordStatement = connection.createStatement();

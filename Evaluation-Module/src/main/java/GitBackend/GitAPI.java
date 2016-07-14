@@ -615,7 +615,7 @@ public class GitAPI {
         RevCommit commit = git.commit()
                 .setMessage(commitMessage)
                 .call();
-        java.sql.Timestamp commitTime = new java.sql.Timestamp(commit.getCommitTime());
+        java.sql.Timestamp commitTime = new java.sql.Timestamp(commit.getCommitTime() * 1000L);
 
 
         //File dir = repository.getDirectory();

@@ -430,7 +430,7 @@ public class Operations {
 
                     logger.severe("Files not identical on: "+query.getQueryString());
                 }else{
-                    logger.info("Identical");
+                    logger.severe("Identical");
                 }
             } catch (Exception e) {
                 e.printStackTrace();
