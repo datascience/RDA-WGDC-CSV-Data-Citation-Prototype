@@ -69,8 +69,8 @@ public class MigrateCSV2SQL {
 
         }
         //@// TODO: 25.05.16 MySQL 5.7 strict mode does not allow zero timestamps any more.
-        createTableString += ", INSERT_DATE TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP, " +
-                "LAST_UPDATE TIMESTAMP ";
+        createTableString += ", INSERT_DATE TIMESTAMP(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6), " +
+                "LAST_UPDATE TIMESTAMP(6) ";
 
         // append record status column
         createTableString += ", RECORD_STATUS enum('inserted','updated','deleted') NOT NULL DEFAULT 'inserted'";

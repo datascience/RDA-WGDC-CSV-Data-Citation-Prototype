@@ -1712,64 +1712,6 @@ Count the records which are not deleted..
     }
 
 
-    /*
-    * When a user uploads a CSV file which has deleted records, the system needs to tick off which records have been considered so far. This method adds this column
-    * */
-    public String createTemporaryCheckTable(String tableName) {
-
-
-        Connection connection = null;
-        String tempTableName = tableName + "_temp";
-
-        try {
-            connection = this.getConnection();
-            if (connection.getAutoCommit()) {
-                //this.logger.info("AUTO COMMIT OFF");
-                connection.setAutoCommit(false);
-            }
-
-
-            DatabaseMetaData dbm = connection.getMetaData();
-            // check if temptable " table is there
-            ResultSet tables = dbm.getTables(null, null, tempTableName, null);
-            if (tables.next()) {
-                Statement dropStatement = null;
-                dropStatement = connection.createStatement();
-                String drop = "DROP TABLE IF EXISTS " + tempTableName + ";";
-                this.logger.info(drop);
-                dropStatement.execute(drop);
-                connection.commit();
-                dropStatement.close();
-
-            }
-
-            connection = this.getConnection();
-            Statement createStat = connection.createStatement();
-
-
-            createStat = connection.createStatement();
-            String createSQL = "CREATE TABLE " + tempTableName + " ( `id` int(11) NOT NULL, `recordChecked` tinyint(1) DEFAULT NULL)";
-            this.logger.info(createSQL);
-            createStat.execute(createSQL);
-            createStat.close();
-
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (connection != null) {
-                    connection.close();
-                }
-            } catch (SQLException sqlee) {
-                sqlee.printStackTrace();
-            }
-        }
-
-        return tempTableName;
-
-    }
-
 
     /**
      * drop the citation database
