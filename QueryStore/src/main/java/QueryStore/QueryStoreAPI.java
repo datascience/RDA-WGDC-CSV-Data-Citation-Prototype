@@ -74,6 +74,7 @@ import org.apache.commons.codec.digest.DigestUtils;
 import org.hibernate.Session;
 
 import javax.persistence.NoResultException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.logging.Logger;
 
@@ -757,10 +758,14 @@ public class QueryStoreAPI {
         List<Sorting> sortingsSet = query.getSortings();
         DatabaseTools dbTools = new DatabaseTools();
 
-
         String fromString = query.getBaseTable().getBaseTableName();
 
         List<String> primaryKeyList = dbTools.getPrimaryKeyFromTable(fromString);
+        String pattern = "yyyy-MM-dd HH:mm:ss";
+        SimpleDateFormat formatter = new SimpleDateFormat(pattern);
+        String reExecutionDateString = formatter.format(query.getExecution_timestamp());
+
+
         String primaryKey = "";
         if (primaryKeyList.size() == 0) {
             this.logger.severe("Primary key list size: " + primaryKeyList.size());
@@ -786,11 +791,13 @@ public class QueryStoreAPI {
 
         // inner join
 
-        sqlString += " AS outerGroup LEFT OUTER JOIN " + fromString + " AS innerGroup ON `outerGroup`.`COLUMN_1` = `innerGroup`.`COLUMN_1`"+
-                " AND (`outerGroup`.`LAST_UPDATE` < `innerGroup`.`LAST_UPDATE` OR (`outerGroup`.`LAST_UPDATE` = `innerGroup`.`LAST_UPDATE` AND `outerGroup`.`INSERT_DATE` < `innerGroup`.`INSERT_DATE`)) ";
+        sqlString += " AS outerGroup INNER JOIN( SELECT COLUMN_1, max(INSERT_DATE) AS mostRecent FROM " +
+                fromString +
+                " AS innerSelect WHERE(innerSelect.RECORD_STATUS = 'inserted' OR innerSelect.RECORD_STATUS ='updated') AND innerSelect.INSERT_DATE<='"+reExecutionDateString+
+                "' GROUP BY COLUMN_1) AS innerGroup ON outerGroup.COLUMN_1 = innerGroup.COLUMN_1 AND outerGroup.INSERT_DATE = innerGroup.mostRecent";
 
         if (filterSet.size() > 0) {
-            String whereString = " WHERE `innerGroup`.`COLUMN_1` IS NULL AND (`outerGroup`.LAST_UPDATE) <= '"+this.convertJavaDateToMySQLTimeStamp(query.getExecution_timestamp())+ "' AND ";
+            String whereString = " AND ";
             int filterCounter = 0;
             for (Filter currentFilter : filterSet) {
                 filterCounter++;

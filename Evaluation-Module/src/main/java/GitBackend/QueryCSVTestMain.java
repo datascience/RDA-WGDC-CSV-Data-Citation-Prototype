@@ -36,19 +36,19 @@ public class QueryCSVTestMain {
             // Create a connection. The first command line parameter is
             // the directory containing the .csv files.
             // A single connection is thread-safe for use by several threads.
-            Connection conn = DriverManager.getConnection("jdbc:xbib:csv:" + "/tmp/Evaluation_Results/");
+            Connection conn = DriverManager.getConnection("jdbc:xbib:csv:" + "/tmp/Evaluation_Git_Repo/");
 
             // Create a Statement object to execute the query with.
             // A Statement is not thread-safe.
             Statement stmt = conn.createStatement();
 
             // Select the ID and NAME columns from sample.csv
-            ResultSet results = stmt.executeQuery("SELECT COLUMN_1,COLUMN_2,COLUMN_3,COLUMN_4,COLUMN_5 FROM fxVm3tw3u6z1_export_git WHERE  UPPER(COLUMN_1) LIKE UPPER('%W%')  ORDER BY COLUMN_1 ASC");
+            ResultSet results = stmt.executeQuery("SELECT COLUMN_1,COLUMN_2,COLUMN_3,COLUMN_4,COLUMN_5 FROM checkout WHERE  UPPER(COLUMN_1) LIKE UPPER('%G%')  ORDER BY COLUMN_1 ASC");
 
             // Dump out the results to a CSV file with the same format
             // using CsvJdbc helper function
             boolean append = true;
-            PrintStream outputStream = new PrintStream(new File("/tmp/Evaluation_Results/out.csv"));
+            PrintStream outputStream = new PrintStream(new File("/tmp/out.csv"));
             CsvDriver.writeToCsv(results, outputStream, false);
 
             // Clean up

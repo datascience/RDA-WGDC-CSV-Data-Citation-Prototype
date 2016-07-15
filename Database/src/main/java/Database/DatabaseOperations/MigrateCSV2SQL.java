@@ -588,7 +588,6 @@ public class MigrateCSV2SQL {
 
                 Calendar calendar = Calendar.getInstance();
                 calendar.setTime(updateDateSQL);
-                calendar.add(Calendar.MILLISECOND,1);
                 updateDateSQL = new java.sql.Timestamp(calendar.getTimeInMillis());
 
                 String updateOldRecord = "UPDATE " + currentTableName + " SET LAST_UPDATE='"+updateDateSQL+"',RECORD_STATUS=\"updated\" WHERE ID_SYSTEM_SEQUENCE=" + idSystemSequence + " AND LAST_UPDATE=\"" + lastUpdateDate.toString() + "\"";
