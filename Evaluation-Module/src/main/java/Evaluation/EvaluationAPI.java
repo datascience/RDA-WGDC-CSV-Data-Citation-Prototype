@@ -169,8 +169,10 @@ public class EvaluationAPI {
 
     public void uploadListOfCsvFiles(List<PersistentIdentifier> listOfCsvFilePersistentIdentifiers) {
         for (PersistentIdentifier pid : listOfCsvFilePersistentIdentifiers) {
+            Date originalInsertDate = this.uploadCsvFileIntoGitSystem(pid);
+            pid.setCreatedDate(originalInsertDate);
             this.uploadCsvFileIntoProrotypeSystem(pid);
-            this.uploadCsvFileIntoGitSystem(pid);
+            this.dbTools.fakeInsertdataEvaluation(pid);
 
             try {
                 logger.info("Going to sleep...");
@@ -183,12 +185,14 @@ public class EvaluationAPI {
 
     }
 
-    private void uploadCsvFileIntoGitSystem(PersistentIdentifier pid) {
+    private java.sql.Timestamp uploadCsvFileIntoGitSystem(PersistentIdentifier pid) {
+        java.sql.Timestamp insertDate = null;
         try {
-            gitAPI.addAndCommit(new File(pid.getURI()), "initial commit");
+            insertDate= gitAPI.addAndCommit(new File(pid.getURI()), "initial commit");
         } catch (GitAPIException e) {
             e.printStackTrace();
         }
+        return  insertDate;
 
     }
 

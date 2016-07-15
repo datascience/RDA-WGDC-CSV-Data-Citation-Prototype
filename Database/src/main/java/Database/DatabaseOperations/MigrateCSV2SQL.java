@@ -340,7 +340,8 @@ public class MigrateCSV2SQL {
                     if (changedRecordSequence == -1) {
                         logger.info("The record has changed. UPDATE Record");
                         // The record has changed.
-                        // Update the old record
+                        // Update the old record, by marking it as updated
+                        // Insert the new record and mark it as inserted
 
                         updateOldRecordEvaluation(existsIdSystemSequenceInteger, currentTableName, updateDate);
                         insertNewRecordVersionOfExistingRecordEvaluation(existsIdSystemSequenceInteger, data, currentTableName,updateDate);

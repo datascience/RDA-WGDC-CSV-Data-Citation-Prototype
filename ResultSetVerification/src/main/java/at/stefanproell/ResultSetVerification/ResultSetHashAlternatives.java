@@ -32,7 +32,7 @@
 
 package at.stefanproell.ResultSetVerification;
 
-import Database.Authentication.HibernateUtilUserAuthentication;
+
 import Database.DatabaseOperations.HibernateUtilData;
 import com.sun.rowset.CachedRowSetImpl;
 import org.hibernate.Session;

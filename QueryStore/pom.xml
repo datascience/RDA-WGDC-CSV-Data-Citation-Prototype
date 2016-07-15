@@ -56,35 +56,6 @@
         </dependency>
 
 
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <version>5.1.39</version>
-        </dependency>
-
-        <!-- WARNING !!!!!! Hibernate 5.2.0 has a bug when creating audit tables! This is why we use 5.2.0 here! -->
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-core</artifactId>
-            <version>5.2.1-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>com.zaxxer</groupId>
-            <artifactId>HikariCP</artifactId>
-            <version>2.4.6</version>
-        </dependency>
-        <!-- http://mvnrepository.com/artifact/org.hibernate/hibernate-hikaricp -->
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-hikaricp</artifactId>
-            <version>5.2.1-SNAPSHOT</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-envers</artifactId>
-            <version>5.2.1-SNAPSHOT</version>
-        </dependency>
 
         <!-- Apache commons -->
         <dependency>

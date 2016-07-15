@@ -2,6 +2,7 @@ package Database.DatabaseOperations;
 
 
 import CSVTools.CsvToolsApi;
+import at.stefanproell.PersistentIdentifierMockup.PersistentIdentifier;
 import au.com.bytecode.opencsv.CSVWriter;
 import com.google.common.base.Joiner;
 import com.sun.rowset.CachedRowSetImpl;
@@ -2711,6 +2712,42 @@ Count the records which are not deleted..
 
 
         return sizeDB;
+
+
+    }
+
+    /**
+     * Set the insert time to the same time as the Git prototype
+     * @param pid
+     */
+    public void fakeInsertdataEvaluation(PersistentIdentifier pid){
+        String currentTableName = pid.getIdentifier();
+        Date fakeDate = pid.getCreatedDate();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(fakeDate);
+
+        java.sql.Timestamp fakeDateSQL = new java.sql.Timestamp(calendar.getTimeInMillis());
+
+        String updateOldRecord = "UPDATE " + currentTableName + " SET INSERT_DATE='"+fakeDateSQL+"', LAST_UPDATE='"+fakeDateSQL+"'";
+        Connection connection = this.getConnection();
+        try {
+            connection.createStatement();
+            Statement statement = connection.createStatement();
+            int update = statement.executeUpdate(updateOldRecord);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }finally {
+
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+
+        }
 
 
     }

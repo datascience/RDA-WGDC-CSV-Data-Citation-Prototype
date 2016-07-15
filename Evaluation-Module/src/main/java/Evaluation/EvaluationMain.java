@@ -44,9 +44,9 @@ public class EvaluationMain {
         dbTools = null;
 
         int amountOfColumns = 5;
-        int amountOfRecords = 1000;
+        int amountOfRecords = 100;
         int amountOfCsvFiles = 1;
-        int amountOfOperations = 100;
+        int amountOfOperations = 20;
 
         // Take care that strings are not too short, because then there will be primary key duplicates!
         int averageStringLength = 10;
