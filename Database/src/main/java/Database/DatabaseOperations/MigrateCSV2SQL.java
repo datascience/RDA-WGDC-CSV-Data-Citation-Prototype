@@ -350,7 +350,7 @@ public class MigrateCSV2SQL {
                     }
                     validIDs.add(existsIdSystemSequenceInteger);
                 } else {
-                    existsIdSystemSequenceInteger = insertNewRecord(currentTableName, data);
+                    existsIdSystemSequenceInteger = insertNewRecordEvaluation(currentTableName, data,updateDate);
                     validIDs.add(existsIdSystemSequenceInteger);
 
                 }
@@ -796,6 +796,79 @@ public class MigrateCSV2SQL {
         columnValuesString = StringUtils.removeEndIgnoreCase(columnValuesString, ",");
 
         insertSQL += columnValuesString + ",NOW());";
+        logger.info(insertSQL);
+        // insert the new record
+        Connection connection = null;
+        Statement statement;
+        try {
+
+            connection = this.getConnection();
+            if (connection.getAutoCommit()) {
+                connection.setAutoCommit(false);
+            }
+            statement = connection.createStatement();
+            statement.executeUpdate(insertSQL);
+            connection.commit();
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (Exception e) { /* handle close exception, quite usually ignore */ }
+            }
+        }
+
+        return newSystemSequenceID;
+    }
+
+    /**
+     * Insert a new record based on a row of the CSV file
+     *  @param currentTableName
+     * @param data
+     * @param updateDate
+     */
+    private int insertNewRecordEvaluation(String currentTableName, Map<String, Object> data, Date updateDate) {
+
+
+        int maxSystemSequence = dbtools.getMaxSequenceNumberFromTable(currentTableName);
+        java.sql.Timestamp updateDateSQL=new java.sql.Timestamp(updateDate.getTime());
+        TablePojo tablePojo = dbtools.getTableMetadataPojoFromTable(currentTableName);
+        TreeMap<String, Object> sortedByColumnName = new TreeMap<String, Object>(data);
+        CsvToolsApi csvToolsApi = new CsvToolsApi();
+        int newSystemSequenceID = maxSystemSequence + 1;
+
+        String insertSQL = "INSERT INTO " + currentTableName + " (ID_SYSTEM_SEQUENCE,";
+
+        String columnValuesString = ",INSERT_DATE,LAST_UPDATE) VALUES(" + (newSystemSequenceID) + ",";
+        for (Map.Entry<String, Object> record : sortedByColumnName.entrySet()) {
+            String columnValue;
+            String columnName = record.getKey();
+            String normalizedColumnName = csvToolsApi.replaceReservedKeyWords(columnName);
+            insertSQL += normalizedColumnName + ",";
+            if (record.getValue() != null) {
+                columnValue = record.getValue().toString();
+                try {
+                    dbtools.increaseColumnLength(columnValue, tablePojo);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                columnValue = csvToolsApi.escapeQuotes(columnValue);
+                columnValue = "\"" + columnValue + "\"" + ",";
+            } else {
+                columnValue = "NULL,";
+            }
+
+
+            columnValuesString += columnValue;
+        }
+
+        insertSQL = StringUtils.removeEndIgnoreCase(insertSQL, ",");
+        columnValuesString = StringUtils.removeEndIgnoreCase(columnValuesString, ",");
+
+        insertSQL += columnValuesString + ",'"+updateDateSQL+"','"+updateDateSQL+"');";
+
         logger.info(insertSQL);
         // insert the new record
         Connection connection = null;
