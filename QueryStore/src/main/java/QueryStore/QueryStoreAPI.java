@@ -790,7 +790,7 @@ public class QueryStoreAPI {
                 " AND (`outerGroup`.`LAST_UPDATE` < `innerGroup`.`LAST_UPDATE` OR (`outerGroup`.`LAST_UPDATE` = `innerGroup`.`LAST_UPDATE` AND `outerGroup`.`INSERT_DATE` < `innerGroup`.`INSERT_DATE`)) ";
 
         if (filterSet.size() > 0) {
-            String whereString = " WHERE `innerGroup`.`COLUMN_1` IS NULL AND ";
+            String whereString = " WHERE `innerGroup`.`COLUMN_1` IS NULL AND (`outerGroup`.LAST_UPDATE) <= '"+this.convertJavaDateToMySQLTimeStamp(query.getExecution_timestamp())+ "' AND ";
             int filterCounter = 0;
             for (Filter currentFilter : filterSet) {
                 filterCounter++;

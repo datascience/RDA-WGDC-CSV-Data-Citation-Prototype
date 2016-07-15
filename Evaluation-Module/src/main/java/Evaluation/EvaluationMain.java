@@ -46,7 +46,7 @@ public class EvaluationMain {
         int amountOfColumns = 5;
         int amountOfRecords = 1000;
         int amountOfCsvFiles = 1;
-        int amountOfOperations = 1000;
+        int amountOfOperations = 100;
 
         // Take care that strings are not too short, because then there will be primary key duplicates!
         int averageStringLength = 10;
@@ -55,9 +55,9 @@ public class EvaluationMain {
 
 
 
-        double selectProportion = 1.0;
-        double insertProportion = 0.0;
-        double updateProportion = 0.0;
+        double selectProportion = 0.5;
+        double insertProportion = 0.00;
+        double updateProportion = 0.5;
         double deleteProportion = 0.0;
         QueryComplexity complexity = QueryComplexity.EASY;
 

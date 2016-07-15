@@ -361,10 +361,9 @@ public class Operations {
             // set metadata
             Date date = new Date();
             query.setCreatedDate(date);
-            query.setExecution_timestamp(date);
+
             query.setDatasourcePID(tablePid.getIdentifier());
-            // persist
-            queryAPI.finalizeQueryEvaluation(query);
+
 
             // Get a random date for the re-execution
 
@@ -384,6 +383,8 @@ public class Operations {
 
             query.setExecution_timestamp(randomDate);
             recordBean.setReExecutionDate(randomDate);
+            // persist
+            queryAPI.finalizeQueryEvaluation(query);
 
 
 

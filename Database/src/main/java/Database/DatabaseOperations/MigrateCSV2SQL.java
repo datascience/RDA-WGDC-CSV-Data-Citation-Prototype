@@ -343,7 +343,7 @@ public class MigrateCSV2SQL {
                         // Update the old record
 
                         updateOldRecordEvaluation(existsIdSystemSequenceInteger, currentTableName, updateDate);
-                        insertNewRecordVersionOfExistingRecordEvaluation(existsIdSystemSequenceInteger, data, currentTableName);
+                        insertNewRecordVersionOfExistingRecordEvaluation(existsIdSystemSequenceInteger, data, currentTableName,updateDate);
 
 
                     }
@@ -435,7 +435,7 @@ public class MigrateCSV2SQL {
 
     }
 
-    private void insertNewRecordVersionOfExistingRecordEvaluation(int existsIdSystemSequenceInteger, Map<String, Object> data, String currentTableName) {
+    private void insertNewRecordVersionOfExistingRecordEvaluation(int existsIdSystemSequenceInteger, Map<String, Object> data, String currentTableName, Date updateDate) {
 
         TablePojo tablePojo = dbtools.getTableMetadataPojoFromTable(currentTableName);
         TreeMap<String, Object> sortedByColumnName = new TreeMap<String, Object>(data);
@@ -444,7 +444,7 @@ public class MigrateCSV2SQL {
 
         String insertSQL = "INSERT INTO " + currentTableName + " (ID_SYSTEM_SEQUENCE,";
 
-        String columnValuesString = ",LAST_UPDATE,RECORD_STATUS) VALUES(" + (existsIdSystemSequenceInteger) + ",";
+        String columnValuesString = ",INSERT_DATE,LAST_UPDATE,RECORD_STATUS) VALUES(" + (existsIdSystemSequenceInteger) + ",";
         for (Map.Entry<String, Object> record : sortedByColumnName.entrySet()) {
             String columnValue;
             String columnName = record.getKey();
@@ -471,8 +471,9 @@ public class MigrateCSV2SQL {
 
         insertSQL = StringUtils.removeEndIgnoreCase(insertSQL, ",");
         columnValuesString = StringUtils.removeEndIgnoreCase(columnValuesString, ",");
+        java.sql.Timestamp updateDateSQL=new java.sql.Timestamp(updateDate.getTime());
 
-        insertSQL += columnValuesString + ",NOW(),\"inserted\");";
+        insertSQL += columnValuesString + ",'"+updateDateSQL+"','"+updateDateSQL+"',\"inserted\");";
         logger.info(insertSQL);
         // insert the new record
         Connection connection = null;
