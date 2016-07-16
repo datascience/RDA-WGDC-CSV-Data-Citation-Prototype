@@ -803,10 +803,10 @@ public class QueryStoreAPI {
                 filterCounter++;
                 if (filterCounter == 1) {
                     whereString += "UPPER(`outerGroup`.`" + currentFilter.getFilterName() + "`) LIKE UPPER('%" +
-                            currentFilter.getFilterValue() + "%') ORDER BY COLUMN_1 ASC";
+                            currentFilter.getFilterValue() + "%')";
                 } else {
                     whereString += " AND UPPER(`outerGroup`.`" + currentFilter.getFilterName() + "`) LIKE UPPER('%" +
-                            currentFilter.getFilterValue() + "%') ORDER BY COLUMN_1 ASC";
+                            currentFilter.getFilterValue() + "%')";
 
                 }
 
@@ -814,6 +814,17 @@ public class QueryStoreAPI {
 
             sqlString += whereString;
         }
+
+        String sortingString ="ORDER BY COLUMN_1 ASC";
+        if(sortingsSet.size()>0){
+            int sortingCounter=0;
+            for(Sorting currentSorting : sortingsSet){
+                sortingString+=","+currentSorting.getSortingColumn()+ " " + currentSorting.getDirection();
+            }
+
+        }
+
+        sqlString+=sortingString;
 
 
         this.logger.info(sqlString);
