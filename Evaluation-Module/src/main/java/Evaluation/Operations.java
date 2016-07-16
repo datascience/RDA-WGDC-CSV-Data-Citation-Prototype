@@ -364,7 +364,7 @@ public class Operations {
 
 
                     for(int i =1;i<=3;i++){
-                        randomColumn= random.nextInt(amountOfColumns + 1);
+                        randomColumn= random.nextInt(amountOfColumns)+1;
                         selectedColumns.put(i, "COLUMN_"+randomColumn);
                     }
 
@@ -375,7 +375,7 @@ public class Operations {
                     // add three filters
                     for(int i = 1; i <= 3;i++){
 
-                        randomColumn= random.nextInt(amountOfColumns + 1);
+                        randomColumn= random.nextInt(amountOfColumns)+1;
                         randomFilterString = HelpersCSV.randomString(2, 1);
                         queryAPI.addFilter(query, "COLUMN_"+randomColumn, randomFilterString);
                         queryAPI.persistQuery(query);
@@ -401,7 +401,7 @@ public class Operations {
 
                     for(int i = 1; i <= 3;i++){
 
-                        randomColumn= random.nextInt(amountOfColumns + 1);
+                        randomColumn= random.nextInt(amountOfColumns )+1;
                         randomFilterString = HelpersCSV.randomString(2, 1);
                         queryAPI.addFilter(query, "COLUMN_"+randomColumn, randomFilterString);
                         queryAPI.persistQuery(query);
