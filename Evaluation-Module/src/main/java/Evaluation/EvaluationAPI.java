@@ -71,14 +71,17 @@ public class EvaluationAPI {
     private double insertProportion;
     private double updateProportion;
     private double deleteProportion;
-    private QueryComplexity complexity;
+    double qEasyProbability=0.6;
+    double qStandardProbability=0.3;
+    double qComplexProbability=0.1;
     private static SessionFactory sessionFactory;
     private static ServiceRegistry serviceRegistry;
     private EvaluationRunBean runBean;
 
 
+
     public EvaluationAPI(int organizationalPrefix, String evaluationCsvFolder, String repositoryPath, String exportPath, double selectProportion, double insertProportion,
-                         double updateProportion, double deleteProportion, QueryComplexity complexity, int amountOfOperations) {
+                         double updateProportion, double deleteProportion, int amountOfOperations, double qEasyProbability, double qStandardProbability, double qComplexProbability) {
         this.organizationalPrefix = organizationalPrefix;
         this.evaluationCsvFolder = evaluationCsvFolder;
         this.repositoryPath = repositoryPath;
@@ -86,7 +89,10 @@ public class EvaluationAPI {
         this.insertProportion = insertProportion;
         this.updateProportion = updateProportion;
         this.deleteProportion = deleteProportion;
-        this.complexity = complexity;
+        this.qEasyProbability=qEasyProbability;
+        this.qStandardProbability = qStandardProbability;
+        this.qComplexProbability = qComplexProbability;
+
         this.amountOfOperations = amountOfOperations;
         this.exportPath = exportPath;
 
@@ -246,7 +252,7 @@ public class EvaluationAPI {
                 System.out.println("Processing CSV file number: " + counter);
                 operationCount++;
 
-                EvaluationRecordBean recordBean = op.executeRandomOperationBasedOnDistribution(pid, exportPath, gitAPI, complexity, selectProportion, insertProportion, updateProportion, deleteProportion);
+                EvaluationRecordBean recordBean = op.executeRandomOperationBasedOnDistribution(pid, exportPath, gitAPI,  selectProportion, insertProportion, updateProportion, deleteProportion,qEasyProbability,qStandardProbability,qComplexProbability);
                 recordBean.setOperationCount(operationCount);
                 // Sleep for 1 second
                 try {

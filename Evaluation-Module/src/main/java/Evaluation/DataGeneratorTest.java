@@ -25,7 +25,9 @@ public class DataGeneratorTest {
         double insertProportion = 0.5;
         double updateProportion = 0.2;
         double deleteProportion = 0.1;
-        QueryComplexity complexity = QueryComplexity.EASY;
+        double qEasyProbability=0.6;
+        double qStandardProbability=0.3;
+        double qComplexProbability=0.1;
         int amountOfOperations = 100;
 
         String csvFolder = "/tmp/Evaluation";
@@ -41,7 +43,7 @@ public class DataGeneratorTest {
         csvApi.createCSVDirectory(exportPath);
 
 
-        EvaluationAPI api = new EvaluationAPI(9999, csvFolder, gitRepoPath, exportPath, selectProportion, insertProportion, updateProportion, deleteProportion, complexity, amountOfOperations);
+        EvaluationAPI api = new EvaluationAPI(9999, csvFolder, gitRepoPath, exportPath, selectProportion, insertProportion, updateProportion, deleteProportion, amountOfOperations,qEasyProbability,qStandardProbability,qComplexProbability);
 
         List<PersistentIdentifier> list = api.createCsvFiles(amountOfCsvFiles, amountOfRecords, amountOfColumns, averageStringLength, variance);
 

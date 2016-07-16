@@ -21,7 +21,6 @@ import Database.DatabaseOperations.DatabaseTools;
 import at.stefanproell.PersistentIdentifierMockup.PersistentIdentifier;
 
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.LogManager;
@@ -59,8 +58,10 @@ public class EvaluationMain {
         double insertProportion = 0.3;
         double updateProportion = 0.3;
         double deleteProportion = 0.3;
-        QueryComplexity complexity = QueryComplexity.EASY;
 
+        double qEasyProbability=0.6;
+        double qStandardProbability=0.3;
+        double qComplexProbability=0.1;
 
         String csvFolder = "/tmp/Evaluation";
         String gitRepoPath = "/tmp/Evaluation_Git_Repo";
@@ -75,7 +76,7 @@ public class EvaluationMain {
         csvApi.createCSVDirectory(exportPath);
 
 
-        EvaluationAPI api = new EvaluationAPI(9999, csvFolder, gitRepoPath, exportPath, selectProportion, insertProportion, updateProportion, deleteProportion, complexity, amountOfOperations);
+        EvaluationAPI api = new EvaluationAPI(9999, csvFolder, gitRepoPath, exportPath, selectProportion, insertProportion, updateProportion, deleteProportion, amountOfOperations,qEasyProbability,qStandardProbability,qComplexProbability);
         log.severe("Creating files...");
         List<PersistentIdentifier> list = api.createCsvFiles(amountOfCsvFiles, amountOfRecords, amountOfColumns, averageStringLength, variance);
         log.severe("Importing files...");

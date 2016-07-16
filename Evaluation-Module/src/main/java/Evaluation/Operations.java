@@ -43,10 +43,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.util.*;
-import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
 import static Helpers.HelpersCSV.randomString;
@@ -293,8 +291,8 @@ public class Operations {
 
     }
 
-    public EvaluationRecordBean executeRandomOperationBasedOnDistribution(PersistentIdentifier tablePid, String exportPath, GitAPI gitAPI, QueryComplexity complexity, double selectProportion,
-                                                                          double insertProportion, double updateProportion, double deleteProportion) {
+    public EvaluationRecordBean executeRandomOperationBasedOnDistribution(PersistentIdentifier tablePid, String exportPath, GitAPI gitAPI, double selectProportion,
+                                                                          double insertProportion, double updateProportion, double deleteProportion,double qEasyProbability, double qStandardProbability, double qComplexProbability) {
         Random generator = new Random();
         EvaluationRecordBean recordBean = new EvaluationRecordBean();
 
@@ -302,14 +300,15 @@ public class Operations {
         type = null;
 
         // random number between 0 and 1
-        double randomNumber = generator.nextDouble();
+        double randomOperation = generator.nextDouble();
+        double randomComplexity = generator.nextDouble();
 
 
         /**
          * The select statement is essential for testing the systems. Here, the used timestamp is the
          * re-execution timestamp
          */
-        if (randomNumber <= selectProportion) {
+        if (randomOperation <= selectProportion) {
             type = QueryType.SELECT;
 
 
@@ -327,14 +326,69 @@ public class Operations {
 
             queryAPI.updateExecutiontime(query);
             queryAPI.finalizeQuery(query);
+            HashMap<Integer, String> selectedColumns;
+            String randomFilterString;
+            int sequence=0;
+            int randomColumn=0;
+            int amountOfColumns=0;
+            Random random = new Random();
+
+            if(randomComplexity<=qEasyProbability){
+                complexity=QueryComplexity.EASY;
+            }else if (randomComplexity>qEasyProbability && randomComplexity<=qEasyProbability+qStandardProbability){
+                complexity=QueryComplexity.STANDARD;
+            }else{
+                complexity=QueryComplexity.COMPLEX;
+            }
+
 
             switch (complexity) {
                 case EASY:
 
-                    // Select all columns
-                    HashMap<Integer, String> selectedColumns = new HashMap<Integer, String>();
+                    // Select one column
+                    selectedColumns = new HashMap<Integer, String>();
+                    selectedColumns.put(0,"COLUMN_1");
+                    query.setSelectedColumns(selectedColumns);
+                    // add one filter
+                    randomFilterString = HelpersCSV.randomString(2, 1);
+                    queryAPI.addFilter(query, "COLUMN_1", randomFilterString);
+                    queryAPI.persistQuery(query);
+                    break;
+                case STANDARD:
+                    // Select three columns
+                    selectedColumns = new HashMap<Integer, String>();
                     TreeMap<String, String> allColumns = dbtools.getColumnNamesWithoutMetadataSortedAlphabetically(tablePid.getIdentifier());
-                    int sequence = 0;
+                    // add three filters
+                    amountOfColumns = allColumns.size();
+
+
+
+                    for(int i =0;i<3;i++){
+                        randomColumn= random.nextInt(amountOfColumns + 1);
+                        selectedColumns.put(i, "COLUMN_"+randomColumn);
+                    }
+
+
+                    query.setSelectedColumns(selectedColumns);
+
+
+                    // add three filters
+                    for(int i = 0; i < 3;i++){
+
+                        randomColumn= random.nextInt(amountOfColumns + 1);
+                        randomFilterString = HelpersCSV.randomString(2, 1);
+                        queryAPI.addFilter(query, "COLUMN_"+randomColumn, randomFilterString);
+                        queryAPI.persistQuery(query);
+                    }
+
+
+
+                    break;
+                case COMPLEX:
+                    // Select all columns
+                    selectedColumns = new HashMap<Integer, String>();
+                    allColumns = dbtools.getColumnNamesWithoutMetadataSortedAlphabetically(tablePid.getIdentifier());
+                    sequence = 0;
                     for (Map.Entry<String, String> entry : allColumns.entrySet()) {
                         selectedColumns.put(sequence, entry.getKey());
                         sequence++;
@@ -342,17 +396,32 @@ public class Operations {
                     query.setSelectedColumns(selectedColumns);
 
 
-                    // add one filter
+                    // add three filters
+                    amountOfColumns = allColumns.size();
 
-                    String randomFilterString = HelpersCSV.randomString(2, 1);
-                    queryAPI.addFilter(query, "COLUMN_1", randomFilterString);
-                    queryAPI.persistQuery(query);
+                    for(int i = 0; i < 3;i++){
 
-                    break;
-                case STANDARD:
+                        randomColumn= random.nextInt(amountOfColumns + 1);
+                        randomFilterString = HelpersCSV.randomString(2, 1);
+                        queryAPI.addFilter(query, "COLUMN_"+randomColumn, randomFilterString);
+                        queryAPI.persistQuery(query);
+                    }
 
-                    break;
-                case COMPLEX:
+                    for(int i = 0; i < 3;i++){
+
+                        randomColumn= random.nextInt(amountOfColumns + 1);
+                        int randomSorting = random.nextInt(2);
+                        String direction="ASC";
+                        if(randomSorting==0){
+                            direction="ASC";
+                        }else{
+                            direction="DESC";
+                        }
+
+                        queryAPI.addSorting(query,"COLIMN_"+randomColumn,direction);
+                        queryAPI.persistQuery(query);
+                    }
+
 
 
                     break;
@@ -392,7 +461,7 @@ public class Operations {
 
             CachedRowSetImpl result = dbtools.reExecuteQueryEvaluation(query.getQueryString());
             String fullExportPathSQL = exportPath + query.getDatasourcePID() + "_export_sql.csv";
-            int amountOfColumns = query.getSelectedColumns().size();
+            amountOfColumns = query.getSelectedColumns().size();
             try {
                 writeWithResultSetWriter(result,amountOfColumns, fullExportPathSQL);
             } catch (Exception e) {
@@ -440,7 +509,7 @@ public class Operations {
 
         }
         // INSERT
-        else if (randomNumber > selectProportion && randomNumber <= selectProportion + insertProportion) {
+        else if (randomOperation > selectProportion && randomOperation <= selectProportion + insertProportion) {
             type = QueryType.INSERT;
             this.randomInsert(tablePid);
             this.commitChanges(recordBean, tablePid);
@@ -449,8 +518,8 @@ public class Operations {
         }
         // UPDATE
         //
-        else if (randomNumber > selectProportion + insertProportion &&
-                randomNumber <= selectProportion + insertProportion + updateProportion) {
+        else if (randomOperation > selectProportion + insertProportion &&
+                randomOperation <= selectProportion + insertProportion + updateProportion) {
             type = QueryType.UPDATE;
 
             this.randomUpdate(tablePid);
