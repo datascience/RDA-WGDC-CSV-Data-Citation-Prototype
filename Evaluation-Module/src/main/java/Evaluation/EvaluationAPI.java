@@ -436,7 +436,7 @@ public class EvaluationAPI {
         Session session = sessionFactory.openSession();
         try {
             session.beginTransaction();
-            session.save(run);
+            session.saveOrUpdate(run);
             session.getTransaction().commit();
         } catch (RuntimeException e) {
 

@@ -55,10 +55,10 @@ public class EvaluationMain {
 
 
 
-        double selectProportion = 0.3;
-        double insertProportion = 0.5;
-        double updateProportion = 0.2;
-        double deleteProportion = 0.0;
+        double selectProportion = 0.1;
+        double insertProportion = 0.3;
+        double updateProportion = 0.3;
+        double deleteProportion = 0.3;
         QueryComplexity complexity = QueryComplexity.EASY;
 
 
