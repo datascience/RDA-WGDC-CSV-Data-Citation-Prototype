@@ -38,7 +38,7 @@ public class EvaluationMain {
         }
 
         run("AVG-S2-R1000","EvaluationMachine-VM1",25,10000,1,1000,25,0.8,0.05,0.15,0);
-        run("AVG-S2-R1000","EvaluationMachine-VM1",25,10000,1,1000,25,0.8,0.05,0.15,0);
+        run("AVG-S3-R100","EvaluationMachine-VM1",25,10000,1,100,25,0.01,0.99,0.0,0.0);
 
 
 
