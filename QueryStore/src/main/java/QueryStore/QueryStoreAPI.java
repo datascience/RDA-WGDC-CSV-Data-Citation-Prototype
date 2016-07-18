@@ -815,7 +815,7 @@ public class QueryStoreAPI {
             sqlString += whereString;
         }
 
-        String sortingString ="ORDER BY COLUMN_1 ASC";
+        String sortingString ="ORDER BY outerGroup.COLUMN_1 ASC";
         if(sortingsSet.size()>0){
             int sortingCounter=0;
             for(Sorting currentSorting : sortingsSet){
