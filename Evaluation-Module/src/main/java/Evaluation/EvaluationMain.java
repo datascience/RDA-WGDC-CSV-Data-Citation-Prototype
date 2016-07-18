@@ -37,29 +37,38 @@ public class EvaluationMain {
             h.setLevel(Level.SEVERE);
         }
 
+
+
+
+
+
+
+        System.exit(0);
+
+
+    }
+
+    private void run(String runName,      String evaluationMachine,        int amountOfColumns,  int amountOfRecords,  int amountOfCsvFiles, int amountOfOperations , int averageStringLength ,      double selectProportion ,
+            double insertProportion,
+            double updateProportion,
+            double deleteProportion  ){
         // Drop existing data
         DatabaseTools dbTools = new DatabaseTools();
         dbTools.dropAndRecreateCitationDatabase();
         dbTools = null;
 
-        String evaluationMachine="Host";
-        String runName="SMP-S4-R100";
-        int amountOfColumns = 5;
-        int amountOfRecords = 1000;
-        int amountOfCsvFiles = 1;
-        int amountOfOperations = 100;
+
+
+
 
         // Take care that strings are not too short, because then there will be primary key duplicates!
-        int averageStringLength = 10;
+
         double variance = 2.0;
 
 
 
 
-        double selectProportion = 0.1;
-        double insertProportion = 0.3;
-        double updateProportion = 0.3;
-        double deleteProportion = 0.3;
+
 
         double qEasyProbability=0.6;
         double qStandardProbability=0.3;
@@ -79,20 +88,14 @@ public class EvaluationMain {
 
 
         EvaluationAPI api = new EvaluationAPI(9999, csvFolder, gitRepoPath, exportPath, selectProportion, insertProportion, updateProportion, deleteProportion, amountOfOperations,qEasyProbability,qStandardProbability,qComplexProbability);
-        log.severe("Creating files...");
+
         List<PersistentIdentifier> list = api.createCsvFiles(amountOfCsvFiles, amountOfRecords, amountOfColumns, averageStringLength, variance);
-        log.severe("Importing files...");
+
         api.uploadListOfCsvFiles(list);
-        log.severe("Run operations on files...");
+
 
         api.setRunDetails(runName,evaluationMachine,amountOfColumns,amountOfCsvFiles,amountOfOperations,amountOfRecords,selectProportion,deleteProportion,updateProportion,insertProportion);
         api.runOperations(list);
         api.setRunBeanStopTime();
-
-
-
-        System.exit(0);
-
-
     }
 }
