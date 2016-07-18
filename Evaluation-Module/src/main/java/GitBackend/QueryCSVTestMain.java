@@ -43,7 +43,7 @@ public class QueryCSVTestMain {
             Statement stmt = conn.createStatement();
 
             // Select the ID and NAME columns from sample.csv
-            ResultSet results = stmt.executeQuery("SELECT COLUMN_1,COLUMN_2,COLUMN_3,COLUMN_4,COLUMN_5 FROM checkout WHERE  UPPER(COLUMN_1) LIKE UPPER('%G%')  ORDER BY COLUMN_1 ASC");
+            ResultSet results = stmt.executeQuery("SELECT COLUMN_1,COLUMN_2,COLUMN_3,COLUMN_4,COLUMN_5 FROM NDuaVgZM6tMs_export_git WHERE  UPPER(COLUMN_1) LIKE UPPER('%GF%')  AND COLUMN_1 LIKE UPPER('%HQS%') AND COLUMN_4 LIKE UPPER('%XZB%') ORDER BY COLUMN_1 ASC ,COLUMN_4 ASC,COLUMN_4 DESC,COLUMN_4 ASC");
 
             // Dump out the results to a CSV file with the same format
             // using CsvJdbc helper function

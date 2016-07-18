@@ -390,8 +390,9 @@ public class Operations {
                     allColumns = dbtools.getColumnNamesWithoutMetadataSortedAlphabetically(tablePid.getIdentifier());
                     sequence = 0;
                     for (Map.Entry<String, String> entry : allColumns.entrySet()) {
-                        selectedColumns.put(sequence, entry.getKey());
                         sequence++;
+                        selectedColumns.put(sequence, entry.getKey());
+
                     }
                     query.setSelectedColumns(selectedColumns);
 
@@ -418,7 +419,7 @@ public class Operations {
                             direction="DESC";
                         }
 
-                        queryAPI.addSorting(query,"COLIMN_"+randomColumn,direction);
+                        queryAPI.addSorting(query,"COLUMN_"+randomColumn,direction);
                         queryAPI.persistQuery(query);
                     }
 
