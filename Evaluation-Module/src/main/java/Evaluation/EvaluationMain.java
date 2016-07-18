@@ -37,7 +37,8 @@ public class EvaluationMain {
             h.setLevel(Level.SEVERE);
         }
 
-
+        run("AVG-S2-R1000","EvaluationMachine-VM1",25,10000,1,1000,25,0.8,0.05,0.15,0);
+        run("AVG-S2-R1000","EvaluationMachine-VM1",25,10000,1,1000,25,0.8,0.05,0.15,0);
 
 
 
@@ -48,7 +49,7 @@ public class EvaluationMain {
 
     }
 
-    private void run(String runName,      String evaluationMachine,        int amountOfColumns,  int amountOfRecords,  int amountOfCsvFiles, int amountOfOperations , int averageStringLength ,      double selectProportion ,
+    private static void run(String runName,      String evaluationMachine,        int amountOfColumns,  int amountOfRecords,  int amountOfCsvFiles, int amountOfOperations , int averageStringLength ,      double selectProportion ,
             double insertProportion,
             double updateProportion,
             double deleteProportion  ){

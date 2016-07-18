@@ -82,6 +82,12 @@ public class EvaluationAPI {
 
     public EvaluationAPI(int organizationalPrefix, String evaluationCsvFolder, String repositoryPath, String exportPath, double selectProportion, double insertProportion,
                          double updateProportion, double deleteProportion, int amountOfOperations, double qEasyProbability, double qStandardProbability, double qComplexProbability) {
+        try {
+            setUpBackend();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         this.organizationalPrefix = organizationalPrefix;
         this.evaluationCsvFolder = evaluationCsvFolder;
         this.repositoryPath = repositoryPath;
@@ -120,7 +126,7 @@ public class EvaluationAPI {
             }
 
             initEvaluationSystem();
-            setUpBackend();
+
             persistRunBean(runBean);
 
 
