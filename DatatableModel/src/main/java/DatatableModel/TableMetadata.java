@@ -17,7 +17,6 @@
 package DatatableModel;
 
 
-import Database.Authentication.HibernateUtilUserAuthentication;
 import Database.DatabaseOperations.DatabaseTools;
 import Database.DatabaseOperations.HibernateUtilData;
 import org.hibernate.Session;

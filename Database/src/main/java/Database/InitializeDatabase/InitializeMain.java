@@ -14,7 +14,7 @@
  *    limitations under the License.
  */
 
-package InitializeDatabase;
+package Database.InitializeDatabase;
 
 
 import Database.Authentication.UserAPI;

@@ -54,10 +54,10 @@ public class EvaluationMain {
 
 
 
-        double selectProportion = 0.1;
-        double insertProportion = 0.3;
-        double updateProportion = 0.3;
-        double deleteProportion = 0.3;
+        double selectProportion = 1.0;
+        double insertProportion = 0.0;
+        double updateProportion = 0.0;
+        double deleteProportion = 0.0;
 
         double qEasyProbability=0.6;
         double qStandardProbability=0.3;
