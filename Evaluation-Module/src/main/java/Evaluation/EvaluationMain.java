@@ -43,11 +43,11 @@ public class EvaluationMain {
         dbTools = null;
 
         String evaluationMachine="Host";
-        String runName="SMP-S1-R100";
+        String runName="SMP-S4-R100";
         int amountOfColumns = 5;
         int amountOfRecords = 1000;
         int amountOfCsvFiles = 1;
-        int amountOfOperations = 1000;
+        int amountOfOperations = 100;
 
         // Take care that strings are not too short, because then there will be primary key duplicates!
         int averageStringLength = 10;
@@ -56,10 +56,10 @@ public class EvaluationMain {
 
 
 
-        double selectProportion = 1.0;
-        double insertProportion = 0.0;
-        double updateProportion = 0.0;
-        double deleteProportion = 0.0;
+        double selectProportion = 0.1;
+        double insertProportion = 0.3;
+        double updateProportion = 0.3;
+        double deleteProportion = 0.3;
 
         double qEasyProbability=0.6;
         double qStandardProbability=0.3;

@@ -361,7 +361,7 @@ public class MigrateCSV2SQL {
 
         }
 
-        dbtools.deleteMarkedRecords(validIDs, currentTableName);
+        dbtools.deleteMarkedRecordsEvaluation(validIDs, currentTableName);
 
 
     }
@@ -561,9 +561,12 @@ public class MigrateCSV2SQL {
      */
     private void updateOldRecordEvaluation(int idSystemSequence, String currentTableName, Date updateDate) {
         Connection connection = null;
+        String updateOldRecord="";
+
 
 
         Statement latestRecordStatement = null;
+        String latestRecordSQL = null;
         try {
             connection = this.getConnection();
             if (connection.getAutoCommit()) {
@@ -571,7 +574,7 @@ public class MigrateCSV2SQL {
             }
             latestRecordStatement = connection.createStatement();
 
-            String latestRecordSQL = "SELECT ID_SYSTEM_SEQUENCE, INSERT_DATE,MAX(LAST_UPDATE) AS LAST_UPDATE, RECORD_STATUS FROM "
+            latestRecordSQL = "SELECT ID_SYSTEM_SEQUENCE, INSERT_DATE,MAX(LAST_UPDATE) AS LAST_UPDATE, RECORD_STATUS FROM "
                     + currentTableName + "  WHERE ID_SYSTEM_SEQUENCE = " + idSystemSequence
                     + " AND RECORD_STATUS <> \"deleted\" GROUP BY ID_SYSTEM_SEQUENCE, INSERT_DATE,RECORD_STATUS;";
             ResultSet latestRecordRS = latestRecordStatement.executeQuery(latestRecordSQL);
@@ -583,14 +586,11 @@ public class MigrateCSV2SQL {
             if (latestRecordRS.next()) {
 
                 lastUpdateDate = latestRecordRS.getTimestamp("LAST_UPDATE");
-                java.sql.Timestamp updateDateSQL=new java.sql.Timestamp(updateDate.getTime());
                 status = latestRecordRS.getString("RECORD_STATUS");
 
-                Calendar calendar = Calendar.getInstance();
-                calendar.setTime(updateDateSQL);
-                updateDateSQL = new java.sql.Timestamp(calendar.getTimeInMillis());
 
-                String updateOldRecord = "UPDATE " + currentTableName + " SET LAST_UPDATE='"+updateDateSQL+"',RECORD_STATUS=\"updated\" WHERE ID_SYSTEM_SEQUENCE=" + idSystemSequence + " AND LAST_UPDATE=\"" + lastUpdateDate.toString() + "\"";
+
+                updateOldRecord = "UPDATE " + currentTableName + " SET LAST_UPDATE='"+updateDate.toString()+"',RECORD_STATUS=\"updated\" WHERE ID_SYSTEM_SEQUENCE=" + idSystemSequence + " AND LAST_UPDATE=\"" + lastUpdateDate.toString() + "\" AND RECORD_STATUS=\'inserted\'";
                 logger.info("Update String: " + updateOldRecord);
                 latestRecordStatement = connection.createStatement();
                 int update = latestRecordStatement.executeUpdate(updateOldRecord);
@@ -601,6 +601,8 @@ public class MigrateCSV2SQL {
 
             connection.close();
         } catch (SQLException e) {
+            logger.info("Update String: " + updateOldRecord);
+            logger.info("Latest record : " + latestRecordSQL);
             e.printStackTrace();
         } finally {
             if (connection != null) {

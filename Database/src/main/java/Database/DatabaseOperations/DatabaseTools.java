@@ -1712,6 +1712,47 @@ Count the records which are not deleted..
 
     }
 
+    public void deleteMarkedRecordsEvaluation(List<Integer> listOfRecordsToDelete, String tableName) {
+        if (listOfRecordsToDelete.size() > 0) {
+            Connection connection = null;
+            Statement statement = null;
+            StringBuilder builder = new StringBuilder();
+            for (Integer id : listOfRecordsToDelete) {
+                builder.append(id);
+                builder.append(",");
+            }
+            String excludeIDs = builder.toString();
+            excludeIDs = excludeIDs.length() > 0 ? excludeIDs.substring(0, excludeIDs.length() - 1) : "";
+
+            try {
+                connection = this.getConnection();
+
+
+                String deleteRecord = "UPDATE " + tableName + " SET RECORD_STATUS='deleted', LAST_UPDATE=NOW() WHERE ID_SYSTEM_SEQUENCE NOT IN(" + excludeIDs + ") AND RECORD_STATUS = \'inserted\'";
+                statement = connection.createStatement();
+                statement.executeUpdate(deleteRecord);
+
+
+                connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+                try {
+                    if (connection != null) {
+                        connection.close();
+                    }
+
+                } catch (SQLException sqlee) {
+                    sqlee.printStackTrace();
+                }
+            }
+
+        }
+
+
+
+    }
+
 
 
     /**
