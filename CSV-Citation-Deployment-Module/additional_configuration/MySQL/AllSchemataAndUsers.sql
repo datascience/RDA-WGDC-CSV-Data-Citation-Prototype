@@ -10,6 +10,7 @@ CREATE DATABASE PersistentIdentifierDB;
 
 
 CREATE USER 'querystoreuser'@'localhost' IDENTIFIED BY 'query2014';
+CREATE USER 'querystoreuser'@'192.168.0.80' IDENTIFIED BY 'query2014';
 
 
 

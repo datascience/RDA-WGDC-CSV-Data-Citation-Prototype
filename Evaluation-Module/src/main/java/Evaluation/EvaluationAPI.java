@@ -459,4 +459,17 @@ public class EvaluationAPI {
 
     }
 
+    public void setRunDetails(String runName, String evaluationMachine, int amountOfColumns, int amountOfCsvFiles, int amountOfOperations, int amountOfRecords, double selectProportion, double deleteProportion, double updateProportion, double insertProportion) {
+        this.runBean.setAmountOfColumns(amountOfColumns);
+        this.runBean.setAmountOfCsvFiles(amountOfCsvFiles);
+        this.runBean.setAmountOfOperations(amountOfOperations);
+        this.runBean.setAmountOfRecords(amountOfRecords);
+        this.runBean.setDeleteProportion(deleteProportion);
+        this.runBean.setInsertProportion(insertProportion);
+        this.runBean.setUpdateProportion(updateProportion);
+        this.runBean.setSelectProportion(selectProportion);
+        this.runBean.setEvaluationMachineName(evaluationMachine);
+        this.runBean.setRunName(runName);
+        persistRunBean(this.runBean);
+    }
 }

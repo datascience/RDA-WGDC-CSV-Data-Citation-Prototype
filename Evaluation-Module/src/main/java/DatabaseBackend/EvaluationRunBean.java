@@ -69,6 +69,29 @@ public class EvaluationRunBean implements Serializable {
         this.evaluationRecordSet = new HashSet<EvaluationRecordBean>();
     }
 
+    @Column(name="amountOfColumns")
+    private int amountOfColumns;
+    @Column(name="amountOfRecords")
+    private int amountOfRecords;
+    @Column(name="amountOfCsvFiles")
+    private int amountOfCsvFiles;
+    @Column(name="amountOfOperations")
+    private int amountOfOperations;
+
+    @Column(name="selectProportion")
+    private double selectProportion;
+    @Column(name="insertProportion")
+    private double insertProportion;
+    @Column(name="updateProportion")
+    private double updateProportion;
+    @Column(name="deleteProportion")
+    private double deleteProportion;
+
+    @Column(name="runName")
+    private String runName;
+    @Column(name="evaluationMachine")
+    private String evaluationMachineName;
+
     public Integer getRunID() {
         return runID;
     }
@@ -101,8 +124,83 @@ public class EvaluationRunBean implements Serializable {
         return evaluationRecordSet;
     }
 
-    public void setEvaluationRecordSet(Set<EvaluationRecordBean> evaluationRecordSet) {
-        this.evaluationRecordSet = evaluationRecordSet;
+    public int getAmountOfColumns() {
+        return amountOfColumns;
     }
 
+    public void setAmountOfColumns(int amountOfColumns) {
+        this.amountOfColumns = amountOfColumns;
+    }
+
+    public int getAmountOfRecords() {
+        return amountOfRecords;
+    }
+
+    public void setAmountOfRecords(int amountOfRecords) {
+        this.amountOfRecords = amountOfRecords;
+    }
+
+    public int getAmountOfCsvFiles() {
+        return amountOfCsvFiles;
+    }
+
+    public void setAmountOfCsvFiles(int amountOfCsvFiles) {
+        this.amountOfCsvFiles = amountOfCsvFiles;
+    }
+
+    public int getAmountOfOperations() {
+        return amountOfOperations;
+    }
+
+    public void setAmountOfOperations(int amountOfOperations) {
+        this.amountOfOperations = amountOfOperations;
+    }
+
+    public double getSelectProportion() {
+        return selectProportion;
+    }
+
+    public void setSelectProportion(double selectProportion) {
+        this.selectProportion = selectProportion;
+    }
+
+    public double getInsertProportion() {
+        return insertProportion;
+    }
+
+    public void setInsertProportion(double insertProportion) {
+        this.insertProportion = insertProportion;
+    }
+
+    public double getUpdateProportion() {
+        return updateProportion;
+    }
+
+    public void setUpdateProportion(double updateProportion) {
+        this.updateProportion = updateProportion;
+    }
+
+    public double getDeleteProportion() {
+        return deleteProportion;
+    }
+
+    public void setDeleteProportion(double deleteProportion) {
+        this.deleteProportion = deleteProportion;
+    }
+
+    public String getRunName() {
+        return runName;
+    }
+
+    public void setRunName(String runName) {
+        this.runName = runName;
+    }
+
+    public String getEvaluationMachineName() {
+        return evaluationMachineName;
+    }
+
+    public void setEvaluationMachineName(String evaluationMachineName) {
+        this.evaluationMachineName = evaluationMachineName;
+    }
 }

@@ -42,10 +42,12 @@ public class EvaluationMain {
         dbTools.dropAndRecreateCitationDatabase();
         dbTools = null;
 
+        String evaluationMachine="Host";
+        String runName="SMP-S1-R100";
         int amountOfColumns = 5;
         int amountOfRecords = 1000;
         int amountOfCsvFiles = 1;
-        int amountOfOperations = 100;
+        int amountOfOperations = 1000;
 
         // Take care that strings are not too short, because then there will be primary key duplicates!
         int averageStringLength = 10;
@@ -82,6 +84,8 @@ public class EvaluationMain {
         log.severe("Importing files...");
         api.uploadListOfCsvFiles(list);
         log.severe("Run operations on files...");
+
+        api.setRunDetails(runName,evaluationMachine,amountOfColumns,amountOfCsvFiles,amountOfOperations,amountOfRecords,selectProportion,deleteProportion,updateProportion,insertProportion);
         api.runOperations(list);
         api.setRunBeanStopTime();
 
