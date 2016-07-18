@@ -410,7 +410,7 @@ public class Operations {
 
                     for(int i = 1; i <= 3;i++){
 
-                        randomColumn= random.nextInt(amountOfColumns + 1);
+                        randomColumn= random.nextInt(amountOfColumns)+1;
                         int randomSorting = random.nextInt(2);
                         String direction="ASC";
                         if(randomSorting==0){

@@ -22,16 +22,19 @@ import QueryStore.QueryStoreAPI;
 import com.sun.rowset.CachedRowSetImpl;
 
 import java.sql.*;
+import java.util.logging.Logger;
 
 /**
  * Created by stefan on 30.06.16.
  */
 public class QueryCSV {
     private QueryStoreAPI queryStoreAPI;
+    private Logger logger;
 
 
     public QueryCSV() {
         queryStoreAPI = new QueryStoreAPI();
+        this.logger = Logger.getLogger(QueryCSV.class.getName());
 
     }
 
@@ -47,6 +50,8 @@ public class QueryCSV {
 
             Connection conn = DriverManager.getConnection("jdbc:xbib:csv:" + directoryPath);
             Statement stmt = conn.createStatement();
+
+            this.logger.severe("CSV-Query " + queryString);
 
             results = stmt.executeQuery(queryString);
 

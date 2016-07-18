@@ -1985,7 +1985,7 @@ Count the records which are not deleted..
 
 
             this.resultSetMetadata.setRowCount(this.getResultSetRowCount(sortedResultSet));
-            this.logger.info(queryString);
+            this.logger.severe("SQL-Query " + queryString);
 
             stat.close();
             connection.close();

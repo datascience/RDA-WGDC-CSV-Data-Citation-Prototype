@@ -980,8 +980,8 @@ public class QueryStoreAPI {
                     whereString += " UPPER(" + currentFilter.getFilterName() + ") LIKE UPPER('%" +
                             currentFilter.getFilterValue() + "%') ";
                 } else {
-                    whereString += " AND " + currentFilter.getFilterName() + "LIKE UPPER('%" +
-                            currentFilter.getFilterValue() + "%')";
+                    whereString += " AND " + currentFilter.getFilterName() + " LIKE UPPER('%" +
+                            currentFilter.getFilterValue() + "%') ";
 
                 }
 
