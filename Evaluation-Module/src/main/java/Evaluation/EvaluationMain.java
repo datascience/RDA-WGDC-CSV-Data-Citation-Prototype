@@ -31,10 +31,10 @@ import java.util.logging.Logger;
  */
 public class EvaluationMain {
     public static void main(String[] args) {
-        java.util.logging.Logger.getLogger("org.hibernate").setLevel(Level.SEVERE);
+        java.util.logging.Logger.getLogger("org.hibernate").setLevel(Level.INFO);
         Logger log = LogManager.getLogManager().getLogger("");
         for (Handler h : log.getHandlers()) {
-            h.setLevel(Level.SEVERE);
+            h.setLevel(Level.INFO);
         }
 
        // run("SMP-S3-R100","EvaluationMachine-VM2",5,1000,1,100,10,0.01,0.99,0.0,0.0);

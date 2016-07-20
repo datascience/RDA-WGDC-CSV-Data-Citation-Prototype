@@ -938,6 +938,38 @@ public class MigrateCSV2SQL {
 
     }
 
+    public void addDatabaseIndexOnColumn(String tableName, String column) {
+        Connection connection = null;
+        this.logger.info("Adding indices");
+        long startTime = System.currentTimeMillis();
+        try {
+
+
+            connection = this.getConnection();
+
+            PreparedStatement createIndexStmt;
+
+                createIndexStmt = connection.prepareStatement("CREATE INDEX  `" + tableName + "_" + column + "` " +
+                        "ON " + tableName + " (`" + column + "`);");
+                int statuscode = createIndexStmt.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (Exception e) { /* handle close exception, quite usually ignore */ }
+            }
+        }
+        long endTime = System.currentTimeMillis();
+        long totalTime = endTime - startTime;
+        this.logger.info("Adding indices took " + (totalTime / 1000) + " sec");
+
+
+    }
+
+
 
     /**
      * Appends new records to an existing database. If the file contains a header,

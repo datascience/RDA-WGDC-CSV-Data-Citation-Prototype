@@ -18,6 +18,7 @@ package Evaluation;
 
 import DataPreparation.DataPreparation;
 import Database.DatabaseOperations.DatabaseTools;
+import Database.DatabaseOperations.MigrateCSV2SQL;
 import DatabaseBackend.EvaluationRecordBean;
 import DatabaseBackend.EvaluationRunBean;
 import GitBackend.GitAPI;
@@ -185,6 +186,8 @@ public class EvaluationAPI {
             pid.setCreatedDate(originalInsertDate);
             this.uploadCsvFileIntoProrotypeSystem(pid);
             this.dbTools.fakeInsertdataEvaluation(pid);
+            MigrateCSV2SQL csvMigrate = new MigrateCSV2SQL();
+            csvMigrate.addDatabaseIndexOnColumn(pid.getIdentifier(),"COLUMN_1");
 
             try {
                 logger.info("Going to sleep...");
