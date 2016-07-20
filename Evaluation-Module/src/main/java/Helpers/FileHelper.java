@@ -32,7 +32,9 @@
 
 package Helpers;
 
+import Evaluation.EvaluationAPI;
 import org.apache.commons.io.FileUtils;
+import org.apache.logging.log4j.core.Logger;
 
 import java.io.File;
 import java.io.IOException;
@@ -43,9 +45,10 @@ import java.io.IOException;
  * {MONTH_NAME_FULL} {YEAR}
  */
 public class FileHelper {
+    private java.util.logging.Logger logger;
 
     public FileHelper() {
-
+        logger = java.util.logging.Logger.getLogger(FileHelper.class.getName());
     }
 
 
@@ -65,7 +68,7 @@ public class FileHelper {
             size += dir.length();
         }
         if(size<0){
-            System.out.println("Negative size");
+            logger.severe("Negative size");
         }
         return size;
     }
