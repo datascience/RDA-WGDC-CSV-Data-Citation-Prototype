@@ -52,8 +52,8 @@ public class FileHelper {
     }
 
 
-    public int getFileFolderSize(File dir) {
-        int size = 0;
+    public long getFileFolderSize(File dir) {
+        long size = 0;
         if (dir.isDirectory()) {
             for (File file : dir.listFiles()) {
 

@@ -2717,13 +2717,13 @@ Count the records which are not deleted..
      * Get Database and Index Size from DB
      * @return
      */
-    public int getDatabaseSizeInBytes(){
+    public long getDatabaseSizeInBytes(){
         Connection connection = this.getConnection();
         // Old version (no real time)
         // String sql = "SELECT SUM(data_length + index_length) AS 'Size' FROM information_schema.TABLES WHERE table_schema = 'CitationDB'";
         // Real time
         String sql = "SELECT SUM(FILE_SIZE) FROM INFORMATION_SCHEMA.INNODB_SYS_TABLESPACES WHERE NAME LIKE \"CitationDB%\"";
-        int sizeDB=-1;
+        long sizeDB=-1;
         try {
             Statement statement = connection.createStatement();
             ResultSet result = statement.executeQuery(sql);

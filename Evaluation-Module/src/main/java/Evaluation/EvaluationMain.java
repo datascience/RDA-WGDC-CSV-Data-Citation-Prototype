@@ -37,11 +37,32 @@ public class EvaluationMain {
             h.setLevel(Level.SEVERE);
         }
 
-        run("AVG-S2-R1000","EvaluationMachine-VM1",25,10000,1,1000,25,0.8,0.05,0.15,0);
-        run("AVG-S3-R100","EvaluationMachine-VM1",25,10000,1,100,25,0.01,0.99,0.0,0.0);
+       // run("SMP-S3-R100","EvaluationMachine-VM2",5,1000,1,100,10,0.01,0.99,0.0,0.0);
+        run("AVG-S3-R1000","EvaluationMachine-VM2",25,10000,1,1000,25,0.01,0.99,0.0,0.0);
+        /*
 
+        run("AVG-S4-R100","EvaluationMachine-VM2",25,10000,1,100,25,0.1,0.3,0.3,0.3);
+        run("AVG-S4-R1000","EvaluationMachine-VM2",25,10000,1,1000,25,0.1,0.3,0.3,0.3);
 
+        run("AVG-S5-R100","EvaluationMachine-VM2",25,10000,1,100,25,0.2,0.2,0.4,0.2);
+        run("AVG-S5-R1000","EvaluationMachine-VM2",25,10000,1,1000,25,0.2,0.2,0.4,0.2);
 
+        run("CPX-S1-R100","EvaluationMachine-VM2",25,100000,1,100,50,1.0,0.0,0.0,0.0);
+        run("CPX-S1-R1000","EvaluationMachine-VM2",25,100000,1,1000,50,1.0,0.0,0.0,0.0);
+
+        run("CPX-S2-R100","EvaluationMachine-VM2",25,100000,1,100,50,0.8,0.05,0.15,0.0);
+        run("CPX-S2-R1000","EvaluationMachine-VM2",25,100000,1,1000,50,0.8,0.05,0.15,0.0);
+
+        run("CPX-S3-R100","EvaluationMachine-VM2",25,100000,1,100,50,0.01,0.99,0.0,0.0);
+        run("CPX-S3-R100","EvaluationMachine-VM2",25,100000,1,1000,50,0.01,0.99,0.0,0.0);
+
+        run("CPX-S4-R100","EvaluationMachine-VM2",25,100000,1,100,50,0.1,0.3,0.3,0.3);
+        run("CPX-S4-R1000","EvaluationMachine-VM2",25,100000,1,1000,50,0.1,0.3,0.3,0.3);
+
+        run("CPX-S5-R100","EvaluationMachine-VM2",25,100000,1,100,50,0.2,0.2,0.4,0.1);
+        run("CPX-S5-R1000","EvaluationMachine-VM2",25,100000,1,1000,50,0.2,0.2,0.4,0.1);
+
+*/
 
 
         System.exit(0);

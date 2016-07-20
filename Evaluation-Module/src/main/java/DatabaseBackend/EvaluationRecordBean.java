@@ -94,10 +94,10 @@ public class EvaluationRecordBean implements Serializable {
     private Date reExecutionDate;
 
     @Column(name = "gitFolderSizeInBytes")
-    private int gitFolderSizeInBytes;
+    private long gitFolderSizeInBytes;
 
     @Column(name = "sqlDBSizeInBytes")
-    private int sqlDBSizeInBytes;
+    private long sqlDBSizeInBytes;
 
 
     public EvaluationRecordBean() {
@@ -200,25 +200,6 @@ public class EvaluationRecordBean implements Serializable {
         return evaluationRunBean;
     }
 
-
-
-
-    public int getGitFolderSizeInBytes() {
-        return gitFolderSizeInBytes;
-    }
-
-    public void setGitFolderSizeInBytes(int gitFolderSizeInBytes) {
-        this.gitFolderSizeInBytes = gitFolderSizeInBytes;
-    }
-
-    public int getSqlDBSizeInBytes() {
-        return sqlDBSizeInBytes;
-    }
-
-    public void setSqlDBSizeInBytes(int sqlDBSizeInBytes) {
-        this.sqlDBSizeInBytes = sqlDBSizeInBytes;
-    }
-
     public Integer getOperationCount() {
         return operationCount;
     }
@@ -229,5 +210,21 @@ public class EvaluationRecordBean implements Serializable {
 
     public void setEvaluationRunBean(EvaluationRunBean evaluationRunBean) {
         this.evaluationRunBean = evaluationRunBean;
+    }
+
+    public long getGitFolderSizeInBytes() {
+        return gitFolderSizeInBytes;
+    }
+
+    public void setGitFolderSizeInBytes(long gitFolderSizeInBytes) {
+        this.gitFolderSizeInBytes = gitFolderSizeInBytes;
+    }
+
+    public long getSqlDBSizeInBytes() {
+        return sqlDBSizeInBytes;
+    }
+
+    public void setSqlDBSizeInBytes(long sqlDBSizeInBytes) {
+        this.sqlDBSizeInBytes = sqlDBSizeInBytes;
     }
 }

@@ -539,9 +539,9 @@ public class Operations {
 
         }
         recordBean.setQueryType(type.toString());
-        int gitSize = fileHelper.getFileFolderSize(gitAPI.getRepoPath());
+        long gitSize = fileHelper.getFileFolderSize(gitAPI.getRepoPath());
         recordBean.setGitFolderSizeInBytes(gitSize);
-        int sqlSize = dbtools.getDatabaseSizeInBytes();
+        long sqlSize = dbtools.getDatabaseSizeInBytes();
         recordBean.setSqlDBSizeInBytes(sqlSize);
 
 
