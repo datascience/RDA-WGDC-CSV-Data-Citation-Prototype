@@ -39,8 +39,8 @@ public class MigrateCSV2SQL {
 
 
     /**
-     * Create a new database from a CSV file. DROPs database if exists!! Appends
-     * a id column for the sequential numbering and a sha1 hash column. Adds a column for the state of the
+     * Create a new table from a CSV file and drops the table if exists! Appends
+     * a id column for the sequential numbering and adds a column for the state of the
      * record: inserted, updated, deleted
      * <p>
      * Version 2016 with data type detector
