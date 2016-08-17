@@ -237,6 +237,33 @@ public class EvaluationAPI {
         return pid;
     }
 
+    /**
+     * @param amountOfRecords
+     * @param columns
+     * @param averageRecordLength
+     * @param variance
+     * @return
+     */
+    public PersistentIdentifier createNewRandomCSVFileWithDataTypes(int amountOfRecords, int columns, int averageRecordLength, double
+            variance) {
+        //todo korrektur
+
+        String fileName = null;
+        // Create a new PID for the
+        PersistentIdentifier pid = pidAPI.getAlphaPID(evaluationOrganization, "dummy");
+        fileName = evaluationCsvFolder + pid.getIdentifier() + ".csv";
+        pid.setURI(fileName);
+
+        TestDataGenerator generator = new TestDataGenerator();
+        try {
+            fileName = generator.writeWithCsvMapWriter(fileName, columns, amountOfRecords, averageRecordLength, variance);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return pid;
+    }
+
+
     public String uploadCsvFileIntoProrotypeSystem(PersistentIdentifier pid) {
         //api.uploadCsvFileIntoProrotypeSystem(pid);
         DataPreparation prep = new DataPreparation(this.getEvaluationOrganization());

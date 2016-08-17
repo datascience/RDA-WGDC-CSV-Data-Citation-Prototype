@@ -37,8 +37,8 @@ public class EvaluationMain {
             h.setLevel(Level.INFO);
         }
 
-       // run("SMP-S3-R100","EvaluationMachine-VM2",5,1000,1,100,10,0.01,0.99,0.0,0.0);
-        run("AVG-S3-R1000","EvaluationMachine-VM2",25,10000,1,1000,25,0.01,0.99,0.0,0.0);
+        // run("SMP-S3-R100","EvaluationMachine-VM2",5,1000,1,100,10,0.01,0.99,0.0,0.0);
+        run("AVG-S3-R1000", "EvaluationMachine-VM2", 25, 10000, 1, 1000, 25, 0.01, 0.99, 0.0, 0.0);
         /*
 
         run("AVG-S4-R100","EvaluationMachine-VM2",25,10000,1,100,25,0.1,0.3,0.3,0.3);
@@ -70,17 +70,14 @@ public class EvaluationMain {
 
     }
 
-    private static void run(String runName,      String evaluationMachine,        int amountOfColumns,  int amountOfRecords,  int amountOfCsvFiles, int amountOfOperations , int averageStringLength ,      double selectProportion ,
-            double insertProportion,
-            double updateProportion,
-            double deleteProportion  ){
+    private static void run(String runName, String evaluationMachine, int amountOfColumns, int amountOfRecords, int amountOfCsvFiles, int amountOfOperations, int averageStringLength, double selectProportion,
+                            double insertProportion,
+                            double updateProportion,
+                            double deleteProportion) {
         // Drop existing data
         DatabaseTools dbTools = new DatabaseTools();
         dbTools.dropAndRecreateCitationDatabase();
         dbTools = null;
-
-
-
 
 
         // Take care that strings are not too short, because then there will be primary key duplicates!
@@ -88,13 +85,9 @@ public class EvaluationMain {
         double variance = 2.0;
 
 
-
-
-
-
-        double qEasyProbability=0.6;
-        double qStandardProbability=0.3;
-        double qComplexProbability=0.1;
+        double qEasyProbability = 0.6;
+        double qStandardProbability = 0.3;
+        double qComplexProbability = 0.1;
 
         String csvFolder = "/tmp/Evaluation";
         String gitRepoPath = "/tmp/Evaluation_Git_Repo";
@@ -109,14 +102,14 @@ public class EvaluationMain {
         csvApi.createCSVDirectory(exportPath);
 
 
-        EvaluationAPI api = new EvaluationAPI(9999, csvFolder, gitRepoPath, exportPath, selectProportion, insertProportion, updateProportion, deleteProportion, amountOfOperations,qEasyProbability,qStandardProbability,qComplexProbability);
+        EvaluationAPI api = new EvaluationAPI(9999, csvFolder, gitRepoPath, exportPath, selectProportion, insertProportion, updateProportion, deleteProportion, amountOfOperations, qEasyProbability, qStandardProbability, qComplexProbability);
 
         List<PersistentIdentifier> list = api.createCsvFiles(amountOfCsvFiles, amountOfRecords, amountOfColumns, averageStringLength, variance);
 
         api.uploadListOfCsvFiles(list);
 
 
-        api.setRunDetails(runName,evaluationMachine,amountOfColumns,amountOfCsvFiles,amountOfOperations,amountOfRecords,selectProportion,deleteProportion,updateProportion,insertProportion);
+        api.setRunDetails(runName, evaluationMachine, amountOfColumns, amountOfCsvFiles, amountOfOperations, amountOfRecords, selectProportion, deleteProportion, updateProportion, insertProportion);
         api.runOperations(list);
         api.setRunBeanStopTime();
     }
