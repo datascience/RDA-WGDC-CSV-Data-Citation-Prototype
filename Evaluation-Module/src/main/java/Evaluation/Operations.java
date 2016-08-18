@@ -27,7 +27,7 @@ import Helpers.HelpersCSV;
 import QueryStore.BaseTable;
 import QueryStore.Query;
 import QueryStore.QueryStoreAPI;
-import at.stefanproell.CSV_Tools.CSV_Analyser;
+import at.stefanproell.CSVHelperTools.CSV_Analyser;
 import at.stefanproell.DataGenerator.DataGenerator;
 import at.stefanproell.PersistentIdentifierMockup.PersistentIdentifier;
 import at.stefanproell.PersistentIdentifierMockup.PersistentIdentifierAPI;

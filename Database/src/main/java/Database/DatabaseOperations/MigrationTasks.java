@@ -34,7 +34,7 @@ package Database.DatabaseOperations;
 
 
 import CSVTools.CsvToolsApi;
-import at.stefanproell.CSV_Tools.CSV_Analyser;
+import at.stefanproell.CSVHelperTools.CSV_Analyser;
 import at.stefanproell.DataTypeDetector.DatatypeStatistics;
 
 
@@ -100,9 +100,9 @@ public class MigrationTasks {
              * NEU
              */
 
+
             CSV_Analyser csv_analyser = new CSV_Analyser();
             csv_analyser.setHeadersArray(headers);
-
             Map<Integer, Map<String, Object>> csvMap = csv_analyser.parseCSV(new File(currentPath));
 
             DatatypeStatistics datatypeStatistics = csv_analyser.analyse(csvMap, headers);

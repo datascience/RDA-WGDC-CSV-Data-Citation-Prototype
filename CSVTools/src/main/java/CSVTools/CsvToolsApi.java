@@ -253,6 +253,7 @@ public class CsvToolsApi {
     public String replaceSpaceWithDash(String withSpaceCharacter) {
         String noSpaceString = withSpaceCharacter.replaceAll("^\\s+", "").replace(" ", "_");
         noSpaceString = noSpaceString.replace("(", "_").replace(")", "_");
+        noSpaceString = noSpaceString.replace("/", "_").replace("\\", "_");
         return noSpaceString;
 
 

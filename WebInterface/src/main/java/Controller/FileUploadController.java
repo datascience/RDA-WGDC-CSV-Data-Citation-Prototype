@@ -181,7 +181,7 @@ import Bean.TableDefinitionBean;
 import CSVTools.CsvToolsApi;
 import Database.Authentication.User;
 import Database.DatabaseOperations.DatabaseTools;
-import at.stefanproell.CSV_Tools.CSV_Analyser;
+import at.stefanproell.CSVHelperTools.CSV_Analyser;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
