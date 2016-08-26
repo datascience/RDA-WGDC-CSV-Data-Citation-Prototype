@@ -491,6 +491,8 @@ public class Operations {
             recordBean.setGitQuery(gitQuery);
             recordBean.setQueryComplexity(complexity.toString());
 
+
+
             recordBean.setEndTimestampGit(this.getCurrentTimeStamp());
 
 
@@ -538,6 +540,7 @@ public class Operations {
 
 
         }
+        this.gitApi.repackRepository();
         recordBean.setQueryType(type.toString());
         long gitSize = fileHelper.getFileFolderSize(gitAPI.getRepoPath());
         recordBean.setGitFolderSizeInBytes(gitSize);

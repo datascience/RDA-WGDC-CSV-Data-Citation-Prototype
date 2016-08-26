@@ -36,9 +36,9 @@ public class EvaluationMain {
         for (Handler h : log.getHandlers()) {
             h.setLevel(Level.INFO);
         }
-
+        run("MySQL-Test","local",25,100000,1,1,15,0.01,0.99,0.0,0.0);
         // run("SMP-S3-R100","EvaluationMachine-VM2",5,1000,1,100,10,0.01,0.99,0.0,0.0);
-        run("AVG-S3-R1000", "EvaluationMachine-VM2", 25, 10000, 1, 1000, 25, 0.01, 0.99, 0.0, 0.0);
+        //run("AVG-S3-R1000", "EvaluationMachine-VM2", 25, 10000, 1, 1000, 25, 0.01, 0.99, 0.0, 0.0);
         /*
 
         run("AVG-S4-R100","EvaluationMachine-VM2",25,10000,1,100,25,0.1,0.3,0.3,0.3);

@@ -58,6 +58,8 @@ import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.errors.AmbiguousObjectException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
+import org.eclipse.jgit.internal.storage.file.FileRepository;
+import org.eclipse.jgit.internal.storage.file.GC;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
@@ -801,6 +803,20 @@ public class GitAPI {
         return sb.toString();
 
 
+    }
+
+    /**
+     * Repacks the repository
+     */
+    public void repackRepository(){
+
+        try {
+            this.git.gc().setAggressive(true).call();
+
+
+        } catch (GitAPIException e) {
+            e.printStackTrace();
+        }
     }
 
 

@@ -30,6 +30,7 @@ import at.stefanproell.PersistentIdentifierMockup.PersistentIdentifier;
 import at.stefanproell.PersistentIdentifierMockup.PersistentIdentifierAPI;
 import org.apache.commons.collections4.list.TreeList;
 import org.eclipse.jgit.api.errors.GitAPIException;
+import org.eclipse.jgit.internal.storage.file.GC;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -280,6 +281,7 @@ public class EvaluationAPI {
         op.setGitApi(gitAPI);
 
 
+
         int counter =0;
         int operationCount=0;
         for (PersistentIdentifier pid : listOfCsvFilePersistentIdentifiers) {
@@ -508,4 +510,6 @@ public class EvaluationAPI {
         this.runBean.setRunName(runName);
         persistRunBean(this.runBean);
     }
+
+
 }
