@@ -243,8 +243,6 @@ public class QueryStoreController implements Serializable {
         this.query.setBaseTable(baseTable);
 
 
-        //@todo current databasename und table name sind null vom session manager.
-
         this.queryStoreAPI.persistQuery(this.query);
 
 

@@ -1,0 +1,1 @@
+* allow only local host in server.xml

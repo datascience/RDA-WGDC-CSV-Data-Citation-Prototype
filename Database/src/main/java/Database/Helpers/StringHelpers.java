@@ -69,4 +69,33 @@ public class StringHelpers {
 
 
     }
+
+    /**
+     * remove the last comma of a string
+     *
+     * @param input
+     * @return
+     */
+    public static String removeLastComma(String input) {
+        if (input.endsWith(",")) {
+            input = input.substring(0, input.lastIndexOf(","));
+        }
+
+
+        return input;
+    }
+
+    /**
+     * Replace empty strings with the NULL value
+     *
+     * @param input
+     * @return
+     */
+    public String replaceEmptyStringWithNULL(String input) {
+        if (input.equalsIgnoreCase("")) {
+            input = "NULL";
+        }
+        return input;
+
+    }
 }

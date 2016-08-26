@@ -66,21 +66,28 @@ package QueryStore;
 
 
 import Database.DatabaseOperations.DatabaseTools;
-import at.stefanproell.PersistentIdentifierMockup.*;
+import at.stefanproell.PersistentIdentifierMockup.Organization;
+import at.stefanproell.PersistentIdentifierMockup.PersistentIdentifierAPI;
+import at.stefanproell.PersistentIdentifierMockup.PersistentIdentifierAlphaNumeric;
 import at.stefanproell.ResultSetVerification.ResultSetVerificationAPI;
 import org.apache.commons.codec.digest.DigestUtils;
-import org.hibernate.Criteria;
 import org.hibernate.Session;
-import org.hibernate.criterion.Order;
-import org.hibernate.criterion.ProjectionList;
-import org.hibernate.criterion.Projections;
-import org.hibernate.criterion.Restrictions;
 
+import javax.persistence.NoResultException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.logging.Logger;
 
 /**
  * The API for the Query Store Mockup
+ * <p>
+ * Requires this table:
+ * <p>
+ * <p>
+ * CREATE TABLE `DummyBaseTable` (
+ * `idDummyBaseTable` int(11) NOT NULL,
+ * PRIMARY KEY (`idDummyBaseTable`)
+ * ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
  */
 public class QueryStoreAPI {
     private Logger logger;
@@ -109,8 +116,6 @@ public class QueryStoreAPI {
         query.setQueryHash(this.calculateQueryHash(query));
         this.session.save(query);
         this.session.getTransaction().commit();
-
-
         this.session.close();
         return query;
 
@@ -276,44 +281,47 @@ public class QueryStoreAPI {
 
 
     }
-    
+
     /*
     * Store query persistently n database.
     * * * */
-    public void persistQuery(Query query){
+    public void persistQuery(Query query) {
         this.session = HibernateUtilQueryStore.getSessionFactory().openSession();
         this.session.beginTransaction();
         this.session.saveOrUpdate(query);
         this.session.getTransaction().commit();
         this.session.close();
+
     }
 
     /*Add filter map to the query
     * * */
-    public void addFilters(Query query, Map<String, String> filterMap){
-        // Iterate over Filters
-        // TODO: externalize in own method
+    public void addFilters(Query query, Map<String, String> filterMap) {
+
         this.session = HibernateUtilQueryStore.getSessionFactory().openSession();
         session.beginTransaction();
         int currentFilterSequence = -1;
         Long qID = query.getQueryId();
         this.logger.info("Query id = " + qID);
-        // Get the max sequence number for the filters of query 
-        Criteria cr = session.createCriteria(Filter.class);
-        cr.setProjection(Projections.projectionList()
-                //.add(Projections.groupProperty("query"))
-                .add(Projections.max("filterSequence")));
-        cr.add(Restrictions.eq("query.queryId", new Long(query.getQueryId())));
-        Object unique = (Object) cr.uniqueResult();
+
+        javax.persistence.Query queryHibernate = session.createQuery("SELECT max(filterSequence) from Filter where query_queryId = :queryId");
+        queryHibernate.setParameter("queryId", query.getQueryId());
+        Filter filterMax = null;
+        try {
+            filterMax = (Filter) queryHibernate.getSingleResult();
+        } catch (NoResultException nre) {
+
+        }
+
         session.getTransaction().commit();
         session.close();
 
-        if (unique == null) {
+        if (filterMax == null) {
             this.logger.warning("No previous filter exists");
             currentFilterSequence = 0;
         } else {
             this.logger.info("Filter exists. Setting filter sequence");
-            currentFilterSequence = (Integer) unique;
+            currentFilterSequence = filterMax.getFilterSequence();
 
         }
 
@@ -338,7 +346,6 @@ public class QueryStoreAPI {
             }
 
 
-
         }
 
         // recalculate query hash
@@ -347,7 +354,6 @@ public class QueryStoreAPI {
         this.persistQuery(query);
 
 
-        
     }
 
     /*add sorting map to the query 
@@ -360,22 +366,27 @@ public class QueryStoreAPI {
         Long qID = query.getQueryId();
         this.logger.info("Query id = " + qID);
 
-        // Get the max sequence number for the sortings of query
-        Criteria cr = session.createCriteria(Sorting.class);
-        cr.setProjection(Projections.projectionList()
-                //.add(Projections.groupProperty("query"))
-                .add(Projections.max("sortingSequence")));
-        cr.add(Restrictions.eq("query.queryId", new Long(query.getQueryId())));
-        Object unique = (Object) cr.uniqueResult();
+
+        javax.persistence.Query queryHibernate = session.createQuery("SELECT max(sortingSequence) from Sorting where queryId = :queryId");
+        queryHibernate.setParameter("queryId", query.getQueryId());
+        Sorting sortingMax = null;
+        try {
+            sortingMax = (Sorting) queryHibernate.getSingleResult();
+
+        } catch (NoResultException nre) {
+
+        }
+
+
         session.getTransaction().commit();
         session.close();
 
-        if (unique == null) {
+        if (sortingMax == null) {
             this.logger.warning("No previous sorting exists");
             currentSortingSequence = 0;
         } else {
             this.logger.info("Sorting exists. Setting sorting sequence");
-            currentSortingSequence = (Integer) unique;
+            currentSortingSequence = sortingMax.getSortingSequence();
 
         }
 
@@ -414,25 +425,25 @@ public class QueryStoreAPI {
     /* Check if a filter is already set.
     * * */
     private boolean checkIfFilterExists(Query query, Filter filter) {
-        Session filterSession = HibernateUtilQueryStore.getSessionFactory().openSession();
-        filterSession.beginTransaction();
+        Session session = HibernateUtilQueryStore.getSessionFactory().openSession();
+        session.beginTransaction();
 
         Long qID = query.getQueryId();
 
+        javax.persistence.Query queryHibernate = session.createQuery("from Filter where query_queryId =:queryId AND filterName=:filterName AND filterValue =:filterValue ");
+        queryHibernate.setParameter("queryId", query.getQueryId());
+        queryHibernate.setParameter("filterName", filter.getFilterName());
+        queryHibernate.setParameter("filterValue", filter.getFilterValue());
+        Filter filterRecord = null;
+        try {
+            filterRecord = (Filter) queryHibernate.getSingleResult();
 
-        // Get the max sequence number for the sortings of query
-        Criteria cr = filterSession.createCriteria(Filter.class);
+        } catch (NoResultException nre) {
 
-        cr.setProjection(Projections.projectionList()
-                //.add(Projections.groupProperty("query"))
-                .add(Projections.property("filterId")));
-        cr.add(Restrictions.eq("query.queryId", new Long(query.getQueryId())));
-        cr.add(Restrictions.eq("filterName", filter.getFilterName()));
-        cr.add(Restrictions.eq("filterValue", filter.getFilterValue()));
+        }
 
-        Object filterRecord = (Object) cr.uniqueResult();
-        filterSession.getTransaction().commit();
-        filterSession.close();
+        session.getTransaction().commit();
+        session.close();
         if (filterRecord == null) {
 
             return false;
@@ -446,26 +457,26 @@ public class QueryStoreAPI {
     /* Check if a filter is already set.
 * * */
     private boolean checkIfSortingExists(Query query, Sorting sorting) {
-        Session sortingSession = HibernateUtilQueryStore.getSessionFactory().openSession();
-        sortingSession.beginTransaction();
+        Session session = HibernateUtilQueryStore.getSessionFactory().openSession();
+        session.beginTransaction();
 
         Long qID = query.getQueryId();
 
+        javax.persistence.Query queryHibernate = session.createQuery("from Sorting where queryId =:queryId AND SortingColumn=:sortingColumn AND direction =:direction ");
+        queryHibernate.setParameter("queryId", query.getQueryId());
+        queryHibernate.setParameter("direction", sorting.getDirection());
+        queryHibernate.setParameter("sortingColumn", sorting.getSortingColumn());
 
-        // Get the max sequence number for the sortings of query
-        Criteria cr = sortingSession.createCriteria(Sorting.class);
+        Sorting sortingRecord = null;
+        try {
+            sortingRecord = (Sorting) queryHibernate.getSingleResult();
+        } catch (NoResultException nre) {
 
-        cr.setProjection(Projections.projectionList()
-                //.add(Projections.groupProperty("query"))
-                .add(Projections.property("sortingId")));
-        cr.add(Restrictions.eq("query.queryId", new Long(query.getQueryId())));
-        cr.add(Restrictions.eq("sortingColumn", sorting.getSortingColumn()));
-        cr.add(Restrictions.eq("direction", sorting.getDirection()));
+        }
 
-        Object sortingResult = (Object) cr.uniqueResult();
-        sortingSession.getTransaction().commit();
-        sortingSession.close();
-        if (sortingResult == null) {
+        session.getTransaction().commit();
+        session.close();
+        if (sortingRecord == null) {
 
             return false;
         } else {
@@ -474,9 +485,6 @@ public class QueryStoreAPI {
 
 
     }
-
-
-
 
 
     /**
@@ -541,8 +549,6 @@ public class QueryStoreAPI {
     }
 
 
-
-
     /*Check if the result set hash is not already stored
     * */
     public boolean persistResultSetHash(Query query, String resultSetHash) {
@@ -572,12 +578,16 @@ public class QueryStoreAPI {
     public Query getQueryByResultSetHash(String resultSetHash) {
         Session session = HibernateUtilQueryStore.getSessionFactory().openSession();
         session.beginTransaction();
-        // Get the max sequence number for the sortings of query
-        Criteria cr = session.createCriteria(Query.class);
 
+        javax.persistence.Query queryHibernate = session.createQuery("from Query where resultSetHash = :resultSetHash");
+        queryHibernate.setParameter("resultSetHash", resultSetHash);
 
-        cr.add(Restrictions.eq("resultSetHash", resultSetHash));
-        Query resultSetQuery = (Query) cr.uniqueResult();
+        Query resultSetQuery = null;
+        try {
+            resultSetQuery = (Query) queryHibernate.getSingleResult();
+        } catch (NoResultException nre) {
+
+        }
         session.getTransaction().commit();
         session.close();
         return resultSetQuery;
@@ -626,20 +636,27 @@ public class QueryStoreAPI {
         this.session = HibernateUtilQueryStore.getSessionFactory().openSession();
         this.session.beginTransaction();
 
-        Query query = null;
-        Criteria criteria = this.session.createCriteria(Query.class, "query");
-        criteria.add(Restrictions.like("query.PID", pid));
-        query = (Query) criteria.uniqueResult();
+
+        javax.persistence.Query queryHibernate = session.createQuery("from Query where PID =:PID");
+        queryHibernate.setParameter("PID", pid);
+        Query resultSetQuery = null;
+
+        try {
+            resultSetQuery = (Query) queryHibernate.getSingleResult();
+        } catch (NoResultException nre) {
+
+        }
+
         this.session.getTransaction().commit();
         this.session.close();
 
-        if (query == null) {
+        if (resultSetQuery == null) {
             this.logger.severe("No query found with the pid " + pid);
         } else {
             this.logger.info("Found query with pid: " + pid);
         }
 
-        return query;
+        return resultSetQuery;
 
     }
 
@@ -684,7 +701,6 @@ public class QueryStoreAPI {
     public int finalizeQuery(Query query) {
 
 
-        
         String querString = this.generateQueryString(query);
         query.setQueryString(querString);
         this.persistQuery(query);
@@ -703,18 +719,135 @@ public class QueryStoreAPI {
 
     }
 
+    public int finalizeQueryEvaluation(Query query) {
+
+
+        String querString = this.generateQueryStringEvaluation(query);
+        query.setQueryString(querString);
+        this.persistQuery(query);
+
+        boolean queryIsUnique = this.checkQueryUniqueness(query);
+
+
+        if (queryIsUnique == false) {
+            this.logger.severe("There was a identical query. This could be a new version!");
+            return 1;
+        } else {
+            this.logger.info("No version detected. OK");
+            return 0;
+        }
+
+
+    }
+
+    /**
+     * USE CitationDB;
+     * SELECT t1.*
+     * FROM `8ZqkuFspWz1h` AS t1
+     * LEFT OUTER JOIN `8ZqkuFspWz1h` t2
+     * ON t1.COLUMN_1 = t2.COLUMN_1
+     * AND (t1.LAST_UPDATE < t2.LAST_UPDATE
+     * OR (t1.LAST_UPDATE = t2.LAST_UPDATE AND t1.INSERT_DATE < t2.INSERT_DATE))
+     * WHERE t2.COLUMN_1 IS NULL
+     *
+     * @param query
+     * @return
+     */
+    private String generateQueryStringEvaluation(Query query) {
+        List<Filter> filterSet = query.getFilters();
+        List<Sorting> sortingsSet = query.getSortings();
+        DatabaseTools dbTools = new DatabaseTools();
+
+        String fromString = query.getBaseTable().getBaseTableName();
+
+        List<String> primaryKeyList = dbTools.getPrimaryKeyFromTable(fromString);
+        String pattern = "yyyy-MM-dd HH:mm:ss";
+        SimpleDateFormat formatter = new SimpleDateFormat(pattern);
+        String reExecutionDateString = formatter.format(query.getExecution_timestamp());
+
+
+        String primaryKey = "";
+        if (primaryKeyList.size() == 0) {
+            this.logger.severe("Primary key list size: " + primaryKeyList.size());
+        } else {
+            primaryKey = primaryKeyList.get(0);
+        }
+
+
+        String sqlString = "SELECT ";
+        Map<Integer, String> selectedColumns = query.getSelectedColumns();
+
+        for (Map.Entry<Integer, String> entry : selectedColumns.entrySet()) {
+            String columnName = entry.getValue();
+            sqlString += "`outerGroup`.`" + columnName + "`,";
+        }
+
+        // remove last comma from string
+        if (sqlString.endsWith(",")) {
+            sqlString = sqlString.substring(0, sqlString.length() - 1);
+        }
+
+        sqlString += " FROM " + fromString;
+
+        // inner join
+
+        sqlString += " AS outerGroup INNER JOIN( SELECT COLUMN_1, max(INSERT_DATE) AS mostRecent FROM " +
+                fromString +
+                " AS innerSelect WHERE(innerSelect.RECORD_STATUS = 'inserted' OR innerSelect.RECORD_STATUS ='updated') AND innerSelect.INSERT_DATE<='"+reExecutionDateString+
+                "' GROUP BY COLUMN_1) AS innerGroup ON outerGroup.COLUMN_1 = innerGroup.COLUMN_1 AND outerGroup.INSERT_DATE = innerGroup.mostRecent";
+
+        if (filterSet.size() > 0) {
+            String whereString = " WHERE ";
+            int filterCounter = 0;
+            for (Filter currentFilter : filterSet) {
+                filterCounter++;
+                if (filterCounter == 1) {
+                    whereString += " UPPER(`outerGroup`.`" + currentFilter.getFilterName() + "`) LIKE UPPER('%" +
+                            currentFilter.getFilterValue() + "%') ";
+                } else {
+                    whereString += " AND UPPER(`outerGroup`.`" + currentFilter.getFilterName() + "`) LIKE UPPER('%" +
+                            currentFilter.getFilterValue() + "%') ";
+
+                }
+
+            }
+
+            sqlString += whereString;
+        }
+
+        String sortingString ="ORDER BY outerGroup.COLUMN_1 ASC";
+        if(sortingsSet.size()>0){
+            int sortingCounter=0;
+            for(Sorting currentSorting : sortingsSet){
+                sortingCounter++;
+                sortingString+=","+currentSorting.getSortingColumn()+ " " + currentSorting.getDirection();
+            }
+
+        }
+
+        sqlString+=sortingString;
+
+
+        this.logger.severe(sqlString);
+
+        return sqlString;
+    }
+
     private boolean checkQueryUniqueness(Query query) {
         this.session = HibernateUtilQueryStore.getSessionFactory().openSession();
         this.session.beginTransaction();
-        Query sameQuery = null;
-        Criteria criteria = this.session.createCriteria(Query.class, "query");
-        criteria.add(Restrictions.like("query.queryHash", query.getQueryHash()));
-        criteria.add(Restrictions.not(Restrictions.like("query.queryId", query.getQueryId())));
-        sameQuery = (Query) criteria.uniqueResult();
+
+
+        javax.persistence.Query queryHibernate = session.createQuery("from Query where queryId <> :queryId AND queryHash =:queryHash");
+        queryHibernate.setParameter("queryId", query.getQueryId());
+        queryHibernate.setParameter("queryHash", query.getQueryHash());
+        List<Query> queries = queryHibernate.getResultList();
+
+
         this.session.getTransaction().commit();
         this.session.close();
 
-        if (sameQuery == null) {
+        if (queries == null || queries.size() == 0) {
             return true;
         } else {
             return false;
@@ -733,12 +866,15 @@ public class QueryStoreAPI {
         DatabaseTools dbTools = new DatabaseTools();
 
 
-
         String fromString = query.getBaseTable().getBaseTableName();
 
         List<String> primaryKeyList = dbTools.getPrimaryKeyFromTable(fromString);
-        this.logger.info("Primary key list size: " + primaryKeyList.size());
-        String primaryKey = primaryKeyList.get(0);
+        String primaryKey = "";
+        if (primaryKeyList.size() == 0) {
+            this.logger.severe("Primary key list size: " + primaryKeyList.size());
+        } else {
+            primaryKey = primaryKeyList.get(0);
+        }
 
 
         String sqlString = "SELECT ";
@@ -763,11 +899,10 @@ public class QueryStoreAPI {
                 "    FROM " +
                 query.getBaseTable().getBaseTableName() +
                 " AS innerSELECT " +
-                "    WHERE " +
-                "        (innerSELECT.RECORD_STATUS = 'inserted' " +
-                "            OR innerSELECT.RECORD_STATUS = 'updated'" + " AND innerSELECT.LAST_UPDATE<=\""
+                " WHERE (innerSELECT.RECORD_STATUS = 'inserted' " +
+                " OR innerSELECT.RECORD_STATUS = 'updated'" + " AND innerSELECT.LAST_UPDATE<=\""
                 + this.convertJavaDateToMySQLTimeStamp(query.getExecution_timestamp()) + "\") GROUP BY " + primaryKey + ") innerGroup ON outerGroup." + primaryKey + " = innerGroup." + primaryKey + " " +
-                "        AND outerGroup.LAST_UPDATE = innerGroup.mostRecent ";
+                " AND outerGroup.LAST_UPDATE = innerGroup.mostRecent ";
 
         if (filterSet.size() > 0) {
             String whereString = " WHERE ";
@@ -782,7 +917,7 @@ public class QueryStoreAPI {
                             currentFilter.getFilterValue() + "%') ";
 
                 }
-                
+
             }
 
             sqlString += whereString;
@@ -803,6 +938,70 @@ public class QueryStoreAPI {
             sqlString += sortingString;
         }
 
+
+        this.logger.info(sqlString);
+
+        return sqlString;
+
+
+    }
+
+    public String generateQueryStringForGitEvaluation(Query query) {
+
+        List<Filter> filterSet = query.getFilters();
+        List<Sorting> sortingSet = query.getSortings();
+
+
+        String fromString = query.getBaseTable().getBaseTableName();
+
+
+        String sqlString = "SELECT ";
+        Map<Integer, String> selectedColumns = query.getSelectedColumns();
+
+        for (Map.Entry<Integer, String> entry : selectedColumns.entrySet()) {
+            String columnName = entry.getValue();
+            sqlString += columnName + ",";
+        }
+
+        // remove last comma from string
+        if (sqlString.endsWith(",")) {
+            sqlString = sqlString.substring(0, sqlString.length() - 1);
+        }
+
+        sqlString += " FROM " + fromString + "_export_git";
+
+
+        if (filterSet.size() > 0) {
+            String whereString = " WHERE ";
+            int filterCounter = 0;
+            for (Filter currentFilter : filterSet) {
+                filterCounter++;
+                if (filterCounter == 1) {
+                    whereString += " UPPER(" + currentFilter.getFilterName() + ") LIKE UPPER('%" +
+                            currentFilter.getFilterValue() + "%') ";
+                } else {
+                    whereString += " AND " + currentFilter.getFilterName() + " LIKE UPPER('%" +
+                            currentFilter.getFilterValue() + "%') ";
+
+                }
+
+            }
+
+            sqlString += whereString;
+        }
+
+
+        String sortingString ="ORDER BY COLUMN_1 ASC ";
+        if(sortingSet.size()>0){
+            int sortingCounter=0;
+            for(Sorting currentSorting : sortingSet){
+                sortingCounter++;
+                sortingString+=","+currentSorting.getSortingColumn()+ " " + currentSorting.getDirection();
+            }
+
+        }
+
+        sqlString+=sortingString;
 
         this.logger.info(sqlString);
 
@@ -904,20 +1103,18 @@ public class QueryStoreAPI {
         cal.set(Calendar.MILLISECOND, 0);
         return new java.sql.Timestamp(utilDate.getTime());
     }
-    
+
     /* Store the table metadata
     * * */
     public String createBaseTableRecord(String author, String baseSchema, String tableName, String title, String description, int
             prefix, String pidURL) {
 
- 
-        
-        PersistentIdentifierAPI pidApi= new PersistentIdentifierAPI();
+
+        PersistentIdentifierAPI pidApi = new PersistentIdentifierAPI();
         Organization org = pidApi.getOrganizationObjectByPrefix(prefix);
 
 
         PersistentIdentifierAlphaNumeric pid = pidApi.getAlphaNumericPID(org, pidURL);
-
 
 
         this.session = HibernateUtilQueryStore.getSessionFactory().openSession();
@@ -942,7 +1139,7 @@ public class QueryStoreAPI {
 
         baseTable.setUploadDate(currentDate);
         baseTable.setLastUpdate(currentDate);
-        
+
         DatabaseTools dbTools = new DatabaseTools();
         int numberOfActiveRecords = dbTools.getNumberOfActiveRecords(tableName);
         baseTable.setNumberOfActiveRecords(numberOfActiveRecords);
@@ -954,13 +1151,9 @@ public class QueryStoreAPI {
         this.logger.info("Base table persisted");
 
         return baseTable.getBaseTablePID();
-        
-        
-        
-        
-        
+
+
     }
-    
 
 
     /*
@@ -974,9 +1167,14 @@ public class QueryStoreAPI {
         this.session.beginTransaction();
 
         this.logger.info("Searching for base Table Pid: " + pid);
-        Criteria cr = this.session.createCriteria(BaseTable.class);
-        cr.add(Restrictions.like("baseTablePID", new String(pid)));
-        baseTable = (BaseTable) cr.uniqueResult();
+
+        javax.persistence.Query queryHibernate = session.createQuery("from BaseTable where baseTablePID =:baseTablePID");
+        queryHibernate.setParameter("baseTablePID", new String(pid));
+        try {
+            baseTable = (BaseTable) queryHibernate.getSingleResult();
+        } catch (NoResultException nre) {
+
+        }
 
         this.session.getTransaction().commit();
         this.session.close();
@@ -1003,13 +1201,15 @@ public class QueryStoreAPI {
 
         this.session = HibernateUtilQueryStore.getSessionFactory().openSession();
         this.session.beginTransaction();
-        // Get the max sequence number for the sortings of query
-        Criteria cr = this.session.createCriteria(BaseTable.class);
 
+        javax.persistence.Query queryHibernate = session.createQuery("from BaseTable where baseTableName=:baseTableName AND baseDatabase = :baseDatabase");
+        queryHibernate.setParameter("baseTableName", tableName);
+        queryHibernate.setParameter("baseDatabase", databaseName);
+        try {
+            baseTable = (BaseTable) queryHibernate.getSingleResult();
+        } catch (NoResultException nre) {
 
-        cr.add(Restrictions.eq("baseTableName", tableName));
-        cr.add(Restrictions.eq("baseDatabase", databaseName));
-        baseTable = (BaseTable) cr.uniqueResult();
+        }
 
         this.session.getTransaction().commit();
         this.session.close();
@@ -1032,12 +1232,15 @@ public class QueryStoreAPI {
 
         this.session = HibernateUtilQueryStore.getSessionFactory().openSession();
         this.session.beginTransaction();
-        // Get the max sequence number for the sortings of query
-        Criteria cr = this.session.createCriteria(BaseTable.class);
 
+        javax.persistence.Query queryHibernate = session.createQuery("from BaseTable where baseTableName=:baseTableName");
+        queryHibernate.setParameter("baseTableName", tableName);
+        try {
+            baseTable = (BaseTable) queryHibernate.getSingleResult();
+        } catch (NoResultException nre) {
 
-        cr.add(Restrictions.eq("baseTableName", tableName));
-        baseTable = (BaseTable) cr.uniqueResult();
+        }
+
 
         this.session.getTransaction().commit();
         this.session.close();
@@ -1098,14 +1301,10 @@ public class QueryStoreAPI {
 
         this.session = HibernateUtilQueryStore.getSessionFactory().openSession();
         this.session.beginTransaction();
-        // Get the max sequence number for the sortings of query
-        Criteria cr = this.session.createCriteria(BaseTable.class);
 
-        ProjectionList proList = Projections.projectionList();
-        proList.add(Projections.property("baseTableName"));
-        proList.add(Projections.property("baseTablePID"));
-        cr.setProjection(proList);
-        List baseTableObjects = cr.list();
+        javax.persistence.Query queryHibernate = session.createQuery("from BaseTable");
+
+        List<BaseTable> baseTableObjects = queryHibernate.getResultList();
 
 
         this.session.getTransaction().commit();
@@ -1114,12 +1313,8 @@ public class QueryStoreAPI {
 
         Map<String, String> availableBaseTables = new HashMap<String, String>();
 
-        for (Iterator it = baseTableObjects.iterator(); it.hasNext(); ) {
-            Object[] row = (Object[]) it.next();
-
-            for (int i = 0; i < row.length; i++) {
-                availableBaseTables.put(row[0].toString(), row[1].toString());
-            }
+        for (BaseTable baseTable : baseTableObjects) {
+            availableBaseTables.put(baseTable.getBaseTableName(), baseTable.getBaseTablePID());
 
         }
 
@@ -1137,12 +1332,14 @@ public class QueryStoreAPI {
 
         this.session = HibernateUtilQueryStore.getSessionFactory().openSession();
         this.session.beginTransaction();
-        // Get the max sequence number for the sortings of query
-        Criteria cr = this.session.createCriteria(BaseTable.class);
-        cr.add(Restrictions.eq("baseTablePID", baseTablePID));
 
-        baseTable = (BaseTable) cr.uniqueResult();
+        javax.persistence.Query queryHibernate = session.createQuery("from BaseTable where baseTablePID =:baseTablePID");
+        queryHibernate.setParameter("baseTablePID", baseTablePID);
+        try {
+            baseTable = (BaseTable) queryHibernate.getSingleResult();
+        } catch (NoResultException nre) {
 
+        }
         this.session.getTransaction().commit();
         this.session.close();
 
@@ -1158,20 +1355,18 @@ public class QueryStoreAPI {
 
             this.logger.info("Base table id : " + baseTable.getBaseTableId());
 
-            Criteria criteria = this.session.createCriteria(Query.class, "q");
-            criteria.add(Restrictions.eq("q.baseTable", baseTable));
-            List<Object[]> list = (List<Object[]>) criteria.list();
+            queryHibernate = session.createQuery("from Query where base_table_id = :baseTableID");
+            queryHibernate.setParameter("baseTableID", baseTable.getBaseTableId());
 
-
-
+            List<Query> list = queryHibernate.getResultList();
 
 
             this.session.getTransaction().commit();
             this.session.close();
 
 
-            for (Object queryObj : list) {
-                Query query = (Query) queryObj;
+            for (Query query : list) {
+
                 availableSubsets.put(query.getPID(), query.getExecution_timestamp().toString());
             }
 
@@ -1240,7 +1435,87 @@ public class QueryStoreAPI {
 
     }
 
+    /*
+* Method provides the query string which returns all rows from a base table of a specific date, including the
+* Sequence Number
+* */
+    public String getParentUnfilteredStringFromQueryIncludingSequenceNumber(BaseTable baseTable, Date queryDate) {
 
+
+        DatabaseTools dbTools = new DatabaseTools();
+
+
+        String baseTableName = baseTable.getBaseTableName();
+
+        List<String> primaryKeyList = dbTools.getPrimaryKeyFromTable(baseTableName);
+        this.logger.info("Primary key list size: " + primaryKeyList.size());
+        String primaryKey = primaryKeyList.get(0);
+
+        Map<String, String> columnsMap = dbTools.getColumnNamesFromTableWithoutMetadataColumns(baseTableName);
+
+
+        String sqlString = "SELECT `outerGroup`.`ID_SYSTEM_SEQUENCE`, ";
+
+
+        for (Map.Entry<String, String> entry : columnsMap.entrySet()) {
+            String columnName = entry.getKey();
+            sqlString += "`outerGroup`.`" + columnName + "`,";
+        }
+
+        // remove last comma from string
+        if (sqlString.endsWith(",")) {
+            sqlString = sqlString.substring(0, sqlString.length() - 1);
+        }
+
+        sqlString += " FROM " + baseTableName;
+
+        // inner join
+
+        sqlString += "  AS outerGroup INNER JOIN " +
+                "    (SELECT " + primaryKey + ", max(LAST_UPDATE) AS mostRecent " +
+                "    FROM " +
+                baseTable.getBaseTableName() +
+                " AS innerSELECT " +
+                "    WHERE " +
+                "        (innerSELECT.RECORD_STATUS = 'inserted' " +
+                "            OR innerSELECT.RECORD_STATUS = 'updated'" + " AND innerSELECT.LAST_UPDATE<=\""
+                + this.convertJavaDateToMySQLTimeStamp(queryDate) + "\") GROUP BY " + primaryKey + ") innerGroup ON outerGroup." + primaryKey + " = innerGroup." + primaryKey + " " +
+                "        AND outerGroup.LAST_UPDATE = innerGroup.mostRecent ORDER BY outerGroup.ID_SYSTEM_SEQUENCE";
+
+
+        this.logger.info(sqlString);
+
+        return sqlString;
+
+    }
+
+    /*
+* Delete base table. Needed for the evaluation
+* **/
+    public void deleteBaseTableByDatabaseAndTableName(String tableName) {
+        BaseTable baseTable = null;
+
+
+        this.session = HibernateUtilQueryStore.getSessionFactory().openSession();
+        this.session.beginTransaction();
+
+        javax.persistence.Query query = session.createQuery("from BaseTable where baseTableName = :tableName ");
+        query.setParameter("tableName", tableName);
+        try {
+            baseTable = (BaseTable) query.getSingleResult();
+        } catch (NoResultException nre) {
+
+        }
+        if (baseTable != null) {
+            this.session.delete(baseTable);
+            this.logger.warning("DELETED BASE TABLE BECAUSE IT EXISTED");
+        }
+
+        this.session.getTransaction().commit();
+        this.session.close();
+
+
+    }
 
 
 }

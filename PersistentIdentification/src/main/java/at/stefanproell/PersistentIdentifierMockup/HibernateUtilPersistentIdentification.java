@@ -16,7 +16,7 @@
 
 package at.stefanproell.PersistentIdentifierMockup;
 
-import GenericTools.PropertyHelpers;
+
 import org.hibernate.HibernateException;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
@@ -33,40 +33,30 @@ public class HibernateUtilPersistentIdentification {
     private static ServiceRegistry serviceRegistry;
 
     static {
+
+        Configuration configuration = null;
         try {
+            configuration = new Configuration().setInterceptor(new TimeStampInterceptor()).configure("hibernate.persistentidentification.cfg.xml");
 
 
-            String filename = "pid.db.properties";
-            Properties prop = null;
+            configuration.addAnnotatedClass(at.stefanproell.PersistentIdentifierMockup.PersistentIdentifier.class);
+            configuration.addAnnotatedClass(at.stefanproell.PersistentIdentifierMockup.PersistentIdentifierAlphaNumeric.class);
+            configuration.addAnnotatedClass(at.stefanproell.PersistentIdentifierMockup.PersistentIdentifierAlpha.class);
+            configuration.addAnnotatedClass(at.stefanproell.PersistentIdentifierMockup.PersistentIdentifierNumeric.class);
+            configuration.addAnnotatedClass(at.stefanproell.PersistentIdentifierMockup.Organization.class);
+            configuration.addAnnotatedClass(at.stefanproell.PersistentIdentifierMockup.TimeStampInterceptor.class);
+            configuration.addAnnotatedClass(at.stefanproell.PersistentIdentifierMockup.PersistentIdentifierSubcomponent.class);
+            ServiceRegistry serviceRegistry
+                    = new StandardServiceRegistryBuilder()
+                    .applySettings(configuration.getProperties()).build();
 
-            prop = PropertyHelpers.readPropertyFile(filename);
-
-            String dbhost=prop.getProperty("dbhost");
-            String dbport=prop.getProperty("dbport");
-            String dbname=prop.getProperty("dbname");
-            String dbuser=prop.getProperty("dbuser");
-            String dbpw=prop.getProperty("dbpassword");
-
-            String mysqlString = "jdbc:mysql://" + dbhost + ":"+ dbport+ "/"+ dbname;
-            System.out.println("db string_ " + mysqlString);
-            Properties extraProperties=new Properties();
-            extraProperties.setProperty("hibernate.connection.url",mysqlString);
-            extraProperties.setProperty("hibernate.connection.username",dbuser);
-            extraProperties.setProperty("hibernate.connection.password",dbpw);
-
-            Configuration configuration = new Configuration().setInterceptor(new TimeStampInterceptor());
-
-            configuration.addProperties(extraProperties);
-            configuration.configure("hibernate.persistentidentification.cfg.xml");
-
-            serviceRegistry = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties()).build();
+            // builds a session factory from the service registry
             sessionFactory = configuration.buildSessionFactory(serviceRegistry);
-
-
-        } catch (HibernateException he) {
-            System.err.println("Error creating Session: " + he);
-            throw new ExceptionInInitializerError(he);
+        } catch (HibernateException e) {
+            e.printStackTrace();
         }
+
+
     }
 
 

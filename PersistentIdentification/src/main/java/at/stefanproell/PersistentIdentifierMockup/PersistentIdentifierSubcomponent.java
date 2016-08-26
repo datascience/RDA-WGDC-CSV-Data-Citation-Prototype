@@ -33,10 +33,6 @@ import java.util.logging.Logger;
  */
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(
-        name = "IdentifierTypes",
-        discriminatorType = DiscriminatorType.STRING
-)
 @DiscriminatorValue(value = "subPID")
 // Dynamic upate for persistent identifiers
 @DynamicUpdate

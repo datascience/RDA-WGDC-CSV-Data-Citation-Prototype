@@ -103,7 +103,7 @@ public class PersistentIdentifier implements java.io.Serializable, TimeStamped {
      * @return
      */
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "persistent_identifier_id")
     public long getPersitentIdentifier_id() {
         return persitentIdentifier_id;

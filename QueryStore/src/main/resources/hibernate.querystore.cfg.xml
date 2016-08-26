@@ -1,98 +1,36 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
-  ~ Copyright [2015] [Stefan Pröll]
-  ~
-  ~    Licensed under the Apache License, Version 2.0 (the "License");
-  ~    you may not use this file except in compliance with the License.
-  ~    You may obtain a copy of the License at
-  ~
-  ~        http://www.apache.org/licenses/LICENSE-2.0
-  ~
-  ~    Unless required by applicable law or agreed to in writing, software
-  ~    distributed under the License is distributed on an "AS IS" BASIS,
-  ~    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  ~    See the License for the specific language governing permissions and
-  ~    limitations under the License.
-  -->
-
-<!--
-  ~ Copyright [2015] [Stefan Pröll]
-  ~
-  ~    Licensed under the Apache License, Version 2.0 (the "License");
-  ~    you may not use this file except in compliance with the License.
-  ~    You may obtain a copy of the License at
-  ~
-  ~        http://www.apache.org/licenses/LICENSE-2.0
-  ~
-  ~    Unless required by applicable law or agreed to in writing, software
-  ~    distributed under the License is distributed on an "AS IS" BASIS,
-  ~    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  ~    See the License for the specific language governing permissions and
-  ~    limitations under the License.
-  -->
-
-<!--
-  ~ Copyright [2015] [Stefan Pröll]
-  ~
-  ~    Licensed under the Apache License, Version 2.0 (the "License");
-  ~    you may not use this file except in compliance with the License.
-  ~    You may obtain a copy of the License at
-  ~
-  ~        http://www.apache.org/licenses/LICENSE-2.0
-  ~
-  ~    Unless required by applicable law or agreed to in writing, software
-  ~    distributed under the License is distributed on an "AS IS" BASIS,
-  ~    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  ~    See the License for the specific language governing permissions and
-  ~    limitations under the License.
-  -->
-
-<!--
-  ~ Copyright [2014] [Stefan Pröll]
-  ~
-  ~    Licensed under the Apache License, Version 2.0 (the "License");
-  ~    you may not use this file except in compliance with the License.
-  ~    You may obtain a copy of the License at
-  ~
-  ~        http://www.apache.org/licenses/LICENSE-2.0
-  ~
-  ~    Unless required by applicable law or agreed to in writing, software
-  ~    distributed under the License is distributed on an "AS IS" BASIS,
-  ~    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  ~    See the License for the specific language governing permissions and
-  ~    limitations under the License.
-  -->
-
-<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
-        "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
     <session-factory>
+        <property name="hibernate.hbm2ddl.auto">update</property>
 
-        <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
 
-        <!-- Connection details -->
-        <property name="hibernate.connection.username">querystoreuser</property>
-        <property name="hibernate.connection.password">query2014</property>
-        <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/QueryStoreDB</property>
-
-        <property name="hibernate.dialect">org.hibernate.dialect.MySQL5InnoDBDialect</property>
-        <property name="show_sql">true</property>
-        <property name="hibernate.show_sql">true</property>
-        <!--  drop the tables every time: create-drop -->
-        <!--  use auto or update -->
-        <property name="hibernate.hbm2ddl.auto">validate</property>
-
+        <property name="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</property>
+        <property name="hibernate.connection.provider_class">
+            org.hibernate.hikaricp.internal.HikariCPConnectionProvider
+        </property>
+        <property name="hibernate.hikari.dataSource.url">jdbc:mysql://localhost:3306/QueryStoreDB?useSSL=false
+        </property>
+        <property name="hibernate.hikari.dataSource.user">querystoreuser</property>
+        <property name="hibernate.hikari.dataSource.password">query2014</property>
+        <property name="hibernate.hikari.dataSourceClassName">com.mysql.jdbc.jdbc2.optional.MysqlDataSource</property>
+        <property name="hibernate.hikari.dataSource.cachePrepStmts">true</property>
+        <property name="hibernate.hikari.dataSource.prepStmtCacheSize">250</property>
+        <property name="hibernate.hikari.dataSource.prepStmtCacheSqlLimit">2048</property>
+        <property name="hibernate.hikari.dataSource.useServerPrepStmts">true</property>
         <property name="hibernate.current_session_context_class">thread</property>
-        <property name="format_sql">false</property>
-        <property name="use_sql_comments">false</property>
+        <property name="hibernate.hikari.connectionTestQuery">show tables</property>
+        <property name="hibernate.hikari.idleTimeout">50000</property>
+        <property name="hibernate.hikari.maximumPoolSize">50</property>
+        <property name="hibernate.hikari.minimumIdle">5</property>
+        <property name="hibernate.hikari.autoCommit">false</property>
 
-        <property name="hibernate.jdbc.batch_size">20</property>
 
-        <mapping class="QueryStore.Filter"/>
-        <mapping class="QueryStore.Sorting"/>
-        <mapping class="QueryStore.Query"/>
-        <mapping class="QueryStore.TimeStampInterceptor"/>
-        <mapping class="QueryStore.BaseTable"/>
+        <property name="show_sql">false</property>
+        <property name="hibernate.show_sql">false</property>
+
 
     </session-factory>
 

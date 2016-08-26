@@ -25,7 +25,6 @@ import DatatableModel.TableDataOperations;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import org.hibernate.metamodel.relational.Database;
 
 import javax.faces.bean.SessionScoped;
 import javax.servlet.annotation.WebServlet;

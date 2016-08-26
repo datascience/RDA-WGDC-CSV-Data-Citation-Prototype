@@ -22,31 +22,29 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
-        <module name="BatchMode" />
-        <module name="CSV2DB" />
-        <module name="CSVModule" />
         <module name="CSVTools" />
         <module name="Database" />
         <module name="DatatableModel" />
+        <module name="DataTypeGuesser" />
+        <module name="DataTypeGuesser (1)" />
         <module name="Evaluation-Module" />
         <module name="PersistentIdentification" />
-        <module name="PersistentIdentifier" />
         <module name="QueryStore" />
         <module name="ResultSetVerification" />
         <module name="WebInterface" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="1.8">
-      <module name="BatchMode" target="1.7" />
-      <module name="CSV-Citation-Deployment-Module" target="1.7" />
-      <module name="CSVTools" target="1.7" />
-      <module name="Database" target="1.7" />
-      <module name="DatatableModel" target="1.7" />
-      <module name="Evaluation-Module" target="1.5" />
-      <module name="PersistentIdentification" target="1.7" />
-      <module name="QueryStore" target="1.7" />
-      <module name="ResultSetVerification" target="1.7" />
-      <module name="WebInterface" target="1.7" />
+      <module name="CSV-Citation-Deployment-Module" target="1.8" />
+      <module name="CSVTools" target="1.8" />
+      <module name="Database" target="1.8" />
+      <module name="DatatableModel" target="1.8" />
+      <module name="DataTypeGuesser" target="1.8" />
+      <module name="Evaluation-Module" target="1.8" />
+      <module name="PersistentIdentification" target="1.8" />
+      <module name="QueryStore" target="1.8" />
+      <module name="ResultSetVerification" target="1.8" />
+      <module name="WebInterface" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>

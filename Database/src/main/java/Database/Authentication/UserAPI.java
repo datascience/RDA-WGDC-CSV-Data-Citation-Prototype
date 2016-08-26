@@ -32,11 +32,11 @@
 
 package Database.Authentication;
 
-import org.hibernate.Criteria;
 import org.hibernate.Session;
-import org.hibernate.criterion.Restrictions;
 import org.mindrot.jbcrypt.BCrypt;
 
+import javax.persistence.NoResultException;
+import javax.persistence.Query;
 import java.util.logging.Logger;
 
 /**
@@ -63,13 +63,13 @@ public class UserAPI {
 
         if (this.checkIfUserExists(username)) {
             this.logger.severe("User already exists in database");
-            return false;
+            return success;
         } else {
             this.session = HibernateUtilUserAuthentication.getSessionFactory().openSession();
             this.session.beginTransaction();
             this.session.save(user);
             this.session.getTransaction().commit();
-            this.session.flush();
+
             this.session.close();
 
             success = this.checkIfUserExists(username);
@@ -105,9 +105,17 @@ public class UserAPI {
         User user = null;
         this.session = HibernateUtilUserAuthentication.getSessionFactory().openSession();
         this.session.beginTransaction();
-        Criteria criteria = this.session.createCriteria(User.class, "user");
-        criteria.add(Restrictions.eq("user.username", username));
-        user = (User) criteria.uniqueResult();
+
+        Query query = session.createQuery("from User where username = :username ");
+        query.setParameter("username", username);
+        try {
+            user = (User) query.getSingleResult();
+        } catch (NoResultException nre) {
+
+        }
+
+
+
         this.session.getTransaction().commit();
         this.session.close();
 
@@ -132,9 +140,12 @@ public class UserAPI {
         
         this.session = HibernateUtilUserAuthentication.getSessionFactory().openSession();
         this.session.beginTransaction();
-        Criteria criteria = this.session.createCriteria(User.class, "user");
-        criteria.add(Restrictions.eq("user.username", username));
-        user = (User) criteria.uniqueResult();
+
+        Query query = session.createQuery("from User where username = :username ");
+        query.setParameter("username", username);
+        user = (User) query.getSingleResult();
+
+
         this.session.close();
 
         if (user != null) {
@@ -163,9 +174,9 @@ public class UserAPI {
         User user = null;
         this.session = HibernateUtilUserAuthentication.getSessionFactory().openSession();
         this.session.beginTransaction();
-        Criteria criteria = this.session.createCriteria(User.class, "user");
-        criteria.add(Restrictions.eq("user.username", username));
-        user = (User) criteria.uniqueResult();
+        Query query = session.createQuery("from User where username = :username ");
+        query.setParameter("username", username);
+        user = (User) query.getSingleResult();
         this.session.getTransaction().commit();
         this.session.close();
 

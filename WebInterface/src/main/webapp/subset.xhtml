@@ -139,7 +139,7 @@ function AjaxUpdateDataFailed(result) {
 
     <!-- BEGIN: Hidden Form for Init-->
     <h:form id="remoteCommandForm">
-        <p:remoteCommand name="onLoadTable" actionListener="#{databaseTableNameBean.onLoadTable}" autoRun="true"/>
+        <p:remoteCommand name="onLoad" actionListener="#{databaseTableNameBean.onLoad}" autoRun="true"/>
         <p:remoteCommand name="init" actionListener="#{selectColumnsController.init}" autoRun="true"/>
     </h:form>
     <!-- END Hidden form-->

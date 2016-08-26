@@ -59,7 +59,7 @@ import javax.faces.context.FacesContext;
 import javax.sql.rowset.CachedRowSet;
 
 import Bean.SessionManager;
-import CSVTools.CSV_API;
+import CSVTools.CsvToolsApi;
 import Database.DatabaseOperations.DatabaseTools;
 import Database.DatabaseOperations.ResultSetMetadata;
 import QueryStore.BaseTable;
@@ -83,8 +83,9 @@ public class DownloadController implements Serializable {
     public DownloadController() {
         this.logger = Logger.getLogger(this.getClass().getName());
         this.logger.info("Download Controller");
-        CSV_API csvApi = new CSV_API();
-        csvApi.createCSVDirectory();
+        CsvToolsApi csvApi = new CsvToolsApi();
+        csvApi.setDirectory("/tmp/CSV-Files");
+        csvApi.createCSVDirectory(csvApi.getDirectory());
 
 
     }
@@ -179,9 +180,9 @@ public class DownloadController implements Serializable {
 
         this.logger.info("Retrieved " + rsMetaData.getRowCount() + " row from reexecuted dataset.");
 
-        CSV_API csvAPI = new CSV_API();
+        CsvToolsApi csvAPI = new CsvToolsApi();
 
-        String filename = csvAPI.getDIRECTORY() + baseTableName + ".csv";
+        String filename = csvAPI.getDirectory() + baseTableName + ".csv";
 
         csvAPI.writeResultSetIntoCSVFile(cachedRowset, filename);
 
@@ -225,11 +226,11 @@ public class DownloadController implements Serializable {
             this.logger.info("Re-executing: " + currentReExecutionString);
             this.logger.info("Retrieved " + rsMetaData.getRowCount() + " row from reexecuted dataset.");
 
-            CSV_API csvAPI = new CSV_API();
+            CsvToolsApi csvAPI = new CsvToolsApi();
             String baseDatabase = query.getBaseTable().getBaseDatabase();
             String baseTableName = query.getBaseTable().getBaseTableName();
-            
-            filename = csvAPI.getDIRECTORY()+ baseDatabase + "_" + baseTableName + "_" + query.getPID().replace("/", "-") + ".csv";
+
+            filename = csvAPI.getDirectory() + baseDatabase + "_" + baseTableName + "_" + query.getPID().replace("/", "-") + ".csv";
             
 
             csvAPI.writeResultSetIntoCSVFile(resultSet, filename);

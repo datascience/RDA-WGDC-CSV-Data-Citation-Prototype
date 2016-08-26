@@ -84,6 +84,13 @@ public class HibernateUtilQueryStore {
             Configuration configuration = new Configuration().setInterceptor(new TimeStampInterceptor());
             configuration.configure("hibernate.querystore.cfg.xml");
 
+
+            configuration.addAnnotatedClass(QueryStore.Filter.class);
+            configuration.addAnnotatedClass(QueryStore.Sorting.class);
+            configuration.addAnnotatedClass(QueryStore.Query.class);
+            configuration.addAnnotatedClass(QueryStore.TimeStampInterceptor.class);
+            configuration.addAnnotatedClass(QueryStore.BaseTable.class);
+
             serviceRegistry = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties()).build();
             sessionFactory = configuration.buildSessionFactory(serviceRegistry);
 

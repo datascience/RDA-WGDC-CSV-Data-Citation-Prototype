@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/../CSV-Citation-Deployment-Module/CSV-Citation-Deployment-Module.iml" filepath="$PROJECT_DIR$/../CSV-Citation-Deployment-Module/CSV-Citation-Deployment-Module.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../CSVTools/CSVTools.iml" filepath="$PROJECT_DIR$/../CSVTools/CSVTools.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../DataTypeGuesser/DataTypeGuesser.iml" filepath="$PROJECT_DIR$/../DataTypeGuesser/DataTypeGuesser.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../Database/Database.iml" filepath="$PROJECT_DIR$/../Database/Database.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../DatatableModel/DatatableModel.iml" filepath="$PROJECT_DIR$/../DatatableModel/DatatableModel.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../Evaluation-Module/Evaluation-Module.iml" filepath="$PROJECT_DIR$/../Evaluation-Module/Evaluation-Module.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../PersistentIdentification/PersistentIdentification.iml" filepath="$PROJECT_DIR$/../PersistentIdentification/PersistentIdentification.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../QueryStore/QueryStore.iml" filepath="$PROJECT_DIR$/../QueryStore/QueryStore.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../ResultSetVerification/ResultSetVerification.iml" filepath="$PROJECT_DIR$/../ResultSetVerification/ResultSetVerification.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../WebInterface/WebInterface.iml" filepath="$PROJECT_DIR$/../WebInterface/WebInterface.iml" />
+    </modules>
+  </component>
+</project>

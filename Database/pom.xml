@@ -1,19 +1,3 @@
-<!--
-  ~ Copyright [2015] [Stefan Pröll]
-  ~
-  ~    Licensed under the Apache License, Version 2.0 (the "License");
-  ~    you may not use this file except in compliance with the License.
-  ~    You may obtain a copy of the License at
-  ~
-  ~        http://www.apache.org/licenses/LICENSE-2.0
-  ~
-  ~    Unless required by applicable law or agreed to in writing, software
-  ~    distributed under the License is distributed on an "AS IS" BASIS,
-  ~    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  ~    See the License for the specific language governing permissions and
-  ~    limitations under the License.
-  -->
-
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
@@ -23,12 +7,6 @@
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <parent>
-        <artifactId>CSV-Citation-Deployment-Module</artifactId>
-        <groupId>at.stefanproell</groupId>
-        <version>1.0-SNAPSHOT</version>
-        <relativePath>../CSV-Citation-Deployment-Module/pom.xml</relativePath>
-    </parent>
 
     <name>Database</name>
     <url>http://maven.apache.org</url>
@@ -56,48 +34,58 @@
             <artifactId>super-csv</artifactId>
             <version>2.2.0</version>
         </dependency>
-
-        <dependency>
-            <groupId>com.jolbox</groupId>
-            <artifactId>bonecp</artifactId>
-            <version>0.8.0.RELEASE</version>
-        </dependency>
-
-        <!-- HikariCP  -->
-        <dependency>
-            <groupId>com.zaxxer</groupId>
-            <artifactId>HikariCP-java6</artifactId>
-            <version>2.3.0</version>
-            <scope>compile</scope>
-        </dependency>
-
-
-        <!-- MySQL -->
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <version>5.1.31</version>
+            <version>5.1.39</version>
         </dependency>
 
-        <!--. Hibernate -->
+        <!-- WARNING !!!!!! Hibernate 5.2.0 has a bug when creating audit tables! This is why we use 5.2.0 here! -->
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-core</artifactId>
-            <version>4.3.4.Final</version>
-
+            <version>5.2.1.Final</version>
         </dependency>
+        <dependency>
+            <groupId>com.zaxxer</groupId>
+            <artifactId>HikariCP</artifactId>
+            <version>2.4.6</version>
+        </dependency>
+        <!-- http://mvnrepository.com/artifact/org.hibernate/hibernate-hikaricp -->
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-hikaricp</artifactId>
+            <version>5.2.1.Final</version>
+        </dependency>
+
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-envers</artifactId>
-            <version>4.3.5.Final</version>
+            <version>5.2.1.Final</version>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/javax.transaction/jta -->
+        <dependency>
+            <groupId>javax.transaction</groupId>
+            <artifactId>jta</artifactId>
+            <version>1.1</version>
+        </dependency>
+
+
+        <!-- https://mvnrepository.com/artifact/org.jboss.logging/jboss-logging -->
+        <dependency>
+            <groupId>org.jboss.logging</groupId>
+            <artifactId>jboss-logging</artifactId>
+            <version>3.3.0.Final</version>
+        </dependency>
 
         <dependency>
-            <groupId>at.stefanproell</groupId>
-            <artifactId>CSVTools</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <groupId>dom4j</groupId>
+            <artifactId>dom4j</artifactId>
+            <version>1.6.1</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-commons-annotations -->
+
         <dependency>
             <groupId>org.mindrot</groupId>
             <artifactId>jbcrypt</artifactId>
@@ -110,7 +98,26 @@
             <artifactId>opencsv</artifactId>
             <version>2.3</version>
         </dependency>
-
+        <dependency>
+            <groupId>at.stefanproell</groupId>
+            <artifactId>DataTypeGuesser</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>at.stefanproell</groupId>
+            <artifactId>CSVTools</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate.javax.persistence</groupId>
+            <artifactId>hibernate-jpa-2.1-api</artifactId>
+            <version>1.0.0.Final</version>
+        </dependency>
+        <dependency>
+            <groupId>at.stefanproell</groupId>
+            <artifactId>PersistentIdentification</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
 
     </dependencies>
 
@@ -121,8 +128,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.1</version>
                 <configuration>
-                    <source>1.7</source>
-                    <target>1.7</target>
+                    <source>1.8</source>
+                    <target>1.8</target>
                 </configuration>
             </plugin>
         </plugins>

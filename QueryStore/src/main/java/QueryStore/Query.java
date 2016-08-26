@@ -254,5 +254,7 @@ public class Query implements Serializable, TimeStamped {
     public void setResultSetRowCount(int resultSetRowCount) {
         this.resultSetRowCount = resultSetRowCount;
     }
+
+
 }
 

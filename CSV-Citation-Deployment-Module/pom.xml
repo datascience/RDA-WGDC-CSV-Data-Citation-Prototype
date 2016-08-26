@@ -33,14 +33,15 @@
     </properties>
 
     <modules>
-        <module>../CSVTools</module>
         <module>../Database</module>
+        <module>../CSVTools</module>
         <module>../DatatableModel</module>
         <module>../PersistentIdentification</module>
         <module>../QueryStore</module>
         <module>../ResultSetVerification</module>
         <module>../WebInterface</module>
-        <module>../BatchMode</module>
+        <module>../DataTypeGuesser</module>
+        <module>../Evaluation-Module</module>
     </modules>
 
     <dependencies>
@@ -50,51 +51,103 @@
             <version>3.8.1</version>
             <scope>test</scope>
         </dependency>
-
-
     </dependencies>
 
 
-    <build>
-        <finalName>${project.artifactId}</finalName>
+    <profiles>
+        <profile>
+            <id>localServer</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-compiler-plugin</artifactId>
+                        <version>3.1</version>
+                        <configuration>
+                            <source>1.8</source>
+                            <target>1.8</target>
+                        </configuration>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.tomcat.maven</groupId>
+                        <artifactId>tomcat7-maven-plugin</artifactId>
+                        <version>2.0</version>
+                        <configuration>
+                            <path>/cite</path>
+                            <update>true</update>
 
+                            <url>http://localhost:8080/manager/text</url>
+                            <username>admin</username>
+                            <password>admin</password>
+
+                        </configuration>
+
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-war-plugin</artifactId>
+                        <version>2.4</version>
+
+                    </plugin>
+
+
+                </plugins>
+            </build>
+        </profile>
+
+        <profile>
+            <id>remoteServer</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-compiler-plugin</artifactId>
+                        <version>3.1</version>
+                        <configuration>
+                            <source>1.8</source>
+                            <target>1.8</target>
+                        </configuration>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.tomcat.maven</groupId>
+                        <artifactId>tomcat7-maven-plugin</artifactId>
+                        <version>2.0</version>
+                        <configuration>
+                            <path>/cite</path>
+                            <update>true</update>
+
+                            <url>URL URL URL</url>
+                            <username>admin</username>
+                            <password></password>
+
+                        </configuration>
+
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-war-plugin</artifactId>
+                        <version>2.4</version>
+
+                    </plugin>
+
+
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
+    <build>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.1</version>
                 <configuration>
-                    <source>1.7</source>
-                    <target>1.7</target>
+                    <source>1.8</source>
+                    <target>1.8</target>
                 </configuration>
             </plugin>
-
-
-            <plugin>
-                <groupId>org.apache.tomcat.maven</groupId>
-                <artifactId>tomcat7-maven-plugin</artifactId>
-                <version>2.0</version>
-                <configuration>
-                    <path>/cite</path>
-                    <update>true</update>
-                    <url>http://localhost:8080/manager/text</url>
-                    <username>tcadm1</username>
-                    <password>tcadmate15</password>
-
-
-                </configuration>
-
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-war-plugin</artifactId>
-                <version>2.4</version>
-
-            </plugin>
-
-
         </plugins>
-
     </build>
 
 </project>

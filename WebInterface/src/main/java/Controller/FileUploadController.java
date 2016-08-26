@@ -178,9 +178,10 @@ package Controller;
 
 import Bean.SessionManager;
 import Bean.TableDefinitionBean;
-import CSVTools.CSV_API;
+import CSVTools.CsvToolsApi;
 import Database.Authentication.User;
 import Database.DatabaseOperations.DatabaseTools;
+import at.stefanproell.CSVHelperTools.CSV_Analyser;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
@@ -259,6 +260,8 @@ public class FileUploadController implements Serializable {
         //reset
         this.filesList = new HashMap<String, String>();
         this.filesListStrings = new ArrayList<String>();
+
+
     }
 
 
@@ -371,6 +374,7 @@ public class FileUploadController implements Serializable {
         // Update forms
         this.tableDefinitionController.setShowPrimaryKeyForm(true);
         this.tableDefinitionController.setShowUploadForm(false);
+        this.tableDefinitionController.setShowMigrateButton(true);
         RequestContext.getCurrentInstance().update("uploadformOuterGroup");
         RequestContext.getCurrentInstance().update("primaryKeyOuterGroup");
 
@@ -442,10 +446,12 @@ public class FileUploadController implements Serializable {
     @PostConstruct
     public void init() {
         this.logger.info("Initializign databasenames");
+        this.tableDefinitionController.setShowMigrateButton(false);
 
         // check if the upload directory exists or create it
-        CSV_API csvAPI = new CSV_API();
-        csvAPI.createCSVDirectory();
+        CsvToolsApi csvApi = new CsvToolsApi();
+        csvApi.setDirectory("/tmp/CSV-Files");
+        csvApi.createCSVDirectory(csvApi.getDirectory());
 
 
         DatabaseTools dbtools = new DatabaseTools();
@@ -493,7 +499,7 @@ public class FileUploadController implements Serializable {
         this.columns.add("ID_SYSTEM_SEQUENCE");
 
         String path = "";
-        CSV_API csvAPI = new CSV_API();
+        CsvToolsApi csvAPI = new CsvToolsApi();
 
 
         List pathList = new ArrayList(this.filesList.values());
@@ -533,22 +539,43 @@ public class FileUploadController implements Serializable {
      * Action button
      */
     public String setPrimarKeyAction() {
+        boolean columnIsUnique = true;
+        CSV_Analyser csvAnalyzer = new CSV_Analyser();
+        SessionManager sm = new SessionManager();
 
         this.storePrimaryKeyListInSession(this.getSelectedPrimaryKeyColumns());
 
         FacesContext context = FacesContext.getCurrentInstance();
 
 
-        FacesMessage msg = new FacesMessage("You selected " + this.getSelectedPrimaryKeyColumns().size() + " colums " +
-                "as a " +
-                "compund primary key", "Primary key is set. Please ensure that the primary key is unique within the complete file.");
-        context.addMessage(
-                "primaryKeyForm:primaryKeyButton", msg
-        );
+        if (this.getSelectedPrimaryKeyColumns().size() == 1) {
+            columnIsUnique = csvAnalyzer.verifyUniquenessOfColumn(this.getSelectedPrimaryKeyColumns().get(0), this.filesList.get(sm.getTableDefinitionBean().getTableName()));
+        }
 
-        // show migrate buttons
-        this.tableDefinitionController.setShowMigrateButton(true);
+        if (columnIsUnique) {
+            FacesMessage msg;
+            msg = new FacesMessage("OK", "Primary key is unique");
+            msg.setSeverity(FacesMessage.SEVERITY_INFO);
+            context.addMessage(
+                    "primaryKeyForm:primaryKeyButton", msg
+            );
+            // show migrate buttons
+            this.tableDefinitionController.setShowMigrateButton(true);
+            DatabaseMigrationController migration = (DatabaseMigrationController) FacesContext.getCurrentInstance().
+                    getExternalContext().getSessionMap().get("databaseMigrationController");
+            migration.setMigrationButtonDisabled(false);
+
+
+        } else {
+            FacesMessage msg;
+            msg = new FacesMessage("Error", "Primary key is NOT unique. Select a unique key.");
+            msg.setSeverity(FacesMessage.SEVERITY_ERROR);
+            context.addMessage(
+                    "primaryKeyForm:primaryKeyButton", msg
+            );
+        }
         RequestContext.getCurrentInstance().update("migrateButtonOuterGroup");
+
 
         return null;
 
@@ -674,8 +701,8 @@ public class FileUploadController implements Serializable {
     public File storeCSVFile(String fileName, InputStream in) {
 
         // write the inputStream to a FileOutputStream
-        CSV_API csvApi = new CSV_API();
-        String outputPath= csvApi.getDIRECTORY()+ fileName;
+        CsvToolsApi csvApi = new CsvToolsApi();
+        String outputPath = csvApi.getDirectory() + fileName;
         try {
 
 

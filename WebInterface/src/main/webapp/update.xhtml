@@ -44,10 +44,7 @@
     <h1>Update existing data with a new CSV file</h1>
     <p>
     You can upload an updated version of the data. Please consider that you can only update CSV files which have the
-    same structure as the original file had. There are several modes available. In some scenarios, only new data needs
-    to be appended to an existing dataset. In this case new records are inserted and the original data is not changed.
-    In other cases you might need to re-upload a file after you made some corrections. In this case the system needs
-    to detect changed records and update them accordingly.
+        same structure as the original file had.
     </p>
     <p>
     If your CSV file contains headers, please indicate this in the menu below. Otherwise the headers will be inserted
@@ -135,7 +132,15 @@
 
             <h2>Step 3: Define settings</h2>
 
-    <p>Please select if you are only inserting new data or if you want to update existing data.</p>
+            <p>Please indicate if the file which you uploaded has a header.</p>
+            <p>Be aware, that the upload process compares each uploaded CSV file with the existing data in the database.
+                This entails that if the system can find a change in the CSV file, the record will be updated in the
+                database and the previous version of the record will be preserved. Identical records will not be
+                changed.
+                If a record exists in the database and is not already marked as deleted, but this record is not
+                contained
+                in the CSV file you upload, this record will be deleted (which means that it will be marked as deleted
+                in the database)</p>
 
     <h:form id="uploadCommandForm">
         <p:panel header="Select properties" style="width: 800px;">
@@ -143,17 +148,6 @@
 
         <p:row>
             <h:message id="messages" for="uploadCommandForm" globalOnly="true"/>
-        </p:row>
-
-                <p:row>
-                <p:column>
-                <p:outputLabel value="CSV file contains only new data"/>
-                </p:column>
-                <p:column>
-                    <p:selectBooleanCheckbox id="newDataCheckBox" value="#{updateFileController.newDataOnly}">
-                        <p:ajax update="messages" listener="#{updateFileController.checkBoxListener}"/>
-                </p:selectBooleanCheckbox>
-                </p:column>
         </p:row>
 
         <p:row>

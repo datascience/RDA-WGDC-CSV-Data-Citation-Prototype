@@ -1,27 +1,13 @@
-/*
- * Copyright [2015] [Stefan Pröll]
- *
- *    Licensed under the Apache License, Version 2.0 (the "License");
- *    you may not use this file except in compliance with the License.
- *    You may obtain a copy of the License at
- *
- *        http://www.apache.org/licenses/LICENSE-2.0
- *
- *    Unless required by applicable law or agreed to in writing, software
- *    distributed under the License is distributed on an "AS IS" BASIS,
- *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *    See the License for the specific language governing permissions and
- *    limitations under the License.
- */
-
 package at.stefanproell.PersistentIdentifierMockup;
 
 import com.google.gson.Gson;
 import org.hibernate.Criteria;
-import org.hibernate.Query;
+
 import org.hibernate.Session;
 import org.hibernate.criterion.*;
 
+import javax.persistence.NoResultException;
+import javax.persistence.Query;
 import java.util.*;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
@@ -41,10 +27,7 @@ public class PersistentIdentifierAPI {
      */
     public PersistentIdentifierAPI() {
         this.logger = Logger.getLogger(PersistentIdentifierAPI.class.getName());
-        this.logger.warning("Initialize hibernate session");
-        this.session = HibernateUtilPersistentIdentification.getSessionFactory().openSession();
 
-        this.session.close();
 
 
     }
@@ -65,8 +48,9 @@ public class PersistentIdentifierAPI {
             this.session.beginTransaction();
             org = new Organization(organizationName, prefix);
             this.session.save(org);
+
+
             this.session.getTransaction().commit();
-            this.session.flush();
             this.session.close();
 
         } else {
@@ -77,6 +61,7 @@ public class PersistentIdentifierAPI {
 
 
     }
+
 
     /**
      * Write new identifier into database
@@ -90,14 +75,13 @@ public class PersistentIdentifierAPI {
 
         this.session = HibernateUtilPersistentIdentification.getSessionFactory().openSession();
         this.session.beginTransaction();
-
         pid.setOrganization(org);
         pid.generateIdentifierString();
         pid.setURI(URIString + "/" + pid.getIdentifier());
         pid.setFQNidentifier(pid.getOrganization().getOrganization_prefix() + "/" + pid.getIdentifier());
         this.session.save(pid);
         this.session.getTransaction().commit();
-        this.session.flush();
+
         this.session.close();
 
 
@@ -172,7 +156,7 @@ public class PersistentIdentifierAPI {
         subPID.setFQNidentifier(this.getFullyQuallifiedIdentifierNameForSubcomponent(subPID));
         this.session.save(subPID);
         this.session.getTransaction().commit();
-        this.session.flush();
+
         this.session.close();
 
 
@@ -198,7 +182,7 @@ public class PersistentIdentifierAPI {
         subPID.setFQNidentifier(this.getFullyQuallifiedIdentifierNameForSubcomponent(subPID));
         this.session.save(subPID);
         this.session.getTransaction().commit();
-        this.session.flush();
+
         this.session.close();
 
 
@@ -491,7 +475,7 @@ public class PersistentIdentifierAPI {
         int org_id = org.getOrganization_id();
         Query query = session.createQuery("from PersistentIdentifier where organization_id= :org_id");
         query.setParameter("org_id", org_id);
-        List identifierList = query.list();
+        List identifierList = query.getResultList();
         for (Object obj : identifierList) {
             PersistentIdentifier pid = (PersistentIdentifier) obj;
             listOfPIDs.add(pid);
@@ -622,13 +606,13 @@ public class PersistentIdentifierAPI {
 
         Query query = session.createQuery("from PersistentIdentifier  where identifier= :identifier");
         query.setParameter("identifier", stringPID);
-        PersistentIdentifier pid = (PersistentIdentifier) query.list().get(0);
+        PersistentIdentifier pid = (PersistentIdentifier) query.getResultList().get(0);
         pid.setURI(newURI);
         session.update(pid);
 
 
         this.session.getTransaction().commit();
-        this.session.flush();
+
         this.session.close();
         this.logger.info("Update PID URL: " + pid.getURI());
 
@@ -771,9 +755,17 @@ public class PersistentIdentifierAPI {
         Organization org = null;
         this.session = HibernateUtilPersistentIdentification.getSessionFactory().openSession();
         this.session.beginTransaction();
-        Criteria criteria = this.session.createCriteria(Organization.class, "org");
-        criteria.add(Restrictions.eq("org.organization_prefix", prefix));
-        org = (Organization) criteria.uniqueResult();
+
+
+        Query query = session.createQuery("from Organization where organization_prefix = :prefix ");
+        query.setParameter("prefix", prefix);
+        try {
+        org = (Organization) query.getSingleResult();
+        } catch (NoResultException nre) {
+
+        }
+
+
         this.session.getTransaction().commit();
         this.session.close();
 

@@ -24,12 +24,6 @@
     <packaging>jar</packaging>
     <!-- war???? -->
 
-    <parent>
-        <artifactId>CSV-Citation-Deployment-Module</artifactId>
-        <groupId>at.stefanproell</groupId>
-        <version>1.0-SNAPSHOT</version>
-        <relativePath>../CSV-Citation-Deployment-Module/pom.xml</relativePath>
-    </parent>
 
 
     <name>PersistentIdentification</name>
@@ -47,15 +41,26 @@
 
 
         <custom.deploy.HostName>localhost</custom.deploy.HostName>
-                <custom.deploy.UserName>admin</custom.deploy.UserName>
+        <custom.deploy.UserName>admin</custom.deploy.UserName>
         <custom.deploy.Password>admin</custom.deploy.Password>
-
 
 
         <jersey.version>2.13</jersey.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
     </properties>
+
+    <repositories>
+        <repository>
+            <id>Hibernate</id>
+            <name>Hibernate Repo</name>
+            <layout>default</layout>
+            <url>https://snapshots.jboss.org/maven2</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
 
     <dependencyManagement>
         <dependencies>
@@ -78,25 +83,7 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- MySQL -->
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <version>5.1.31</version>
-        </dependency>
 
-        <!--. Hibernate -->
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-core</artifactId>
-            <version>4.3.4.Final</version>
-
-        </dependency>
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-envers</artifactId>
-            <version>4.3.5.Final</version>
-        </dependency>
 
         <!-- Apache commons -->
         <dependency>
@@ -145,6 +132,11 @@
             <artifactId>CSVTools</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-envers</artifactId>
+            <version>5.2.1-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 
 
@@ -156,8 +148,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.1</version>
                 <configuration>
-                    <source>1.7</source>
-                    <target>1.7</target>
+                    <source>1.8</source>
+                    <target>1.8</target>
                 </configuration>
             </plugin>
             <plugin>

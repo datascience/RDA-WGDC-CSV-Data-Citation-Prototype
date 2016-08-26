@@ -66,7 +66,7 @@ public class TimeStampInterceptor extends EmptyInterceptor {
     private static final Logger logger = Logger.getLogger(String.valueOf(TimeStampInterceptor.class));
 
     public TimeStampInterceptor() {
-        logger.setLevel(Level.WARNING);
+
     }
 
 
@@ -173,12 +173,12 @@ public class TimeStampInterceptor extends EmptyInterceptor {
     //called before commit into database
     @Override
     public void preFlush(Iterator iterator) {
-        System.out.println("Before commiting");
+
     }
 
     //called after committed into database
     @Override
     public void postFlush(Iterator iterator) {
-        System.out.println("After commiting");
+
     }
 }

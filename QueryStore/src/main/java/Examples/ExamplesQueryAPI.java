@@ -48,6 +48,7 @@
 
 package Examples;
 
+import QueryStore.BaseTable;
 import QueryStore.Query;
 import QueryStore.QueryStoreAPI;
 import at.stefanproell.PersistentIdentifierMockup.Organization;
@@ -79,7 +80,7 @@ public class ExamplesQueryAPI {
         // Init the API
         PersistentIdentifierAPI pidAPI = new PersistentIdentifierAPI();
         // create a dummy organization and provide a prefix
-        Organization researchOrganization = pidAPI.createNewOrganitation("Research Int.", 1234);
+        Organization researchOrganization = pidAPI.createNewOrganitation("Research Int.", 5678);
         // create test identifiers
         PersistentIdentifierAlphaNumeric pid = pidAPI.getAlphaNumericPID(researchOrganization, "www.repository," +
                 "org/queries/q1");
@@ -96,7 +97,12 @@ public class ExamplesQueryAPI {
         QueryStoreAPI queryAPI = new QueryStoreAPI();
         // Create a query
         Query query = queryAPI.createNewQuery("username@repository.org", queryPID);
+        query.setQueryDescription("Query desc");
 
+        String baseTablePID = queryAPI.createBaseTableRecord("Authortest", "Database", "DummyBaseTable", "Dummytitle", "DummyDescription", 5678, "abcde");
+        BaseTable bt = queryAPI.getBaseTableByTableNameOnly("DummyBaseTable");
+        query.setBaseTable(bt);
+        queryAPI.persistQuery(query);
         // some filters
         queryAPI.addFilter(query, "Filter1", "Value1");
         queryAPI.addFilter(query, "Filter2", "Value2");
@@ -109,7 +115,11 @@ public class ExamplesQueryAPI {
         queryAPI.addSorting(query, "ColumnB", "ASC");
         queryAPI.addSorting(query, "ColumnC", "ASC");
 
+
         // dummy hash calculation
+
+        query.setQueryString("SELECT 1");
+
         queryAPI.calculateResultSetHashFull(query);
 
         // get query pid
@@ -122,47 +132,6 @@ public class ExamplesQueryAPI {
         String queryHash = queryAPI.getQueryHash(retrievedQuery);
         System.out.println("Query hash: " + queryHash);
 
-        queryAPI.finalizeQuery(retrievedQuery);
-
-
-        Organization evilOrganization = pidAPI.createNewOrganitation("Evil Corp", 2345);
-
-        // create identifiers
-        PersistentIdentifierAlphaNumeric newPid = pidAPI.getAlphaNumericPID(researchOrganization,
-                "www.evlil.org/query");
-        String newQueryPID = pidAPI.getIdentifierStringWithPrefix(newPid);
-        // second query
-        Query newQuery = queryAPI.createNewQuery("username@repository.org", newQueryPID);
-
-
-        // some filters
-        queryAPI.addFilter(newQuery, "Filter1", "Value1");
-        queryAPI.addFilter(newQuery, "Filter2", "Value2");
-        queryAPI.addFilter(newQuery, "Filter3", "Value3");
-        queryAPI.addFilter(newQuery, "Filter4", "Value4");
-        queryAPI.addFilter(newQuery, "Filter5", "Value5");
-
-        // some sortings
-        queryAPI.addSorting(newQuery, "ColumnA", "DESC");
-        queryAPI.addSorting(newQuery, "ColumnB", "ASC");
-        queryAPI.addSorting(newQuery, "ColumnC", "ASC");
-
-        queryAPI.finalizeQuery(newQuery);
-
-
-
-/*
-        // create a dummy organization and provide a prefix
-        Organization evilOrganization = pidAPI.createNewOrganitation("Evil Corp",2345);
-        System.out.println("Organization created");
-
-        // create identifiers
-        PersistentIdentifierAlphaNumeric newpid = pidAPI.getAlphaNumericPID(researchOrganization, "www.dertest.org");
-        PersistentIdentifierAlphaNumeric newpid2 = pidAPI.getAlphaNumericPID(researchOrganization, "www.dertest.org");
-        PersistentIdentifierAlphaNumeric newpid3 = pidAPI.getAlphaNumericPID(researchOrganization, "www.dertest.org");
-        System.out.println("PID created");
-
-*/
 
 
     }
