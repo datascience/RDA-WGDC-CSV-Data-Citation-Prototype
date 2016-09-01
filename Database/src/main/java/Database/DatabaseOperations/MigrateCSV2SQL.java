@@ -47,7 +47,7 @@ public class MigrateCSV2SQL {
      */
     public void createSimpleDBFromCSV(String tableName, List<String> primaryKeyColumns, DatatypeStatistics datatypeStatistics) {
 
-        //todo ersetze die meta funktion.
+
 
         StringHelpers stringHelpers = new StringHelpers();
         CreateTableStatement createTableStatement = new CreateTableStatement();
@@ -146,6 +146,7 @@ public class MigrateCSV2SQL {
 
                     String columnName = record.getKey();
                     String normalizedColumnName = csvToolsApi.replaceReservedKeyWords(columnName);
+                    normalizedColumnName= csvToolsApi.replaceSpaceWithDash(normalizedColumnName);
                     valuesSpecification += normalizedColumnName + ",";
                     String columnValue;
                     if (record.getValue() != null) {

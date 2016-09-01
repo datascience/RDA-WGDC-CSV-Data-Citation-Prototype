@@ -540,10 +540,9 @@ public class CsvToolsApi {
 
         reservedKeyWords.add("release");
         reservedKeyWords.add("year");
-        if (reservedKeyWords.contains(input.toLowerCase().trim())) {
-            this.logger.info("Reserved keyword found");
+
             input = ("`" + input + "`");
-        }
+
         return input;
 
     }
