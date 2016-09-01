@@ -51,7 +51,7 @@ public class MigrateCSV2SQL {
 
         StringHelpers stringHelpers = new StringHelpers();
         CreateTableStatement createTableStatement = new CreateTableStatement();
-        CsvToolsApi csvAPI = new CsvToolsApi();
+        CsvToolsApi csvToolsApi = new CsvToolsApi();
 
         Statement stat;
 
@@ -63,8 +63,8 @@ public class MigrateCSV2SQL {
         for (Map.Entry<String, ColumnMetadata> column : columnMap.entrySet()) {
             ColumnMetadata columnMetadata = column.getValue();
             String mySQLDataType = createTableStatement.getMySQLColumn(columnMetadata);
-            String normalizedColumnName = csvAPI.replaceReservedKeyWords(columnMetadata.getColumnName());
-
+            String normalizedColumnName = csvToolsApi.replaceReservedKeyWords(columnMetadata.getColumnName());
+            normalizedColumnName= csvToolsApi.replaceSpaceWithDash(normalizedColumnName);
             createTableString += ",  " + normalizedColumnName + " " + mySQLDataType;
 
         }
@@ -387,6 +387,7 @@ public class MigrateCSV2SQL {
             String columnValue;
             String columnName = record.getKey();
             String normalizedColumnName = csvToolsApi.replaceReservedKeyWords(columnName);
+            normalizedColumnName= csvToolsApi.replaceSpaceWithDash(normalizedColumnName);
             insertSQL += normalizedColumnName + ",";
             if (record.getValue() != null) {
                 columnValue = record.getValue().toString();
@@ -451,6 +452,7 @@ public class MigrateCSV2SQL {
             String columnValue;
             String columnName = record.getKey();
             String normalizedColumnName = csvToolsApi.replaceReservedKeyWords(columnName);
+            normalizedColumnName= csvToolsApi.replaceSpaceWithDash(normalizedColumnName);
             insertSQL += normalizedColumnName + ",";
             if (record.getValue() != null) {
                 columnValue = record.getValue().toString();
@@ -634,7 +636,7 @@ public class MigrateCSV2SQL {
                 String columnValue;
                 String columnName = record.getKey();
                 String normalizedColumnName = csvToolsApi.replaceReservedKeyWords(columnName);
-
+                normalizedColumnName= csvToolsApi.replaceSpaceWithDash(normalizedColumnName);
                 if (record.getValue() != null) {
                     columnValue = record.getValue().toString();
                     columnValue = csvToolsApi.escapeQuotes(columnValue);
@@ -708,7 +710,10 @@ public class MigrateCSV2SQL {
             String columnValue;
             String columnName = record.getKey();
             String normalizedColumnName = csvToolsApi.replaceReservedKeyWords(columnName);
+            normalizedColumnName= csvToolsApi.replaceSpaceWithDash(normalizedColumnName);
             for (String pKey : primaryKey) {
+                pKey = csvToolsApi.replaceReservedKeyWords(pKey);
+                pKey = csvToolsApi.replaceSpaceWithDash(pKey);
                 if (pKey.equals(normalizedColumnName)) {
                     columnValue = record.getValue().toString();
                     columnValue = csvToolsApi.escapeQuotes(columnValue);
@@ -717,6 +722,7 @@ public class MigrateCSV2SQL {
                 }
             }
         }
+        primaryWhereString = org.apache.commons.lang3.StringUtils.stripEnd(primaryWhereString," ");
         primaryWhereString = StringUtils.removeEndIgnoreCase(primaryWhereString, "AND");
 
         Statement checkRecordExistanceQuery = null;
@@ -777,6 +783,7 @@ public class MigrateCSV2SQL {
             String columnValue;
             String columnName = record.getKey();
             String normalizedColumnName = csvToolsApi.replaceReservedKeyWords(columnName);
+            normalizedColumnName= csvToolsApi.replaceSpaceWithDash(normalizedColumnName);
             insertSQL += normalizedColumnName + ",";
             if (record.getValue() != null) {
                 columnValue = record.getValue().toString();
@@ -849,6 +856,7 @@ public class MigrateCSV2SQL {
             String columnValue;
             String columnName = record.getKey();
             String normalizedColumnName = csvToolsApi.replaceReservedKeyWords(columnName);
+            normalizedColumnName= csvToolsApi.replaceSpaceWithDash(normalizedColumnName);
             insertSQL += normalizedColumnName + ",";
             if (record.getValue() != null) {
                 columnValue = record.getValue().toString();
