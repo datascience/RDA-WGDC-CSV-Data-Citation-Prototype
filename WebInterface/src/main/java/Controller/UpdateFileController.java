@@ -69,7 +69,6 @@ import Bean.TableDefinitionBean;
 import CSVTools.CsvToolsApi;
 import Database.DatabaseOperations.DatabaseTools;
 import Database.DatabaseOperations.MigrationTasks;
-import at.stefanproell.CSV_Tools.CSV_Helper;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;

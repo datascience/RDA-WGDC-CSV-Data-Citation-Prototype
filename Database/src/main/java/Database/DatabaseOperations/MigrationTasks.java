@@ -34,7 +34,7 @@ package Database.DatabaseOperations;
 
 
 import CSVTools.CsvToolsApi;
-import at.stefanproell.CSV_Tools.CSV_Analyser;
+import at.stefanproell.CSVHelperTools.CSV_Analyser;
 import at.stefanproell.DataTypeDetector.DatatypeStatistics;
 
 
