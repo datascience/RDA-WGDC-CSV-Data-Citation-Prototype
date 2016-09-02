@@ -1870,12 +1870,12 @@ Count the records which are not deleted..
     /* Execute Query
     *
     * * * */
-    public CachedRowSet executeQuery(String tableName, Map<Integer, String> columnSequenceMap, int sortingColumnsID,
+    public CachedRowSet executeQuery(String tableName, Map<Integer, String> columnSequenceMap, String sortingColumnName,
                                      String sortingDirection, Map<String, String> filterMap,
                                      int startRow, int offset) {
 
 
-        CachedRowSet cachedRowSet = queryDatabaseMostRecent(tableName, columnSequenceMap, sortingColumnsID,
+        CachedRowSet cachedRowSet = queryDatabaseMostRecent(tableName, columnSequenceMap, sortingColumnName,
                 sortingDirection, filterMap, startRow, offset);
 
         return cachedRowSet;
@@ -2219,13 +2219,13 @@ Count the records which are not deleted..
      *
      * @param tableName
      * @param columnSequenceMap
-     * @param sortingColumnsID
+
      * @param sortingDirection
      * @param filterMap
      * @param startRow
      * @param offset            @return
      */
-    public CachedRowSet queryDatabaseMostRecent(String tableName, Map<Integer, String> columnSequenceMap, int sortingColumnsID,
+    public CachedRowSet queryDatabaseMostRecent(String tableName, Map<Integer, String> columnSequenceMap, String sortingColumnName,
                                                 String sortingDirection, Map<String, String> filterMap,
                                                 int startRow, int offset) {
         Connection connection = null;
@@ -2247,11 +2247,11 @@ Count the records which are not deleted..
 
         // result set has to be sorted
 
-        if (sortingColumnsID == 0) {
+        if (sortingColumnName == null) {
             this.logger.warning("sorting colum war null!");
         }
-        if (sortingColumnsID >= 0) {
-            this.logger.warning("sortingColumnsID == " + sortingColumnsID);
+        if (sortingColumnName.length() > 0) {
+            this.logger.warning("sortingColumnName == " + sortingColumnName);
 
             Map<String, String> tableMetadata;
 
@@ -2262,8 +2262,7 @@ Count the records which are not deleted..
                 tableMetadata = getTableColumnMetadata(tableName);
                 this.logger.warning("Table metadata: " + tableMetadata.size());
 
-                String sortColumn = "outerGroup." + (new ArrayList<String>(
-                        tableMetadata.keySet())).get(sortingColumnsID);
+                String sortColumn = "outerGroup." +sortingColumnName;
 
                 String whereClause = "";
                 if (this.hasFilters(filterMap)) {

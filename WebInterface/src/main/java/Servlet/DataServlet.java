@@ -191,7 +191,8 @@ public class DataServlet extends HttpServlet {
 
             DatabaseTools dbTools = new DatabaseTools();
 
-            String sortingColumnName = dbTools.getColumnNameByID(sortingColumnID);
+            //String sortingColumnName = dbTools.getColumnNameByID(sortingColumnID);
+            String sortingColumnName = this.columnSequenceMap.get(sortingColumnID);
             this.sortingMap.put(sortingColumnName, sortingDirection);
             this.logger.info("Servlet: Sorting " + sortingColumnName + " Direction: " + sortingDirection);
 
@@ -205,7 +206,7 @@ public class DataServlet extends HttpServlet {
             try {
 
                 CachedRowSet cachedRowSet = dbTools.executeQuery(currentTable, this.columnSequenceMap,
-                        sortingColumnID,
+                        sortingColumnName,
                         sortingDirection, filterMap, showRows, offset);
 
 //                this.logger.warning("Cached size ->> " + cachedRowSet.size());
