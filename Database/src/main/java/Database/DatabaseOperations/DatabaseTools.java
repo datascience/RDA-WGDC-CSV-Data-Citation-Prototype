@@ -694,11 +694,11 @@ Count the records which are not deleted..
             String clause = entry.getValue();
 
             if (filterCounter == 0) {
-                whereString += "UPPER(" + column + ") LIKE UPPER(\'%" + clause
+                whereString += "UPPER(outerGroup." + column + ") LIKE UPPER(\'%" + clause
                         + "%\') ";
             }
             if (filterCounter >= 1) {
-                whereString += "AND UPPER(" + column + ") LIKE UPPER(\'%"
+                whereString += "AND UPPER(outerGroup." + column + ") LIKE UPPER(\'%"
                         + clause + "%\') ";
             }
 

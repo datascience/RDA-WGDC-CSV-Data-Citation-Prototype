@@ -20,6 +20,8 @@ package Database.InitializeDatabase;
 import Database.Authentication.UserAPI;
 import at.stefanproell.PersistentIdentifierMockup.Organization;
 import at.stefanproell.PersistentIdentifierMockup.PersistentIdentifierAPI;
+import at.stefanproell.PersistentIdentifierMockup.PersistentIdentifierAlpha;
+import at.stefanproell.PersistentIdentifierMockup.PersistentIdentifierAlphaNumeric;
 
 /**
  * Created by stefan on 20.06.16.
@@ -35,6 +37,20 @@ public class InitializeMain {
 
         // create a dummy organization and provide a prefix
         Organization org = pidAPI.createNewOrganitation("Demo Organization", 12345);
+
+        PersistentIdentifierAlpha dataSourcePid = pidAPI.getAlphaPID(org, "www.repository," +
+                "bases/DB");
+
+        // create test identifiers
+        PersistentIdentifierAlphaNumeric pid = pidAPI.getAlphaNumericPID(org, "www.repository," +
+                "org/queries/q1");
+
+
+
+        // get the prefix and identifier as String in the form 1234/identifier
+        String queryPID = pidAPI.getIdentifierStringWithPrefix(pid);
+        String dataSourcePID = pidAPI.getIdentifierStringWithPrefix(dataSourcePid);
+
 
 
     }

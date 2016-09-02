@@ -77,7 +77,7 @@ public class MigrateCSV2SQL {
 
         String primaryKeysString = stringHelpers.getCommaSeperatedListofPrimaryKeys(primaryKeyColumns);
         // append primary key
-        createTableString += ",PRIMARY KEY (" + primaryKeysString + ",LAST_UPDATE)";
+        createTableString += ",PRIMARY KEY (" + primaryKeysString + ",LAST_UPDATE, RECORD_STATUS)";
         this.logger.info("Primary key is " + primaryKeysString + " and the update column!");
 
 
