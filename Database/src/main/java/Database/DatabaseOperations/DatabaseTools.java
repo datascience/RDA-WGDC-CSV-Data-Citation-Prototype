@@ -2202,13 +2202,13 @@ Count the records which are not deleted..
      */
     public String getMostRecentVersionSQLString(String primaryKey, String tableName) {
         String innerJoinSQLString = " FROM " + tableName + " AS outerGroup INNER JOIN ( SELECT " + primaryKey + ", " +
-                "max(LAST_UPDATE) AS mostRecent FROM " +
+                "max(INSERT_DATE) AS mostRecent FROM " +
                 tableName + " AS innerSELECT WHERE (innerSELECT.RECORD_STATUS = 'inserted' OR innerSELECT" +
                 ".RECORD_STATUS = 'updated')" +
                 " GROUP BY "
                 + primaryKey
                 + ") innerGroup ON outerGroup." + primaryKey + " = innerGroup." + primaryKey + " AND outerGroup" +
-                ".LAST_UPDATE = innerGroup.mostRecent ";
+                ".INSERT_DATE = innerGroup.mostRecent ";
         this.logger.info("Rewritten INNER JOIN SQL: " + innerJoinSQLString);
         return innerJoinSQLString;
 

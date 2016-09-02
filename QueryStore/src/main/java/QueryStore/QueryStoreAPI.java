@@ -895,14 +895,14 @@ public class QueryStoreAPI {
         // inner join 
 
         sqlString += "  AS outerGroup INNER JOIN " +
-                "    (SELECT " + primaryKey + ", max(LAST_UPDATE) AS mostRecent " +
+                "    (SELECT " + primaryKey + ", max(INSERT_DATE) AS mostRecent " +
                 "    FROM " +
                 query.getBaseTable().getBaseTableName() +
                 " AS innerSELECT " +
                 " WHERE (innerSELECT.RECORD_STATUS = 'inserted' " +
-                " OR innerSELECT.RECORD_STATUS = 'updated'" + " AND innerSELECT.LAST_UPDATE<=\""
+                " OR innerSELECT.INSERT_DATE = 'updated'" + " AND innerSELECT.LAST_UPDATE<=\""
                 + this.convertJavaDateToMySQLTimeStamp(query.getExecution_timestamp()) + "\") GROUP BY " + primaryKey + ") innerGroup ON outerGroup." + primaryKey + " = innerGroup." + primaryKey + " " +
-                " AND outerGroup.LAST_UPDATE = innerGroup.mostRecent ";
+                " AND outerGroup.INSERT_DATE = innerGroup.mostRecent ";
 
         if (filterSet.size() > 0) {
             String whereString = " WHERE ";
@@ -1036,7 +1036,7 @@ public class QueryStoreAPI {
         // inner join
 
         sqlString += "  AS outerGroup INNER JOIN " +
-                "    (SELECT " + primaryKey + ", max(LAST_UPDATE) AS mostRecent " +
+                "    (SELECT " + primaryKey + ", max(INSERT_DATE) AS mostRecent " +
                 "    FROM " +
                 query.getBaseTable().getBaseTableName() +
                 " AS innerSELECT " +
@@ -1044,7 +1044,7 @@ public class QueryStoreAPI {
                 "        (innerSELECT.RECORD_STATUS = 'inserted' " +
                 "            OR innerSELECT.RECORD_STATUS = 'updated'" + " AND innerSELECT.LAST_UPDATE<=\""
                 + this.convertJavaDateToMySQLTimeStamp(query.getExecution_timestamp()) + "\") GROUP BY " + primaryKey + ") innerGroup ON outerGroup." + primaryKey + " = innerGroup." + primaryKey + " " +
-                "        AND outerGroup.LAST_UPDATE = innerGroup.mostRecent ";
+                "        AND outerGroup.INSERT_DATE = innerGroup.mostRecent ";
 
         if (filterSet.size() > 0) {
             String whereString = " WHERE ";
@@ -1418,7 +1418,7 @@ public class QueryStoreAPI {
         // inner join
 
         sqlString += "  AS outerGroup INNER JOIN " +
-                "    (SELECT " + primaryKey + ", max(LAST_UPDATE) AS mostRecent " +
+                "    (SELECT " + primaryKey + ", max(INSERT_DATE) AS mostRecent " +
                 "    FROM " +
                 baseTable.getBaseTableName() +
                 " AS innerSELECT " +
@@ -1426,7 +1426,7 @@ public class QueryStoreAPI {
                 "        (innerSELECT.RECORD_STATUS = 'inserted' " +
                 "            OR innerSELECT.RECORD_STATUS = 'updated'" + " AND innerSELECT.LAST_UPDATE<=\""
                 + this.convertJavaDateToMySQLTimeStamp(queryDate) + "\") GROUP BY " + primaryKey + ") innerGroup ON outerGroup." + primaryKey + " = innerGroup." + primaryKey + " " +
-                "        AND outerGroup.LAST_UPDATE = innerGroup.mostRecent ORDER BY outerGroup.ID_SYSTEM_SEQUENCE";
+                "        AND outerGroup.INSERT_DATE = innerGroup.mostRecent ORDER BY outerGroup.ID_SYSTEM_SEQUENCE";
 
 
         this.logger.info(sqlString);
@@ -1472,7 +1472,7 @@ public class QueryStoreAPI {
         // inner join
 
         sqlString += "  AS outerGroup INNER JOIN " +
-                "    (SELECT " + primaryKey + ", max(LAST_UPDATE) AS mostRecent " +
+                "    (SELECT " + primaryKey + ", max(INSERT_DATE) AS mostRecent " +
                 "    FROM " +
                 baseTable.getBaseTableName() +
                 " AS innerSELECT " +
@@ -1480,7 +1480,7 @@ public class QueryStoreAPI {
                 "        (innerSELECT.RECORD_STATUS = 'inserted' " +
                 "            OR innerSELECT.RECORD_STATUS = 'updated'" + " AND innerSELECT.LAST_UPDATE<=\""
                 + this.convertJavaDateToMySQLTimeStamp(queryDate) + "\") GROUP BY " + primaryKey + ") innerGroup ON outerGroup." + primaryKey + " = innerGroup." + primaryKey + " " +
-                "        AND outerGroup.LAST_UPDATE = innerGroup.mostRecent ORDER BY outerGroup.ID_SYSTEM_SEQUENCE";
+                "        AND outerGroup.INSERT_DATE = innerGroup.mostRecent ORDER BY outerGroup.ID_SYSTEM_SEQUENCE";
 
 
         this.logger.info(sqlString);
